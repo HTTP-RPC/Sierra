@@ -1,0 +1,103 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+subprojects {
+    group = 'org.httprpc'
+    version = '1.0'
+
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
+
+    repositories {
+        mavenCentral()
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    javadoc {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+
+    jar {
+        manifest {
+            attributes (
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version
+            )
+        }
+    }
+
+    if (!project.name.endsWith('test')) {
+        task sourcesJar(type: Jar) {
+            from sourceSets.main.allJava
+            classifier = 'sources'
+        }
+
+        task javadocJar(type: Jar) {
+            from javadoc
+            classifier = 'javadoc'
+        }
+
+        publishing {
+            repositories {
+                maven {
+                    url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+
+                    credentials {
+                        username nexusUsername
+                        password nexusPassword
+                    }
+                }
+            }
+
+            publications {
+                mavenJava(MavenPublication) {
+                    artifactId = project.name
+                    from components.java
+                    artifact sourcesJar
+                    artifact javadocJar
+                    pom {
+                        name = project.name
+                        description = 'Declarative UI for Java'
+                        url = 'http://httprpc.org'
+                        licenses {
+                            license {
+                                name = 'The Apache License, Version 2.0'
+                                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            }
+                        }
+                        developers {
+                            developer {
+                                name = 'Greg Brown'
+                                email = 'gk_brown@icloud.com'
+                            }
+                        }
+                        scm {
+                            connection = 'scm:git:git://github.com/HTTP-RPC/Sierra.git'
+                            url = 'https://github.com/HTTP-RPC/Sierra'
+                        }
+                    }
+                }
+            }
+        }
+
+        signing {
+            sign publishing.publications.mavenJava
+        }
+    }
+}
