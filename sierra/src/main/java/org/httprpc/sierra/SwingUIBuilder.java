@@ -17,6 +17,7 @@ package org.httprpc.sierra;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.function.Consumer;
 
@@ -62,11 +63,10 @@ public class SwingUIBuilder {
         return new Cell(component, constraints, (Consumer<JComponent>)handler);
     }
 
-
-    public JPanel flowPanel(Cell... cells) {
+    public static JPanel flowPanel(Cell... cells) {
         JPanel panel = new JPanel();
 
-        // TODO Alignment
+        // TODO align, hgap, vgap, alignOnBaseline
         FlowLayout flowLayout = new FlowLayout();
 
         panel.setLayout(flowLayout);
@@ -74,15 +74,15 @@ public class SwingUIBuilder {
         return addComponents(panel, cells);
     }
 
-    public JPanel horizontalBoxPanel(Cell... cells) {
+    public static JPanel horizontalBoxPanel(Cell... cells) {
         return boxPanel(BoxLayout.X_AXIS, cells);
     }
 
-    public JPanel verticalBoxPanel(Cell... cells) {
+    public static JPanel verticalBoxPanel(Cell... cells) {
         return boxPanel(BoxLayout.Y_AXIS, cells);
     }
 
-    private JPanel boxPanel(int axis, Cell... cells) {
+    private static JPanel boxPanel(int axis, Cell... cells) {
         JPanel panel = new JPanel();
 
         panel.setLayout(new BoxLayout(panel, axis));
@@ -90,11 +90,21 @@ public class SwingUIBuilder {
         return addComponents(panel, cells);
     }
 
-    private <C extends JComponent> JPanel addComponents(JPanel panel, Cell... cells) {
+    public static JPanel borderPanel(Cell... cells) {
+        JPanel panel = new JPanel();
+
+        // TODO hgap, vgap
+        BorderLayout borderLayout = new BorderLayout();
+
+        panel.setLayout(borderLayout);
+
+        return addComponents(panel, cells);
+    }
+
+    private static <C extends JComponent> JPanel addComponents(JPanel panel, Cell... cells) {
         if (cells == null) {
             throw new IllegalArgumentException();
         }
-
 
         for (var i = 0; i < cells.length; i++) {
             Cell cell = cells[i];
