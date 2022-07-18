@@ -74,6 +74,17 @@ public class SwingUIBuilder {
         return addComponents(panel, cells);
     }
 
+    public static JPanel borderPanel(Cell... cells) {
+        JPanel panel = new JPanel();
+
+        // TODO hgap, vgap
+        BorderLayout borderLayout = new BorderLayout();
+
+        panel.setLayout(borderLayout);
+
+        return addComponents(panel, cells);
+    }
+
     public static JPanel horizontalBoxPanel(Cell... cells) {
         return boxPanel(BoxLayout.X_AXIS, cells);
     }
@@ -86,17 +97,6 @@ public class SwingUIBuilder {
         JPanel panel = new JPanel();
 
         panel.setLayout(new BoxLayout(panel, axis));
-
-        return addComponents(panel, cells);
-    }
-
-    public static JPanel borderPanel(Cell... cells) {
-        JPanel panel = new JPanel();
-
-        // TODO hgap, vgap
-        BorderLayout borderLayout = new BorderLayout();
-
-        panel.setLayout(borderLayout);
 
         return addComponents(panel, cells);
     }
