@@ -18,90 +18,240 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.function.Consumer;
 
+/**
+ * Class for declaratively constructing a Swing component hierarchy.
+ */
 public class SwingUIBuilder {
+    /**
+     * Represents a builder cell.
+     */
     public static class Cell {
         private JComponent component;
         private Object constraints;
-        private Consumer<JComponent> handler;
 
-        private Cell(JComponent component, Object constraints, Consumer<JComponent> handler) {
+        private Cell(JComponent component, Object constraints) {
             this.component = component;
             this.constraints = constraints;
-            this.handler = handler;
-        }
-
-        public JComponent getComponent() {
-            return component;
-        }
-
-        public Object getConstraints() {
-            return constraints;
-        }
-
-        public Consumer<JComponent> getHandler() {
-            return handler;
         }
     }
 
+    private SwingUIBuilder() {
+    }
+
+    /**
+     * Declares a cell.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
     public static <C extends JComponent> Cell cell(C component) {
-        return cell(component, null);
-    }
-
-    public static <C extends JComponent> Cell cell(C component, Object constraints) {
         return cell(component, null, null);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <C extends JComponent> Cell cell(C component, Object constraints, Consumer<C> handler) {
+    /**
+     * Declares a cell.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @param handler
+     * The component handler.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends JComponent> Cell cell(C component, Consumer<C> handler) {
+        return cell(component, handler, null);
+    }
+
+    /**
+     * Declares a cell.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @param constraints
+     * The component constraints.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends JComponent> Cell cell(C component, Object constraints) {
+        return cell(component, null, constraints);
+    }
+
+    /**
+     * Declares a cell.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @param handler
+     * The component handler.
+     *
+     * @param constraints
+     * The component constraints.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends JComponent> Cell cell(C component, Consumer<C> handler, Object constraints) {
         if (component == null) {
             throw new IllegalArgumentException();
         }
 
-        return new Cell(component, constraints, (Consumer<JComponent>)handler);
+        if (handler != null) {
+            handler.accept(component);
+        }
+
+        return new Cell(component, constraints);
     }
 
-    public static JPanel flowPanel(Cell... cells) {
+    /**
+     * Declares a flow panel.
+     *
+     * @param flowLayout
+     * The panel's flow layout.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static JPanel flowPanel(FlowLayout flowLayout, Cell... cells) {
+        return flowPanel(flowLayout, false, cells);
+    }
+
+    /**
+     * Declares a flow panel.
+     *
+     * @param flowLayout
+     * The panel's flow layout.
+     *
+     * @param alignOnBaseline
+     * Indicates that the flow panel's content should be aligned to its
+     * baseline.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static JPanel flowPanel(FlowLayout flowLayout, boolean alignOnBaseline, Cell... cells) {
+        if (flowLayout == null) {
+            throw new IllegalArgumentException();
+        }
+
+        flowLayout.setAlignOnBaseline(alignOnBaseline);
+
+        return populate(new JPanel(flowLayout), cells);
+    }
+
+    /**
+     * Declares a border panel.
+     *
+     * @param borderLayout
+     * The panel's border layout.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static JPanel borderPanel(BorderLayout borderLayout, Cell... cells) {
+        if (borderLayout == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return populate(new JPanel(borderLayout), cells);
+    }
+
+    /**
+     * Declares a grid panel.
+     *
+     * @param gridLayout
+     * The panel's grid layout.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static JPanel gridPanel(GridLayout gridLayout, Cell... cells) {
+        if (gridLayout == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return populate(new JPanel(gridLayout), cells);
+    }
+
+    /**
+     * Declares a card panel.
+     *
+     * @param cardLayout
+     * The panel's card layout.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static JPanel cardPanel(CardLayout cardLayout, Cell... cells) {
+        if (cardLayout == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return populate(new JPanel(cardLayout), cells);
+    }
+
+    /**
+     * Declares a box panel.
+     *
+     * @param axis
+     * The panel's axis.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static JPanel boxPanel(int axis, Cell... cells) {
         JPanel panel = new JPanel();
 
-        // TODO align, hgap, vgap, alignOnBaseline
-        FlowLayout flowLayout = new FlowLayout();
+        BoxLayout boxLayout = new BoxLayout(panel, axis);
 
-        panel.setLayout(flowLayout);
+        panel.setLayout(boxLayout);
 
-        return addComponents(panel, cells);
+        return populate(panel, cells);
     }
 
-    public static JPanel borderPanel(Cell... cells) {
-        JPanel panel = new JPanel();
-
-        // TODO hgap, vgap
-        BorderLayout borderLayout = new BorderLayout();
-
-        panel.setLayout(borderLayout);
-
-        return addComponents(panel, cells);
-    }
-
-    public static JPanel horizontalBoxPanel(Cell... cells) {
-        return boxPanel(BoxLayout.X_AXIS, cells);
-    }
-
-    public static JPanel verticalBoxPanel(Cell... cells) {
-        return boxPanel(BoxLayout.Y_AXIS, cells);
-    }
-
-    private static JPanel boxPanel(int axis, Cell... cells) {
-        JPanel panel = new JPanel();
-
-        panel.setLayout(new BoxLayout(panel, axis));
-
-        return addComponents(panel, cells);
-    }
-
-    private static <C extends JComponent> JPanel addComponents(JPanel panel, Cell... cells) {
+    private static JPanel populate(JPanel panel, Cell... cells) {
         if (cells == null) {
             throw new IllegalArgumentException();
         }
@@ -110,8 +260,6 @@ public class SwingUIBuilder {
             Cell cell = cells[i];
 
             panel.add(cell.component, cell.constraints);
-
-            cell.handler.accept(cell.component);
         }
 
         return panel;
