@@ -2,7 +2,9 @@
 [![Maven Central](https://img.shields.io/maven-central/v/org.httprpc/sierra.svg)](https://repo1.maven.org/maven2/org/httprpc/sierra/)
 
 # Introduction
-Sierra is an open-source framework for simplifying development of Java Swing applications. The project's name comes from the nautical _S_ or _Sierra_ flag:
+Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively instantiating Swing component hierarchies. 
+
+The project's name comes from the nautical _S_ or _Sierra_ flag:
 
 ![](sierra.png)
 
