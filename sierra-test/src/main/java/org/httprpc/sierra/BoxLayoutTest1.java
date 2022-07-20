@@ -14,6 +14,25 @@
 
 package org.httprpc.sierra;
 
-public class BoxLayoutTest1 {
-    // TODO
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+public class BoxLayoutTest1 extends JFrame implements Runnable {
+    private BoxLayoutTest1() {
+        super("Box Layout Test 1");
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void run() {
+        // TODO
+
+        pack();
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new BoxLayoutTest1());
+    }
 }

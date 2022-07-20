@@ -30,9 +30,9 @@ public class SwingUIBuilder {
     /**
      * Represents a builder cell.
      */
-    public static class Cell {
-        private JComponent component;
-        private Object constraints;
+    public static final class Cell {
+        private final JComponent component;
+        private final Object constraints;
 
         private Cell(JComponent component, Object constraints) {
             this.component = component;

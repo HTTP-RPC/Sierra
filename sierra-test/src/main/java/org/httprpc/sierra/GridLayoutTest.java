@@ -14,6 +14,25 @@
 
 package org.httprpc.sierra;
 
-public class GridLayoutTest {
-    // TODO
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+public class GridLayoutTest extends JFrame implements Runnable {
+    private GridLayoutTest() {
+        super("Grid Layout Test");
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void run() {
+        // TODO
+
+        pack();
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new GridLayoutTest());
+    }
 }
