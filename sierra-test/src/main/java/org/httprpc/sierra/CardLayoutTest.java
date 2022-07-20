@@ -35,8 +35,8 @@ public class CardLayoutTest extends JFrame implements Runnable {
 
     private JPanel cardPanel;
 
-    private static final String BUTTONPANEL = "Card with JButtons";
-    private static final String TEXTPANEL = "Card with JTextField";
+    private static final String BUTTON_PANEL = "Card with JButtons";
+    private static final String TEXT_PANEL = "Card with JTextField";
 
     private CardLayoutTest() {
         super("Card Layout Test");
@@ -48,11 +48,11 @@ public class CardLayoutTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(borderPanel(new BorderLayout(),
             cell(flowPanel(new FlowLayout(),
-                cell(new JComboBox<String>(), comboBox -> {
+                cell(new JComboBox<String>()).with(comboBox -> {
                     var model = new DefaultComboBoxModel<String>();
 
-                    model.addElement("Card with JButtons");
-                    model.addElement("Card with JTextField");
+                    model.addElement(BUTTON_PANEL);
+                    model.addElement(TEXT_PANEL);
 
                     comboBox.setModel(model);
                     comboBox.setEditable(false);
@@ -60,19 +60,19 @@ public class CardLayoutTest extends JFrame implements Runnable {
                         cardLayout.show(cardPanel, (String)event.getItem());
                     });
                 })
-            ), BorderLayout.PAGE_START),
+            )).constrainedBy(BorderLayout.PAGE_START),
 
             cell(cardPanel(cardLayout,
                 cell(flowPanel(new FlowLayout(),
                     cell(new JButton("Button 1")),
                     cell(new JButton("Button 2")),
                     cell(new JButton("Button 3"))
-                ), BUTTONPANEL),
+                )).constrainedBy(BUTTON_PANEL),
 
                 cell(flowPanel(new FlowLayout(),
                     cell(new JTextField("TextField", 20))
-                ), TEXTPANEL)
-            ), cardPanel -> this.cardPanel = cardPanel, BorderLayout.CENTER)
+                )).constrainedBy(TEXT_PANEL)
+            )).constrainedBy(BorderLayout.CENTER).with(cardPanel -> this.cardPanel = cardPanel)
         ));
 
         pack();

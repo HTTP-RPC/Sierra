@@ -28,15 +28,49 @@ import java.util.function.Consumer;
  */
 public class SwingUIBuilder {
     /**
-     * Represents a builder cell.
+     * Provides a fluent API for configuring a sub-component.
      */
-    public static final class Cell {
-        private final JComponent component;
-        private final Object constraints;
+    public static class Cell<C extends JComponent> {
+        private C component;
 
-        private Cell(JComponent component, Object constraints) {
+        private Object constraints = null;
+
+        private Cell(C component) {
             this.component = component;
+        }
+
+        /**
+         * Applies constraints to a cell.
+         *
+         * @param constraints
+         * The constraints to apply.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> constrainedBy(Object constraints) {
             this.constraints = constraints;
+
+            return this;
+        }
+
+        /**
+         * Applies a handler to a cell's component.
+         *
+         * @param handler
+         * The handler to apply.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> with(Consumer<C> handler) {
+            if (handler == null) {
+                throw new IllegalArgumentException();
+            }
+
+            handler.accept(component);
+
+            return this;
         }
     }
 
@@ -55,76 +89,12 @@ public class SwingUIBuilder {
      * @param <C>
      * The component type.
      */
-    public static <C extends JComponent> Cell cell(C component) {
-        return cell(component, null, null);
-    }
-
-    /**
-     * Declares a cell.
-     *
-     * @param component
-     * The cell's component.
-     *
-     * @param handler
-     * The component handler.
-     *
-     * @return
-     * The cell instance.
-     *
-     * @param <C>
-     * The component type.
-     */
-    public static <C extends JComponent> Cell cell(C component, Consumer<C> handler) {
-        return cell(component, handler, null);
-    }
-
-    /**
-     * Declares a cell.
-     *
-     * @param component
-     * The cell's component.
-     *
-     * @param constraints
-     * The component constraints.
-     *
-     * @return
-     * The cell instance.
-     *
-     * @param <C>
-     * The component type.
-     */
-    public static <C extends JComponent> Cell cell(C component, Object constraints) {
-        return cell(component, null, constraints);
-    }
-
-    /**
-     * Declares a cell.
-     *
-     * @param component
-     * The cell's component.
-     *
-     * @param handler
-     * The component handler.
-     *
-     * @param constraints
-     * The component constraints.
-     *
-     * @return
-     * The cell instance.
-     *
-     * @param <C>
-     * The component type.
-     */
-    public static <C extends JComponent> Cell cell(C component, Consumer<C> handler, Object constraints) {
+    public static <C extends JComponent> Cell<C> cell(C component) {
         if (component == null) {
             throw new IllegalArgumentException();
         }
 
-        if (handler != null) {
-            handler.accept(component);
-        }
-
-        return new Cell(component, constraints);
+        return new Cell<>(component);
     }
 
     /**
@@ -139,7 +109,7 @@ public class SwingUIBuilder {
      * @return
      * The panel instance.
      */
-    public static JPanel flowPanel(FlowLayout flowLayout, Cell... cells) {
+    public static JPanel flowPanel(FlowLayout flowLayout, Cell<?>... cells) {
         return flowPanel(flowLayout, false, cells);
     }
 
@@ -159,7 +129,7 @@ public class SwingUIBuilder {
      * @return
      * The panel instance.
      */
-    public static JPanel flowPanel(FlowLayout flowLayout, boolean alignOnBaseline, Cell... cells) {
+    public static JPanel flowPanel(FlowLayout flowLayout, boolean alignOnBaseline, Cell<?>... cells) {
         if (flowLayout == null) {
             throw new IllegalArgumentException();
         }
@@ -181,7 +151,7 @@ public class SwingUIBuilder {
      * @return
      * The panel instance.
      */
-    public static JPanel borderPanel(BorderLayout borderLayout, Cell... cells) {
+    public static JPanel borderPanel(BorderLayout borderLayout, Cell<?>... cells) {
         if (borderLayout == null) {
             throw new IllegalArgumentException();
         }
@@ -201,7 +171,7 @@ public class SwingUIBuilder {
      * @return
      * The panel instance.
      */
-    public static JPanel gridPanel(GridLayout gridLayout, Cell... cells) {
+    public static JPanel gridPanel(GridLayout gridLayout, Cell<?>... cells) {
         if (gridLayout == null) {
             throw new IllegalArgumentException();
         }
@@ -221,7 +191,7 @@ public class SwingUIBuilder {
      * @return
      * The panel instance.
      */
-    public static JPanel cardPanel(CardLayout cardLayout, Cell... cells) {
+    public static JPanel cardPanel(CardLayout cardLayout, Cell<?>... cells) {
         if (cardLayout == null) {
             throw new IllegalArgumentException();
         }
@@ -241,7 +211,7 @@ public class SwingUIBuilder {
      * @return
      * The panel instance.
      */
-    public static JPanel boxPanel(int axis, Cell... cells) {
+    public static JPanel boxPanel(int axis, Cell<?>... cells) {
         JPanel panel = new JPanel();
 
         BoxLayout boxLayout = new BoxLayout(panel, axis);
@@ -251,13 +221,13 @@ public class SwingUIBuilder {
         return populate(panel, cells);
     }
 
-    private static JPanel populate(JPanel panel, Cell... cells) {
+    private static JPanel populate(JPanel panel, Cell<?>... cells) {
         if (cells == null) {
             throw new IllegalArgumentException();
         }
 
         for (var i = 0; i < cells.length; i++) {
-            Cell cell = cells[i];
+            Cell<?> cell = cells[i];
 
             panel.add(cell.component, cell.constraints);
         }

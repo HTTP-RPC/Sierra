@@ -51,26 +51,26 @@ public class FlowLayoutTest extends JFrame implements Runnable {
                 cell(new JButton("Button 3")),
                 cell(new JButton("Long-Named Button 4")),
                 cell(new JButton("5"))
-            ), flowPanel -> {
+            )).constrainedBy(BorderLayout.CENTER).with(flowPanel -> {
                 flowPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
                 this.flowPanel = flowPanel;
-            }, BorderLayout.CENTER),
+            }),
 
             cell(flowPanel(new FlowLayout(),
-                cell(new JRadioButton("Left to right", true), button -> {
+                cell(new JRadioButton("Left to right", true)).with(button -> {
                     buttonGroup.add(button);
 
                     leftToRightButton = button;
                 }),
 
-                cell(new JRadioButton("Right to left"), button -> {
+                cell(new JRadioButton("Right to left")).with(button -> {
                     buttonGroup.add(button);
 
                     rightToLeftButton = button;
                 }),
 
-                cell(new JButton("Apply orientation"), button -> button.addActionListener(event -> {
+                cell(new JButton("Apply orientation")).with(button -> button.addActionListener(event -> {
                     if (leftToRightButton.isSelected()) {
                         flowPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
                     } else if (rightToLeftButton.isSelected()) {
@@ -82,7 +82,7 @@ public class FlowLayoutTest extends JFrame implements Runnable {
                     flowPanel.validate();
                     flowPanel.repaint();
                 }))
-            ), BorderLayout.SOUTH))
+            )).constrainedBy(BorderLayout.SOUTH))
         );
 
         pack();

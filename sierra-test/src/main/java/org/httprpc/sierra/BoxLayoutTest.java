@@ -14,37 +14,42 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 
-import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
+import java.awt.Component;
+
+import static org.httprpc.sierra.SwingUIBuilder.boxPanel;
 import static org.httprpc.sierra.SwingUIBuilder.cell;
 
-public class BorderLayoutTest extends JFrame implements Runnable {
-    private BorderLayoutTest() {
-        super("Border Layout Test");
+public class BoxLayoutTest extends JFrame implements Runnable {
+    private BoxLayoutTest() {
+        super("Box Layout Test");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(borderPanel(new BorderLayout(),
-            cell(new JButton("Button 1 (PAGE_START)")).constrainedBy(BorderLayout.PAGE_START),
-            cell(new JButton("Button 3 (LINE_START)")).constrainedBy(BorderLayout.LINE_START),
-            cell(new JButton("Button 2 (CENTER)")).constrainedBy(BorderLayout.CENTER),
-            cell(new JButton("5 (LINE_END)")).constrainedBy(BorderLayout.LINE_END),
-            cell(new JButton("Long-Named Button 4 (PAGE_END)")).constrainedBy(BorderLayout.PAGE_END)
+        setContentPane(boxPanel(BoxLayout.Y_AXIS,
+            cell(new JButton("Button 1")).with(this::configureButton),
+            cell(new JButton("Button 2")).with(this::configureButton),
+            cell(new JButton("Button 3")).with(this::configureButton),
+            cell(new JButton("Long-Named Button 4")).with(this::configureButton),
+            cell(new JButton("5")).with(this::configureButton)
         ));
 
         pack();
         setVisible(true);
     }
 
+    private void configureButton(JButton button) {
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new BorderLayoutTest());
+        SwingUtilities.invokeLater(new BoxLayoutTest());
     }
 }

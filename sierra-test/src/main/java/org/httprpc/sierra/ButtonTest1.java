@@ -14,25 +14,36 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import java.awt.FlowLayout;
 
-public class BoxLayoutTest1 extends JFrame implements Runnable {
-    private BoxLayoutTest1() {
-        super("Box Layout Test 1");
+public class ButtonTest1 extends JFrame implements Runnable {
+    private ButtonTest1() {
+        super("Button Test 1");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        // TODO
+        JPanel flowPanel = new JPanel(new FlowLayout());
+
+        JButton button = new JButton("Press Me");
+
+        button.addActionListener(event -> System.out.println("Button pressed"));
+
+        flowPanel.add(button);
+
+        setContentPane(flowPanel);
 
         pack();
         setVisible(true);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new BoxLayoutTest1());
+        SwingUtilities.invokeLater(new ButtonTest1());
     }
 }
