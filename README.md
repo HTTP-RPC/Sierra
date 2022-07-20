@@ -22,7 +22,7 @@ Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.ma
 # Sierra Classes
 Sierra provides a single class named `SwingUIBuilder` whose methods can be used to declaratively establish a hierarchy of user interface components. The methods provided by this class form a DSL, or "domain-specific language", that makes it easy to visualize the resulting output. 
 
-`SwingUIBuilder` includes the following methods for declaring common layout containers:
+`SwingUIBuilder` includes the following static methods for declaring common layout containers:
 
 * `flowPanel()` - declares a panel with a flow layout
 * `borderPanel()` - declares a panel with a border layout
