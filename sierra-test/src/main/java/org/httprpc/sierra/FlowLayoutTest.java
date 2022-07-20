@@ -29,7 +29,7 @@ import static org.httprpc.sierra.SwingUIBuilder.cell;
 import static org.httprpc.sierra.SwingUIBuilder.flowPanel;
 
 public class FlowLayoutTest extends JFrame implements Runnable {
-    private JPanel experimentFlowPanel;
+    private JPanel flowPanel;
 
     private JRadioButton leftToRightButton;
     private JRadioButton rightToLeftButton;
@@ -54,7 +54,7 @@ public class FlowLayoutTest extends JFrame implements Runnable {
             ), flowPanel -> {
                 flowPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
-                experimentFlowPanel = flowPanel;
+                this.flowPanel = flowPanel;
             }, BorderLayout.CENTER),
 
             cell(flowPanel(new FlowLayout(),
@@ -72,15 +72,15 @@ public class FlowLayoutTest extends JFrame implements Runnable {
 
                 cell(new JButton("Apply orientation"), button -> button.addActionListener(event -> {
                     if (leftToRightButton.isSelected()) {
-                        experimentFlowPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+                        flowPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
                     } else if (rightToLeftButton.isSelected()) {
-                        experimentFlowPanel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+                        flowPanel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
                     } else {
                         throw new UnsupportedOperationException();
                     }
 
-                    experimentFlowPanel.validate();
-                    experimentFlowPanel.repaint();
+                    flowPanel.validate();
+                    flowPanel.repaint();
                 }))
             ), BorderLayout.SOUTH))
         );
