@@ -14,6 +14,8 @@
 
 package org.httprpc.sierra;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -44,6 +46,8 @@ public class ButtonTest2 extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        FlatLightLaf.setup();
+
         SwingUtilities.invokeLater(new ButtonTest2());
     }
 }

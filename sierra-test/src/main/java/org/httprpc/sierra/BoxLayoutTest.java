@@ -14,6 +14,8 @@
 
 package org.httprpc.sierra;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -50,6 +52,8 @@ public class BoxLayoutTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        FlatLightLaf.setup();
+
         SwingUtilities.invokeLater(new BoxLayoutTest());
     }
 }

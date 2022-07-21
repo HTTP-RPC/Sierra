@@ -30,13 +30,13 @@ Sierra provides a single class named `SwingUIBuilder` whose methods can be used 
 * `cardPanel()` - declares a panel with a card layout
 * `boxPanel()` - declares a panel with a box layout
 
-Additionally, `SwingUIBuilder` provides the following method for defining a panel's contents:
+Additionally, `SwingUIBuilder` provides this method for defining a panel's contents:
 
 ```java
 public static <C extends JComponent> Cell<C> cell(C component) { ... }
 ```
 
-This method returns an instance of `SwingUIBuilder.Cell` that can be used to further customize the provided component:
+The returned `Cell` instance can be used to further customize the provided component:
 
 * `constrainedBy()` - applies a layout constraint to the component
 * `with()` - accepts a callback that can be used to set properties or invoke methods on the component
@@ -62,41 +62,41 @@ JPanel flowPanel = flowPanel(new FlowLayout(),
 );
 ```
 
-In this simple example, both versions are fairly readable. However, with more deeply nested component hierarchies, the first approach quickly becomes untenable. Using `SwingUIBuilder`, the declaration of sub-components mirrors the resulting hierarchy, making it much easier to read and write. 
+In this simple example, both versions are fairly readable. However, with more deeply nested component hierarchies, the first approach can quickly become untenable. Using `SwingUIBuilder`, the declaration of sub-components mirrors the resulting hierarchy, making it much easier to read and write. 
 
 # Examples
-This section includes examples demonstrating usage of `SwingUIBuilder`.
+This section includes examples demonstrating usage of `SwingUIBuilder` with the [Flat](https://github.com/JFormDesigner/FlatLaf) look-and-feel.
 
 ## Flow Layout
-Based on Java [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/flow.html) example.
+Based on the [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/flow.html) tutorial example.
 
 [FlowLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/FlowLayoutTest.java)
 
-<img src="README/flow-layout.png" width="692px"/>
+<img src="README/flow-layout.png" width="560px"/>
 
 ## Border Layout
-Based on Java [border layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/border.html) example.
+Based on the [border layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/border.html) tutorial example.
 
 [BorderLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BorderLayoutTest.java)
 
-<img src="README/border-layout.png" width="683px"/>
+<img src="README/border-layout.png" width="618px"/>
 
 ## Grid Layout
-Based on Java [grid layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/grid.html) example.
+Based on the [grid layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/grid.html) tutorial example.
 
 [GridLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GridLayoutTest.java)
 
-<img src="README/grid-layout.png" width="480px"/>
+<img src="README/grid-layout.png" width="428px"/>
 
 ## Card Layout
-Based on Java [card layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/card.html) example.
+Based on the [card layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/card.html) tutorial example.
 
 [CardLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/CardLayoutTest.java)
 
-<img src="README/card-layout.png" width="423px"/>
+<img src="README/card-layout.png" width="332px"/>
 
 ## Box Layout
-Based on Java [box layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html) example.
+Based on the [box layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html) tutorial example.
 
 [BoxLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BoxLayoutTest.java)
 

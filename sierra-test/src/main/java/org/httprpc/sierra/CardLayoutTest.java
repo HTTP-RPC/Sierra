@@ -14,6 +14,8 @@
 
 package org.httprpc.sierra;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -56,9 +58,7 @@ public class CardLayoutTest extends JFrame implements Runnable {
 
                     comboBox.setModel(model);
                     comboBox.setEditable(false);
-                    comboBox.addItemListener(event -> {
-                        cardLayout.show(cardPanel, (String)event.getItem());
-                    });
+                    comboBox.addItemListener(event -> cardLayout.show(cardPanel, (String)event.getItem()));
                 })
             )).constrainedBy(BorderLayout.PAGE_START),
 
@@ -80,6 +80,8 @@ public class CardLayoutTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        FlatLightLaf.setup();
+
         SwingUtilities.invokeLater(new CardLayoutTest());
     }
 }

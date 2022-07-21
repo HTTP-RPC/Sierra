@@ -14,11 +14,12 @@
 
 package org.httprpc.sierra;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 
 import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
 import static org.httprpc.sierra.SwingUIBuilder.cell;
@@ -45,6 +46,8 @@ public class BorderLayoutTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        FlatLightLaf.setup();
+
         SwingUtilities.invokeLater(new BorderLayoutTest());
     }
 }

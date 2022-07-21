@@ -14,6 +14,8 @@
 
 package org.httprpc.sierra;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -90,6 +92,8 @@ public class FlowLayoutTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        FlatLightLaf.setup();
+
         SwingUtilities.invokeLater(new FlowLayoutTest());
     }
 }
