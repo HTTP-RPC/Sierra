@@ -15,10 +15,10 @@
 package org.httprpc.sierra;
 
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.function.Consumer;
@@ -30,7 +30,7 @@ public class SwingUIBuilder {
     /**
      * Provides a fluent API for configuring a sub-component.
      */
-    public static class Cell<C extends JComponent> {
+    public static class Cell<C extends Component> {
         private C component;
 
         private Object constraints = null;
@@ -89,7 +89,7 @@ public class SwingUIBuilder {
      * @param <C>
      * The component type.
      */
-    public static <C extends JComponent> Cell<C> cell(C component) {
+    public static <C extends Component> Cell<C> cell(C component) {
         if (component == null) {
             throw new IllegalArgumentException();
         }
