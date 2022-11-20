@@ -29,7 +29,7 @@ public class ButtonTest2 extends JFrame implements Runnable {
     private ButtonTest2() {
         super("Button Test 2");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override

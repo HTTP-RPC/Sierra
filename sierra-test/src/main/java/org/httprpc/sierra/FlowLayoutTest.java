@@ -39,7 +39,7 @@ public class FlowLayoutTest extends JFrame implements Runnable {
     private FlowLayoutTest() {
         super("Flow Layout Test");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override

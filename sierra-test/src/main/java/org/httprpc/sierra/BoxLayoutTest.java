@@ -30,7 +30,7 @@ public class BoxLayoutTest extends JFrame implements Runnable {
     private BoxLayoutTest() {
         super("Box Layout Test");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override

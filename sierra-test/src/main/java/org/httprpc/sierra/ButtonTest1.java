@@ -26,7 +26,7 @@ public class ButtonTest1 extends JFrame implements Runnable {
     private ButtonTest1() {
         super("Button Test 1");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override

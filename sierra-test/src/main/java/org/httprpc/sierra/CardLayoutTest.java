@@ -43,7 +43,7 @@ public class CardLayoutTest extends JFrame implements Runnable {
     private CardLayoutTest() {
         super("Card Layout Test");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override

@@ -44,7 +44,7 @@ public class GridLayoutTest extends JFrame implements Runnable {
         super("Grid Layout Test");
 
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override

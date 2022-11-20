@@ -28,7 +28,7 @@ public class BorderLayoutTest extends JFrame implements Runnable {
     private BorderLayoutTest() {
         super("Border Layout Test");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
