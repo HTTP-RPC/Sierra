@@ -58,7 +58,8 @@ public class GridBagLayoutTest extends JFrame implements Runnable {
                 cell(new JPanel()),
                 cell(new JButton("5"))
                     .fill(GridBagConstraints.HORIZONTAL)
-                    .weightXBy(1.0)
+                    .anchorTo(GridBagConstraints.PAGE_END)
+                    .weightYBy(1.0)
                     .insetBy(10, 0, 0, 0)
                     .spanColumns(2)
             )
