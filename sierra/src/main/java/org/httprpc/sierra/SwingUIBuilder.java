@@ -90,7 +90,7 @@ public class SwingUIBuilder {
         }
 
         /**
-         * Applies horizontal weight to a grid bag panel cell.
+         * Applies a horizontal weight to a grid bag panel cell.
          *
          * @param weight
          * The weight value.
@@ -105,7 +105,7 @@ public class SwingUIBuilder {
         }
 
         /**
-         * Applies vertical weight to a grid bag panel cell.
+         * Applies a vertical weight to a grid bag panel cell.
          *
          * @param weight
          * The weight value.

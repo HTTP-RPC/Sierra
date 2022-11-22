@@ -38,15 +38,20 @@ Additionally, `SwingUIBuilder` provides this method for defining a panel's conte
 public static <C extends JComponent> Cell<C> cell(C component) { ... }
 ```
 
-The returned `Cell` instance can be used to further customize the provided component:
+The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
 
 * `constrainedBy()` - applies a layout constraint to the cell's component
-* `with()` - accepts a callback that can be used to set properties or invoke methods on the component
-* `insetBy()` - applies insets to a grid bag panel cell
-* `anchorTo()` - applies an anchor to a grid bag panel cell
 * `fill()` - applies a fill to a grid bag panel cell
+* `anchorTo()` - applies an anchor to a grid bag panel cell
+* `weightXBy()` - applies a horizontal weight to a grid bag panel cell
+* `weightYBy()` - applies a vertical weight to a grid bag panel cell
+* `padXBy()` - applies horizontal padding to a grid bag panel cell
+* `padYBy()` - applies vertical padding to a grid bag panel cell
+* `insetBy()` - applies insets to a grid bag panel cell
+* `spanColumns()` - applies a column span to a grid bag panel cell
+* `with()` - accepts a callback that can be used to set properties or invoke methods on the component
 
-Additionally, the following convenience methods can be used to declare the contents of a border panel:
+The following convenience methods can be used to declare the contents of a border panel:
 
 * `center()`
 * `north()`
