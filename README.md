@@ -128,5 +128,12 @@ Based on the [box layout](https://docs.oracle.com/javase/tutorial/uiswing/layout
 
 <img src="README/box-layout.png" width="322px"/>
 
+## Grid Bag Layout
+Based on the [grid bag layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html) tutorial example.
+
+[GridBagLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GridBagLayoutTest.java)
+
+<img src="README/grid-bag-layout.png"/> <!-- TODO width -->
+
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).

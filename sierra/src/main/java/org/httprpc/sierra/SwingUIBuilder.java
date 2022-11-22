@@ -60,6 +60,96 @@ public class SwingUIBuilder {
         }
 
         /**
+         * Applies a fill to a grid bag panel cell.
+         *
+         * @param fill
+         * The fill value.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> fill(int fill) {
+            getGridBagConstraints().fill = fill;
+
+            return this;
+        }
+
+        /**
+         * Applies an anchor to a grid bag panel cell.
+         *
+         * @param anchor
+         * The anchor value.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> anchorTo(int anchor) {
+            getGridBagConstraints().anchor = anchor;
+
+            return this;
+        }
+
+        /**
+         * Applies horizontal weight to a grid bag panel cell.
+         *
+         * @param weight
+         * The weight value.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> weightXBy(double weight) {
+            getGridBagConstraints().weightx = weight;
+
+            return this;
+        }
+
+        /**
+         * Applies vertical weight to a grid bag panel cell.
+         *
+         * @param weight
+         * The weight value.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> weightYBy(double weight) {
+            getGridBagConstraints().weighty = weight;
+
+            return this;
+        }
+
+        /**
+         * Applies horizontal padding to a grid bag panel cell.
+         *
+         * @param width
+         * The padding width.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> padXBy(int width) {
+            getGridBagConstraints().ipadx = width;
+
+            return this;
+        }
+
+        /**
+         * Applies vertical padding to a grid bag panel cell.
+         *
+         * @param height
+         * The padding height.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> padYBy(int height) {
+            getGridBagConstraints().ipady = height;
+
+            return this;
+        }
+
+        /**
          * Applies insets to a grid bag panel cell.
          *
          * @param top
@@ -73,34 +163,34 @@ public class SwingUIBuilder {
          *
          * @param right
          * The right inset.
+         *
+         * @return
+         * The cell instance.
          */
-        public void insetBy(int top, int left, int bottom, int right) {
+        public Cell<C> insetBy(int top, int left, int bottom, int right) {
             getGridBagConstraints().insets = new Insets(top, left, bottom, right);
+
+            return this;
         }
 
         /**
-         * Applies an anchor to a grid bag panel cell.
+         * Applies a column span to a grid bag panel cell.
          *
-         * @param anchor
-         * The anchor value.
+         * @param count
+         * The number of columns to span (see {@link GridBagConstraints#gridwidth}).
+         *
+         * @return
+         * The cell instance.
          */
-        public void anchorTo(int anchor) {
-            getGridBagConstraints().anchor = anchor;
-        }
+        public Cell<C> spanColumns(int count) {
+            getGridBagConstraints().gridwidth = count;
 
-        /**
-         * Applies a fill to a grid bag panel cell.
-         *
-         * @param fill
-         * The fill value.
-         */
-        public void fill(int fill) {
-            getGridBagConstraints().fill = fill;
+            return this;
         }
 
         private GridBagConstraints getGridBagConstraints() {
-            if (!(constraints instanceof GridBagConstraints)) {
-                throw new IllegalStateException("Cell is not in a grid bag panel.");
+            if (constraints == null) {
+                constraints = new GridBagConstraints();
             }
 
             return (GridBagConstraints)constraints;
@@ -473,20 +563,20 @@ public class SwingUIBuilder {
      * The panel instance.
      */
     @SafeVarargs
-    public static JPanel gridBagPanel(Cell<Component>[]... rows) {
+    public static JPanel gridBagPanel(Cell<? extends Component>[]... rows) {
         if (rows == null) {
             throw new IllegalArgumentException();
         }
 
         JPanel panel = new JPanel(new GridBagLayout());
 
-        var cells = new LinkedList<Cell<Component>>();
+        var cells = new LinkedList<Cell<? extends Component>>();
 
         for (int y = 0; y < rows.length; y++)  {
-            Cell<Component>[] row = rows[y];
+            Cell<? extends Component>[] row = rows[y];
 
             for (int x = 0; x < row.length; x++) {
-                Cell<Component> cell = row[x];
+                Cell<? extends Component> cell = row[x];
 
                 var gridBagConstraints = cell.getGridBagConstraints();
 
@@ -510,13 +600,9 @@ public class SwingUIBuilder {
      * The row of cells.
      */
     @SafeVarargs
-    public static Cell<Component>[] row(Cell<Component>... cells) {
+    public static Cell<? extends Component>[] row(Cell<? extends Component>... cells) {
         if (cells == null) {
             throw new IllegalArgumentException();
-        }
-
-        for (int i = 0; i < cells.length; i++) {
-            cells[i].constraints = new GridBagConstraints();
         }
 
         return cells;
