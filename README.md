@@ -3,7 +3,7 @@
 [![javadoc](https://javadoc.io/badge2/org.httprpc/sierra/javadoc.svg)](https://javadoc.io/doc/org.httprpc/sierra)
 
 # Introduction
-Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively instantiating Swing component hierarchies. The framework is extremely lightweight (3KB) and has no external dependencies. 
+Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively instantiating Swing component hierarchies. The framework is extremely lightweight (5KB) and has no external dependencies. 
 
 The project's name comes from the nautical _S_ or _Sierra_ flag, representing the first letter in "Swing":
 
@@ -119,21 +119,21 @@ Based on the [card layout](https://docs.oracle.com/javase/tutorial/uiswing/layou
 
 [CardLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/CardLayoutTest.java)
 
-<img src="README/card-layout.png" width="332px"/>
+<img src="README/card-layout.png" width="369px"/>
 
 ## Box Layout
 Based on the [box layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html) tutorial example.
 
 [BoxLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BoxLayoutTest.java)
 
-<img src="README/box-layout.png" width="322px"/>
+<img src="README/box-layout.png" width="332px"/>
 
 ## Grid Bag Layout
 Based on the [grid bag layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html) tutorial example.
 
 [GridBagLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GridBagLayoutTest.java)
 
-<img src="README/grid-bag-layout.png"/> <!-- TODO width -->
+<img src="README/grid-bag-layout.png" width="349px"/>
 
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).
