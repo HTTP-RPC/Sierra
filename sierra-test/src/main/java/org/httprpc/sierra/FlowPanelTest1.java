@@ -26,7 +26,6 @@ public class FlowPanelTest1 extends JFrame implements Runnable {
     private FlowPanelTest1() {
         super("Flow Panel Test 1");
 
-        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 

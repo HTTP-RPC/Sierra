@@ -16,38 +16,30 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import java.awt.FlowLayout;
 
-public class ButtonTest1 extends JFrame implements Runnable {
-    private ButtonTest1() {
-        super("Button Test 1");
+import static org.httprpc.sierra.SwingUIBuilder.gridBagPanel;
+
+public class FormTest extends JFrame implements Runnable {
+    private FormTest() {
+        super("Form Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        JPanel flowPanel = new JPanel(new FlowLayout());
+        // TODO
+        setContentPane(gridBagPanel());
 
-        JButton button = new JButton("Press Me");
-
-        button.addActionListener(event -> System.out.println("Button pressed"));
-
-        flowPanel.add(button);
-
-        setContentPane(flowPanel);
-
-        pack();
+        setSize(320, 240);
         setVisible(true);
     }
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new ButtonTest1());
+        SwingUtilities.invokeLater(new FormTest());
     }
 }
