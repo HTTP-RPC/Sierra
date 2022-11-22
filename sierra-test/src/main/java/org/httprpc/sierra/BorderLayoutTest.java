@@ -22,7 +22,11 @@ import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 
 import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
-import static org.httprpc.sierra.SwingUIBuilder.cell;
+import static org.httprpc.sierra.SwingUIBuilder.center;
+import static org.httprpc.sierra.SwingUIBuilder.lineEnd;
+import static org.httprpc.sierra.SwingUIBuilder.lineStart;
+import static org.httprpc.sierra.SwingUIBuilder.pageEnd;
+import static org.httprpc.sierra.SwingUIBuilder.pageStart;
 
 public class BorderLayoutTest extends JFrame implements Runnable {
     private BorderLayoutTest() {
@@ -34,11 +38,11 @@ public class BorderLayoutTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(borderPanel(new BorderLayout(),
-            cell(new JButton("Button 1 (PAGE_START)")).constrainedBy(BorderLayout.PAGE_START),
-            cell(new JButton("Button 3 (LINE_START)")).constrainedBy(BorderLayout.LINE_START),
-            cell(new JButton("Button 2 (CENTER)")).constrainedBy(BorderLayout.CENTER),
-            cell(new JButton("5 (LINE_END)")).constrainedBy(BorderLayout.LINE_END),
-            cell(new JButton("Long-Named Button 4 (PAGE_END)")).constrainedBy(BorderLayout.PAGE_END)
+            pageStart(new JButton("Button 1 (PAGE_START)")),
+            lineStart(new JButton("Button 3 (LINE_START)")),
+            center(new JButton("Button 2 (CENTER)")),
+            lineEnd(new JButton("5 (LINE_END)")),
+            pageEnd(new JButton("Long-Named Button 4 (PAGE_END)"))
         ));
 
         pack();

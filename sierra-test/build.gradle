@@ -19,7 +19,7 @@ plugins {
 dependencies {
     implementation project(':sierra')
 
-    implementation 'com.formdev:flatlaf:2.4'
+    implementation 'com.formdev:flatlaf:2.6'
 }
 
 jar {

@@ -42,6 +42,18 @@ The returned `Cell` instance can be used to further customize the provided compo
 * `constrainedBy()` - applies a layout constraint to the component
 * `with()` - accepts a callback that can be used to set properties or invoke methods on the component
 
+Additionally, the following convenience methods can be used to declare the contents of a border panel:
+
+* `center()`
+* `north()`
+* `south()`
+* `east()`
+* `west()`
+* `pageStart()`
+* `pageEnd()`
+* `lineStart()`
+* `lineEnd()`
+
 For example, the following code creates a flow panel containing a button instance. The button is associated with a simple action handler that writes a message to the console:
 
 ```java

@@ -30,7 +30,9 @@ import java.awt.FlowLayout;
 import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
 import static org.httprpc.sierra.SwingUIBuilder.cardPanel;
 import static org.httprpc.sierra.SwingUIBuilder.cell;
+import static org.httprpc.sierra.SwingUIBuilder.center;
 import static org.httprpc.sierra.SwingUIBuilder.flowPanel;
+import static org.httprpc.sierra.SwingUIBuilder.pageStart;
 
 public class CardLayoutTest extends JFrame implements Runnable {
     private CardLayout cardLayout = new CardLayout();
@@ -49,7 +51,7 @@ public class CardLayoutTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(borderPanel(new BorderLayout(),
-            cell(flowPanel(new FlowLayout(),
+            pageStart(flowPanel(new FlowLayout(),
                 cell(new JComboBox<String>()).with(comboBox -> {
                     var model = new DefaultComboBoxModel<String>();
 
@@ -60,9 +62,9 @@ public class CardLayoutTest extends JFrame implements Runnable {
                     comboBox.setEditable(false);
                     comboBox.addItemListener(event -> cardLayout.show(cardPanel, (String)event.getItem()));
                 })
-            )).constrainedBy(BorderLayout.PAGE_START),
+            )),
 
-            cell(cardPanel(cardLayout,
+            center(cardPanel(cardLayout,
                 cell(flowPanel(new FlowLayout(),
                     cell(new JButton("Button 1")),
                     cell(new JButton("Button 2")),
@@ -72,7 +74,7 @@ public class CardLayoutTest extends JFrame implements Runnable {
                 cell(flowPanel(new FlowLayout(),
                     cell(new JTextField("TextField", 20))
                 )).constrainedBy(TEXT_PANEL)
-            )).constrainedBy(BorderLayout.CENTER).with(cardPanel -> this.cardPanel = cardPanel)
+            )).with(cardPanel -> this.cardPanel = cardPanel)
         ));
 
         pack();

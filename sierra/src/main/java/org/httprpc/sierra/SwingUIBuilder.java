@@ -160,6 +160,150 @@ public class SwingUIBuilder {
     }
 
     /**
+     * Declares a "center" cell for a border panel.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends Component> Cell<C> center(C component) {
+        return cell(component).constrainedBy(BorderLayout.CENTER);
+    }
+
+    /**
+     * Declares a "north" cell for a border panel.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends Component> Cell<C> north(C component) {
+        return cell(component).constrainedBy(BorderLayout.NORTH);
+    }
+
+    /**
+     * Declares a "south" cell for a border panel.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends Component> Cell<C> south(C component) {
+        return cell(component).constrainedBy(BorderLayout.SOUTH);
+    }
+
+    /**
+     * Declares an "east" cell for a border panel.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends Component> Cell<C> east(C component) {
+        return cell(component).constrainedBy(BorderLayout.EAST);
+    }
+
+    /**
+     * Declares a "west" cell for a border panel.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends Component> Cell<C> west(C component) {
+        return cell(component).constrainedBy(BorderLayout.WEST);
+    }
+
+    /**
+     * Declares a "page start" cell for a border panel.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends Component> Cell<C> pageStart(C component) {
+        return cell(component).constrainedBy(BorderLayout.PAGE_START);
+    }
+
+    /**
+     * Declares a "page end" cell for a border panel.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends Component> Cell<C> pageEnd(C component) {
+        return cell(component).constrainedBy(BorderLayout.PAGE_END);
+    }
+
+    /**
+     * Declares a "line start" cell for a border panel.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends Component> Cell<C> lineStart(C component) {
+        return cell(component).constrainedBy(BorderLayout.LINE_START);
+    }
+
+    /**
+     * Declares a "line end" cell for a border panel.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @return
+     * The cell instance.
+     *
+     * @param <C>
+     * The component type.
+     */
+    public static <C extends Component> Cell<C> lineEnd(C component) {
+        return cell(component).constrainedBy(BorderLayout.LINE_END);
+    }
+
+    /**
      * Declares a grid panel.
      *
      * @param gridLayout

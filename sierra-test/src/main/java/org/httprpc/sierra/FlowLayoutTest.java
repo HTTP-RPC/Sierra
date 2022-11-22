@@ -28,7 +28,9 @@ import java.awt.FlowLayout;
 
 import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
 import static org.httprpc.sierra.SwingUIBuilder.cell;
+import static org.httprpc.sierra.SwingUIBuilder.center;
 import static org.httprpc.sierra.SwingUIBuilder.flowPanel;
+import static org.httprpc.sierra.SwingUIBuilder.south;
 
 public class FlowLayoutTest extends JFrame implements Runnable {
     private JPanel flowPanel;
@@ -47,19 +49,19 @@ public class FlowLayoutTest extends JFrame implements Runnable {
         ButtonGroup buttonGroup = new ButtonGroup();
 
         setContentPane(borderPanel(new BorderLayout(),
-            cell(flowPanel(new FlowLayout(),
+            center(flowPanel(new FlowLayout(),
                 cell(new JButton("Button 1")),
                 cell(new JButton("Button 2")),
                 cell(new JButton("Button 3")),
                 cell(new JButton("Long-Named Button 4")),
                 cell(new JButton("5"))
-            )).constrainedBy(BorderLayout.CENTER).with(flowPanel -> {
+            )).with(flowPanel -> {
                 flowPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
                 this.flowPanel = flowPanel;
             }),
 
-            cell(flowPanel(new FlowLayout(),
+            south(flowPanel(new FlowLayout(),
                 cell(new JRadioButton("Left to right", true)).with(button -> {
                     buttonGroup.add(button);
 
@@ -84,7 +86,7 @@ public class FlowLayoutTest extends JFrame implements Runnable {
                     flowPanel.validate();
                     flowPanel.repaint();
                 }))
-            )).constrainedBy(BorderLayout.SOUTH))
+            )))
         );
 
         pack();

@@ -28,7 +28,10 @@ import java.awt.GridLayout;
 
 import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
 import static org.httprpc.sierra.SwingUIBuilder.cell;
+import static org.httprpc.sierra.SwingUIBuilder.center;
 import static org.httprpc.sierra.SwingUIBuilder.gridPanel;
+import static org.httprpc.sierra.SwingUIBuilder.pageEnd;
+import static org.httprpc.sierra.SwingUIBuilder.pageStart;
 
 public class GridLayoutTest extends JFrame implements Runnable {
     GridLayout gridLayout = new GridLayout(0, 2);
@@ -50,17 +53,17 @@ public class GridLayoutTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(borderPanel(new BorderLayout(),
-            cell(gridPanel(gridLayout,
+            pageStart(gridPanel(gridLayout,
                 cell(new JButton("Button 1")),
                 cell(new JButton("Button 2")),
                 cell(new JButton("Button 3")),
                 cell(new JButton("Long-Named Button 4")),
                 cell(new JButton("5"))
-            )).constrainedBy(BorderLayout.PAGE_START).with(gridPanel -> this.gridPanel = gridPanel),
+            )).with(gridPanel -> this.gridPanel = gridPanel),
 
-            cell(new JSeparator()).constrainedBy(BorderLayout.CENTER),
+            center(new JSeparator()),
 
-            cell(gridPanel(new GridLayout(2, 3),
+            pageEnd(gridPanel(new GridLayout(2, 3),
                 cell(new JLabel("Horizontal gap:")),
                 cell(new JLabel("Vertical gap:")),
                 cell(new JLabel(" ")),
@@ -72,7 +75,7 @@ public class GridLayoutTest extends JFrame implements Runnable {
 
                     gridLayout.layoutContainer(gridPanel);
                 }))
-            )).constrainedBy(BorderLayout.PAGE_END)
+            ))
         ));
 
         pack();
