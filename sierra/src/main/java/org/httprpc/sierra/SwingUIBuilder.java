@@ -14,13 +14,18 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import java.util.LinkedList;
 import java.util.function.Consumer;
 
 /**
@@ -52,6 +57,53 @@ public class SwingUIBuilder {
             this.constraints = constraints;
 
             return this;
+        }
+
+        /**
+         * Applies insets to a grid bag panel cell.
+         *
+         * @param top
+         * The top inset.
+         *
+         * @param left
+         * The left inset.
+         *
+         * @param bottom
+         * The bottom inset.
+         *
+         * @param right
+         * The right inset.
+         */
+        public void insetBy(int top, int left, int bottom, int right) {
+            getGridBagConstraints().insets = new Insets(top, left, bottom, right);
+        }
+
+        /**
+         * Applies an anchor to a grid bag panel cell.
+         *
+         * @param anchor
+         * The anchor value.
+         */
+        public void anchorTo(int anchor) {
+            getGridBagConstraints().anchor = anchor;
+        }
+
+        /**
+         * Applies a fill to a grid bag panel cell.
+         *
+         * @param fill
+         * The fill value.
+         */
+        public void fill(int fill) {
+            getGridBagConstraints().fill = fill;
+        }
+
+        private GridBagConstraints getGridBagConstraints() {
+            if (!(constraints instanceof GridBagConstraints)) {
+                throw new IllegalStateException("Cell is not in a grid bag panel.");
+            }
+
+            return (GridBagConstraints)constraints;
         }
 
         /**
@@ -363,6 +415,111 @@ public class SwingUIBuilder {
         panel.setLayout(boxLayout);
 
         return populate(panel, cells);
+    }
+
+    /**
+     * Declares a horizontal strut cell for a box panel.
+     *
+     * @param width
+     * The strut width.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<Component> horizontalStrut(int width) {
+        return cell(Box.createHorizontalStrut(width));
+    }
+
+    /**
+     * Declares a vertical strut cell for a box panel.
+     *
+     * @param height
+     * The strut height.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<Component> verticalStrut(int height) {
+        return cell(Box.createVerticalStrut(height));
+    }
+
+    /**
+     * Declares a horizontal glue cell for a box panel.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<Component> horizontalGlue() {
+        return cell(Box.createHorizontalGlue());
+    }
+
+    /**
+     * Declares a vertical glue cell for a box panel.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<Component> verticalGlue() {
+        return cell(Box.createVerticalGlue());
+    }
+
+    /**
+     * Declares a grid bag panel.
+     *
+     * @param rows
+     * The panel's rows.
+     *
+     * @return
+     * The panel instance.
+     */
+    @SafeVarargs
+    public static JPanel gridBagPanel(Cell<Component>[]... rows) {
+        if (rows == null) {
+            throw new IllegalArgumentException();
+        }
+
+        JPanel panel = new JPanel(new GridBagLayout());
+
+        var cells = new LinkedList<Cell<Component>>();
+
+        for (int y = 0; y < rows.length; y++)  {
+            Cell<Component>[] row = rows[y];
+
+            for (int x = 0; x < row.length; x++) {
+                Cell<Component> cell = row[x];
+
+                var gridBagConstraints = cell.getGridBagConstraints();
+
+                gridBagConstraints.gridx = x;
+                gridBagConstraints.gridy = y;
+
+                cells.add(cell);
+            }
+        }
+
+        return populate(panel, cells.toArray(new Cell<?>[0]));
+    }
+
+    /**
+     * Declares a row of cells for a grid bag panel.
+     *
+     * @param cells
+     * The row's cells.
+     *
+     * @return
+     * The row of cells.
+     */
+    @SafeVarargs
+    public static Cell<Component>[] row(Cell<Component>... cells) {
+        if (cells == null) {
+            throw new IllegalArgumentException();
+        }
+
+        for (int i = 0; i < cells.length; i++) {
+            cells[i].constraints = new GridBagConstraints();
+        }
+
+        return cells;
     }
 
     private static JPanel populate(JPanel panel, Cell<?>... cells) {

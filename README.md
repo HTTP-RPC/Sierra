@@ -30,6 +30,7 @@ Sierra provides a single class named `SwingUIBuilder` whose methods can be used 
 * `gridPanel()` - declares a panel with a grid layout
 * `cardPanel()` - declares a panel with a card layout
 * `boxPanel()` - declares a panel with a box layout
+* `gridBagPanel()` - declares a panel with a grid bag layout
 
 Additionally, `SwingUIBuilder` provides this method for defining a panel's contents:
 
@@ -39,8 +40,11 @@ public static <C extends JComponent> Cell<C> cell(C component) { ... }
 
 The returned `Cell` instance can be used to further customize the provided component:
 
-* `constrainedBy()` - applies a layout constraint to the component
+* `constrainedBy()` - applies a layout constraint to the cell's component
 * `with()` - accepts a callback that can be used to set properties or invoke methods on the component
+* `insetBy()` - applies insets to a grid bag panel cell
+* `anchorTo()` - applies an anchor to a grid bag panel cell
+* `fill()` - applies a fill to a grid bag panel cell
 
 Additionally, the following convenience methods can be used to declare the contents of a border panel:
 
@@ -54,6 +58,13 @@ Additionally, the following convenience methods can be used to declare the conte
 * `lineStart()`
 * `lineEnd()`
 
+These methods can be used to declare spacer cells in a box panel:
+
+* `horizontalStrut()`
+* `verticalStrut()`
+* `horizontalGlue()`
+* `verticalGlue()`
+
 For example, the following code creates a flow panel containing a button instance. The button is associated with a simple action handler that writes a message to the console:
 
 ```java
@@ -64,15 +75,17 @@ JButton button = new JButton("Press Me");
 button.addActionListener(event -> System.out.println("Button pressed"));
 
 flowPanel.add(button);
+
+setContentPane(flowPanel);
 ```
 
 Using `SwingUIBuilder`, the code could be rewritten as follows:
 
 ```java
-JPanel flowPanel = flowPanel(new FlowLayout(),
+setContentPane(flowPanel(new FlowLayout(),
     cell(new JButton("Press Me"))
         .with(button -> button.addActionListener(event -> System.out.println("Button pressed")))
-);
+));
 ```
 
 In this simple example, both versions are fairly readable. However, with more deeply nested component hierarchies, the first approach can quickly become untenable. Using `SwingUIBuilder`, the declaration of sub-components mirrors the resulting hierarchy, making it much easier to read and write. 
