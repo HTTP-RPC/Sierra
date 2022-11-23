@@ -564,6 +564,26 @@ public class SwingUIBuilder {
      */
     @SafeVarargs
     public static JPanel gridBagPanel(Cell<? extends Component>[]... rows) {
+        return gridBagPanel(0, 0, rows);
+    }
+
+    /**
+     * Declares a grid bag panel.
+     *
+     * @param hgap
+     * The horizontal spacing between cells.
+     *
+     * @param vgap
+     * The vertical spacing between cells.
+     *
+     * @param rows
+     * The panel's rows.
+     *
+     * @return
+     * The panel instance.
+     */
+    @SafeVarargs
+    public static JPanel gridBagPanel(int hgap, int vgap, Cell<? extends Component>[]... rows) {
         if (rows == null) {
             throw new IllegalArgumentException();
         }
@@ -582,6 +602,14 @@ public class SwingUIBuilder {
 
                 gridBagConstraints.gridx = x;
                 gridBagConstraints.gridy = y;
+
+                if (x > 0) {
+                    gridBagConstraints.insets.left += hgap;
+                }
+
+                if (y > 0) {
+                    gridBagConstraints.insets.top += vgap;
+                }
 
                 cells.add(cell);
             }

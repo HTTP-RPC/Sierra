@@ -38,7 +38,7 @@ public class FormTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(gridBagPanel(
+        setContentPane(gridBagPanel(4, 4,
             row(
                 cell(new JLabel("Username")),
                 cell(new JTextField())
