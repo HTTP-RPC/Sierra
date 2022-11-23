@@ -16,6 +16,7 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,19 +41,26 @@ public class FormTest extends JFrame implements Runnable {
     public void run() {
         var contentPane = gridBagPanel(4, 4,
             row(
-                cell(new JLabel("Username")),
+                cell(new JLabel("Username"))
+                    .anchorTo(GridBagConstraints.LINE_END),
                 cell(new JTextField())
                     .fill(GridBagConstraints.HORIZONTAL)
                     .weightXBy(1.0)
             ),
             row(
-                cell(new JLabel("Password")),
+                cell(new JLabel("Password"))
+                    .anchorTo(GridBagConstraints.LINE_END),
                 cell(new JTextField())
                     .fill(GridBagConstraints.HORIZONTAL)
             ),
             row(
                 cell(new JCheckBox("Remember Me"))
                     .anchorTo(GridBagConstraints.LINE_START)
+                    .spanColumns(2)
+            ),
+            row(
+                cell(new JButton("Log In"))
+                    .anchorTo(GridBagConstraints.LINE_END)
                     .spanColumns(2)
             )
         );
