@@ -42,13 +42,13 @@ public class FormTest extends JFrame implements Runnable {
             row(
                 cell(new JLabel("Username")),
                 cell(new JTextField())
-                    .fill(GridBagConstraints.BOTH)
+                    .fill(GridBagConstraints.HORIZONTAL)
                     .weightXBy(1.0)
             ),
             row(
                 cell(new JLabel("Password")),
                 cell(new JTextField())
-                    .fill(GridBagConstraints.BOTH)
+                    .fill(GridBagConstraints.HORIZONTAL)
             ),
             row(
                 cell(new JCheckBox("Remember Me"))
