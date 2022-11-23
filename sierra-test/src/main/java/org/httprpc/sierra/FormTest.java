@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
 import java.awt.GridBagConstraints;
 
@@ -37,21 +38,28 @@ public class FormTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(gridBagPanel(4, 4,
+        var contentPane = gridBagPanel(4, 4,
             row(
                 cell(new JLabel("Username")),
                 cell(new JTextField())
+                    .fill(GridBagConstraints.BOTH)
+                    .weightXBy(1.0)
             ),
             row(
                 cell(new JLabel("Password")),
                 cell(new JTextField())
+                    .fill(GridBagConstraints.BOTH)
             ),
             row(
                 cell(new JCheckBox("Remember Me"))
                     .anchorTo(GridBagConstraints.LINE_START)
                     .spanColumns(2)
             )
-        ));
+        );
+
+        contentPane.setBorder(new EmptyBorder(16, 16, 16, 16));
+
+        setContentPane(contentPane);
 
         setSize(320, 240);
         setVisible(true);
