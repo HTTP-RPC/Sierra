@@ -35,7 +35,7 @@ Sierra provides a single class named `SwingUIBuilder` whose methods can be used 
 Additionally, `SwingUIBuilder` provides this method for defining a panel's contents:
 
 ```java
-public static <C extends JComponent> Cell<C> cell(C component) { ... }
+public static <C extends Component> Cell<C> cell(C component) { ... }
 ```
 
 The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
@@ -51,7 +51,7 @@ The returned `Cell` instance can be used to further customize the layout or conf
 * `spanColumns()` - applies a column span to a grid bag panel cell
 * `with()` - accepts a callback that can be used to set properties or invoke methods on the component
 
-The following convenience methods can be used to declare the contents of a border panel:
+The following convenience methods also return a `Cell` instance and can be used to declare the contents of a border panel:
 
 * `center()`
 * `north()`

@@ -16,10 +16,18 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+
+import static org.httprpc.sierra.SwingUIBuilder.cell;
 import static org.httprpc.sierra.SwingUIBuilder.gridBagPanel;
+import static org.httprpc.sierra.SwingUIBuilder.row;
 
 public class FormTest extends JFrame implements Runnable {
     private FormTest() {
@@ -30,8 +38,21 @@ public class FormTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        // TODO
-        setContentPane(gridBagPanel());
+        setContentPane(gridBagPanel(
+            row(
+                cell(new JLabel("Username")),
+                cell(new JTextField())
+            ),
+            row(
+                cell(new JLabel("Password")),
+                cell(new JTextField())
+            ),
+            row(
+                cell(new JCheckBox("Remember Me"))
+                    .anchorTo(GridBagConstraints.LINE_START)
+                    .spanColumns(2)
+            )
+        ));
 
         setSize(320, 240);
         setVisible(true);
