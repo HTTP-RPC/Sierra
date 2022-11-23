@@ -22,7 +22,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 import static org.httprpc.sierra.SwingUIBuilder.cell;
