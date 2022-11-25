@@ -647,6 +647,8 @@ public class SwingUIBuilder {
             panel.add(cell.component, cell.constraints);
         }
 
+        panel.setOpaque(false);
+
         return panel;
     }
 }
