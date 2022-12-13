@@ -39,6 +39,12 @@ public class SwingUIBuilder {
 
         private Object constraints = null;
 
+        private double weightx = 0.0;
+        private double weighty = 0.0;
+
+        private int anchor = GridBagConstraints.CENTER;
+        private int fill = GridBagConstraints.NONE;
+
         private Cell(C component) {
             this.component = component;
         }
@@ -68,7 +74,7 @@ public class SwingUIBuilder {
          * The cell instance.
          */
         public Cell<C> weightXBy(double weight) {
-            getGridBagConstraints().weightx = weight;
+            this.weightx = weight;
 
             return this;
         }
@@ -83,7 +89,7 @@ public class SwingUIBuilder {
          * The cell instance.
          */
         public Cell<C> weightYBy(double weight) {
-            getGridBagConstraints().weighty = weight;
+            this.weighty = weight;
 
             return this;
         }
@@ -98,7 +104,7 @@ public class SwingUIBuilder {
          * The cell instance.
          */
         public Cell<C> anchorTo(int anchor) {
-            getGridBagConstraints().anchor = anchor;
+            this.anchor = anchor;
 
             return this;
         }
@@ -113,17 +119,9 @@ public class SwingUIBuilder {
          * The cell instance.
          */
         public Cell<C> fill(int fill) {
-            getGridBagConstraints().fill = fill;
+            this.fill = fill;
 
             return this;
-        }
-
-        private GridBagConstraints getGridBagConstraints() {
-            if (constraints == null) {
-                constraints = new GridBagConstraints();
-            }
-
-            return (GridBagConstraints)constraints;
         }
 
         /**
@@ -478,22 +476,34 @@ public class SwingUIBuilder {
             for (int x = 0; x < row.length; x++) {
                 Cell<? extends Component> cell = row[x];
 
-                var gridBagConstraints = cell.getGridBagConstraints();
-
-                gridBagConstraints.gridx = x;
-                gridBagConstraints.gridy = y;
-
-                if (x == row.length - 1) {
-                    gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+                if (cell.constraints != null) {
+                    throw new IllegalStateException();
                 }
 
+                var constraints = new GridBagConstraints();
+
+                constraints.gridx = x;
+                constraints.gridy = y;
+
+                if (x == row.length - 1) {
+                    constraints.gridwidth = GridBagConstraints.REMAINDER;
+                }
+
+                constraints.weightx = cell.weightx;
+                constraints.weighty = cell.weighty;
+
+                constraints.anchor = cell.anchor;
+                constraints.fill = cell.fill;
+
                 if (x > 0) {
-                    gridBagConstraints.insets.left += hgap;
+                    constraints.insets.left += hgap;
                 }
 
                 if (y > 0) {
-                    gridBagConstraints.insets.top += vgap;
+                    constraints.insets.top += vgap;
                 }
+
+                cell.constraints = constraints;
 
                 cells.add(cell);
             }

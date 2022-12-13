@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.awt.Component;
+import java.util.function.Consumer;
 
 import static org.httprpc.sierra.SwingUIBuilder.cell;
 import static org.httprpc.sierra.SwingUIBuilder.verticalBoxPanel;
@@ -33,20 +34,18 @@ public class BoxLayoutTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
+        Consumer<JButton> buttonConsumer = button -> button.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         setContentPane(verticalBoxPanel(
-            cell(new JButton("Button 1")).with(this::configureButton),
-            cell(new JButton("Button 2")).with(this::configureButton),
-            cell(new JButton("Button 3")).with(this::configureButton),
-            cell(new JButton("Long-Named Button 4")).with(this::configureButton),
-            cell(new JButton("5")).with(this::configureButton)
+            cell(new JButton("Button 1")).with(buttonConsumer),
+            cell(new JButton("Button 2")).with(buttonConsumer),
+            cell(new JButton("Button 3")).with(buttonConsumer),
+            cell(new JButton("Long-Named Button 4")).with(buttonConsumer),
+            cell(new JButton("5")).with(buttonConsumer)
         ));
 
         pack();
         setVisible(true);
-    }
-
-    private void configureButton(JButton button) {
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
     public static void main(String[] args) {
