@@ -23,7 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.GridBagConstraints;
 
 import static org.httprpc.sierra.SwingUIBuilder.cell;
@@ -44,8 +43,8 @@ public class FormTest extends JFrame implements Runnable {
                 cell(new JLabel("Username"))
                     .anchorTo(GridBagConstraints.LINE_END),
                 cell(new JTextField())
-                    .fill(GridBagConstraints.HORIZONTAL)
                     .weightXBy(1.0)
+                    .fill(GridBagConstraints.HORIZONTAL)
             ),
             row(
                 cell(new JLabel("Password"))
@@ -56,12 +55,10 @@ public class FormTest extends JFrame implements Runnable {
             row(
                 cell(new JCheckBox("Remember Me"))
                     .anchorTo(GridBagConstraints.LINE_START)
-                    .spanColumns(2)
             ),
             row(
                 cell(new JButton("Log In"))
                     .anchorTo(GridBagConstraints.LINE_END)
-                    .spanColumns(2)
             )
         );
 

@@ -24,7 +24,6 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
@@ -52,56 +51,9 @@ public class SwingUIBuilder {
          *
          * @return
          * The cell instance.
-         *
-         * @deprecated
-         * Use {@link #constrainBy(Object)} instead.
-         */
-        @Deprecated(forRemoval = true)
-        public Cell<C> constrainedBy(Object constraints) {
-            return constrainBy(constraints);
-        }
-
-        /**
-         * Applies constraints to a cell.
-         *
-         * @param constraints
-         * The constraints to apply.
-         *
-         * @return
-         * The cell instance.
          */
         public Cell<C> constrainBy(Object constraints) {
             this.constraints = constraints;
-
-            return this;
-        }
-
-        /**
-         * Applies a fill to a grid bag panel cell.
-         *
-         * @param fill
-         * The fill value.
-         *
-         * @return
-         * The cell instance.
-         */
-        public Cell<C> fill(int fill) {
-            getGridBagConstraints().fill = fill;
-
-            return this;
-        }
-
-        /**
-         * Applies an anchor to a grid bag panel cell.
-         *
-         * @param anchor
-         * The anchor value.
-         *
-         * @return
-         * The cell instance.
-         */
-        public Cell<C> anchorTo(int anchor) {
-            getGridBagConstraints().anchor = anchor;
 
             return this;
         }
@@ -137,70 +89,31 @@ public class SwingUIBuilder {
         }
 
         /**
-         * Applies horizontal padding to a grid bag panel cell.
+         * Applies an anchor to a grid bag panel cell.
          *
-         * @param width
-         * The padding width.
+         * @param anchor
+         * The anchor value.
          *
          * @return
          * The cell instance.
          */
-        public Cell<C> padXBy(int width) {
-            getGridBagConstraints().ipadx = width;
+        public Cell<C> anchorTo(int anchor) {
+            getGridBagConstraints().anchor = anchor;
 
             return this;
         }
 
         /**
-         * Applies vertical padding to a grid bag panel cell.
+         * Applies a fill to a grid bag panel cell.
          *
-         * @param height
-         * The padding height.
-         *
-         * @return
-         * The cell instance.
-         */
-        public Cell<C> padYBy(int height) {
-            getGridBagConstraints().ipady = height;
-
-            return this;
-        }
-
-        /**
-         * Applies insets to a grid bag panel cell.
-         *
-         * @param top
-         * The top inset.
-         *
-         * @param left
-         * The left inset.
-         *
-         * @param bottom
-         * The bottom inset.
-         *
-         * @param right
-         * The right inset.
+         * @param fill
+         * The fill value.
          *
          * @return
          * The cell instance.
          */
-        public Cell<C> insetBy(int top, int left, int bottom, int right) {
-            getGridBagConstraints().insets = new Insets(top, left, bottom, right);
-
-            return this;
-        }
-
-        /**
-         * Applies a column span to a grid bag panel cell.
-         *
-         * @param count
-         * The number of columns to span (see {@link GridBagConstraints#gridwidth}).
-         *
-         * @return
-         * The cell instance.
-         */
-        public Cell<C> spanColumns(int count) {
-            getGridBagConstraints().gridwidth = count;
+        public Cell<C> fill(int fill) {
+            getGridBagConstraints().fill = fill;
 
             return this;
         }
@@ -335,86 +248,6 @@ public class SwingUIBuilder {
     }
 
     /**
-     * Declares a "north" cell for a border panel.
-     *
-     * @param component
-     * The cell's component.
-     *
-     * @return
-     * The cell instance.
-     *
-     * @param <C>
-     * The component type.
-     *
-     * @deprecated
-     * Use {@link #pageStart(Component)} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public static <C extends Component> Cell<C> north(C component) {
-        return cell(component).constrainBy(BorderLayout.NORTH);
-    }
-
-    /**
-     * Declares a "south" cell for a border panel.
-     *
-     * @param component
-     * The cell's component.
-     *
-     * @return
-     * The cell instance.
-     *
-     * @param <C>
-     * The component type.
-     *
-     * @deprecated
-     * Use {@link #pageEnd(Component)} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public static <C extends Component> Cell<C> south(C component) {
-        return cell(component).constrainBy(BorderLayout.SOUTH);
-    }
-
-    /**
-     * Declares an "east" cell for a border panel.
-     *
-     * @param component
-     * The cell's component.
-     *
-     * @return
-     * The cell instance.
-     *
-     * @param <C>
-     * The component type.
-     *
-     * @deprecated
-     * Use {@link #lineStart(Component)} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public static <C extends Component> Cell<C> east(C component) {
-        return cell(component).constrainBy(BorderLayout.EAST);
-    }
-
-    /**
-     * Declares a "west" cell for a border panel.
-     *
-     * @param component
-     * The cell's component.
-     *
-     * @return
-     * The cell instance.
-     *
-     * @param <C>
-     * The component type.
-     *
-     * @deprecated
-     * Use {@link #lineEnd(Component)} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public static <C extends Component> Cell<C> west(C component) {
-        return cell(component).constrainBy(BorderLayout.WEST);
-    }
-
-    /**
      * Declares a "page start" cell for a border panel.
      *
      * @param component
@@ -544,24 +377,7 @@ public class SwingUIBuilder {
         return boxPanel(BoxLayout.Y_AXIS, cells);
     }
 
-    /**
-     * Declares a box panel.
-     *
-     * @param axis
-     * The panel's axis.
-     *
-     * @param cells
-     * The panel's cells.
-     *
-     * @return
-     * The panel instance.
-     *
-     * @deprecated
-     * Use {@link #horizontalBoxPanel(Cell[])} or
-     * {@link #verticalBoxPanel(Cell[])} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public static JPanel boxPanel(int axis, Cell<?>... cells) {
+    private static JPanel boxPanel(int axis, Cell<?>... cells) {
         JPanel panel = new JPanel();
 
         BoxLayout boxLayout = new BoxLayout(panel, axis);
@@ -666,6 +482,10 @@ public class SwingUIBuilder {
 
                 gridBagConstraints.gridx = x;
                 gridBagConstraints.gridy = y;
+
+                if (x == row.length - 1) {
+                    gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+                }
 
                 if (x > 0) {
                     gridBagConstraints.insets.left += hgap;

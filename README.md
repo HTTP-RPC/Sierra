@@ -42,14 +42,10 @@ public static <C extends Component> Cell<C> cell(C component) { ... }
 The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
 
 * `constrainBy()` - applies a layout constraint to the cell's component
-* `fill()` - applies a fill to a grid bag panel cell
-* `anchorTo()` - applies an anchor to a grid bag panel cell
 * `weightXBy()` - applies a horizontal weight to a grid bag panel cell
 * `weightYBy()` - applies a vertical weight to a grid bag panel cell
-* `padXBy()` - applies horizontal padding to a grid bag panel cell
-* `padYBy()` - applies vertical padding to a grid bag panel cell
-* `insetBy()` - applies insets to a grid bag panel cell
-* `spanColumns()` - applies a column span to a grid bag panel cell
+* `anchorTo()` - applies an anchor to a grid bag panel cell
+* `fill()` - applies a fill to a grid bag panel cell
 * `with()` - accepts a callback that can be used to set properties or invoke methods on the cell's component
 
 The following convenience methods also return a `Cell` instance and can be used to declare the contents of a border panel:
@@ -129,13 +125,6 @@ Based on the [box layout](https://docs.oracle.com/javase/tutorial/uiswing/layout
 [BoxLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BoxLayoutTest.java)
 
 <img src="README/box-layout.png" width="332px"/>
-
-## Grid Bag Layout
-Based on the [grid bag layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html) tutorial example.
-
-[GridBagLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GridBagLayoutTest.java)
-
-<img src="README/grid-bag-layout.png" width="349px"/>
 
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).
