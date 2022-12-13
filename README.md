@@ -28,7 +28,6 @@ Sierra provides a single class named `SwingUIBuilder` whose methods can be used 
 * `flowPanel()` - declares a panel with a flow layout
 * `borderPanel()` - declares a panel with a border layout
 * `gridPanel()` - declares a panel with a grid layout
-* `cardPanel()` - declares a panel with a card layout
 * `horizontalBoxPanel()` - declares a panel with a horizontal (x-axis) box layout
 * `verticalBoxPanel()` - declares a panel with a vertical (y-axis) box layout
 * `gridBagPanel()` - declares a panel with a grid bag layout
@@ -111,13 +110,6 @@ Based on the [grid layout](https://docs.oracle.com/javase/tutorial/uiswing/layou
 [GridLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GridLayoutTest.java)
 
 <img src="README/grid-layout.png" width="428px"/>
-
-## Card Layout
-Based on the [card layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/card.html) tutorial example.
-
-[CardLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/CardLayoutTest.java)
-
-<img src="README/card-layout.png" width="369px"/>
 
 ## Box Layout
 Based on the [box layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html) tutorial example.

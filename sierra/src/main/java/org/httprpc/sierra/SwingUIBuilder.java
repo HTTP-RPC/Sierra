@@ -18,7 +18,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -167,6 +166,8 @@ public class SwingUIBuilder {
         return new Cell<>(component);
     }
 
+    // TODO Flow layout arguments
+
     /**
      * Declares a flow panel.
      *
@@ -208,6 +209,8 @@ public class SwingUIBuilder {
 
         return populate(new JPanel(flowLayout), cells);
     }
+
+    // TODO Border layout arguments
 
     /**
      * Declares a border panel.
@@ -309,6 +312,8 @@ public class SwingUIBuilder {
         return cell(component).constrainBy(BorderLayout.LINE_END);
     }
 
+    // TODO Grid layout arguments
+
     /**
      * Declares a grid panel.
      *
@@ -327,26 +332,6 @@ public class SwingUIBuilder {
         }
 
         return populate(new JPanel(gridLayout), cells);
-    }
-
-    /**
-     * Declares a card panel.
-     *
-     * @param cardLayout
-     * The panel's card layout.
-     *
-     * @param cells
-     * The panel's cells.
-     *
-     * @return
-     * The panel instance.
-     */
-    public static JPanel cardPanel(CardLayout cardLayout, Cell<?>... cells) {
-        if (cardLayout == null) {
-            throw new IllegalArgumentException();
-        }
-
-        return populate(new JPanel(cardLayout), cells);
     }
 
     /**
