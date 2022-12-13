@@ -29,7 +29,8 @@ Sierra provides a single class named `SwingUIBuilder` whose methods can be used 
 * `borderPanel()` - declares a panel with a border layout
 * `gridPanel()` - declares a panel with a grid layout
 * `cardPanel()` - declares a panel with a card layout
-* `boxPanel()` - declares a panel with a box layout
+* `horizontalBoxPanel()` - declares a panel with a horizontal (x-axis) box layout
+* `verticalBoxPanel()` - declares a panel with a vertical (y-axis) box layout
 * `gridBagPanel()` - declares a panel with a grid bag layout
 
 Additionally, `SwingUIBuilder` provides this method for defining a panel's contents:
@@ -40,7 +41,7 @@ public static <C extends Component> Cell<C> cell(C component) { ... }
 
 The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
 
-* `constrainedBy()` - applies a layout constraint to the cell's component
+* `constrainBy()` - applies a layout constraint to the cell's component
 * `fill()` - applies a fill to a grid bag panel cell
 * `anchorTo()` - applies an anchor to a grid bag panel cell
 * `weightXBy()` - applies a horizontal weight to a grid bag panel cell
@@ -49,15 +50,11 @@ The returned `Cell` instance can be used to further customize the layout or conf
 * `padYBy()` - applies vertical padding to a grid bag panel cell
 * `insetBy()` - applies insets to a grid bag panel cell
 * `spanColumns()` - applies a column span to a grid bag panel cell
-* `with()` - accepts a callback that can be used to set properties or invoke methods on the component
+* `with()` - accepts a callback that can be used to set properties or invoke methods on the cell's component
 
 The following convenience methods also return a `Cell` instance and can be used to declare the contents of a border panel:
 
 * `center()`
-* `north()`
-* `south()`
-* `east()`
-* `west()`
 * `pageStart()`
 * `pageEnd()`
 * `lineStart()`

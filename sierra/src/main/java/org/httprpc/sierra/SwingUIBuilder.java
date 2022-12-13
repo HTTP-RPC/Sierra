@@ -52,8 +52,25 @@ public class SwingUIBuilder {
          *
          * @return
          * The cell instance.
+         *
+         * @deprecated
+         * Use {@link #constrainBy(Object)} instead.
          */
+        @Deprecated(forRemoval = true)
         public Cell<C> constrainedBy(Object constraints) {
+            return constrainBy(constraints);
+        }
+
+        /**
+         * Applies constraints to a cell.
+         *
+         * @param constraints
+         * The constraints to apply.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> constrainBy(Object constraints) {
             this.constraints = constraints;
 
             return this;
@@ -197,20 +214,20 @@ public class SwingUIBuilder {
         }
 
         /**
-         * Applies a handler to a cell's component.
+         * Applies a consumer to a cell's component.
          *
-         * @param handler
-         * The handler to apply.
+         * @param consumer
+         * The consumer to apply.
          *
          * @return
          * The cell instance.
          */
-        public Cell<C> with(Consumer<C> handler) {
-            if (handler == null) {
+        public Cell<C> with(Consumer<C> consumer) {
+            if (consumer == null) {
                 throw new IllegalArgumentException();
             }
 
-            handler.accept(component);
+            consumer.accept(component);
 
             return this;
         }
@@ -314,7 +331,7 @@ public class SwingUIBuilder {
      * The component type.
      */
     public static <C extends Component> Cell<C> center(C component) {
-        return cell(component).constrainedBy(BorderLayout.CENTER);
+        return cell(component).constrainBy(BorderLayout.CENTER);
     }
 
     /**
@@ -328,9 +345,13 @@ public class SwingUIBuilder {
      *
      * @param <C>
      * The component type.
+     *
+     * @deprecated
+     * Use {@link #pageStart(Component)} instead.
      */
+    @Deprecated(forRemoval = true)
     public static <C extends Component> Cell<C> north(C component) {
-        return cell(component).constrainedBy(BorderLayout.NORTH);
+        return cell(component).constrainBy(BorderLayout.NORTH);
     }
 
     /**
@@ -344,9 +365,13 @@ public class SwingUIBuilder {
      *
      * @param <C>
      * The component type.
+     *
+     * @deprecated
+     * Use {@link #pageEnd(Component)} instead.
      */
+    @Deprecated(forRemoval = true)
     public static <C extends Component> Cell<C> south(C component) {
-        return cell(component).constrainedBy(BorderLayout.SOUTH);
+        return cell(component).constrainBy(BorderLayout.SOUTH);
     }
 
     /**
@@ -360,9 +385,13 @@ public class SwingUIBuilder {
      *
      * @param <C>
      * The component type.
+     *
+     * @deprecated
+     * Use {@link #lineStart(Component)} instead.
      */
+    @Deprecated(forRemoval = true)
     public static <C extends Component> Cell<C> east(C component) {
-        return cell(component).constrainedBy(BorderLayout.EAST);
+        return cell(component).constrainBy(BorderLayout.EAST);
     }
 
     /**
@@ -376,9 +405,13 @@ public class SwingUIBuilder {
      *
      * @param <C>
      * The component type.
+     *
+     * @deprecated
+     * Use {@link #lineEnd(Component)} instead.
      */
+    @Deprecated(forRemoval = true)
     public static <C extends Component> Cell<C> west(C component) {
-        return cell(component).constrainedBy(BorderLayout.WEST);
+        return cell(component).constrainBy(BorderLayout.WEST);
     }
 
     /**
@@ -394,7 +427,7 @@ public class SwingUIBuilder {
      * The component type.
      */
     public static <C extends Component> Cell<C> pageStart(C component) {
-        return cell(component).constrainedBy(BorderLayout.PAGE_START);
+        return cell(component).constrainBy(BorderLayout.PAGE_START);
     }
 
     /**
@@ -410,7 +443,7 @@ public class SwingUIBuilder {
      * The component type.
      */
     public static <C extends Component> Cell<C> pageEnd(C component) {
-        return cell(component).constrainedBy(BorderLayout.PAGE_END);
+        return cell(component).constrainBy(BorderLayout.PAGE_END);
     }
 
     /**
@@ -426,7 +459,7 @@ public class SwingUIBuilder {
      * The component type.
      */
     public static <C extends Component> Cell<C> lineStart(C component) {
-        return cell(component).constrainedBy(BorderLayout.LINE_START);
+        return cell(component).constrainBy(BorderLayout.LINE_START);
     }
 
     /**
@@ -442,7 +475,7 @@ public class SwingUIBuilder {
      * The component type.
      */
     public static <C extends Component> Cell<C> lineEnd(C component) {
-        return cell(component).constrainedBy(BorderLayout.LINE_END);
+        return cell(component).constrainBy(BorderLayout.LINE_END);
     }
 
     /**
@@ -486,6 +519,32 @@ public class SwingUIBuilder {
     }
 
     /**
+     * Declares a horizontal box panel.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static JPanel horizontalBoxPanel(Cell<?>... cells) {
+        return boxPanel(BoxLayout.X_AXIS, cells);
+    }
+
+    /**
+     * Declares a vertical box panel.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static JPanel verticalBoxPanel(Cell<?>... cells) {
+        return boxPanel(BoxLayout.Y_AXIS, cells);
+    }
+
+    /**
      * Declares a box panel.
      *
      * @param axis
@@ -496,7 +555,12 @@ public class SwingUIBuilder {
      *
      * @return
      * The panel instance.
+     *
+     * @deprecated
+     * Use {@link #horizontalBoxPanel(Cell[])} or
+     * {@link #verticalBoxPanel(Cell[])} instead.
      */
+    @Deprecated(forRemoval = true)
     public static JPanel boxPanel(int axis, Cell<?>... cells) {
         JPanel panel = new JPanel();
 

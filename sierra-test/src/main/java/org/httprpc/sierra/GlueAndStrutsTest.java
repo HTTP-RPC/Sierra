@@ -16,22 +16,21 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 
 import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
-import static org.httprpc.sierra.SwingUIBuilder.boxPanel;
 import static org.httprpc.sierra.SwingUIBuilder.cell;
-import static org.httprpc.sierra.SwingUIBuilder.east;
+import static org.httprpc.sierra.SwingUIBuilder.horizontalBoxPanel;
 import static org.httprpc.sierra.SwingUIBuilder.horizontalGlue;
 import static org.httprpc.sierra.SwingUIBuilder.horizontalStrut;
-import static org.httprpc.sierra.SwingUIBuilder.north;
+import static org.httprpc.sierra.SwingUIBuilder.lineEnd;
+import static org.httprpc.sierra.SwingUIBuilder.pageStart;
+import static org.httprpc.sierra.SwingUIBuilder.verticalBoxPanel;
 import static org.httprpc.sierra.SwingUIBuilder.verticalGlue;
 import static org.httprpc.sierra.SwingUIBuilder.verticalStrut;
 
@@ -45,7 +44,7 @@ public class GlueAndStrutsTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(borderPanel(new BorderLayout(),
-            north(boxPanel(BoxLayout.X_AXIS,
+            pageStart(horizontalBoxPanel(
                 horizontalGlue(),
                 cell(new JLabel("A")).with(label -> label.setBorder(new LineBorder(Color.GRAY))),
                 horizontalStrut(8),
@@ -54,7 +53,7 @@ public class GlueAndStrutsTest extends JFrame implements Runnable {
                 cell(new JLabel("C")).with(label -> label.setBorder(new LineBorder(Color.GRAY))),
                 horizontalGlue()
             )),
-            east(boxPanel(BoxLayout.Y_AXIS,
+            lineEnd(verticalBoxPanel(
                 verticalGlue(),
                 cell(new JLabel("A")).with(label -> label.setBorder(new LineBorder(Color.GRAY))),
                 verticalStrut(8),

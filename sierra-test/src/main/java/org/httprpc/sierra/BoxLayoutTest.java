@@ -16,15 +16,13 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-
 import java.awt.Component;
 
-import static org.httprpc.sierra.SwingUIBuilder.boxPanel;
 import static org.httprpc.sierra.SwingUIBuilder.cell;
+import static org.httprpc.sierra.SwingUIBuilder.verticalBoxPanel;
 
 public class BoxLayoutTest extends JFrame implements Runnable {
     private BoxLayoutTest() {
@@ -35,7 +33,7 @@ public class BoxLayoutTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(boxPanel(BoxLayout.Y_AXIS,
+        setContentPane(verticalBoxPanel(
             cell(new JButton("Button 1")).with(this::configureButton),
             cell(new JButton("Button 2")).with(this::configureButton),
             cell(new JButton("Button 3")).with(this::configureButton),

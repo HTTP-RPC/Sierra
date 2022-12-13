@@ -69,11 +69,11 @@ public class CardLayoutTest extends JFrame implements Runnable {
                     cell(new JButton("Button 1")),
                     cell(new JButton("Button 2")),
                     cell(new JButton("Button 3"))
-                )).constrainedBy(BUTTON_PANEL),
+                )).constrainBy(BUTTON_PANEL),
 
                 cell(flowPanel(new FlowLayout(),
                     cell(new JTextField("TextField", 20))
-                )).constrainedBy(TEXT_PANEL)
+                )).constrainBy(TEXT_PANEL)
             )).with(cardPanel -> this.cardPanel = cardPanel)
         ));
 

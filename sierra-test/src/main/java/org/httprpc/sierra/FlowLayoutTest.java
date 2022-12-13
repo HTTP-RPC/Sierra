@@ -30,7 +30,7 @@ import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
 import static org.httprpc.sierra.SwingUIBuilder.cell;
 import static org.httprpc.sierra.SwingUIBuilder.center;
 import static org.httprpc.sierra.SwingUIBuilder.flowPanel;
-import static org.httprpc.sierra.SwingUIBuilder.south;
+import static org.httprpc.sierra.SwingUIBuilder.pageEnd;
 
 public class FlowLayoutTest extends JFrame implements Runnable {
     private JPanel flowPanel;
@@ -61,7 +61,7 @@ public class FlowLayoutTest extends JFrame implements Runnable {
                 this.flowPanel = flowPanel;
             }),
 
-            south(flowPanel(new FlowLayout(),
+            pageEnd(flowPanel(new FlowLayout(),
                 cell(new JRadioButton("Left to right", true)).with(button -> {
                     buttonGroup.add(button);
 
