@@ -22,7 +22,6 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
@@ -166,7 +165,18 @@ public class SwingUIBuilder {
         return new Cell<>(component);
     }
 
-    // TODO Flow layout arguments
+    /**
+     * Declares a flow panel.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static JPanel flowPanel(Cell<?>... cells) {
+        return flowPanel(new FlowLayout(), cells);
+    }
 
     /**
      * Declares a flow panel.
@@ -210,7 +220,18 @@ public class SwingUIBuilder {
         return populate(new JPanel(flowLayout), cells);
     }
 
-    // TODO Border layout arguments
+    /**
+     * Declares a border panel.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static JPanel borderPanel(Cell<?>... cells) {
+        return borderPanel(new BorderLayout(), cells);
+    }
 
     /**
      * Declares a border panel.
@@ -310,28 +331,6 @@ public class SwingUIBuilder {
      */
     public static <C extends Component> Cell<C> lineEnd(C component) {
         return cell(component).constrainBy(BorderLayout.LINE_END);
-    }
-
-    // TODO Grid layout arguments
-
-    /**
-     * Declares a grid panel.
-     *
-     * @param gridLayout
-     * The panel's grid layout.
-     *
-     * @param cells
-     * The panel's cells.
-     *
-     * @return
-     * The panel instance.
-     */
-    public static JPanel gridPanel(GridLayout gridLayout, Cell<?>... cells) {
-        if (gridLayout == null) {
-            throw new IllegalArgumentException();
-        }
-
-        return populate(new JPanel(gridLayout), cells);
     }
 
     /**

@@ -19,7 +19,6 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import java.awt.BorderLayout;
 
 import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
 import static org.httprpc.sierra.SwingUIBuilder.center;
@@ -37,7 +36,7 @@ public class BorderLayoutTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(borderPanel(new BorderLayout(),
+        setContentPane(borderPanel(
             pageStart(new JButton("Button 1 (PAGE_START)")),
             lineStart(new JButton("Button 3 (LINE_START)")),
             center(new JButton("Button 2 (CENTER)")),

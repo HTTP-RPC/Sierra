@@ -22,9 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
-import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
-import java.awt.FlowLayout;
 
 import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
 import static org.httprpc.sierra.SwingUIBuilder.cell;
@@ -48,8 +46,8 @@ public class FlowLayoutTest extends JFrame implements Runnable {
     public void run() {
         ButtonGroup buttonGroup = new ButtonGroup();
 
-        setContentPane(borderPanel(new BorderLayout(),
-            center(flowPanel(new FlowLayout(),
+        setContentPane(borderPanel(
+            center(flowPanel(
                 cell(new JButton("Button 1")),
                 cell(new JButton("Button 2")),
                 cell(new JButton("Button 3")),
@@ -61,7 +59,7 @@ public class FlowLayoutTest extends JFrame implements Runnable {
                 this.flowPanel = flowPanel;
             }),
 
-            pageEnd(flowPanel(new FlowLayout(),
+            pageEnd(flowPanel(
                 cell(new JRadioButton("Left to right", true)).with(button -> {
                     buttonGroup.add(button);
 

@@ -20,7 +20,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
-import java.awt.BorderLayout;
 import java.awt.Color;
 
 import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
@@ -43,7 +42,7 @@ public class GlueAndStrutsTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(borderPanel(new BorderLayout(),
+        setContentPane(borderPanel(
             pageStart(horizontalBoxPanel(
                 horizontalGlue(),
                 cell(new JLabel("A")).with(label -> label.setBorder(new LineBorder(Color.GRAY))),

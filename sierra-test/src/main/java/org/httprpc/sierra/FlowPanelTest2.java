@@ -20,8 +20,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import java.awt.FlowLayout;
-
 import static org.httprpc.sierra.SwingUIBuilder.cell;
 import static org.httprpc.sierra.SwingUIBuilder.flowPanel;
 
@@ -34,7 +32,7 @@ public class FlowPanelTest2 extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(flowPanel(new FlowLayout(),
+        setContentPane(flowPanel(
             cell(new JButton("Press Me"))
                 .with(button -> button.addActionListener(event -> System.out.println("Button pressed")))
         ));
