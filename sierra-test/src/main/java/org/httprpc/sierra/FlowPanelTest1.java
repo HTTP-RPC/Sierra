@@ -31,9 +31,9 @@ public class FlowPanelTest1 extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        JPanel flowPanel = new JPanel(new FlowLayout());
+        var flowPanel = new JPanel(new FlowLayout());
 
-        JButton button = new JButton("Press Me");
+        var button = new JButton("Press Me");
 
         button.addActionListener(event -> System.out.println("Button pressed"));
 

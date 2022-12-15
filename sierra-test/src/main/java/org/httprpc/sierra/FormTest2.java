@@ -18,13 +18,20 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import java.awt.GridBagConstraints;
+import java.awt.KeyboardFocusManager;
 
 import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
+import static org.httprpc.sierra.SwingUIBuilder.cell;
 import static org.httprpc.sierra.SwingUIBuilder.center;
 import static org.httprpc.sierra.SwingUIBuilder.gridBagPanel;
+import static org.httprpc.sierra.SwingUIBuilder.row;
 
 public class FormTest2 extends JFrame implements Runnable {
     private FormTest2() {
@@ -35,23 +42,82 @@ public class FormTest2 extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var contentPane = borderPanel(
-            center(
-                new JScrollPane(getViewportView())
-            )
-        );
+        var contentPane = borderPanel(center(new JScrollPane(getViewportView())));
 
         contentPane.setBorder(new EmptyBorder(8, 8, 8, 8));
 
         setContentPane(contentPane);
 
-        setSize(640, 480);
+        setSize(480, 360);
         setVisible(true);
     }
 
     private JComponent getViewportView() {
-        var viewportView = gridBagPanel(4, 4
-            // TODO Contact form
+        var viewportView = gridBagPanel(4, 4,
+            row(
+                cell(new JLabel("First Name")),
+                cell(new JTextField(null, 12))
+            ),
+            row(
+                cell(new JLabel("Last Name")),
+                cell(new JTextField(null, 12))
+            ),
+            row(
+                cell(new JLabel("Street Address")),
+                cell(new JTextField(null, 24))
+            ),
+            row(
+                cell(new JLabel("City")),
+                cell(new JTextField(null, 16))
+            ),
+            row(
+                cell(new JLabel("State")),
+                cell(new JTextField(null, 12))
+            ),
+            row(
+                cell(new JLabel("Postal Code")),
+                cell(new JTextField(null, 8))
+            ),
+            row(
+                cell(new JSeparator())
+                    .fill(GridBagConstraints.HORIZONTAL)
+            ),
+            row(
+                cell(new JLabel("Email Address")),
+                cell(new JTextField(null, 16))
+            ),
+            row(
+                cell(new JLabel("Home Phone")),
+                cell(new JTextField(null, 12))
+            ),
+            row(
+                cell(new JLabel("Mobile Phone")),
+                cell(new JTextField(null, 12))
+            ),
+            row(
+                cell(new JLabel("Fax")),
+                cell(new JTextField(null, 12))
+            ),
+            row(
+                cell(new JSeparator())
+                    .fill(GridBagConstraints.HORIZONTAL)
+            ),
+            row(
+                cell(new JLabel("Field 1")),
+                cell(new JTextField(null, 12))
+            ),
+            row(
+                cell(new JLabel("Field 2")),
+                cell(new JTextField(null, 12))
+            ),
+            row(
+                cell(new JLabel("Field 3")),
+                cell(new JTextField(null, 12))
+            ),
+            row(
+                cell(new JLabel("Field 4")),
+                cell(new JTextField(null, 12))
+            )
         );
 
         viewportView.setBorder(new EmptyBorder(8, 8, 8, 8));
@@ -61,6 +127,8 @@ public class FormTest2 extends JFrame implements Runnable {
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
+
+        KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
 
         SwingUtilities.invokeLater(new FormTest2());
     }

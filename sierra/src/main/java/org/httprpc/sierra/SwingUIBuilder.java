@@ -578,7 +578,7 @@ public class SwingUIBuilder {
      * The panel instance.
      */
     public static ScrollablePanel flowPanel(Cell<?>... cells) {
-        return flowPanel(FlowLayout.LEADING, 4, 4, true, cells);
+        return flowPanel(FlowLayout.LEADING, 0, 0, true, cells);
     }
 
     /**

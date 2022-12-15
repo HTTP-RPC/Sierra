@@ -45,7 +45,7 @@ public class FlowLayoutTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        ButtonGroup buttonGroup = new ButtonGroup();
+        var buttonGroup = new ButtonGroup();
 
         setContentPane(borderPanel(
             center(flowPanel(FlowLayout.CENTER, 5, 5, false,

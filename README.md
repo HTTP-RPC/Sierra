@@ -3,7 +3,7 @@
 [![javadoc](https://javadoc.io/badge2/org.httprpc/sierra/javadoc.svg)](https://javadoc.io/doc/org.httprpc/sierra)
 
 # Introduction
-Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively instantiating Swing component hierarchies. The framework is extremely lightweight (6KB) and has no external dependencies. 
+Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively instantiating Swing component hierarchies. The framework is extremely lightweight (7KB) and has no external dependencies. 
 
 The project's name comes from the nautical _S_ or _Sierra_ flag, representing the first letter in "Swing":
 
@@ -84,6 +84,13 @@ setContentPane(flowPanel(
 ```
 
 In this simple example, both versions are fairly readable. However, with more deeply nested component hierarchies, the first approach can quickly become untenable. Using `SwingUIBuilder`, the declaration of sub-components mirrors the resulting hierarchy, making it much easier to read and write. 
+
+## ScrollingKeyboardFocusManager
+Sierra additionally provides the `ScrollingKeyboardFocusManager` class, which can be used to ensure that components are automatically scrolled into view when focused:
+
+```java
+KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
+```
 
 # Examples
 This section includes examples demonstrating usage of `SwingUIBuilder` with the [Flat](https://github.com/JFormDesigner/FlatLaf) look-and-feel.
