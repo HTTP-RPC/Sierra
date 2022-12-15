@@ -22,19 +22,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import java.awt.GridBagConstraints;
 
 import static org.httprpc.sierra.SwingUIBuilder.cell;
 import static org.httprpc.sierra.SwingUIBuilder.gridBagPanel;
-import static org.httprpc.sierra.SwingUIBuilder.horizontalBoxPanel;
-import static org.httprpc.sierra.SwingUIBuilder.horizontalGlue;
 import static org.httprpc.sierra.SwingUIBuilder.row;
 
-public class FormTest extends JFrame implements Runnable {
-    private FormTest() {
-        super("Form Test");
+public class FormTest1 extends JFrame implements Runnable {
+    private FormTest1() {
+        super("Form Test 1");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -43,23 +41,21 @@ public class FormTest extends JFrame implements Runnable {
     public void run() {
         var contentPane = gridBagPanel(4, 4,
             row(
-                cell(new JLabel("Username", null, SwingConstants.TRAILING)),
-                cell(new JTextField())
-                    .weightXBy(1.0)
+                cell(new JLabel("Username"))
+                    .anchorTo(GridBagConstraints.BASELINE_TRAILING),
+                cell(new JTextField(null, 16))
             ),
             row(
-                cell(new JLabel("Password", null, SwingConstants.TRAILING)),
-                cell(new JPasswordField())
-                    .weightXBy(1.0)
+                cell(new JLabel("Password"))
+                    .anchorTo(GridBagConstraints.BASELINE_TRAILING),
+                cell(new JPasswordField(null, 16))
             ),
             row(
                 cell(new JCheckBox("Remember Me"))
             ),
             row(
-                cell(horizontalBoxPanel(
-                    horizontalGlue(),
-                    cell(new JButton("Log In"))
-                ))
+                cell(new JButton("Log In"))
+                    .anchorTo(GridBagConstraints.BASELINE_TRAILING)
             )
         );
 
@@ -74,6 +70,6 @@ public class FormTest extends JFrame implements Runnable {
     public static void main(String[] args) {
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new FormTest());
+        SwingUtilities.invokeLater(new FormTest1());
     }
 }

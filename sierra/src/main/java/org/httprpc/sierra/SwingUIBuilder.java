@@ -45,14 +45,18 @@ public class SwingUIBuilder {
         private double weightx = 0.0;
         private double weighty = 0.0;
 
-        private int anchor = GridBagConstraints.BASELINE;
-        private int fill = GridBagConstraints.HORIZONTAL;
+        private int anchor = GridBagConstraints.BASELINE_LEADING;
+        private int fill = GridBagConstraints.NONE;
 
         private Cell(C component) {
             this(component, null);
         }
 
         private Cell(C component, Object constraints) {
+            if (component == null) {
+                throw new IllegalArgumentException();
+            }
+
             this.component = component;
             this.constraints = constraints;
         }
@@ -146,6 +150,8 @@ public class SwingUIBuilder {
 
         private ScrollablePanel(LayoutManager layoutManager) {
             super(layoutManager);
+
+            setOpaque(false);
         }
 
         /**
@@ -163,6 +169,10 @@ public class SwingUIBuilder {
          */
         @Override
         public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+            if (visibleRect == null) {
+                throw new IllegalArgumentException();
+            }
+
             switch (orientation) {
                 case SwingConstants.VERTICAL: {
                     return visibleRect.height / 10;
@@ -184,6 +194,10 @@ public class SwingUIBuilder {
          */
         @Override
         public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+            if (visibleRect == null) {
+                throw new IllegalArgumentException();
+            }
+
             switch (orientation) {
                 case SwingConstants.VERTICAL: {
                     return visibleRect.height;
@@ -254,10 +268,6 @@ public class SwingUIBuilder {
      * The cell instance.
      */
     public static <C extends Component> Cell<C> cell(C component) {
-        if (component == null) {
-            throw new IllegalArgumentException();
-        }
-
         return new Cell<>(component);
     }
 
@@ -486,6 +496,10 @@ public class SwingUIBuilder {
      */
     @SafeVarargs
     public static ScrollablePanel gridBagPanel(int hgap, int vgap, Cell<? extends Component>[]... rows) {
+        if (hgap < 0 || vgap < 0) {
+            throw new IllegalArgumentException();
+        }
+
         if (rows == null) {
             throw new IllegalArgumentException();
         }
@@ -606,8 +620,6 @@ public class SwingUIBuilder {
 
             panel.add(cell.component, cell.constraints);
         }
-
-        panel.setOpaque(false);
 
         return panel;
     }
