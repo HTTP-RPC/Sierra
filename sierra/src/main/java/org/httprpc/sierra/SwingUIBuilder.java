@@ -17,16 +17,22 @@ package org.httprpc.sierra;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
+import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
 /**
- * Class for declaratively constructing a Swing component hierarchy.
+ * Provides static factory methods for declaratively constructing a component
+ * hierarchy.
  */
 public class SwingUIBuilder {
     /**
@@ -34,32 +40,21 @@ public class SwingUIBuilder {
      */
     public static class Cell<C extends Component> {
         private C component;
-
-        private Object constraints = null;
+        private Object constraints;
 
         private double weightx = 0.0;
         private double weighty = 0.0;
 
-        private int anchor = GridBagConstraints.CENTER;
-        private int fill = GridBagConstraints.NONE;
+        private int anchor = GridBagConstraints.BASELINE;
+        private int fill = GridBagConstraints.HORIZONTAL;
 
         private Cell(C component) {
-            this.component = component;
+            this(component, null);
         }
 
-        /**
-         * Applies constraints to a cell.
-         *
-         * @param constraints
-         * The constraints to apply.
-         *
-         * @return
-         * The cell instance.
-         */
-        public Cell<C> constrainBy(Object constraints) {
+        private Cell(C component, Object constraints) {
+            this.component = component;
             this.constraints = constraints;
-
-            return this;
         }
 
         /**
@@ -142,20 +137,121 @@ public class SwingUIBuilder {
         }
     }
 
+    /**
+     * A scrollable panel.
+     */
+    public static class ScrollablePanel extends JPanel implements Scrollable {
+        private boolean scrollableTracksViewportWidth = false;
+        private boolean scrollableTracksViewportHeight = false;
+
+        private ScrollablePanel(LayoutManager layoutManager) {
+            super(layoutManager);
+        }
+
+        /**
+         * Returns the panel's preferred scrollable viewport size.
+         * {@inheritDoc}
+         */
+        @Override
+        public Dimension getPreferredScrollableViewportSize() {
+            return getPreferredSize();
+        }
+
+        /**
+         * Returns the panel's scrollable unit increment.
+         * {@inheritDoc}
+         */
+        @Override
+        public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+            switch (orientation) {
+                case SwingConstants.VERTICAL: {
+                    return visibleRect.height / 10;
+                }
+
+                case SwingConstants.HORIZONTAL: {
+                    return visibleRect.width / 10;
+                }
+
+                default: {
+                    throw new UnsupportedOperationException();
+                }
+            }
+        }
+
+        /**
+         * Returns the panel's scrollable block increment.
+         * {@inheritDoc}
+         */
+        @Override
+        public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+            switch (orientation) {
+                case SwingConstants.VERTICAL: {
+                    return visibleRect.height;
+                }
+
+                case SwingConstants.HORIZONTAL: {
+                    return visibleRect.width;
+                }
+
+                default: {
+                    throw new UnsupportedOperationException();
+                }
+            }
+        }
+
+        /**
+         * Indicates that the panel tracks viewport width.
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean getScrollableTracksViewportWidth() {
+            return scrollableTracksViewportWidth;
+        }
+
+        /**
+         * Toggles viewport width tracking.
+         *
+         * @param scrollableTracksViewportWidth
+         * {@code true} to track viewport width; {@code false}, otherwise.
+         */
+        public void setScrollableTracksViewportWidth(boolean scrollableTracksViewportWidth) {
+            this.scrollableTracksViewportWidth = scrollableTracksViewportWidth;
+        }
+
+        /**
+         * Indicates that the panel tracks viewport height.
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean getScrollableTracksViewportHeight() {
+            return scrollableTracksViewportHeight;
+        }
+
+        /**
+         * Toggles viewport height tracking.
+         *
+         * @param scrollableTracksViewportHeight
+         * {@code true} to track viewport height; {@code false}, otherwise.
+         */
+        public void setScrollableTracksViewportHeight(boolean scrollableTracksViewportHeight) {
+            this.scrollableTracksViewportHeight = scrollableTracksViewportHeight;
+        }
+    }
+
     private SwingUIBuilder() {
     }
 
     /**
      * Declares a cell.
      *
+     * @param <C>
+     * The component type.
+     *
      * @param component
      * The cell's component.
      *
      * @return
      * The cell instance.
-     *
-     * @param <C>
-     * The component type.
      */
     public static <C extends Component> Cell<C> cell(C component) {
         if (component == null) {
@@ -166,61 +262,6 @@ public class SwingUIBuilder {
     }
 
     /**
-     * Declares a flow panel.
-     *
-     * @param cells
-     * The panel's cells.
-     *
-     * @return
-     * The panel instance.
-     */
-    public static JPanel flowPanel(Cell<?>... cells) {
-        return flowPanel(new FlowLayout(), cells);
-    }
-
-    /**
-     * Declares a flow panel.
-     *
-     * @param flowLayout
-     * The panel's flow layout.
-     *
-     * @param cells
-     * The panel's cells.
-     *
-     * @return
-     * The panel instance.
-     */
-    public static JPanel flowPanel(FlowLayout flowLayout, Cell<?>... cells) {
-        return flowPanel(flowLayout, false, cells);
-    }
-
-    /**
-     * Declares a flow panel.
-     *
-     * @param flowLayout
-     * The panel's flow layout.
-     *
-     * @param alignOnBaseline
-     * Indicates that the flow panel's content should be aligned to its
-     * baseline.
-     *
-     * @param cells
-     * The panel's cells.
-     *
-     * @return
-     * The panel instance.
-     */
-    public static JPanel flowPanel(FlowLayout flowLayout, boolean alignOnBaseline, Cell<?>... cells) {
-        if (flowLayout == null) {
-            throw new IllegalArgumentException();
-        }
-
-        flowLayout.setAlignOnBaseline(alignOnBaseline);
-
-        return populate(new JPanel(flowLayout), cells);
-    }
-
-    /**
      * Declares a border panel.
      *
      * @param cells
@@ -229,15 +270,18 @@ public class SwingUIBuilder {
      * @return
      * The panel instance.
      */
-    public static JPanel borderPanel(Cell<?>... cells) {
-        return borderPanel(new BorderLayout(), cells);
+    public static ScrollablePanel borderPanel(Cell<?>... cells) {
+        return borderPanel(0, 0, cells);
     }
 
     /**
      * Declares a border panel.
      *
-     * @param borderLayout
-     * The panel's border layout.
+     * @param hgap
+     * The horizontal gap between components.
+     *
+     * @param vgap
+     * The vertical gap between components.
      *
      * @param cells
      * The panel's cells.
@@ -245,92 +289,88 @@ public class SwingUIBuilder {
      * @return
      * The panel instance.
      */
-    public static JPanel borderPanel(BorderLayout borderLayout, Cell<?>... cells) {
-        if (borderLayout == null) {
-            throw new IllegalArgumentException();
-        }
-
-        return populate(new JPanel(borderLayout), cells);
+    public static ScrollablePanel borderPanel(int hgap, int vgap, Cell<?>... cells) {
+        return populate(new ScrollablePanel(new BorderLayout(hgap, vgap)), cells);
     }
 
     /**
      * Declares a "center" cell for a border panel.
      *
+     * @param <C>
+     * The component type.
+     *
      * @param component
      * The cell's component.
      *
      * @return
      * The cell instance.
-     *
-     * @param <C>
-     * The component type.
      */
     public static <C extends Component> Cell<C> center(C component) {
-        return cell(component).constrainBy(BorderLayout.CENTER);
+        return new Cell<>(component, BorderLayout.CENTER);
     }
 
     /**
      * Declares a "page start" cell for a border panel.
      *
+     * @param <C>
+     * The component type.
+     *
      * @param component
      * The cell's component.
      *
      * @return
      * The cell instance.
-     *
-     * @param <C>
-     * The component type.
      */
     public static <C extends Component> Cell<C> pageStart(C component) {
-        return cell(component).constrainBy(BorderLayout.PAGE_START);
+        return new Cell<>(component, BorderLayout.PAGE_START);
     }
 
     /**
      * Declares a "page end" cell for a border panel.
      *
+     * @param <C>
+     * The component type.
+     *
      * @param component
      * The cell's component.
      *
      * @return
      * The cell instance.
-     *
-     * @param <C>
-     * The component type.
      */
     public static <C extends Component> Cell<C> pageEnd(C component) {
-        return cell(component).constrainBy(BorderLayout.PAGE_END);
+        return new Cell<>(component, BorderLayout.PAGE_END);
     }
 
     /**
      * Declares a "line start" cell for a border panel.
      *
+     * @param <C>
+     * The component type.
+     *
      * @param component
      * The cell's component.
      *
      * @return
      * The cell instance.
-     *
-     * @param <C>
-     * The component type.
      */
     public static <C extends Component> Cell<C> lineStart(C component) {
-        return cell(component).constrainBy(BorderLayout.LINE_START);
+        return new Cell<>(component, BorderLayout.LINE_START);
     }
 
     /**
      * Declares a "line end" cell for a border panel.
      *
+     * @param <C>
+     * The component type.
+     *
      * @param component
      * The cell's component.
      *
      * @return
      * The cell instance.
-     *
-     * @param <C>
-     * The component type.
      */
     public static <C extends Component> Cell<C> lineEnd(C component) {
-        return cell(component).constrainBy(BorderLayout.LINE_END);
+        return new Cell<>(component, BorderLayout.LINE_END);
     }
 
     /**
@@ -342,7 +382,7 @@ public class SwingUIBuilder {
      * @return
      * The panel instance.
      */
-    public static JPanel horizontalBoxPanel(Cell<?>... cells) {
+    public static ScrollablePanel horizontalBoxPanel(Cell<?>... cells) {
         return boxPanel(BoxLayout.X_AXIS, cells);
     }
 
@@ -355,14 +395,14 @@ public class SwingUIBuilder {
      * @return
      * The panel instance.
      */
-    public static JPanel verticalBoxPanel(Cell<?>... cells) {
+    public static ScrollablePanel verticalBoxPanel(Cell<?>... cells) {
         return boxPanel(BoxLayout.Y_AXIS, cells);
     }
 
-    private static JPanel boxPanel(int axis, Cell<?>... cells) {
-        JPanel panel = new JPanel();
+    private static ScrollablePanel boxPanel(int axis, Cell<?>... cells) {
+        var panel = new ScrollablePanel(null);
 
-        BoxLayout boxLayout = new BoxLayout(panel, axis);
+        var boxLayout = new BoxLayout(panel, axis);
 
         panel.setLayout(boxLayout);
 
@@ -379,7 +419,7 @@ public class SwingUIBuilder {
      * The cell instance.
      */
     public static Cell<Component> horizontalStrut(int width) {
-        return cell(Box.createHorizontalStrut(width));
+        return new Cell<>(Box.createHorizontalStrut(width));
     }
 
     /**
@@ -392,7 +432,7 @@ public class SwingUIBuilder {
      * The cell instance.
      */
     public static Cell<Component> verticalStrut(int height) {
-        return cell(Box.createVerticalStrut(height));
+        return new Cell<>(Box.createVerticalStrut(height));
     }
 
     /**
@@ -402,7 +442,7 @@ public class SwingUIBuilder {
      * The cell instance.
      */
     public static Cell<Component> horizontalGlue() {
-        return cell(Box.createHorizontalGlue());
+        return new Cell<>(Box.createHorizontalGlue());
     }
 
     /**
@@ -412,7 +452,7 @@ public class SwingUIBuilder {
      * The cell instance.
      */
     public static Cell<Component> verticalGlue() {
-        return cell(Box.createVerticalGlue());
+        return new Cell<>(Box.createVerticalGlue());
     }
 
     /**
@@ -425,18 +465,18 @@ public class SwingUIBuilder {
      * The panel instance.
      */
     @SafeVarargs
-    public static JPanel gridBagPanel(Cell<? extends Component>[]... rows) {
-        return gridBagPanel(0, 0, rows);
+    public static ScrollablePanel gridBagPanel(Cell<? extends Component>[]... rows) {
+        return gridBagPanel(4, 4, rows);
     }
 
     /**
      * Declares a grid bag panel.
      *
      * @param hgap
-     * The horizontal spacing between cells.
+     * The horizontal gap between components.
      *
      * @param vgap
-     * The vertical spacing between cells.
+     * The vertical gap between components.
      *
      * @param rows
      * The panel's rows.
@@ -445,20 +485,20 @@ public class SwingUIBuilder {
      * The panel instance.
      */
     @SafeVarargs
-    public static JPanel gridBagPanel(int hgap, int vgap, Cell<? extends Component>[]... rows) {
+    public static ScrollablePanel gridBagPanel(int hgap, int vgap, Cell<? extends Component>[]... rows) {
         if (rows == null) {
             throw new IllegalArgumentException();
         }
 
-        JPanel panel = new JPanel(new GridBagLayout());
+        var panel = new ScrollablePanel(new GridBagLayout());
 
         var cells = new LinkedList<Cell<? extends Component>>();
 
-        for (int y = 0; y < rows.length; y++)  {
-            Cell<? extends Component>[] row = rows[y];
+        for (var y = 0; y < rows.length; y++) {
+            var row = rows[y];
 
-            for (int x = 0; x < row.length; x++) {
-                Cell<? extends Component> cell = row[x];
+            for (var x = 0; x < row.length; x++) {
+                var cell = row[x];
 
                 if (cell.constraints != null) {
                     throw new IllegalStateException();
@@ -514,13 +554,55 @@ public class SwingUIBuilder {
         return cells;
     }
 
-    private static JPanel populate(JPanel panel, Cell<?>... cells) {
+    /**
+     * Declares a flow panel.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static ScrollablePanel flowPanel(Cell<?>... cells) {
+        return flowPanel(FlowLayout.LEADING, 4, 4, true, cells);
+    }
+
+    /**
+     * Declares a flow panel.
+     *
+     * @param align
+     * The alignment value.
+     *
+     * @param hgap
+     * The horizontal gap between components and the borders of the container.
+     *
+     * @param vgap
+     * The vertical gap between components and the borders of the container.
+     *
+     * @param alignOnBaseline
+     * Indicates that the panel's content should be aligned to its baseline.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The panel instance.
+     */
+    public static ScrollablePanel flowPanel(int align, int hgap, int vgap, boolean alignOnBaseline, Cell<?>... cells) {
+        var flowLayout = new FlowLayout(align, hgap, vgap);
+
+        flowLayout.setAlignOnBaseline(alignOnBaseline);
+
+        return populate(new ScrollablePanel(flowLayout), cells);
+    }
+
+    private static ScrollablePanel populate(ScrollablePanel panel, Cell<?>... cells) {
         if (cells == null) {
             throw new IllegalArgumentException();
         }
 
         for (var i = 0; i < cells.length; i++) {
-            Cell<?> cell = cells[i];
+            var cell = cells[i];
 
             panel.add(cell.component, cell.constraints);
         }

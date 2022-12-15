@@ -3,7 +3,7 @@
 [![javadoc](https://javadoc.io/badge2/org.httprpc/sierra/javadoc.svg)](https://javadoc.io/doc/org.httprpc/sierra)
 
 # Introduction
-Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively instantiating Swing component hierarchies. The framework is extremely lightweight (5KB) and has no external dependencies. 
+Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively instantiating Swing component hierarchies. The framework is extremely lightweight (6KB) and has no external dependencies. 
 
 The project's name comes from the nautical _S_ or _Sierra_ flag, representing the first letter in "Swing":
 
@@ -21,15 +21,15 @@ This guide introduces the Sierra framework and provides an overview of its key f
 Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 11 or later is required.
 
 # Sierra Classes
-Sierra provides a single class named `SwingUIBuilder` whose methods can be used to declaratively establish a hierarchy of user interface components. The methods provided by this class form a DSL, or "domain-specific language", that makes it easy to visualize the resulting output. 
+Sierra provides the `SwingUIBuilder` class, whose methods can be used to declaratively establish a hierarchy of user interface elements. The methods provided by this class form a DSL, or "domain-specific language", that makes it easy to visualize the resulting output. 
 
 `SwingUIBuilder` includes a set of static methods for declaring common layout containers:
 
-* `flowPanel()` - declares a panel with a flow layout
 * `borderPanel()` - declares a panel with a border layout
 * `horizontalBoxPanel()` - declares a panel with a horizontal (x-axis) box layout
 * `verticalBoxPanel()` - declares a panel with a vertical (y-axis) box layout
 * `gridBagPanel()` - declares a panel with a grid bag layout
+* `flowPanel()` - declares a panel with a flow layout
 
 Additionally, `SwingUIBuilder` provides this method for defining a panel's contents:
 
@@ -39,14 +39,13 @@ public static <C extends Component> Cell<C> cell(C component) { ... }
 
 The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
 
-* `constrainBy()` - applies a layout constraint to the cell's component
 * `weightXBy()` - applies a horizontal weight to a grid bag panel cell
 * `weightYBy()` - applies a vertical weight to a grid bag panel cell
 * `anchorTo()` - applies an anchor to a grid bag panel cell
 * `fill()` - applies a fill to a grid bag panel cell
 * `with()` - accepts a callback that can be used to set properties or invoke methods on the cell's component
 
-The following convenience methods also return a `Cell` instance and can be used to declare the contents of a border panel:
+The following methods also return a `Cell` instance and can be used to declare the contents of a border panel:
 
 * `center()`
 * `pageStart()`
@@ -78,7 +77,7 @@ setContentPane(flowPanel);
 Using `SwingUIBuilder`, the code could be rewritten as follows:
 
 ```java
-setContentPane(flowPanel(new FlowLayout(),
+setContentPane(flowPanel(
     cell(new JButton("Press Me"))
         .with(button -> button.addActionListener(event -> System.out.println("Button pressed")))
 ));
@@ -88,13 +87,6 @@ In this simple example, both versions are fairly readable. However, with more de
 
 # Examples
 This section includes examples demonstrating usage of `SwingUIBuilder` with the [Flat](https://github.com/JFormDesigner/FlatLaf) look-and-feel.
-
-## Flow Layout
-Based on the [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/flow.html) tutorial example.
-
-[FlowLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/FlowLayoutTest.java)
-
-<img src="README/flow-layout.png" width="560px"/>
 
 ## Border Layout
 Based on the [border layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/border.html) tutorial example.
@@ -109,6 +101,13 @@ Based on the [box layout](https://docs.oracle.com/javase/tutorial/uiswing/layout
 [BoxLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BoxLayoutTest.java)
 
 <img src="README/box-layout.png" width="332px"/>
+
+## Flow Layout
+Based on the [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/flow.html) tutorial example.
+
+[FlowLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/FlowLayoutTest.java)
+
+<img src="README/flow-layout.png" width="560px"/>
 
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).

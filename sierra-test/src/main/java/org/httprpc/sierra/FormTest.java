@@ -20,13 +20,16 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridBagConstraints;
 
 import static org.httprpc.sierra.SwingUIBuilder.cell;
 import static org.httprpc.sierra.SwingUIBuilder.gridBagPanel;
+import static org.httprpc.sierra.SwingUIBuilder.horizontalBoxPanel;
+import static org.httprpc.sierra.SwingUIBuilder.horizontalGlue;
 import static org.httprpc.sierra.SwingUIBuilder.row;
 
 public class FormTest extends JFrame implements Runnable {
@@ -40,25 +43,23 @@ public class FormTest extends JFrame implements Runnable {
     public void run() {
         var contentPane = gridBagPanel(4, 4,
             row(
-                cell(new JLabel("Username"))
-                    .anchorTo(GridBagConstraints.LINE_END),
+                cell(new JLabel("Username", null, SwingConstants.TRAILING)),
                 cell(new JTextField())
                     .weightXBy(1.0)
-                    .fill(GridBagConstraints.HORIZONTAL)
             ),
             row(
-                cell(new JLabel("Password"))
-                    .anchorTo(GridBagConstraints.LINE_END),
-                cell(new JTextField())
-                    .fill(GridBagConstraints.HORIZONTAL)
+                cell(new JLabel("Password", null, SwingConstants.TRAILING)),
+                cell(new JPasswordField())
+                    .weightXBy(1.0)
             ),
             row(
                 cell(new JCheckBox("Remember Me"))
-                    .anchorTo(GridBagConstraints.LINE_START)
             ),
             row(
-                cell(new JButton("Log In"))
-                    .anchorTo(GridBagConstraints.LINE_END)
+                cell(horizontalBoxPanel(
+                    horizontalGlue(),
+                    cell(new JButton("Log In"))
+                ))
             )
         );
 
