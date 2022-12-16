@@ -53,7 +53,7 @@ The following methods also return a `Cell` instance and can be used to declare t
 * `lineStart()`
 * `lineEnd()`
 
-These methods can be used to declare spacer cells in a box panel:
+These methods can be used to declare spacer cells:
 
 * `horizontalStrut()`
 * `verticalStrut()`
