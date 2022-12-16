@@ -18,17 +18,22 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.util.function.Consumer;
 
 import static org.httprpc.sierra.SwingUIBuilder.cell;
+import static org.httprpc.sierra.SwingUIBuilder.flowPanel;
 import static org.httprpc.sierra.SwingUIBuilder.gridBagPanel;
+import static org.httprpc.sierra.SwingUIBuilder.horizontalStrut;
 import static org.httprpc.sierra.SwingUIBuilder.row;
 
 public class GridTest extends JFrame implements Runnable {
@@ -60,6 +65,8 @@ public class GridTest extends JFrame implements Runnable {
             textArea.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
         };
 
+        var labelFont = javax.swing.UIManager.getDefaults().getFont("Label.font");
+
         var viewportView = gridBagPanel(8, 8,
             row(
                 cell(new JTextArea(TEXT))
@@ -68,26 +75,32 @@ public class GridTest extends JFrame implements Runnable {
                     .with(textAreaConsumer)
             ),
             row(
-                cell(new JTextArea("abcdefg"))
-                    .fill(GridBagConstraints.HORIZONTAL)
-                    .with(textAreaConsumer),
+                cell(new JLabel("abcdefg"))
+                    .anchorTo(GridBagConstraints.BASELINE_TRAILING),
                 cell(new JTextArea(TEXT))
                     .fill(GridBagConstraints.HORIZONTAL)
                     .with(textAreaConsumer)
             ),
             row(
-                cell(new JTextArea("hijklmnop"))
+                cell(new JSeparator())
                     .fill(GridBagConstraints.HORIZONTAL)
-                    .with(textAreaConsumer),
-                cell(new JTextArea(TEXT))
-                    .fill(GridBagConstraints.HORIZONTAL)
-                    .with(textAreaConsumer)
             ),
             row(
-                cell(new JTextArea(TEXT))
-                    .weightXBy(1.0)
-                    .fill(GridBagConstraints.HORIZONTAL)
-                    .with(textAreaConsumer)
+                cell(new JLabel("hijklmnop"))
+                    .anchorTo(GridBagConstraints.BASELINE_TRAILING),
+                cell(flowPanel(
+                    cell(new JLabel("abcd"))
+                        .with(label -> label.setFont(labelFont.deriveFont(Font.PLAIN, 18))),
+                    horizontalStrut(8),
+                    cell(new JLabel("efj"))
+                        .with(label -> label.setFont(labelFont.deriveFont(Font.BOLD, 32))),
+                    horizontalStrut(8),
+                    cell(new JLabel("hijk"))
+                        .with(label -> label.setFont(labelFont.deriveFont(Font.PLAIN, 24))),
+                    horizontalStrut(8),
+                    cell(new JLabel("lmnop"))
+                        .with(label -> label.setFont(labelFont.deriveFont(Font.BOLD, 18)))
+                ))
             )
         );
 

@@ -252,6 +252,35 @@ public class SwingUIBuilder {
         }
     }
 
+    private static class FlowPanel extends ScrollablePanel {
+        FlowPanel(FlowLayout flowLayout) {
+            super(flowLayout);
+        }
+
+        @Override
+        public int getBaseline(int width, int height) {
+            var flowLayout = (FlowLayout)getLayout();
+
+            int baseline;
+            if (flowLayout.getAlignOnBaseline() && getComponentCount() > 0) {
+                setSize(width, height);
+                doLayout();
+
+                var first = getComponent(0);
+
+                baseline = first.getBaseline(first.getWidth(), first.getHeight());
+
+                if (baseline != -1) {
+                    baseline += first.getY();
+                }
+            } else {
+                baseline = -1;
+            }
+
+            return baseline;
+        }
+    }
+
     private SwingUIBuilder() {
     }
 
@@ -607,7 +636,7 @@ public class SwingUIBuilder {
 
         flowLayout.setAlignOnBaseline(alignOnBaseline);
 
-        return populate(new ScrollablePanel(flowLayout), cells);
+        return populate(new FlowPanel(flowLayout), cells);
     }
 
     private static ScrollablePanel populate(ScrollablePanel panel, Cell<?>... cells) {
