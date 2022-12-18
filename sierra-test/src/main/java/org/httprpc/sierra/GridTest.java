@@ -70,9 +70,12 @@ public class GridTest extends JFrame implements Runnable {
         var viewportView = gridBagPanel(8, 8,
             row(
                 cell(new JTextArea(TEXT))
+                    .span(2)
                     .weightXBy(1.0)
                     .fill(GridBagConstraints.HORIZONTAL)
-                    .with(textAreaConsumer)
+                    .with(textAreaConsumer),
+                cell(new JLabel("xyz"))
+                    .fill(GridBagConstraints.HORIZONTAL)
             ),
             row(
                 cell(new JLabel("abcdefg"))
@@ -100,7 +103,9 @@ public class GridTest extends JFrame implements Runnable {
                     horizontalStrut(8),
                     cell(new JLabel("lmnop"))
                         .with(label -> label.setFont(labelFont.deriveFont(Font.BOLD, 18)))
-                ))
+                )),
+                cell(new JLabel("qrstuv"))
+                    .anchorTo(GridBagConstraints.BASELINE_LEADING)
             )
         );
 

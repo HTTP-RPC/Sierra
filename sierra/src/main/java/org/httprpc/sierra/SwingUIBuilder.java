@@ -42,6 +42,8 @@ public class SwingUIBuilder {
         private C component;
         private Object constraints;
 
+        private int span = 1;
+
         private double weightx = 0.0;
         private double weighty = 0.0;
 
@@ -59,6 +61,21 @@ public class SwingUIBuilder {
 
             this.component = component;
             this.constraints = constraints;
+        }
+
+        /**
+         * Applies a column span to a grid bag panel cell.
+         *
+         * @param span
+         * The number of columns to span.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> span(int span) {
+            this.span = span;
+
+            return this;
         }
 
         /**
@@ -537,11 +554,15 @@ public class SwingUIBuilder {
 
         var cells = new LinkedList<Cell<? extends Component>>();
 
-        for (var y = 0; y < rows.length; y++) {
-            var row = rows[y];
+        var gridy = 0;
 
-            for (var x = 0; x < row.length; x++) {
-                var cell = row[x];
+        while (gridy < rows.length) {
+            var row = rows[gridy];
+
+            var gridx = 0;
+
+            for (var i = 0; i < row.length; i++) {
+                var cell = row[i];
 
                 if (cell.constraints != null) {
                     throw new IllegalStateException();
@@ -549,10 +570,12 @@ public class SwingUIBuilder {
 
                 var constraints = new GridBagConstraints();
 
-                constraints.gridx = x;
-                constraints.gridy = y;
+                constraints.gridx = gridx;
+                constraints.gridy = gridy;
 
-                if (x == row.length - 1) {
+                if (i < row.length - 1) {
+                    constraints.gridwidth = cell.span;
+                } else {
                     constraints.gridwidth = GridBagConstraints.REMAINDER;
                 }
 
@@ -562,18 +585,22 @@ public class SwingUIBuilder {
                 constraints.anchor = cell.anchor;
                 constraints.fill = cell.fill;
 
-                if (x > 0) {
+                if (gridx > 0) {
                     constraints.insets.left += hgap;
                 }
 
-                if (y > 0) {
+                if (gridy > 0) {
                     constraints.insets.top += vgap;
                 }
 
                 cell.constraints = constraints;
 
                 cells.add(cell);
+
+                gridx += cell.span;
             }
+
+            gridy++;
         }
 
         return populate(panel, cells.toArray(new Cell<?>[0]));

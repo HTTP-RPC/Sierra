@@ -39,6 +39,7 @@ public static <C extends Component> Cell<C> cell(C component) { ... }
 
 The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
 
+* `span()` - applies a column span to a grid bag panel cell
 * `weightXBy()` - applies a horizontal weight to a grid bag panel cell
 * `weightYBy()` - applies a vertical weight to a grid bag panel cell
 * `anchorTo()` - applies an anchor to a grid bag panel cell
@@ -115,6 +116,26 @@ Based on the [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/layou
 [FlowLayoutTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/FlowLayoutTest.java)
 
 <img src="README/flow-layout.png" width="560px"/>
+
+## Login Form
+[FormTest1.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/FormTest1.java)
+
+<img src="README/login-form.png" width="432px"/>
+
+## Contact Form
+[FormTest2.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/FormTest2.java)
+
+<img src="README/contact-form.png" width="592px"/>
+
+## Glue and Struts
+[GlueAndStrutsTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GlueAndStrutsTest.java)
+
+<img src="README/glue-and-struts.png" width="432px"/>
+
+## Grid
+[GridTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GridTest.java)
+
+<img src="README/grid.png" width="472px"/>
 
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).
