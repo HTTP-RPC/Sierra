@@ -20,5 +20,9 @@ import javax.swing.JPanel;
  * Panel that arranges components in a stack.
  */
 public class StackPanel extends JPanel {
+    public StackPanel() {
+        setOpaque(false);
+    }
+
     // TODO
 }

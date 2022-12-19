@@ -18,7 +18,7 @@ package org.httprpc.sierra;
  * Layout panel that arranges sub-components vertically in a column.
  */
 public class ColumnPanel extends LayoutPanel {
-    private boolean alignToGrid;
+    private boolean alignToGrid = false;
 
     public boolean isAlignToGrid() {
         return alignToGrid;
@@ -26,6 +26,8 @@ public class ColumnPanel extends LayoutPanel {
 
     public void setAlignToGrid(boolean alignToGrid) {
         this.alignToGrid = alignToGrid;
+
+        invalidate();
     }
 
     // TODO

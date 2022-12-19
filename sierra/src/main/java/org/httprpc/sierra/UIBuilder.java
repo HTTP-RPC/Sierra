@@ -1,6 +1,8 @@
 package org.httprpc.sierra;
 
+import javax.swing.JPanel;
 import java.awt.Component;
+import java.awt.Insets;
 import java.util.function.Consumer;
 
 /**
@@ -56,4 +58,47 @@ public class UIBuilder {
     }
 
     // TODO
+
+    public static Cell<RowPanel> row(Insets insets,
+        HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment,
+        int spacing, boolean alignToBaseline, Cell<?>... cells) {
+        // TODO
+        return null;
+    }
+
+    public static Cell<RowPanel> column(Insets insets,
+        HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment,
+        int spacing, boolean alignToGrid, Cell<?>... cells) {
+        // TODO
+        return null;
+    }
+
+    public static Cell<Spacer> spacer() {
+        // TODO
+        return null;
+    }
+
+    public static Cell<Spacer> spacer(int size) {
+        // TODO
+        return null;
+    }
+
+    public static Cell<StackPanel> stack(Insets insets, Cell<?> cells) {
+        // TODO
+        return null;
+    }
+
+    private static <T extends JPanel> T populate(T panel, Cell<?>... cells) {
+        if (cells == null) {
+            throw new IllegalArgumentException();
+        }
+
+        for (var i = 0; i < cells.length; i++) {
+            var cell = cells[i];
+
+            panel.add(cell.component, cell.constraints);
+        }
+
+        return panel;
+    }
 }

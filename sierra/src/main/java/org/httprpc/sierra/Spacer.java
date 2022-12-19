@@ -14,20 +14,14 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.JComponent;
+
 /**
- * Layout panel that arranges sub-components horizontally in a row.
+ * Provides fixed or flexible space between other components.
  */
-public class RowPanel extends LayoutPanel {
-    private boolean alignToBaseline = true;
-
-    public boolean isAlignToBaseline() {
-        return alignToBaseline;
-    }
-
-    public void setAlignToBaseline(boolean alignToBaseline) {
-        this.alignToBaseline = alignToBaseline;
-
-        invalidate();
+public class Spacer extends JComponent {
+    protected Spacer() {
+        setOpaque(false);
     }
 
     // TODO
