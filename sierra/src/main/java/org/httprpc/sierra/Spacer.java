@@ -15,14 +15,20 @@
 package org.httprpc.sierra;
 
 import javax.swing.JComponent;
+import java.awt.Dimension;
 
 /**
- * Provides fixed or flexible space between other components.
+ * Provides space between other components.
  */
 public class Spacer extends JComponent {
-    protected Spacer() {
+    /**
+     * Constructs a new spacer.
+     *
+     * @param size
+     * The spacer's size.
+     */
+    public Spacer(int size) {
+        setPreferredSize(new Dimension(size, size));
         setOpaque(false);
     }
-
-    // TODO
 }

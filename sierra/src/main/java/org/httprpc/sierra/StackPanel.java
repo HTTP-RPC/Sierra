@@ -14,15 +14,83 @@
 
 package org.httprpc.sierra;
 
-import javax.swing.JPanel;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 
 /**
- * Panel that arranges components in a stack.
+ * Arranges components in a stack, pinning component edges to the container's
+ * insets.
  */
-public class StackPanel extends JPanel {
-    public StackPanel() {
-        setOpaque(false);
+public class StackPanel extends LayoutPanel {
+    private class StackLayoutManager extends AbstractLayoutManager {
+        @Override
+        public Dimension preferredLayoutSize(Container container) {
+            var size = getSize();
+            var insets = getInsets();
+
+            var width = size.width - (insets.left + insets.right);
+            var height = size.height - (insets.top + insets.bottom);
+
+            var preferredWidth = 0;
+            var preferredHeight = 0;
+
+            var n = container.getComponentCount();
+
+            for (var i = 0; i < n; i++){
+                var component = container.getComponent(i);
+
+                component.setSize(width, height);
+
+                var preferredSize = component.getPreferredSize();
+
+                preferredWidth = Math.max(preferredWidth, (int)preferredSize.getWidth());
+                preferredHeight = Math.max(preferredWidth, (int)preferredSize.getHeight());
+            }
+
+            return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
+        }
+
+
+        @Override
+        public void layoutContainer(Container container) {
+            var insets = getInsets();
+
+            var x = insets.left;
+            var y = insets.top;
+
+            var size = container.getSize();
+
+            var width = Math.max(size.width - (insets.left + insets.right), 0);
+            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
+
+            var n = container.getComponentCount();
+
+            for (var i = 0; i < n; i++){
+                var component = container.getComponent(i);
+
+                component.setBounds(x, y, width, height);
+            }
+        }
     }
 
-    // TODO
+    /**
+     * Constructs a new stack panel.
+     */
+    public StackPanel() {
+        setLayout(new StackLayoutManager());
+    }
+
+    /**
+     * Sets the layout manager.
+     * {@inheritDoc}
+     */
+    @Override
+    public void setLayout(LayoutManager layoutManager) {
+        if (layoutManager != null && !(layoutManager instanceof StackLayoutManager)) {
+            throw new IllegalArgumentException();
+        }
+
+        super.setLayout(layoutManager);
+    }
 }

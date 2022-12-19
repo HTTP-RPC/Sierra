@@ -2,7 +2,6 @@ package org.httprpc.sierra;
 
 import javax.swing.JPanel;
 import java.awt.Component;
-import java.awt.Insets;
 import java.util.function.Consumer;
 
 /**
@@ -57,35 +56,71 @@ public class UIBuilder {
         }
     }
 
-    // TODO
+    private UIBuilder() {
+    }
 
-    public static Cell<RowPanel> row(Insets insets,
-        HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment,
+    /**
+     * Declares a cell.
+     *
+     * @param <C>
+     * The component type.
+     *
+     * @param component
+     * The cell's component.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static <C extends Component> Cell<C> cell(C component) {
+        return new Cell<>(component);
+    }
+
+    /**
+     * Declares a strut cell.
+     *
+     * @param size
+     * The spacer size.
+     *
+     * @return
+     * The strut cell.
+     */
+    public static Cell<Spacer> strut(int size) {
+        return cell(new Spacer(size));
+    }
+
+    /**
+     * Declares a glue cell.
+     *
+     * @return
+     * The glue cell.
+     */
+    public static Cell<Spacer> glue() {
+        return cell(new Spacer(0)).weightBy(1.0);
+    }
+
+    public static RowPanel row(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment,
         int spacing, boolean alignToBaseline, Cell<?>... cells) {
         // TODO
         return null;
     }
 
-    public static Cell<RowPanel> column(Insets insets,
-        HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment,
+    public static ColumnPanel column(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment,
         int spacing, boolean alignToGrid, Cell<?>... cells) {
         // TODO
         return null;
     }
 
-    public static Cell<Spacer> spacer() {
-        // TODO
-        return null;
-    }
-
-    public static Cell<Spacer> spacer(int size) {
-        // TODO
-        return null;
-    }
-
-    public static Cell<StackPanel> stack(Insets insets, Cell<?> cells) {
-        // TODO
-        return null;
+    /**
+     * Declares a stack panel.
+     *
+     * @param cells
+     * The panel's cells.
+     *
+     * @return
+     * The stack panel.
+     */
+    public static StackPanel stack(Cell<?>... cells) {
+        return populate(new StackPanel(), cells);
     }
 
     private static <T extends JPanel> T populate(T panel, Cell<?>... cells) {

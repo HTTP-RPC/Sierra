@@ -14,21 +14,71 @@
 
 package org.httprpc.sierra;
 
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
+
 /**
- * Layout panel that arranges sub-components vertically in a column.
+ * Arranges components vertically in a column, optionally pinning component
+ * edges to the container's top and bottom insets.
  */
-public class ColumnPanel extends LayoutPanel {
+public class ColumnPanel extends BoxPanel {
+    private class ColumnLayoutManager extends AbstractLayoutManager {
+        @Override
+        public Dimension preferredLayoutSize(Container container) {
+            // TODO
+            return null;
+        }
+
+
+        @Override
+        public void layoutContainer(Container container) {
+            // TODO
+        }
+    }
+
     private boolean alignToGrid = false;
 
-    public boolean isAlignToGrid() {
+    /**
+     * Constructs a new column panel.
+     */
+    public ColumnPanel() {
+        setLayout(new ColumnLayoutManager());
+    }
+
+    /**
+     * Sets the layout manager.
+     * {@inheritDoc}
+     */
+    @Override
+    public void setLayout(LayoutManager layoutManager) {
+        if (layoutManager != null && !(layoutManager instanceof ColumnLayoutManager)) {
+            throw new IllegalArgumentException();
+        }
+
+        super.setLayout(layoutManager);
+    }
+
+    /**
+     * Indicates that components will be aligned to grid.
+     *
+     * @return
+     * {@code true} if components will be grid-aligned; {@code false},
+     * otherwise.
+     */
+    public boolean getAlignToGrid() {
         return alignToGrid;
     }
 
+    /**
+     * Toggles grid alignment.
+     *
+     * @param alignToGrid
+     * {@code true} to align components to grid; {@code false}, otherwise.
+     */
     public void setAlignToGrid(boolean alignToGrid) {
         this.alignToGrid = alignToGrid;
 
         invalidate();
     }
-
-    // TODO
 }

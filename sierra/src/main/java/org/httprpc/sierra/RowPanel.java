@@ -14,21 +14,71 @@
 
 package org.httprpc.sierra;
 
-/**
- * Layout panel that arranges sub-components horizontally in a row.
- */
-public class RowPanel extends LayoutPanel {
-    private boolean alignToBaseline = true;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 
-    public boolean isAlignToBaseline() {
+/**
+ * Arranges components horizontally in a row, optionally pinning component
+ * edges to the container's leading and trailing insets.
+ */
+public class RowPanel extends BoxPanel {
+    private class RowLayoutManager extends AbstractLayoutManager {
+        @Override
+        public Dimension preferredLayoutSize(Container container) {
+            // TODO
+            return null;
+        }
+
+
+        @Override
+        public void layoutContainer(Container container) {
+            // TODO
+        }
+    }
+
+    private boolean alignToBaseline = false;
+
+    /**
+     * Constructs a new row panel.
+     */
+    public RowPanel() {
+        setLayout(new RowLayoutManager());
+    }
+
+    /**
+     * Sets the layout manager.
+     * {@inheritDoc}
+     */
+    @Override
+    public void setLayout(LayoutManager layoutManager) {
+        if (layoutManager != null && !(layoutManager instanceof RowLayoutManager)) {
+            throw new IllegalArgumentException();
+        }
+
+        super.setLayout(layoutManager);
+    }
+
+    /**
+     * Indicates that components will be aligned to baseline.
+     *
+     * @return
+     * {@code true} if components will be baseline-aligned; {@code false},
+     * otherwise.
+     */
+    public boolean getAlignToBaseline() {
         return alignToBaseline;
     }
 
+    /**
+     * Toggles baseline alignment.
+     *
+     * @param alignToBaseline
+     * {@code true} to align components to baseline; {@code false}, otherwise.
+     */
     public void setAlignToBaseline(boolean alignToBaseline) {
         this.alignToBaseline = alignToBaseline;
 
         invalidate();
     }
-
-    // TODO
 }
