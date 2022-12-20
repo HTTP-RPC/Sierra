@@ -18,6 +18,8 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -26,6 +28,8 @@ import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.stack;
 
 public class StackPanelTest extends JFrame implements Runnable {
+    private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+
     private StackPanelTest() {
         super("Stack Panel Test");
 
@@ -34,16 +38,28 @@ public class StackPanelTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var contentPane = stack(
-            cell(new JLabel("TOP", null, SwingConstants.CENTER))
-                .with(label -> label.setVerticalAlignment(SwingConstants.TOP)),
-            cell(new JLabel("CENTER", null, SwingConstants.CENTER))
-                .with(label -> label.setVerticalAlignment(SwingConstants.CENTER)),
-            cell(new JLabel("BOTTOM", null, SwingConstants.CENTER))
-                .with(label -> label.setVerticalAlignment(SwingConstants.BOTTOM))
-        );
+        var viewportView = stack(
+            cell(new JTextArea(TEXT)).with(textArea -> {
+                textArea.setEditable(false);
+                textArea.setLineWrap(true);
+                textArea.setWrapStyleWord(true);
+            }),
+            cell(new JLabel("TOP")).with(label -> {
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                label.setVerticalAlignment(SwingConstants.TOP);
+            }),
+            cell(new JLabel("BOTTOM")).with(label -> {
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                label.setVerticalAlignment(SwingConstants.BOTTOM);
+            })
+        ).with(stackPanel -> {
+            stackPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
+            stackPanel.setScrollableTracksViewportWidth(true);
+        }).getComponent();
 
-        contentPane.setBorder(new EmptyBorder(16, 16, 16, 16));
+        var contentPane = new JScrollPane(viewportView);
+
+        contentPane.setBorder(null);
 
         setContentPane(contentPane);
 

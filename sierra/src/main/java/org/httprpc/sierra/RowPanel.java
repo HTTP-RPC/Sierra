@@ -14,35 +14,57 @@
 
 package org.httprpc.sierra;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
  * Arranges components horizontally in a row, optionally pinning component
- * edges to the container's leading and trailing insets.
+ * edges to the container's insets.
  */
 public class RowPanel extends BoxPanel {
     private class RowLayoutManager extends AbstractLayoutManager {
         @Override
-        public Dimension preferredLayoutSize(Container container) {
+        public Dimension preferredLayoutSize() {
             // TODO
             return null;
         }
 
 
         @Override
-        public void layoutContainer(Container container) {
+        public void layoutContainer() {
             // TODO
         }
     }
 
-    private boolean alignToBaseline = false;
+    private boolean alignToBaseline;
 
     /**
      * Constructs a new row panel.
      */
     public RowPanel() {
+        this(HorizontalAlignment.FILL, VerticalAlignment.CENTER, 4, true);
+    }
+
+    /**
+     * Constructs a new row panel.
+     *
+     * @param horizontalAlignment
+     * The horizontal alignment.
+     *
+     * @param verticalAlignment
+     * The vertical alignment.
+     *
+     * @param spacing
+     * The spacing value.
+     *
+     * @param alignToBaseline
+     * {@code true} to align components to baseline; {@code false}, otherwise.
+     */
+    public RowPanel(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, int spacing, boolean alignToBaseline) {
+        super(horizontalAlignment, verticalAlignment, spacing);
+
+        this.alignToBaseline = alignToBaseline;
+
         setLayout(new RowLayoutManager());
     }
 
@@ -79,6 +101,6 @@ public class RowPanel extends BoxPanel {
     public void setAlignToBaseline(boolean alignToBaseline) {
         this.alignToBaseline = alignToBaseline;
 
-        invalidate();
+        revalidate();
     }
 }

@@ -1,6 +1,19 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.httprpc.sierra;
 
-import javax.swing.JPanel;
 import java.awt.Component;
 import java.util.function.Consumer;
 
@@ -19,6 +32,16 @@ public class UIBuilder {
 
         private Cell(C component) {
             this.component = component;
+        }
+
+        /**
+         * Returns the cell's component.
+         *
+         * @return
+         * The cell's component.
+         */
+        public C getComponent() {
+            return component;
         }
 
         /**
@@ -63,7 +86,7 @@ public class UIBuilder {
      * Declares a cell.
      *
      * @param <C>
-     * The component type.
+     * The cell's component type.
      *
      * @param component
      * The cell's component.
@@ -76,58 +99,40 @@ public class UIBuilder {
     }
 
     /**
-     * Declares a strut cell.
-     *
-     * @param size
-     * The spacer size.
-     *
-     * @return
-     * The strut cell.
-     */
-    public static Cell<Spacer> strut(int size) {
-        return cell(new Spacer(size));
-    }
-
-    /**
-     * Declares a glue cell.
-     *
-     * @return
-     * The glue cell.
-     */
-    public static Cell<Spacer> glue() {
-        return cell(new Spacer(0)).weightBy(1.0);
-    }
-
-    public static RowPanel row(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment,
-        int spacing, boolean alignToBaseline, Cell<?>... cells) {
-        // TODO
-        return null;
-    }
-
-    public static ColumnPanel column(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment,
-        int spacing, boolean alignToGrid, Cell<?>... cells) {
-        // TODO
-        return null;
-    }
-
-    /**
-     * Declares a stack panel.
+     * Declares a row panel cell.
      *
      * @param cells
-     * The panel's cells.
+     * The row panel's contents.
      *
      * @return
-     * The stack panel.
+     * The cell instance.
      */
-    public static StackPanel stack(Cell<?>... cells) {
-        return populate(new StackPanel(), cells);
-    }
-
-    private static <T extends JPanel> T populate(T panel, Cell<?>... cells) {
+    public static Cell<RowPanel> row(Cell<?>... cells) {
         if (cells == null) {
             throw new IllegalArgumentException();
         }
 
+        return cell(populate(new RowPanel(), cells));
+    }
+
+    /**
+     * Declares a column panel cell.
+     *
+     * @param cells
+     * The column panel's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<ColumnPanel> column(Cell<?>... cells) {
+        if (cells == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return cell(populate(new ColumnPanel(), cells));
+    }
+
+    private static <P extends BoxPanel> P populate(P panel, Cell<?>... cells) {
         for (var i = 0; i < cells.length; i++) {
             var cell = cells[i];
 
@@ -135,5 +140,53 @@ public class UIBuilder {
         }
 
         return panel;
+    }
+
+    /**
+     * Declares a fixed-size spacer cell.
+     *
+     * @param size
+     * The spacer size.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<Spacer> strut(int size) {
+        return cell(new Spacer(size));
+    }
+
+    /**
+     * Declares a flexible spacer cell.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<Spacer> glue() {
+        return cell(new Spacer(0)).weightBy(1.0);
+    }
+
+    /**
+     * Declares a stack panel cell.
+     *
+     * @param cells
+     * The stack panel's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<StackPanel> stack(Cell<?>... cells) {
+        if (cells == null) {
+            throw new IllegalArgumentException();
+        }
+
+        var panel = new StackPanel();
+
+        for (var i = cells.length - 1; i >= 0; i--) {
+            var cell = cells[i];
+
+            panel.add(cell.component, cell.constraints);
+        }
+
+        return cell(panel);
     }
 }

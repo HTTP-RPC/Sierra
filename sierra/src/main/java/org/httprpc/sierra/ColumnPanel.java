@@ -14,35 +14,57 @@
 
 package org.httprpc.sierra;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
  * Arranges components vertically in a column, optionally pinning component
- * edges to the container's top and bottom insets.
+ * edges to the container's insets.
  */
 public class ColumnPanel extends BoxPanel {
     private class ColumnLayoutManager extends AbstractLayoutManager {
         @Override
-        public Dimension preferredLayoutSize(Container container) {
+        public Dimension preferredLayoutSize() {
             // TODO
             return null;
         }
 
 
         @Override
-        public void layoutContainer(Container container) {
+        public void layoutContainer() {
             // TODO
         }
     }
 
-    private boolean alignToGrid = false;
+    private boolean alignToGrid;
 
     /**
      * Constructs a new column panel.
      */
     public ColumnPanel() {
+        this(HorizontalAlignment.FILL, VerticalAlignment.FILL, 4, true);
+    }
+
+    /**
+     * Constructs a new row panel.
+     *
+     * @param horizontalAlignment
+     * The horizontal alignment.
+     *
+     * @param verticalAlignment
+     * The vertical alignment.
+     *
+     * @param spacing
+     * The spacing value.
+     *
+     * @param alignToGrid
+     * {@code true} to align components to grid; {@code false}, otherwise.
+     */
+    public ColumnPanel(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, int spacing, boolean alignToGrid) {
+        super(horizontalAlignment, verticalAlignment, spacing);
+
+        this.alignToGrid = alignToGrid;
+
         setLayout(new ColumnLayoutManager());
     }
 
@@ -79,6 +101,6 @@ public class ColumnPanel extends BoxPanel {
     public void setAlignToGrid(boolean alignToGrid) {
         this.alignToGrid = alignToGrid;
 
-        invalidate();
+        revalidate();
     }
 }

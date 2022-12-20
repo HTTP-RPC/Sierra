@@ -15,15 +15,18 @@
 package org.httprpc.sierra;
 
 import javax.swing.JPanel;
+import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager2;
+import java.awt.Rectangle;
 
 /**
  * Abstract base class for layout panels.
  */
-public abstract class LayoutPanel extends JPanel {
+public abstract class LayoutPanel extends JPanel implements Scrollable {
     /**
      * Abstract base class for layout managers.
      */
@@ -99,7 +102,41 @@ public abstract class LayoutPanel extends JPanel {
         public Dimension maximumLayoutSize(Container container) {
             return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         }
+
+        /**
+         * Returns the preferred layout size.
+         * {@inheritDoc}
+         */
+        @Override
+        public Dimension preferredLayoutSize(Container container) {
+            return preferredLayoutSize();
+        }
+
+        /**
+         * Returns the preferred layout size.
+         *
+         * @return
+         * The preferred layout size.
+         */
+        protected abstract Dimension preferredLayoutSize();
+
+        /**
+         * Lays out the container.
+         * {@inheritDoc}
+         */
+        @Override
+        public void layoutContainer(Container container) {
+            layoutContainer();
+        }
+
+        /**
+         * Lays out the container.
+         */
+        protected abstract void layoutContainer();
     }
+
+    private boolean scrollableTracksViewportWidth = false;
+    private boolean scrollableTracksViewportHeight = false;
 
     private boolean ignoreInvalidate = false;
 
@@ -138,5 +175,102 @@ public abstract class LayoutPanel extends JPanel {
         }
 
         super.invalidate();
+    }
+
+    /**
+     * Returns the panel's preferred scrollable viewport size.
+     * {@inheritDoc}
+     */
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return getPreferredSize();
+    }
+
+    /**
+     * Returns the panel's scrollable unit increment.
+     * {@inheritDoc}
+     */
+    @Override
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        if (visibleRect == null) {
+            throw new IllegalArgumentException();
+        }
+
+        switch (orientation) {
+            case SwingConstants.VERTICAL: {
+                return visibleRect.height / 10;
+            }
+
+            case SwingConstants.HORIZONTAL: {
+                return visibleRect.width / 10;
+            }
+
+            default: {
+                throw new UnsupportedOperationException();
+            }
+        }
+    }
+
+    /**
+     * Returns the panel's scrollable block increment.
+     * {@inheritDoc}
+     */
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        if (visibleRect == null) {
+            throw new IllegalArgumentException();
+        }
+
+        switch (orientation) {
+            case SwingConstants.VERTICAL: {
+                return visibleRect.height;
+            }
+
+            case SwingConstants.HORIZONTAL: {
+                return visibleRect.width;
+            }
+
+            default: {
+                throw new UnsupportedOperationException();
+            }
+        }
+    }
+
+    /**
+     * Indicates that the panel tracks viewport width.
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return scrollableTracksViewportWidth;
+    }
+
+    /**
+     * Toggles viewport width tracking.
+     *
+     * @param scrollableTracksViewportWidth
+     * {@code true} to track viewport width; {@code false}, otherwise.
+     */
+    public void setScrollableTracksViewportWidth(boolean scrollableTracksViewportWidth) {
+        this.scrollableTracksViewportWidth = scrollableTracksViewportWidth;
+    }
+
+    /**
+     * Indicates that the panel tracks viewport height.
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return scrollableTracksViewportHeight;
+    }
+
+    /**
+     * Toggles viewport height tracking.
+     *
+     * @param scrollableTracksViewportHeight
+     * {@code true} to track viewport height; {@code false}, otherwise.
+     */
+    public void setScrollableTracksViewportHeight(boolean scrollableTracksViewportHeight) {
+        this.scrollableTracksViewportHeight = scrollableTracksViewportHeight;
     }
 }

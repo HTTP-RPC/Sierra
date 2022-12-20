@@ -18,10 +18,29 @@ package org.httprpc.sierra;
  * Abstract base class for box panels.
  */
 public abstract class BoxPanel extends LayoutPanel {
-    private HorizontalAlignment horizontalAlignment = HorizontalAlignment.FILL;
-    private VerticalAlignment verticalAlignment = VerticalAlignment.FILL;
+    private HorizontalAlignment horizontalAlignment;
+    private VerticalAlignment verticalAlignment;
 
-    private int spacing = 0;
+    private int spacing;
+
+    /**
+     * Constructs a new box panel.
+     *
+     * @param horizontalAlignment
+     * The horizontal alignment.
+     *
+     * @param verticalAlignment
+     * The vertical alignment.
+     *
+     * @param spacing
+     * The spacing value.
+     */
+    protected BoxPanel(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, int spacing) {
+        this.horizontalAlignment = horizontalAlignment;
+        this.verticalAlignment = verticalAlignment;
+
+        this.spacing = spacing;
+    }
 
     /**
      * Returns the horizontal alignment.
@@ -45,6 +64,8 @@ public abstract class BoxPanel extends LayoutPanel {
         }
 
         this.horizontalAlignment = horizontalAlignment;
+
+        revalidate();
     }
 
     /**
@@ -69,6 +90,8 @@ public abstract class BoxPanel extends LayoutPanel {
         }
 
         this.verticalAlignment = verticalAlignment;
+
+        revalidate();
     }
 
     /**
@@ -90,6 +113,6 @@ public abstract class BoxPanel extends LayoutPanel {
     public void setSpacing(int spacing) {
         this.spacing = spacing;
 
-        invalidate();
+        revalidate();
     }
 }

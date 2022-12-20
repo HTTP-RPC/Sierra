@@ -14,7 +14,6 @@
 
 package org.httprpc.sierra;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 
@@ -25,49 +24,46 @@ import java.awt.LayoutManager;
 public class StackPanel extends LayoutPanel {
     private class StackLayoutManager extends AbstractLayoutManager {
         @Override
-        public Dimension preferredLayoutSize(Container container) {
+        protected Dimension preferredLayoutSize() {
             var size = getSize();
             var insets = getInsets();
 
-            var width = size.width - (insets.left + insets.right);
-            var height = size.height - (insets.top + insets.bottom);
+            var width = Math.max(size.width - (insets.left + insets.right), 0);
 
             var preferredWidth = 0;
             var preferredHeight = 0;
 
-            var n = container.getComponentCount();
+            var n = getComponentCount();
 
             for (var i = 0; i < n; i++){
-                var component = container.getComponent(i);
+                var component = getComponent(i);
 
-                component.setSize(width, height);
+                component.setSize(width, Integer.MAX_VALUE);
 
                 var preferredSize = component.getPreferredSize();
 
                 preferredWidth = Math.max(preferredWidth, (int)preferredSize.getWidth());
-                preferredHeight = Math.max(preferredWidth, (int)preferredSize.getHeight());
+                preferredHeight = Math.max(preferredHeight, (int)preferredSize.getHeight());
             }
 
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
         }
 
-
         @Override
-        public void layoutContainer(Container container) {
+        protected void layoutContainer() {
+            var size = getSize();
             var insets = getInsets();
-
-            var x = insets.left;
-            var y = insets.top;
-
-            var size = container.getSize();
 
             var width = Math.max(size.width - (insets.left + insets.right), 0);
             var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
-            var n = container.getComponentCount();
+            var x = insets.left;
+            var y = insets.top;
+
+            var n = getComponentCount();
 
             for (var i = 0; i < n; i++){
-                var component = container.getComponent(i);
+                var component = getComponent(i);
 
                 component.setBounds(x, y, width, height);
             }
