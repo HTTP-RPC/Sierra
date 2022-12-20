@@ -33,7 +33,11 @@ import java.util.function.Consumer;
 /**
  * Provides static factory methods for declaratively constructing a component
  * hierarchy.
+ *
+ * @deprecated
+ * New code should use {@link UIBuilder} instead.
  */
+@Deprecated
 public class SwingUIBuilder {
     /**
      * Provides a fluent API for configuring a sub-component.
