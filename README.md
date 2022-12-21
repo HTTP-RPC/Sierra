@@ -25,22 +25,6 @@ Sierra provides the `UIBuilder` class, whose methods can be used to declarativel
 
 TODO
 
-```java
-public static <C extends Component> Cell<C> cell(C component) { ... }
-```
-
-The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
-
-* `weightBy()` - applies a weight to a cell
-* `with()` - accepts a callback that can be used to set properties or invoke methods on the cell's component
-
-The following methods also return a `Cell` instance and can be used to declare fixed-width or flexible spacer cells, respectively:
-
-* `strut()`
-* `glue()`
-
-TODO
-
 ## ScrollingKeyboardFocusManager
 Sierra additionally provides the `ScrollingKeyboardFocusManager` class, which can be used to ensure that components are automatically scrolled into view when focused:
 
