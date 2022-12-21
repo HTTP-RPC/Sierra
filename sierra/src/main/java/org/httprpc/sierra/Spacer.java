@@ -14,13 +14,13 @@
 
 package org.httprpc.sierra;
 
-import javax.swing.JComponent;
+import java.awt.Component;
 import java.awt.Dimension;
 
 /**
  * Provides space between other components.
  */
-public class Spacer extends JComponent {
+public class Spacer extends Component {
     /**
      * Constructs a new spacer.
      *
@@ -29,6 +29,10 @@ public class Spacer extends JComponent {
      */
     public Spacer(int size) {
         setPreferredSize(new Dimension(size, size));
-        setOpaque(false);
+    }
+
+    @Override
+    public boolean isOpaque() {
+        return (getBackground() != null);
     }
 }

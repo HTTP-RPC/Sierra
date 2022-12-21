@@ -53,7 +53,7 @@ public class UIBuilder {
          * @return
          * The cell instance.
          */
-        public Cell<C> weightBy(double weight) {
+        public Cell<C> weight(double weight) {
             constraints = weight;
 
             return this;
@@ -99,10 +99,10 @@ public class UIBuilder {
     }
 
     /**
-     * Declares a row panel cell.
+     * Declares a row cell.
      *
      * @param cells
-     * The row panel's contents.
+     * The row's contents.
      *
      * @return
      * The cell instance.
@@ -116,10 +116,10 @@ public class UIBuilder {
     }
 
     /**
-     * Declares a column panel cell.
+     * Declares a column cell.
      *
      * @param cells
-     * The column panel's contents.
+     * The column's contents.
      *
      * @return
      * The cell instance.
@@ -162,14 +162,14 @@ public class UIBuilder {
      * The cell instance.
      */
     public static Cell<Spacer> glue() {
-        return cell(new Spacer(0)).weightBy(1.0);
+        return cell(new Spacer(0)).weight(1.0);
     }
 
     /**
-     * Declares a stack panel cell.
+     * Declares a stack cell.
      *
      * @param cells
-     * The stack panel's contents.
+     * The stack's contents.
      *
      * @return
      * The cell instance.

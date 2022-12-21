@@ -14,10 +14,40 @@
 
 package org.httprpc.sierra;
 
+import java.awt.Component;
+
 /**
  * Abstract base class for box panels.
  */
 public abstract class BoxPanel extends LayoutPanel {
+    /**
+     * Abstract base class for box layout managers.
+     */
+    protected abstract static class BoxLayoutManager extends AbstractLayoutManager {
+        /**
+         * Returns a component's weight.
+         *
+         * @param component
+         * The component.
+         *
+         * @return
+         * The component's weight.
+         */
+        protected double getWeight(Component component) {
+            var constraints = getConstraints(component);
+
+            if (constraints == null) {
+                return Double.NaN;
+            }
+
+            if (!(constraints instanceof Double)) {
+                throw new IllegalStateException();
+            }
+
+            return (double)constraints;
+        }
+    }
+
     private HorizontalAlignment horizontalAlignment;
     private VerticalAlignment verticalAlignment;
 

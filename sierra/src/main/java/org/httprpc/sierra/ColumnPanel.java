@@ -22,17 +22,121 @@ import java.awt.LayoutManager;
  * edges to the container's insets.
  */
 public class ColumnPanel extends BoxPanel {
-    private class ColumnLayoutManager extends AbstractLayoutManager {
+    private class ColumnLayoutManager extends BoxLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
-            // TODO
-            return null;
+            var size = getSize();
+            var insets = getInsets();
+
+            int width;
+            if (getHorizontalAlignment() == HorizontalAlignment.FILL) {
+                width = Math.max(size.width - (insets.left + insets.right), 0);
+            } else {
+                width = Integer.MAX_VALUE;
+            }
+
+            var preferredWidth = 0;
+            var preferredHeight = 0;
+
+            var n = getComponentCount();
+
+            for (var i = 0; i < n; i++){
+                var component = getComponent(i);
+
+                component.setSize(width, Integer.MAX_VALUE);
+
+                var preferredSize = component.getPreferredSize();
+
+                preferredWidth = Math.max(preferredWidth, (int)preferredSize.getWidth());
+                preferredHeight += (int)preferredSize.getHeight();
+            }
+
+            return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
         }
 
 
         @Override
         public void layoutContainer() {
-            // TODO
+            var size = getSize();
+            var insets = getInsets();
+
+            var width = Math.max(size.width - (insets.left + insets.right), 0);
+
+            var horizontalAlignment = getHorizontalAlignment();
+            var verticalAlignment = getVerticalAlignment();
+
+            var totalWeight = 0.0;
+            var remainingHeight = Math.max(size.height - (insets.top + insets.bottom), 0);
+
+            var n = getComponentCount();
+
+            for (var i = 0; i < n; i++){
+                var component = getComponent(i);
+
+                if (horizontalAlignment == HorizontalAlignment.FILL) {
+                    component.setSize(width, Integer.MAX_VALUE);
+                    component.setSize(width, component.getPreferredSize().height);
+                } else {
+                    component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
+                    component.setSize(component.getPreferredSize());
+                }
+
+                var weight = getWeight(component);
+
+                if (!Double.isNaN(weight) && verticalAlignment == VerticalAlignment.FILL) {
+                    totalWeight += weight;
+                } else {
+                    remainingHeight -= component.getHeight();
+                }
+            }
+
+            remainingHeight = Math.max(0, remainingHeight);
+
+            var y = insets.top;
+
+            switch (verticalAlignment) {
+                case BOTTOM: {
+                    y += remainingHeight;
+                    break;
+                }
+
+                case CENTER: {
+                    y += remainingHeight / 2;
+                    break;
+                }
+            }
+
+            for (var i = 0; i < n; i++){
+                var component = getComponent(i);
+
+                var x = insets.left;
+
+                switch (horizontalAlignment) {
+                    case LEADING:
+                    case TRAILING: {
+                        if (getComponentOrientation().isLeftToRight() ^ horizontalAlignment == HorizontalAlignment.LEADING) {
+                            x += width - component.getWidth();
+                        }
+
+                        break;
+                    }
+
+                    case CENTER: {
+                        x += (width - component.getWidth()) / 2;
+                        break;
+                    }
+                }
+
+                component.setLocation(x, y);
+
+                var weight = getWeight(component);
+
+                if (!Double.isNaN(weight) && verticalAlignment == VerticalAlignment.FILL) {
+                    component.setSize(component.getWidth(), (int)Math.round(remainingHeight * (weight / totalWeight)));
+                }
+
+                y += component.getHeight();
+            }
         }
     }
 

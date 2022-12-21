@@ -57,15 +57,10 @@ public class StackPanel extends LayoutPanel {
             var width = Math.max(size.width - (insets.left + insets.right), 0);
             var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
-            var x = insets.left;
-            var y = insets.top;
-
             var n = getComponentCount();
 
             for (var i = 0; i < n; i++){
-                var component = getComponent(i);
-
-                component.setBounds(x, y, width, height);
+                getComponent(i).setBounds(insets.left, insets.top, width, height);
             }
         }
     }

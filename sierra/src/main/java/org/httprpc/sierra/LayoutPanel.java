@@ -22,6 +22,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager2;
 import java.awt.Rectangle;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Abstract base class for layout panels.
@@ -31,31 +33,33 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
      * Abstract base class for layout managers.
      */
     protected abstract static class AbstractLayoutManager implements LayoutManager2 {
+        private Map<Component, Object> constraints = new HashMap<>();
+
         /**
-         * Does nothing.
+         * Throws {@link UnsupportedOperationException}.
          * {@inheritDoc}
          */
         @Override
         public void addLayoutComponent(String name, Component component) {
-            // No-op
+            throw new UnsupportedOperationException();
         }
 
         /**
-         * Does nothing.
+         * Adds a component to the layout.
          * {@inheritDoc}
          */
         @Override
         public void addLayoutComponent(Component component, Object constraints) {
-            // No-op
+            this.constraints.put(component,  constraints);
         }
 
         /**
-         * Does nothing.
+         * Removes a component from the layout.
          * {@inheritDoc}
          */
         @Override
         public void removeLayoutComponent(Component component) {
-            // No-op
+            constraints.remove(component);
         }
 
         /**
@@ -133,6 +137,19 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
          * Lays out the container.
          */
         protected abstract void layoutContainer();
+
+        /**
+         * Returns component constraints.
+         *
+         * @param component
+         * The component.
+         *
+         * @return
+         * The component's constraints.
+         */
+        protected Object getConstraints(Component component) {
+            return constraints.get(component);
+        }
     }
 
     private boolean scrollableTracksViewportWidth = false;

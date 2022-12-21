@@ -22,7 +22,7 @@ import java.awt.LayoutManager;
  * edges to the container's insets.
  */
 public class RowPanel extends BoxPanel {
-    private class RowLayoutManager extends AbstractLayoutManager {
+    private class RowLayoutManager extends BoxLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
             // TODO

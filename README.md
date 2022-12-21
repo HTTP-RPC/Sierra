@@ -18,7 +18,7 @@ This guide introduces the Sierra framework and provides an overview of its key f
 * [Additional Information](#additional-information)
 
 # Getting Sierra
-Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 17 or later is required.
+Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 11 or later is required.
 
 # Sierra Classes
 Sierra provides the `UIBuilder` class, whose methods can be used to declaratively establish a hierarchy of user interface elements. The methods provided by this class form a DSL, or "domain-specific language", that makes it easy to visualize the resulting output. 
