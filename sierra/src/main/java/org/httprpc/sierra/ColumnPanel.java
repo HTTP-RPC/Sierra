@@ -140,34 +140,13 @@ public class ColumnPanel extends BoxPanel {
         }
     }
 
-    private boolean alignToGrid;
+    private boolean alignToGrid = true;
 
     /**
      * Constructs a new column panel.
      */
     public ColumnPanel() {
-        this(HorizontalAlignment.FILL, VerticalAlignment.FILL, 4, true);
-    }
-
-    /**
-     * Constructs a new row panel.
-     *
-     * @param horizontalAlignment
-     * The horizontal alignment.
-     *
-     * @param verticalAlignment
-     * The vertical alignment.
-     *
-     * @param spacing
-     * The spacing value.
-     *
-     * @param alignToGrid
-     * {@code true} to align components to grid; {@code false}, otherwise.
-     */
-    public ColumnPanel(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, int spacing, boolean alignToGrid) {
-        super(horizontalAlignment, verticalAlignment, spacing);
-
-        this.alignToGrid = alignToGrid;
+        super(HorizontalAlignment.FILL, VerticalAlignment.FILL, 4);
 
         setLayout(new ColumnLayoutManager());
     }

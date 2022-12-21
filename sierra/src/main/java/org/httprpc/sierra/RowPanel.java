@@ -36,34 +36,13 @@ public class RowPanel extends BoxPanel {
         }
     }
 
-    private boolean alignToBaseline;
+    private boolean alignToBaseline = true;
 
     /**
      * Constructs a new row panel.
      */
     public RowPanel() {
-        this(HorizontalAlignment.FILL, VerticalAlignment.CENTER, 4, true);
-    }
-
-    /**
-     * Constructs a new row panel.
-     *
-     * @param horizontalAlignment
-     * The horizontal alignment.
-     *
-     * @param verticalAlignment
-     * The vertical alignment.
-     *
-     * @param spacing
-     * The spacing value.
-     *
-     * @param alignToBaseline
-     * {@code true} to align components to baseline; {@code false}, otherwise.
-     */
-    public RowPanel(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, int spacing, boolean alignToBaseline) {
-        super(horizontalAlignment, verticalAlignment, spacing);
-
-        this.alignToBaseline = alignToBaseline;
+        super(HorizontalAlignment.FILL, VerticalAlignment.CENTER, 4);
 
         setLayout(new RowLayoutManager());
     }
