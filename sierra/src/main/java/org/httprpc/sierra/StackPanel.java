@@ -18,8 +18,8 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
- * Arranges components in a stack, pinning component edges to the container's
- * insets.
+ * Arranges sub-components in a stack, pinning component edges to the
+ * container's insets.
  */
 public class StackPanel extends LayoutPanel {
     private class StackLayoutManager extends AbstractLayoutManager {

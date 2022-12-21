@@ -20,19 +20,7 @@ import java.awt.Component;
  * Abstract base class for box panels.
  */
 public abstract class BoxPanel extends LayoutPanel {
-    /**
-     * Abstract base class for box layout managers.
-     */
-    protected abstract static class BoxLayoutManager extends AbstractLayoutManager {
-        /**
-         * Returns a component's weight.
-         *
-         * @param component
-         * The component.
-         *
-         * @return
-         * The component's weight.
-         */
+    abstract static class BoxLayoutManager extends AbstractLayoutManager {
         protected double getWeight(Component component) {
             var constraints = getConstraints(component);
 
@@ -53,19 +41,7 @@ public abstract class BoxPanel extends LayoutPanel {
 
     private int spacing;
 
-    /**
-     * Constructs a new box panel.
-     *
-     * @param horizontalAlignment
-     * The horizontal alignment.
-     *
-     * @param verticalAlignment
-     * The vertical alignment.
-     *
-     * @param spacing
-     * The spacing value.
-     */
-    protected BoxPanel(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, int spacing) {
+    BoxPanel(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, int spacing) {
         this.horizontalAlignment = horizontalAlignment;
         this.verticalAlignment = verticalAlignment;
 
@@ -125,20 +101,20 @@ public abstract class BoxPanel extends LayoutPanel {
     }
 
     /**
-     * Returns the spacing value.
+     * Returns the amount of space between successive sub-components.
      *
      * @return
-     * The amount of space between successive sub-components.
+     * The sub-component spacing.
      */
     public int getSpacing() {
         return spacing;
     }
 
     /**
-     * Sets the spacing value.
+     * Sets the amount of space between successive sub-components.
      *
      * @param spacing
-     * The amount of space between successive sub-components.
+     * The sub-component spacing.
      */
     public void setSpacing(int spacing) {
         this.spacing = spacing;

@@ -41,7 +41,11 @@ import java.util.function.Consumer;
 public class SwingUIBuilder {
     /**
      * Provides a fluent API for configuring a sub-component.
+     *
+     * @deprecated
+     * New code should use {@link UIBuilder.Cell} instead.
      */
+    @Deprecated
     public static class Cell<C extends Component> {
         private C component;
         private Object constraints;
@@ -164,7 +168,11 @@ public class SwingUIBuilder {
 
     /**
      * A scrollable panel.
+     *
+     * @deprecated
+     * New code should use {@link LayoutPanel} instead.
      */
+    @Deprecated
     public static class ScrollablePanel extends JPanel implements Scrollable {
         private boolean scrollableTracksViewportWidth = false;
         private boolean scrollableTracksViewportHeight = false;

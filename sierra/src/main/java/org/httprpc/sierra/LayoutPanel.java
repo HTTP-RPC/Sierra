@@ -29,124 +29,63 @@ import java.util.Map;
  * Abstract base class for layout panels.
  */
 public abstract class LayoutPanel extends JPanel implements Scrollable {
-    /**
-     * Abstract base class for layout managers.
-     */
-    protected abstract static class AbstractLayoutManager implements LayoutManager2 {
+    abstract static class AbstractLayoutManager implements LayoutManager2 {
         private Map<Component, Object> constraints = new HashMap<>();
 
-        /**
-         * Throws {@link UnsupportedOperationException}.
-         * {@inheritDoc}
-         */
         @Override
         public void addLayoutComponent(String name, Component component) {
             throw new UnsupportedOperationException();
         }
 
-        /**
-         * Adds a component to the layout.
-         * {@inheritDoc}
-         */
         @Override
         public void addLayoutComponent(Component component, Object constraints) {
             this.constraints.put(component,  constraints);
         }
 
-        /**
-         * Removes a component from the layout.
-         * {@inheritDoc}
-         */
         @Override
         public void removeLayoutComponent(Component component) {
             constraints.remove(component);
         }
 
-        /**
-         * Does nothing.
-         * {@inheritDoc}
-         */
         @Override
         public void invalidateLayout(Container container) {
             // No-op
         }
 
-        /**
-         * Returns 0.
-         * {@inheritDoc}
-         */
         @Override
         public float getLayoutAlignmentX(Container container) {
             return 0;
         }
 
-        /**
-         * Returns 0.
-         * {@inheritDoc}
-         */
         @Override
         public float getLayoutAlignmentY(Container container) {
             return 0;
         }
 
-        /**
-         * Returns 0, 0.
-         * {@inheritDoc}
-         */
         @Override
         public Dimension minimumLayoutSize(Container container) {
             return new Dimension(0, 0);
         }
 
-        /**
-         * Returns {@link Integer#MAX_VALUE}, {@link Integer#MAX_VALUE}).
-         * {@inheritDoc}
-         */
         @Override
         public Dimension maximumLayoutSize(Container container) {
             return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         }
 
-        /**
-         * Returns the preferred layout size.
-         * {@inheritDoc}
-         */
         @Override
         public Dimension preferredLayoutSize(Container container) {
             return preferredLayoutSize();
         }
 
-        /**
-         * Returns the preferred layout size.
-         *
-         * @return
-         * The preferred layout size.
-         */
         protected abstract Dimension preferredLayoutSize();
 
-        /**
-         * Lays out the container.
-         * {@inheritDoc}
-         */
         @Override
         public void layoutContainer(Container container) {
             layoutContainer();
         }
 
-        /**
-         * Lays out the container.
-         */
         protected abstract void layoutContainer();
 
-        /**
-         * Returns component constraints.
-         *
-         * @param component
-         * The component.
-         *
-         * @return
-         * The component's constraints.
-         */
         protected Object getConstraints(Component component) {
             return constraints.get(component);
         }
@@ -157,10 +96,7 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
     private boolean ignoreInvalidate = false;
 
-    /**
-     * Constructs a new layout panel.
-     */
-    protected LayoutPanel() {
+    LayoutPanel() {
         super(null);
 
         setOpaque(false);

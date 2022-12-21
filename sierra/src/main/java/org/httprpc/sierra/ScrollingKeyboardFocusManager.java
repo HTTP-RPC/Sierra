@@ -22,8 +22,8 @@ import java.awt.DefaultKeyboardFocusManager;
 import java.awt.event.FocusEvent;
 
 /**
- * Keyboard focus manager that automatically scrolls focused components to
- * visible.
+ * Keyboard focus manager that automatically scrolls focused components into
+ * view.
  */
 public class ScrollingKeyboardFocusManager extends DefaultKeyboardFocusManager {
     /**

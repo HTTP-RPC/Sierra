@@ -18,7 +18,7 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
- * Arranges components horizontally in a row, optionally pinning component
+ * Arranges sub-components horizontally in a row, optionally pinning component
  * edges to the container's insets.
  */
 public class RowPanel extends BoxPanel {
@@ -61,11 +61,10 @@ public class RowPanel extends BoxPanel {
     }
 
     /**
-     * Indicates that components will be aligned to baseline.
+     * Indicates that sub-components will be aligned to baseline.
      *
      * @return
-     * {@code true} if components will be baseline-aligned; {@code false},
-     * otherwise.
+     * {@code true} to align to baseline; {@code false}, otherwise.
      */
     public boolean getAlignToBaseline() {
         return alignToBaseline;
@@ -75,7 +74,7 @@ public class RowPanel extends BoxPanel {
      * Toggles baseline alignment.
      *
      * @param alignToBaseline
-     * {@code true} to align components to baseline; {@code false}, otherwise.
+     * {@code true} to align to baseline; {@code false}, otherwise.
      */
     public void setAlignToBaseline(boolean alignToBaseline) {
         this.alignToBaseline = alignToBaseline;

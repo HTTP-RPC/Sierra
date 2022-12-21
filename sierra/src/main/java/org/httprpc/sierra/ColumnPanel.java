@@ -18,7 +18,7 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
- * Arranges components vertically in a column, optionally pinning component
+ * Arranges sub-components vertically in a column, optionally pinning component
  * edges to the container's insets.
  */
 public class ColumnPanel extends BoxPanel {
@@ -165,11 +165,11 @@ public class ColumnPanel extends BoxPanel {
     }
 
     /**
-     * Indicates that components will be aligned to grid.
+     * Indicates that nested row sub-components will be vertically aligned in a
+     * grid.
      *
      * @return
-     * {@code true} if components will be grid-aligned; {@code false},
-     * otherwise.
+     * {@code true} to align to grid; {@code false}, otherwise.
      */
     public boolean getAlignToGrid() {
         return alignToGrid;
@@ -179,7 +179,7 @@ public class ColumnPanel extends BoxPanel {
      * Toggles grid alignment.
      *
      * @param alignToGrid
-     * {@code true} to align components to grid; {@code false}, otherwise.
+     * {@code true} to align to grid; {@code false}, otherwise.
      */
     public void setAlignToGrid(boolean alignToGrid) {
         this.alignToGrid = alignToGrid;
