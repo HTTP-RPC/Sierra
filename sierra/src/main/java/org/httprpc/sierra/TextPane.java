@@ -15,6 +15,8 @@
 package org.httprpc.sierra;
 
 import javax.swing.JComponent;
+import java.awt.Dimension;
+import java.awt.Graphics;
 
 /**
  * Displays a string of text.
@@ -22,8 +24,8 @@ import javax.swing.JComponent;
 public class TextPane extends JComponent {
     private String text;
 
-    private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
-    private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
+    private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEADING;
+    private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
 
     private boolean wrapText = false;
 
@@ -129,7 +131,7 @@ public class TextPane extends JComponent {
     }
 
     /**
-     * Toggles text wrapping.
+     * Toggles line wrapping.
      *
      * @param wrapText
      * {@code true} to wrap text; {@code false}, otherwise.
@@ -140,5 +142,30 @@ public class TextPane extends JComponent {
         revalidate();
     }
 
-    // TODO
+    @Override
+    public Dimension getMinimumSize() {
+        return new Dimension(0, 0);
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+        return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        // TODO
+        return new Dimension();
+    }
+
+    @Override
+    public int getBaseline(int width, int height) {
+        // TODO Take wrapping and vertical alignment into account
+        return -1;
+    }
+
+    @Override
+    protected void paintComponent(Graphics graphics) {
+        // TODO Don't make permanent changes to the GC
+    }
 }

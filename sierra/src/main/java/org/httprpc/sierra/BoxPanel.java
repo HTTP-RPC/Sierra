@@ -14,12 +14,16 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 
 /**
  * Abstract base class for box panels.
  */
-public abstract class BoxPanel extends LayoutPanel {
+public abstract class BoxPanel extends LayoutPanel implements Scrollable {
     abstract static class BoxLayoutManager extends AbstractLayoutManager {
         protected double getWeight(Component component) {
             var constraints = getConstraints(component);
@@ -120,6 +124,65 @@ public abstract class BoxPanel extends LayoutPanel {
         this.spacing = spacing;
 
         revalidate();
+    }
+
+    /**
+     * Returns the panel's preferred scrollable viewport size.
+     * {@inheritDoc}
+     */
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return getPreferredSize();
+    }
+
+    /**
+     * Returns the panel's scrollable unit increment.
+     * {@inheritDoc}
+     */
+    @Override
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        if (visibleRect == null) {
+            throw new IllegalArgumentException();
+        }
+
+        switch (orientation) {
+            case SwingConstants.VERTICAL: {
+                return visibleRect.height / 10;
+            }
+
+            case SwingConstants.HORIZONTAL: {
+                return visibleRect.width / 10;
+            }
+
+            default: {
+                throw new UnsupportedOperationException();
+            }
+        }
+    }
+
+    /**
+     * Returns the panel's scrollable block increment.
+     * {@inheritDoc}
+     */
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        if (visibleRect == null) {
+            throw new IllegalArgumentException();
+        }
+
+        switch (orientation) {
+            case SwingConstants.VERTICAL: {
+                return visibleRect.height;
+            }
+
+            case SwingConstants.HORIZONTAL: {
+                return visibleRect.width;
+            }
+
+            default: {
+                throw new UnsupportedOperationException();
+            }
+        }
     }
 
     /**

@@ -15,20 +15,17 @@
 package org.httprpc.sierra;
 
 import javax.swing.JPanel;
-import javax.swing.Scrollable;
-import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager2;
-import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Abstract base class for layout panels.
  */
-public abstract class LayoutPanel extends JPanel implements Scrollable {
+public abstract class LayoutPanel extends JPanel {
     abstract static class AbstractLayoutManager implements LayoutManager2 {
         private Map<Component, Object> constraints = new HashMap<>();
 
@@ -91,9 +88,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         }
     }
 
-    private boolean scrollableTracksViewportWidth = false;
-    private boolean scrollableTracksViewportHeight = false;
-
     private boolean ignoreInvalidate = false;
 
     LayoutPanel() {
@@ -128,64 +122,5 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         }
 
         super.invalidate();
-    }
-
-    /**
-     * Returns the panel's preferred scrollable viewport size.
-     * {@inheritDoc}
-     */
-    @Override
-    public Dimension getPreferredScrollableViewportSize() {
-        return getPreferredSize();
-    }
-
-    /**
-     * Returns the panel's scrollable unit increment.
-     * {@inheritDoc}
-     */
-    @Override
-    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        if (visibleRect == null) {
-            throw new IllegalArgumentException();
-        }
-
-        switch (orientation) {
-            case SwingConstants.VERTICAL: {
-                return visibleRect.height / 10;
-            }
-
-            case SwingConstants.HORIZONTAL: {
-                return visibleRect.width / 10;
-            }
-
-            default: {
-                throw new UnsupportedOperationException();
-            }
-        }
-    }
-
-    /**
-     * Returns the panel's scrollable block increment.
-     * {@inheritDoc}
-     */
-    @Override
-    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        if (visibleRect == null) {
-            throw new IllegalArgumentException();
-        }
-
-        switch (orientation) {
-            case SwingConstants.VERTICAL: {
-                return visibleRect.height;
-            }
-
-            case SwingConstants.HORIZONTAL: {
-                return visibleRect.width;
-            }
-
-            default: {
-                throw new UnsupportedOperationException();
-            }
-        }
     }
 }

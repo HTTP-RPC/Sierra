@@ -15,6 +15,8 @@
 package org.httprpc.sierra;
 
 import javax.swing.JComponent;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Image;
 
 /**
@@ -25,8 +27,6 @@ public class ImagePane extends JComponent {
 
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
     private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
-
-    private double opacity = 1.0;
 
     /**
      * Constructs an image pane.
@@ -119,25 +119,30 @@ public class ImagePane extends JComponent {
         revalidate();
     }
 
-    /**
-     * Returns the image opacity.
-     *
-     * @return
-     * The image opacity.
-     */
-    public double getOpacity() {
-        return opacity;
+    @Override
+    public Dimension getMinimumSize() {
+        return new Dimension(0, 0);
     }
 
-    /**
-     * Sets the image opacity.
-     *
-     * @param opacity
-     * The image opacity.
-     */
-    public void setOpacity(double opacity) {
-        this.opacity = opacity;
+    @Override
+    public Dimension getMaximumSize() {
+        return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
-    // TODO
+    @Override
+    public Dimension getPreferredSize() {
+        // TODO
+        return new Dimension();
+    }
+
+    @Override
+    public int getBaseline(int width, int height) {
+        return -1;
+    }
+
+    @Override
+    protected void paintComponent(Graphics graphics) {
+        // TODO Scale if horizontal or vertical alignment is FILL
+        // TODO Don't make permanent changes to the GC
+    }
 }

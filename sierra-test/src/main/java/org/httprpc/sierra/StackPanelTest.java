@@ -18,7 +18,6 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
@@ -38,14 +37,12 @@ public class StackPanelTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var textArea = new JTextArea(TEXT);
+        var textPane = new TextPane(TEXT);
 
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
+        textPane.setWrapText(true);
 
         setContentPane(stack(
-            cell(textArea),
+            cell(textPane),
             column(
                 glue(),
                 cell(new JButton("Press Me"))
