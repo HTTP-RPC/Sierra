@@ -113,14 +113,16 @@ public class RowPanel extends BoxPanel {
 
             remainingWidth = Math.max(0, remainingWidth - spacing * (n - 1));
 
-            // TODO Support right-to-left orientations
+            var rightToLeft = !getComponentOrientation().isLeftToRight();
 
             var x = insets.left;
 
+            if (rightToLeft) {
+                x += size.width;
+            }
+
             for (var i = 0; i < n; i++){
                 var component = getComponent(i);
-
-                component.setLocation(x, insets.top);
 
                 var weight = getWeight(component);
 
@@ -128,7 +130,17 @@ public class RowPanel extends BoxPanel {
                     component.setSize((int)Math.round(remainingWidth * (weight / totalWeight)), height);
                 }
 
-                x += component.getWidth() + spacing;
+                if (rightToLeft) {
+                    x -= component.getWidth();
+                }
+
+                component.setLocation(x, insets.top);
+
+                if (rightToLeft) {
+                    x -= spacing;
+                } else {
+                    x += component.getWidth() + spacing;
+                }
             }
         }
     }

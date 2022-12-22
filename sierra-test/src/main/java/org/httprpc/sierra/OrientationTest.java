@@ -20,12 +20,15 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.ComponentOrientation;
+import java.util.Locale;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
+import static org.httprpc.sierra.UIBuilder.glue;
 import static org.httprpc.sierra.UIBuilder.row;
 
 public class OrientationTest extends JFrame implements Runnable {
@@ -57,7 +60,10 @@ public class OrientationTest extends JFrame implements Runnable {
                 this.rowPanel = rowPanel;
             }),
 
+            cell(new JSeparator()),
+
             row(
+                glue(),
                 cell(new JRadioButton("Left to right", true)).with(button -> {
                     buttonGroup.add(button);
 
@@ -78,7 +84,10 @@ public class OrientationTest extends JFrame implements Runnable {
                     } else {
                         throw new UnsupportedOperationException();
                     }
-                }))
+
+                    rowPanel.revalidate();
+                })),
+                glue()
             ).with(rowPanel -> rowPanel.setSpacing(4))
         ).with(columnPanel -> {
             columnPanel.setSpacing(4);
@@ -91,6 +100,9 @@ public class OrientationTest extends JFrame implements Runnable {
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
+
+        // Deliberately set locale to one with RTL orientation.
+        Locale.setDefault(new Locale("ar", "SA"));
 
         SwingUtilities.invokeLater(new OrientationTest());
     }
