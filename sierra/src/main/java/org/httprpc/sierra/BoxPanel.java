@@ -121,4 +121,24 @@ public abstract class BoxPanel extends LayoutPanel {
 
         revalidate();
     }
+
+    /**
+     * Returns {@code true} if horizontal alignment is set to
+     * {@link HorizontalAlignment#FILL}; {@code false}, otherwise.
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return (horizontalAlignment == HorizontalAlignment.FILL);
+    }
+
+    /**
+     * Returns {@code true} if vertical alignment is set to
+     * {@link VerticalAlignment#FILL}; {@code false}, otherwise.
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return (verticalAlignment == VerticalAlignment.FILL);
+    }
 }

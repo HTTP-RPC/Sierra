@@ -188,42 +188,4 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
             }
         }
     }
-
-    /**
-     * Indicates that the panel tracks viewport width.
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean getScrollableTracksViewportWidth() {
-        return scrollableTracksViewportWidth;
-    }
-
-    /**
-     * Toggles viewport width tracking.
-     *
-     * @param scrollableTracksViewportWidth
-     * {@code true} to track viewport width; {@code false}, otherwise.
-     */
-    public void setScrollableTracksViewportWidth(boolean scrollableTracksViewportWidth) {
-        this.scrollableTracksViewportWidth = scrollableTracksViewportWidth;
-    }
-
-    /**
-     * Indicates that the panel tracks viewport height.
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean getScrollableTracksViewportHeight() {
-        return scrollableTracksViewportHeight;
-    }
-
-    /**
-     * Toggles viewport height tracking.
-     *
-     * @param scrollableTracksViewportHeight
-     * {@code true} to track viewport height; {@code false}, otherwise.
-     */
-    public void setScrollableTracksViewportHeight(boolean scrollableTracksViewportHeight) {
-        this.scrollableTracksViewportHeight = scrollableTracksViewportHeight;
-    }
 }

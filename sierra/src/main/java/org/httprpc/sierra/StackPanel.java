@@ -84,4 +84,23 @@ public class StackPanel extends LayoutPanel {
 
         super.setLayout(layoutManager);
     }
+
+
+    /**
+     * Returns {@code true}.
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return true;
+    }
+
+    /**
+     * Returns {@code true}.
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return true;
+    }
 }
