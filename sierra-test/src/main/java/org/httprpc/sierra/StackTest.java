@@ -16,28 +16,40 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import static org.httprpc.sierra.UIBuilder.row;
+import static org.httprpc.sierra.UIBuilder.cell;
+import static org.httprpc.sierra.UIBuilder.column;
+import static org.httprpc.sierra.UIBuilder.glue;
+import static org.httprpc.sierra.UIBuilder.stack;
 
-public class RowPanelTest extends JFrame implements Runnable {
-    private RowPanelTest() {
-        super("Row Panel Test");
+public class StackTest extends JFrame implements Runnable {
+    private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+
+    private StackTest() {
+        super("Stack Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        var contentPane = row(
-            // TODO
-        ).getComponent();
+        var textPane = new TextPane(TEXT);
 
-        contentPane.setBorder(new EmptyBorder(8, 8, 8, 8));
+        textPane.setWrapText(true);
 
-        setContentPane(contentPane);
+        setContentPane(stack(
+            cell(textPane),
+            column(
+                glue(),
+                cell(new JButton("Press Me"))
+            ).with(columnPanel -> {
+                columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
+            })
+        ).getComponent());
 
         setSize(320, 240);
         setVisible(true);
@@ -46,6 +58,6 @@ public class RowPanelTest extends JFrame implements Runnable {
     public static void main(String[] args) {
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new RowPanelTest());
+        SwingUtilities.invokeLater(new StackTest());
     }
 }

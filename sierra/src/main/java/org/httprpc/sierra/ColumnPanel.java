@@ -18,22 +18,18 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
- * Arranges sub-components vertically in a column, optionally pinning component
- * edges to the container's insets.
+ * Arranges sub-components vertically in a column, pinning component edges to
+ * the container's leading and trailing insets.
  */
 public class ColumnPanel extends BoxPanel {
+    // Column layout manager
     private class ColumnLayoutManager extends BoxLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
             var size = getSize();
             var insets = getInsets();
 
-            int width;
-            if (getHorizontalAlignment() == HorizontalAlignment.FILL) {
-                width = Math.max(size.width - (insets.left + insets.right), 0);
-            } else {
-                width = Integer.MAX_VALUE;
-            }
+            var width = Math.max(size.width - (insets.left + insets.right), 0);
 
             var preferredWidth = 0;
             var preferredHeight = 0;
@@ -47,13 +43,14 @@ public class ColumnPanel extends BoxPanel {
 
                 var preferredSize = component.getPreferredSize();
 
-                preferredWidth = Math.max(preferredWidth, (int)preferredSize.getWidth());
-                preferredHeight += (int)preferredSize.getHeight();
+                preferredWidth = Math.max(preferredWidth, preferredSize.width);
+                preferredHeight += preferredSize.height;
             }
+
+            preferredHeight += getSpacing() * (n - 1);
 
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
         }
-
 
         @Override
         public void layoutContainer() {
@@ -62,8 +59,7 @@ public class ColumnPanel extends BoxPanel {
 
             var width = Math.max(size.width - (insets.left + insets.right), 0);
 
-            var horizontalAlignment = getHorizontalAlignment();
-            var verticalAlignment = getVerticalAlignment();
+            var spacing = getSpacing();
 
             var totalWeight = 0.0;
             var remainingHeight = Math.max(size.height - (insets.top + insets.bottom), 0);
@@ -73,69 +69,34 @@ public class ColumnPanel extends BoxPanel {
             for (var i = 0; i < n; i++){
                 var component = getComponent(i);
 
-                if (horizontalAlignment == HorizontalAlignment.FILL) {
-                    component.setSize(width, Integer.MAX_VALUE);
-                    component.setSize(width, component.getPreferredSize().height);
-                } else {
-                    component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
-                    component.setSize(component.getPreferredSize());
-                }
-
                 var weight = getWeight(component);
 
-                if (!Double.isNaN(weight) && verticalAlignment == VerticalAlignment.FILL) {
-                    totalWeight += weight;
-                } else {
+                if (Double.isNaN(weight)) {
+                    component.setSize(width, Integer.MAX_VALUE);
+                    component.setSize(width, component.getPreferredSize().height);
+
                     remainingHeight -= component.getHeight();
+                } else {
+                    totalWeight += weight;
                 }
             }
 
-            remainingHeight = Math.max(0, remainingHeight);
+            remainingHeight = Math.max(0, remainingHeight - spacing * (n - 1));
 
             var y = insets.top;
-
-            switch (verticalAlignment) {
-                case BOTTOM: {
-                    y += remainingHeight;
-                    break;
-                }
-
-                case CENTER: {
-                    y += remainingHeight / 2;
-                    break;
-                }
-            }
 
             for (var i = 0; i < n; i++){
                 var component = getComponent(i);
 
-                var x = insets.left;
-
-                switch (horizontalAlignment) {
-                    case LEADING:
-                    case TRAILING: {
-                        if (getComponentOrientation().isLeftToRight() ^ horizontalAlignment == HorizontalAlignment.LEADING) {
-                            x += width - component.getWidth();
-                        }
-
-                        break;
-                    }
-
-                    case CENTER: {
-                        x += (width - component.getWidth()) / 2;
-                        break;
-                    }
-                }
-
-                component.setLocation(x, y);
+                component.setLocation(insets.left, y);
 
                 var weight = getWeight(component);
 
-                if (!Double.isNaN(weight) && verticalAlignment == VerticalAlignment.FILL) {
-                    component.setSize(component.getWidth(), (int)Math.round(remainingHeight * (weight / totalWeight)));
+                if (!Double.isNaN(weight)) {
+                    component.setSize(width, (int)Math.round(remainingHeight * (weight / totalWeight)));
                 }
 
-                y += component.getHeight();
+                y += component.getHeight() + spacing;
             }
         }
     }
@@ -146,8 +107,6 @@ public class ColumnPanel extends BoxPanel {
      * Constructs a new column panel.
      */
     public ColumnPanel() {
-        super(HorizontalAlignment.FILL, VerticalAlignment.FILL, 4);
-
         setLayout(new ColumnLayoutManager());
     }
 
@@ -165,11 +124,11 @@ public class ColumnPanel extends BoxPanel {
     }
 
     /**
-     * Indicates that nested row sub-components will be vertically aligned in a
-     * grid.
+     * Indicates that row descendants will be vertically aligned in a grid.
      *
      * @return
-     * {@code true} to align to grid; {@code false}, otherwise.
+     * {@code true} if row descendants will be aligned to grid; {@code false},
+     * otherwise.
      */
     public boolean getAlignToGrid() {
         return alignToGrid;
@@ -179,7 +138,7 @@ public class ColumnPanel extends BoxPanel {
      * Toggles grid alignment.
      *
      * @param alignToGrid
-     * {@code true} to align to grid; {@code false}, otherwise.
+     * {@code true} to align row descendants to grid; {@code false}, otherwise.
      */
     public void setAlignToGrid(boolean alignToGrid) {
         this.alignToGrid = alignToGrid;

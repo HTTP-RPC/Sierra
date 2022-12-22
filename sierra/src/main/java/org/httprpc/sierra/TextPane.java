@@ -27,7 +27,7 @@ public class TextPane extends JComponent {
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
 
-    private boolean wrapText = false;
+    private boolean wrapText = true;
 
     /**
      * Constructs a text pane.
@@ -91,7 +91,7 @@ public class TextPane extends JComponent {
 
         this.horizontalAlignment = horizontalAlignment;
 
-        revalidate();
+        repaint();
     }
 
     /**
@@ -117,14 +117,15 @@ public class TextPane extends JComponent {
 
         this.verticalAlignment = verticalAlignment;
 
-        revalidate();
+        repaint();
     }
 
     /**
-     * Indicates that the text will wrap.
+     * Indicates that line wrapping is enabled.
      *
      * @return
-     * {@code true} to wrap text; {@code false}, otherwise.
+     * {@code true} if the text will wrap when needed; {@code false},
+     * otherwise.
      */
     public boolean getWrapText() {
         return wrapText;
@@ -134,7 +135,7 @@ public class TextPane extends JComponent {
      * Toggles line wrapping.
      *
      * @param wrapText
-     * {@code true} to wrap text; {@code false}, otherwise.
+     * {@code true} to wrap text when needed; {@code false}, otherwise.
      */
     public void setWrapText(boolean wrapText) {
         this.wrapText = wrapText;
@@ -142,28 +143,48 @@ public class TextPane extends JComponent {
         revalidate();
     }
 
+    /**
+     * Returns 0, 0.
+     * {@inheritDoc}
+     */
     @Override
     public Dimension getMinimumSize() {
         return new Dimension(0, 0);
     }
 
+    /**
+     * Returns {@link Integer#MAX_VALUE}, {@link Integer#MAX_VALUE}.
+     * {@inheritDoc}
+     */
     @Override
     public Dimension getMaximumSize() {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
+    /**
+     * Returns the text pane's preferred size.
+     * {@inheritDoc}
+     */
     @Override
     public Dimension getPreferredSize() {
-        // TODO
+        // TODO Return constrained text size
         return new Dimension();
     }
 
+    /**
+     * Returns the text pane's baseline.
+     * {@inheritDoc}
+     */
     @Override
     public int getBaseline(int width, int height) {
         // TODO Take wrapping and vertical alignment into account
         return -1;
     }
 
+    /**
+     * Paints the text pane.
+     * {@inheritDoc}
+     */
     @Override
     protected void paintComponent(Graphics graphics) {
         // TODO Don't make permanent changes to the GC

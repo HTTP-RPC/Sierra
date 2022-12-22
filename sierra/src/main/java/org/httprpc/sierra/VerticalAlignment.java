@@ -31,10 +31,5 @@ public enum VerticalAlignment {
     /**
      * Center alignment.
      */
-    CENTER,
-
-    /**
-     * Fill alignment.
-     */
-    FILL
+    CENTER
 }

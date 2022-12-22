@@ -16,41 +16,45 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-import javax.swing.JButton;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
-import static org.httprpc.sierra.UIBuilder.glue;
-import static org.httprpc.sierra.UIBuilder.stack;
 
-public class StackPanelTest extends JFrame implements Runnable {
-    private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-
-    private StackPanelTest() {
-        super("Stack Panel Test");
+public class GreetingTest extends JFrame implements Runnable {
+    private GreetingTest() {
+        super("Greeting Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        var textPane = new TextPane(TEXT);
+        Image image;
+        try {
+            image = ImageIO.read(getClass().getResource("world.png"));
+        } catch (IOException exception) {
+            image = null;
+        }
 
-        textPane.setWrapText(true);
+        var scrollPane = new JScrollPane(column(
+            cell(new ImagePane(image)),
+            cell(new TextPane("Hello, World!"))
+        ).with(columnPanel -> {
+            columnPanel.setSpacing(4);
+            columnPanel.setScrollableTracksViewportWidth(true);
+        }).getComponent());
 
-        setContentPane(stack(
-            cell(textPane),
-            column(
-                glue(),
-                cell(new JButton("Press Me"))
-            ).with(columnPanel -> {
-                columnPanel.setHorizontalAlignment(HorizontalAlignment.CENTER);
-                columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
-            })
-        ).getComponent());
+        scrollPane.getViewport().setBackground(Color.WHITE);
+        scrollPane.setBorder(null);
+
+        setContentPane(scrollPane);
 
         setSize(320, 240);
         setVisible(true);
@@ -59,6 +63,6 @@ public class StackPanelTest extends JFrame implements Runnable {
     public static void main(String[] args) {
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new StackPanelTest());
+        SwingUtilities.invokeLater(new GreetingTest());
     }
 }

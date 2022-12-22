@@ -53,7 +53,7 @@ public class UIBuilder {
          * @return
          * The cell instance.
          */
-        public Cell<C> weight(double weight) {
+        public Cell<C> weightBy(double weight) {
             constraints = weight;
 
             return this;
@@ -99,23 +99,6 @@ public class UIBuilder {
     }
 
     /**
-     * Declares a row cell.
-     *
-     * @param cells
-     * The row's contents.
-     *
-     * @return
-     * The cell instance.
-     */
-    public static Cell<RowPanel> row(Cell<?>... cells) {
-        if (cells == null) {
-            throw new IllegalArgumentException();
-        }
-
-        return cell(populate(new RowPanel(), cells));
-    }
-
-    /**
      * Declares a column cell.
      *
      * @param cells
@@ -130,6 +113,23 @@ public class UIBuilder {
         }
 
         return cell(populate(new ColumnPanel(), cells));
+    }
+
+    /**
+     * Declares a row cell.
+     *
+     * @param cells
+     * The row's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<RowPanel> row(Cell<?>... cells) {
+        if (cells == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return cell(populate(new RowPanel(), cells));
     }
 
     private static <P extends BoxPanel> P populate(P panel, Cell<?>... cells) {
@@ -162,7 +162,7 @@ public class UIBuilder {
      * The cell instance.
      */
     public static Cell<Spacer> glue() {
-        return cell(new Spacer(0)).weight(1.0);
+        return cell(new Spacer(0)).weightBy(1.0);
     }
 
     /**

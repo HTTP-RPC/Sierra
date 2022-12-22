@@ -15,17 +15,20 @@
 package org.httprpc.sierra;
 
 import javax.swing.JPanel;
+import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager2;
+import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Abstract base class for layout panels.
  */
-public abstract class LayoutPanel extends JPanel {
+public abstract class LayoutPanel extends JPanel implements Scrollable {
     abstract static class AbstractLayoutManager implements LayoutManager2 {
         private Map<Component, Object> constraints = new HashMap<>();
 
@@ -88,7 +91,8 @@ public abstract class LayoutPanel extends JPanel {
         }
     }
 
-    private boolean ignoreInvalidate = false;
+    private boolean scrollableTracksViewportWidth;
+    private boolean scrollableTracksViewportHeight;
 
     LayoutPanel() {
         super(null);
@@ -97,30 +101,99 @@ public abstract class LayoutPanel extends JPanel {
     }
 
     /**
-     * Return's the panel's preferred size.
+     * Returns the panel's preferred scrollable viewport size.
      * {@inheritDoc}
      */
     @Override
-    public Dimension getPreferredSize() {
-        ignoreInvalidate = true;
-
-        var preferredSize = super.getPreferredSize();
-
-        ignoreInvalidate = false;
-
-        return preferredSize;
+    public Dimension getPreferredScrollableViewportSize() {
+        return getPreferredSize();
     }
 
     /**
-     * Invalidates the panel.
+     * Returns the panel's scrollable unit increment.
      * {@inheritDoc}
      */
     @Override
-    public void invalidate() {
-        if (ignoreInvalidate) {
-            return;
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        if (visibleRect == null) {
+            throw new IllegalArgumentException();
         }
 
-        super.invalidate();
+        switch (orientation) {
+            case SwingConstants.VERTICAL: {
+                return visibleRect.height / 10;
+            }
+
+            case SwingConstants.HORIZONTAL: {
+                return visibleRect.width / 10;
+            }
+
+            default: {
+                throw new UnsupportedOperationException();
+            }
+        }
+    }
+
+    /**
+     * Returns the panel's scrollable block increment.
+     * {@inheritDoc}
+     */
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        if (visibleRect == null) {
+            throw new IllegalArgumentException();
+        }
+
+        switch (orientation) {
+            case SwingConstants.VERTICAL: {
+                return visibleRect.height;
+            }
+
+            case SwingConstants.HORIZONTAL: {
+                return visibleRect.width;
+            }
+
+            default: {
+                throw new UnsupportedOperationException();
+            }
+        }
+    }
+
+    /**
+     * Indicates that the panel tracks viewport width.
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return scrollableTracksViewportWidth;
+    }
+
+    /**
+     * Toggles viewport width tracking.
+     *
+     * @param scrollableTracksViewportWidth
+     * {@code true} to track viewport width; {@code false}, otherwise.
+     */
+    public void setScrollableTracksViewportWidth(boolean scrollableTracksViewportWidth) {
+        this.scrollableTracksViewportWidth = scrollableTracksViewportWidth;
+    }
+
+    /**
+     * Indicates that the panel tracks viewport height.
+     * {@inheritDoc}
+     */
+     @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return scrollableTracksViewportHeight;
+    }
+
+    /**
+     * Toggles viewport height tracking.
+     *
+     * @param scrollableTracksViewportHeight
+     * {@code true} to track viewport height; {@code false}, otherwise.
+     */
+    public void setScrollableTracksViewportHeight(boolean scrollableTracksViewportHeight) {
+        this.scrollableTracksViewportHeight = scrollableTracksViewportHeight;
     }
 }

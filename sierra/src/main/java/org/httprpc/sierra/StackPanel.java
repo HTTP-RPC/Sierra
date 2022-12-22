@@ -42,8 +42,8 @@ public class StackPanel extends LayoutPanel {
 
                 var preferredSize = component.getPreferredSize();
 
-                preferredWidth = Math.max(preferredWidth, (int)preferredSize.getWidth());
-                preferredHeight = Math.max(preferredHeight, (int)preferredSize.getHeight());
+                preferredWidth = Math.max(preferredWidth, preferredSize.width);
+                preferredHeight = Math.max(preferredHeight, preferredSize.height);
             }
 
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);

@@ -19,26 +19,23 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import java.awt.ComponentOrientation;
-import java.awt.FlowLayout;
 
-import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
-import static org.httprpc.sierra.SwingUIBuilder.cell;
-import static org.httprpc.sierra.SwingUIBuilder.center;
-import static org.httprpc.sierra.SwingUIBuilder.flowPanel;
-import static org.httprpc.sierra.SwingUIBuilder.pageEnd;
+import static org.httprpc.sierra.UIBuilder.cell;
+import static org.httprpc.sierra.UIBuilder.column;
+import static org.httprpc.sierra.UIBuilder.row;
 
-public class FlowLayoutTest extends JFrame implements Runnable {
-    private JPanel flowPanel;
+public class OrientationTest extends JFrame implements Runnable {
+    private RowPanel rowPanel;
 
     private JRadioButton leftToRightButton;
     private JRadioButton rightToLeftButton;
 
-    private FlowLayoutTest() {
-        super("Flow Layout Test");
+    private OrientationTest() {
+        super("Orientation Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -47,20 +44,20 @@ public class FlowLayoutTest extends JFrame implements Runnable {
     public void run() {
         var buttonGroup = new ButtonGroup();
 
-        setContentPane(borderPanel(
-            center(flowPanel(FlowLayout.CENTER, 5, 5, false,
-                cell(new JButton("Button 1")),
-                cell(new JButton("Button 2")),
-                cell(new JButton("Button 3")),
-                cell(new JButton("Long-Named Button 4")),
+        setContentPane(column(
+            row(
+                cell(new JButton("1")),
+                cell(new JButton("2")),
+                cell(new JButton("3")),
+                cell(new JButton("4")),
                 cell(new JButton("5"))
-            )).with(flowPanel -> {
-                flowPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+            ).with(rowPanel -> {
+                rowPanel.setSpacing(4);
 
-                this.flowPanel = flowPanel;
+                this.rowPanel = rowPanel;
             }),
 
-            pageEnd(flowPanel(FlowLayout.CENTER, 5, 5, false,
+            row(
                 cell(new JRadioButton("Left to right", true)).with(button -> {
                     buttonGroup.add(button);
 
@@ -75,18 +72,18 @@ public class FlowLayoutTest extends JFrame implements Runnable {
 
                 cell(new JButton("Apply orientation")).with(button -> button.addActionListener(event -> {
                     if (leftToRightButton.isSelected()) {
-                        flowPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+                        rowPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
                     } else if (rightToLeftButton.isSelected()) {
-                        flowPanel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+                        rowPanel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
                     } else {
                         throw new UnsupportedOperationException();
                     }
-
-                    flowPanel.validate();
-                    flowPanel.repaint();
                 }))
-            )))
-        );
+            ).with(rowPanel -> rowPanel.setSpacing(4))
+        ).with(columnPanel -> {
+            columnPanel.setSpacing(4);
+            columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
+        }).getComponent());
 
         pack();
         setVisible(true);
@@ -95,6 +92,6 @@ public class FlowLayoutTest extends JFrame implements Runnable {
     public static void main(String[] args) {
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new FlowLayoutTest());
+        SwingUtilities.invokeLater(new OrientationTest());
     }
 }

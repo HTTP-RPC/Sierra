@@ -19,31 +19,126 @@ import java.awt.LayoutManager;
 
 /**
  * Arranges sub-components horizontally in a row, optionally pinning component
- * edges to the container's insets.
+ * edges to the container's top and bottom insets.
  */
 public class RowPanel extends BoxPanel {
+    // TODO Add support for baseline alignment
+    // TODO Add support for grid alignment
+
+    // Row layout manager
     private class RowLayoutManager extends BoxLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
-            // TODO
-            return null;
-        }
+            var size = getSize();
+            var insets = getInsets();
 
+            var preferredWidth = 0;
+            var preferredHeight = 0;
+
+            var totalWeight = 0.0;
+            var remainingWidth = Math.max(size.width - (insets.left + insets.right), 0);
+
+            var n = getComponentCount();
+
+            // TODO When aligning to baseline, calculate maximum ascent/descent
+
+            for (var i = 0; i < n; i++){
+                var component = getComponent(i);
+
+                var weight = getWeight(component);
+
+                if (Double.isNaN(weight)) {
+                    component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
+
+                    var preferredSize = component.getPreferredSize();
+
+                    preferredWidth += preferredSize.width;
+                    preferredHeight = Math.max(preferredHeight, preferredSize.height);
+
+                    remainingWidth -= preferredSize.width;
+                } else {
+                    totalWeight += weight;
+                }
+            }
+
+            var totalSpacing = getSpacing() * (n - 1);
+
+            preferredWidth += totalSpacing;
+
+            remainingWidth = Math.max(0, remainingWidth - totalSpacing);
+
+            for (var i = 0; i < n; i++){
+                var component = getComponent(i);
+
+                var weight = getWeight(component);
+
+                if (!Double.isNaN(weight)) {
+                    component.setSize((int)Math.round(remainingWidth * (weight / totalWeight)), Integer.MAX_VALUE);
+
+                    preferredHeight = Math.max(preferredHeight, component.getPreferredSize().height);
+                }
+            }
+
+            return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
+        }
 
         @Override
         public void layoutContainer() {
-            // TODO
+            var size = getSize();
+            var insets = getInsets();
+
+            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
+
+            var spacing = getSpacing();
+
+            var totalWeight = 0.0;
+            var remainingWidth = Math.max(size.width - (insets.left + insets.right), 0);
+
+            var n = getComponentCount();
+
+            for (var i = 0; i < n; i++){
+                var component = getComponent(i);
+
+                var weight = getWeight(component);
+
+                if (Double.isNaN(weight)) {
+                    component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
+                    component.setSize(component.getPreferredSize().width, height);
+
+                    remainingWidth -= component.getWidth();
+                } else {
+                    totalWeight += weight;
+                }
+            }
+
+            remainingWidth = Math.max(0, remainingWidth - spacing * (n - 1));
+
+            // TODO Support right-to-left orientations
+
+            var x = insets.left;
+
+            for (var i = 0; i < n; i++){
+                var component = getComponent(i);
+
+                component.setLocation(x, insets.top);
+
+                var weight = getWeight(component);
+
+                if (!Double.isNaN(weight)) {
+                    component.setSize((int)Math.round(remainingWidth * (weight / totalWeight)), height);
+                }
+
+                x += component.getWidth() + spacing;
+            }
         }
     }
 
-    private boolean alignToBaseline = true;
+    private boolean alignToBaseline = false;
 
     /**
      * Constructs a new row panel.
      */
     public RowPanel() {
-        super(HorizontalAlignment.FILL, VerticalAlignment.CENTER, 4);
-
         setLayout(new RowLayoutManager());
     }
 
@@ -80,5 +175,14 @@ public class RowPanel extends BoxPanel {
         this.alignToBaseline = alignToBaseline;
 
         revalidate();
+    }
+
+    /**
+     * Returns the panel's baseline.
+     * {@inheritDoc}
+     */
+    @Override
+    public int getBaseline(int width, int height) {
+        return alignToBaseline ? super.getBaseline(width, height) : -1;
     }
 }

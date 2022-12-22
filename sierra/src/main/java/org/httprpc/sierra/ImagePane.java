@@ -28,6 +28,8 @@ public class ImagePane extends JComponent {
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
     private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
 
+    private boolean scaleToFit = true;
+
     /**
      * Constructs an image pane.
      */
@@ -90,7 +92,7 @@ public class ImagePane extends JComponent {
 
         this.horizontalAlignment = horizontalAlignment;
 
-        revalidate();
+        repaint();
     }
 
     /**
@@ -116,33 +118,75 @@ public class ImagePane extends JComponent {
 
         this.verticalAlignment = verticalAlignment;
 
-        revalidate();
+        repaint();
     }
 
+    /**
+     * Indicates that image scaling is enabled.
+     *
+     * @return
+     * {@code true} if the image will be scaled when needed; {@code false},
+     * otherwise.
+     */
+    public boolean getScaleToFit() {
+        return scaleToFit;
+    }
+
+    /**
+     * Toggles image scaling.
+     *
+     * @param scaleToFit
+     * {@code true} to scale the image when needed; {@code false}, otherwise.
+     */
+    public void setScaleToFit(boolean scaleToFit) {
+        this.scaleToFit = scaleToFit;
+
+        repaint();
+    }
+
+    /**
+     * Returns 0, 0.
+     * {@inheritDoc}
+     */
     @Override
     public Dimension getMinimumSize() {
         return new Dimension(0, 0);
     }
 
+    /**
+     * Returns {@link Integer#MAX_VALUE}, {@link Integer#MAX_VALUE}.
+     * {@inheritDoc}
+     */
     @Override
     public Dimension getMaximumSize() {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
+    /**
+     * Returns the image pane's preferred size.
+     * {@inheritDoc}
+     */
     @Override
     public Dimension getPreferredSize() {
-        // TODO
+        // TODO Return image size
         return new Dimension();
     }
 
+    /**
+     * Returns -1.
+     * {@inheritDoc}
+     */
     @Override
     public int getBaseline(int width, int height) {
         return -1;
     }
 
+    /**
+     * Paints the image pane.
+     * {@inheritDoc}
+     */
     @Override
     protected void paintComponent(Graphics graphics) {
-        // TODO Scale if horizontal or vertical alignment is FILL
         // TODO Don't make permanent changes to the GC
     }
 }

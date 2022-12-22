@@ -14,16 +14,13 @@
 
 package org.httprpc.sierra;
 
-import javax.swing.Scrollable;
-import javax.swing.SwingConstants;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Rectangle;
 
 /**
  * Abstract base class for box panels.
  */
-public abstract class BoxPanel extends LayoutPanel implements Scrollable {
+public abstract class BoxPanel extends LayoutPanel {
+    // Abstract base class for box layout managers
     abstract static class BoxLayoutManager extends AbstractLayoutManager {
         protected double getWeight(Component component) {
             var constraints = getConstraints(component);
@@ -40,69 +37,7 @@ public abstract class BoxPanel extends LayoutPanel implements Scrollable {
         }
     }
 
-    private HorizontalAlignment horizontalAlignment;
-    private VerticalAlignment verticalAlignment;
-
-    private int spacing;
-
-    BoxPanel(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, int spacing) {
-        this.horizontalAlignment = horizontalAlignment;
-        this.verticalAlignment = verticalAlignment;
-
-        this.spacing = spacing;
-    }
-
-    /**
-     * Returns the horizontal alignment.
-     *
-     * @return
-     * The horizontal alignment.
-     */
-    public HorizontalAlignment getHorizontalAlignment() {
-        return horizontalAlignment;
-    }
-
-    /**
-     * Sets the horizontal alignment.
-     *
-     * @param horizontalAlignment
-     * The horizontal alignment.
-     */
-    public void setHorizontalAlignment(HorizontalAlignment horizontalAlignment) {
-        if (horizontalAlignment == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.horizontalAlignment = horizontalAlignment;
-
-        revalidate();
-    }
-
-    /**
-     * Returns the vertical alignment.
-     *
-     * @return
-     * The vertical alignment.
-     */
-    public VerticalAlignment getVerticalAlignment() {
-        return verticalAlignment;
-    }
-
-    /**
-     * Sets the vertical alignment.
-     *
-     * @param verticalAlignment
-     * The vertical alignment.
-     */
-    public void setVerticalAlignment(VerticalAlignment verticalAlignment) {
-        if (verticalAlignment == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.verticalAlignment = verticalAlignment;
-
-        revalidate();
-    }
+    private int spacing = 0;
 
     /**
      * Returns the amount of space between successive sub-components.
@@ -121,87 +56,32 @@ public abstract class BoxPanel extends LayoutPanel implements Scrollable {
      * The sub-component spacing.
      */
     public void setSpacing(int spacing) {
+        if (spacing < 0) {
+            throw new IllegalArgumentException();
+        }
+
         this.spacing = spacing;
 
         revalidate();
     }
 
     /**
-     * Returns the panel's preferred scrollable viewport size.
+     * Returns the panel's baseline.
      * {@inheritDoc}
      */
     @Override
-    public Dimension getPreferredScrollableViewportSize() {
-        return getPreferredSize();
-    }
-
-    /**
-     * Returns the panel's scrollable unit increment.
-     * {@inheritDoc}
-     */
-    @Override
-    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        if (visibleRect == null) {
-            throw new IllegalArgumentException();
+    public int getBaseline(int width, int height) {
+        if (getComponentCount() > 0) {
+            return -1;
         }
 
-        switch (orientation) {
-            case SwingConstants.VERTICAL: {
-                return visibleRect.height / 10;
-            }
+        setSize(width, height);
+        doLayout();
 
-            case SwingConstants.HORIZONTAL: {
-                return visibleRect.width / 10;
-            }
+        var first = getComponent(0);
 
-            default: {
-                throw new UnsupportedOperationException();
-            }
-        }
-    }
+        var baseline = first.getBaseline(first.getWidth(), first.getHeight());
 
-    /**
-     * Returns the panel's scrollable block increment.
-     * {@inheritDoc}
-     */
-    @Override
-    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        if (visibleRect == null) {
-            throw new IllegalArgumentException();
-        }
-
-        switch (orientation) {
-            case SwingConstants.VERTICAL: {
-                return visibleRect.height;
-            }
-
-            case SwingConstants.HORIZONTAL: {
-                return visibleRect.width;
-            }
-
-            default: {
-                throw new UnsupportedOperationException();
-            }
-        }
-    }
-
-    /**
-     * Returns {@code true} if horizontal alignment is set to
-     * {@link HorizontalAlignment#FILL}; {@code false}, otherwise.
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean getScrollableTracksViewportWidth() {
-        return (horizontalAlignment == HorizontalAlignment.FILL);
-    }
-
-    /**
-     * Returns {@code true} if vertical alignment is set to
-     * {@link VerticalAlignment#FILL}; {@code false}, otherwise.
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean getScrollableTracksViewportHeight() {
-        return (verticalAlignment == VerticalAlignment.FILL);
+        return (baseline < 0) ? baseline : baseline + first.getY();
     }
 }

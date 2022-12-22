@@ -31,10 +31,5 @@ public enum HorizontalAlignment {
     /**
      * Center alignment.
      */
-    CENTER,
-
-    /**
-     * Fill alignment.
-     */
-    FILL
+    CENTER
 }

@@ -33,9 +33,9 @@ import static org.httprpc.sierra.SwingUIBuilder.center;
 import static org.httprpc.sierra.SwingUIBuilder.gridBagPanel;
 import static org.httprpc.sierra.SwingUIBuilder.row;
 
-public class FormTest2 extends JFrame implements Runnable {
-    private FormTest2() {
-        super("Form Test 2");
+public class FormTest extends JFrame implements Runnable {
+    private FormTest() {
+        super("Form Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -130,6 +130,6 @@ public class FormTest2 extends JFrame implements Runnable {
 
         KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
 
-        SwingUtilities.invokeLater(new FormTest2());
+        SwingUtilities.invokeLater(new FormTest());
     }
 }

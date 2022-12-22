@@ -18,7 +18,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 /**
- * Provides space between other components.
+ * Provides space between components.
  */
 public class Spacer extends Component {
     /**
@@ -33,6 +33,6 @@ public class Spacer extends Component {
 
     @Override
     public boolean isOpaque() {
-        return (getBackground() != null);
+        return false;
     }
 }
