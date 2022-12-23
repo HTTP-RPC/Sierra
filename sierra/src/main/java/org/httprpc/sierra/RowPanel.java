@@ -40,8 +40,6 @@ public class RowPanel extends BoxPanel {
 
             var n = getComponentCount();
 
-            // TODO When aligning to baseline, calculate maximum ascent/descent
-
             for (var i = 0; i < n; i++){
                 var component = getComponent(i);
 
