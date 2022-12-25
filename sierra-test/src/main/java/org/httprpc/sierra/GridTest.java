@@ -16,9 +16,10 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
@@ -41,32 +42,36 @@ public class GridTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Consumer<JComponent> cellStyle = cell -> cell.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+        Consumer<JTextArea> textAreaStyle = textArea -> {
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+            textArea.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+        };
 
-        var contentPane = new JScrollPane(column(
-            cell(new TextPane(TEXT, true)),
+        var contentPane = new JScrollPane(column(4,
+            cell(new JTextArea(TEXT)).with(textAreaStyle),
             column(4, true,
                 row(4, true,
-                    cell(new TextPane("abcdefg")),
-                    column(
-                        cell(new TextPane(TEXT, true)),
-                        cell(new TextPane(TEXT, true))
-                    ).weightBy(1.0).with(cellStyle)
+                    cell(new JLabel("abcdefg")),
+                    column(4,
+                        cell(new JTextArea(TEXT)).with(textAreaStyle),
+                        cell(new JTextArea(TEXT)).with(textAreaStyle)
+                    ).weightBy(1.0)
                 ),
                 row(4, true,
-                    cell(new TextPane("xyz")),
-                    column(
-                        cell(new TextPane(TEXT, true)),
-                        cell(new TextPane(TEXT, true))
-                    ).weightBy(1.0).with(cellStyle)
+                    cell(new JLabel("xyz")),
+                    column(4,
+                        cell(new JTextArea(TEXT)).with(textAreaStyle),
+                        cell(new JTextArea(TEXT)).with(textAreaStyle)
+                    ).weightBy(1.0)
                 )
             ),
             row(4, true,
-                column(
-                    cell(new TextPane(TEXT)),
+                column(4,
+                    cell(new JTextArea(TEXT)).with(textAreaStyle),
                     glue()
                 ).weightBy(2.0),
-                cell(new TextPane(TEXT)).weightBy(1.0)
+                cell(new JTextArea(TEXT)).weightBy(1.0).with(textAreaStyle)
             )
         ).with(columnPanel -> {
             columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
@@ -77,7 +82,7 @@ public class GridTest extends JFrame implements Runnable {
 
         setContentPane(contentPane);
 
-        setSize(360, 480);
+        setSize(320, 640);
         setVisible(true);
     }
 
