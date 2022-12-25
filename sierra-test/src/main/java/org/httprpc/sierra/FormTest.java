@@ -16,7 +16,6 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -39,18 +38,7 @@ public class FormTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var scrollPane = new JScrollPane(getViewportView());
-
-        scrollPane.setBorder(null);
-
-        setContentPane(scrollPane);
-
-        setSize(480, 360);
-        setVisible(true);
-    }
-
-    private JComponent getViewportView() {
-        var viewportView = column(4, true,
+        var scrollPane = new JScrollPane(column(4, true,
             row(4, true,
                 cell(new JLabel("First Name")),
                 cell(new JTextField(null, 12))
@@ -113,11 +101,14 @@ public class FormTest extends JFrame implements Runnable {
                 cell(new JLabel("Field 4")),
                 cell(new JTextField(null, 12))
             )
-        ).getComponent();
+        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
-        viewportView.setBorder(new EmptyBorder(8, 8, 8, 8));
+        scrollPane.setBorder(null);
 
-        return viewportView;
+        setContentPane(scrollPane);
+
+        setSize(480, 360);
+        setVisible(true);
     }
 
     public static void main(String[] args) {

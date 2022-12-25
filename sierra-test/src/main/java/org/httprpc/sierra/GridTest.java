@@ -41,20 +41,9 @@ public class GridTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var contentPane = new JScrollPane(getViewportView());
-
-        contentPane.setBorder(null);
-
-        setContentPane(contentPane);
-
-        setSize(360, 480);
-        setVisible(true);
-    }
-
-    private JComponent getViewportView() {
         Consumer<JComponent> cellStyle = cell -> cell.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
 
-        var viewportView = column(
+        var contentPane = new JScrollPane(column(
             cell(new TextPane(TEXT, true)),
             column(4, true,
                 row(4, true,
@@ -79,12 +68,17 @@ public class GridTest extends JFrame implements Runnable {
                 ).weightBy(2.0),
                 cell(new TextPane(TEXT)).weightBy(1.0)
             )
-        ).getComponent();
+        ).with(columnPanel -> {
+            columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
+            columnPanel.setScrollableTracksViewportWidth(true);
+        }).getComponent());
 
-        viewportView.setBorder(new EmptyBorder(8, 8, 8, 8));
-        viewportView.setScrollableTracksViewportWidth(true);
+        contentPane.setBorder(null);
 
-        return viewportView;
+        setContentPane(contentPane);
+
+        setSize(360, 480);
+        setVisible(true);
     }
 
     public static void main(String[] args) {
