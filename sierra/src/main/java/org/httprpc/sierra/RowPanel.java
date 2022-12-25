@@ -31,7 +31,7 @@ public class RowPanel extends BoxPanel {
 
             var n = getComponentCount();
 
-            for (var i = 0; i < n; i++){
+            for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
                 var weight = getWeight(component);
@@ -58,7 +58,7 @@ public class RowPanel extends BoxPanel {
             var maximumAscent = 0;
             var maximumDescent = 0;
 
-            for (var i = 0; i < n; i++){
+            for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
                 var weight = getWeight(component);
@@ -93,8 +93,6 @@ public class RowPanel extends BoxPanel {
 
         @Override
         public void layoutContainer() {
-            // TODO Add support for baseline alignment
-            
             var size = getSize();
             var insets = getInsets();
 
@@ -105,14 +103,19 @@ public class RowPanel extends BoxPanel {
 
             var n = getComponentCount();
 
-            for (var i = 0; i < n; i++){
+            for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
                 var weight = getWeight(component);
 
                 if (Double.isNaN(weight)) {
                     component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
-                    component.setSize(component.getPreferredSize().width, height);
+
+                    if (alignToBaseline) {
+                        component.setSize(component.getPreferredSize());
+                    } else {
+                        component.setSize(component.getPreferredSize().width, height);
+                    }
 
                     remainingWidth -= component.getWidth();
                 } else {
@@ -132,13 +135,24 @@ public class RowPanel extends BoxPanel {
                 x += size.width;
             }
 
-            for (var i = 0; i < n; i++){
+            var baselines = new int[n];
+
+            var maximumBaseline = 0;
+
+            for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
                 var weight = getWeight(component);
 
                 if (!Double.isNaN(weight)) {
-                    component.setSize((int)Math.round(remainingWidth * (weight / totalWeight)), height);
+                    var width = (int)Math.round(remainingWidth * (weight / totalWeight));
+
+                    if (alignToBaseline) {
+                        component.setSize(width, Integer.MAX_VALUE);
+                        component.setSize(width, component.getPreferredSize().height);
+                    } else {
+                        component.setSize(width, height);
+                    }
                 }
 
                 if (rightToLeft) {
@@ -147,10 +161,26 @@ public class RowPanel extends BoxPanel {
 
                 component.setLocation(x, insets.top);
 
+                if (alignToBaseline) {
+                    var baseline = component.getBaseline(component.getWidth(), component.getHeight());
+
+                    baselines[i] = baseline;
+
+                    maximumBaseline = Math.max(baseline, maximumBaseline);
+                }
+
                 if (rightToLeft) {
                     x -= spacing;
                 } else {
                     x += component.getWidth() + spacing;
+                }
+            }
+
+            if (alignToBaseline) {
+                for (var i = 0; i < n; i++) {
+                    var component = getComponent(i);
+
+                    component.setLocation(component.getX(), component.getY() + (maximumBaseline - baselines[i]));
                 }
             }
         }

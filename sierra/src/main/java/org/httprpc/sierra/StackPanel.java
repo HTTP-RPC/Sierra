@@ -35,7 +35,7 @@ public class StackPanel extends LayoutPanel {
 
             var n = getComponentCount();
 
-            for (var i = 0; i < n; i++){
+            for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
                 component.setSize(width, Integer.MAX_VALUE);
@@ -59,7 +59,7 @@ public class StackPanel extends LayoutPanel {
 
             var n = getComponentCount();
 
-            for (var i = 0; i < n; i++){
+            for (var i = 0; i < n; i++) {
                 getComponent(i).setBounds(insets.left, insets.top, width, height);
             }
         }

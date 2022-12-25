@@ -38,7 +38,7 @@ public class ColumnPanel extends BoxPanel {
 
             var n = getComponentCount();
 
-            for (var i = 0; i < n; i++){
+            for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
                 component.setSize(width, Integer.MAX_VALUE);
@@ -70,7 +70,7 @@ public class ColumnPanel extends BoxPanel {
 
             var n = getComponentCount();
 
-            for (var i = 0; i < n; i++){
+            for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
                 var weight = getWeight(component);
@@ -89,7 +89,7 @@ public class ColumnPanel extends BoxPanel {
 
             var y = insets.top;
 
-            for (var i = 0; i < n; i++){
+            for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
                 component.setLocation(insets.left, y);
