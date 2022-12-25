@@ -54,44 +54,31 @@ public class GridTest extends JFrame implements Runnable {
     private JComponent getViewportView() {
         Consumer<JComponent> cellStyle = cell -> cell.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
 
-        Consumer<TextPane> textPaneStyle = textPane -> {
-            cellStyle.accept(textPane);
-
-            textPane.setWrapText(true);
-        };
-
-        Consumer<RowPanel> rowPanelStyle = rowPanel -> {
-            cellStyle.accept(rowPanel);
-
-            rowPanel.setSpacing(4);
-            rowPanel.setAlignToBaseline(true);
-        };
-
         var viewportView = column(
-            cell(new TextPane(TEXT)).with(textPaneStyle),
+            cell(new TextPane(TEXT, true)),
             column(
-                row(
+                row(4, true,
                     cell(new TextPane("abcdefg")),
                     column(
-                        cell(new TextPane(TEXT)).with(textPaneStyle),
-                        cell(new TextPane(TEXT)).with(textPaneStyle)
+                        cell(new TextPane(TEXT, true)),
+                        cell(new TextPane(TEXT, true))
                     ).weightBy(1.0).with(cellStyle)
-                ).with(rowPanelStyle),
-                row(
+                ),
+                row(4, true,
                     cell(new TextPane("xyz")),
                     column(
-                        cell(new TextPane(TEXT)).with(textPaneStyle),
-                        cell(new TextPane(TEXT)).with(textPaneStyle)
+                        cell(new TextPane(TEXT, true)),
+                        cell(new TextPane(TEXT, true))
                     ).weightBy(1.0).with(cellStyle)
-                ).with(rowPanelStyle)
+                )
             ).with(columnPanel -> columnPanel.setAlignToGrid(true)),
-            row(
+            row(4, true,
                 column(
                     cell(new TextPane(TEXT)),
                     glue()
                 ).weightBy(2.0),
                 cell(new TextPane(TEXT)).weightBy(1.0)
-            ).with(rowPanelStyle)
+            )
         ).getComponent();
 
         viewportView.setBorder(new EmptyBorder(8, 8, 8, 8));

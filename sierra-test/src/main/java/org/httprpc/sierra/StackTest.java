@@ -37,12 +37,8 @@ public class StackTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var textPane = new TextPane(TEXT);
-
-        textPane.setWrapText(true);
-
         setContentPane(stack(
-            cell(textPane),
+            cell(new TextPane(TEXT, true)),
             column(
                 glue(),
                 cell(new JButton("Press Me"))

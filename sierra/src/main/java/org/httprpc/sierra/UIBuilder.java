@@ -116,6 +116,44 @@ public class UIBuilder {
     }
 
     /**
+     * Declares a column cell.
+     *
+     * @param spacing
+     * The cell spacing.
+     *
+     * @param cells
+     * The column's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<ColumnPanel> column(int spacing, Cell<?>... cells) {
+        return column(spacing, false, cells);
+    }
+
+    /**
+     * Declares a column cell.
+     *
+     * @param spacing
+     * The cell spacing.
+     *
+     * @param alignToGrid
+     * {@code true} to align row descendants to grid; {@code false}, otherwise.
+     *
+     * @param cells
+     * The column's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<ColumnPanel> column(int spacing, boolean alignToGrid, Cell<?>... cells) {
+        return column(cells).with(columnPanel -> {
+            columnPanel.setSpacing(spacing);
+            columnPanel.setAlignToGrid(alignToGrid);
+        });
+    }
+
+    /**
      * Declares a row cell.
      *
      * @param cells
@@ -130,6 +168,44 @@ public class UIBuilder {
         }
 
         return cell(populate(new RowPanel(), cells));
+    }
+
+    /**
+     * Declares a row cell.
+     *
+     * @param spacing
+     * The cell spacing.
+     *
+     * @param cells
+     * The row's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<RowPanel> row(int spacing, Cell<?>... cells) {
+        return row(spacing, false, cells);
+    }
+
+    /**
+     * Declares a row cell.
+     *
+     * @param spacing
+     * The cell spacing.
+     *
+     * @param alignToBaseline
+     * {@code true} to align to baseline; {@code false}, otherwise.
+     *
+     * @param cells
+     * The row's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<RowPanel> row(int spacing, boolean alignToBaseline, Cell<?>... cells) {
+        return row(cells).with(rowPanel -> {
+            rowPanel.setSpacing(spacing);
+            rowPanel.setAlignToBaseline(alignToBaseline);
+        });
     }
 
     private static <P extends BoxPanel> P populate(P panel, Cell<?>... cells) {

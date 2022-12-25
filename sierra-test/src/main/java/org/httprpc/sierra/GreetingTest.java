@@ -44,8 +44,8 @@ public class GreetingTest extends JFrame implements Runnable {
         }
 
         var scrollPane = new JScrollPane(column(
-            cell(new ImagePane(image)),
-            cell(new TextPane("Hello, World!"))
+            cell(new ImagePane(image, true)),
+            cell(new TextPane("Hello, World!", true))
         ).with(columnPanel -> {
             columnPanel.setSpacing(4);
             columnPanel.setScrollableTracksViewportWidth(true);

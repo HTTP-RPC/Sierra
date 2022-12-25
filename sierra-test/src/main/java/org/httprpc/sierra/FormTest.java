@@ -25,7 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.KeyboardFocusManager;
-import java.util.function.Consumer;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
@@ -51,74 +50,69 @@ public class FormTest extends JFrame implements Runnable {
     }
 
     private JComponent getViewportView() {
-        Consumer<RowPanel> rowPanelStyle = rowPanel -> {
-            rowPanel.setSpacing(4);
-            rowPanel.setAlignToBaseline(true);
-        };
-
         var viewportView = column(
-            row(
+            row(4, true,
                 cell(new JLabel("First Name")),
                 cell(new JTextField(null, 12))
-            ).with(rowPanelStyle),
-            row(
+            ),
+            row(4, true,
                 cell(new JLabel("Last Name")),
                 cell(new JTextField(null, 12))
-            ).with(rowPanelStyle),
-            row(
+            ),
+            row(4, true,
                 cell(new JLabel("Street Address")),
                 cell(new JTextField(null, 24))
-            ).with(rowPanelStyle),
-            row(
+            ),
+            row(4, true,
                 cell(new JLabel("City")),
                 cell(new JTextField(null, 16))
-            ).with(rowPanelStyle),
-            row(
+            ),
+            row(4, true,
                 cell(new JLabel("State")),
                 cell(new JTextField(null, 12))
-            ).with(rowPanelStyle),
-            row(
+            ),
+            row(4, true,
                 cell(new JLabel("Postal Code")),
                 cell(new JTextField(null, 8))
-            ).with(rowPanelStyle),
+            ),
             row(
                 cell(new JSeparator())
             ),
-            row(
+            row(4, true,
                 cell(new JLabel("Email Address")),
                 cell(new JTextField(null, 16))
-            ).with(rowPanelStyle),
-            row(
+            ),
+            row(4, true,
                 cell(new JLabel("Home Phone")),
                 cell(new JTextField(null, 12))
-            ).with(rowPanelStyle),
-            row(
+            ),
+            row(4, true,
                 cell(new JLabel("Mobile Phone")),
                 cell(new JTextField(null, 12))
-            ).with(rowPanelStyle),
-            row(
+            ),
+            row(4, true,
                 cell(new JLabel("Fax")),
                 cell(new JTextField(null, 12))
-            ).with(rowPanelStyle),
+            ),
             row(
                 cell(new JSeparator())
             ),
-            row(
+            row(4, true,
                 cell(new JLabel("Field 1")),
                 cell(new JTextField(null, 12))
-            ).with(rowPanelStyle),
-            row(
+            ),
+            row(4, true,
                 cell(new JLabel("Field 2")),
                 cell(new JTextField(null, 12))
-            ).with(rowPanelStyle),
-            row(
+            ),
+            row(4, true,
                 cell(new JLabel("Field 3")),
                 cell(new JTextField(null, 12))
-            ).with(rowPanelStyle),
-            row(
+            ),
+            row(4, true,
                 cell(new JLabel("Field 4")),
                 cell(new JTextField(null, 12))
-            ).with(rowPanelStyle)
+            )
         ).getComponent();
 
         viewportView.setSpacing(4);

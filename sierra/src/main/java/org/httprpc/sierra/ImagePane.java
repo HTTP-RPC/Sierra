@@ -29,7 +29,7 @@ public class ImagePane extends JComponent {
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
     private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
 
-    private boolean scaleToFit = true;
+    private boolean scaleToFit;
 
     /**
      * Constructs an image pane.
@@ -45,7 +45,21 @@ public class ImagePane extends JComponent {
      * The image to display, or {@code null} for no image.
      */
     public ImagePane(Image image) {
+        this(image, false);
+    }
+
+    /**
+     * Constructs an image pane.
+     *
+     * @param image
+     * The image to display, or {@code null} for no image.
+     *
+     * @param scaleToFit
+     * {@code true} to scale the image when needed; {@code false}, otherwise.
+     */
+    public ImagePane(Image image, boolean scaleToFit) {
         this.image = image;
+        this.scaleToFit = scaleToFit;
     }
 
     /**
