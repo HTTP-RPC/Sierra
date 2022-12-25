@@ -27,7 +27,6 @@ public class RowPanel extends BoxPanel {
         @Override
         public Dimension preferredLayoutSize() {
             var preferredWidth = 0;
-
             var totalWeight = 0.0;
 
             var n = getComponentCount();
@@ -94,17 +93,15 @@ public class RowPanel extends BoxPanel {
 
         @Override
         public void layoutContainer() {
-            // TODO Add support for baseline alignment
-
+            // TODO Add support for baseline alignmen
+            
             var size = getSize();
             var insets = getInsets();
 
-            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
-
-            var spacing = getSpacing();
-
-            var totalWeight = 0.0;
             var remainingWidth = Math.max(size.width - (insets.left + insets.right), 0);
+            var totalWeight = 0.0;
+
+            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
             var n = getComponentCount();
 
@@ -122,6 +119,8 @@ public class RowPanel extends BoxPanel {
                     totalWeight += weight;
                 }
             }
+
+            var spacing = getSpacing();
 
             remainingWidth = Math.max(0, remainingWidth - spacing * (n - 1));
 
