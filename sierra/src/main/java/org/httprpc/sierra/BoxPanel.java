@@ -64,4 +64,28 @@ public abstract class BoxPanel extends LayoutPanel {
 
         revalidate();
     }
+
+    /**
+     * Calculates the panel's baseline.
+     * {@inheritDoc}
+     */
+    @Override
+    public int getBaseline(int width, int height) {
+        setSize(width, height);
+        validate();
+
+        var n = getComponentCount();
+
+        for (var i = 0; i < n; i++) {
+            var component = getComponent(i);
+
+            var baseline = component.getBaseline(component.getWidth(), component.getHeight());
+
+            if (baseline >= 0) {
+                return component.getY() + baseline;
+            }
+        }
+
+        return -1;
+    }
 }

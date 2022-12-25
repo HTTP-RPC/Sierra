@@ -29,8 +29,6 @@ public class TextPane extends JComponent {
 
     private boolean wrapText = true;
 
-    private BaselineOption baselineOption = BaselineOption.FIRST;
-
     /**
      * Constructs a text pane.
      */
@@ -143,30 +141,6 @@ public class TextPane extends JComponent {
         this.wrapText = wrapText;
 
         revalidate();
-    }
-
-    /**
-     * Returns the text pane's baseline option.
-     *
-     * @return
-     * The text pane's baseline option.
-     */
-    public BaselineOption getBaselineOption() {
-        return baselineOption;
-    }
-
-    /**
-     * Sets the text pane's baseline option.
-     *
-     * @param baselineOption
-     * The text pane's baseline option.
-     */
-    public void setBaselineOption(BaselineOption baselineOption) {
-        if (baselineOption == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.baselineOption = baselineOption;
     }
 
     /**

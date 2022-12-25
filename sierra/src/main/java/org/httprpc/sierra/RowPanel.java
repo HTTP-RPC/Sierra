@@ -236,11 +236,6 @@ public class RowPanel extends BoxPanel {
      */
     @Override
     public int getBaseline(int width, int height) {
-        if (getComponentCount() == 0 || !alignToBaseline) {
-            return -1;
-        }
-
-        // TODO Calculate baseline
-        return 0;
+        return alignToBaseline ? super.getBaseline(width, height) : -1;
     }
 }

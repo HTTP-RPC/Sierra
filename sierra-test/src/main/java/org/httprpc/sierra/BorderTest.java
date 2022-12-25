@@ -24,6 +24,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
+import java.awt.Font;
 import java.util.function.Consumer;
 
 import static org.httprpc.sierra.UIBuilder.cell;
@@ -39,6 +40,8 @@ public class BorderTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
+        var labelFont = javax.swing.UIManager.getDefaults().getFont("Label.font");
+
         Consumer<JLabel> cellStyle = label -> {
             label.setHorizontalAlignment(SwingConstants.CENTER);
             label.setBorder(new CompoundBorder(
@@ -50,9 +53,21 @@ public class BorderTest extends JFrame implements Runnable {
         setContentPane(column(
             cell(new JLabel("Page Start")).with(cellStyle),
             row(
-                cell(new JLabel("Line Start")).with(cellStyle),
-                cell(new JLabel("Center")).weightBy(1.0).with(cellStyle),
-                cell(new JLabel("Line End")).with(cellStyle)
+                cell(new JLabel("Line Start")).with(label -> {
+                    cellStyle.accept(label);
+
+                    label.setFont(labelFont.deriveFont(Font.PLAIN, 24));
+                }),
+                cell(new JLabel("Center")).weightBy(1.0).with(label -> {
+                    cellStyle.accept(label);
+
+                    label.setFont(labelFont.deriveFont(Font.BOLD, 48));
+                }),
+                cell(new JLabel("Line End")).with(label -> {
+                    cellStyle.accept(label);
+
+                    label.setFont(labelFont.deriveFont(Font.PLAIN, 24));
+                })
             ).weightBy(1.0).with(rowPanel -> rowPanel.setSpacing(4)),
             cell(new JLabel("Page End")).with(cellStyle)
         ).with(columnPanel -> {
