@@ -107,6 +107,8 @@ public class ColumnPanel extends BoxPanel {
 
     private boolean alignToGrid = true;
 
+    private BaselineOption baselineOption = BaselineOption.FIRST;
+
     /**
      * Constructs a new column panel.
      */
@@ -148,5 +150,56 @@ public class ColumnPanel extends BoxPanel {
         this.alignToGrid = alignToGrid;
 
         revalidate();
+    }
+
+    /**
+     * Returns the panel's baseline option.
+     *
+     * @return
+     * The panel's baseline option.
+     */
+    public BaselineOption getBaselineOption() {
+        return baselineOption;
+    }
+
+    /**
+     * Sets the panel's baseline option.
+     *
+     * @param baselineOption
+     * The panel's baseline option.
+     */
+    public void setBaselineOption(BaselineOption baselineOption) {
+        if (baselineOption == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.baselineOption = baselineOption;
+    }
+
+    /**
+     * Calculates the panel's baseline.
+     * {@inheritDoc}
+     */
+    @Override
+    public int getBaseline(int width, int height) {
+        if (getComponentCount() == 0) {
+            return -1;
+        }
+
+        switch (baselineOption) {
+            case FIRST: {
+                // TODO
+                return 0;
+            }
+
+            case LAST: {
+                // TODO
+                return 0;
+            }
+
+            default: {
+                throw new UnsupportedOperationException();
+            }
+        }
     }
 }

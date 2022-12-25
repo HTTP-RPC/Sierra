@@ -93,7 +93,7 @@ public class RowPanel extends BoxPanel {
 
         @Override
         public void layoutContainer() {
-            // TODO Add support for baseline alignmen
+            // TODO Add support for baseline alignment
             
             var size = getSize();
             var insets = getInsets();
@@ -201,11 +201,16 @@ public class RowPanel extends BoxPanel {
     }
 
     /**
-     * Returns the panel's baseline.
+     * Calculates the panel's baseline.
      * {@inheritDoc}
      */
     @Override
     public int getBaseline(int width, int height) {
-        return alignToBaseline ? super.getBaseline(width, height) : -1;
+        if (getComponentCount() == 0 || !alignToBaseline) {
+            return -1;
+        }
+
+        // TODO Calculate baseline
+        return 0;
     }
 }
