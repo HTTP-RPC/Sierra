@@ -56,7 +56,7 @@ public class GridTest extends JFrame implements Runnable {
 
         var viewportView = column(
             cell(new TextPane(TEXT, true)),
-            column(
+            column(4, true,
                 row(4, true,
                     cell(new TextPane("abcdefg")),
                     column(
@@ -71,7 +71,7 @@ public class GridTest extends JFrame implements Runnable {
                         cell(new TextPane(TEXT, true))
                     ).weightBy(1.0).with(cellStyle)
                 )
-            ).with(columnPanel -> columnPanel.setAlignToGrid(true)),
+            ),
             row(4, true,
                 column(
                     cell(new TextPane(TEXT)),

@@ -50,7 +50,7 @@ public class FormTest extends JFrame implements Runnable {
     }
 
     private JComponent getViewportView() {
-        var viewportView = column(
+        var viewportView = column(4, true,
             row(4, true,
                 cell(new JLabel("First Name")),
                 cell(new JTextField(null, 12))
@@ -115,8 +115,6 @@ public class FormTest extends JFrame implements Runnable {
             )
         ).getComponent();
 
-        viewportView.setSpacing(4);
-        viewportView.setAlignToGrid(true);
         viewportView.setBorder(new EmptyBorder(8, 8, 8, 8));
 
         return viewportView;
