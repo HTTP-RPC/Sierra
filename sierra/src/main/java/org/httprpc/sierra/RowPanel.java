@@ -22,21 +22,13 @@ import java.awt.LayoutManager;
  * edges to the container's top and bottom insets.
  */
 public class RowPanel extends BoxPanel {
-    // TODO Add support for baseline alignment
-    // TODO Add support for grid alignment
-
     // Row layout manager
     private class RowLayoutManager extends BoxLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
-            var size = getSize();
-            var insets = getInsets();
-
             var preferredWidth = 0;
-            var preferredHeight = 0;
 
             var totalWeight = 0.0;
-            var remainingWidth = Math.max(size.width - (insets.left + insets.right), 0);
 
             var n = getComponentCount();
 
@@ -47,23 +39,25 @@ public class RowPanel extends BoxPanel {
 
                 if (Double.isNaN(weight)) {
                     component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
+                    component.setSize(component.getPreferredSize());
 
-                    var preferredSize = component.getPreferredSize();
-
-                    preferredWidth += preferredSize.width;
-                    preferredHeight = Math.max(preferredHeight, preferredSize.height);
-
-                    remainingWidth -= preferredSize.width;
+                    preferredWidth += component.getWidth();
                 } else {
                     totalWeight += weight;
                 }
             }
 
-            var totalSpacing = getSpacing() * (n - 1);
+            preferredWidth += getSpacing() * (n - 1);
 
-            preferredWidth += totalSpacing;
+            var size = getSize();
+            var insets = getInsets();
 
-            remainingWidth = Math.max(0, remainingWidth - totalSpacing);
+            var remainingWidth = Math.max(size.width - (insets.left + insets.right) - preferredWidth, 0);
+
+            var preferredHeight = 0;
+
+            var maximumAscent = 0;
+            var maximumDescent = 0;
 
             for (var i = 0; i < n; i++){
                 var component = getComponent(i);
@@ -71,10 +65,28 @@ public class RowPanel extends BoxPanel {
                 var weight = getWeight(component);
 
                 if (!Double.isNaN(weight)) {
-                    component.setSize((int)Math.round(remainingWidth * (weight / totalWeight)), Integer.MAX_VALUE);
+                    var width = (int)Math.round(remainingWidth * (weight / totalWeight));
 
-                    preferredHeight = Math.max(preferredHeight, component.getPreferredSize().height);
+                    component.setSize(width, Integer.MAX_VALUE);
+                    component.setSize(width, component.getPreferredSize().height);
                 }
+
+                preferredHeight = Math.max(preferredHeight, component.getHeight());
+
+                if (alignToBaseline) {
+                    var height = component.getHeight();
+
+                    var baseline = component.getBaseline(component.getWidth(), height);
+
+                    if (baseline >= 0) {
+                        maximumAscent = Math.max(maximumAscent, baseline);
+                        maximumDescent = Math.max(maximumDescent, height - baseline);
+                    }
+                }
+            }
+
+            if (alignToBaseline) {
+                preferredHeight = Math.max(maximumAscent + maximumDescent, preferredHeight);
             }
 
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
@@ -82,6 +94,8 @@ public class RowPanel extends BoxPanel {
 
         @Override
         public void layoutContainer() {
+            // TODO Add support for baseline alignment
+
             var size = getSize();
             var insets = getInsets();
 

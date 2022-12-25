@@ -26,6 +26,8 @@ public class ColumnPanel extends BoxPanel {
     private class ColumnLayoutManager extends BoxLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
+            // TODO Add support for grid alignment
+
             var size = getSize();
             var insets = getInsets();
 
@@ -54,6 +56,8 @@ public class ColumnPanel extends BoxPanel {
 
         @Override
         public void layoutContainer() {
+            // TODO Add support for grid alignment
+
             var size = getSize();
             var insets = getInsets();
 
