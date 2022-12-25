@@ -68,7 +68,7 @@ public class UIBuilder {
          * @return
          * The cell instance.
          */
-        public Cell<C> with(Consumer<C> consumer) {
+        public Cell<C> with(Consumer<? super C> consumer) {
             if (consumer == null) {
                 throw new IllegalArgumentException();
             }

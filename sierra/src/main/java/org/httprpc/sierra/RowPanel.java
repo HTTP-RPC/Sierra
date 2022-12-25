@@ -166,7 +166,9 @@ public class RowPanel extends BoxPanel {
 
                     baselines[i] = baseline;
 
-                    maximumBaseline = Math.max(baseline, maximumBaseline);
+                    if (baseline >= 0) {
+                        maximumBaseline = Math.max(baseline, maximumBaseline);
+                    }
                 }
 
                 if (rightToLeft) {
@@ -180,7 +182,11 @@ public class RowPanel extends BoxPanel {
                 for (var i = 0; i < n; i++) {
                     var component = getComponent(i);
 
-                    component.setLocation(component.getX(), component.getY() + (maximumBaseline - baselines[i]));
+                    var baseline = baselines[i];
+
+                    if (baseline >= 0) {
+                        component.setLocation(component.getX(), component.getY() + (maximumBaseline - baseline));
+                    }
                 }
             }
         }

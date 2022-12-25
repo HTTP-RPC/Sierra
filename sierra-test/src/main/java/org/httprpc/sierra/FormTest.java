@@ -24,14 +24,12 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridBagConstraints;
 import java.awt.KeyboardFocusManager;
+import java.util.function.Consumer;
 
-import static org.httprpc.sierra.SwingUIBuilder.borderPanel;
-import static org.httprpc.sierra.SwingUIBuilder.cell;
-import static org.httprpc.sierra.SwingUIBuilder.center;
-import static org.httprpc.sierra.SwingUIBuilder.gridBagPanel;
-import static org.httprpc.sierra.SwingUIBuilder.row;
+import static org.httprpc.sierra.UIBuilder.cell;
+import static org.httprpc.sierra.UIBuilder.column;
+import static org.httprpc.sierra.UIBuilder.row;
 
 public class FormTest extends JFrame implements Runnable {
     private FormTest() {
@@ -42,84 +40,89 @@ public class FormTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var contentPane = borderPanel(center(new JScrollPane(getViewportView())));
+        var scrollPane = new JScrollPane(getViewportView());
 
-        contentPane.setBorder(new EmptyBorder(8, 8, 8, 8));
+        scrollPane.setBorder(null);
 
-        setContentPane(contentPane);
+        setContentPane(scrollPane);
 
         setSize(480, 360);
         setVisible(true);
     }
 
     private JComponent getViewportView() {
-        var viewportView = gridBagPanel(4, 4,
+        Consumer<RowPanel> rowPanelStyle = rowPanel -> {
+            rowPanel.setSpacing(4);
+            rowPanel.setAlignToBaseline(true);
+        };
+
+        var viewportView = column(
             row(
                 cell(new JLabel("First Name")),
                 cell(new JTextField(null, 12))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JLabel("Last Name")),
                 cell(new JTextField(null, 12))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JLabel("Street Address")),
                 cell(new JTextField(null, 24))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JLabel("City")),
                 cell(new JTextField(null, 16))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JLabel("State")),
                 cell(new JTextField(null, 12))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JLabel("Postal Code")),
                 cell(new JTextField(null, 8))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JSeparator())
-                    .fill(GridBagConstraints.HORIZONTAL)
             ),
             row(
                 cell(new JLabel("Email Address")),
                 cell(new JTextField(null, 16))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JLabel("Home Phone")),
                 cell(new JTextField(null, 12))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JLabel("Mobile Phone")),
                 cell(new JTextField(null, 12))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JLabel("Fax")),
                 cell(new JTextField(null, 12))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JSeparator())
-                    .fill(GridBagConstraints.HORIZONTAL)
             ),
             row(
                 cell(new JLabel("Field 1")),
                 cell(new JTextField(null, 12))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JLabel("Field 2")),
                 cell(new JTextField(null, 12))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JLabel("Field 3")),
                 cell(new JTextField(null, 12))
-            ),
+            ).with(rowPanelStyle),
             row(
                 cell(new JLabel("Field 4")),
                 cell(new JTextField(null, 12))
-            )
-        );
+            ).with(rowPanelStyle)
+        ).getComponent();
 
+        viewportView.setSpacing(4);
+        viewportView.setAlignToGrid(true);
         viewportView.setBorder(new EmptyBorder(8, 8, 8, 8));
 
         return viewportView;

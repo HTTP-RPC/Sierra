@@ -17,6 +17,7 @@ package org.httprpc.sierra;
 import javax.swing.JComponent;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 
 /**
@@ -168,8 +169,15 @@ public class ImagePane extends JComponent {
      */
     @Override
     public Dimension getPreferredSize() {
-        // TODO Return image size
-        return new Dimension();
+        var imageWidth = image.getWidth(null);
+        var imageHeight = image.getHeight(null);
+
+        if (scaleToFit) {
+            // TODO
+            return new Dimension();
+        } else {
+            return new Dimension(imageWidth, imageHeight);
+        }
     }
 
     /**
@@ -187,6 +195,24 @@ public class ImagePane extends JComponent {
      */
     @Override
     protected void paintComponent(Graphics graphics) {
-        // TODO Don't make permanent changes to the GC
+        paintComponent((Graphics2D)graphics);
+    }
+
+    private void paintComponent(Graphics2D graphics) {
+        if (image == null) {
+            return;
+        }
+
+        graphics = (Graphics2D)graphics.create();
+
+        if (scaleToFit) {
+            // TODO
+        } else {
+            // TODO
+        }
+
+        // TODO Respect alignment
+
+        graphics.dispose();
     }
 }
