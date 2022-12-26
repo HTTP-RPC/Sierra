@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.JComponent;
 import java.awt.Component;
 import java.util.function.Consumer;
 
@@ -55,6 +56,44 @@ public class UIBuilder {
          */
         public Cell<C> weightBy(double weight) {
             constraints = weight;
+
+            return this;
+        }
+
+        /**
+         * Applies a horizontal alignment value to a cell.
+         *
+         * @param alignment
+         * The alignment value.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> alignXTo(float alignment) {
+            if (!(component instanceof JComponent)) {
+                throw new IllegalStateException();
+            }
+
+            ((JComponent)component).setAlignmentX(alignment);
+
+            return this;
+        }
+
+        /**
+         * Applies a vertical alignment value to a cell.
+         *
+         * @param alignment
+         * The alignment value.
+         *
+         * @return
+         * The cell instance.
+         */
+        public Cell<C> alignYTo(float alignment) {
+            if (!(component instanceof JComponent)) {
+                throw new IllegalStateException();
+            }
+
+            ((JComponent)component).setAlignmentY(alignment);
 
             return this;
         }
