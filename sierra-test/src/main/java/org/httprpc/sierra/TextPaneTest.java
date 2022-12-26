@@ -33,8 +33,8 @@ public class TextPaneTest extends JFrame implements Runnable {
     public void run() {
         var textPane = new TextPane(TEXT, true);
 
-        textPane.setHorizontalAlignment(HorizontalAlignment.LEADING);
-        textPane.setVerticalAlignment(VerticalAlignment.TOP);
+        textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
+        textPane.setVerticalAlignment(VerticalAlignment.BOTTOM);
         textPane.setBorder(new EmptyBorder(16, 16, 16, 16));
 
         setContentPane(textPane);
