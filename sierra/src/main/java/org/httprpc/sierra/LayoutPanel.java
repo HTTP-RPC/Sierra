@@ -22,29 +22,27 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager2;
 import java.awt.Rectangle;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Abstract base class for layout panels.
  */
 public abstract class LayoutPanel extends JPanel implements Scrollable {
     abstract static class AbstractLayoutManager implements LayoutManager2 {
-        private Map<Component, Object> constraints = new HashMap<>();
-
         @Override
         public void addLayoutComponent(String name, Component component) {
-            throw new UnsupportedOperationException();
+            // No-op
         }
 
         @Override
         public void addLayoutComponent(Component component, Object constraints) {
-            this.constraints.put(component,  constraints);
+            // No-op
         }
 
         @Override
         public void removeLayoutComponent(Component component) {
-            constraints.remove(component);
+            // No-op
         }
 
         @Override
@@ -85,11 +83,9 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         }
 
         protected abstract void layoutContainer();
-
-        protected Object getConstraints(Component component) {
-            return constraints.get(component);
-        }
     }
+
+    private List<Object> constraints = new ArrayList<>();
 
     private boolean scrollableTracksViewportWidth;
     private boolean scrollableTracksViewportHeight;
@@ -98,6 +94,53 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         super(null);
 
         setOpaque(false);
+    }
+
+    /**
+     * Adds a component to the panel.
+     * {@inheritDoc}
+     */
+    @Override
+    protected void addImpl(Component component, Object constraints, int index) {
+        super.addImpl(component, constraints, index);
+
+        this.constraints.add((index == -1) ? this.constraints.size() : index, constraints);
+    }
+
+    /**
+     * Removes a component from the panel.
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove(int index) {
+        super.remove(index);
+
+        constraints.remove(index);
+    }
+
+    /**
+     * Removes all components from the panel.
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeAll() {
+        super.removeAll();
+
+        constraints.clear();
+    }
+
+    /**
+     * Returns the constraints associated with the component at a given index.
+     *
+     * @param index
+     * The component index.
+     *
+     * @return
+     * The component's constraints, or {@code null} if no weight is associated
+     * with the component
+     */
+    protected Object getConstraints(int index) {
+        return constraints.get(index);
     }
 
     /**

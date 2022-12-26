@@ -14,29 +14,10 @@
 
 package org.httprpc.sierra;
 
-import java.awt.Component;
-
 /**
  * Abstract base class for box panels.
  */
 public abstract class BoxPanel extends LayoutPanel {
-    // Abstract base class for box layout managers
-    abstract static class BoxLayoutManager extends AbstractLayoutManager {
-        protected double getWeight(Component component) {
-            var constraints = getConstraints(component);
-
-            if (constraints == null) {
-                return Double.NaN;
-            }
-
-            if (!(constraints instanceof Double)) {
-                throw new IllegalStateException();
-            }
-
-            return (double)constraints;
-        }
-    }
-
     private int spacing = 0;
 
     /**
@@ -63,6 +44,30 @@ public abstract class BoxPanel extends LayoutPanel {
         this.spacing = spacing;
 
         revalidate();
+    }
+
+    /**
+     * Returns the weight associated with the component at a given index.
+     *
+     * @param index
+     * The component index.
+     *
+     * @return
+     * The component's weight, or {@link Double#NaN} if no weight is associated
+     * with the component.
+     */
+    protected double getWeight(int index) {
+        var constraints = getConstraints(index);
+
+        if (constraints == null) {
+            return Double.NaN;
+        }
+
+        if (!(constraints instanceof Double)) {
+            throw new IllegalStateException();
+        }
+
+        return (double)constraints;
     }
 
     /**

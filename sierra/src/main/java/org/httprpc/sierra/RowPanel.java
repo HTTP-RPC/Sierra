@@ -23,7 +23,7 @@ import java.awt.LayoutManager;
  */
 public class RowPanel extends BoxPanel {
     // Row layout manager
-    private class RowLayoutManager extends BoxLayoutManager {
+    private class RowLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
             var preferredWidth = 0;
@@ -34,7 +34,7 @@ public class RowPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                var weight = getWeight(component);
+                var weight = getWeight(i);
 
                 if (Double.isNaN(weight)) {
                     component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -61,7 +61,7 @@ public class RowPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                var weight = getWeight(component);
+                var weight = getWeight(i);
 
                 if (!Double.isNaN(weight)) {
                     var width = (int)Math.round(remainingWidth * (weight / totalWeight));
@@ -106,7 +106,7 @@ public class RowPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                var weight = getWeight(component);
+                var weight = getWeight(i);
 
                 if (Double.isNaN(weight)) {
                     component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -142,7 +142,7 @@ public class RowPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                var weight = getWeight(component);
+                var weight = getWeight(i);
 
                 if (!Double.isNaN(weight)) {
                     var width = (int)Math.round(remainingWidth * (weight / totalWeight));

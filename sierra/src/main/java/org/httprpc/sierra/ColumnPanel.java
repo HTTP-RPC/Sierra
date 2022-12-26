@@ -23,7 +23,7 @@ import java.awt.LayoutManager;
  */
 public class ColumnPanel extends BoxPanel {
     // Column layout manager
-    private class ColumnLayoutManager extends BoxLayoutManager {
+    private class ColumnLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
             // TODO Add support for grid alignment
@@ -73,7 +73,7 @@ public class ColumnPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                var weight = getWeight(component);
+                var weight = getWeight(i);
 
                 if (Double.isNaN(weight)) {
                     component.setSize(width, Integer.MAX_VALUE);
@@ -94,7 +94,7 @@ public class ColumnPanel extends BoxPanel {
 
                 component.setLocation(insets.left, y);
 
-                var weight = getWeight(component);
+                var weight = getWeight(i);
 
                 if (!Double.isNaN(weight)) {
                     component.setSize(width, (int)Math.round(remainingHeight * (weight / totalWeight)));
