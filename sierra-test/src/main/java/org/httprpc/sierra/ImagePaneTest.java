@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
 import java.awt.Image;
 import java.io.IOException;
 
@@ -41,6 +42,7 @@ public class ImagePaneTest extends JFrame implements Runnable {
 
         var imagePane = new ImagePane(image, true);
 
+        imagePane.setBackground(Color.GRAY);
         imagePane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
         imagePane.setVerticalAlignment(VerticalAlignment.BOTTOM);
         imagePane.setBorder(new EmptyBorder(16, 16, 16, 16));

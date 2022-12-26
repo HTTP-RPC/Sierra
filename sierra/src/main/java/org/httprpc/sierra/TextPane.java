@@ -142,12 +142,25 @@ public class TextPane extends JComponent {
         }
 
         private void paint(Graphics2D graphics) {
-            if (glyphVectors.isEmpty()) {
-                return;
-            }
+            graphics = (Graphics2D)graphics.create();
 
             var size = getSize();
             var insets = getInsets();
+
+            var width = size.width - (insets.left + insets.right);
+            var height = size.height - (insets.top + insets.bottom);
+
+            var background = getBackground();
+
+            if (background != null) {
+                graphics.setPaint(background);
+
+                graphics.fillRect(insets.left, insets.top, width, height);
+            }
+
+            if (glyphVectors.isEmpty()) {
+                return;
+            }
 
             var font = getFont();
 
@@ -169,7 +182,7 @@ public class TextPane extends JComponent {
                 }
 
                 case CENTER: {
-                    y = (size.height - textHeight) / 2;
+                    y = insets.top + (height - textHeight) / 2;
                     break;
                 }
 
@@ -177,6 +190,8 @@ public class TextPane extends JComponent {
                     throw new UnsupportedOperationException();
                 }
             }
+
+            graphics.setClip(insets.left, insets.top, width, height);
 
             var n = glyphVectors.size();
 
@@ -201,7 +216,7 @@ public class TextPane extends JComponent {
                     }
 
                     case CENTER: {
-                        x = (size.width - lineWidth) / 2;
+                        x = insets.left + (width - lineWidth) / 2;
                         break;
                     }
 
@@ -214,6 +229,8 @@ public class TextPane extends JComponent {
 
                 y += textBounds.getHeight();
             }
+
+            graphics.dispose();
         }
     }
 

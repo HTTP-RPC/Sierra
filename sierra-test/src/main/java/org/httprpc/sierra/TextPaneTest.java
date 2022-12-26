@@ -19,6 +19,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
 
 public class TextPaneTest extends JFrame implements Runnable {
     private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
@@ -33,8 +34,10 @@ public class TextPaneTest extends JFrame implements Runnable {
     public void run() {
         var textPane = new TextPane(TEXT, true);
 
-        textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
-        textPane.setVerticalAlignment(VerticalAlignment.BOTTOM);
+        textPane.setBackground(Color.GRAY);
+        textPane.setForeground(Color.DARK_GRAY);
+        textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        textPane.setVerticalAlignment(VerticalAlignment.CENTER);
         textPane.setBorder(new EmptyBorder(16, 16, 16, 16));
 
         setContentPane(textPane);

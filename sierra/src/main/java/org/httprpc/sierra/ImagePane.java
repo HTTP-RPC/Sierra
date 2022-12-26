@@ -84,16 +84,25 @@ public class ImagePane extends JComponent {
         }
 
         private void paint(Graphics2D graphics) {
+            graphics = (Graphics2D)graphics.create();
+
+            var size = getSize();
+            var insets = getInsets();
+
+            var width = size.width - (insets.left + insets.right);
+            var height = size.height - (insets.top + insets.bottom);
+
+            var background = getBackground();
+
+            if (background != null) {
+                graphics.setPaint(background);
+
+                graphics.fillRect(insets.left, insets.top, width, height);
+            }
+
             if (image == null) {
                 return;
             }
-
-            graphics = (Graphics2D)graphics.create();
-
-            var insets = getInsets();
-
-            var width = getWidth() - (insets.left + insets.right);
-            var height = getHeight() - (insets.top + insets.bottom);
 
             var imageWidth = image.getWidth(null);
             var imageHeight = image.getHeight(null);
