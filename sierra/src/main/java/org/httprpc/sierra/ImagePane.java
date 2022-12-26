@@ -15,6 +15,7 @@
 package org.httprpc.sierra;
 
 import javax.swing.JComponent;
+import javax.swing.plaf.ComponentUI;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,6 +25,60 @@ import java.awt.Image;
  * Displays an image.
  */
 public class ImagePane extends JComponent {
+    // Image pane UI
+    private class ImagePaneUI extends ComponentUI {
+        @Override
+        public Dimension getMinimumSize(JComponent component) {
+            return new Dimension(0, 0);
+        }
+
+        @Override
+        public Dimension getMaximumSize(JComponent component) {
+            return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        }
+
+        @Override
+        public Dimension getPreferredSize(JComponent component) {
+            var imageWidth = image.getWidth(null);
+            var imageHeight = image.getHeight(null);
+
+            if (scaleToFit) {
+                // TODO
+                return new Dimension();
+            } else {
+                return new Dimension(imageWidth, imageHeight);
+            }
+        }
+
+        @Override
+        public int getBaseline(JComponent component, int width, int height) {
+            return -1;
+        }
+
+        @Override
+        public void paint(Graphics graphics, JComponent component) {
+            paint((Graphics2D)graphics);
+        }
+
+        private void paint(Graphics2D graphics) {
+            if (image == null) {
+                return;
+            }
+
+            graphics = (Graphics2D)graphics.create();
+
+            if (scaleToFit) {
+                // TODO
+            } else {
+                // TODO
+            }
+
+            // TODO Respect alignment
+
+            graphics.dispose();
+        }
+    }
+
     private Image image;
 
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
@@ -60,6 +115,8 @@ public class ImagePane extends JComponent {
     public ImagePane(Image image, boolean scaleToFit) {
         this.image = image;
         this.scaleToFit = scaleToFit;
+
+        setUI(new ImagePaneUI());
     }
 
     /**
@@ -157,76 +214,5 @@ public class ImagePane extends JComponent {
         this.scaleToFit = scaleToFit;
 
         repaint();
-    }
-
-    /**
-     * Returns 0, 0.
-     * {@inheritDoc}
-     */
-    @Override
-    public Dimension getMinimumSize() {
-        return new Dimension(0, 0);
-    }
-
-    /**
-     * Returns {@link Integer#MAX_VALUE}, {@link Integer#MAX_VALUE}.
-     * {@inheritDoc}
-     */
-    @Override
-    public Dimension getMaximumSize() {
-        return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
-    }
-
-    /**
-     * Returns the image pane's preferred size.
-     * {@inheritDoc}
-     */
-    @Override
-    public Dimension getPreferredSize() {
-        var imageWidth = image.getWidth(null);
-        var imageHeight = image.getHeight(null);
-
-        if (scaleToFit) {
-            // TODO
-            return new Dimension();
-        } else {
-            return new Dimension(imageWidth, imageHeight);
-        }
-    }
-
-    /**
-     * Returns -1.
-     * {@inheritDoc}
-     */
-    @Override
-    public int getBaseline(int width, int height) {
-        return -1;
-    }
-
-    /**
-     * Paints the image pane.
-     * {@inheritDoc}
-     */
-    @Override
-    protected void paintComponent(Graphics graphics) {
-        paintComponent((Graphics2D)graphics);
-    }
-
-    private void paintComponent(Graphics2D graphics) {
-        if (image == null) {
-            return;
-        }
-
-        graphics = (Graphics2D)graphics.create();
-
-        if (scaleToFit) {
-            // TODO
-        } else {
-            // TODO
-        }
-
-        // TODO Respect alignment
-
-        graphics.dispose();
     }
 }
