@@ -19,7 +19,6 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
@@ -42,36 +41,36 @@ public class GridTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Consumer<JTextArea> textAreaStyle = textArea -> {
-            textArea.setLineWrap(true);
-            textArea.setWrapStyleWord(true);
+        Consumer<TextPane> textPaneStyle = textArea -> {
+            textArea.setWrapText(true);
+            textArea.setVerticalAlignment(VerticalAlignment.BOTTOM);
             textArea.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
         };
 
         var contentPane = new JScrollPane(column(4,
-            cell(new JTextArea(TEXT)).with(textAreaStyle),
+            cell(new TextPane(TEXT)).with(textPaneStyle),
             column(4, true,
                 row(4, true,
                     cell(new JLabel("abcdefg")),
                     column(4,
-                        cell(new JTextArea(TEXT)).with(textAreaStyle),
-                        cell(new JTextArea(TEXT)).with(textAreaStyle)
+                        cell(new TextPane(TEXT)).with(textPaneStyle),
+                        cell(new TextPane(TEXT)).with(textPaneStyle)
                     ).weightBy(1.0)
                 ),
                 row(4, true,
                     cell(new JLabel("xyz")),
                     column(4,
-                        cell(new JTextArea(TEXT)).with(textAreaStyle),
-                        cell(new JTextArea(TEXT)).with(textAreaStyle)
+                        cell(new TextPane(TEXT)).with(textPaneStyle),
+                        cell(new TextPane(TEXT)).with(textPaneStyle)
                     ).weightBy(1.0)
                 )
             ),
             row(4, true,
                 column(4,
-                    cell(new JTextArea(TEXT)).with(textAreaStyle),
+                    cell(new TextPane(TEXT)).with(textPaneStyle),
                     glue()
                 ).weightBy(2.0),
-                cell(new JTextArea(TEXT)).weightBy(1.0).with(textAreaStyle)
+                cell(new TextPane(TEXT)).weightBy(1.0).with(textPaneStyle)
             )
         ).with(columnPanel -> {
             columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));

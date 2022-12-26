@@ -18,7 +18,6 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
@@ -44,19 +43,17 @@ public class GreetingTest extends JFrame implements Runnable {
             image = null;
         }
 
-        var scrollPane = new JScrollPane(column(
+        var contentPane = column(
             cell(new ImagePane(image, true)),
             cell(new TextPane("Hello, World!", false)).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
         ).with(columnPanel -> {
             columnPanel.setSpacing(4);
+            columnPanel.setBackground(Color.WHITE);
+            columnPanel.setOpaque(true);
             columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
-            columnPanel.setScrollableTracksViewportWidth(true);
-        }).getComponent());
+        }).getComponent();
 
-        scrollPane.getViewport().setBackground(Color.WHITE);
-        scrollPane.setBorder(null);
-
-        setContentPane(scrollPane);
+        setContentPane(contentPane);
 
         setSize(320, 640);
         setVisible(true);
