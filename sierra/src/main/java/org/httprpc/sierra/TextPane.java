@@ -144,13 +144,15 @@ public class TextPane extends JComponent {
         }
 
         private void paint(Graphics2D graphics) {
-            graphics = (Graphics2D)graphics.create();
-
             var size = getSize();
             var insets = getInsets();
 
             var width = size.width - (insets.left + insets.right);
             var height = size.height - (insets.top + insets.bottom);
+
+            if (width <= 0 || height <= 0) {
+                return;
+            }
 
             var background = getBackground();
 
@@ -163,6 +165,8 @@ public class TextPane extends JComponent {
             if (glyphVectors.isEmpty()) {
                 return;
             }
+
+            graphics = (Graphics2D)graphics.create();
 
             var font = getFont();
 

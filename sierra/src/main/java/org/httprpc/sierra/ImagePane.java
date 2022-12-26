@@ -96,8 +96,6 @@ public class ImagePane extends JComponent {
                 return;
             }
 
-            graphics = (Graphics2D)graphics.create();
-
             var background = getBackground();
 
             if (background != null) {
@@ -109,6 +107,8 @@ public class ImagePane extends JComponent {
             if (image == null) {
                 return;
             }
+
+            graphics = (Graphics2D)graphics.create();
 
             var imageWidth = image.getWidth(null);
             var imageHeight = image.getHeight(null);
