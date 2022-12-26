@@ -56,7 +56,7 @@ public class GreetingTest extends JFrame implements Runnable {
 
         setContentPane(scrollPane);
 
-        setSize(320, 240);
+        setSize(320, 640);
         setVisible(true);
     }
 

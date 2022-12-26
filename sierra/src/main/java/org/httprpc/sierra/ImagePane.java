@@ -39,15 +39,38 @@ public class ImagePane extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
+            var insets = getInsets();
+
+            var width = getWidth() - (insets.left + insets.right);
+            var height = getHeight() - (insets.top + insets.bottom);
+
             var imageWidth = image.getWidth(null);
             var imageHeight = image.getHeight(null);
 
+            var scale = getScale(width, height, imageWidth, imageHeight);
+
+            var preferredWidth = (int)Math.round(imageWidth * scale) + insets.left + insets.right;
+            var preferredHeight = (int)Math.round(imageHeight * scale) + insets.top + insets.bottom;
+
+            return new Dimension(preferredWidth, preferredHeight);
+        }
+
+        private double getScale(double width, double height, double imageWidth, double imageHeight) {
+            double scale;
             if (scaleToFit) {
-                // TODO
-                return new Dimension();
+                var aspectRatio = width / height;
+                var imageAspectRatio = imageWidth / imageHeight;
+
+                if (aspectRatio > imageAspectRatio) {
+                    return height / imageHeight;
+                } else {
+                    return width / imageWidth;
+                }
             } else {
-                return new Dimension(imageWidth, imageHeight);
+                scale = 1.0;
             }
+
+            return scale;
         }
 
         @Override
@@ -67,13 +90,18 @@ public class ImagePane extends JComponent {
 
             graphics = (Graphics2D)graphics.create();
 
-            if (scaleToFit) {
-                // TODO
-            } else {
-                // TODO
-            }
+            // TODO Align image/respect insets
+            var width = getWidth();
+            var height = getHeight();
 
-            // TODO Respect alignment
+            var imageWidth = image.getWidth(null);
+            var imageHeight = image.getHeight(null);
+
+            var scale = getScale(width, height, imageWidth, imageHeight);
+
+            graphics.scale(scale, scale);
+
+            graphics.drawImage(image, 0, 0, null);
 
             graphics.dispose();
         }
