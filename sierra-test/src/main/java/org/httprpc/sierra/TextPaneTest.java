@@ -16,36 +16,28 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import java.awt.Image;
-import java.io.IOException;
 
-public class ImagePaneTest extends JFrame implements Runnable {
-    private ImagePaneTest() {
-        super("Image Pane Test");
+public class TextPaneTest extends JFrame implements Runnable {
+    private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+
+    private TextPaneTest() {
+        super("Text Pane Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        Image image;
-        try {
-            image = ImageIO.read(getClass().getResource("world.png"));
-        } catch (IOException exception) {
-            image = null;
-        }
+        var textPane = new TextPane(TEXT, true);
 
-        var imagePane = new ImagePane(image, true);
+        textPane.setHorizontalAlignment(HorizontalAlignment.LEADING);
+        textPane.setVerticalAlignment(VerticalAlignment.TOP);
+        textPane.setBorder(new EmptyBorder(16, 16, 16, 16));
 
-        imagePane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
-        imagePane.setVerticalAlignment(VerticalAlignment.BOTTOM);
-        imagePane.setBorder(new EmptyBorder(16, 16, 16, 16));
-
-        setContentPane(imagePane);
+        setContentPane(textPane);
 
         setSize(320, 240);
         setVisible(true);
@@ -54,6 +46,6 @@ public class ImagePaneTest extends JFrame implements Runnable {
     public static void main(String[] args) {
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new ImagePaneTest());
+        SwingUtilities.invokeLater(new TextPaneTest());
     }
 }

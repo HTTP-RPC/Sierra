@@ -19,6 +19,10 @@ import javax.swing.plaf.ComponentUI;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.font.FontRenderContext;
+import java.util.Map;
 
 /**
  * Displays a string of text.
@@ -38,14 +42,52 @@ public class TextPane extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            // TODO Return constrained text size
+            return getPreferredSize(getWidth());
+        }
+
+        private Dimension getPreferredSize(int width) {
+            // TODO
             return new Dimension();
         }
 
         @Override
         public int getBaseline(JComponent component, int width, int height) {
-            // TODO Take wrapping and vertical alignment into account
-            return -1;
+            var insets = getInsets();
+
+            var lineMetrics = getFont().getLineMetrics("", fontRenderContext);
+
+            var ascent = lineMetrics.getAscent();
+
+            double textHeight;
+            if (wrapText) {
+                textHeight = Math.max(getPreferredSize(width).height - (insets.top + insets.bottom), 0);
+            } else {
+                textHeight = Math.ceil(lineMetrics.getHeight());
+            }
+
+            int baseline;
+            switch (verticalAlignment) {
+                case TOP: {
+                    baseline = Math.round(insets.top + ascent);
+                    break;
+                }
+
+                case CENTER: {
+                    baseline = (int)Math.round((height - textHeight) / 2 + ascent);
+                    break;
+                }
+
+                case BOTTOM: {
+                    baseline = (int)Math.round(height - (textHeight + insets.bottom) + ascent);
+                    break;
+                }
+
+                default: {
+                    throw new UnsupportedOperationException();
+                }
+            }
+
+            return baseline;
         }
 
         @Override
@@ -72,6 +114,28 @@ public class TextPane extends JComponent {
     private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
 
     private boolean wrapText;
+
+    private static final FontRenderContext fontRenderContext;
+    static {
+        var fontDesktopHints = (Map<?, ?>)Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
+
+        Object aaHint = null;
+        Object fmHint = null;
+        if (fontDesktopHints != null) {
+            aaHint = fontDesktopHints.get(RenderingHints.KEY_TEXT_ANTIALIASING);
+            fmHint = fontDesktopHints.get(RenderingHints.KEY_FRACTIONALMETRICS);
+        }
+
+        if (aaHint == null) {
+            aaHint = RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT;
+        }
+
+        if (fmHint == null) {
+            fmHint = RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT;
+        }
+
+        fontRenderContext = new FontRenderContext(null, aaHint, fmHint);
+    }
 
     /**
      * Constructs a text pane.
