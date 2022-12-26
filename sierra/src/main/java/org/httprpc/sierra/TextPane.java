@@ -16,6 +16,7 @@ package org.httprpc.sierra;
 
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -56,14 +57,14 @@ public class TextPane extends JComponent {
             double textWidth;
             double textHeight;
             if (wrapText) {
+                var lineHeight = font.getLineMetrics("", fontRenderContext).getHeight();
+
                 textWidth = 0.0;
-                textHeight = 0.0;
+                textHeight = lineHeight;
 
                 var width = Math.max(getWidth() - (insets.left + insets.right), 0);
 
                 if (width > 0) {
-                    var lineHeight = font.getLineMetrics("", fontRenderContext).getHeight();
-
                     var lineWidth = 0.0;
                     var lastWhitespaceIndex = -1;
 
@@ -93,6 +94,8 @@ public class TextPane extends JComponent {
 
                         i++;
                     }
+
+                    textWidth = Math.max(lineWidth, textWidth);
                 }
             } else {
                 var stringBounds = font.getStringBounds(text, 0, text.length(), fontRenderContext);
@@ -297,6 +300,8 @@ public class TextPane extends JComponent {
         this.wrapText = wrapText;
 
         setUI(new TextPaneUI());
+
+        setBackground(new Color(0x00000000, true));
     }
 
     /**

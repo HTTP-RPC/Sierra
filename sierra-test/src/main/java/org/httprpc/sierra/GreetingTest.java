@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.IOException;
@@ -45,9 +46,10 @@ public class GreetingTest extends JFrame implements Runnable {
 
         var scrollPane = new JScrollPane(column(
             cell(new ImagePane(image, true)),
-            cell(new TextPane("Hello, World!", true))
+            cell(new TextPane("Hello, World!", false)).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
         ).with(columnPanel -> {
             columnPanel.setSpacing(4);
+            columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
             columnPanel.setScrollableTracksViewportWidth(true);
         }).getComponent());
 

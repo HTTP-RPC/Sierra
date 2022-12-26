@@ -16,6 +16,7 @@ package org.httprpc.sierra;
 
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -204,6 +205,8 @@ public class ImagePane extends JComponent {
         this.scaleToFit = scaleToFit;
 
         setUI(new ImagePaneUI());
+
+        setBackground(new Color(0x00000000, true));
     }
 
     /**
