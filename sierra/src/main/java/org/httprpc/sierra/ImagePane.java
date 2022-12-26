@@ -90,15 +90,65 @@ public class ImagePane extends JComponent {
 
             graphics = (Graphics2D)graphics.create();
 
-            // TODO Align image/respect insets
-            var width = getWidth();
-            var height = getHeight();
+            var insets = getInsets();
+
+            var width = getWidth() - (insets.left + insets.right);
+            var height = getHeight() - (insets.top + insets.bottom);
 
             var imageWidth = image.getWidth(null);
             var imageHeight = image.getHeight(null);
 
             var scale = getScale(width, height, imageWidth, imageHeight);
 
+            var scaledImageWidth = scale * imageWidth;
+            var scaledImageHeight = scale * imageHeight;
+
+            double x;
+            switch (horizontalAlignment) {
+                case LEADING:
+                case TRAILING: {
+                    if (getComponentOrientation().isLeftToRight() ^ horizontalAlignment == HorizontalAlignment.TRAILING) {
+                        x = 0;
+                    } else {
+                        x = width - scaledImageWidth;
+                    }
+
+                    break;
+                }
+
+                case CENTER: {
+                    x = (width - scaledImageWidth) / 2;
+                    break;
+                }
+
+                default: {
+                    throw new UnsupportedOperationException();
+                }
+            }
+
+            double y;
+            switch (verticalAlignment) {
+                case TOP: {
+                    y = 0;
+                    break;
+                }
+
+                case BOTTOM: {
+                    y = height - scaledImageHeight;
+                    break;
+                }
+
+                case CENTER: {
+                    y = (height - scaledImageHeight) / 2;
+                    break;
+                }
+
+                default: {
+                    throw new UnsupportedOperationException();
+                }
+            }
+
+            graphics.translate(x + insets.left, y + insets.top);
             graphics.scale(scale, scale);
 
             graphics.drawImage(image, 0, 0, null);
