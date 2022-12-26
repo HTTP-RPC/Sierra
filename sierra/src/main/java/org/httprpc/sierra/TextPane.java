@@ -42,52 +42,92 @@ public class TextPane extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            return getPreferredSize(getWidth());
-        }
+            var insets = getInsets();
 
-        private Dimension getPreferredSize(int width) {
-            // TODO
-            return new Dimension();
+            var font = getFont();
+
+            var text = (TextPane.this.text == null) ? "" : TextPane.this.text;
+
+            double textWidth;
+            double textHeight;
+            if (wrapText) {
+                textWidth = 0.0;
+                textHeight = 0.0;
+
+                var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+
+                if (width > 0) {
+                    var lineHeight = font.getLineMetrics("", fontRenderContext).getHeight();
+
+                    var lineWidth = 0.0;
+                    var lastWhitespaceIndex = -1;
+
+                    var n = text.length();
+                    var i = 0;
+
+                    while (i < n) {
+                        var c = text.charAt(i);
+
+                        if (Character.isWhitespace(c)) {
+                            lastWhitespaceIndex = i;
+                        }
+
+                        var characterBounds = font.getStringBounds(text, i, i + 1, fontRenderContext);
+
+                        lineWidth += characterBounds.getWidth();
+
+                        if (lineWidth > width && lastWhitespaceIndex != -1) {
+                            textWidth = Math.max(lineWidth, textWidth);
+                            textHeight += lineHeight;
+
+                            i = lastWhitespaceIndex;
+
+                            lineWidth = 0.0;
+                            lastWhitespaceIndex = -1;
+                        }
+
+                        i++;
+                    }
+                }
+            } else {
+                var stringBounds = font.getStringBounds(text, 0, text.length(), fontRenderContext);
+
+                textWidth = stringBounds.getWidth();
+                textHeight = stringBounds.getHeight();
+            }
+
+            var preferredWidth = textWidth + (insets.left + insets.right);
+            var preferredHeight = textHeight + (insets.top + insets.bottom);
+
+            return new Dimension((int)Math.ceil(preferredWidth), (int)Math.ceil(preferredHeight));
         }
 
         @Override
         public int getBaseline(JComponent component, int width, int height) {
+            if (verticalAlignment == VerticalAlignment.CENTER) {
+                return -1;
+            }
+
             var insets = getInsets();
 
             var lineMetrics = getFont().getLineMetrics("", fontRenderContext);
 
             var ascent = lineMetrics.getAscent();
+            var textHeight = lineMetrics.getHeight();
 
-            double textHeight;
-            if (wrapText) {
-                textHeight = Math.max(getPreferredSize(width).height - (insets.top + insets.bottom), 0);
-            } else {
-                textHeight = Math.ceil(lineMetrics.getHeight());
-            }
-
-            int baseline;
             switch (verticalAlignment) {
                 case TOP: {
-                    baseline = Math.round(insets.top + ascent);
-                    break;
-                }
-
-                case CENTER: {
-                    baseline = (int)Math.round((height - textHeight) / 2 + ascent);
-                    break;
+                    return insets.top + Math.round(ascent);
                 }
 
                 case BOTTOM: {
-                    baseline = (int)Math.round(height - (textHeight + insets.bottom) + ascent);
-                    break;
+                    return height - (insets.bottom + Math.round(textHeight - ascent));
                 }
 
                 default: {
                     throw new UnsupportedOperationException();
                 }
             }
-
-            return baseline;
         }
 
         @Override
