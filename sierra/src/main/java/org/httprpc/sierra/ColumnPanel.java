@@ -18,8 +18,8 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
- * Arranges sub-components vertically in a column, pinning component edges to
- * the container's leading and trailing insets.
+ * Arranges sub-components vertically in a column, optionally pinning component
+ * edges to the container's leading and trailing insets.
  */
 public class ColumnPanel extends BoxPanel {
     // Column layout manager

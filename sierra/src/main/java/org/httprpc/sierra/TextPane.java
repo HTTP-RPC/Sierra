@@ -398,6 +398,10 @@ public class TextPane extends JComponent {
         revalidate();
     }
 
+    /**
+     * Lays out the text pane.
+     * {@inheritDoc}
+     */
     @Override
     public void doLayout() {
         glyphVectors.clear();
