@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
 import static org.httprpc.sierra.UIBuilder.glue;
+import static org.httprpc.sierra.UIBuilder.row;
 import static org.httprpc.sierra.UIBuilder.stack;
 
 public class StackTest extends JFrame implements Runnable {
@@ -38,14 +39,20 @@ public class StackTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(stack(
-            cell(new TextPane(TEXT, true)),
+            cell(new TextPane(TEXT, true)).with(textPane -> {
+                textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
+                textPane.setVerticalAlignment(VerticalAlignment.CENTER);
+            }),
             column(
                 glue(),
-                cell(new JButton("Press Me"))
-            ).with(columnPanel -> {
-                columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
-            })
-        ).getComponent());
+                row(
+                    glue(),
+                    cell(new JButton("Press Me")),
+                    glue()
+                ),
+                glue()
+            )
+        ).with(stackPanel -> stackPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         setSize(320, 240);
         setVisible(true);

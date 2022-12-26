@@ -61,7 +61,7 @@ public class TextPane extends JComponent {
                 textWidth = 0.0;
                 textHeight = lineHeight;
 
-                var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+                var width = getWidth() - (insets.left + insets.right);
 
                 if (width > 0) {
                     var lineWidth = 0.0;
@@ -407,9 +407,9 @@ public class TextPane extends JComponent {
         if (text != null && !text.isEmpty()) {
             var insets = getInsets();
 
-            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+            var width = getWidth() - (insets.left + insets.right);
 
-            if (width == 0) {
+            if (width <= 0) {
                 return;
             }
 

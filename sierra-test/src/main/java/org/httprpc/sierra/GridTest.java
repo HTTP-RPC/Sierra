@@ -47,7 +47,7 @@ public class GridTest extends JFrame implements Runnable {
             textArea.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
         };
 
-        var contentPane = new JScrollPane(column(4,
+        var scrollPane = new JScrollPane(column(4,
             cell(new TextPane(TEXT)).with(textPaneStyle),
             column(4, true,
                 row(4, true,
@@ -77,9 +77,9 @@ public class GridTest extends JFrame implements Runnable {
             columnPanel.setScrollableTracksViewportWidth(true);
         }).getComponent());
 
-        contentPane.setBorder(null);
+        scrollPane.setBorder(null);
 
-        setContentPane(contentPane);
+        setContentPane(scrollPane);
 
         setSize(320, 640);
         setVisible(true);

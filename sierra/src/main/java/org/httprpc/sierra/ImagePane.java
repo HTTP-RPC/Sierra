@@ -39,10 +39,11 @@ public class ImagePane extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
+            var size = getSize();
             var insets = getInsets();
 
-            var width = getWidth() - (insets.left + insets.right);
-            var height = getHeight() - (insets.top + insets.bottom);
+            var width = size.width - (insets.left + insets.right);
+            var height = size.height - (insets.top + insets.bottom);
 
             var imageWidth = image.getWidth(null);
             var imageHeight = image.getHeight(null);
@@ -56,8 +57,11 @@ public class ImagePane extends JComponent {
         }
 
         private double getScale(double width, double height, double imageWidth, double imageHeight) {
-            double scale;
             if (scaleToFit) {
+                if (width <= 0 || height <=0) {
+                    return 0.0;
+                }
+
                 var aspectRatio = width / height;
                 var imageAspectRatio = imageWidth / imageHeight;
 
@@ -67,10 +71,8 @@ public class ImagePane extends JComponent {
                     return width / imageWidth;
                 }
             } else {
-                scale = 1.0;
+                return 1.0;
             }
-
-            return scale;
         }
 
         @Override
@@ -84,13 +86,17 @@ public class ImagePane extends JComponent {
         }
 
         private void paint(Graphics2D graphics) {
-            graphics = (Graphics2D)graphics.create();
-
             var size = getSize();
             var insets = getInsets();
 
             var width = size.width - (insets.left + insets.right);
             var height = size.height - (insets.top + insets.bottom);
+
+            if (width <= 0 || height <= 0) {
+                return;
+            }
+
+            graphics = (Graphics2D)graphics.create();
 
             var background = getBackground();
 

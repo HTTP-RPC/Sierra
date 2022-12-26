@@ -43,17 +43,14 @@ public class GreetingTest extends JFrame implements Runnable {
             image = null;
         }
 
-        var contentPane = column(
+        setContentPane(column(4, false,
             cell(new ImagePane(image, true)),
             cell(new TextPane("Hello, World!", false)).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
         ).with(columnPanel -> {
-            columnPanel.setSpacing(4);
             columnPanel.setBackground(Color.WHITE);
             columnPanel.setOpaque(true);
             columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
-        }).getComponent();
-
-        setContentPane(contentPane);
+        }).getComponent());
 
         setSize(320, 640);
         setVisible(true);
