@@ -41,65 +41,65 @@ public class FormTest extends JFrame implements Runnable {
         var scrollPane = new JScrollPane(column(4, true,
             row(4, true,
                 cell(new JLabel("First Name")),
-                cell(new JTextField(null, 12)).alignXTo(0)
+                cell(new JTextField(null, 12))
             ),
             row(4, true,
                 cell(new JLabel("Last Name")),
-                cell(new JTextField(null, 12)).alignXTo(0)
+                cell(new JTextField(null, 12))
             ),
             row(4, true,
                 cell(new JLabel("Street Address")),
-                cell(new JTextField(null, 24)).alignXTo(0)
+                cell(new JTextField(null, 24))
             ),
             row(4, true,
                 cell(new JLabel("City")),
-                cell(new JTextField(null, 16)).alignXTo(0)
+                cell(new JTextField(null, 16))
             ),
             row(4, true,
                 cell(new JLabel("State")),
-                cell(new JTextField(null, 12)).alignXTo(0)
+                cell(new JTextField(null, 12))
             ),
             row(4, true,
                 cell(new JLabel("Postal Code")),
-                cell(new JTextField(null, 8)).alignXTo(0)
+                cell(new JTextField(null, 8))
             ),
             row(
                 cell(new JSeparator())
             ),
             row(4, true,
                 cell(new JLabel("Email Address")),
-                cell(new JTextField(null, 16)).alignXTo(0)
+                cell(new JTextField(null, 16))
             ),
             row(4, true,
                 cell(new JLabel("Home Phone")),
-                cell(new JTextField(null, 12)).alignXTo(0)
+                cell(new JTextField(null, 12))
             ),
             row(4, true,
                 cell(new JLabel("Mobile Phone")),
-                cell(new JTextField(null, 12)).alignXTo(0)
+                cell(new JTextField(null, 12))
             ),
             row(4, true,
                 cell(new JLabel("Fax")),
-                cell(new JTextField(null, 12)).alignXTo(0)
+                cell(new JTextField(null, 12))
             ),
             row(
                 cell(new JSeparator())
             ),
             row(4, true,
                 cell(new JLabel("Field 1")),
-                cell(new JTextField(null, 12)).alignXTo(0)
+                cell(new JTextField(null, 12))
             ),
             row(4, true,
                 cell(new JLabel("Field 2")),
-                cell(new JTextField(null, 12)).alignXTo(0)
+                cell(new JTextField(null, 12))
             ),
             row(4, true,
                 cell(new JLabel("Field 3")),
-                cell(new JTextField(null, 12)).alignXTo(0)
+                cell(new JTextField(null, 12))
             ),
             row(4, true,
                 cell(new JLabel("Field 4")),
-                cell(new JTextField(null, 12)).alignXTo(0)
+                cell(new JTextField(null, 12))
             )
         ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 

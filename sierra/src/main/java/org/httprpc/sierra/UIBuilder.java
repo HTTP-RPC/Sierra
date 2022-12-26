@@ -14,7 +14,6 @@
 
 package org.httprpc.sierra;
 
-import javax.swing.JComponent;
 import java.awt.Component;
 import java.util.function.Consumer;
 
@@ -61,58 +60,23 @@ public class UIBuilder {
         }
 
         /**
-         * Applies a horizontal alignment value to a cell.
+         * Applies consumers to a cell's component.
          *
-         * @param alignment
-         * The alignment value.
-         *
-         * @return
-         * The cell instance.
-         */
-        public Cell<C> alignXTo(float alignment) {
-            if (!(component instanceof JComponent)) {
-                throw new IllegalStateException();
-            }
-
-            ((JComponent)component).setAlignmentX(alignment);
-
-            return this;
-        }
-
-        /**
-         * Applies a vertical alignment value to a cell.
-         *
-         * @param alignment
-         * The alignment value.
+         * @param consumers
+         * The consumers to apply.
          *
          * @return
          * The cell instance.
          */
-        public Cell<C> alignYTo(float alignment) {
-            if (!(component instanceof JComponent)) {
-                throw new IllegalStateException();
-            }
-
-            ((JComponent)component).setAlignmentY(alignment);
-
-            return this;
-        }
-
-        /**
-         * Applies a consumer to a cell's component.
-         *
-         * @param consumer
-         * The consumer to apply.
-         *
-         * @return
-         * The cell instance.
-         */
-        public Cell<C> with(Consumer<? super C> consumer) {
-            if (consumer == null) {
+        @SafeVarargs
+        public final Cell<C> with(Consumer<? super C>... consumers) {
+            if (consumers == null) {
                 throw new IllegalArgumentException();
             }
 
-            consumer.accept(component);
+            for (var i = 0; i < consumers.length; i++) {
+                consumers[i].accept(component);
+            }
 
             return this;
         }

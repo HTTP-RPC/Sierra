@@ -16,7 +16,6 @@ package org.httprpc.sierra;
 
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -300,8 +299,6 @@ public class TextPane extends JComponent {
         this.wrapText = wrapText;
 
         setUI(new TextPaneUI());
-
-        setBackground(new Color(0x00000000, true));
     }
 
     /**
