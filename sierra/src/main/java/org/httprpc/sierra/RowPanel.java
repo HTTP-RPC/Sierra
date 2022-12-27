@@ -73,11 +73,13 @@ public class RowPanel extends BoxPanel {
 
                     preferredWidth += width;
                 } else {
+                    if (columnWidths != null && i == columnWidths.size()) {
+                        columnWidths.add(0);
+                    }
+
                     totalWeight += weight;
                 }
             }
-
-            // TODO Skip for first pass of align-to-grid sizing?
 
             preferredWidth += (getSpacing() + parentSpacing) * (n - 1);
 
@@ -126,6 +128,8 @@ public class RowPanel extends BoxPanel {
 
         @Override
         public void layoutContainer() {
+            // TODO Add support for grid alignment
+
             var size = getSize();
             var insets = getInsets();
 

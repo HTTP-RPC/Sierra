@@ -24,8 +24,6 @@ import java.util.List;
  * edges to the container's leading and trailing insets.
  */
 public class ColumnPanel extends BoxPanel {
-    private List<Integer> columnWidths = new LinkedList<>();
-
     // Column layout manager
     private class ColumnLayoutManager extends AbstractLayoutManager {
         @Override
@@ -131,7 +129,9 @@ public class ColumnPanel extends BoxPanel {
         }
     }
 
-    private boolean alignToGrid = true;
+    private boolean alignToGrid = false;
+
+    private List<Integer> columnWidths = new LinkedList<>();
 
     /**
      * Constructs a new column panel.
