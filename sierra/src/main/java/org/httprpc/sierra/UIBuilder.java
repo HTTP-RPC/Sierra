@@ -137,6 +137,22 @@ public class UIBuilder {
     /**
      * Declares a column cell.
      *
+     * @param alignToGrid
+     * {@code true} to align row descendants to grid; {@code false}, otherwise.
+     *
+     * @param cells
+     * The column's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<ColumnPanel> column(boolean alignToGrid, Cell<?>... cells) {
+        return column(0, alignToGrid, cells);
+    }
+
+    /**
+     * Declares a column cell.
+     *
      * @param spacing
      * The cell spacing.
      *
@@ -187,6 +203,22 @@ public class UIBuilder {
      */
     public static Cell<RowPanel> row(int spacing, Cell<?>... cells) {
         return row(spacing, false, cells);
+    }
+
+    /**
+     * Declares a row cell.
+     *
+     * @param alignToBaseline
+     * {@code true} to align to baseline; {@code false}, otherwise.
+     *
+     * @param cells
+     * The row's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<RowPanel> row(boolean alignToBaseline, Cell<?>... cells) {
+        return row(0, alignToBaseline, cells);
     }
 
     /**

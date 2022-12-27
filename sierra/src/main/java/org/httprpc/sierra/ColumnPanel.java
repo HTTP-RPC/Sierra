@@ -16,6 +16,8 @@ package org.httprpc.sierra;
 
 import java.awt.Dimension;
 import java.awt.LayoutManager;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Arranges sub-components vertically in a column, optionally pinning component
@@ -26,8 +28,6 @@ public class ColumnPanel extends BoxPanel {
     private class ColumnLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
-            // TODO Add support for grid alignment
-
             var size = getSize();
             var insets = getInsets();
 
@@ -35,6 +35,9 @@ public class ColumnPanel extends BoxPanel {
 
             var preferredWidth = 0;
             var preferredHeight = 0;
+
+            var columnWidths = new LinkedList<Integer>();
+            var maximumRowSpacing = 0;
 
             var n = getComponentCount();
 
@@ -45,13 +48,53 @@ public class ColumnPanel extends BoxPanel {
 
                 var preferredSize = component.getPreferredSize();
 
-                preferredWidth = Math.max(preferredWidth, preferredSize.width);
-                preferredHeight += preferredSize.height;
+                if (alignToGrid && component instanceof RowPanel) {
+                    var rowPanel = (RowPanel)component;
+
+                    updateColumnWidths(rowPanel, columnWidths);
+
+                    maximumRowSpacing = Math.max(maximumRowSpacing, rowPanel.getSpacing());
+                } else {
+                    preferredWidth = Math.max(preferredWidth, preferredSize.width);
+                    preferredHeight += preferredSize.height;
+                }
             }
 
-            preferredHeight += getSpacing() * (n - 1);
+            if (alignToGrid) {
+                var totalColumnWidth = columnWidths.stream().reduce(0, Integer::sum);
+
+                preferredWidth = Math.max(totalColumnWidth + getSpacing() * (columnWidths.size() - 1) + maximumRowSpacing, preferredWidth);
+
+                for (var i = 0; i < n; i++) {
+                    var component = getComponent(i);
+
+                    if (component instanceof RowPanel) {
+                        component.setSize(preferredWidth, Integer.MAX_VALUE);
+
+                        preferredHeight += component.getPreferredSize().height;
+                    }
+                }
+            } else {
+                preferredHeight += getSpacing() * (n - 1);
+            }
 
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
+        }
+
+        private void updateColumnWidths(RowPanel rowPanel, List<Integer> columnWidths) {
+            var n = rowPanel.getComponentCount();
+
+            for (var i = 0; i < n; i++) {
+                var component = rowPanel.getComponent(i);
+
+                var width = component.getWidth();
+
+                if (i == columnWidths.size()) {
+                    columnWidths.add(width);
+                } else {
+                    columnWidths.set(i, Math.max(columnWidths.get(i), width));
+                }
+            }
         }
 
         @Override

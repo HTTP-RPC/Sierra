@@ -215,6 +215,27 @@ public class RowPanel extends BoxPanel {
     }
 
     /**
+     * Returns the amount of space between successive sub-components.
+     * {@inheritDoc}
+     */
+    @Override
+    public int getSpacing() {
+        var spacing = super.getSpacing();
+
+        var parent = getParent();
+
+        if (parent instanceof ColumnPanel) {
+            var columnPanel = (ColumnPanel)parent;
+
+            if (columnPanel.getAlignToGrid()) {
+                spacing += columnPanel.getSpacing();
+            }
+        }
+
+        return spacing;
+    }
+
+    /**
      * Indicates that sub-components will be aligned to baseline.
      *
      * @return
