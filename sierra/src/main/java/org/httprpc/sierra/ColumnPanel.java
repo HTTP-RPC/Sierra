@@ -16,17 +16,21 @@ package org.httprpc.sierra;
 
 import java.awt.Dimension;
 import java.awt.LayoutManager;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Arranges sub-components vertically in a column, optionally pinning component
  * edges to the container's leading and trailing insets.
  */
 public class ColumnPanel extends BoxPanel {
+    private List<Integer> columnWidths = new LinkedList<>();
+
     // Column layout manager
     private class ColumnLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
-            // TODO Add support for grid alignment
+            columnWidths.clear();
 
             var size = getSize();
             var insets = getInsets();
@@ -35,6 +39,8 @@ public class ColumnPanel extends BoxPanel {
 
             var preferredWidth = 0;
             var preferredHeight = 0;
+
+            var maximumRowSpacing = 0;
 
             var n = getComponentCount();
 
@@ -45,8 +51,28 @@ public class ColumnPanel extends BoxPanel {
 
                 var preferredSize = component.getPreferredSize();
 
-                preferredWidth = Math.max(preferredWidth, preferredSize.width);
-                preferredHeight += preferredSize.height;
+                if (alignToGrid && component instanceof RowPanel) {
+                    maximumRowSpacing = Math.max(maximumRowSpacing, ((RowPanel)component).getSpacing());
+                } else {
+                    preferredWidth = Math.max(preferredWidth, preferredSize.width);
+                    preferredHeight += preferredSize.height;
+                }
+            }
+
+            if (alignToGrid) {
+                var totalColumnWidth = columnWidths.stream().reduce(0, Integer::sum);
+
+                preferredWidth = totalColumnWidth + (columnWidths.size() - 1) * (getSpacing() + maximumRowSpacing);
+
+                for (var i = 0; i < n; i++) {
+                    var component = getComponent(i);
+
+                    if (!(component instanceof RowPanel)) {
+                        continue;
+                    }
+
+                    preferredHeight += component.getPreferredSize().height;
+                }
             }
 
             preferredHeight += getSpacing() * (n - 1);
@@ -148,5 +174,15 @@ public class ColumnPanel extends BoxPanel {
         this.alignToGrid = alignToGrid;
 
         revalidate();
+    }
+
+    /**
+     * Returns the calculated column widths.
+     *
+     * @return
+     * The calculated column widths.
+     */
+    protected List<Integer> getColumnWidths() {
+        return columnWidths;
     }
 }

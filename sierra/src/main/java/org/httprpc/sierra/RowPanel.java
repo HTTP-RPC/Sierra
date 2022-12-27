@@ -16,6 +16,7 @@ package org.httprpc.sierra;
 
 import java.awt.Dimension;
 import java.awt.LayoutManager;
+import java.util.List;
 
 /**
  * Arranges sub-components horizontally in a row, optionally pinning component
@@ -26,6 +27,22 @@ public class RowPanel extends BoxPanel {
     private class RowLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
+            var parent = getParent();
+
+            List<Integer> columnWidths = null;
+
+            var parentSpacing = 0;
+
+            if (parent instanceof ColumnPanel) {
+                var columnPanel = (ColumnPanel)parent;
+
+                if (columnPanel.getAlignToGrid()) {
+                    columnWidths = columnPanel.getColumnWidths();
+                    
+                    parentSpacing = columnPanel.getSpacing();
+                }
+            }
+
             var preferredWidth = 0;
             var totalWeight = 0.0;
 
@@ -40,13 +57,29 @@ public class RowPanel extends BoxPanel {
                     component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
                     component.setSize(component.getPreferredSize());
 
-                    preferredWidth += component.getWidth();
+                    var width = component.getWidth();
+
+                    if (columnWidths != null) {
+                        if (i == columnWidths.size()) {
+                            columnWidths.add(width);
+                        } else {
+                            width = Math.max(columnWidths.get(i), width);
+
+                            columnWidths.set(i, width);
+                        }
+
+                        component.setSize(width, component.getHeight());
+                    }
+
+                    preferredWidth += width;
                 } else {
                     totalWeight += weight;
                 }
             }
 
-            preferredWidth += getSpacing() * (n - 1);
+            // TODO When aligning to grid, skip during first pass?
+
+            preferredWidth += (getSpacing() + parentSpacing) * (n - 1);
 
             var size = getSize();
             var insets = getInsets();
