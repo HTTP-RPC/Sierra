@@ -22,7 +22,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.Color;
 import java.awt.KeyboardFocusManager;
 
 import static org.httprpc.sierra.UIBuilder.cell;
@@ -39,69 +42,72 @@ public class FormTest extends JFrame implements Runnable {
     @Override
     public void run() {
         var scrollPane = new JScrollPane(column(4, true,
-            row(4, true,
+            row(true,
                 cell(new JLabel("First Name")),
                 cell(new JTextField(null, 12))
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("Last Name")),
                 cell(new JTextField(null, 12))
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("Street Address")),
                 cell(new JTextField(null, 24))
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("City")),
                 cell(new JTextField(null, 16))
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("State")),
                 cell(new JTextField(null, 12))
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("Postal Code")),
                 cell(new JTextField(null, 8))
             ),
             row(
                 cell(new JSeparator())
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("Email Address")),
                 cell(new JTextField(null, 16))
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("Home Phone")),
                 cell(new JTextField(null, 12))
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("Mobile Phone")),
                 cell(new JTextField(null, 12))
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("Fax")),
                 cell(new JTextField(null, 12))
             ),
             row(
                 cell(new JSeparator())
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("Field 1")),
                 cell(new JTextField(null, 12))
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("Field 2")),
                 cell(new JTextField(null, 12))
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("Field 3")),
                 cell(new JTextField(null, 12))
             ),
-            row(4, true,
+            row(true,
                 cell(new JLabel("Field 4")),
                 cell(new JTextField(null, 12))
             )
-        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        ).with(columnPanel -> columnPanel.setBorder(new CompoundBorder(
+            new EmptyBorder(4, 4, 4, 4),
+            new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY)
+        ))).getComponent());
 
         scrollPane.setBorder(null);
 
