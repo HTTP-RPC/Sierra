@@ -22,7 +22,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.Color;
 import java.awt.KeyboardFocusManager;
 
 import static org.httprpc.sierra.UIBuilder.cell;
@@ -101,7 +104,10 @@ public class FormTest extends JFrame implements Runnable {
                 cell(new JLabel("Field 4")),
                 cell(new JTextField(null, 12))
             )
-        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        ).with(columnPanel -> columnPanel.setBorder(new CompoundBorder(
+            new EmptyBorder(4, 4, 4, 4),
+            new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY)
+        ))).getComponent());
 
         scrollPane.setBorder(null);
 

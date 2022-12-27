@@ -74,9 +74,9 @@ public class ColumnPanel extends BoxPanel {
                         preferredHeight += component.getPreferredSize().height;
                     }
                 }
-            } else {
-                preferredHeight += getSpacing() * (n - 1);
             }
+
+            preferredHeight += getSpacing() * (n - 1);
 
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
         }
