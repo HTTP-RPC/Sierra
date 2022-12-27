@@ -77,8 +77,6 @@ public class RowPanel extends BoxPanel {
                 }
             }
 
-            // TODO When aligning to grid, skip during first pass?
-
             preferredWidth += (getSpacing() + parentSpacing) * (n - 1);
 
             var size = getSize();

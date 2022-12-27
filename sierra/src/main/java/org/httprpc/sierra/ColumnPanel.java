@@ -47,7 +47,7 @@ public class ColumnPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                component.setSize(width, Integer.MAX_VALUE);
+                component.setSize(alignToGrid ? 0 : width, Integer.MAX_VALUE);
 
                 var preferredSize = component.getPreferredSize();
 
@@ -70,6 +70,8 @@ public class ColumnPanel extends BoxPanel {
                     if (!(component instanceof RowPanel)) {
                         continue;
                     }
+
+                    component.setSize(width, Integer.MAX_VALUE);
 
                     preferredHeight += component.getPreferredSize().height;
                 }
