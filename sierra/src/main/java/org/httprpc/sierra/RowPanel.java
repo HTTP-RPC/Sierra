@@ -46,6 +46,8 @@ public class RowPanel extends BoxPanel {
                 }
             }
 
+            // TODO Include parent spacing?
+
             preferredWidth += getSpacing() * (n - 1);
 
             var size = getSize();
@@ -124,6 +126,8 @@ public class RowPanel extends BoxPanel {
             }
 
             var spacing = getSpacing();
+
+            // TODO Include parent spacing?
 
             remainingWidth = Math.max(0, remainingWidth - spacing * (n - 1));
 
@@ -212,27 +216,6 @@ public class RowPanel extends BoxPanel {
         }
 
         super.setLayout(layoutManager);
-    }
-
-    /**
-     * Returns the amount of space between successive sub-components.
-     * {@inheritDoc}
-     */
-    @Override
-    public int getSpacing() {
-        var spacing = super.getSpacing();
-
-        var parent = getParent();
-
-        if (parent instanceof ColumnPanel) {
-            var columnPanel = (ColumnPanel)parent;
-
-            if (columnPanel.getAlignToGrid()) {
-                spacing += columnPanel.getSpacing();
-            }
-        }
-
-        return spacing;
     }
 
     /**
