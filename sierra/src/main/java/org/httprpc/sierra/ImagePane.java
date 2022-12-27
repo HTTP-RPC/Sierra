@@ -56,9 +56,9 @@ public class ImagePane extends JComponent {
             return new Dimension(preferredWidth, preferredHeight);
         }
 
-        private double getScale(double width, double height, double imageWidth, double imageHeight) {
+        private double getScale(int width, int height, int imageWidth, int imageHeight) {
             if (scaleToFit) {
-                if (width <= 0 || height <=0) {
+                if (width == 0 || height == 0 || imageWidth == 0 || imageHeight == 0) {
                     return 0.0;
                 }
 
@@ -66,9 +66,9 @@ public class ImagePane extends JComponent {
                 var imageAspectRatio = imageWidth / imageHeight;
 
                 if (aspectRatio > imageAspectRatio) {
-                    return height / imageHeight;
+                    return (double)height / imageHeight;
                 } else {
-                    return width / imageWidth;
+                    return (double)width / imageWidth;
                 }
             } else {
                 return 1.0;
