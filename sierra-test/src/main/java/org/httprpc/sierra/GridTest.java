@@ -50,14 +50,14 @@ public class GridTest extends JFrame implements Runnable {
         var scrollPane = new JScrollPane(column(4,
             cell(new TextPane(TEXT)).with(textPaneStyle),
             column(4, true,
-                row(4, true,
+                row(true,
                     cell(new JLabel("abcdefg")),
                     column(4,
                         cell(new TextPane(TEXT)).with(textPaneStyle),
                         cell(new TextPane(TEXT)).with(textPaneStyle)
                     ).weightBy(1.0)
                 ),
-                row(4, true,
+                row(true,
                     cell(new JLabel("xyz")),
                     column(4,
                         cell(new TextPane(TEXT)).with(textPaneStyle),

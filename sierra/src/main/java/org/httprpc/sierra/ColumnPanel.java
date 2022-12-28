@@ -67,11 +67,9 @@ public class ColumnPanel extends BoxPanel {
                 for (var i = 0; i < n; i++) {
                     var component = getComponent(i);
 
-                    if (!(component instanceof RowPanel)) {
-                        continue;
+                    if (Double.isNaN(getWeight(i)) && component instanceof RowPanel) {
+                        preferredHeight += component.getPreferredSize().height;
                     }
-
-                    preferredHeight += component.getPreferredSize().height;
                 }
             }
 
@@ -82,6 +80,8 @@ public class ColumnPanel extends BoxPanel {
 
         @Override
         public void layoutContainer() {
+            columnWidths.clear();
+
             var size = getSize();
             var insets = getInsets();
 
@@ -103,9 +103,23 @@ public class ColumnPanel extends BoxPanel {
                     component.setSize(width, Integer.MAX_VALUE);
                     component.setSize(width, component.getPreferredSize().height);
 
-                    remainingHeight -= component.getHeight();
+                    if (alignToGrid && component instanceof RowPanel) {
+                        component.doLayout();
+                    } else {
+                        remainingHeight -= component.getHeight();
+                    }
                 } else {
                     totalWeight += weight;
+                }
+            }
+
+            if (alignToGrid) {
+                for (var i = 0; i < n; i++) {
+                    var component = getComponent(i);
+
+                    if (Double.isNaN(getWeight(i)) && component instanceof RowPanel) {
+                        remainingHeight -= component.getPreferredSize().height;
+                    }
                 }
             }
 
