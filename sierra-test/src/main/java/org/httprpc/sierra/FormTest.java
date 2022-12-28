@@ -21,12 +21,11 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
-import java.awt.Color;
 import java.awt.KeyboardFocusManager;
+import java.util.function.Consumer;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
@@ -41,73 +40,74 @@ public class FormTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
+        Consumer<JLabel> labelStyle = label -> {
+            label.setHorizontalAlignment(SwingConstants.TRAILING);
+        };
+
         var scrollPane = new JScrollPane(column(4, true,
             row(true,
-                cell(new JLabel("First Name")),
+                cell(new JLabel("First Name")).with(labelStyle),
                 cell(new JTextField(null, 12))
             ),
             row(true,
-                cell(new JLabel("Last Name")),
+                cell(new JLabel("Last Name")).with(labelStyle),
                 cell(new JTextField(null, 12))
             ),
             row(true,
-                cell(new JLabel("Street Address")),
+                cell(new JLabel("Street Address")).with(labelStyle),
                 cell(new JTextField(null, 24))
             ),
             row(true,
-                cell(new JLabel("City")),
+                cell(new JLabel("City")).with(labelStyle),
                 cell(new JTextField(null, 16))
             ),
             row(true,
-                cell(new JLabel("State")),
+                cell(new JLabel("State")).with(labelStyle),
                 cell(new JTextField(null, 12))
             ),
             row(true,
-                cell(new JLabel("Postal Code")),
+                cell(new JLabel("Postal Code")).with(labelStyle),
                 cell(new JTextField(null, 8))
             ),
-            row(
-                cell(new JSeparator())
-            ),
+
+            cell(new JSeparator()),
+
             row(true,
-                cell(new JLabel("Email Address")),
+                cell(new JLabel("Email Address")).with(labelStyle),
                 cell(new JTextField(null, 16))
             ),
             row(true,
-                cell(new JLabel("Home Phone")),
+                cell(new JLabel("Home Phone")).with(labelStyle),
                 cell(new JTextField(null, 12))
             ),
             row(true,
-                cell(new JLabel("Mobile Phone")),
+                cell(new JLabel("Mobile Phone")).with(labelStyle),
                 cell(new JTextField(null, 12))
             ),
             row(true,
-                cell(new JLabel("Fax")),
+                cell(new JLabel("Fax")).with(labelStyle),
                 cell(new JTextField(null, 12))
             ),
-            row(
-                cell(new JSeparator())
-            ),
+
+            cell(new JSeparator()),
+
             row(true,
-                cell(new JLabel("Field 1")),
-                cell(new JTextField(null, 12))
-            ),
-            row(true,
-                cell(new JLabel("Field 2")),
+                cell(new JLabel("Field 1")).with(labelStyle),
                 cell(new JTextField(null, 12))
             ),
             row(true,
-                cell(new JLabel("Field 3")),
+                cell(new JLabel("Field 2")).with(labelStyle),
                 cell(new JTextField(null, 12))
             ),
             row(true,
-                cell(new JLabel("Field 4")),
+                cell(new JLabel("Field 3")).with(labelStyle),
+                cell(new JTextField(null, 12))
+            ),
+            row(true,
+                cell(new JLabel("Field 4")).with(labelStyle),
                 cell(new JTextField(null, 12))
             )
-        ).with(columnPanel -> columnPanel.setBorder(new CompoundBorder(
-            new EmptyBorder(4, 4, 4, 4),
-            new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY)
-        ))).getComponent());
+        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(4, 4, 4, 4))).getComponent());
 
         scrollPane.setBorder(null);
 

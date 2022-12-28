@@ -184,11 +184,9 @@ public class RowPanel extends BoxPanel {
                 }
             }
 
-            var spacing = getSpacing();
+            var spacing = getSpacing() + columnSpacing;
 
             remainingWidth = Math.max(0, remainingWidth - (spacing + columnSpacing) * (n - 1));
-
-            // TODO Include column spacing
 
             var rightToLeft = !getComponentOrientation().isLeftToRight();
 
