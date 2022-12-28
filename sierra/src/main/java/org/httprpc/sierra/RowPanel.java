@@ -157,22 +157,26 @@ public class RowPanel extends BoxPanel {
 
                 if (Double.isNaN(weight)) {
                     component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
+                    component.setSize(component.getPreferredSize());
 
-                    if (alignToBaseline) {
-                        component.setSize(component.getPreferredSize());
-                    } else {
-                        var alignmentY = component.getAlignmentX();
+                    if (!alignToBaseline) {
+                        var alignmentY = component.getAlignmentY();
 
-                        if (alignmentY != 0.5f) {
-                            // TODO Apply y-alignment
+                        var preferredHeight = component.getHeight();
+
+                        int adjustedHeight;
+                        if (alignmentY == 0.5f) {
+                            adjustedHeight = height;
+                        } else {
+                            adjustedHeight = preferredHeight + Math.round((height - preferredHeight) * getScale(alignmentY));
                         }
 
-                        component.setSize(component.getPreferredSize().width, height);
+                        component.setSize(component.getPreferredSize().width, adjustedHeight);
                     }
 
-                    var width = component.getWidth();
+                    var preferredWidth = component.getWidth();
 
-                    var columnWidth = width;
+                    var columnWidth = preferredWidth;
 
                     if (columnWidths != null) {
                         if (i == columnWidths.size()) {
@@ -184,13 +188,14 @@ public class RowPanel extends BoxPanel {
 
                             var alignmentX = component.getAlignmentX();
 
+                            int adjustedWidth;
                             if (alignmentX == 0.5f) {
-                                width = columnWidth;
+                                adjustedWidth = columnWidth;
                             } else {
-                                width += Math.round((columnWidth - width) * getScale(alignmentX));
+                                adjustedWidth = preferredWidth + Math.round((columnWidth - preferredWidth) * getScale(alignmentX));
                             }
 
-                            component.setSize(width, component.getHeight());
+                            component.setSize(adjustedWidth, component.getHeight());
                         }
                     }
 
