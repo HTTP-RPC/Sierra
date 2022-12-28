@@ -39,7 +39,7 @@ public class BaselineTest extends JFrame implements Runnable {
     public void run() {
         var labelFont = javax.swing.UIManager.getDefaults().getFont("Label.font");
 
-        setContentPane(row(
+        setContentPane(row(4, true,
             glue(),
             cell(new JLabel("abcdefg")).with(label -> {
                 label.setFont(labelFont.deriveFont(Font.PLAIN, 16));
@@ -54,11 +54,7 @@ public class BaselineTest extends JFrame implements Runnable {
                 label.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
             }),
             glue()
-        ).with(rowPanel -> {
-            rowPanel.setSpacing(4);
-            rowPanel.setAlignToBaseline(true);
-            rowPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
-        }).getComponent());
+        ).with(rowPanel -> rowPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         pack();
         setVisible(true);
