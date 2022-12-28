@@ -45,15 +45,17 @@ public class ColumnPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                component.setSize(width, Integer.MAX_VALUE);
+                if (Double.isNaN(getWeight(i))) {
+                    component.setSize(width, Integer.MAX_VALUE);
 
-                var preferredSize = component.getPreferredSize();
+                    var preferredSize = component.getPreferredSize();
 
-                if (alignToGrid && component instanceof RowPanel) {
-                    maximumRowSpacing = Math.max(maximumRowSpacing, ((RowPanel)component).getSpacing());
-                } else {
-                    preferredWidth = Math.max(preferredWidth, preferredSize.width);
-                    preferredHeight += preferredSize.height;
+                    if (alignToGrid && component instanceof RowPanel) {
+                        maximumRowSpacing = Math.max(maximumRowSpacing, ((RowPanel)component).getSpacing());
+                    } else {
+                        preferredWidth = Math.max(preferredWidth, preferredSize.width);
+                        preferredHeight += preferredSize.height;
+                    }
                 }
             }
 
@@ -80,8 +82,6 @@ public class ColumnPanel extends BoxPanel {
 
         @Override
         public void layoutContainer() {
-            // TODO Add support for grid alignment
-
             var size = getSize();
             var insets = getInsets();
 
