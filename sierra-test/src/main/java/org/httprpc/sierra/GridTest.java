@@ -19,7 +19,6 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
@@ -48,7 +47,7 @@ public class GridTest extends JFrame implements Runnable {
             textArea.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
         };
 
-        Consumer<JLabel> labelStyle = label -> label.setHorizontalAlignment(SwingConstants.TRAILING);
+        Consumer<JLabel> labelStyle = label -> label.setAlignmentX(1.0f);
 
         var scrollPane = new JScrollPane(column(4,
             cell(new TextPane(TEXT)).with(textPaneStyle),

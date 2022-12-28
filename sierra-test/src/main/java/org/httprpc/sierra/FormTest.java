@@ -39,8 +39,8 @@ public class FormTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Consumer<JLabel> labelStyle = label -> label.setAlignmentX(1.0f);
-        Consumer<JTextField> textFieldStyle = textField -> textField.setAlignmentX(0.0f);
+        Consumer<JLabel> labelStyle = label -> label.setAlignmentX(0.5f);
+        Consumer<JTextField> textFieldStyle = textField -> textField.setAlignmentX(0.5f);
 
         var scrollPane = new JScrollPane(column(4, true,
             row(true,
@@ -105,7 +105,7 @@ public class FormTest extends JFrame implements Runnable {
                 cell(new JLabel("Field 4")).with(labelStyle),
                 cell(new JTextField(null, 12)).with(textFieldStyle)
             )
-        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(4, 4, 4, 4))).getComponent());
+        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         scrollPane.setBorder(null);
 

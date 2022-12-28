@@ -161,40 +161,40 @@ public class RowPanel extends BoxPanel {
                     if (alignToBaseline) {
                         component.setSize(component.getPreferredSize());
                     } else {
-                        // TODO Apply y-alignment
+                        var alignmentY = component.getAlignmentX();
+
+                        if (alignmentY != 0.5f) {
+                            // TODO Apply y-alignment
+                        }
 
                         component.setSize(component.getPreferredSize().width, height);
                     }
 
                     var width = component.getWidth();
 
+                    var columnWidth = width;
+
                     if (columnWidths != null) {
                         if (i == columnWidths.size()) {
-                            columnWidths.add(width);
+                            columnWidths.add(columnWidth);
                         } else {
-                            var preferredWidth = width;
+                            columnWidth = Math.max(columnWidths.get(i), columnWidth);
 
-                            width = Math.max(columnWidths.get(i), width);
-
-                            columnWidths.set(i, width);
+                            columnWidths.set(i, columnWidth);
 
                             var alignmentX = component.getAlignmentX();
 
-                            int componentWidth;
                             if (alignmentX == 0.5f) {
-                                componentWidth = width;
+                                width = columnWidth;
                             } else {
-                                // TODO Won't work for > 0.5
-                                var ratio = alignmentX / 0.5f;
-
-                                componentWidth = preferredWidth + Math.round(((width - preferredWidth) * ratio));
+                                // TODO Apply x-alignment
                             }
 
-                            component.setSize(componentWidth, component.getHeight());
+                            component.setSize(width, component.getHeight());
                         }
                     }
 
-                    remainingWidth -= width;
+                    remainingWidth -= columnWidth;
                 } else {
                     totalWeight += weight;
                 }
@@ -204,12 +204,15 @@ public class RowPanel extends BoxPanel {
 
             remainingWidth = Math.max(0, remainingWidth - spacing * (n - 1));
 
-            var rightToLeft = !getComponentOrientation().isLeftToRight();
+            var leftToRight = getComponentOrientation().isLeftToRight();
 
-            var x = insets.left;
+            int x;
+            if (leftToRight) {
+                x = insets.left;
+            } else {
+                x = size.width - insets.right;
 
-            if (rightToLeft) {
-                x += size.width;
+                spacing *= -1;
             }
 
             var baselines = new int[n];
@@ -232,21 +235,35 @@ public class RowPanel extends BoxPanel {
                     }
                 }
 
-                var componentWidth = component.getWidth();
-                
-                var columnWidth = (columnWidths == null) ? componentWidth : columnWidths.get(i);
+                var width = component.getWidth();
 
-                if (rightToLeft) {
-                    x -= componentWidth;
+                var columnWidth = (columnWidths == null) ? width : columnWidths.get(i);
+
+                var gap = columnWidth - width;
+
+                if (!leftToRight) {
+                    x -= width;
+
+                    gap *= -1;
+                }
+
+                var alignmentX = component.getAlignmentX();
+
+                if (alignmentX > 0.5) {
+                    x += gap;
                 }
 
                 component.setLocation(x, insets.top);
 
-                if (rightToLeft) {
-                    x -= spacing + (columnWidth - componentWidth);
-                } else {
-                    x += columnWidth + spacing;
+                if (leftToRight) {
+                    x += width;
                 }
+
+                if (alignmentX < 0.5) {
+                    x += gap;
+                }
+
+                x += spacing;
 
                 if (alignToBaseline) {
                     var baseline = component.getBaseline(component.getWidth(), component.getHeight());
