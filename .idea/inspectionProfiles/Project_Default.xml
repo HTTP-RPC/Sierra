@@ -6,6 +6,10 @@
       <option name="DONT_REPORT_TRUE_ASSERT_STATEMENTS" value="false" />
     </inspection_tool>
     <inspection_tool class="DeprecatedIsStillUsed" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="EmptyStatementBody" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="m_reportEmptyBlocks" value="true" />
+      <option name="commentsAreContent" value="true" />
+    </inspection_tool>
     <inspection_tool class="FieldMayBeFinal" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="ForCanBeForeach" enabled="false" level="WARNING" enabled_by_default="false">
       <option name="REPORT_INDEXED_LOOP" value="true" />

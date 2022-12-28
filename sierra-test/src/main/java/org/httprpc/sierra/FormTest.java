@@ -21,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.KeyboardFocusManager;
@@ -40,72 +39,71 @@ public class FormTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Consumer<JLabel> labelStyle = label -> {
-            label.setHorizontalAlignment(SwingConstants.TRAILING);
-        };
+        Consumer<JLabel> labelStyle = label -> label.setAlignmentX(1.0f);
+        Consumer<JTextField> textFieldStyle = textField -> textField.setAlignmentX(0.0f);
 
         var scrollPane = new JScrollPane(column(4, true,
             row(true,
                 cell(new JLabel("First Name")).with(labelStyle),
-                cell(new JTextField(null, 12))
+                cell(new JTextField(null, 12)).with(textFieldStyle)
             ),
             row(true,
                 cell(new JLabel("Last Name")).with(labelStyle),
-                cell(new JTextField(null, 12))
+                cell(new JTextField(null, 12)).with(textFieldStyle)
             ),
             row(true,
                 cell(new JLabel("Street Address")).with(labelStyle),
-                cell(new JTextField(null, 24))
+                cell(new JTextField(null, 24)).with(textFieldStyle)
             ),
             row(true,
                 cell(new JLabel("City")).with(labelStyle),
-                cell(new JTextField(null, 16))
+                cell(new JTextField(null, 16)).with(textFieldStyle)
             ),
             row(true,
                 cell(new JLabel("State")).with(labelStyle),
-                cell(new JTextField(null, 12))
+                cell(new JTextField(null, 12)).with(textFieldStyle)
             ),
             row(true,
                 cell(new JLabel("Postal Code")).with(labelStyle),
-                cell(new JTextField(null, 8))
+                cell(new JTextField(null, 8)).with(textFieldStyle)
             ),
 
             cell(new JSeparator()),
 
             row(true,
                 cell(new JLabel("Email Address")).with(labelStyle),
-                cell(new JTextField(null, 16))
+                cell(new JTextField(null, 16)).with(textFieldStyle)
             ),
             row(true,
                 cell(new JLabel("Home Phone")).with(labelStyle),
-                cell(new JTextField(null, 12))
+                cell(new JTextField(null, 12)).with(textFieldStyle)
             ),
             row(true,
                 cell(new JLabel("Mobile Phone")).with(labelStyle),
-                cell(new JTextField(null, 12))
+                cell(new JTextField(null, 12)).with(textFieldStyle)
             ),
             row(true,
                 cell(new JLabel("Fax")).with(labelStyle),
-                cell(new JTextField(null, 12))
+                cell(new JTextField(null, 12)).with(textFieldStyle)
             ),
 
             cell(new JSeparator()),
 
             row(true,
                 cell(new JLabel("Field 1")).with(labelStyle),
-                cell(new JTextField(null, 12))
+                cell(new JTextField(null, 12)).with(textFieldStyle)
             ),
             row(true,
                 cell(new JLabel("Field 2")).with(labelStyle),
-                cell(new JTextField(null, 12))
+                cell(new JTextField(null, 12)).with(textFieldStyle)
             ),
             row(true,
                 cell(new JLabel("Field 3")).with(labelStyle),
-                cell(new JTextField(null, 12))
+                cell(new JTextField(null, 12)).with(textFieldStyle)
             ),
             row(true,
                 cell(new JLabel("Field 4")).with(labelStyle),
-                cell(new JTextField(null, 12))
+                cell(new JTextField(null, 12)).with(textFieldStyle)
             )
         ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(4, 4, 4, 4))).getComponent());
 

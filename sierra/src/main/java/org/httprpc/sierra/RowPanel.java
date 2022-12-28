@@ -64,9 +64,9 @@ public class RowPanel extends BoxPanel {
                             width = Math.max(columnWidths.get(i), width);
 
                             columnWidths.set(i, width);
-                        }
 
-                        component.setSize(width, component.getHeight());
+                            component.setSize(width, component.getHeight());
+                        }
                     }
 
                     preferredWidth += width;
@@ -161,6 +161,8 @@ public class RowPanel extends BoxPanel {
                     if (alignToBaseline) {
                         component.setSize(component.getPreferredSize());
                     } else {
+                        // TODO Apply y-alignment
+
                         component.setSize(component.getPreferredSize().width, height);
                     }
 
@@ -170,12 +172,26 @@ public class RowPanel extends BoxPanel {
                         if (i == columnWidths.size()) {
                             columnWidths.add(width);
                         } else {
+                            var preferredWidth = width;
+
                             width = Math.max(columnWidths.get(i), width);
 
                             columnWidths.set(i, width);
-                        }
 
-                        component.setSize(width, component.getHeight());
+                            var alignmentX = component.getAlignmentX();
+
+                            int componentWidth;
+                            if (alignmentX == 0.5f) {
+                                componentWidth = width;
+                            } else {
+                                // TODO Won't work for > 0.5
+                                var ratio = alignmentX / 0.5f;
+
+                                componentWidth = preferredWidth + Math.round(((width - preferredWidth) * ratio));
+                            }
+
+                            component.setSize(componentWidth, component.getHeight());
+                        }
                     }
 
                     remainingWidth -= width;
@@ -216,11 +232,21 @@ public class RowPanel extends BoxPanel {
                     }
                 }
 
+                var componentWidth = component.getWidth();
+                
+                var columnWidth = (columnWidths == null) ? componentWidth : columnWidths.get(i);
+
                 if (rightToLeft) {
-                    x -= component.getWidth();
+                    x -= componentWidth;
                 }
 
                 component.setLocation(x, insets.top);
+
+                if (rightToLeft) {
+                    x -= spacing + (columnWidth - componentWidth);
+                } else {
+                    x += columnWidth + spacing;
+                }
 
                 if (alignToBaseline) {
                     var baseline = component.getBaseline(component.getWidth(), component.getHeight());
@@ -230,12 +256,6 @@ public class RowPanel extends BoxPanel {
                     if (baseline >= 0) {
                         maximumBaseline = Math.max(baseline, maximumBaseline);
                     }
-                }
-
-                if (rightToLeft) {
-                    x -= spacing;
-                } else {
-                    x += component.getWidth() + spacing;
                 }
             }
 
