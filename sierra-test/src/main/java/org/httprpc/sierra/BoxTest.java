@@ -36,7 +36,7 @@ public class BoxTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(column(
+        setContentPane(column(4,
             row(
                 cell(new JButton("1a")),
                 strut(4),
@@ -64,10 +64,7 @@ public class BoxTest extends JFrame implements Runnable {
             ),
             cell(new JButton("4")).weightBy(1.0),
             cell(new JButton("5"))
-        ).with(columnPanel -> {
-            columnPanel.setSpacing(4);
-            columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
-        }).getComponent());
+        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         pack();
         setVisible(true);

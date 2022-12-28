@@ -47,22 +47,20 @@ public class OrientationTest extends JFrame implements Runnable {
     public void run() {
         var buttonGroup = new ButtonGroup();
 
-        setContentPane(column(
-            row(
+        setContentPane(column(4,
+            row(4,
                 cell(new JButton("1")),
                 cell(new JButton("2")),
                 cell(new JButton("3")),
                 cell(new JButton("4")),
                 cell(new JButton("5"))
             ).with(rowPanel -> {
-                rowPanel.setSpacing(4);
-
                 this.rowPanel = rowPanel;
             }),
 
             cell(new JSeparator()),
 
-            row(
+            row(4,
                 glue(),
                 cell(new JRadioButton("Left to right", true)).with(button -> {
                     buttonGroup.add(button);
@@ -88,11 +86,8 @@ public class OrientationTest extends JFrame implements Runnable {
                     rowPanel.revalidate();
                 })),
                 glue()
-            ).with(rowPanel -> rowPanel.setSpacing(4))
-        ).with(columnPanel -> {
-            columnPanel.setSpacing(4);
-            columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
-        }).getComponent());
+            )
+        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         pack();
         setVisible(true);
