@@ -103,7 +103,7 @@ Demonstrates grid alignment.
 
 <img src="README/grid.png" width="472px"/>
 
-# ScrollingKeyboardFocusManager
+# Focus Management
 Sierra also provides the `ScrollingKeyboardFocusManager` class, which can be used to ensure that components are automatically scrolled into view when focused:
 
 ```java
