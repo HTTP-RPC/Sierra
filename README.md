@@ -3,7 +3,7 @@
 [![javadoc](https://javadoc.io/badge2/org.httprpc/sierra/javadoc.svg)](https://javadoc.io/doc/org.httprpc/sierra)
 
 # Introduction
-Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively instantiating Swing component hierarchies. The framework is extremely lightweight and has no external dependencies. 
+Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively instantiating Swing component hierarchies. The framework is extremely lightweight (less than 40KB) and has no external dependencies. 
 
 The project's name comes from the nautical _S_ or _Sierra_ flag, representing the first letter in "Swing":
 
@@ -21,12 +21,52 @@ This guide introduces the Sierra framework and provides an overview of its key f
 Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 11 or later is required.
 
 # Sierra Classes
-Sierra provides the `UIBuilder` class, whose methods can be used to declaratively establish a hierarchy of user interface elements. The methods provided by this class form a DSL, or "domain-specific language", that makes it easy to visualize the resulting output. 
+Sierra provides the `UIBuilder` class, whose methods can be used to declaratively establish a hierarchy of user interface elements. The methods defined by this class form a DSL, or "domain-specific language", that makes it easy to visualize the resulting output.
 
-TODO
+`UIBuilder` includes a set of static methods for declaring common layout containers:
 
-## ScrollingKeyboardFocusManager
-Sierra additionally provides the `ScrollingKeyboardFocusManager` class, which can be used to ensure that components are automatically scrolled into view when focused:
+* `column()` - creates a panel that arranges sub-components vertically in a column
+* `row()` - creates a panel that arranges sub-components horizontally in a row
+* `stack()` - creates a panel that arranges sub-components by z-order
+
+Additionally, `UIBuilder` provides this method for defining a panel's contents:
+
+```java
+public static <C extends Component> Cell<C> cell(C component) { ... }
+```
+
+The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
+
+* `weightBy()` - applies a weight to a cell
+* `with()` - accepts a callback that can be used to set properties or invoke methods on the cell's component
+
+These methods can be used to declare spacer cells in column and row panels:
+
+* `strut()` - declares a fixed-size spacer cell
+* `glue()` - declares a flexible spacer cell
+
+Sierra also provides the `TextPane` and `ImagePane` components, which can be used to display simple text or image content, respectively.
+
+For example, the following code declares a column panel containing an image an a simple greeting:
+
+```java
+setContentPane(column(4, false,
+    cell(new ImagePane(image, true)),
+    cell(new TextPane("Hello, World!", false)).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
+).with(columnPanel -> {
+    columnPanel.setBackground(Color.WHITE);
+    columnPanel.setOpaque(true);
+    columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
+}).getComponent());
+```
+
+The resulting output is shown below:
+
+<img src="README/greeting.png" width="355px"/>
+
+The complete source code for this example can be found [here](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GreetingTest.java).
+
+Finally, Sierra provides the `ScrollingKeyboardFocusManager` class, which can be used to ensure that components are automatically scrolled into view when focused:
 
 ```java
 KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
@@ -35,7 +75,40 @@ KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusMa
 # Examples
 This section includes examples demonstrating usage of `UIBuilder` with the [Flat](https://github.com/JFormDesigner/FlatLaf) look-and-feel.
 
-TODO
+## Border Layout
+Inspired by the [border layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/border.html) tutorial example.
+
+[BorderTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BorderTest.java)
+
+<img src="README/border.png"/>
+
+## Component Orientation
+Inspired by the [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/flow.html) tutorial example.
+
+[OrientationTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/OrientationTest.java)
+
+<img src="README/orientation.png"/>
+
+## Box Alignment
+Demonstrates box alignment options.
+
+[BoxTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BoxTest.java)
+
+<img src="README/box.png"/>
+
+## Contact Form
+Demonstrates form layout.
+
+[FormTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/FormTest.java)
+
+<img src="README/form.png"/>
+
+## Grid Alignment
+Demonstrates grid alignment.
+
+[GridTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GridTest.java)
+
+<img src="README/grid.png"/>
 
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).

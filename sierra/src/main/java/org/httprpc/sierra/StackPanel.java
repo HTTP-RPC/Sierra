@@ -18,7 +18,7 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
- * Arranges sub-components in a stack, pinning component edges to the
+ * Arranges sub-components by z-order, pinning component edges to the
  * container's insets.
  */
 public class StackPanel extends LayoutPanel {
