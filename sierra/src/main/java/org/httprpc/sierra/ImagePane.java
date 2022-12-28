@@ -39,6 +39,10 @@ public class ImagePane extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
+            if (image == null) {
+                return new Dimension(0, 0);
+            }
+
             var size = getSize();
             var insets = getInsets();
 

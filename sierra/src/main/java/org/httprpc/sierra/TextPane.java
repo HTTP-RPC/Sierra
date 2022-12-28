@@ -47,11 +47,12 @@ public class TextPane extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            var insets = getInsets();
+            if (text == null) {
+                return new Dimension(0, 0);
+            }
 
             var font = getFont();
-
-            var text = (TextPane.this.text == null) ? "" : TextPane.this.text;
+            var insets = getInsets();
 
             double textWidth;
             double textHeight;
@@ -111,7 +112,7 @@ public class TextPane extends JComponent {
 
         @Override
         public int getBaseline(JComponent component, int width, int height) {
-            if (verticalAlignment == VerticalAlignment.CENTER) {
+            if (text == null || verticalAlignment == VerticalAlignment.CENTER) {
                 return -1;
             }
 
