@@ -187,7 +187,7 @@ public class RowPanel extends BoxPanel {
                             if (alignmentX == 0.5f) {
                                 width = columnWidth;
                             } else {
-                                // TODO Apply x-alignment
+                                width += Math.round((columnWidth - width) * getScale(alignmentX));
                             }
 
                             component.setSize(width, component.getHeight());
@@ -287,6 +287,10 @@ public class RowPanel extends BoxPanel {
                     }
                 }
             }
+        }
+
+        private float getScale(float alignment) {
+            return (alignment < 0.5f) ? alignment / 0.5f : (1.0f - alignment) / 0.5f;
         }
     }
 
