@@ -85,6 +85,13 @@ Inspired by the [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/la
 
 <img src="README/orientation.png" width="451px"/>
 
+## Baseline Alignment
+Demonstrates baseline alignment.
+
+[BaselineTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BaselineTest.java)
+
+<img src="README/baseline.png" width="324px"/>
+
 ## Box Alignment
 Demonstrates box alignment.
 
