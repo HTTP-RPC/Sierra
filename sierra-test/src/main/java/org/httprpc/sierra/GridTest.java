@@ -41,10 +41,10 @@ public class GridTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Consumer<TextPane> textPaneStyle = textArea -> {
-            textArea.setWrapText(true);
-            textArea.setVerticalAlignment(VerticalAlignment.BOTTOM);
-            textArea.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+        Consumer<TextPane> textPaneStyle = textPane -> {
+            textPane.setWrapText(true);
+            textPane.setVerticalAlignment(VerticalAlignment.BOTTOM);
+            textPane.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
         };
 
         Consumer<JLabel> labelStyle = label -> label.setAlignmentX(1.0f);
