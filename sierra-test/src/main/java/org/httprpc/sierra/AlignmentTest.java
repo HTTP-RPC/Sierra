@@ -25,6 +25,7 @@ import java.util.function.Consumer;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
+import static org.httprpc.sierra.UIBuilder.glue;
 import static org.httprpc.sierra.UIBuilder.row;
 
 public class AlignmentTest extends JFrame implements Runnable {
@@ -52,9 +53,9 @@ public class AlignmentTest extends JFrame implements Runnable {
                     textPane.setAlignmentY(0.0f);
                 })
             ),
-            row(16,
+            row(
                 cell(new TextPane("abcdef")).with(cellStyle, textPane -> textPane.setAlignmentX(1.0f)),
-                cell(new TextPane("ABCDEFGHIJKL")).with(cellStyle),
+                glue(),
                 cell(new TextPane("ghijkl")).with(cellStyle, textPane -> textPane.setAlignmentX(0.0f))
             ),
             row(
@@ -70,7 +71,7 @@ public class AlignmentTest extends JFrame implements Runnable {
             )
         ).with(rowPanel -> rowPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
-        pack();
+        setSize(320, 240);
         setVisible(true);
     }
 
