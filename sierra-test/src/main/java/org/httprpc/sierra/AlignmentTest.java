@@ -46,23 +46,23 @@ public class AlignmentTest extends JFrame implements Runnable {
                     textPane.setAlignmentX(0.0f);
                     textPane.setAlignmentY(0.0f);
                 }),
-                cell(new TextPane(TEXT, true)).weightBy(1),
+                cell(new TextPane(TEXT, true)).with(cellStyle).weightBy(1),
                 cell(new TextPane("def")).with(cellStyle, textPane -> {
                     textPane.setAlignmentX(1.0f);
                     textPane.setAlignmentY(0.0f);
                 })
             ),
             row(
-                cell(new TextPane("abcdef")).with(cellStyle, textPane -> textPane.setAlignmentX(0.0f)),
-                cell(new TextPane("ABCDEFGHIJKL")),
-                cell(new TextPane("ghijkl")).with(cellStyle, textPane -> textPane.setAlignmentX(1.0f))
+                cell(new TextPane("abcdef")).with(cellStyle, textPane -> textPane.setAlignmentX(1.0f)),
+                cell(new TextPane("ABCDEFGHIJKL")).with(cellStyle),
+                cell(new TextPane("ghijkl")).with(cellStyle, textPane -> textPane.setAlignmentX(0.0f))
             ),
             row(
                 cell(new TextPane("ghi")).with(cellStyle, textPane -> {
                     textPane.setAlignmentX(0.0f);
                     textPane.setAlignmentY(1.0f);
                 }),
-                cell(new TextPane(TEXT, true)).weightBy(1),
+                cell(new TextPane(TEXT, true)).with(cellStyle).weightBy(1),
                 cell(new TextPane("jkl")).with(cellStyle, textPane -> {
                     textPane.setAlignmentX(1.0f);
                     textPane.setAlignmentY(1.0f);

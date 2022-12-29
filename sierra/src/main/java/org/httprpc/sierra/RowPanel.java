@@ -262,6 +262,12 @@ public class RowPanel extends BoxPanel {
 
                 component.setLocation(x, insets.top);
 
+                var alignmentY = component.getAlignmentY();
+
+                if (!alignToBaseline && alignmentY > 0.5) {
+                    component.setLocation(component.getX(), component.getY() + (height - component.getHeight()));
+                }
+
                 if (leftToRight) {
                     x += width;
                 }
