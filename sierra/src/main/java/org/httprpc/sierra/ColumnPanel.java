@@ -118,7 +118,9 @@ public class ColumnPanel extends BoxPanel {
                     var component = getComponent(i);
 
                     if (Double.isNaN(getWeight(i)) && component instanceof RowPanel) {
-                        remainingHeight -= component.getPreferredSize().height;
+                        component.setSize(component.getWidth(), component.getPreferredSize().height);
+
+                        remainingHeight -= component.getHeight();
                     }
                 }
             }

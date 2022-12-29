@@ -42,11 +42,6 @@ public class AlignmentTest extends JFrame implements Runnable {
 
         setContentPane(column(4, true,
             row(
-                cell(new TextPane("abcdef")).with(cellStyle, textPane -> textPane.setAlignmentX(1.0f)),
-                cell(new TextPane("ABCDEFGHIJKL")).with(cellStyle),
-                cell(new TextPane("ghijkl")).with(cellStyle, textPane -> textPane.setAlignmentX(0.0f))
-            ),
-            row(
                 cell(new TextPane("abc")).with(cellStyle, textPane -> {
                     textPane.setAlignmentX(0.0f);
                     textPane.setAlignmentY(0.0f);
@@ -56,6 +51,11 @@ public class AlignmentTest extends JFrame implements Runnable {
                     textPane.setAlignmentX(1.0f);
                     textPane.setAlignmentY(0.0f);
                 })
+            ),
+            row(16,
+                cell(new TextPane("abcdef")).with(cellStyle, textPane -> textPane.setAlignmentX(1.0f)),
+                cell(new TextPane("ABCDEFGHIJKL")).with(cellStyle),
+                cell(new TextPane("ghijkl")).with(cellStyle, textPane -> textPane.setAlignmentX(0.0f))
             ),
             row(
                 cell(new TextPane("ghi")).with(cellStyle, textPane -> {
@@ -70,7 +70,7 @@ public class AlignmentTest extends JFrame implements Runnable {
             )
         ).with(rowPanel -> rowPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
-        setSize(320, 240);
+        pack();
         setVisible(true);
     }
 
