@@ -99,7 +99,7 @@ public class RowPanel extends BoxPanel {
                 if (!Double.isNaN(weight)) {
                     var columnWidth = (columnWidths == null) ? 0 : columnWidths.get(i);
 
-                    var width = Math.max(columnWidth, (int)Math.round(remainingWidth * (weight / totalWeight)));
+                    var width = columnWidth > 0 ? columnWidth : (int)Math.round(remainingWidth * (weight / totalWeight));
 
                     component.setSize(width, Integer.MAX_VALUE);
                     component.setSize(width, component.getPreferredSize().height);
@@ -232,7 +232,9 @@ public class RowPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (!Double.isNaN(weight)) {
-                    var width = (int)Math.round(remainingWidth * (weight / totalWeight));
+                    var columnWidth = (columnWidths == null) ? 0 : columnWidths.get(i);
+
+                    var width = columnWidth > 0 ? columnWidth : (int)Math.round(remainingWidth * (weight / totalWeight));
 
                     if (alignToBaseline) {
                         component.setSize(width, Integer.MAX_VALUE);
