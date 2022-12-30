@@ -52,7 +52,7 @@ public class AlignmentTest extends JFrame implements Runnable {
                     textPane.setAlignmentY(0.0f);
                 })
             ),
-            row(16,
+            row(
                 cell(new TextPane("abcdef")).with(cellStyle, textPane -> textPane.setAlignmentX(1.0f)),
                 cell(new TextPane("ABCDEFGHIJKL")).with(cellStyle),
                 cell(new TextPane("ghijkl")).with(cellStyle, textPane -> textPane.setAlignmentX(0.0f))

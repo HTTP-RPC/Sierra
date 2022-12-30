@@ -38,8 +38,6 @@ public class ColumnPanel extends BoxPanel {
             var preferredWidth = 0;
             var preferredHeight = 0;
 
-            var maximumRowSpacing = 0;
-
             var n = getComponentCount();
 
             for (var i = 0; i < n; i++) {
@@ -48,11 +46,11 @@ public class ColumnPanel extends BoxPanel {
                 if (Double.isNaN(getWeight(i))) {
                     component.setSize(width, Integer.MAX_VALUE);
 
-                    var preferredSize = component.getPreferredSize();
-
                     if (alignToGrid && component instanceof RowPanel) {
-                        maximumRowSpacing = Math.max(maximumRowSpacing, ((RowPanel)component).getSpacing());
+                        component.doLayout();
                     } else {
+                        var preferredSize = component.getPreferredSize();
+
                         preferredWidth = Math.max(preferredWidth, preferredSize.width);
                         preferredHeight += preferredSize.height;
                     }
@@ -62,7 +60,7 @@ public class ColumnPanel extends BoxPanel {
             if (alignToGrid) {
                 var totalColumnWidth = columnWidths.stream().reduce(0, Integer::sum);
 
-                preferredWidth = totalColumnWidth + (columnWidths.size() - 1) * (getSpacing() + maximumRowSpacing);
+                preferredWidth = totalColumnWidth + (columnWidths.size() - 1) * getSpacing();
 
                 for (var i = 0; i < n; i++) {
                     var component = getComponent(i);
@@ -101,11 +99,12 @@ public class ColumnPanel extends BoxPanel {
 
                 if (Double.isNaN(weight)) {
                     component.setSize(width, Integer.MAX_VALUE);
-                    component.setSize(width, component.getPreferredSize().height);
 
                     if (alignToGrid && component instanceof RowPanel) {
                         component.doLayout();
                     } else {
+                        component.setSize(width, component.getPreferredSize().height);
+
                         remainingHeight -= component.getHeight();
                     }
                 } else {

@@ -58,28 +58,22 @@ public class RowPanel extends BoxPanel {
                     var width = component.getWidth();
 
                     if (columnWidths != null) {
-                        if (i == columnWidths.size()) {
-                            columnWidths.add(width);
-                        } else {
-                            width = Math.max(columnWidths.get(i), width);
+                        width = Math.max(columnWidths.get(i), width);
 
-                            columnWidths.set(i, width);
+                        columnWidths.set(i, width);
 
-                            component.setSize(width, component.getHeight());
-                        }
+                        component.setSize(width, component.getHeight());
                     }
 
                     preferredWidth += width;
                 } else {
-                    if (columnWidths != null && i == columnWidths.size()) {
-                        columnWidths.add(0);
-                    }
-
                     totalWeight += weight;
                 }
             }
 
-            preferredWidth += (getSpacing() + columnSpacing) * (n - 1);
+            var spacing = (columnWidths == null) ? getSpacing() : columnSpacing;
+
+            preferredWidth += spacing * (n - 1);
 
             var size = getSize();
             var insets = getInsets();
@@ -203,11 +197,15 @@ public class RowPanel extends BoxPanel {
 
                     remainingWidth -= columnWidth;
                 } else {
+                    if (columnWidths != null && i == columnWidths.size()) {
+                        columnWidths.add(0);
+                    }
+
                     totalWeight += weight;
                 }
             }
 
-            var spacing = getSpacing() + columnSpacing;
+            var spacing = (columnWidths == null) ? getSpacing() : columnSpacing;
 
             remainingWidth = Math.max(0, remainingWidth - spacing * (n - 1));
 
