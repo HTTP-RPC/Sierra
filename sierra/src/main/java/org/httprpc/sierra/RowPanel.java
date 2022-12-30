@@ -30,6 +30,7 @@ public class RowPanel extends BoxPanel {
             var parent = getParent();
 
             List<Integer> columnWidths = null;
+            List<Double> columnWeights = null;
 
             var spacing = getSpacing();
 
@@ -38,6 +39,7 @@ public class RowPanel extends BoxPanel {
 
                 if (columnPanel.getAlignToGrid()) {
                     columnWidths = columnPanel.getColumnWidths();
+                    columnWeights = columnPanel.getColumnWeights();
 
                     spacing = columnPanel.getRowSpacing();
                 }
@@ -69,6 +71,12 @@ public class RowPanel extends BoxPanel {
 
                     preferredWidth += width;
                 } else {
+                    if (columnWeights != null) {
+                        weight = Math.max(columnWeights.get(i), weight);
+
+                        columnWeights.set(i, weight);
+                    }
+
                     totalWeight += weight;
                 }
             }
@@ -125,6 +133,7 @@ public class RowPanel extends BoxPanel {
             var parent = getParent();
 
             List<Integer> columnWidths = null;
+            List<Double> columnWeights = null;
 
             var spacing = getSpacing();
 
@@ -133,6 +142,7 @@ public class RowPanel extends BoxPanel {
 
                 if (columnPanel.getAlignToGrid()) {
                     columnWidths = columnPanel.getColumnWidths();
+                    columnWeights = columnPanel.getColumnWeights();
 
                     spacing = columnPanel.getRowSpacing();
                 }
@@ -197,8 +207,22 @@ public class RowPanel extends BoxPanel {
                         }
                     }
 
+                    if (columnWeights != null && i == columnWeights.size()) {
+                        columnWeights.add(Double.NaN);
+                    }
+
                     remainingWidth -= columnWidth;
                 } else {
+                    if (columnWeights != null) {
+                        if (i == columnWidths.size()) {
+                            columnWeights.add(weight);
+                        } else {
+                            weight = Math.max(columnWeights.get(i), weight);
+
+                            columnWeights.set(i, weight);
+                        }
+                    }
+
                     if (columnWidths != null && i == columnWidths.size()) {
                         columnWidths.add(0);
                     }
@@ -231,6 +255,10 @@ public class RowPanel extends BoxPanel {
 
                 if (!Double.isNaN(weight)) {
                     var columnWidth = (columnWidths == null) ? 0 : columnWidths.get(i);
+
+                    if (columnWeights != null) {
+                        weight = columnWeights.get(i);
+                    }
 
                     var width = columnWidth > 0 ? columnWidth : (int)Math.round(remainingWidth * (weight / totalWeight));
 

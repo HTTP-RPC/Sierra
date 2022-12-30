@@ -29,6 +29,7 @@ public class ColumnPanel extends BoxPanel {
         @Override
         public Dimension preferredLayoutSize() {
             columnWidths.clear();
+            columnWeights.clear();
 
             maximumRowSpacing = 0;
 
@@ -83,6 +84,7 @@ public class ColumnPanel extends BoxPanel {
         @Override
         public void layoutContainer() {
             columnWidths.clear();
+            columnWeights.clear();
 
             maximumRowSpacing = 0;
 
@@ -155,6 +157,7 @@ public class ColumnPanel extends BoxPanel {
     private boolean alignToGrid = false;
 
     private List<Integer> columnWidths = new LinkedList<>();
+    private List<Double> columnWeights = new LinkedList<>();
 
     private int maximumRowSpacing= 0;
 
@@ -209,6 +212,16 @@ public class ColumnPanel extends BoxPanel {
      */
     protected List<Integer> getColumnWidths() {
         return columnWidths;
+    }
+
+    /**
+     * Returns the calculated column weights.
+     *
+     * @return
+     * The calculated column weights.
+     */
+    protected List<Double> getColumnWeights() {
+        return columnWeights;
     }
 
     /**
