@@ -43,7 +43,6 @@ public class GridTest extends JFrame implements Runnable {
     public void run() {
         Consumer<TextPane> textPaneStyle = textPane -> {
             textPane.setWrapText(true);
-            textPane.setVerticalAlignment(VerticalAlignment.BOTTOM);
             textPane.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
         };
 
@@ -62,8 +61,8 @@ public class GridTest extends JFrame implements Runnable {
                 row(true,
                     cell(new JLabel("xyz")).with(labelStyle),
                     column(4,
-                        cell(new TextPane(TEXT)).with(textPaneStyle),
-                        cell(new TextPane(TEXT)).with(textPaneStyle)
+                        cell(new TextPane(TEXT)).with(textPaneStyle, textPane -> textPane.setVerticalAlignment(VerticalAlignment.CENTER)),
+                        cell(new TextPane(TEXT)).with(textPaneStyle, textPane -> textPane.setVerticalAlignment(VerticalAlignment.BOTTOM))
                     ).weightBy(1.0)
                 )
             ),

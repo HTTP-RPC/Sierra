@@ -108,7 +108,7 @@ Demonstrates grid alignment.
 
 [GridTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GridTest.java)
 
-<img src="README/grid.png" width="472px"/>
+<img src="README/grid.png" width="432px"/>
 
 [AlignmentTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/AlignmentTest.java)
 
