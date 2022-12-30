@@ -54,6 +54,10 @@ public class UIBuilder {
          * The cell instance.
          */
         public Cell<C> weightBy(double weight) {
+            if (weight < 0.0) {
+                throw new IllegalArgumentException();
+            }
+
             constraints = weight;
 
             return this;
