@@ -30,14 +30,16 @@ public class RowPanel extends BoxPanel {
             var parent = getParent();
 
             List<Integer> columnWidths = null;
-            var columnSpacing = 0;
+
+            var spacing = getSpacing();
 
             if (parent instanceof ColumnPanel) {
                 var columnPanel = (ColumnPanel)parent;
 
                 if (columnPanel.getAlignToGrid()) {
                     columnWidths = columnPanel.getColumnWidths();
-                    columnSpacing = columnPanel.getSpacing();
+
+                    spacing = columnPanel.getRowSpacing();
                 }
             }
 
@@ -70,8 +72,6 @@ public class RowPanel extends BoxPanel {
                     totalWeight += weight;
                 }
             }
-
-            var spacing = (columnWidths == null) ? getSpacing() : columnSpacing;
 
             preferredWidth += spacing * (n - 1);
 
@@ -125,14 +125,16 @@ public class RowPanel extends BoxPanel {
             var parent = getParent();
 
             List<Integer> columnWidths = null;
-            var columnSpacing = 0;
+
+            var spacing = getSpacing();
 
             if (parent instanceof ColumnPanel) {
                 var columnPanel = (ColumnPanel)parent;
 
                 if (columnPanel.getAlignToGrid()) {
                     columnWidths = columnPanel.getColumnWidths();
-                    columnSpacing = columnPanel.getSpacing();
+
+                    spacing = columnPanel.getRowSpacing();
                 }
             }
 
@@ -204,8 +206,6 @@ public class RowPanel extends BoxPanel {
                     totalWeight += weight;
                 }
             }
-
-            var spacing = (columnWidths == null) ? getSpacing() : columnSpacing;
 
             remainingWidth = Math.max(0, remainingWidth - spacing * (n - 1));
 

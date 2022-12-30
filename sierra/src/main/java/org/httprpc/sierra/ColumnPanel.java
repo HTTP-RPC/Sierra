@@ -30,6 +30,8 @@ public class ColumnPanel extends BoxPanel {
         public Dimension preferredLayoutSize() {
             columnWidths.clear();
 
+            maximumRowSpacing = 0;
+
             var size = getSize();
             var insets = getInsets();
 
@@ -48,6 +50,8 @@ public class ColumnPanel extends BoxPanel {
 
                     if (alignToGrid && component instanceof RowPanel) {
                         component.doLayout();
+
+                        maximumRowSpacing = Math.max(maximumRowSpacing, ((RowPanel)component).getSpacing());
                     } else {
                         var preferredSize = component.getPreferredSize();
 
@@ -60,7 +64,7 @@ public class ColumnPanel extends BoxPanel {
             if (alignToGrid) {
                 var totalColumnWidth = columnWidths.stream().reduce(0, Integer::sum);
 
-                preferredWidth = totalColumnWidth + (columnWidths.size() - 1) * getSpacing();
+                preferredWidth = totalColumnWidth + (columnWidths.size() - 1) * getRowSpacing();
 
                 for (var i = 0; i < n; i++) {
                     var component = getComponent(i);
@@ -79,6 +83,8 @@ public class ColumnPanel extends BoxPanel {
         @Override
         public void layoutContainer() {
             columnWidths.clear();
+
+            maximumRowSpacing = 0;
 
             var size = getSize();
             var insets = getInsets();
@@ -102,6 +108,8 @@ public class ColumnPanel extends BoxPanel {
 
                     if (alignToGrid && component instanceof RowPanel) {
                         component.doLayout();
+
+                        maximumRowSpacing = Math.max(maximumRowSpacing, ((RowPanel)component).getSpacing());
                     } else {
                         component.setSize(width, component.getPreferredSize().height);
 
@@ -147,6 +155,8 @@ public class ColumnPanel extends BoxPanel {
     private boolean alignToGrid = false;
 
     private List<Integer> columnWidths = new LinkedList<>();
+
+    private int maximumRowSpacing= 0;
 
     /**
      * Constructs a new column panel.
@@ -199,5 +209,15 @@ public class ColumnPanel extends BoxPanel {
      */
     protected List<Integer> getColumnWidths() {
         return columnWidths;
+    }
+
+    /**
+     * Returns the calculated row spacing.
+     *
+     * @return
+     * The calculated row spacing.
+     */
+    protected int getRowSpacing() {
+        return Math.max(getSpacing(), maximumRowSpacing);
     }
 }
