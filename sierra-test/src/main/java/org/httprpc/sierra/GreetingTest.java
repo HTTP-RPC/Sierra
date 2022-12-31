@@ -52,7 +52,7 @@ public class GreetingTest extends JFrame implements Runnable {
             columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
         }).getComponent());
 
-        setSize(320, 640);
+        setSize(320, 480);
         setVisible(true);
     }
 

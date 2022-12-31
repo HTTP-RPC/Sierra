@@ -64,7 +64,7 @@ setContentPane(column(4, false,
 
 The resulting output is shown below:
 
-<img src="README/greeting.png" width="355px"/>
+<img src="README/greeting.png" width="432px"/>
 
 The complete source code can be found [here](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GreetingTest.java).
 
