@@ -114,6 +114,13 @@ Demonstrates grid alignment.
 
 <img src="README/alignment.png" width="332px"/>
 
+## Periodic Table
+Inspired by Wikipedia's [classification of the elements](https://en.wikipedia.org/wiki/Periodic_table#Classification_of_elements).
+
+[PeriodicTableTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/PeriodicTableTest.java)
+
+<img src="README/periodic-table.png" width="1060px"/>
+
 # Focus Management
 Sierra also provides the `ScrollingKeyboardFocusManager` class, which can be used to ensure that components are automatically scrolled into view when focused:
 
