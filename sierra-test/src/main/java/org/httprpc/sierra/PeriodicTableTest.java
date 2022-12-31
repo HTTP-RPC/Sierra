@@ -98,7 +98,7 @@ public class PeriodicTableTest extends JFrame implements Runnable {
             textPane.setVerticalAlignment(VerticalAlignment.CENTER);
             textPane.setFont(labelFont.deriveFont(Font.PLAIN, 12));
 
-            add(textPane, 1.0);
+            add(textPane);
 
             setOpaque(true);
             setBackground(group.color);
