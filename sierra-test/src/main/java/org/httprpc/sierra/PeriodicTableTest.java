@@ -308,7 +308,7 @@ public class PeriodicTableTest extends JFrame implements Runnable {
                 cell(new KeyPanel("Transition metal", Group.TRANSITION_METAL)),
                 cell(new KeyPanel("Other metal", Group.OTHER_METAL)),
                 cell(new KeyPanel("Metalloid", Group.METALLOID)),
-                cell(new KeyPanel("Other nonmetal", Group.OTHER_NONMETAL)),
+                cell(new KeyPanel("Other non-metal", Group.OTHER_NONMETAL)),
                 cell(new KeyPanel("Halogen", Group.HALOGEN)),
                 cell(new KeyPanel("Noble gas", Group.NOBLE_GAS)),
                 glue()
