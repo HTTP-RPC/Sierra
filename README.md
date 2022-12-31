@@ -39,7 +39,7 @@ public static <C extends Component> Cell<C> cell(C component) { ... }
 
 The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
 
-* `weightBy()` - specifies the amount of excess space in a container that should be allocated to the component
+* `weightBy()` - specifies the amount of excess space in a container that should be allocated to the component, relative to other weighted components
 * `with()` - accepts a callback that can be used to set properties or invoke methods on the component
 
 Finally, these `UIBuilder` methods can be used to declare spacer cells in column and row panels, similar to `BoxLayout`:
