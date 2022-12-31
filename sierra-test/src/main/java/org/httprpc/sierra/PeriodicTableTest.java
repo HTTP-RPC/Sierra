@@ -25,7 +25,6 @@ import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.KeyboardFocusManager;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
@@ -177,8 +176,6 @@ public class PeriodicTableTest extends JFrame implements Runnable {
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
-
-        KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
 
         SwingUtilities.invokeLater(new PeriodicTableTest());
     }
