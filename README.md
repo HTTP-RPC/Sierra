@@ -29,7 +29,7 @@ Sierra provides the `UIBuilder` class, whose methods can be used to declarativel
 * `row()` - produces an instance of `RowPanel`, a container that automatically arranges sub-components along the x-axis
 * `stack()` - produces an instance of `StackPanel`, a container that automatically arranges sub-components by z-order
 
-These containers offer an alternative to the standard Java layout managers, which can often be overly limiting or difficult to use in practice. 
+These containers offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. 
 
 Additionally, `UIBuilder` provides this method for declaring a panel's contents:
 
@@ -47,9 +47,9 @@ Finally, these `UIBuilder` methods can be used to declare spacer cells in column
 * `strut()` - declares a fixed-size spacer cell
 * `glue()` - declares a flexible spacer cell
 
-Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively.
+Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively: `TextPane` supports wrapping text without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`.
 
-For example, the following code declares a column panel containing an image and a simple greeting:
+For example, the following code declares a column panel containing a graphic and a simple greeting:
 
 ```java
 setContentPane(column(4, false,
