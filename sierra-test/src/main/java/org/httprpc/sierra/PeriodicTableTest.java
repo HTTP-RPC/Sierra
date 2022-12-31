@@ -17,7 +17,6 @@ package org.httprpc.sierra;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
@@ -116,7 +115,7 @@ public class PeriodicTableTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var scrollPane = new JScrollPane(column(4,
+        setContentPane(column(4,
             row(4,
                 cell(new ElementPanel(1, "H", Group.REACTIVE_NONMETAL)),
                 cell(new ElementPanel()),
@@ -171,11 +170,6 @@ public class PeriodicTableTest extends JFrame implements Runnable {
                 cell(new KeyPanel("Unknown", Group.UNKNOWN)).weightBy(1)
             )
         ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
-
-        scrollPane.setBorder(null);
-        scrollPane.getViewport().setBackground(Color.WHITE);
-
-        setContentPane(scrollPane);
 
         pack();
         setVisible(true);
