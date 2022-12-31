@@ -29,7 +29,7 @@ Sierra provides the `UIBuilder` class, whose methods can be used to declarativel
 * `row()` - produces an instance of `RowPanel`, a container that automatically arranges sub-components along the x-axis
 * `stack()` - produces an instance of `StackPanel`, a container that automatically arranges sub-components by z-order
 
-These components offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. `ColumnPanel` optionally aligns sub-components to a grid, similar to an HTML table or `GridBagLayout`, and `RowPanel` optionally aligns sub-components by baseline, similar to `FlowLayout`. 
+These components offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. `ColumnPanel` optionally aligns sub-components to a grid, similar to an HTML table or `GridBagLayout`. `RowPanel` optionally aligns sub-components to baseline, similar to `FlowLayout`. 
 
 Additionally, `UIBuilder` provides this method for declaring a panel's contents:
 
