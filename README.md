@@ -21,9 +21,7 @@ This guide introduces the Sierra framework and provides an overview of its key f
 Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 11 or later is required.
 
 # Sierra Classes
-Sierra provides the `UIBuilder` class, whose methods can be used to declaratively establish a hierarchy of user interface elements. The methods defined by this class form a DSL, or "domain-specific language", that makes it easy to visualize the resulting output.
-
-`UIBuilder` includes a set of static methods for declaring common layout elements:
+Sierra provides the `UIBuilder` class, whose methods can be used to declaratively establish a hierarchy of user interface elements. The methods defined by this class form a DSL, or "domain-specific language", that makes it easy to visualize the resulting output:
 
 * `column()` - produces an instance of `ColumnPanel`, a container that automatically arranges sub-components along the y-axis
 * `row()` - produces an instance of `RowPanel`, a container that automatically arranges sub-components along the x-axis
