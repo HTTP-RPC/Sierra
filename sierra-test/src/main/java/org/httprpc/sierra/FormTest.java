@@ -105,7 +105,7 @@ public class FormTest extends JFrame implements Runnable {
                 cell(new JLabel("Field 4")).with(labelStyle),
                 cell(new JTextField(null, 12)).with(textFieldStyle)
             )
-        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        ).with(viewportView -> viewportView.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         scrollPane.setBorder(null);
 

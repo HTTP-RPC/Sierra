@@ -58,7 +58,7 @@ public class BorderTest extends JFrame implements Runnable {
                 cell(new JLabel("Line End")).with(cellStyle, label -> label.setFont(labelFont.deriveFont(Font.PLAIN, 24)))
             ).weightBy(1.0),
             cell(new JLabel("Page End")).with(cellStyle)
-        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         pack();
         setVisible(true);

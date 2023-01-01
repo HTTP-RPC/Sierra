@@ -52,7 +52,7 @@ public class StackTest extends JFrame implements Runnable {
                 ),
                 glue()
             )
-        ).with(stackPanel -> stackPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         setSize(320, 240);
         setVisible(true);

@@ -73,9 +73,9 @@ public class GridTest extends JFrame implements Runnable {
                 ).weightBy(2.0),
                 cell(new TextPane(TEXT)).weightBy(1.0).with(textPaneStyle)
             )
-        ).with(columnPanel -> {
-            columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
-            columnPanel.setScrollableTracksViewportWidth(true);
+        ).with(viewportView -> {
+            viewportView.setBorder(new EmptyBorder(8, 8, 8, 8));
+            viewportView.setScrollableTracksViewportWidth(true);
         }).getComponent());
 
         scrollPane.setBorder(null);

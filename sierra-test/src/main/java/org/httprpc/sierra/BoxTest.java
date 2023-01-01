@@ -64,7 +64,7 @@ public class BoxTest extends JFrame implements Runnable {
             ),
             cell(new JButton("4")).weightBy(1.0),
             cell(new JButton("5"))
-        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         pack();
         setVisible(true);

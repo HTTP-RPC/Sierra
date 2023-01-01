@@ -68,7 +68,7 @@ public class AlignmentTest extends JFrame implements Runnable {
                     textPane.setAlignmentY(1.0f);
                 })
             )
-        ).with(rowPanel -> rowPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         pack();
         setVisible(true);

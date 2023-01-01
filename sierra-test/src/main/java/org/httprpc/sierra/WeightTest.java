@@ -55,7 +55,7 @@ public class WeightTest extends JFrame implements Runnable {
                 cell(new TextPane(TEXT, true)).weightBy(3).with(textPaneStyle),
                 cell(new TextPane(TEXT, true)).weightBy(1).with(textPaneStyle)
             )
-        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         setSize(480, 360);
         setVisible(true);

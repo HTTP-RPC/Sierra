@@ -54,7 +54,7 @@ public class BaselineTest extends JFrame implements Runnable {
                 label.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
             }),
             glue()
-        ).with(rowPanel -> rowPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         pack();
         setVisible(true);

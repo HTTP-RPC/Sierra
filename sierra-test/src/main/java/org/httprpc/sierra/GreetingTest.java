@@ -46,10 +46,10 @@ public class GreetingTest extends JFrame implements Runnable {
         setContentPane(column(4, false,
             cell(new ImagePane(image, true)),
             cell(new TextPane("Hello, World!", false)).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
-        ).with(columnPanel -> {
-            columnPanel.setBackground(Color.WHITE);
-            columnPanel.setOpaque(true);
-            columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
+        ).with(contentPane -> {
+            contentPane.setBackground(Color.WHITE);
+            contentPane.setOpaque(true);
+            contentPane.setBorder(new EmptyBorder(8, 8, 8, 8));
         }).getComponent());
 
         setSize(320, 480);

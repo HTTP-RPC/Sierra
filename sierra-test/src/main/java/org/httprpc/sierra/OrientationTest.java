@@ -87,7 +87,7 @@ public class OrientationTest extends JFrame implements Runnable {
                 })),
                 glue()
             )
-        ).with(columnPanel -> columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
         pack();
         setVisible(true);
