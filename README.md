@@ -45,7 +45,7 @@ Finally, these `UIBuilder` methods can be used to declare spacer cells in column
 * `strut()` - declares a fixed-size spacer cell
 * `glue()` - declares a flexible spacer cell
 
-Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively: `TextPane` supports wrapping text without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`.
+Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping text without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`.
 
 For example, the following code declares a column panel containing a graphic and a simple greeting:
 
