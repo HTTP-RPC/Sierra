@@ -119,6 +119,13 @@ Demonstrates grid alignment.
 
 <img src="README/alignment.png" width="332px"/>
 
+## Action Handling
+Demonstrates associating an action handler with a button.
+
+[ActionTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/ActionTest.java)
+
+<img src="README/action.png" width="352px"/>
+
 ## Periodic Table
 Inspired by Wikipedia's [classification of the elements](https://en.wikipedia.org/wiki/Periodic_table#Classification_of_elements).
 
