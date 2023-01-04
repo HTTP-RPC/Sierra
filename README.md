@@ -67,11 +67,20 @@ The resulting output is shown below:
 The complete source code can be found [here](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GreetingTest.java).
 
 ## Focus Management
-Sierra additionally provides the `ScrollingKeyboardFocusManager` class, which can be used to ensure that components are automatically scrolled into view when focused. It can be installed at application startup as follows:
+The `ScrollingKeyboardFocusManager` class ensures that components are automatically scrolled into view when focused. It can be installed at application startup as follows:
 
 ```java
 KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
 ```
+
+## Task Execution
+The `TaskExecutor` class performs a task in the background and and invokes a callback on the UI thread when the task is complete:
+
+```java
+public <T> void execute(Callable<T> callable, BiConsumer<T, Exception> consumer) { ... }
+```
+
+Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GreetingTest.java) for more information.
 
 # Examples
 This section includes examples demonstrating usage of `UIBuilder` with the [Flat](https://github.com/JFormDesigner/FlatLaf) look-and-feel.
