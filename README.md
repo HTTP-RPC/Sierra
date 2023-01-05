@@ -80,6 +80,21 @@ The `TaskExecutor` class performs a task in the background and and invokes a cal
 public <T> void execute(Callable<T> callable, BiConsumer<T, Exception> consumer) { ... }
 ```
 
+For example:
+
+```java
+taskExecutor.execute(() -> {
+    // Perform long-running task
+    return result;
+}, (result, exception) -> {
+    if (exception == null) {
+        // Handle success
+    } else {
+        // Handle error
+    }
+});
+```
+
 Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/TaskExecutorTest.java) for more information.
 
 # Examples
