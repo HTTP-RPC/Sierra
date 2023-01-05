@@ -106,77 +106,6 @@ public class UIBuilder {
     }
 
     /**
-     * Declares a column cell.
-     *
-     * @param cells
-     * The column's contents.
-     *
-     * @return
-     * The cell instance.
-     */
-    public static Cell<ColumnPanel> column(Cell<?>... cells) {
-        if (cells == null) {
-            throw new IllegalArgumentException();
-        }
-
-        return cell(populate(new ColumnPanel(), cells));
-    }
-
-    /**
-     * Declares a column cell.
-     *
-     * @param spacing
-     * The cell spacing.
-     *
-     * @param cells
-     * The column's contents.
-     *
-     * @return
-     * The cell instance.
-     */
-    public static Cell<ColumnPanel> column(int spacing, Cell<?>... cells) {
-        return column(spacing, false, cells);
-    }
-
-    /**
-     * Declares a column cell.
-     *
-     * @param alignToGrid
-     * {@code true} to align row descendants to grid; {@code false}, otherwise.
-     *
-     * @param cells
-     * The column's contents.
-     *
-     * @return
-     * The cell instance.
-     */
-    public static Cell<ColumnPanel> column(boolean alignToGrid, Cell<?>... cells) {
-        return column(0, alignToGrid, cells);
-    }
-
-    /**
-     * Declares a column cell.
-     *
-     * @param spacing
-     * The cell spacing.
-     *
-     * @param alignToGrid
-     * {@code true} to align row descendants to grid; {@code false}, otherwise.
-     *
-     * @param cells
-     * The column's contents.
-     *
-     * @return
-     * The cell instance.
-     */
-    public static Cell<ColumnPanel> column(int spacing, boolean alignToGrid, Cell<?>... cells) {
-        return column(cells).with(columnPanel -> {
-            columnPanel.setSpacing(spacing);
-            columnPanel.setAlignToGrid(alignToGrid);
-        });
-    }
-
-    /**
      * Declares a row cell.
      *
      * @param cells
@@ -244,6 +173,77 @@ public class UIBuilder {
         return row(cells).with(rowPanel -> {
             rowPanel.setSpacing(spacing);
             rowPanel.setAlignToBaseline(alignToBaseline);
+        });
+    }
+
+    /**
+     * Declares a column cell.
+     *
+     * @param cells
+     * The column's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<ColumnPanel> column(Cell<?>... cells) {
+        if (cells == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return cell(populate(new ColumnPanel(), cells));
+    }
+
+    /**
+     * Declares a column cell.
+     *
+     * @param spacing
+     * The cell spacing.
+     *
+     * @param cells
+     * The column's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<ColumnPanel> column(int spacing, Cell<?>... cells) {
+        return column(spacing, false, cells);
+    }
+
+    /**
+     * Declares a column cell.
+     *
+     * @param alignToGrid
+     * {@code true} to align row descendants to grid; {@code false}, otherwise.
+     *
+     * @param cells
+     * The column's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<ColumnPanel> column(boolean alignToGrid, Cell<?>... cells) {
+        return column(0, alignToGrid, cells);
+    }
+
+    /**
+     * Declares a column cell.
+     *
+     * @param spacing
+     * The cell spacing.
+     *
+     * @param alignToGrid
+     * {@code true} to align row descendants to grid; {@code false}, otherwise.
+     *
+     * @param cells
+     * The column's contents.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<ColumnPanel> column(int spacing, boolean alignToGrid, Cell<?>... cells) {
+        return column(cells).with(columnPanel -> {
+            columnPanel.setSpacing(spacing);
+            columnPanel.setAlignToGrid(alignToGrid);
         });
     }
 

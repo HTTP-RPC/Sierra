@@ -23,11 +23,11 @@ Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.ma
 # Sierra Classes
 Sierra provides the `UIBuilder` class, whose methods can be used to declaratively establish a hierarchy of user interface elements. The methods defined by this class form a DSL, or "domain-specific language", that makes it easy to visualize the resulting output:
 
-* `column()` - produces an instance of `ColumnPanel`, a container that automatically arranges sub-components along the y-axis
 * `row()` - produces an instance of `RowPanel`, a container that automatically arranges sub-components along the x-axis
+* `column()` - produces an instance of `ColumnPanel`, a container that automatically arranges sub-components along the y-axis
 * `stack()` - produces an instance of `StackPanel`, a container that automatically arranges sub-components by z-order
 
-These components offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. `ColumnPanel` optionally aligns sub-components to a grid, similar to an HTML table or `GridBagLayout`. `RowPanel` optionally aligns sub-components to baseline, similar to `FlowLayout`. 
+These components offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. `RowPanel` optionally aligns sub-components to baseline, similar to `FlowLayout`. `ColumnPanel` optionally aligns sub-components to a grid, similar to an HTML table or `GridBagLayout`. 
 
 Additionally, `UIBuilder` provides this method for declaring a panel's contents:
 
@@ -52,7 +52,7 @@ For example, the following code declares a column panel containing a graphic and
 ```java
 setContentPane(column(4, false,
     cell(new ImagePane(image, true)),
-    cell(new TextPane("Hello, World!", false)).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
+    cell(new TextPane("Hello, World!")).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
 ).with(contentPane -> {
     contentPane.setBackground(Color.WHITE);
     contentPane.setOpaque(true);
@@ -64,7 +64,7 @@ The resulting output is shown below:
 
 <img src="README/greeting.png" width="432px"/>
 
-The complete source code can be found [here](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GreetingTest.java).
+The complete source code for this example can be found [here](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GreetingTest.java).
 
 ## Focus Management
 The `ScrollingKeyboardFocusManager` class ensures that components are automatically scrolled into view when focused. It can be installed at application startup as follows:
@@ -83,7 +83,7 @@ public <T> void execute(Callable<T> callable, BiConsumer<T, Exception> consumer)
 For example:
 
 ```java
-taskExecutor.execute(() -> {
+taskExecutor.execute(() -> {    
     // Perform long-running task
     return result;
 }, (result, exception) -> {

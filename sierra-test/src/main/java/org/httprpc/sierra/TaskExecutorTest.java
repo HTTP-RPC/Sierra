@@ -20,7 +20,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
@@ -28,7 +27,6 @@ import java.util.concurrent.Executors;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
-import static org.httprpc.sierra.UIBuilder.glue;
 import static org.httprpc.sierra.UIBuilder.row;
 
 public class TaskExecutorTest extends JFrame implements Runnable {
@@ -51,47 +49,45 @@ public class TaskExecutorTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(row(
-            glue(),
-            column(16,
-                column(
-                    cell(new JCheckBox("Checkbox 1")),
-                    cell(new JCheckBox("Checkbox 2"))
-                ),
+        setContentPane(column(8,
+            column(
+                cell(new JCheckBox("Checkbox 1")),
+                cell(new JCheckBox("Checkbox 2"))
+            ),
+            row(8,
                 cell(new JButton("Execute Task")).with(button -> {
                     button.addActionListener(event -> executeTask());
 
                     this.button = button;
                 }),
-                cell(new JLabel(null, null, SwingConstants.CENTER)).with(label -> {
+                cell(new JLabel()).with(label -> {
                     label.setForeground(Color.GRAY);
 
                     this.label = label;
                 })
-            ),
-            glue()
+            )
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
-        setSize(240, 180);
+        setSize(320, 180);
         setVisible(true);
     }
 
     private void executeTask() {
         button.setEnabled(false);
 
-        label.setText("Executing Task");
+        label.setText("Executing task...");
 
         taskExecutor.execute(() -> {
             Thread.sleep(5000);
 
-            return 100;
+            return 100.0;
         }, (result, exception) -> {
             button.setEnabled(true);
 
             if (exception == null) {
-                label.setText(String.format("Task Complete (%d)", result));
+                label.setText(String.format("Task %.1f%% complete", result));
             } else {
-                label.setText("Task Failed");
+                label.setText("Task failed");
             }
         });
     }

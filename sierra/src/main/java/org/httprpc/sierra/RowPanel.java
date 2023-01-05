@@ -168,18 +168,7 @@ public class RowPanel extends BoxPanel {
                     component.setSize(component.getPreferredSize());
 
                     if (!alignToBaseline) {
-                        var alignmentY = component.getAlignmentY();
-
-                        var preferredHeight = component.getHeight();
-
-                        int adjustedHeight;
-                        if (alignmentY == 0.5f) {
-                            adjustedHeight = height;
-                        } else {
-                            adjustedHeight = preferredHeight + Math.round((height - preferredHeight) * getScale(alignmentY));
-                        }
-
-                        component.setSize(component.getPreferredSize().width, adjustedHeight);
+                        component.setSize(component.getWidth(), adjustSize(component.getHeight(), height, component.getAlignmentY()));
                     }
 
                     var preferredWidth = component.getWidth();
@@ -194,16 +183,7 @@ public class RowPanel extends BoxPanel {
 
                             columnWidths.set(i, columnWidth);
 
-                            var alignmentX = component.getAlignmentX();
-
-                            int adjustedWidth;
-                            if (alignmentX == 0.5f) {
-                                adjustedWidth = columnWidth;
-                            } else {
-                                adjustedWidth = preferredWidth + Math.round((columnWidth - preferredWidth) * getScale(alignmentX));
-                            }
-
-                            component.setSize(adjustedWidth, component.getHeight());
+                            component.setSize(adjustSize(preferredWidth, columnWidth, component.getAlignmentX()), component.getHeight());
                         }
                     }
 
@@ -331,10 +311,6 @@ public class RowPanel extends BoxPanel {
                 }
             }
         }
-
-        private float getScale(float alignment) {
-            return (alignment < 0.5f) ? alignment / 0.5f : (1.0f - alignment) / 0.5f;
-        }
     }
 
     private boolean alignToBaseline = false;
@@ -388,5 +364,9 @@ public class RowPanel extends BoxPanel {
     @Override
     public int getBaseline(int width, int height) {
         return alignToBaseline ? super.getBaseline(width, height) : -1;
+    }
+
+    private static int adjustSize(int preferredSize, int size, float alignment) {
+        return Math.round(preferredSize + Math.max(size - preferredSize, 0) * (1.0f - Math.abs((0.5f - alignment) / 0.5f)));
     }
 }
