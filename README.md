@@ -80,7 +80,7 @@ The `TaskExecutor` class performs a task in the background and and invokes a cal
 public <T> void execute(Callable<T> callable, BiConsumer<T, Exception> consumer) { ... }
 ```
 
-Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GreetingTest.java) for more information.
+Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/TaskExecutorTest.java) for more information.
 
 # Examples
 This section includes examples demonstrating usage of `UIBuilder` with the [Flat](https://github.com/JFormDesigner/FlatLaf) look-and-feel.
