@@ -89,7 +89,7 @@ For example:
 
 ```java
 taskExecutor.execute(() -> {    
-    // Perform long-running task
+    // Perform long-running task that may throw
     return result;
 }, (result, exception) -> {
     if (exception == null) {
