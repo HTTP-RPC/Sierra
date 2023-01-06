@@ -144,7 +144,7 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     }
 
     /**
-     * Returns the panel's preferred scrollable viewport size.
+     * Returns the panel's preferred size.
      * {@inheritDoc}
      */
     @Override
@@ -153,7 +153,8 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     }
 
     /**
-     * Returns the panel's scrollable unit increment.
+     * Returns 10% of the visible height for vertical orientations and 10% of
+     * the visible width for horizontal orientations.
      * {@inheritDoc}
      */
     @Override
@@ -178,7 +179,8 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     }
 
     /**
-     * Returns the panel's scrollable block increment.
+     * Returns the visible height for vertical orientations and the visible
+     * width for horizontal orientations.
      * {@inheritDoc}
      */
     @Override

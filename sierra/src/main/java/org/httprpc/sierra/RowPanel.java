@@ -20,7 +20,9 @@ import java.util.List;
 
 /**
  * Arranges sub-components horizontally in a row, optionally pinning component
- * edges to the container's top and bottom insets.
+ * edges to the container's top and bottom insets. The panel's preferred height
+ * is determined as the maximum preferred height of its sub-components,
+ * excluding weighted components.
  */
 public class RowPanel extends BoxPanel {
     // Row layout manager

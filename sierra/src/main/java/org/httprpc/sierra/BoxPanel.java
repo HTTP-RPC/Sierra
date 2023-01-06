@@ -71,7 +71,8 @@ public abstract class BoxPanel extends LayoutPanel {
     }
 
     /**
-     * Calculates the panel's baseline.
+     * Calculates the panel's baseline, as determined by the first component
+     * that reports a valid baseline.
      * {@inheritDoc}
      */
     @Override

@@ -20,8 +20,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Arranges sub-components vertically in a column, optionally pinning component
- * edges to the container's leading and trailing insets.
+ * Arranges sub-components vertically in a column, pinning component edges to
+ * the container's leading and trailing insets. The panel's preferred width is
+ * determined as the maximum preferred width of its sub-components, excluding
+ * weighted components.
  */
 public class ColumnPanel extends BoxPanel {
     // Column layout manager

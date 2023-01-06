@@ -31,6 +31,10 @@ public class Spacer extends Component {
         setPreferredSize(new Dimension(size, size));
     }
 
+    /**
+     * Returns {@code false}.
+     * {@inheritDoc}
+     */
     @Override
     public boolean isOpaque() {
         return false;
