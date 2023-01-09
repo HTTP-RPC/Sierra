@@ -95,7 +95,7 @@ taskExecutor.execute(() -> {
     if (exception == null) {
         // Handle success
     } else {
-        // Handle error
+        // Handle failure
     }
 });
 ```
