@@ -51,8 +51,9 @@ public class TextPane extends JComponent {
                 return new Dimension(0, 0);
             }
 
-            var font = getFont();
             var insets = getInsets();
+
+            var font = getFont();
 
             double textWidth;
             double textHeight;
@@ -62,7 +63,7 @@ public class TextPane extends JComponent {
                 textWidth = 0.0;
                 textHeight = lineHeight;
 
-                var width = getWidth() - (insets.left + insets.right);
+                var width = Math.max(getWidth() - (insets.left + insets.right), 0);
 
                 var lineWidth = 0.0;
                 var lastWhitespaceIndex = -1;
@@ -143,26 +144,17 @@ public class TextPane extends JComponent {
         }
 
         private void paint(Graphics2D graphics) {
-            var size = getSize();
-            var insets = getInsets();
-
-            var width = size.width - (insets.left + insets.right);
-            var height = size.height - (insets.top + insets.bottom);
-
-            if (width <= 0 || height <= 0) {
-                return;
-            }
-
             if (glyphVectors.isEmpty()) {
                 return;
             }
 
-            graphics = (Graphics2D)graphics.create();
+            var size = getSize();
+            var insets = getInsets();
+
+            var width = Math.max(size.width - (insets.left + insets.right), 0);
+            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
             var font = getFont();
-
-            graphics.setFont(font);
-            graphics.setPaint(getForeground());
 
             var ascent = font.getLineMetrics("", fontRenderContext).getAscent();
 
@@ -188,7 +180,12 @@ public class TextPane extends JComponent {
                 }
             }
 
+            graphics = (Graphics2D)graphics.create();
+
             graphics.setClip(insets.left, insets.top, width, height);
+
+            graphics.setPaint(getForeground());
+            graphics.setFont(font);
 
             var n = glyphVectors.size();
 
@@ -409,7 +406,7 @@ public class TextPane extends JComponent {
         if (text != null && !text.isEmpty()) {
             var insets = getInsets();
 
-            var width = getWidth() - (insets.left + insets.right);
+            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
 
             var font = getFont();
 

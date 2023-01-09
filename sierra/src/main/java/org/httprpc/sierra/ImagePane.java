@@ -43,10 +43,19 @@ public class ImagePane extends JComponent {
                 return new Dimension(0, 0);
             }
 
+            var size = getSize();
             var insets = getInsets();
 
-            var preferredWidth = image.getWidth(null) + insets.left + insets.right;
-            var preferredHeight = image.getHeight(null) + insets.top + insets.bottom;
+            var width = Math.max(size.width - (insets.left + insets.right), 0);
+            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
+
+            var imageWidth = image.getWidth(null);
+            var imageHeight = image.getHeight(null);
+
+            var scale = getScale(width, height, imageWidth, imageHeight);
+
+            var preferredWidth = (int)Math.round(imageWidth * scale) + insets.left + insets.right;
+            var preferredHeight = (int)Math.round(imageHeight * scale) + insets.top + insets.bottom;
 
             return new Dimension(preferredWidth, preferredHeight);
         }
@@ -62,26 +71,20 @@ public class ImagePane extends JComponent {
         }
 
         private void paint(Graphics2D graphics) {
-            var size = getSize();
-            var insets = getInsets();
-
-            var width = size.width - (insets.left + insets.right);
-            var height = size.height - (insets.top + insets.bottom);
-
-            if (width <= 0 || height <= 0) {
-                return;
-            }
-
             if (image == null) {
                 return;
             }
 
-            graphics = (Graphics2D)graphics.create();
+            var size = getSize();
+            var insets = getInsets();
+
+            var width = Math.max(size.width - (insets.left + insets.right), 0);
+            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
             var imageWidth = image.getWidth(null);
             var imageHeight = image.getHeight(null);
 
-            var scale = scaleToFit ? getScale(width, height, imageWidth, imageHeight) : 1.0;
+            var scale = getScale(width, height, imageWidth, imageHeight);
 
             var scaledImageWidth = scale * imageWidth;
             var scaledImageHeight = scale * imageHeight;
@@ -131,12 +134,35 @@ public class ImagePane extends JComponent {
                 }
             }
 
+            graphics = (Graphics2D)graphics.create();
+
+            graphics.setClip(insets.left, insets.top, width, height);
+
             graphics.translate(x + insets.left, y + insets.top);
             graphics.scale(scale, scale);
 
             graphics.drawImage(image, 0, 0, null);
 
             graphics.dispose();
+        }
+
+        private double getScale(int width, int height, int imageWidth, int imageHeight) {
+            if (scaleToFit) {
+                if (width == 0 || height == 0 || imageWidth == 0 || imageHeight == 0) {
+                    return 0.0;
+                }
+
+                var aspectRatio = width / height;
+                var imageAspectRatio = imageWidth / imageHeight;
+
+                if (aspectRatio > imageAspectRatio) {
+                    return (double)height / imageHeight;
+                } else {
+                    return (double)width / imageWidth;
+                }
+            } else {
+                return 1.0;
+            }
         }
     }
 
@@ -278,16 +304,5 @@ public class ImagePane extends JComponent {
         this.verticalAlignment = verticalAlignment;
 
         repaint();
-    }
-
-    private static double getScale(int width, int height, int imageWidth, int imageHeight) {
-        var aspectRatio = width / height;
-        var imageAspectRatio = imageWidth / imageHeight;
-
-        if (aspectRatio > imageAspectRatio) {
-            return (double)height / imageHeight;
-        } else {
-            return (double)width / imageWidth;
-        }
     }
 }
