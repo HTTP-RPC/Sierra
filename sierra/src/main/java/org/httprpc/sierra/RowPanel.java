@@ -338,7 +338,8 @@ public class RowPanel extends BoxPanel {
     }
 
     /**
-     * Indicates that sub-components will be aligned to baseline.
+     * Indicates that sub-components will be aligned to baseline. The default
+     * value is {@code false}.
      *
      * @return
      * {@code true} to align to baseline; {@code false}, otherwise.

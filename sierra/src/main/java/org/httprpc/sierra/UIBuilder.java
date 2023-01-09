@@ -271,13 +271,26 @@ public class UIBuilder {
     }
 
     /**
-     * Declares a flexible spacer cell.
+     * Declares a flexible spacer cell with a weight of 1.0.
      *
      * @return
      * The cell instance.
      */
     public static Cell<Spacer> glue() {
-        return cell(new Spacer(0)).weightBy(1.0);
+        return glue(1.0);
+    }
+
+    /**
+     * Declares a flexible spacer cell with a given weight.
+     *
+     * @param weight
+     * The cell weight.
+     *
+     * @return
+     * The cell instance.
+     */
+    public static Cell<Spacer> glue(double weight) {
+        return cell(new Spacer(0)).weightBy(weight);
     }
 
     /**

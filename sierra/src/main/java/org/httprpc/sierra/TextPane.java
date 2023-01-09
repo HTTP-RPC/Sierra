@@ -153,14 +153,6 @@ public class TextPane extends JComponent {
                 return;
             }
 
-            var background = getBackground();
-
-            if (background != null) {
-                graphics.setPaint(background);
-
-                graphics.fillRect(insets.left, insets.top, width, height);
-            }
-
             if (glyphVectors.isEmpty()) {
                 return;
             }
@@ -241,10 +233,10 @@ public class TextPane extends JComponent {
 
     private String text;
 
+    private boolean wrapText;
+
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
-
-    private boolean wrapText;
 
     private List<GlyphVector> glyphVectors = new ArrayList<>();
     private double textHeight = 0.0;
@@ -302,6 +294,8 @@ public class TextPane extends JComponent {
         this.wrapText = wrapText;
 
         setUI(new TextPaneUI());
+
+        setOpaque(false);
     }
 
     /**
@@ -327,7 +321,32 @@ public class TextPane extends JComponent {
     }
 
     /**
-     * Returns the horizontal alignment.
+     * Indicates that line wrapping is enabled. The default value is
+     * {@code false}.
+     *
+     * @return
+     * {@code true} if the text will wrap when needed; {@code false},
+     * otherwise.
+     */
+    public boolean getWrapText() {
+        return wrapText;
+    }
+
+    /**
+     * Toggles line wrapping.
+     *
+     * @param wrapText
+     * {@code true} to wrap text when needed; {@code false}, otherwise.
+     */
+    public void setWrapText(boolean wrapText) {
+        this.wrapText = wrapText;
+
+        revalidate();
+    }
+
+    /**
+     * Returns the horizontal alignment. The default value is
+     * {@link HorizontalAlignment#LEADING}.
      *
      * @return
      * The horizontal alignment.
@@ -353,7 +372,8 @@ public class TextPane extends JComponent {
     }
 
     /**
-     * Returns the vertical alignment.
+     * Returns the vertical alignment. The default value is
+     * {@link VerticalAlignment#TOP}.
      *
      * @return
      * The vertical alignment.
@@ -376,29 +396,6 @@ public class TextPane extends JComponent {
         this.verticalAlignment = verticalAlignment;
 
         repaint();
-    }
-
-    /**
-     * Indicates that line wrapping is enabled.
-     *
-     * @return
-     * {@code true} if the text will wrap when needed; {@code false},
-     * otherwise.
-     */
-    public boolean getWrapText() {
-        return wrapText;
-    }
-
-    /**
-     * Toggles line wrapping.
-     *
-     * @param wrapText
-     * {@code true} to wrap text when needed; {@code false}, otherwise.
-     */
-    public void setWrapText(boolean wrapText) {
-        this.wrapText = wrapText;
-
-        revalidate();
     }
 
     /**

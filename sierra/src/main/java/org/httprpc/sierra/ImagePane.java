@@ -43,40 +43,12 @@ public class ImagePane extends JComponent {
                 return new Dimension(0, 0);
             }
 
-            var size = getSize();
             var insets = getInsets();
 
-            var width = size.width - (insets.left + insets.right);
-            var height = size.height - (insets.top + insets.bottom);
-
-            var imageWidth = image.getWidth(null);
-            var imageHeight = image.getHeight(null);
-
-            var scale = getScale(width, height, imageWidth, imageHeight);
-
-            var preferredWidth = (int)Math.round(imageWidth * scale) + insets.left + insets.right;
-            var preferredHeight = (int)Math.round(imageHeight * scale) + insets.top + insets.bottom;
+            var preferredWidth = image.getWidth(null) + insets.left + insets.right;
+            var preferredHeight = image.getHeight(null) + insets.top + insets.bottom;
 
             return new Dimension(preferredWidth, preferredHeight);
-        }
-
-        private double getScale(int width, int height, int imageWidth, int imageHeight) {
-            if (scaleToFit) {
-                if (width == 0 || height == 0 || imageWidth == 0 || imageHeight == 0) {
-                    return 0.0;
-                }
-
-                var aspectRatio = width / height;
-                var imageAspectRatio = imageWidth / imageHeight;
-
-                if (aspectRatio > imageAspectRatio) {
-                    return (double)height / imageHeight;
-                } else {
-                    return (double)width / imageWidth;
-                }
-            } else {
-                return 1.0;
-            }
         }
 
         @Override
@@ -100,14 +72,6 @@ public class ImagePane extends JComponent {
                 return;
             }
 
-            var background = getBackground();
-
-            if (background != null) {
-                graphics.setPaint(background);
-
-                graphics.fillRect(insets.left, insets.top, width, height);
-            }
-
             if (image == null) {
                 return;
             }
@@ -117,7 +81,7 @@ public class ImagePane extends JComponent {
             var imageWidth = image.getWidth(null);
             var imageHeight = image.getHeight(null);
 
-            var scale = getScale(width, height, imageWidth, imageHeight);
+            var scale = scaleToFit ? getScale(width, height, imageWidth, imageHeight) : 1.0;
 
             var scaledImageWidth = scale * imageWidth;
             var scaledImageHeight = scale * imageHeight;
@@ -178,10 +142,10 @@ public class ImagePane extends JComponent {
 
     private Image image;
 
+    private boolean scaleToFit;
+
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
     private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
-
-    private boolean scaleToFit;
 
     /**
      * Constructs an image pane.
@@ -214,6 +178,8 @@ public class ImagePane extends JComponent {
         this.scaleToFit = scaleToFit;
 
         setUI(new ImagePaneUI());
+
+        setOpaque(false);
     }
 
     /**
@@ -239,7 +205,32 @@ public class ImagePane extends JComponent {
     }
 
     /**
-     * Returns the horizontal alignment.
+     * Indicates that image scaling is enabled. The default value is
+     * {@code false}.
+     *
+     * @return
+     * {@code true} if the image will be scaled when needed; {@code false},
+     * otherwise.
+     */
+    public boolean getScaleToFit() {
+        return scaleToFit;
+    }
+
+    /**
+     * Toggles image scaling.
+     *
+     * @param scaleToFit
+     * {@code true} to scale the image when needed; {@code false}, otherwise.
+     */
+    public void setScaleToFit(boolean scaleToFit) {
+        this.scaleToFit = scaleToFit;
+
+        repaint();
+    }
+
+    /**
+     * Returns the horizontal alignment. The default value is
+     * {@link HorizontalAlignment#CENTER}.
      *
      * @return
      * The horizontal alignment.
@@ -265,7 +256,8 @@ public class ImagePane extends JComponent {
     }
 
     /**
-     * Returns the vertical alignment.
+     * Returns the vertical alignment. The default value is
+     * {@link VerticalAlignment#CENTER}.
      *
      * @return
      * The vertical alignment.
@@ -290,26 +282,14 @@ public class ImagePane extends JComponent {
         repaint();
     }
 
-    /**
-     * Indicates that image scaling is enabled.
-     *
-     * @return
-     * {@code true} if the image will be scaled when needed; {@code false},
-     * otherwise.
-     */
-    public boolean getScaleToFit() {
-        return scaleToFit;
-    }
+    private static double getScale(int width, int height, int imageWidth, int imageHeight) {
+        var aspectRatio = width / height;
+        var imageAspectRatio = imageWidth / imageHeight;
 
-    /**
-     * Toggles image scaling.
-     *
-     * @param scaleToFit
-     * {@code true} to scale the image when needed; {@code false}, otherwise.
-     */
-    public void setScaleToFit(boolean scaleToFit) {
-        this.scaleToFit = scaleToFit;
-
-        repaint();
+        if (aspectRatio > imageAspectRatio) {
+            return (double)height / imageHeight;
+        } else {
+            return (double)width / imageWidth;
+        }
     }
 }

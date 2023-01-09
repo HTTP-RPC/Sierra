@@ -184,7 +184,8 @@ public class ColumnPanel extends BoxPanel {
     }
 
     /**
-     * Indicates that row descendants will be vertically aligned in a grid.
+     * Indicates that row descendants will be vertically aligned in a grid. The
+     * default value is {@code false}.
      *
      * @return
      * {@code true} if row descendants will be aligned to grid; {@code false},
