@@ -294,8 +294,6 @@ public class TextPane extends JComponent {
         this.wrapText = wrapText;
 
         setUI(new TextPaneUI());
-
-        setOpaque(false);
     }
 
     /**

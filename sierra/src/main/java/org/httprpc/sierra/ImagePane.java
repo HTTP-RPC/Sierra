@@ -178,8 +178,6 @@ public class ImagePane extends JComponent {
         this.scaleToFit = scaleToFit;
 
         setUI(new ImagePaneUI());
-
-        setOpaque(false);
     }
 
     /**
