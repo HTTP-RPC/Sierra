@@ -53,7 +53,7 @@ For example, the following code declares a column panel containing a graphic and
 
 ```java
 setContentPane(column(4, false,
-    cell(new ImagePane(image)).with(imagePane -> imagePane.setScaleMode(ImagePane.ScaleMode.FIT_TO_WIDTH)),
+    cell(new ImagePane(image)).with(imagePane -> imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH)),
     cell(new TextPane("Hello, World!")).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
 ).with(contentPane -> {
     contentPane.setBackground(Color.WHITE);

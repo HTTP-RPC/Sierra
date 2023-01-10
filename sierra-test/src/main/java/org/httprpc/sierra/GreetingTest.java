@@ -44,7 +44,7 @@ public class GreetingTest extends JFrame implements Runnable {
         }
 
         setContentPane(column(4, false,
-            cell(new ImagePane(image)).with(imagePane -> imagePane.setScaleMode(ImagePane.ScaleMode.FIT_TO_WIDTH)),
+            cell(new ImagePane(image)).with(imagePane -> imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH)),
             cell(new TextPane("Hello, World!")).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
         ).with(contentPane -> {
             contentPane.setBackground(Color.WHITE);

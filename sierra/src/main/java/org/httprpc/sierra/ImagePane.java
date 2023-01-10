@@ -37,12 +37,12 @@ public class ImagePane extends JComponent {
         /**
          * Image will be scaled to match the width of the image pane.
          */
-        FIT_TO_WIDTH,
+        FILL_WIDTH,
 
         /**
          * Image will be scaled to match the height of the image pane.
          */
-        FIT_TO_HEIGHT
+        FILL_HEIGHT
     }
 
     // Image pane UI
@@ -172,11 +172,11 @@ public class ImagePane extends JComponent {
                     return 1.0;
                 }
 
-                case FIT_TO_WIDTH: {
+                case FILL_WIDTH: {
                     return (double)width / imageWidth;
                 }
 
-                case FIT_TO_HEIGHT: {
+                case FILL_HEIGHT: {
                     return (double)height / imageHeight;
                 }
 
