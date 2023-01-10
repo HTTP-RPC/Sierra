@@ -39,7 +39,8 @@ public class StackTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(stack(
-            cell(new TextPane(TEXT, true)).with(textPane -> {
+            cell(new TextPane(TEXT)).with(textPane -> {
+                textPane.setWrapText(true);
                 textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
                 textPane.setVerticalAlignment(VerticalAlignment.CENTER);
             }),

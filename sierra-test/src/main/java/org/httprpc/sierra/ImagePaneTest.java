@@ -40,12 +40,11 @@ public class ImagePaneTest extends JFrame implements Runnable {
             image = null;
         }
 
-        var imagePane = new ImagePane(image, true);
+        var imagePane = new ImagePane(image);
 
         imagePane.setBackground(Color.WHITE);
         imagePane.setOpaque(true);
-        imagePane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
-        imagePane.setVerticalAlignment(VerticalAlignment.BOTTOM);
+        imagePane.setScaleMode(ImagePane.ScaleMode.FIT_TO_HEIGHT);
         imagePane.setBorder(new MatteBorder(16, 16, 16, 16, Color.LIGHT_GRAY));
 
         setContentPane(imagePane);

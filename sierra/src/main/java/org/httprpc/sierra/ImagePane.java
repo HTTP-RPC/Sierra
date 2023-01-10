@@ -25,6 +25,26 @@ import java.awt.Image;
  * Displays an image.
  */
 public class ImagePane extends JComponent {
+    /**
+     * Image scaling options.
+     */
+    public enum ScaleMode {
+        /**
+         * No scaling.
+         */
+        NONE,
+
+        /**
+         * Image will be scaled to match the width of the image pane.
+         */
+        FIT_TO_WIDTH,
+
+        /**
+         * Image will be scaled to match the height of the image pane.
+         */
+        FIT_TO_HEIGHT
+    }
+
     // Image pane UI
     private class ImagePaneUI extends ComponentUI {
         @Override
@@ -147,28 +167,29 @@ public class ImagePane extends JComponent {
         }
 
         private double getScale(int width, int height, int imageWidth, int imageHeight) {
-            if (scaleToFit) {
-                if (width == 0 || height == 0 || imageWidth == 0 || imageHeight == 0) {
-                    return 0.0;
+            switch (scaleMode) {
+                case NONE: {
+                    return 1.0;
                 }
 
-                var aspectRatio = width / height;
-                var imageAspectRatio = imageWidth / imageHeight;
-
-                if (aspectRatio > imageAspectRatio) {
-                    return (double)height / imageHeight;
-                } else {
+                case FIT_TO_WIDTH: {
                     return (double)width / imageWidth;
                 }
-            } else {
-                return 1.0;
+
+                case FIT_TO_HEIGHT: {
+                    return (double)height / imageHeight;
+                }
+
+                default: {
+                    throw new UnsupportedOperationException();
+                }
             }
         }
     }
 
     private Image image;
 
-    private boolean scaleToFit;
+    private ScaleMode scaleMode = ScaleMode.NONE;
 
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
     private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
@@ -187,21 +208,7 @@ public class ImagePane extends JComponent {
      * The image to display, or {@code null} for no image.
      */
     public ImagePane(Image image) {
-        this(image, false);
-    }
-
-    /**
-     * Constructs an image pane.
-     *
-     * @param image
-     * The image to display, or {@code null} for no image.
-     *
-     * @param scaleToFit
-     * {@code true} to scale the image when needed; {@code false}, otherwise.
-     */
-    public ImagePane(Image image, boolean scaleToFit) {
         this.image = image;
-        this.scaleToFit = scaleToFit;
 
         setUI(new ImagePaneUI());
     }
@@ -229,27 +236,29 @@ public class ImagePane extends JComponent {
     }
 
     /**
-     * Indicates that image scaling is enabled. The default value is
-     * {@code false}.
+     * Returns the scale mode. The default value is {@link ScaleMode#NONE}.
      *
      * @return
-     * {@code true} if the image will be scaled when needed; {@code false},
-     * otherwise.
+     * The scale mode.
      */
-    public boolean getScaleToFit() {
-        return scaleToFit;
+    public ScaleMode getScaleMode() {
+        return scaleMode;
     }
 
     /**
-     * Toggles image scaling.
+     * Sets the scale mode.
      *
-     * @param scaleToFit
-     * {@code true} to scale the image when needed; {@code false}, otherwise.
+     * @param scaleMode
+     * The scale mode.
      */
-    public void setScaleToFit(boolean scaleToFit) {
-        this.scaleToFit = scaleToFit;
+    public void setScaleMode(ScaleMode scaleMode) {
+        if (scaleMode == null) {
+            throw new IllegalArgumentException();
+        }
 
-        repaint();
+        this.scaleMode = scaleMode;
+
+        revalidate();
     }
 
     /**

@@ -93,12 +93,13 @@ public class PeriodicTableTest extends JFrame implements Runnable {
 
             var labelFont = javax.swing.UIManager.getDefaults().getFont("Label.font");
 
-            var textPane = new TextPane(text, true);
+            var textPane = new TextPane(text);
 
             textPane.setForeground(new Color(0x0c47a7));
+            textPane.setFont(labelFont.deriveFont(Font.PLAIN, 10));
+            textPane.setWrapText(true);
             textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
             textPane.setVerticalAlignment(VerticalAlignment.CENTER);
-            textPane.setFont(labelFont.deriveFont(Font.PLAIN, 10));
 
             add(textPane, 1.0);
 

@@ -47,13 +47,13 @@ public class WeightTest extends JFrame implements Runnable {
         setContentPane(column(4, true,
             row(
                 cell(new JLabel("abcdefg")),
-                cell(new TextPane(TEXT, true)).weightBy(1).with(textPaneStyle),
-                cell(new TextPane(TEXT, true)).weightBy(1).with(textPaneStyle)
+                cell(new TextPane(TEXT)).weightBy(1).with(textPaneStyle),
+                cell(new TextPane(TEXT)).weightBy(1).with(textPaneStyle)
             ),
             row(
                 cell(new JLabel("hijklmnop")),
-                cell(new TextPane(TEXT, true)).weightBy(3).with(textPaneStyle),
-                cell(new TextPane(TEXT, true)).weightBy(1).with(textPaneStyle)
+                cell(new TextPane(TEXT)).weightBy(3).with(textPaneStyle),
+                cell(new TextPane(TEXT)).weightBy(1).with(textPaneStyle)
             )
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 

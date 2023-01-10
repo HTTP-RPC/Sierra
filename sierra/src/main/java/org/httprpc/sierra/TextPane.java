@@ -230,7 +230,7 @@ public class TextPane extends JComponent {
 
     private String text;
 
-    private boolean wrapText;
+    private boolean wrapText = false;
 
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
@@ -274,21 +274,7 @@ public class TextPane extends JComponent {
      * The text to display, or {@code null} for no text.
      */
     public TextPane(String text) {
-        this(text, false);
-    }
-
-    /**
-     * Constructs a text pane.
-     *
-     * @param text
-     * The text to display, or {@code null} for no text.
-     *
-     * @param wrapText
-     * {@code true} to wrap text when needed; {@code false}, otherwise.
-     */
-    public TextPane(String text, boolean wrapText) {
         this.text = text;
-        this.wrapText = wrapText;
 
         setUI(new TextPaneUI());
     }

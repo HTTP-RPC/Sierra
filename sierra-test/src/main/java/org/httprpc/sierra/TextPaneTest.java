@@ -32,12 +32,11 @@ public class TextPaneTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var textPane = new TextPane(TEXT, true);
+        var textPane = new TextPane(TEXT);
 
         textPane.setBackground(Color.WHITE);
         textPane.setOpaque(true);
-        textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
-        textPane.setVerticalAlignment(VerticalAlignment.CENTER);
+        textPane.setWrapText(true);
         textPane.setBorder(new MatteBorder(16, 16, 16, 16, Color.LIGHT_GRAY));
 
         setContentPane(textPane);

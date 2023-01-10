@@ -46,7 +46,7 @@ public class AlignmentTest extends JFrame implements Runnable {
                     textPane.setAlignmentX(0.25f);
                     textPane.setAlignmentY(0.0f);
                 }),
-                cell(new TextPane(TEXT, true)).with(cellStyle).weightBy(1),
+                cell(new TextPane(TEXT)).with(cellStyle, textPane -> textPane.setWrapText(true)).weightBy(1),
                 cell(new TextPane("def")).with(cellStyle, textPane -> {
                     textPane.setAlignmentX(1.0f);
                     textPane.setAlignmentY(0.25f);
@@ -63,7 +63,7 @@ public class AlignmentTest extends JFrame implements Runnable {
                     textPane.setAlignmentX(0.0f);
                     textPane.setAlignmentY(0.75f);
                 }),
-                cell(new TextPane(TEXT, true)).with(cellStyle).weightBy(1),
+                cell(new TextPane(TEXT)).with(cellStyle, textPane -> textPane.setWrapText(true)).weightBy(1),
                 cell(new TextPane("jkl")).with(cellStyle, textPane -> {
                     textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
                     textPane.setAlignmentX(0.75f);
