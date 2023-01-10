@@ -47,8 +47,13 @@ public class RowPanel extends BoxPanel {
                 }
             }
 
+            var size = getSize();
+            var insets = getInsets();
+
             var preferredWidth = 0;
             var totalWeight = 0.0;
+
+            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
             var n = getComponentCount();
 
@@ -58,7 +63,7 @@ public class RowPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (Double.isNaN(weight)) {
-                    component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
+                    component.setSize(Integer.MAX_VALUE, height);
                     component.setSize(component.getPreferredSize());
 
                     var width = component.getWidth();
@@ -85,9 +90,6 @@ public class RowPanel extends BoxPanel {
 
             preferredWidth += spacing * (n - 1);
 
-            var size = getSize();
-            var insets = getInsets();
-
             var remainingWidth = Math.max(size.width - (insets.left + insets.right) - preferredWidth, 0);
 
             var preferredHeight = 0;
@@ -105,20 +107,18 @@ public class RowPanel extends BoxPanel {
 
                     var width = (columnWidth > 0) ? columnWidth : (int)Math.round(remainingWidth * (weight / totalWeight));
 
-                    component.setSize(width, Integer.MAX_VALUE);
+                    component.setSize(width, height);
                     component.setSize(width, component.getPreferredSize().height);
                 }
 
                 preferredHeight = Math.max(preferredHeight, component.getHeight());
 
                 if (alignToBaseline) {
-                    var height = component.getHeight();
-
-                    var baseline = component.getBaseline(component.getWidth(), height);
+                    var baseline = component.getBaseline(component.getWidth(), component.getHeight());
 
                     if (baseline >= 0) {
                         maximumAscent = Math.max(maximumAscent, baseline);
-                        maximumDescent = Math.max(maximumDescent, height - baseline);
+                        maximumDescent = Math.max(maximumDescent, component.getHeight() - baseline);
                     }
                 }
             }
@@ -166,7 +166,7 @@ public class RowPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (Double.isNaN(weight)) {
-                    component.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
+                    component.setSize(Integer.MAX_VALUE, height);
                     component.setSize(component.getPreferredSize());
 
                     if (!alignToBaseline) {
@@ -247,7 +247,7 @@ public class RowPanel extends BoxPanel {
                     }
 
                     if (alignToBaseline) {
-                        component.setSize(width, Integer.MAX_VALUE);
+                        component.setSize(width, height);
                         component.setSize(width, component.getPreferredSize().height);
                     } else {
                         component.setSize(width, height);

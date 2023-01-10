@@ -95,8 +95,6 @@ public class ColumnPanel extends BoxPanel {
 
             var width = Math.max(size.width - (insets.left + insets.right), 0);
 
-            var spacing = getSpacing();
-
             var totalWeight = 0.0;
             var remainingHeight = Math.max(size.height - (insets.top + insets.bottom), 0);
 
@@ -135,6 +133,8 @@ public class ColumnPanel extends BoxPanel {
                     }
                 }
             }
+
+            var spacing = getSpacing();
 
             remainingHeight = Math.max(0, remainingHeight - spacing * (n - 1));
 
