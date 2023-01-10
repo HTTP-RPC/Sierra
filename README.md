@@ -52,7 +52,7 @@ Sierra also includes the `TextPane` and `ImagePane` components, which provide an
 For example, the following code declares a column panel containing a graphic and a simple greeting:
 
 ```java
-setContentPane(column(4, false,
+setContentPane(column(4,
     cell(new ImagePane(image)).with(imagePane -> imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH)),
     cell(new TextPane("Hello, World!")).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
 ).with(contentPane -> {

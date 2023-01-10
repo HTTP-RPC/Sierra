@@ -43,7 +43,7 @@ public class GreetingTest extends JFrame implements Runnable {
             image = null;
         }
 
-        setContentPane(column(4, false,
+        setContentPane(column(4,
             cell(new ImagePane(image)).with(imagePane -> imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH)),
             cell(new TextPane("Hello, World!")).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
         ).with(contentPane -> {
