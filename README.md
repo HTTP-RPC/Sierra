@@ -40,7 +40,7 @@ The returned `Cell` instance can be used to further customize the layout or conf
 * `weightBy()` - specifies the amount of excess space in a container that should be allocated to the component, relative to other weighted components
 * `with()` - accepts a callback that can be used to set properties or invoke methods on the component
 
-A reference to the configured component can be obtained via `UIBuilder.Cell#getComponent()`.
+A reference to the configured component can be obtained via `Cell#getComponent()`.
 
 Finally, these `UIBuilder` methods can be used to declare spacer cells in column and row panels, similar to `BoxLayout`:
 
