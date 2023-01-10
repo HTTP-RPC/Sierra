@@ -317,6 +317,10 @@ public class RowPanel extends BoxPanel {
 
     private boolean alignToBaseline = false;
 
+    private static int adjustSize(int preferredSize, int size, float alignment) {
+        return Math.round(preferredSize + Math.max(size - preferredSize, 0) * (1.0f - Math.abs((0.5f - alignment) / 0.5f)));
+    }
+
     /**
      * Constructs a new row panel.
      */
@@ -367,9 +371,5 @@ public class RowPanel extends BoxPanel {
     @Override
     public int getBaseline(int width, int height) {
         return alignToBaseline ? super.getBaseline(width, height) : -1;
-    }
-
-    private static int adjustSize(int preferredSize, int size, float alignment) {
-        return Math.round(preferredSize + Math.max(size - preferredSize, 0) * (1.0f - Math.abs((0.5f - alignment) / 0.5f)));
     }
 }
