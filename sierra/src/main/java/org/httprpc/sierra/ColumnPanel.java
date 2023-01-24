@@ -96,7 +96,7 @@ public class ColumnPanel extends BoxPanel {
             var width = Math.max(size.width - (insets.left + insets.right), 0);
 
             var totalWeight = 0.0;
-            var remainingHeight = Math.max(size.height - (insets.top + insets.bottom), 0);
+            var excessHeight = Math.max(size.height - (insets.top + insets.bottom), 0);
 
             var n = getComponentCount();
 
@@ -115,7 +115,7 @@ public class ColumnPanel extends BoxPanel {
                     } else {
                         component.setSize(width, component.getPreferredSize().height);
 
-                        remainingHeight -= component.getHeight();
+                        excessHeight -= component.getHeight();
                     }
                 } else {
                     totalWeight += weight;
@@ -129,14 +129,16 @@ public class ColumnPanel extends BoxPanel {
                     if (Double.isNaN(getWeight(i)) && component instanceof RowPanel) {
                         component.setSize(component.getWidth(), component.getPreferredSize().height);
 
-                        remainingHeight -= component.getHeight();
+                        excessHeight -= component.getHeight();
                     }
                 }
             }
 
             var spacing = getSpacing();
 
-            remainingHeight = Math.max(0, remainingHeight - spacing * (n - 1));
+            excessHeight = Math.max(0, excessHeight - spacing * (n - 1));
+
+            var remainingHeight = excessHeight;
 
             var y = insets.top;
 
@@ -148,7 +150,15 @@ public class ColumnPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (!Double.isNaN(weight)) {
-                    component.setSize(width, (int)Math.round(remainingHeight * (weight / totalWeight)));
+                    if (i < n - 1) {
+                        var height = (int)Math.round(excessHeight * (weight / totalWeight));
+
+                        component.setSize(width, height);
+
+                        remainingHeight -= height;
+                    } else {
+                        component.setSize(width, remainingHeight);
+                    }
                 }
 
                 y += component.getHeight() + spacing;
