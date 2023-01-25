@@ -16,13 +16,17 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
+import java.io.IOException;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.glue;
@@ -39,6 +43,13 @@ public class BaselineTest extends JFrame implements Runnable {
     public void run() {
         var labelFont = javax.swing.UIManager.getDefaults().getFont("Label.font");
 
+        Image checkImage;
+        try {
+            checkImage = ImageIO.read(getClass().getResource("add.png"));
+        } catch (IOException exception) {
+            checkImage = null;
+        }
+
         setContentPane(row(4, true,
             glue(),
             cell(new JLabel("abcdefg")).with(label -> {
@@ -48,6 +59,12 @@ public class BaselineTest extends JFrame implements Runnable {
             cell(new JLabel("hijk")).with(label -> {
                 label.setFont(labelFont.deriveFont(Font.PLAIN, 32));
                 label.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+            }),
+            cell(new ImagePane(checkImage)).with(imagePane -> {
+                imagePane.setPreferredSize(new Dimension(20, 20));
+                imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH);
+
+                imagePane.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
             }),
             cell(new JLabel("lmnop")).with(label -> {
                 label.setFont(labelFont.deriveFont(Font.PLAIN, 24));

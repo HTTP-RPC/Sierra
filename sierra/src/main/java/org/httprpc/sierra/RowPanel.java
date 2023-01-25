@@ -323,9 +323,14 @@ public class RowPanel extends BoxPanel {
 
                     var baseline = baselines[i];
 
+                    int offset;
                     if (baseline >= 0) {
-                        component.setLocation(component.getX(), component.getY() + (maximumBaseline - baseline));
+                        offset = maximumBaseline - baseline;
+                    } else {
+                        offset = (height - component.getHeight()) / 2;
                     }
+
+                    component.setLocation(component.getX(), component.getY() + offset);
                 }
             }
         }
