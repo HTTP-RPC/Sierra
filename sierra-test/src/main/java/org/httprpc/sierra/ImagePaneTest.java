@@ -19,7 +19,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.IOException;
@@ -45,7 +45,7 @@ public class ImagePaneTest extends JFrame implements Runnable {
         imagePane.setBackground(Color.WHITE);
         imagePane.setOpaque(true);
         imagePane.setScaleMode(ImagePane.ScaleMode.FILL_HEIGHT);
-        imagePane.setBorder(new MatteBorder(16, 16, 16, 16, Color.LIGHT_GRAY));
+        imagePane.setBorder(new LineBorder(Color.LIGHT_GRAY, 16));
 
         setContentPane(imagePane);
 

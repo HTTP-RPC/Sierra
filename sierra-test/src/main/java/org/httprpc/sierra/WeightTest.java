@@ -20,7 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.util.function.Consumer;
 
@@ -41,7 +41,7 @@ public class WeightTest extends JFrame implements Runnable {
     public void run() {
         Consumer<TextPane> textPaneStyle = textPane -> {
             textPane.setWrapText(true);
-            textPane.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+            textPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
         };
 
         setContentPane(column(4, true,

@@ -21,7 +21,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -81,7 +81,7 @@ public class PeriodicTableTest extends JFrame implements Runnable {
             setBackground(group.color);
 
             setBorder(new CompoundBorder(
-                new MatteBorder(1, 1, 1, 1, new Color(0x8d1af6)),
+                new LineBorder(new Color(0x8d1af6)),
                 new EmptyBorder(4, 4, 4, 4)
             ));
         }

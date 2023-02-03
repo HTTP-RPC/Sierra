@@ -19,7 +19,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.util.function.Consumer;
 
@@ -38,7 +38,7 @@ public class AlignmentTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Consumer<TextPane> cellStyle = textPane -> textPane.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+        Consumer<TextPane> cellStyle = textPane -> textPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
 
         setContentPane(column(4, true,
             row(

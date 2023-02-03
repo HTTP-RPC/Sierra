@@ -21,7 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -54,21 +54,21 @@ public class BaselineTest extends JFrame implements Runnable {
             glue(),
             cell(new JLabel("abcdefg")).with(label -> {
                 label.setFont(labelFont.deriveFont(Font.PLAIN, 16));
-                label.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+                label.setBorder(new LineBorder(Color.LIGHT_GRAY));
             }),
             cell(new JLabel("hijk")).with(label -> {
                 label.setFont(labelFont.deriveFont(Font.PLAIN, 32));
-                label.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+                label.setBorder(new LineBorder(Color.LIGHT_GRAY));
             }),
             cell(new ImagePane(checkImage)).with(imagePane -> {
                 imagePane.setPreferredSize(new Dimension(20, 20));
                 imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH);
 
-                imagePane.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+                imagePane.setBorder(new LineBorder(Color.LIGHT_GRAY));
             }),
             cell(new JLabel("lmnop")).with(label -> {
                 label.setFont(labelFont.deriveFont(Font.PLAIN, 24));
-                label.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+                label.setBorder(new LineBorder(Color.LIGHT_GRAY));
             }),
             glue()
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());

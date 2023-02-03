@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.function.Consumer;
@@ -45,7 +45,7 @@ public class BorderTest extends JFrame implements Runnable {
         Consumer<JLabel> cellStyle = label -> {
             label.setHorizontalAlignment(SwingConstants.CENTER);
             label.setBorder(new CompoundBorder(
-                new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY),
+                new LineBorder(Color.LIGHT_GRAY),
                 new EmptyBorder(4, 4, 4, 4)
             ));
         };

@@ -18,7 +18,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.LineBorder;
 import java.awt.Color;
 
 public class TextPaneTest extends JFrame implements Runnable {
@@ -37,7 +37,7 @@ public class TextPaneTest extends JFrame implements Runnable {
         textPane.setBackground(Color.WHITE);
         textPane.setOpaque(true);
         textPane.setWrapText(true);
-        textPane.setBorder(new MatteBorder(16, 16, 16, 16, Color.LIGHT_GRAY));
+        textPane.setBorder(new LineBorder(Color.LIGHT_GRAY, 16));
 
         setContentPane(textPane);
 

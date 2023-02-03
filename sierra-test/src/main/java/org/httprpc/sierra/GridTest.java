@@ -21,7 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.util.function.Consumer;
 
@@ -43,7 +43,7 @@ public class GridTest extends JFrame implements Runnable {
     public void run() {
         Consumer<TextPane> textPaneStyle = textPane -> {
             textPane.setWrapText(true);
-            textPane.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+            textPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
         };
 
         Consumer<JLabel> labelStyle = label -> label.setAlignmentX(1.0f);
