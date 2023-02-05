@@ -3,7 +3,7 @@
 [![javadoc](https://javadoc.io/badge2/org.httprpc/sierra/javadoc.svg)](https://javadoc.io/doc/org.httprpc/sierra)
 
 # Introduction
-Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively constructing Swing component hierarchies. The framework is extremely lightweight (less than 35KB) and has no external dependencies. 
+Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively constructing Swing component hierarchies. The framework is extremely lightweight (less than 40KB) and has no external dependencies. 
 
 The project's name comes from the nautical _S_ or _Sierra_ flag, representing the first letter in "Swing":
 
@@ -73,12 +73,21 @@ When grid alignment is enabled in a `ColumnPanel`, the sub-components (or "cells
 
 Cell contents are aligned based on the component's _x_ and _y_ alignment values (returned by `getAlignmentX()` and `getAlignmentY()`, respectively). For most components, the default is 0.5, indicating that the component should fill the entire cell along both axes. Values between 0.0 and 0.5 will align the component to the cell's leading or top edge, and values between 0.5 and 1.0 will align the component to the cell's trailing or bottom edge. In both cases, a proportional amount of the excess space will be allocated to the component. A value of 0 or 1 will result in no excess space being given to the component (i.e. it will be aligned to the appropriate edge and will be given its preferred size along that axis).
 
+## Menu Buttons
+The `MenuButton` class displays a popup menu when pressed. For example:
+
+<img src="README/menu-button.png" width="210px"/>
+
+See [MenuButtonTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/MenuButtonTest.java) for more information.
+
 ## Focus Management
 The `ScrollingKeyboardFocusManager` class ensures that components are automatically scrolled into view when focused (something that Swing oddly does not do by default). It can be installed at application startup as follows:
 
 ```java
 KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
 ```
+
+See [FormTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/FormTest.java) for more information.
 
 ## Task Execution
 The `TaskExecutor` class performs a task in the background and and invokes a callback on the UI thread when the task is complete:
