@@ -18,8 +18,6 @@ import javax.swing.DefaultButtonModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 import java.awt.event.FocusEvent;
 
 /**
@@ -29,23 +27,6 @@ public class MenuButton extends JButton {
     private JPopupMenu popupMenu = null;
 
     private boolean ignorePress = false;
-
-    private PopupMenuListener popupMenuListener = new PopupMenuListener() {
-        @Override
-        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-            // No-op
-        }
-
-        @Override
-        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-            // No-op
-        }
-
-        @Override
-        public void popupMenuCanceled(PopupMenuEvent e) {
-            ignorePress = true;
-        }
-    };
 
     /**
      * Constructs a menu button.
@@ -98,19 +79,6 @@ public class MenuButton extends JButton {
                 if (pressed && !ignorePress) {
                     popupMenu.show(MenuButton.this, 0, getHeight());
                 }
-
-                ignorePress = false;
-            }
-
-            @Override
-            public void setRollover(boolean rollover) {
-                super.setRollover(rollover);
-
-                if (popupMenu == null) {
-                    return;
-                }
-
-                ignorePress = false;
             }
         });
     }
@@ -132,22 +100,20 @@ public class MenuButton extends JButton {
      * The popup menu, or {@code null} for no popup menu.
      */
     public void setPopupMenu(JPopupMenu popupMenu) {
-        if (this.popupMenu != null) {
-            this.popupMenu.removePopupMenuListener(popupMenuListener);
-        }
-
-        if (popupMenu != null) {
-            popupMenu.addPopupMenuListener(popupMenuListener);
-        }
-
         this.popupMenu = popupMenu;
     }
 
+    /**
+     * Processes a focus event.
+     * {@inheritDoc}
+     */
     @Override
     protected void processFocusEvent(FocusEvent event) {
         super.processFocusEvent(event);
 
-        if (event.getID() == FocusEvent.FOCUS_GAINED) {
+        if (event.getID() == FocusEvent.FOCUS_LOST) {
+            ignorePress = event.isTemporary();
+        } else {
             ignorePress = false;
         }
     }
