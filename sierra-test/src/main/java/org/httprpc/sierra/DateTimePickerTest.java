@@ -49,7 +49,7 @@ public class DateTimePickerTest extends JFrame implements Runnable {
             glue(),
             row(4,
                 glue(),
-                cell(new JTextField(8)).with(textField -> {
+                cell(new JTextField(6)).with(textField -> {
                     textField.setText(dateFormatter.format(LocalDate.now()));
 
                     textField.setInputVerifier(new InputVerifier() {
@@ -64,7 +64,7 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                         }
                     });
                 }),
-                cell(new JTextField(8)).with(textField -> {
+                cell(new JTextField(6)).with(textField -> {
                     textField.setText(timeFormatter.format(LocalTime.now()));
 
                     textField.setInputVerifier(new InputVerifier() {

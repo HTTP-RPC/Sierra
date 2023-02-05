@@ -15,6 +15,6 @@
 package org.httprpc.sierra;
 
 public class TimePicker {
-    // TODO Get/set date (LocalDate)
+    // TODO Get/set date (LocalTime)
     // TODO Add/remove action listener
 }
