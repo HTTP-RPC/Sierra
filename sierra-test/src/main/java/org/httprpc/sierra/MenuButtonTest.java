@@ -16,10 +16,10 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
@@ -29,7 +29,9 @@ import static org.httprpc.sierra.UIBuilder.glue;
 import static org.httprpc.sierra.UIBuilder.row;
 
 public class MenuButtonTest extends JFrame implements Runnable {
-    private JTextField textField;
+    private MenuButton menuButton;
+
+    private JCheckBox focusableCheckBox;
 
     private MenuButtonTest() {
         super("Menu Button Test");
@@ -44,20 +46,23 @@ public class MenuButtonTest extends JFrame implements Runnable {
             row(
                 glue(),
                 row(8,
-                    cell(new MenuButton("Show Menu")).with(button -> {
+                    cell(new MenuButton("Show Menu")).with(menuButton -> {
                         var popupMenu = new JPopupMenu();
 
-                        for (var i = 0; i < 3; i++) {
-                            var menuItem = new JMenuItem(String.format("Item %d", i + 1));
+                        popupMenu.add(new JMenuItem("Item 1"));
+                        popupMenu.add(new JMenuItem("Item 2"));
+                        popupMenu.add(new JMenuItem("Item 3"));
 
-                            menuItem.addActionListener(event -> textField.setText(menuItem.getText()));
+                        menuButton.setPopupMenu(popupMenu);
 
-                            popupMenu.add(menuItem);
-                        }
-
-                        button.setPopupMenu(popupMenu);
+                        this.menuButton = menuButton;
                     }),
-                    cell(new JTextField(12)).with(textField -> this.textField = textField)
+                    cell(new JCheckBox("Focusable")).with(checkBox -> {
+                        checkBox.addActionListener(event -> toggleFocusable());
+                        checkBox.setSelected(true);
+
+                        focusableCheckBox = checkBox;
+                    })
                 ),
                 glue()
             ),
@@ -66,6 +71,10 @@ public class MenuButtonTest extends JFrame implements Runnable {
 
         setSize(480, 360);
         setVisible(true);
+    }
+
+    private void toggleFocusable() {
+        menuButton.setFocusable(focusableCheckBox.isSelected());
     }
 
     public static void main(String[] args) {

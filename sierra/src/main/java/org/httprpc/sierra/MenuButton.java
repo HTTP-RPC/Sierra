@@ -18,6 +18,8 @@ import javax.swing.DefaultButtonModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.event.FocusEvent;
 
 /**
@@ -28,6 +30,23 @@ public class MenuButton extends JButton {
 
     private HorizontalAlignment popupHorizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
+
+    private PopupMenuListener popupMenuListener = new PopupMenuListener() {
+        @Override
+        public void popupMenuWillBecomeVisible(PopupMenuEvent event) {
+            // No-op
+        }
+
+        @Override
+        public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
+            // No-op
+        }
+
+        @Override
+        public void popupMenuCanceled(PopupMenuEvent event) {
+            ignorePress = true;
+        }
+    };
 
     private boolean ignorePress = false;
 
@@ -130,6 +149,15 @@ public class MenuButton extends JButton {
 
                     popupMenu.show(MenuButton.this, x, y);
                 }
+
+                ignorePress = false;
+            }
+
+            @Override
+            public void setRollover(boolean rollover) {
+                super.setRollover(rollover);
+
+                ignorePress = false;
             }
         });
     }
@@ -151,6 +179,14 @@ public class MenuButton extends JButton {
      * The popup menu, or {@code null} for no popup menu.
      */
     public void setPopupMenu(JPopupMenu popupMenu) {
+        if (this.popupMenu != null) {
+            this.popupMenu.removePopupMenuListener(popupMenuListener);
+        }
+
+        if (popupMenu != null) {
+            popupMenu.addPopupMenuListener(popupMenuListener);
+        }
+
         this.popupMenu = popupMenu;
     }
 

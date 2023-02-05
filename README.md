@@ -76,7 +76,7 @@ Cell contents are aligned based on the component's _x_ and _y_ alignment values 
 ## Menu Buttons
 The `MenuButton` class displays a popup menu when pressed. For example:
 
-<img src="README/menu-button.png" width="273px"/>
+<img src="README/menu-button.png" width="210px"/>
 
 See [MenuButtonTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/MenuButtonTest.java) for more information.
 
