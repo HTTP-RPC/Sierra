@@ -19,6 +19,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
@@ -28,6 +29,8 @@ import static org.httprpc.sierra.UIBuilder.glue;
 import static org.httprpc.sierra.UIBuilder.row;
 
 public class MenuButtonTest extends JFrame implements Runnable {
+    private JTextField textField;
+
     private MenuButtonTest() {
         super("Menu Button Test");
 
@@ -37,16 +40,21 @@ public class MenuButtonTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(column(
-            row(
+            row(8,
                 cell(new MenuButton("Show Menu")).with(button -> {
                     var popupMenu = new JPopupMenu();
 
-                    popupMenu.add(new JMenuItem("Item 1"));
-                    popupMenu.add(new JMenuItem("Item 2"));
-                    popupMenu.add(new JMenuItem("Item 3"));
+                    for (var i = 0; i < 3; i++) {
+                        var menuItem = new JMenuItem(String.format("Item %d", i + 1));
+
+                        menuItem.addActionListener(event -> textField.setText(menuItem.getText()));
+
+                        popupMenu.add(menuItem);
+                    }
 
                     button.setPopupMenu(popupMenu);
                 }),
+                cell(new JTextField(12)).with(textField -> this.textField = textField),
                 glue()
             )
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
