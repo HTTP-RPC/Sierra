@@ -26,6 +26,9 @@ import java.awt.event.FocusEvent;
 public class MenuButton extends JButton {
     private JPopupMenu popupMenu = null;
 
+    private HorizontalAlignment popupHorizontalAlignment = HorizontalAlignment.LEADING;
+    private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
+
     private boolean ignorePress = false;
 
     /**
@@ -77,7 +80,55 @@ public class MenuButton extends JButton {
                 }
 
                 if (pressed && !ignorePress) {
-                    popupMenu.show(MenuButton.this, 0, getHeight());
+                    var size = getSize();
+                    var popupMenuSize = popupMenu.getPreferredSize();
+
+                    int x;
+                    int y;
+                    switch (popupHorizontalAlignment) {
+                        case LEADING:
+                        case TRAILING: {
+                            if (getComponentOrientation().isLeftToRight() ^ popupHorizontalAlignment == HorizontalAlignment.TRAILING) {
+                                x = 0;
+                            } else {
+                                x = size.width - popupMenuSize.width;
+                            }
+
+                            break;
+                        }
+
+                        case CENTER: {
+                            x = (size.width - popupMenuSize.width) / 2;
+                            break;
+                        }
+
+                        default: {
+                            throw new UnsupportedOperationException();
+                        }
+                    }
+
+                    switch (popupVerticalAlignment) {
+                        case TOP: {
+                            y = -popupMenuSize.height;
+                            break;
+                        }
+
+                        case BOTTOM: {
+                            y = size.height;
+                            break;
+                        }
+
+                        case CENTER: {
+                            y = (size.height - popupMenuSize.height) / 2;
+                            break;
+                        }
+
+                        default: {
+                            throw new UnsupportedOperationException();
+                        }
+                    }
+
+                    popupMenu.show(MenuButton.this, x, y);
                 }
             }
         });
@@ -101,6 +152,54 @@ public class MenuButton extends JButton {
      */
     public void setPopupMenu(JPopupMenu popupMenu) {
         this.popupMenu = popupMenu;
+    }
+
+    /**
+     * Returns the popup's horizontal alignment.
+     *
+     * @return
+     * The popup's horizontal alignment.
+     */
+    public HorizontalAlignment getPopupHorizontalAlignment() {
+        return popupHorizontalAlignment;
+    }
+
+    /**
+     * Sets the popup's horizontal alignment, relative to the button.
+     *
+     * @param popupHorizontalAlignment
+     * The popup's horizontal alignment.
+     */
+    public void setPopupHorizontalAlignment(HorizontalAlignment popupHorizontalAlignment) {
+        if (popupHorizontalAlignment == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.popupHorizontalAlignment = popupHorizontalAlignment;
+    }
+
+    /**
+     * Returns the popup's vertical alignment.
+     *
+     * @return
+     * The popup's vertical alignment.
+     */
+    public VerticalAlignment getPopupVerticalAlignment() {
+        return popupVerticalAlignment;
+    }
+
+    /**
+     * Sets the popup's vertical alignment, relative to the button.
+     *
+     * @param popupVerticalAlignment
+     * The popup's vertical alignment.
+     */
+    public void setPopupVerticalAlignment(VerticalAlignment popupVerticalAlignment) {
+        if (popupVerticalAlignment == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.popupVerticalAlignment = popupVerticalAlignment;
     }
 
     /**

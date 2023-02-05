@@ -40,26 +40,31 @@ public class MenuButtonTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(column(
-            row(8,
-                cell(new MenuButton("Show Menu")).with(button -> {
-                    var popupMenu = new JPopupMenu();
+            glue(),
+            row(
+                glue(),
+                row(8,
+                    cell(new MenuButton("Show Menu")).with(button -> {
+                        var popupMenu = new JPopupMenu();
 
-                    for (var i = 0; i < 3; i++) {
-                        var menuItem = new JMenuItem(String.format("Item %d", i + 1));
+                        for (var i = 0; i < 3; i++) {
+                            var menuItem = new JMenuItem(String.format("Item %d", i + 1));
 
-                        menuItem.addActionListener(event -> textField.setText(menuItem.getText()));
+                            menuItem.addActionListener(event -> textField.setText(menuItem.getText()));
 
-                        popupMenu.add(menuItem);
-                    }
+                            popupMenu.add(menuItem);
+                        }
 
-                    button.setPopupMenu(popupMenu);
-                }),
-                cell(new JTextField(12)).with(textField -> this.textField = textField),
+                        button.setPopupMenu(popupMenu);
+                    }),
+                    cell(new JTextField(12)).with(textField -> this.textField = textField)
+                ),
                 glue()
-            )
+            ),
+            glue()
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
-        setSize(320, 240);
+        setSize(480, 360);
         setVisible(true);
     }
 
