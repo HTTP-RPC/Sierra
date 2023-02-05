@@ -23,7 +23,7 @@ import javax.swing.event.PopupMenuListener;
 import java.awt.event.FocusEvent;
 
 /**
- * Presents a popup menu when pressed.
+ * Displays a popup menu when pressed.
  */
 public class MenuButton extends JButton {
     private JPopupMenu popupMenu = null;
