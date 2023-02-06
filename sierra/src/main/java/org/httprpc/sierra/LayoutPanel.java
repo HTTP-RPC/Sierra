@@ -105,6 +105,9 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         super.addImpl(component, constraints, index);
 
         this.constraints.add((index == -1) ? this.constraints.size() : index, constraints);
+
+        revalidate();
+        repaint();
     }
 
     /**
@@ -116,6 +119,9 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         super.remove(index);
 
         constraints.remove(index);
+
+        revalidate();
+        repaint();
     }
 
     /**
@@ -127,6 +133,9 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         super.removeAll();
 
         constraints.clear();
+
+        revalidate();
+        repaint();
     }
 
     /**
@@ -221,6 +230,8 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
      */
     public void setScrollableTracksViewportWidth(boolean scrollableTracksViewportWidth) {
         this.scrollableTracksViewportWidth = scrollableTracksViewportWidth;
+
+        revalidate();
     }
 
     /**
@@ -240,5 +251,7 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
      */
     public void setScrollableTracksViewportHeight(boolean scrollableTracksViewportHeight) {
         this.scrollableTracksViewportHeight = scrollableTracksViewportHeight;
+
+        revalidate();
     }
 }
