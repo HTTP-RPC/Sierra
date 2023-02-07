@@ -14,7 +14,57 @@
 
 package org.httprpc.sierra;
 
-public class TimePicker {
-    // TODO Get/set date (LocalTime)
-    // TODO Add/remove action listener
+import javax.swing.JComponent;
+import java.awt.event.ActionListener;
+import java.time.LocalTime;
+import java.util.LinkedList;
+import java.util.List;
+
+/**
+ * Allows user to select a local time value.
+ */
+public class TimePicker extends JComponent {
+    private LocalTime time = LocalTime.now();
+
+    private List<ActionListener> actionListeners = new LinkedList<>();
+
+    /**
+     * Returns the selected time.
+     *
+     * @return
+     * The selected time.
+     */
+    public LocalTime getTime() {
+        return time;
+    }
+
+    /**
+     * Sets the selected time.
+     *
+     * @param time
+     * The selected time.
+     */
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    /**
+     * Adds an action listener.
+     *
+     * @param listener
+     * The listener to add.
+     */
+    public void addActionListener(ActionListener listener) {
+        actionListeners.add(listener);
+    }
+
+    /**
+     * Removes an action listener.
+     *
+     * @param listener
+     * The listener to remove.
+     */
+    public void removeActionListener(ActionListener listener) {
+        actionListeners.remove(listener);
+    }
 }
