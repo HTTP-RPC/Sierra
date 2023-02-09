@@ -178,7 +178,11 @@ public class RowPanel extends BoxPanel {
                     component.setSize(component.getPreferredSize());
 
                     if (!alignToBaseline) {
-                        component.setSize(component.getWidth(), adjustSize(component.getHeight(), height, component.getAlignmentY()));
+                        if (columnWidths != null) {
+                            component.setSize(component.getWidth(), adjustSize(component.getHeight(), height, component.getAlignmentY()));
+                        } else {
+                            component.setSize(component.getWidth(), height);
+                        }
                     }
 
                     var preferredWidth = component.getWidth();
