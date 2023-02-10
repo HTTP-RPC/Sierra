@@ -6,7 +6,7 @@
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distributed on an "AS IS"BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -122,11 +122,32 @@ public class CellRendererTest extends JFrame implements Runnable {
         var model = new DefaultListModel<Flag>();
 
         try {
-            model.addElement(new Flag("alpha.png", "Alpha", "I have a diver down; keep well clear at slow speed." ));
-            model.addElement(new Flag("bravo.png", "Bravo", "I am taking in or discharging or carrying dangerous goods." ));
-            model.addElement(new Flag("charlie.png", "Charlie", "Affirmative." ));
-            model.addElement(new Flag("delta.png", "Delta", "Keep clear of me; I am maneuvering with difficulty." ));
-            model.addElement(new Flag("echo.png", "Echo", "I am altering my course to starboard." ));
+            model.addElement(new Flag("alpha.png", "Alpha", "I have a diver down; keep well clear at slow speed."));
+            model.addElement(new Flag("bravo.png", "Bravo", "I am taking in or discharging or carrying dangerous goods."));
+            model.addElement(new Flag("charlie.png", "Charlie", "Affirmative."));
+            model.addElement(new Flag("delta.png", "Delta", "Keep clear of me; I am maneuvering with difficulty."));
+            model.addElement(new Flag("echo.png", "Echo", "I am altering my course to starboard."));
+            model.addElement(new Flag("foxtrot.png", "Foxtrot", "I am disabled; communicate with me."));
+            model.addElement(new Flag("golf.png", "Golf", "I require a pilot."));
+            model.addElement(new Flag("hotel.png", "Hotel", "I have a pilot on board."));
+            model.addElement(new Flag("india.png", "India", "I am altering my course to port."));
+            model.addElement(new Flag("juliet.png", "Juliet", "I am leaking dangerous cargo."));
+            model.addElement(new Flag("kilo.png", "Kilo", "I wish to communicate with you."));
+            model.addElement(new Flag("lima.png", "Lima", "You should stop your vessel instantly."));
+            model.addElement(new Flag("mike.png", "Mike", "My vessel is stopped and making no way through the water."));
+            model.addElement(new Flag("november.png", "November", "Negative."));
+            model.addElement(new Flag("oscar.png", "Oscar", "Man overboard."));
+            model.addElement(new Flag("papa.png", "Papa", "My nets have come fast upon an obstruction."));
+            model.addElement(new Flag("quebec.png", "Quebec", "My vessel is \"healthy\" and I request free pratique."));
+            model.addElement(new Flag("romeo.png", "Romeo", "No ICS meaning as single flag."));
+            model.addElement(new Flag("sierra.png", "Sierra", "I am operating astern propulsion."));
+            model.addElement(new Flag("tango.png", "Tango", "Keep clear of me."));
+            model.addElement(new Flag("uniform.png", "Uniform", "You are running into danger."));
+            model.addElement(new Flag("victor.png", "Victor", "I require assistance."));
+            model.addElement(new Flag("whisky.png", "Whiskey", "I require medical assistance."));
+            model.addElement(new Flag("xray.png", "Xray", "Stop carrying out your intentions and watch for my signals."));
+            model.addElement(new Flag("yankee.png", "Yankee", "I am dragging my anchor."));
+            model.addElement(new Flag("zulu.png", "Zulu", "I require a tug."));
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
