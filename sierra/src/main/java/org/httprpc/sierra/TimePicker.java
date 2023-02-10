@@ -24,7 +24,9 @@ import java.util.List;
  * Allows user to select a local time value.
  */
 public class TimePicker extends JComponent {
-    private LocalTime time = LocalTime.now();
+    private LocalTime time = null;
+
+    private int minuteInterval = 15;
 
     private List<ActionListener> actionListeners = new LinkedList<>();
 
@@ -45,7 +47,29 @@ public class TimePicker extends JComponent {
      * The selected time.
      */
     public void setTime(LocalTime time) {
+        // TODO Throw if not on interval
         this.time = time;
+    }
+
+    /**
+     * Returns the minute interval. The default value is 15.
+     *
+     * @return
+     * The minute interval.
+     */
+    public int getMinuteInterval() {
+        return minuteInterval;
+    }
+
+    /**
+     * Sets the minute interval. Must evenly divide into 60.
+     *
+     * @param minuteInterval
+     * The minute interval.
+     */
+    public void setMinuteInterval(int minuteInterval) {
+        // TODO Throw if value does not divide evenly into 60
+        this.minuteInterval = minuteInterval;
     }
 
     /**
