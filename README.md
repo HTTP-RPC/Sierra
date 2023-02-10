@@ -173,5 +173,12 @@ Inspired by Wikipedia's [classification of the elements](https://en.wikipedia.or
 
 <img src="README/periodic-table.png" width="1060px"/>
 
+## Cell Renderer
+Demonstrates a custom cell renderer.
+
+[CellRendererTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/CellRendererTest.java)
+
+<img src="README/cell-renderer.png" width="532px"/>
+
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).
