@@ -22,8 +22,9 @@ import java.util.List;
 /**
  * Arranges sub-components vertically in a column, pinning component edges to
  * the container's leading and trailing insets. The panel's preferred width is
- * determined as the maximum preferred width of its sub-components, excluding
- * weighted components.
+ * determined as the maximum preferred width of its unweighted sub-components
+ * plus horizontal insets. Preferred height is the total preferred height of
+ * all unweighted sub-components, plus vertical insets.
  */
 public class ColumnPanel extends BoxPanel {
     // Column layout manager
