@@ -49,7 +49,7 @@ public class DatePicker extends JTextField {
      * Constructs a new date picker.
      */
     public DatePicker() {
-        super(6);
+        super(8);
 
         setInputVerifier(inputVerifier);
     }
