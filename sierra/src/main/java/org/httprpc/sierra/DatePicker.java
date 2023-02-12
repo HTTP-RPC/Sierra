@@ -64,15 +64,6 @@ public class DatePicker extends JTextField {
     }
 
     /**
-     * Throws {@link UnsupportedOperationException}.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setText(String text) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
      * Returns the selected date.
      *
      * @return
@@ -165,6 +156,15 @@ public class DatePicker extends JTextField {
         }
 
         this.maximumDate = maximumDate;
+    }
+
+    /**
+     * Throws {@link UnsupportedOperationException}.
+     * {@inheritDoc}
+     */
+    @Override
+    public void setText(String text) {
+        throw new UnsupportedOperationException();
     }
 
     /**

@@ -26,12 +26,12 @@ import java.time.format.FormatStyle;
  * Text field that supports local time entry.
  */
 public class TimePicker extends JTextField {
+    private int minuteInterval;
+
     private LocalTime time = null;
 
     private LocalTime minimumTime = null;
     private LocalTime maximumTime = null;
-
-    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
     private final InputVerifier inputVerifier = new InputVerifier() {
         @Override
@@ -54,22 +54,41 @@ public class TimePicker extends JTextField {
         }
     };
 
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+
     /**
      * Constructs a new time picker.
      */
     public TimePicker() {
+        this(1);
+    }
+
+    /**
+     * Constructs a new time picker.
+     *
+     * @param minuteInterval
+     * The minute interval. Must be a value that evenly divides into 60.
+     */
+    public TimePicker(int minuteInterval) {
         super(6);
+
+        if (60 % minuteInterval != 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.minuteInterval = minuteInterval;
 
         setInputVerifier(inputVerifier);
     }
 
     /**
-     * Throws {@link UnsupportedOperationException}.
-     * {@inheritDoc}
+     * Returns the minute interval.
+     *
+     * @return
+     * The minute interval.
      */
-    @Override
-    public void setText(String text) {
-        throw new UnsupportedOperationException();
+    public int getMinuteInterval() {
+        return minuteInterval;
     }
 
     /**
@@ -103,8 +122,9 @@ public class TimePicker extends JTextField {
     }
 
     private boolean validate(LocalTime time) {
-        return (minimumTime == null || !time.isBefore(minimumTime))
-            && (maximumTime == null || !time.isAfter(maximumTime));
+        return (time.getMinute() % minuteInterval == 0
+            && (minimumTime == null || !time.isBefore(minimumTime))
+            && (maximumTime == null || !time.isAfter(maximumTime)));
     }
 
     /**
@@ -165,6 +185,15 @@ public class TimePicker extends JTextField {
         }
 
         this.maximumTime = truncate(maximumTime);
+    }
+
+    /**
+     * Throws {@link UnsupportedOperationException}.
+     * {@inheritDoc}
+     */
+    @Override
+    public void setText(String text) {
+        throw new UnsupportedOperationException();
     }
 
     /**

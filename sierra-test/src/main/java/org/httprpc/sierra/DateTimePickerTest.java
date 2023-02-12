@@ -18,6 +18,8 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.time.LocalDate;
@@ -73,11 +75,13 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                         JOptionPane.showMessageDialog(DateTimePickerTest.this, message);
                     });
                 }),
+                cell(new JSeparator(SwingConstants.VERTICAL)),
+                cell(new TimePicker(30)).with(timePicker -> timePicker.setTime(LocalTime.of(14, 30))),
                 glue()
             )
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
-        setSize(320, 240);
+        setSize(480, 320);
         setVisible(true);
     }
 
