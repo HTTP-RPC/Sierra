@@ -28,8 +28,6 @@ import java.time.format.FormatStyle;
 public class TimePicker extends JTextField {
     private LocalTime time = null;
 
-    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
-
     private final InputVerifier inputVerifier = new InputVerifier() {
         @Override
         public boolean verify(JComponent input) {
@@ -44,6 +42,8 @@ public class TimePicker extends JTextField {
             }
         }
     };
+
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
     /**
      * Constructs a new time picker.
