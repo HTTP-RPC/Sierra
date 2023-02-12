@@ -14,19 +14,54 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.InputVerifier;
 import javax.swing.JComponent;
-import java.awt.event.ActionListener;
+import javax.swing.JTextField;
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.FormatStyle;
 
 /**
- * Allows user to select a local date value.
+ * Text field that supports local date entry.
  */
-public class DatePicker extends JComponent {
-    private LocalDate date = LocalDate.now();
+public class DatePicker extends JTextField {
+    private LocalDate date = null;
 
-    private List<ActionListener> actionListeners = new LinkedList<>();
+    private final InputVerifier inputVerifier = new InputVerifier() {
+        @Override
+        public boolean verify(JComponent input) {
+            try {
+                date = LocalDate.parse(getText(), dateFormatter);
+
+                DatePicker.super.fireActionPerformed();
+
+                return true;
+            } catch (DateTimeParseException exception) {
+                return false;
+            }
+        }
+    };
+
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+
+    /**
+     * Constructs a new date picker.
+     */
+    public DatePicker() {
+        super(6);
+
+        setInputVerifier(inputVerifier);
+    }
+
+    /**
+     * Throws {@link UnsupportedOperationException}.
+     * {@inheritDoc}
+     */
+    @Override
+    public void setText(String text) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Returns the selected date.
@@ -45,26 +80,21 @@ public class DatePicker extends JComponent {
      * The selected date.
      */
     public void setDate(LocalDate date) {
+        if (date == null) {
+            super.setText(null);
+        } else {
+            super.setText(dateFormatter.format(date));
+        }
+
         this.date = date;
     }
 
     /**
-     * Adds an action listener.
-     *
-     * @param listener
-     * The listener to add.
+     * Verifies the contents of the text field.
+     * {@inheritDoc}
      */
-    public void addActionListener(ActionListener listener) {
-        actionListeners.add(listener);
-    }
-
-    /**
-     * Removes an action listener.
-     *
-     * @param listener
-     * The listener to remove.
-     */
-    public void removeActionListener(ActionListener listener) {
-        actionListeners.remove(listener);
+    @Override
+    protected void fireActionPerformed() {
+        inputVerifier.verify(this);
     }
 }

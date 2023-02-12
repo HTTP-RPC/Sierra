@@ -14,21 +14,54 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.InputVerifier;
 import javax.swing.JComponent;
-import java.awt.event.ActionListener;
+import javax.swing.JTextField;
 import java.time.LocalTime;
-import java.util.LinkedList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.FormatStyle;
 
 /**
- * Allows user to select a local time value.
+ * Text field that supports local time entry.
  */
-public class TimePicker extends JComponent {
+public class TimePicker extends JTextField {
     private LocalTime time = null;
 
-    private int minuteInterval = 15;
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
-    private List<ActionListener> actionListeners = new LinkedList<>();
+    private final InputVerifier inputVerifier = new InputVerifier() {
+        @Override
+        public boolean verify(JComponent input) {
+            try {
+                time = LocalTime.parse(getText(), timeFormatter);
+
+                TimePicker.super.fireActionPerformed();
+
+                return true;
+            } catch (DateTimeParseException exception) {
+                return false;
+            }
+        }
+    };
+
+    /**
+     * Constructs a new time picker.
+     */
+    public TimePicker() {
+        super(6);
+
+        setInputVerifier(inputVerifier);
+    }
+
+    /**
+     * Throws {@link UnsupportedOperationException}.
+     * {@inheritDoc}
+     */
+    @Override
+    public void setText(String text) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Returns the selected time.
@@ -47,48 +80,21 @@ public class TimePicker extends JComponent {
      * The selected time.
      */
     public void setTime(LocalTime time) {
-        // TODO Throw if not on interval
+        if (time == null) {
+            super.setText(null);
+        } else {
+            super.setText(timeFormatter.format(time));
+        }
+
         this.time = time;
     }
 
     /**
-     * Returns the minute interval. The default value is 15.
-     *
-     * @return
-     * The minute interval.
+     * Verifies the contents of the text field.
+     * {@inheritDoc}
      */
-    public int getMinuteInterval() {
-        return minuteInterval;
-    }
-
-    /**
-     * Sets the minute interval. Must evenly divide into 60.
-     *
-     * @param minuteInterval
-     * The minute interval.
-     */
-    public void setMinuteInterval(int minuteInterval) {
-        // TODO Throw if value does not divide evenly into 60
-        this.minuteInterval = minuteInterval;
-    }
-
-    /**
-     * Adds an action listener.
-     *
-     * @param listener
-     * The listener to add.
-     */
-    public void addActionListener(ActionListener listener) {
-        actionListeners.add(listener);
-    }
-
-    /**
-     * Removes an action listener.
-     *
-     * @param listener
-     * The listener to remove.
-     */
-    public void removeActionListener(ActionListener listener) {
-        actionListeners.remove(listener);
+    @Override
+    protected void fireActionPerformed() {
+        inputVerifier.verify(this);
     }
 }

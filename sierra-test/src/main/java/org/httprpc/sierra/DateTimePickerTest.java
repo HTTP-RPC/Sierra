@@ -16,16 +16,13 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 
 import static org.httprpc.sierra.UIBuilder.cell;
@@ -49,34 +46,20 @@ public class DateTimePickerTest extends JFrame implements Runnable {
             glue(),
             row(4,
                 glue(),
-                cell(new JTextField(6)).with(textField -> {
-                    textField.setText(dateFormatter.format(LocalDate.now()));
+                cell(new DatePicker()).with(datePicker -> {
+                    datePicker.setDate(LocalDate.now());
+                    datePicker.addActionListener(event -> {
+                        var message = String.format("You selected %s.", dateFormatter.format(datePicker.getDate()));
 
-                    textField.setInputVerifier(new InputVerifier() {
-                        @Override
-                        public boolean verify(JComponent input) {
-                            try {
-                                LocalDate.parse(textField.getText(), dateFormatter);
-                                return true;
-                            } catch (DateTimeParseException exception) {
-                                return false;
-                            }
-                        }
+                        JOptionPane.showMessageDialog(DateTimePickerTest.this, message);
                     });
                 }),
-                cell(new JTextField(6)).with(textField -> {
-                    textField.setText(timeFormatter.format(LocalTime.now()));
+                cell(new TimePicker()).with(timePicker -> {
+                    timePicker.setTime(LocalTime.now());
+                    timePicker.addActionListener(event -> {
+                        var message = String.format("You selected %s.", timeFormatter.format(timePicker.getTime()));
 
-                    textField.setInputVerifier(new InputVerifier() {
-                        @Override
-                        public boolean verify(JComponent input) {
-                            try {
-                                LocalTime.parse(textField.getText(), timeFormatter);
-                                return true;
-                            } catch (DateTimeParseException exception) {
-                                return false;
-                            }
-                        }
+                        JOptionPane.showMessageDialog(DateTimePickerTest.this, message);
                     });
                 }),
                 glue()

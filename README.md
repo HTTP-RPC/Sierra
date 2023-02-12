@@ -80,6 +80,13 @@ The `MenuButton` class displays a popup menu when pressed. For example:
 
 See [MenuButtonTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/MenuButtonTest.java) for more information.
 
+## Date and Time Pickers
+The `DatePicker` and `TimePicker` classes allow a user to select a local date and time, respectively:
+
+<img src="README/date-time-pickers.png" width="296px"/>
+
+See [DateTimePickerTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/DateTimePickerTest.java) for more information.
+
 ## Focus Management
 The `ScrollingKeyboardFocusManager` class ensures that components are automatically scrolled into view when focused (something that Swing oddly does not do by default). It can be installed at application startup as follows:
 
