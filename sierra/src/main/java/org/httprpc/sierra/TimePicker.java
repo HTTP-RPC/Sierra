@@ -28,13 +28,22 @@ import java.time.format.FormatStyle;
 public class TimePicker extends JTextField {
     private LocalTime time = null;
 
+    private LocalTime minimumTime = null;
+    private LocalTime maximumTime = null;
+
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
     private final InputVerifier inputVerifier = new InputVerifier() {
         @Override
         public boolean verify(JComponent input) {
             try {
-                time = LocalTime.parse(getText(), timeFormatter);
+                var time = LocalTime.parse(getText(), timeFormatter);
+
+                if (!validate(time)) {
+                    return false;
+                }
+
+                TimePicker.this.time = time;
 
                 TimePicker.super.fireActionPerformed();
 
@@ -83,10 +92,79 @@ public class TimePicker extends JTextField {
         if (time == null) {
             super.setText(null);
         } else {
+            if (!validate(time)) {
+                throw new IllegalArgumentException();
+            }
+
             super.setText(timeFormatter.format(time));
         }
 
-        this.time = time;
+        this.time = truncate(time);
+    }
+
+    private boolean validate(LocalTime time) {
+        return (minimumTime == null || !time.isBefore(minimumTime))
+            && (maximumTime == null || !time.isAfter(maximumTime));
+    }
+
+    /**
+     * Returns the minimum value allowed by this time picker.
+     *
+     * @return
+     * The minimum time, or {@code null} if no minimum time is set.
+     */
+    public LocalTime getMinimumTime() {
+        return minimumTime;
+    }
+
+    /**
+     * Sets the minimum value allowed by this time picker.
+     *
+     * @param minimumTime
+     * The minimum time, or {@code null} for no minimum time.
+     */
+    public void setMinimumTime(LocalTime minimumTime) {
+        if (minimumTime != null) {
+            if (maximumTime != null && minimumTime.isAfter(maximumTime)) {
+                throw new IllegalStateException();
+            }
+
+            if (time != null && time.isBefore(minimumTime)) {
+                setTime(minimumTime);
+            }
+        }
+
+        this.minimumTime = truncate(minimumTime);
+    }
+
+    /**
+     * Returns the maximum value allowed by this time picker.
+     *
+     * @return
+     * The maximum time, or {@code null} if no maximum time is set.
+     */
+    public LocalTime getMaximumTime() {
+        return maximumTime;
+    }
+
+    /**
+     * Sets the maximum value allowed by this time picker.
+     *
+     * @param maximumTime
+     * The maximum time, or {@code null} for no maximum time.
+     */
+    public void setMaximumTime(LocalTime maximumTime) {
+        if (maximumTime != null) {
+            if (minimumTime != null && maximumTime.isBefore(minimumTime)) {
+                throw new IllegalStateException();
+            }
+
+            if (time != null && time.isAfter(maximumTime)) {
+                setTime(maximumTime);
+            }
+        }
+
+        this.maximumTime = truncate(maximumTime);
     }
 
     /**
@@ -96,5 +174,9 @@ public class TimePicker extends JTextField {
     @Override
     protected void fireActionPerformed() {
         inputVerifier.verify(this);
+    }
+
+    private static LocalTime truncate(LocalTime time) {
+        return (time == null) ? null : time.withSecond(0).withNano(0);
     }
 }

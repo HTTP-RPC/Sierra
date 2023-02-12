@@ -28,11 +28,20 @@ import java.time.format.FormatStyle;
 public class DatePicker extends JTextField {
     private LocalDate date = null;
 
+    private LocalDate minimumDate;
+    private LocalDate maximumDate;
+
     private final InputVerifier inputVerifier = new InputVerifier() {
         @Override
         public boolean verify(JComponent input) {
             try {
-                date = LocalDate.parse(getText(), dateFormatter);
+                var date = LocalDate.parse(getText(), dateFormatter);
+
+                if (!validate(date)) {
+                    return false;
+                }
+
+                DatePicker.this.date = date;
 
                 DatePicker.super.fireActionPerformed();
 
@@ -83,10 +92,79 @@ public class DatePicker extends JTextField {
         if (date == null) {
             super.setText(null);
         } else {
+            if (!validate(date)) {
+                throw new IllegalArgumentException();
+            }
+
             super.setText(dateFormatter.format(date));
         }
 
         this.date = date;
+    }
+
+    private boolean validate(LocalDate date) {
+        return (minimumDate == null || !date.isBefore(minimumDate))
+            && (maximumDate == null || !date.isAfter(maximumDate));
+    }
+
+    /**
+     * Returns the minimum value allowed by this date picker.
+     *
+     * @return
+     * The minimum date, or {@code null} if no minimum date is set.
+     */
+    public LocalDate getMinimumDate() {
+        return minimumDate;
+    }
+
+    /**
+     * Sets the minimum value allowed by this date picker.
+     *
+     * @param minimumDate
+     * The minimum date, or {@code null} for no minimum date.
+     */
+    public void setMinimumDate(LocalDate minimumDate) {
+        if (minimumDate != null) {
+            if (maximumDate != null && minimumDate.isAfter(maximumDate)) {
+                throw new IllegalStateException();
+            }
+
+            if (date != null && date.isBefore(minimumDate)) {
+                setDate(minimumDate);
+            }
+        }
+
+        this.minimumDate = minimumDate;
+    }
+
+    /**
+     * Returns the maximum value allowed by this date picker.
+     *
+     * @return
+     * The maximum date, or {@code null} if no maximum date is set.
+     */
+    public LocalDate getMaximumDate() {
+        return maximumDate;
+    }
+
+    /**
+     * Sets the maximum value allowed by this date picker.
+     *
+     * @param maximumDate
+     * The maximum date, or {@code null} for no maximum date.
+     */
+    public void setMaximumDate(LocalDate maximumDate) {
+        if (maximumDate != null) {
+            if (minimumDate != null && maximumDate.isBefore(minimumDate)) {
+                throw new IllegalStateException();
+            }
+
+            if (date != null && date.isAfter(maximumDate)) {
+                setDate(maximumDate);
+            }
+        }
+
+        this.maximumDate = maximumDate;
     }
 
     /**

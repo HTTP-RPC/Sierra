@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
@@ -47,7 +48,12 @@ public class DateTimePickerTest extends JFrame implements Runnable {
             row(4,
                 glue(),
                 cell(new DatePicker()).with(datePicker -> {
-                    datePicker.setDate(LocalDate.now());
+                    var now = LocalDate.now();
+
+                    datePicker.setDate(now);
+                    datePicker.setMinimumDate(now.minus(2, ChronoUnit.DAYS));
+                    datePicker.setMaximumDate(now.plus(2, ChronoUnit.DAYS));
+
                     datePicker.addActionListener(event -> {
                         var message = String.format("You selected %s.", dateFormatter.format(datePicker.getDate()));
 
@@ -55,7 +61,12 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                     });
                 }),
                 cell(new TimePicker()).with(timePicker -> {
-                    timePicker.setTime(LocalTime.now());
+                    var now = LocalTime.now();
+
+                    timePicker.setTime(now);
+                    timePicker.setMinimumTime(now.minus(2, ChronoUnit.HOURS));
+                    timePicker.setMaximumTime(now.plus(2, ChronoUnit.HOURS));
+
                     timePicker.addActionListener(event -> {
                         var message = String.format("You selected %s.", timeFormatter.format(timePicker.getTime()));
 
