@@ -17,7 +17,7 @@ package org.httprpc.sierra;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -35,6 +35,8 @@ import static org.httprpc.sierra.UIBuilder.glue;
 import static org.httprpc.sierra.UIBuilder.row;
 
 public class DateTimePickerTest extends JFrame implements Runnable {
+    private JLabel selectionLabel;
+
     private DateTimePickerTest() {
         super("Date Picker Test");
 
@@ -47,7 +49,11 @@ public class DateTimePickerTest extends JFrame implements Runnable {
         var timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
         setContentPane(column(
-            glue(),
+            cell(new JLabel()).weightBy(1).with(label -> {
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+
+                selectionLabel = label;
+            }),
             row(4,
                 glue(),
                 cell(new DatePicker()).with(datePicker -> {
@@ -87,7 +93,7 @@ public class DateTimePickerTest extends JFrame implements Runnable {
     private void showSelection(DateTimeFormatter formatter, TemporalAccessor value) {
         var message = String.format("You selected %s.", formatter.format(value));
 
-        JOptionPane.showMessageDialog(this, message);
+        selectionLabel.setText(message);
     }
 
     public static void main(String[] args) {
