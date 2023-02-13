@@ -14,9 +14,21 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.Popup;
+import javax.swing.PopupFactory;
+import javax.swing.SwingConstants;
+import javax.swing.event.ListDataListener;
+import java.awt.Component;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -26,12 +38,80 @@ import java.time.format.FormatStyle;
  * Text field that supports local time entry.
  */
 public class TimePicker extends JTextField {
+    private class TimePickerListModel implements ListModel<LocalTime> {
+        @Override
+        public int getSize() {
+            return 24 * (60 / minuteInterval);
+        }
+
+        @Override
+        public LocalTime getElementAt(int index) {
+            return getTimeAt(index);
+        }
+
+        @Override
+        public void addListDataListener(ListDataListener l) {
+            // No-op
+        }
+
+        @Override
+        public void removeListDataListener(ListDataListener l) {
+            // No-op
+        }
+    }
+
+    private class TimePickerListSelectionModel extends DefaultListSelectionModel {
+        TimePickerListSelectionModel() {
+            setSelectionMode(SINGLE_SELECTION);
+        }
+
+        @Override
+        public void setSelectionInterval(int index0, int index1) {
+            if ((minimumTime != null && getTimeAt(index0).isBefore(minimumTime))
+                || (maximumTime != null && getTimeAt(index1).isAfter(maximumTime))) {
+                return;
+            }
+
+            super.setSelectionInterval(index0, index1);
+        }
+
+        @Override
+        public void removeSelectionInterval(int index0, int index1) {
+            // No-op
+        }
+    }
+
+    private class TimePickerListCellRenderer extends DefaultListCellRenderer {
+        TimePickerListCellRenderer() {
+            setHorizontalAlignment(SwingConstants.TRAILING);
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean selected, boolean cellHasFocus) {
+            var time = (LocalTime)value;
+
+            super.getListCellRendererComponent(list, timeFormatter.format(time), index, selected, cellHasFocus);
+
+            if ((minimumTime == null || !time.isBefore(minimumTime))
+                && (maximumTime == null || !time.isAfter(maximumTime))) {
+                setForeground(list.getSelectionForeground());
+            } else {
+                setForeground(getDisabledTextColor());
+            }
+
+            return this;
+        }
+    }
+
     private int minuteInterval;
 
     private LocalTime time = null;
 
     private LocalTime minimumTime = null;
     private LocalTime maximumTime = null;
+
+    private HorizontalAlignment popupHorizontalAlignment = HorizontalAlignment.LEADING;
+    private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
 
     private final InputVerifier inputVerifier = new InputVerifier() {
         @Override
@@ -53,6 +133,8 @@ public class TimePicker extends JTextField {
             }
         }
     };
+
+    private Popup popup = null;
 
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
@@ -188,6 +270,54 @@ public class TimePicker extends JTextField {
     }
 
     /**
+     * Returns the popup's horizontal alignment.
+     *
+     * @return
+     * The popup's horizontal alignment.
+     */
+    public HorizontalAlignment getPopupHorizontalAlignment() {
+        return popupHorizontalAlignment;
+    }
+
+    /**
+     * Sets the popup's horizontal alignment, relative to the button.
+     *
+     * @param popupHorizontalAlignment
+     * The popup's horizontal alignment.
+     */
+    public void setPopupHorizontalAlignment(HorizontalAlignment popupHorizontalAlignment) {
+        if (popupHorizontalAlignment == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.popupHorizontalAlignment = popupHorizontalAlignment;
+    }
+
+    /**
+     * Returns the popup's vertical alignment.
+     *
+     * @return
+     * The popup's vertical alignment.
+     */
+    public VerticalAlignment getPopupVerticalAlignment() {
+        return popupVerticalAlignment;
+    }
+
+    /**
+     * Sets the popup's vertical alignment, relative to the button.
+     *
+     * @param popupVerticalAlignment
+     * The popup's vertical alignment.
+     */
+    public void setPopupVerticalAlignment(VerticalAlignment popupVerticalAlignment) {
+        if (popupVerticalAlignment == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.popupVerticalAlignment = popupVerticalAlignment;
+    }
+
+    /**
      * Throws {@link UnsupportedOperationException}.
      * {@inheritDoc}
      */
@@ -203,6 +333,133 @@ public class TimePicker extends JTextField {
     @Override
     protected void fireActionPerformed() {
         inputVerifier.verify(this);
+    }
+
+    /**
+     * Processes a focus event.
+     * {@inheritDoc}
+     */
+    @Override
+    protected void processFocusEvent(FocusEvent event) {
+        super.processFocusEvent(event);
+
+        switch (event.getID()) {
+            case FocusEvent.FOCUS_GAINED: {
+                showPopup();
+                break;
+            }
+
+            case FocusEvent.FOCUS_LOST: {
+                hidePopup();
+                break;
+            }
+
+            default: {
+                // No-op
+            }
+        }
+    }
+
+    @Override
+    protected void processKeyEvent(KeyEvent event) {
+        super.processKeyEvent(event);
+
+        if (event.getID() == KeyEvent.KEY_PRESSED) {
+            hidePopup();
+        }
+    }
+
+    private void showPopup() {
+        if (minuteInterval < 15) {
+            return;
+        }
+
+        var list = new JList<LocalTime>();
+
+        list.setModel(new TimePickerListModel());
+        list.setSelectionModel(new TimePickerListSelectionModel());
+        list.setCellRenderer(new TimePickerListCellRenderer());
+
+        var scrollPane = new JScrollPane(list);
+
+        list.setSelectedValue(time, true);
+
+        list.addListSelectionListener(event -> {
+            setTime(list.getSelectedValue());
+
+            getRootPane().requestFocus();
+        });
+
+        list.setVisibleRowCount(8);
+        list.setFocusable(false);
+
+        var size = getSize();
+        var popupSize = scrollPane.getPreferredSize();
+
+        int x;
+        int y;
+        switch (popupHorizontalAlignment) {
+            case LEADING:
+            case TRAILING: {
+                if (getComponentOrientation().isLeftToRight() ^ popupHorizontalAlignment == HorizontalAlignment.TRAILING) {
+                    x = 0;
+                } else {
+                    x = size.width - popupSize.width;
+                }
+
+                break;
+            }
+
+            case CENTER: {
+                x = (size.width - popupSize.width) / 2;
+                break;
+            }
+
+            default: {
+                throw new UnsupportedOperationException();
+            }
+        }
+
+        switch (popupVerticalAlignment) {
+            case TOP: {
+                y = -popupSize.height;
+                break;
+            }
+
+            case BOTTOM: {
+                y = size.height;
+                break;
+            }
+
+            case CENTER: {
+                y = (size.height - popupSize.height) / 2;
+                break;
+            }
+
+            default: {
+                throw new UnsupportedOperationException();
+            }
+        }
+
+        var location = getLocationOnScreen();
+
+        popup = PopupFactory.getSharedInstance().getPopup(this, scrollPane, location.x + x, location.y + y);
+
+        popup.show();
+    }
+
+    private void hidePopup() {
+        if (popup != null) {
+            popup.hide();
+        }
+
+        popup = null;
+    }
+
+    private LocalTime getTimeAt(int index) {
+        var minutes = index * minuteInterval;
+
+        return LocalTime.of(minutes / 60, minutes % 60);
     }
 
     private static LocalTime truncate(LocalTime time) {

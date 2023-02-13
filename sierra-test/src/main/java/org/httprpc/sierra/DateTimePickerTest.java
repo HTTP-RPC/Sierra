@@ -76,7 +76,18 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                     });
                 }),
                 cell(new JSeparator(SwingConstants.VERTICAL)),
-                cell(new TimePicker(30)).with(timePicker -> timePicker.setTime(LocalTime.of(14, 30))),
+                cell(new TimePicker(30)).with(timePicker -> {
+                    timePicker.setTime(LocalTime.of(14, 30));
+                    timePicker.setMinimumTime(LocalTime.of(6, 0));
+                    timePicker.setMaximumTime(LocalTime.of(18, 0));
+                    timePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
+
+                    timePicker.addActionListener(event -> {
+                        var message = String.format("You selected %s.", timeFormatter.format(timePicker.getTime()));
+
+                        JOptionPane.showMessageDialog(DateTimePickerTest.this, message);
+                    });
+                }),
                 glue()
             )
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());

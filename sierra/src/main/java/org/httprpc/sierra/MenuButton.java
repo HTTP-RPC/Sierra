@@ -246,10 +246,6 @@ public class MenuButton extends JButton {
     protected void processFocusEvent(FocusEvent event) {
         super.processFocusEvent(event);
 
-        if (event.getID() == FocusEvent.FOCUS_LOST) {
-            ignorePress = event.isTemporary();
-        } else {
-            ignorePress = false;
-        }
+        ignorePress = (event.getID() == FocusEvent.FOCUS_LOST && event.isTemporary());
     }
 }
