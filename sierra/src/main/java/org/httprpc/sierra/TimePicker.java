@@ -39,6 +39,10 @@ public class TimePicker extends JTextField {
             try {
                 var time = LocalTime.parse(getText(), timeFormatter);
 
+                if (time.equals(TimePicker.this.time)) {
+                    return true;
+                }
+
                 if (!validate(time)) {
                     return false;
                 }
