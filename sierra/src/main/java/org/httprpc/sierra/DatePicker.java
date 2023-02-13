@@ -37,6 +37,10 @@ public class DatePicker extends JTextField {
             try {
                 var date = LocalDate.parse(getText(), dateFormatter);
 
+                if (date.equals(DatePicker.this.date)) {
+                    return true;
+                }
+
                 if (!validate(date)) {
                     return false;
                 }
