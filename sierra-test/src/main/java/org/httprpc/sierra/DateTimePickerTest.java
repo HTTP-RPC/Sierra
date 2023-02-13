@@ -27,6 +27,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAccessor;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
@@ -55,12 +56,8 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                     datePicker.setDate(now);
                     datePicker.setMinimumDate(now.minus(2, ChronoUnit.DAYS));
                     datePicker.setMaximumDate(now.plus(2, ChronoUnit.DAYS));
-
-                    datePicker.addActionListener(event -> {
-                        var message = String.format("You selected %s.", dateFormatter.format(datePicker.getDate()));
-
-                        JOptionPane.showMessageDialog(DateTimePickerTest.this, message);
-                    });
+                    datePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
+                    datePicker.addActionListener(event -> showSelection(dateFormatter, datePicker.getDate()));
                 }),
                 cell(new TimePicker()).with(timePicker -> {
                     var now = LocalTime.now();
@@ -68,12 +65,8 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                     timePicker.setTime(now);
                     timePicker.setMinimumTime(now.minus(2, ChronoUnit.HOURS));
                     timePicker.setMaximumTime(now.plus(2, ChronoUnit.HOURS));
-
-                    timePicker.addActionListener(event -> {
-                        var message = String.format("You selected %s.", timeFormatter.format(timePicker.getTime()));
-
-                        JOptionPane.showMessageDialog(DateTimePickerTest.this, message);
-                    });
+                    timePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
+                    timePicker.addActionListener(event -> showSelection(timeFormatter, timePicker.getTime()));
                 }),
                 cell(new JSeparator(SwingConstants.VERTICAL)),
                 cell(new TimePicker(30)).with(timePicker -> {
@@ -81,12 +74,7 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                     timePicker.setMinimumTime(LocalTime.of(6, 0));
                     timePicker.setMaximumTime(LocalTime.of(18, 0));
                     timePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
-
-                    timePicker.addActionListener(event -> {
-                        var message = String.format("You selected %s.", timeFormatter.format(timePicker.getTime()));
-
-                        JOptionPane.showMessageDialog(DateTimePickerTest.this, message);
-                    });
+                    timePicker.addActionListener(event -> showSelection(timeFormatter, timePicker.getTime()));
                 }),
                 glue()
             )
@@ -94,6 +82,12 @@ public class DateTimePickerTest extends JFrame implements Runnable {
 
         setSize(480, 320);
         setVisible(true);
+    }
+
+    private void showSelection(DateTimeFormatter formatter, TemporalAccessor value) {
+        var message = String.format("You selected %s.", formatter.format(value));
+
+        JOptionPane.showMessageDialog(this, message);
     }
 
     public static void main(String[] args) {

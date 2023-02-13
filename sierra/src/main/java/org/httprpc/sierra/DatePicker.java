@@ -16,7 +16,7 @@ package org.httprpc.sierra;
 
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
-import javax.swing.JTextField;
+import javax.swing.JLabel;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -25,7 +25,7 @@ import java.time.format.FormatStyle;
 /**
  * Text field that supports local date entry.
  */
-public class DatePicker extends JTextField {
+public class DatePicker extends Picker {
     private LocalDate date = null;
 
     private LocalDate minimumDate;
@@ -178,5 +178,24 @@ public class DatePicker extends JTextField {
     @Override
     protected void fireActionPerformed() {
         inputVerifier.verify(this);
+    }
+
+    /**
+     * Returns {@code true}.
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isPopupEnabled() {
+        return true;
+    }
+
+    /**
+     * Returns a date picker popup component.
+     * {@inheritDoc}
+     */
+    @Override
+    protected JComponent getPopupComponent() {
+        // TODO
+        return new JLabel("TODO");
     }
 }
