@@ -391,6 +391,8 @@ public class TimePicker extends JTextField {
         list.addListSelectionListener(event -> {
             setTime(list.getSelectedValue());
 
+            super.fireActionPerformed();
+
             getRootPane().requestFocus();
         });
 
