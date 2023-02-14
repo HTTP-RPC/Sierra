@@ -20,12 +20,15 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.function.Consumer;
 
 import static org.httprpc.sierra.UIBuilder.cell;
@@ -35,13 +38,24 @@ import static org.httprpc.sierra.UIBuilder.row;
  * Text field that supports local date entry.
  */
 public class DatePicker extends Picker {
-    private class CalendarPanel extends ColumnPanel {
+    private static class CalendarPanel extends ColumnPanel {
         CalendarPanel() {
             setSpacing(6);
 
             var spinner = new JSpinner();
 
+            // TODO Use first day of month for current date
+            // TODO Pass minimum and maximum values
+
+            spinner.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.MONTH));
+
+            // TODO Set editor
+
             spinner.setFocusable(false);
+
+            spinner.addChangeListener(event -> {
+                // TODO
+            });
 
             add(spinner);
 
@@ -76,6 +90,7 @@ public class DatePicker extends Picker {
 
                     button.putClientProperty("JButton.buttonType", "toolBarButton");
 
+                    button.setFocusable(false);
                     button.setPreferredSize(button.getPreferredSize());
 
                     row.add(button);
