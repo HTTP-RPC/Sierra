@@ -15,17 +15,81 @@
 package org.httprpc.sierra;
 
 import javax.swing.InputVerifier;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JSeparator;
+import javax.swing.JSpinner;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
+import java.util.function.Consumer;
+
+import static org.httprpc.sierra.UIBuilder.cell;
+import static org.httprpc.sierra.UIBuilder.row;
 
 /**
  * Text field that supports local date entry.
  */
 public class DatePicker extends Picker {
+    private class CalendarPanel extends ColumnPanel {
+        CalendarPanel() {
+            setSpacing(6);
+
+            var spinner = new JSpinner();
+
+            spinner.setFocusable(false);
+
+            add(spinner);
+
+            var daysColumnPanel = new ColumnPanel();
+
+            daysColumnPanel.setAlignToGrid(true);
+
+            Consumer<JLabel> labelStyle = label -> {
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                label.setAlignmentX(0.5f);
+                label.putClientProperty("FlatLaf.styleClass", "small");
+            };
+
+            // TODO Use localized names and first day of week
+            daysColumnPanel.add(row(2,
+                cell(new JLabel("Mon")).with(labelStyle),
+                cell(new JLabel("Tue")).with(labelStyle),
+                cell(new JLabel("Wed")).with(labelStyle),
+                cell(new JLabel("Thu")).with(labelStyle),
+                cell(new JLabel("Fri")).with(labelStyle),
+                cell(new JLabel("Sat")).with(labelStyle),
+                cell(new JLabel("Sun")).with(labelStyle)
+            ).getComponent());
+
+            daysColumnPanel.add(new JSeparator());
+
+            for (var i = 0; i < 6; i++) {
+                var row = new RowPanel();
+
+                for (var j = 0; j < 7; j++) {
+                    var button = new JButton("00");
+
+                    button.putClientProperty("JButton.buttonType", "toolBarButton");
+
+                    button.setPreferredSize(button.getPreferredSize());
+
+                    row.add(button);
+                }
+
+                daysColumnPanel.add(row);
+            }
+
+            add(daysColumnPanel);
+
+            setBorder(new EmptyBorder(4, 4, 4, 4));
+        }
+    }
+
     private LocalDate date = null;
 
     private LocalDate minimumDate;
@@ -195,7 +259,6 @@ public class DatePicker extends Picker {
      */
     @Override
     protected JComponent getPopupComponent() {
-        // TODO
-        return new JLabel("TODO");
+        return new CalendarPanel();
     }
 }

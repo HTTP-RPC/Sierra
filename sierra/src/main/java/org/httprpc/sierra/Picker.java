@@ -178,12 +178,12 @@ public abstract class Picker extends JTextField {
 
         switch (popupVerticalAlignment) {
             case TOP: {
-                y = -popupSize.height;
+                y = -(popupSize.height + 2);
                 break;
             }
 
             case BOTTOM: {
-                y = size.height;
+                y = size.height + 2;
                 break;
             }
 
