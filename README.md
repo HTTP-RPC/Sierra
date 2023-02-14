@@ -84,7 +84,6 @@ See [MenuButtonTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-
 The `DatePicker` and `TimePicker` classes allow a user to select a local date and time, respectively:
 
 <img src="README/date-picker.png" width="302px"/>
-<br/>
 <img src="README/time-picker.png" width="302px"/>
 
 These classes are localized. See [DateTimePickerTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/DateTimePickerTest.java) for more information.
