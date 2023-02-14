@@ -60,18 +60,20 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                     var now = LocalDate.now();
 
                     datePicker.setDate(now);
-                    datePicker.setMinimumDate(now.minus(2, ChronoUnit.DAYS));
-                    datePicker.setMaximumDate(now.plus(2, ChronoUnit.DAYS));
+                    datePicker.setMinimumDate(now.minus(3, ChronoUnit.MONTHS));
+                    datePicker.setMaximumDate(now.plus(3, ChronoUnit.MONTHS));
                     datePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
+
                     datePicker.addActionListener(event -> showSelection(dateFormatter, datePicker.getDate()));
                 }),
                 cell(new TimePicker()).with(timePicker -> {
                     var now = LocalTime.now();
 
                     timePicker.setTime(now);
-                    timePicker.setMinimumTime(now.minus(2, ChronoUnit.HOURS));
-                    timePicker.setMaximumTime(now.plus(2, ChronoUnit.HOURS));
+                    timePicker.setMinimumTime(now.minus(3, ChronoUnit.HOURS));
+                    timePicker.setMaximumTime(now.plus(3, ChronoUnit.HOURS));
                     timePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
+
                     timePicker.addActionListener(event -> showSelection(timeFormatter, timePicker.getTime()));
                 }),
                 cell(new JSeparator(SwingConstants.VERTICAL)),
@@ -80,6 +82,7 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                     timePicker.setMinimumTime(LocalTime.of(6, 0));
                     timePicker.setMaximumTime(LocalTime.of(18, 0));
                     timePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
+
                     timePicker.addActionListener(event -> showSelection(timeFormatter, timePicker.getTime()));
                 }),
                 glue()
