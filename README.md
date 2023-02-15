@@ -3,9 +3,7 @@
 [![javadoc](https://javadoc.io/badge2/org.httprpc/sierra/javadoc.svg)](https://javadoc.io/doc/org.httprpc/sierra)
 
 # Introduction
-Sierra is an open-source framework for simplifying development of Java Swing applications. It provides a convenient DSL for declaratively constructing Swing component hierarchies. It also includes some classes intended to address gaps in the standard Swing library. The framework is extremely lightweight (less than 60KB) and has no external dependencies. 
-
-The project's name comes from the nautical _S_ or _Sierra_ flag, representing the first letter in "Swing":
+Sierra is an open-source framework for simplifying development of Java Swing applications. It is extremely lightweight (less than 60KB) and has no external dependencies. The project's name comes from the nautical _S_ or _Sierra_ flag, representing the first letter in "Swing":
 
 ![](sierra.png)
 
