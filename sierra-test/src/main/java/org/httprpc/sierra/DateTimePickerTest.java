@@ -22,12 +22,14 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import java.awt.ComponentOrientation;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
+import java.util.Locale;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
@@ -88,6 +90,8 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                 glue()
             )
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+
+        applyComponentOrientation(ComponentOrientation.getOrientation(Locale.getDefault()));
 
         setSize(480, 320);
         setVisible(true);

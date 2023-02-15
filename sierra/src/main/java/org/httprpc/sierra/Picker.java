@@ -18,10 +18,8 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.Popup;
 import javax.swing.PopupFactory;
-import java.awt.ComponentOrientation;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
-import java.util.Locale;
 
 /**
  * Abstract base class for picker components.
@@ -151,7 +149,7 @@ public abstract class Picker extends JTextField {
 
         var popupComponent = getPopupComponent();
 
-        popupComponent.applyComponentOrientation(ComponentOrientation.getOrientation(Locale.getDefault()));
+        popupComponent.applyComponentOrientation(getComponentOrientation());
 
         var size = getSize();
         var popupSize = popupComponent.getPreferredSize();
