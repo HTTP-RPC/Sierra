@@ -17,15 +17,12 @@ package org.httprpc.sierra;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import static org.httprpc.sierra.UIBuilder.row;
 
 public class ActivityIndicatorTest extends JFrame implements Runnable {
-    private JLabel greetingLabel;
-
     private ActivityIndicatorTest() {
         super("Activity Indicator Test");
 

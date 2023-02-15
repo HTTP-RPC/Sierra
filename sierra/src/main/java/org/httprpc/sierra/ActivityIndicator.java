@@ -17,7 +17,7 @@ package org.httprpc.sierra;
 import javax.swing.JComponent;
 
 /**
- * Indicates indeterminate progress.
+ * Shows indeterminate progress.
  */
 public class ActivityIndicator extends JComponent {
     // TODO
