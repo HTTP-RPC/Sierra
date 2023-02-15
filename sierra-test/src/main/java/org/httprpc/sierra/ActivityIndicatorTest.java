@@ -17,12 +17,21 @@ package org.httprpc.sierra;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.JFrame;
+import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import java.awt.Dimension;
 
+import static org.httprpc.sierra.UIBuilder.cell;
+import static org.httprpc.sierra.UIBuilder.column;
+import static org.httprpc.sierra.UIBuilder.glue;
 import static org.httprpc.sierra.UIBuilder.row;
 
 public class ActivityIndicatorTest extends JFrame implements Runnable {
+    ActivityIndicator activityIndicator1;
+    ActivityIndicator activityIndicator2;
+    ActivityIndicator activityIndicator3;
+
     private ActivityIndicatorTest() {
         super("Activity Indicator Test");
 
@@ -31,12 +40,41 @@ public class ActivityIndicatorTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(row(
-            // TODO
+        setContentPane(column(
+            glue(),
+            row(8,
+                glue(),
+                cell(new ActivityIndicator()).with(activityIndicator -> activityIndicator1 = activityIndicator),
+                cell(new ActivityIndicator()).with(activityIndicator -> {
+                    activityIndicator.setPreferredSize(new Dimension(96, 96));
+
+                    activityIndicator2 = activityIndicator;
+                }),
+                cell(new ActivityIndicator()).with(activityIndicator -> activityIndicator3 = activityIndicator),
+                glue()
+            ),
+            glue(),
+            row(
+                glue(),
+                cell(new JToggleButton("Active")).with(button -> button.addActionListener(event -> toggleActivityIndicators(button.isSelected()))),
+                glue()
+            )
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
-        setSize(320, 240);
+        setSize(360, 240);
         setVisible(true);
+    }
+
+    private void toggleActivityIndicators(boolean active) {
+        if (active) {
+            activityIndicator1.start();
+            activityIndicator2.start();
+            activityIndicator3.start();
+        } else {
+            activityIndicator1.stop();
+            activityIndicator2.stop();
+            activityIndicator3.stop();
+        }
     }
 
     public static void main(String[] args) {

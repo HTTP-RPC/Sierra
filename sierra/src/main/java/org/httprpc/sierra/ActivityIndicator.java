@@ -20,12 +20,15 @@ import javax.swing.plaf.ComponentUI;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Shows indeterminate progress.
  */
 public class ActivityIndicator extends JComponent {
-    private static class ActivityIndicatorUI extends ComponentUI {
+    private class ActivityIndicatorUI extends ComponentUI {
         @Override
         public Dimension getMinimumSize(JComponent component) {
             return new Dimension(0, 0);
@@ -52,17 +55,45 @@ public class ActivityIndicator extends JComponent {
         }
 
         private void paint(Graphics2D graphics) {
+            if (!active) {
+                return;
+            }
+
+            var size = getSize();
+            var insets = getInsets();
+
+            var width = Math.max(size.width - (insets.left + insets.right), 0);
+            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
+
+            graphics = (Graphics2D)graphics.create();
+
+            graphics.setClip(insets.left, insets.top, width, height);
+
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
             // TODO
+            System.out.println(angle);
+
+            graphics.dispose();
         }
     }
 
     private boolean active = false;
 
-    private static int activeCount = 0;
-
     private static int angle = 0;
 
-    private static Timer timer; // TODO
+    private static List<ActivityIndicator> activeInstances = new LinkedList<>();
+
+    private static final int SPOKE_COUNT = 6;
+
+    private static Timer timer = new Timer(100, event -> {
+        angle = (angle + 360 / SPOKE_COUNT) % 360;
+
+        for (var instance : activeInstances) {
+            instance.repaint();
+        }
+    });
 
     /**
      * Constructs a new activity indicator.
@@ -85,9 +116,11 @@ public class ActivityIndicator extends JComponent {
      * Starts the activity indicator.
      */
     public void start() {
-        // TODO If active count is 0, start timer
+        if (activeInstances.isEmpty()) {
+            timer.start();
+        }
 
-        activeCount++;
+        activeInstances.add(this);
 
         active = true;
     }
@@ -98,8 +131,10 @@ public class ActivityIndicator extends JComponent {
     public void stop() {
         active = false;
 
-        activeCount--;
+        activeInstances.remove(this);
 
-        // TODO If active count is 0, stop timer
+        if (activeInstances.isEmpty()) {
+            timer.stop();
+        }
     }
 }
