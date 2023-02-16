@@ -17,6 +17,7 @@ package org.httprpc.sierra;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 import javax.swing.plaf.ComponentUI;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -41,7 +42,9 @@ public class ActivityIndicator extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            return new Dimension(indicatorSize, indicatorSize);
+            var insets = getInsets();
+
+            return new Dimension(indicatorSize + insets.left + insets.right, indicatorSize + insets.top + insets.bottom);
         }
 
         @Override
@@ -72,16 +75,28 @@ public class ActivityIndicator extends JComponent {
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // TODO Center in available area
+            var radius = indicatorSize / 2;
 
-            graphics.translate(indicatorSize / 2, indicatorSize / 2);
-            graphics.rotate((2 * Math.PI) / 360 * angle);
+            graphics.translate(radius + insets.left, radius + insets.top);
 
-            var increment = (2 * Math.PI) / 360 * (360 / SPOKE_COUNT); // TODO Consolidate with above
+            graphics.rotate((angle % 360) * Math.PI / 180);
 
-            for (var i = 0; i < 12; i++) {
-                graphics.setColor(getForeground()); // TODO
-                graphics.fillRoundRect(16, 2, 8, 4, 2, 2);
+            var lineWidth = indicatorSize / 3;
+            var lineHeight = indicatorSize / 8;
+
+            var arcSize = indicatorSize / 12;
+
+            var foreground = getForeground();
+
+            var increment = (2 * Math.PI) / SPOKE_COUNT;
+
+            for (var i = 0; i < SPOKE_COUNT; i++) {
+                var alpha = (int)Math.round((i * (1.0 / SPOKE_COUNT)) * 255);
+
+                var color = new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), alpha);
+
+                graphics.setPaint(color);
+                graphics.fillRoundRect(lineWidth / 2, -(lineHeight / 2), lineWidth, lineHeight, arcSize, arcSize);
 
                 graphics.rotate(increment);
             }
@@ -90,14 +105,15 @@ public class ActivityIndicator extends JComponent {
         }
     }
 
-    private int indicatorSize = 24;
+    private int indicatorSize;
+
     private boolean active = false;
 
     private static int angle = 0;
 
     private static List<ActivityIndicator> activeInstances = new LinkedList<>();
 
-    private static final int SPOKE_COUNT = 6;
+    private static final int SPOKE_COUNT = 8;
 
     private static Timer timer = new Timer(100, event -> {
         angle = (angle + 360 / SPOKE_COUNT) % 360;
