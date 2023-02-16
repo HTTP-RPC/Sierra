@@ -22,6 +22,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.RoundRectangle2D;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -72,8 +73,7 @@ public class ActivityIndicator extends JComponent {
 
             graphics.setClip(insets.left, insets.top, width, height);
 
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             var radius = indicatorSize / 2;
 
@@ -86,6 +86,8 @@ public class ActivityIndicator extends JComponent {
 
             var arcSize = indicatorSize / 12;
 
+            var line = new RoundRectangle2D.Double(lineWidth / 2.0, -lineHeight / 2.0, lineWidth, lineHeight, arcSize, arcSize);
+
             var foreground = getForeground();
 
             var increment = (2 * Math.PI) / SPOKE_COUNT;
@@ -96,7 +98,7 @@ public class ActivityIndicator extends JComponent {
                 var color = new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), alpha);
 
                 graphics.setPaint(color);
-                graphics.fillRoundRect(lineWidth / 2, -(lineHeight / 2), lineWidth, lineHeight, arcSize, arcSize);
+                graphics.fill(line);
 
                 graphics.rotate(increment);
             }
