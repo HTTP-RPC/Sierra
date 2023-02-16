@@ -27,11 +27,13 @@ import java.util.concurrent.Executors;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
+import static org.httprpc.sierra.UIBuilder.glue;
 import static org.httprpc.sierra.UIBuilder.row;
 
 public class TaskExecutorTest extends JFrame implements Runnable {
     private JButton button;
     private JLabel label;
+    private ActivityIndicator activityIndicator;
 
     private static TaskExecutor taskExecutor = new TaskExecutor(Executors.newCachedThreadPool(runnable -> {
         var thread = new Thread(runnable);
@@ -64,7 +66,9 @@ public class TaskExecutorTest extends JFrame implements Runnable {
                     label.setForeground(Color.GRAY);
 
                     this.label = label;
-                })
+                }),
+                glue(),
+                cell(new ActivityIndicator(18)).with(activityIndicator -> this.activityIndicator = activityIndicator)
             )
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
@@ -76,6 +80,8 @@ public class TaskExecutorTest extends JFrame implements Runnable {
         button.setEnabled(false);
 
         label.setText("Executing task...");
+
+        activityIndicator.start();
 
         taskExecutor.execute(() -> {
             Thread.sleep(5000);
@@ -89,6 +95,8 @@ public class TaskExecutorTest extends JFrame implements Runnable {
             } else {
                 label.setText("Task failed");
             }
+
+            activityIndicator.stop();
         });
     }
 
