@@ -134,7 +134,7 @@ Inspired by the [border layout](https://docs.oracle.com/javase/tutorial/uiswing/
 
 [BorderTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BorderTest.java)
 
-<img src="README/border.png" width="630px"/>
+<img src="README/border.png" width="592px"/>
 
 ## Component Orientation
 Inspired by the [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/flow.html) tutorial example.

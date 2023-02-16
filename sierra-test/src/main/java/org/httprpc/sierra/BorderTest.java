@@ -60,7 +60,7 @@ public class BorderTest extends JFrame implements Runnable {
             cell(new JLabel("Page End")).with(cellStyle)
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
-        pack();
+        setSize(480, 320);
         setVisible(true);
     }
 
