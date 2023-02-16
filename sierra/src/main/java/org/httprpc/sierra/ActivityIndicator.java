@@ -72,8 +72,19 @@ public class ActivityIndicator extends JComponent {
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // TODO
-            System.out.println(angle);
+            // TODO Center in available area
+
+            graphics.translate(indicatorSize / 2, indicatorSize / 2);
+            graphics.rotate((2 * Math.PI) / 360 * angle);
+
+            var increment = (2 * Math.PI) / 360 * (360 / SPOKE_COUNT); // TODO Consolidate with above
+
+            for (var i = 0; i < 12; i++) {
+                graphics.setColor(getForeground()); // TODO
+                graphics.fillRoundRect(16, 2, 8, 4, 2, 2);
+
+                graphics.rotate(increment);
+            }
 
             graphics.dispose();
         }
@@ -139,6 +150,8 @@ public class ActivityIndicator extends JComponent {
      * Starts the activity indicator.
      */
     public void start() {
+        repaint();
+
         if (activeInstances.isEmpty()) {
             timer.start();
         }
@@ -159,5 +172,7 @@ public class ActivityIndicator extends JComponent {
         if (activeInstances.isEmpty()) {
             timer.stop();
         }
+
+        repaint();
     }
 }
