@@ -41,7 +41,7 @@ public class ActivityIndicator extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            return new Dimension(48, 48);
+            return new Dimension(indicatorSize, indicatorSize);
         }
 
         @Override
@@ -79,6 +79,7 @@ public class ActivityIndicator extends JComponent {
         }
     }
 
+    private int indicatorSize = 24;
     private boolean active = false;
 
     private static int angle = 0;
@@ -99,7 +100,29 @@ public class ActivityIndicator extends JComponent {
      * Constructs a new activity indicator.
      */
     public ActivityIndicator() {
+        this(24);
+    }
+
+    /**
+     * Constructs a new activity indicator.
+     *
+     * @param indicatorSize
+     * The indicator size.
+     */
+    public ActivityIndicator(int indicatorSize) {
         setUI(new ActivityIndicatorUI());
+
+        this.indicatorSize = indicatorSize;
+    }
+
+    /**
+     * Returns the indicator size.
+     *
+     * @return
+     * The indicator size.
+     */
+    public int getIndicatorSize() {
+        return indicatorSize;
     }
 
     /**
