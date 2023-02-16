@@ -16,12 +16,14 @@ package org.httprpc.sierra;
 
 import javax.swing.JComponent;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 import java.util.LinkedList;
 import java.util.List;
@@ -71,6 +73,7 @@ public class ActivityIndicator extends JComponent {
 
             graphics = (Graphics2D)graphics.create();
 
+            // TODO Center image
             graphics.setClip(insets.left, insets.top, width, height);
 
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -81,26 +84,17 @@ public class ActivityIndicator extends JComponent {
 
             graphics.rotate((angle % 360) * Math.PI / 180);
 
-            var lineWidth = indicatorSize / 3;
-            var lineHeight = indicatorSize / 8;
-
-            var arcSize = indicatorSize / 12;
-
-            var line = new RoundRectangle2D.Double(lineWidth / 2.0, -lineHeight / 2.0, lineWidth, lineHeight, arcSize, arcSize);
-
             var foreground = getForeground();
-
-            var increment = (2 * Math.PI) / SPOKE_COUNT;
 
             for (var i = 0; i < SPOKE_COUNT; i++) {
                 var alpha = (int)Math.round((i * (1.0 / SPOKE_COUNT)) * 255);
 
                 var color = new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), alpha);
 
-                graphics.setPaint(color);
-                graphics.fill(line);
+                graphics.setColor(color);
+                graphics.fill(spokeShape);
 
-                graphics.rotate(increment);
+                graphics.rotate(INCREMENT);
             }
 
             graphics.dispose();
@@ -109,6 +103,8 @@ public class ActivityIndicator extends JComponent {
 
     private int indicatorSize;
 
+    private Shape spokeShape;
+
     private boolean active = false;
 
     private static int angle = 0;
@@ -116,6 +112,8 @@ public class ActivityIndicator extends JComponent {
     private static List<ActivityIndicator> activeInstances = new LinkedList<>();
 
     private static final int SPOKE_COUNT = 8;
+
+    private static final double INCREMENT = (2 * Math.PI) / SPOKE_COUNT;
 
     private static Timer timer = new Timer(100, event -> {
         angle = (angle + 360 / SPOKE_COUNT) % 360;
@@ -142,6 +140,19 @@ public class ActivityIndicator extends JComponent {
         setUI(new ActivityIndicatorUI());
 
         this.indicatorSize = indicatorSize;
+
+        var lineWidth = indicatorSize / 3;
+        var lineHeight = indicatorSize / 8;
+
+        var arcSize = indicatorSize / 12;
+
+        spokeShape = new RoundRectangle2D.Double(lineWidth / 2.0, -lineHeight / 2.0, lineWidth, lineHeight, arcSize, arcSize);
+
+        var foreground = UIManager.getLookAndFeelDefaults().get("Label.disabledForeground");
+
+        if (foreground instanceof Color) {
+            setForeground((Color)foreground);
+        }
     }
 
     /**

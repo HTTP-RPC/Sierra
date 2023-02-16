@@ -42,10 +42,7 @@ public class ActivityIndicatorTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Consumer<ActivityIndicator> activityIndicatorStyle = activityIndicator -> {
-            activityIndicator.setForeground(Color.DARK_GRAY);
-            activityIndicator.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        };
+        Consumer<ActivityIndicator> activityIndicatorStyle = activityIndicator -> activityIndicator.setBorder(new LineBorder(Color.LIGHT_GRAY));
 
         setContentPane(column(
             glue(),

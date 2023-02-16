@@ -184,7 +184,7 @@ public class TextPane extends JComponent {
 
             graphics.setClip(insets.left, insets.top, width, height);
 
-            graphics.setPaint(getForeground());
+            graphics.setColor(getForeground());
             graphics.setFont(font);
 
             var n = glyphVectors.size();
