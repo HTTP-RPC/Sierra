@@ -89,7 +89,7 @@ These classes are localized. See [DateTimePickerTest.java](https://github.com/HT
 ## Activity Indicators
 The `ActivityIndicator` component shows indeterminate progress:
 
-<img src="README/activity-indicator.png"/> <!-- TODO -->
+<img src="README/activity-indicator.png" width="157px"/>
 
 See [ActivityIndicatorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/ActivityIndicatorTest.java) for more information.
 

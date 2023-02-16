@@ -20,9 +20,6 @@ import javax.swing.JFrame;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.util.function.Consumer;
 
 import static org.httprpc.sierra.UIBuilder.cell;
 import static org.httprpc.sierra.UIBuilder.column;
@@ -42,15 +39,13 @@ public class ActivityIndicatorTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Consumer<ActivityIndicator> activityIndicatorStyle = activityIndicator -> activityIndicator.setBorder(new LineBorder(Color.LIGHT_GRAY));
-
         setContentPane(column(
             glue(),
-            row(8,
+            row(16,
                 glue(),
-                cell(new ActivityIndicator(12)).with(activityIndicatorStyle, activityIndicator -> activityIndicator1 = activityIndicator),
-                cell(new ActivityIndicator()).with(activityIndicatorStyle, activityIndicator -> activityIndicator2 = activityIndicator),
-                cell(new ActivityIndicator(48)).with(activityIndicatorStyle, activityIndicator -> activityIndicator3 = activityIndicator),
+                cell(new ActivityIndicator(12)).with(activityIndicator -> activityIndicator1 = activityIndicator),
+                cell(new ActivityIndicator()).with(activityIndicator -> activityIndicator2 = activityIndicator),
+                cell(new ActivityIndicator(48)).with(activityIndicator -> activityIndicator3 = activityIndicator),
                 glue()
             ),
             glue(),

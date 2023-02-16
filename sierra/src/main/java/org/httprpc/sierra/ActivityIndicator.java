@@ -73,14 +73,16 @@ public class ActivityIndicator extends JComponent {
 
             graphics = (Graphics2D)graphics.create();
 
-            // TODO Center image
             graphics.setClip(insets.left, insets.top, width, height);
 
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             var radius = indicatorSize / 2;
 
-            graphics.translate(radius + insets.left, radius + insets.top);
+            var x = (width - indicatorSize) / 2 + insets.left + radius;
+            var y = (height - indicatorSize) / 2 + insets.top + radius;
+
+            graphics.translate(x, y);
 
             graphics.rotate((angle % 360) * Math.PI / 180);
 
@@ -141,12 +143,10 @@ public class ActivityIndicator extends JComponent {
 
         this.indicatorSize = indicatorSize;
 
-        var lineWidth = indicatorSize / 3;
-        var lineHeight = indicatorSize / 8;
+        var spokeWidth = indicatorSize / 3;
+        var spokeHeight = indicatorSize / 8;
 
-        var arcSize = indicatorSize / 12;
-
-        spokeShape = new RoundRectangle2D.Double(lineWidth / 2.0, -lineHeight / 2.0, lineWidth, lineHeight, arcSize, arcSize);
+        spokeShape = new RoundRectangle2D.Double(spokeWidth / 2.0, -spokeHeight / 2.0, spokeWidth, spokeHeight, spokeHeight, spokeHeight);
 
         var foreground = UIManager.getLookAndFeelDefaults().get("Label.disabledForeground");
 
