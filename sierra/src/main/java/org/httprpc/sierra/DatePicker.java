@@ -58,6 +58,7 @@ public class DatePicker extends Picker {
                 this.date = date;
 
                 setText(String.valueOf(date.getDayOfMonth()));
+                setSelected(date.equals(DatePicker.this.date));
             }
 
             @Override
