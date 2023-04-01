@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.Popup;
 import javax.swing.PopupFactory;
 import java.awt.event.FocusEvent;
+import java.awt.event.HierarchyBoundsListener;
+import java.awt.event.HierarchyEvent;
 import java.awt.event.KeyEvent;
 
 /**
@@ -29,6 +31,18 @@ public abstract class Picker extends JTextField {
     private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
 
     private Popup popup = null;
+
+    private HierarchyBoundsListener hierarchyBoundsListener = new HierarchyBoundsListener() {
+        @Override
+        public void ancestorMoved(HierarchyEvent e) {
+            hidePopup();
+        }
+
+        @Override
+        public void ancestorResized(HierarchyEvent e) {
+            hidePopup();
+        }
+    };
 
     /**
      * Constructs a new picker.
@@ -143,7 +157,7 @@ public abstract class Picker extends JTextField {
     protected abstract JComponent getPopupComponent();
 
     private void showPopup() {
-        if (!isPopupEnabled()) {
+        if (popup != null || !isPopupEnabled()) {
             return;
         }
 
@@ -204,13 +218,19 @@ public abstract class Picker extends JTextField {
         popup = PopupFactory.getSharedInstance().getPopup(this, popupComponent, location.x + x, location.y + y);
 
         popup.show();
+
+        addHierarchyBoundsListener(hierarchyBoundsListener);
     }
 
     private void hidePopup() {
-        if (popup != null) {
-            popup.hide();
+        if (popup == null) {
+            return;
         }
 
+        popup.hide();
+
         popup = null;
+
+        removeHierarchyBoundsListener(hierarchyBoundsListener);
     }
 }
