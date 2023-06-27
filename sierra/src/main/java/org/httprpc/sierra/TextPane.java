@@ -121,21 +121,15 @@ public class TextPane extends JComponent {
 
             var ascent = lineMetrics.getAscent();
 
-            switch (verticalAlignment) {
-                case TOP: {
-                    return insets.top + Math.round(ascent);
-                }
-
-                case BOTTOM: {
+            return switch (verticalAlignment) {
+                case TOP -> insets.top + Math.round(ascent);
+                case BOTTOM -> {
                     var lineHeight = lineMetrics.getHeight();
 
-                    return height - (insets.bottom + Math.round(lineHeight - ascent));
+                    yield height - (insets.bottom + Math.round(lineHeight - ascent));
                 }
-
-                default: {
-                    throw new UnsupportedOperationException();
-                }
-            }
+                default -> throw new UnsupportedOperationException();
+            };
         }
 
         @Override
@@ -158,27 +152,11 @@ public class TextPane extends JComponent {
 
             var ascent = font.getLineMetrics("", fontRenderContext).getAscent();
 
-            double y;
-            switch (verticalAlignment) {
-                case TOP: {
-                    y = insets.top;
-                    break;
-                }
-
-                case BOTTOM: {
-                    y = size.height - (textHeight + insets.bottom);
-                    break;
-                }
-
-                case CENTER: {
-                    y = insets.top + (height - textHeight) / 2;
-                    break;
-                }
-
-                default: {
-                    throw new UnsupportedOperationException();
-                }
-            }
+            var y = switch (verticalAlignment) {
+                case TOP -> insets.top;
+                case BOTTOM -> size.height - (textHeight + insets.bottom);
+                case CENTER -> insets.top + (height - textHeight) / 2;
+            };
 
             graphics = (Graphics2D)graphics.create();
 
@@ -196,28 +174,17 @@ public class TextPane extends JComponent {
 
                 var lineWidth = textBounds.getWidth();
 
-                double x;
-                switch (horizontalAlignment) {
-                    case LEADING:
-                    case TRAILING: {
+                var x = switch (horizontalAlignment) {
+                    case LEADING, TRAILING -> {
                         if (getComponentOrientation().isLeftToRight() ^ horizontalAlignment == HorizontalAlignment.TRAILING) {
-                            x = insets.left;
+                            yield insets.left;
                         } else {
-                            x = size.width - (lineWidth + insets.right);
+                            yield size.width - (lineWidth + insets.right);
                         }
 
-                        break;
                     }
-
-                    case CENTER: {
-                        x = insets.left + (width - lineWidth) / 2;
-                        break;
-                    }
-
-                    default: {
-                        throw new UnsupportedOperationException();
-                    }
-                }
+                    case CENTER -> insets.left + (width - lineWidth) / 2;
+                };
 
                 graphics.drawGlyphVector(glyphVector, (float)x, (float)y + ascent);
 

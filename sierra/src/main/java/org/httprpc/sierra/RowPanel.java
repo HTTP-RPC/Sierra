@@ -40,9 +40,7 @@ public class RowPanel extends BoxPanel {
 
             var spacing = getSpacing();
 
-            if (parent instanceof ColumnPanel) {
-                var columnPanel = (ColumnPanel)parent;
-
+            if (parent instanceof ColumnPanel columnPanel) {
                 if (columnPanel.getAlignToGrid()) {
                     columnWidths = columnPanel.getColumnWidths();
                     columnWeights = columnPanel.getColumnWeights();
@@ -151,9 +149,7 @@ public class RowPanel extends BoxPanel {
 
             var spacing = getSpacing();
 
-            if (parent instanceof ColumnPanel) {
-                var columnPanel = (ColumnPanel)parent;
-
+            if (parent instanceof ColumnPanel columnPanel) {
                 if (columnPanel.getAlignToGrid()) {
                     columnWidths = columnPanel.getColumnWidths();
                     columnWeights = columnPanel.getColumnWeights();

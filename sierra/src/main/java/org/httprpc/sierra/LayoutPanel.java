@@ -172,19 +172,11 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
             throw new IllegalArgumentException();
         }
 
-        switch (orientation) {
-            case SwingConstants.VERTICAL: {
-                return visibleRect.height / 10;
-            }
-
-            case SwingConstants.HORIZONTAL: {
-                return visibleRect.width / 10;
-            }
-
-            default: {
-                throw new UnsupportedOperationException();
-            }
-        }
+        return switch (orientation) {
+            case SwingConstants.VERTICAL -> visibleRect.height / 10;
+            case SwingConstants.HORIZONTAL -> visibleRect.width / 10;
+            default -> throw new UnsupportedOperationException();
+        };
     }
 
     /**
@@ -198,19 +190,11 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
             throw new IllegalArgumentException();
         }
 
-        switch (orientation) {
-            case SwingConstants.VERTICAL: {
-                return visibleRect.height;
-            }
-
-            case SwingConstants.HORIZONTAL: {
-                return visibleRect.width;
-            }
-
-            default: {
-                throw new UnsupportedOperationException();
-            }
-        }
+        return switch (orientation) {
+            case SwingConstants.VERTICAL -> visibleRect.height;
+            case SwingConstants.HORIZONTAL -> visibleRect.width;
+            default -> throw new UnsupportedOperationException();
+        };
     }
 
     /**

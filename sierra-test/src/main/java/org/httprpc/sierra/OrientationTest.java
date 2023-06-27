@@ -54,9 +54,7 @@ public class OrientationTest extends JFrame implements Runnable {
                 cell(new JButton("3")),
                 cell(new JButton("4")),
                 cell(new JButton("5"))
-            ).with(rowPanel -> {
-                this.rowPanel = rowPanel;
-            }),
+            ).with(rowPanel -> this.rowPanel = rowPanel),
 
             cell(new JSeparator()),
 

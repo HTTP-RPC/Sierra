@@ -111,19 +111,8 @@ public abstract class Picker extends JTextField {
         super.processFocusEvent(event);
 
         switch (event.getID()) {
-            case FocusEvent.FOCUS_GAINED: {
-                showPopup();
-                break;
-            }
-
-            case FocusEvent.FOCUS_LOST: {
-                hidePopup();
-                break;
-            }
-
-            default: {
-                // No-op
-            }
+            case FocusEvent.FOCUS_GAINED -> showPopup();
+            case FocusEvent.FOCUS_LOST -> hidePopup();
         }
     }
 
@@ -168,50 +157,23 @@ public abstract class Picker extends JTextField {
         var size = getSize();
         var popupSize = popupComponent.getPreferredSize();
 
-        int x;
-        int y;
-        switch (popupHorizontalAlignment) {
-            case LEADING:
-            case TRAILING: {
+        var x = switch (popupHorizontalAlignment) {
+            case LEADING, TRAILING -> {
                 if (getComponentOrientation().isLeftToRight() ^ popupHorizontalAlignment == HorizontalAlignment.TRAILING) {
-                    x = 0;
+                    yield 0;
                 } else {
-                    x = size.width - popupSize.width;
+                    yield size.width - popupSize.width;
                 }
 
-                break;
             }
+            case CENTER -> (size.width - popupSize.width) / 2;
+        };
 
-            case CENTER: {
-                x = (size.width - popupSize.width) / 2;
-                break;
-            }
-
-            default: {
-                throw new UnsupportedOperationException();
-            }
-        }
-
-        switch (popupVerticalAlignment) {
-            case TOP: {
-                y = -(popupSize.height + 2);
-                break;
-            }
-
-            case BOTTOM: {
-                y = size.height + 2;
-                break;
-            }
-
-            case CENTER: {
-                y = (size.height - popupSize.height) / 2;
-                break;
-            }
-
-            default: {
-                throw new UnsupportedOperationException();
-            }
-        }
+        var y = switch (popupVerticalAlignment) {
+            case TOP -> -(popupSize.height + 2);
+            case BOTTOM -> size.height + 2;
+            case CENTER -> (size.height - popupSize.height) / 2;
+        };
 
         var location = getLocationOnScreen();
 

@@ -109,50 +109,23 @@ public class ImagePane extends JComponent {
             var scaledImageWidth = scale * imageWidth;
             var scaledImageHeight = scale * imageHeight;
 
-            double x;
-            switch (horizontalAlignment) {
-                case LEADING:
-                case TRAILING: {
+            var x = switch (horizontalAlignment) {
+                case LEADING, TRAILING -> {
                     if (getComponentOrientation().isLeftToRight() ^ horizontalAlignment == HorizontalAlignment.TRAILING) {
-                        x = 0;
+                        yield 0;
                     } else {
-                        x = width - scaledImageWidth;
+                        yield width - scaledImageWidth;
                     }
 
-                    break;
                 }
+                case CENTER -> (width - scaledImageWidth) / 2;
+            };
 
-                case CENTER: {
-                    x = (width - scaledImageWidth) / 2;
-                    break;
-                }
-
-                default: {
-                    throw new UnsupportedOperationException();
-                }
-            }
-
-            double y;
-            switch (verticalAlignment) {
-                case TOP: {
-                    y = 0;
-                    break;
-                }
-
-                case BOTTOM: {
-                    y = height - scaledImageHeight;
-                    break;
-                }
-
-                case CENTER: {
-                    y = (height - scaledImageHeight) / 2;
-                    break;
-                }
-
-                default: {
-                    throw new UnsupportedOperationException();
-                }
-            }
+            var y = switch (verticalAlignment) {
+                case TOP -> 0;
+                case BOTTOM -> height - scaledImageHeight;
+                case CENTER -> (height - scaledImageHeight) / 2;
+            };
 
             graphics = (Graphics2D)graphics.create();
 
@@ -167,23 +140,11 @@ public class ImagePane extends JComponent {
         }
 
         private double getScale(int width, int height, int imageWidth, int imageHeight) {
-            switch (scaleMode) {
-                case NONE: {
-                    return 1.0;
-                }
-
-                case FILL_WIDTH: {
-                    return (double)width / imageWidth;
-                }
-
-                case FILL_HEIGHT: {
-                    return (double)height / imageHeight;
-                }
-
-                default: {
-                    throw new UnsupportedOperationException();
-                }
-            }
+            return switch (scaleMode) {
+                case NONE -> 1.0;
+                case FILL_WIDTH -> (double)width / imageWidth;
+                case FILL_HEIGHT -> (double)height / imageHeight;
+            };
         }
     }
 

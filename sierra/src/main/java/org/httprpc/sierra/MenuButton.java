@@ -102,50 +102,22 @@ public class MenuButton extends JButton {
                     var size = getSize();
                     var popupMenuSize = popupMenu.getPreferredSize();
 
-                    int x;
-                    int y;
-                    switch (popupHorizontalAlignment) {
-                        case LEADING:
-                        case TRAILING: {
+                    var x = switch (popupHorizontalAlignment) {
+                        case LEADING, TRAILING -> {
                             if (getComponentOrientation().isLeftToRight() ^ popupHorizontalAlignment == HorizontalAlignment.TRAILING) {
-                                x = 0;
+                                yield 0;
                             } else {
-                                x = size.width - popupMenuSize.width;
+                                yield size.width - popupMenuSize.width;
                             }
-
-                            break;
                         }
+                        case CENTER -> (size.width - popupMenuSize.width) / 2;
+                    };
 
-                        case CENTER: {
-                            x = (size.width - popupMenuSize.width) / 2;
-                            break;
-                        }
-
-                        default: {
-                            throw new UnsupportedOperationException();
-                        }
-                    }
-
-                    switch (popupVerticalAlignment) {
-                        case TOP: {
-                            y = -popupMenuSize.height;
-                            break;
-                        }
-
-                        case BOTTOM: {
-                            y = size.height;
-                            break;
-                        }
-
-                        case CENTER: {
-                            y = (size.height - popupMenuSize.height) / 2;
-                            break;
-                        }
-
-                        default: {
-                            throw new UnsupportedOperationException();
-                        }
-                    }
+                    var y = switch (popupVerticalAlignment) {
+                        case TOP -> -popupMenuSize.height;
+                        case BOTTOM -> size.height;
+                        case CENTER -> (size.height - popupMenuSize.height) / 2;
+                    };
 
                     popupMenu.show(MenuButton.this, x, y);
                 }
