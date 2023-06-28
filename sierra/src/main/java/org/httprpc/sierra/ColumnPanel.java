@@ -52,10 +52,10 @@ public class ColumnPanel extends BoxPanel {
                 if (Double.isNaN(getWeight(i))) {
                     component.setSize(width, Integer.MAX_VALUE);
 
-                    if (alignToGrid && component instanceof RowPanel) {
+                    if (alignToGrid && component instanceof RowPanel rowPanel) {
                         component.doLayout();
 
-                        maximumRowSpacing = Math.max(maximumRowSpacing, ((RowPanel)component).getSpacing());
+                        maximumRowSpacing = Math.max(maximumRowSpacing, rowPanel.getSpacing());
                     } else {
                         var preferredSize = component.getPreferredSize();
 
@@ -109,10 +109,10 @@ public class ColumnPanel extends BoxPanel {
                 if (Double.isNaN(weight)) {
                     component.setSize(width, Integer.MAX_VALUE);
 
-                    if (alignToGrid && component instanceof RowPanel) {
+                    if (alignToGrid && component instanceof RowPanel rowPanel) {
                         component.doLayout();
 
-                        maximumRowSpacing = Math.max(maximumRowSpacing, ((RowPanel)component).getSpacing());
+                        maximumRowSpacing = Math.max(maximumRowSpacing, rowPanel.getSpacing());
                     } else {
                         component.setSize(width, component.getPreferredSize().height);
 

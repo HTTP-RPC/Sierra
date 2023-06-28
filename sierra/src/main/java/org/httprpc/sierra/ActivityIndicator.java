@@ -148,10 +148,8 @@ public class ActivityIndicator extends JComponent {
 
         spokeShape = new RoundRectangle2D.Double(spokeWidth / 2.0, -spokeHeight / 2.0, spokeWidth, spokeHeight, spokeHeight, spokeHeight);
 
-        var foreground = UIManager.getLookAndFeelDefaults().get("Label.disabledForeground");
-
-        if (foreground instanceof Color) {
-            setForeground((Color)foreground);
+        if (UIManager.getLookAndFeelDefaults().get("Label.disabledForeground") instanceof Color foreground) {
+            setForeground(foreground);
         }
     }
 

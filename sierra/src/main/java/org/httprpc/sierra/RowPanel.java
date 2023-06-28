@@ -40,13 +40,11 @@ public class RowPanel extends BoxPanel {
 
             var spacing = getSpacing();
 
-            if (parent instanceof ColumnPanel columnPanel) {
-                if (columnPanel.getAlignToGrid()) {
-                    columnWidths = columnPanel.getColumnWidths();
-                    columnWeights = columnPanel.getColumnWeights();
+            if (parent instanceof ColumnPanel columnPanel && columnPanel.getAlignToGrid()) {
+                columnWidths = columnPanel.getColumnWidths();
+                columnWeights = columnPanel.getColumnWeights();
 
-                    spacing = columnPanel.getRowSpacing();
-                }
+                spacing = columnPanel.getRowSpacing();
             }
 
             var size = getSize();
@@ -149,13 +147,11 @@ public class RowPanel extends BoxPanel {
 
             var spacing = getSpacing();
 
-            if (parent instanceof ColumnPanel columnPanel) {
-                if (columnPanel.getAlignToGrid()) {
-                    columnWidths = columnPanel.getColumnWidths();
-                    columnWeights = columnPanel.getColumnWeights();
+            if (parent instanceof ColumnPanel columnPanel && columnPanel.getAlignToGrid()) {
+                columnWidths = columnPanel.getColumnWidths();
+                columnWeights = columnPanel.getColumnWeights();
 
-                    spacing = columnPanel.getRowSpacing();
-                }
+                spacing = columnPanel.getRowSpacing();
             }
 
             var size = getSize();
