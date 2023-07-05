@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra;
 
+import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.Popup;
@@ -31,6 +32,7 @@ public abstract class Picker extends JTextField {
     private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
 
     private Popup popup = null;
+    private JComponent popupComponent = null;
 
     private HierarchyBoundsListener hierarchyBoundsListener = new HierarchyBoundsListener() {
         @Override
@@ -112,10 +114,28 @@ public abstract class Picker extends JTextField {
 
         switch (event.getID()) {
             case FocusEvent.FOCUS_GAINED -> showPopup();
-            case FocusEvent.FOCUS_LOST -> hidePopup();
-        }
-    }
+            case FocusEvent.FOCUS_LOST -> {
+				// hide the popup, if focus did not move to it
+				if (!inPopup(event.getOppositeComponent())) {
+					hidePopup();
+				}
+				else {
+					requestFocus();
+				}
+			}
+		}
+	}
 
+	private boolean inPopup(Component component) {
+		while (component != null) {
+			if (component.equals(popupComponent)) {
+				return true;
+			}
+			component = component.getParent();
+		}
+		return false;
+	}
+  
     /**
      * Processes a key event.
      * {@inheritDoc}
@@ -150,7 +170,7 @@ public abstract class Picker extends JTextField {
             return;
         }
 
-        var popupComponent = getPopupComponent();
+        popupComponent = getPopupComponent();
 
         popupComponent.applyComponentOrientation(getComponentOrientation());
 

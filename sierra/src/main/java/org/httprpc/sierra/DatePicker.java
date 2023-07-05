@@ -175,8 +175,6 @@ public class DatePicker extends Picker {
                     date = date.plus(1, ChronoUnit.DAYS);
                 }
             }
-
-            repaint();
         }
     }
 
