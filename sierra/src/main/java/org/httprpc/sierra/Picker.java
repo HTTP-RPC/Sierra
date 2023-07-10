@@ -14,11 +14,11 @@
 
 package org.httprpc.sierra;
 
-import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.Popup;
 import javax.swing.PopupFactory;
+import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.HierarchyBoundsListener;
 import java.awt.event.HierarchyEvent;
@@ -117,8 +117,7 @@ public abstract class Picker extends JTextField {
             case FocusEvent.FOCUS_LOST -> {
                 if (!inPopup(event.getOppositeComponent())) {
                     hidePopup();
-                }
-                else {
+                } else {
                     requestFocus();
                 }
             }
