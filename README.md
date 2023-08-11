@@ -182,6 +182,13 @@ Demonstrates associating an action handler with a button.
 
 <img src="README/action.png" width="352px"/>
 
+## Button Group
+Demonstrates a button group.
+
+[ButtonGroupTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/ButtonGroupTest.java)
+
+<img src="README/button-group.png" width="432px"/>
+
 ## Cell Renderer
 Demonstrates a custom cell renderer.
 
