@@ -53,7 +53,7 @@ public class TaskExecutor {
      * The result handler.
      */
     public <T> void execute(Callable<T> callable, BiConsumer<T, Exception> consumer) {
-        if (callable == null && consumer == null) {
+        if (callable == null || consumer == null) {
             throw new IllegalArgumentException();
         }
 
