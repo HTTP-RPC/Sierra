@@ -27,7 +27,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 
@@ -62,8 +61,8 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                     var now = LocalDate.now();
 
                     datePicker.setDate(now);
-                    datePicker.setMinimumDate(now.minus(3, ChronoUnit.MONTHS));
-                    datePicker.setMaximumDate(now.plus(3, ChronoUnit.MONTHS));
+                    datePicker.setMinimumDate(now.minusMonths(3));
+                    datePicker.setMaximumDate(now.plusMonths(3));
                     datePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
 
                     datePicker.addActionListener(event -> showSelection(dateFormatter, datePicker.getDate()));
@@ -72,8 +71,8 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                     var now = LocalTime.now();
 
                     timePicker.setTime(now);
-                    timePicker.setMinimumTime(now.minus(3, ChronoUnit.HOURS));
-                    timePicker.setMaximumTime(now.plus(3, ChronoUnit.HOURS));
+                    timePicker.setMinimumTime(now.minusHours(3));
+                    timePicker.setMaximumTime(now.plusHours(3));
                     timePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
 
                     timePicker.addActionListener(event -> showSelection(timeFormatter, timePicker.getTime()));

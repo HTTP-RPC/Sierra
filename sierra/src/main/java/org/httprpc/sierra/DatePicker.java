@@ -31,7 +31,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
 import java.util.Calendar;
 import java.util.Date;
@@ -161,7 +160,7 @@ public class DatePicker extends Picker {
 
             var index = Math.floorMod(firstOfMonth.getDayOfWeek().ordinal() - firstDayOfWeek.ordinal(), 7);
 
-            var date = firstOfMonth.minus(index, ChronoUnit.DAYS);
+            var date = firstOfMonth.minusDays(index);
 
             for (var i = 0; i < 6; i++) {
                 for (var j = 0; j < 7; j++) {
@@ -172,7 +171,7 @@ public class DatePicker extends Picker {
                         && date.getYear() == firstOfMonth.getYear()
                         && DatePicker.this.validate(date));
 
-                    date = date.plus(1, ChronoUnit.DAYS);
+                    date = date.plusDays(1);
                 }
             }
         }
