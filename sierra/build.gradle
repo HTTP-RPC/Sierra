@@ -12,17 +12,4 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'application'
-}
-
-dependencies {
-    implementation project(':sierra')
-
-    implementation 'com.formdev:flatlaf:3.2.5'
-    implementation 'com.formdev:flatlaf-extras:3.2.5'
-}
-
-jar {
-    archiveFileName = "${project.name}.jar"
-}
+apply from: '../publish.gradle'
