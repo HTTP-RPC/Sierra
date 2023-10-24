@@ -12,4 +12,4 @@
  * limitations under the License.
  */
 
-apply from: '../publish.gradle'
+apply from: rootProject.file('publish.gradle')
