@@ -218,11 +218,9 @@ These functions can be used to declare spacer elements:
 
 A `weightBy()` function is added to `JComponent` to facilitate dynamic resizing.
 
-For example, this application was built using Sierra and Kotlin:
+For [example](TODO):
 
-TODO
-
-The complete source code can be found [here](TODO). 
+<img src="README/kotlin.png" width="472px"/>
 
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).
