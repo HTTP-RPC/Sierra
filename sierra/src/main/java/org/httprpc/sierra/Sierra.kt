@@ -16,6 +16,9 @@ package org.httprpc.sierra
 
 import javax.swing.JComponent
 
+/**
+ * The component's weight, or `null` for no weight.
+ */
 var JComponent.weight: Double?
     get() = getClientProperty("weight") as? Double
     set(value) {
@@ -24,6 +27,13 @@ var JComponent.weight: Double?
         putClientProperty("weight", value)
     }
 
+/**
+ * Declares a row.
+ *
+ * @param spacing The row spacing.
+ * @param alignToBaseline `true` to align to baseline; `false`, otherwise.
+ * @param components The row's contents.
+ */
 fun row(spacing: Int = 0, alignToBaseline: Boolean = false, vararg components: JComponent): RowPanel {
     val rowPanel = RowPanel()
 
@@ -37,6 +47,13 @@ fun row(spacing: Int = 0, alignToBaseline: Boolean = false, vararg components: J
     return rowPanel
 }
 
+/**
+ * Declares a column.
+ *
+ * @param spacing The column spacing.
+ * @param alignToGrid `true` to align to grid; `false`, otherwise.
+ * @param components The column's contents.
+ */
 fun column(spacing: Int = 0, alignToGrid: Boolean = false, vararg components: JComponent): ColumnPanel {
     val columnPanel = ColumnPanel()
 
@@ -50,8 +67,18 @@ fun column(spacing: Int = 0, alignToGrid: Boolean = false, vararg components: JC
     return columnPanel
 }
 
+/**
+ * Declares a fixed-size spacer.
+ *
+ * @param size The spacer size.
+ */
 fun strut(size: Int) = Spacer(size)
 
+/**
+ * Declares a flexible spacer.
+ *
+ * @param weight The spacer weight.
+ */
 fun glue(weight: Double = 1.0): Spacer {
     val spacer = Spacer(0)
 
@@ -60,6 +87,11 @@ fun glue(weight: Double = 1.0): Spacer {
     return spacer
 }
 
+/**
+ * Declares a stack.
+ *
+ * @param components The stack's contents.
+ */
 fun stack(vararg components: JComponent): StackPanel {
     val stackPanel = StackPanel()
 
