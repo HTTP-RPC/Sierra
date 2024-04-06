@@ -16,10 +16,14 @@ package org.httprpc.sierra
 
 import com.formdev.flatlaf.FlatLightLaf
 import java.awt.Color
+import java.awt.Image
+import java.io.IOException
+import javax.imageio.ImageIO
 import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.SwingConstants
 import javax.swing.SwingUtilities
+import javax.swing.border.CompoundBorder
 import javax.swing.border.EmptyBorder
 import javax.swing.border.LineBorder
 
@@ -29,17 +33,42 @@ class KotlinTest: JFrame("Kotlin Test"), Runnable {
     }
 
     override fun run() {
-        contentPane = column(
-            glue(1.0),
-            JLabel("Hello, World!", SwingConstants.CENTER).weightBy(1.0).apply {
-                border = LineBorder(Color.LIGHT_GRAY)
+        val image: Image? = try {
+            ImageIO.read(javaClass.getResource("world.png"))
+        } catch (exception: IOException) {
+            null
+        }
+
+        val text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+        contentPane = column(spacing = 8,
+            row(
+                glue(),
+                JLabel("Hello, Kotlin!", SwingConstants.CENTER).weightBy(1.0),
+                glue()
+            ).apply {
+                border = CompoundBorder(LineBorder(Color.LIGHT_GRAY), EmptyBorder(4, 4, 4, 4))
             },
-            glue(3.0)
+            stack(
+                ImagePane(image).apply {
+                    scaleMode = ImagePane.ScaleMode.FILL_HEIGHT
+                },
+                TextPane(text).apply {
+                    foreground = Color(0x44000000)
+                    horizontalAlignment = HorizontalAlignment.CENTER
+                    verticalAlignment = VerticalAlignment.CENTER
+                    wrapText = true
+                }
+            ).weightBy(1.0).apply {
+                border = LineBorder(Color.LIGHT_GRAY)
+            }
         ).apply {
+            background = Color.WHITE
+            isOpaque = true
             border = EmptyBorder(8, 8, 8, 8)
         }
 
-        setSize(480, 320)
+        setSize(360, 320)
 
         isVisible = true
     }
