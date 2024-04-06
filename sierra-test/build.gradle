@@ -14,6 +14,7 @@
 
 plugins {
     id 'application'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 dependencies {
@@ -21,8 +22,15 @@ dependencies {
 
     implementation 'com.formdev:flatlaf:3.4.1'
     implementation 'com.formdev:flatlaf-extras:3.4.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 jar {
     archiveFileName = "${project.name}.jar"
+}
+repositories {
+    mavenCentral()
+}
+kotlin {
+    jvmToolchain(17)
 }

@@ -205,17 +205,24 @@ Inspired by Wikipedia's [classification of the elements](https://en.wikipedia.or
 <img src="README/periodic-table.png" width="1060px"/>
 
 # Kotlin Support
-Sierra-based user interfaces can be also constructed using the [Kotlin](https://kotlinlang.org) programming language. Sierra provides the following Kotlin functions for declaring layout containers:
+Sierra-based user interfaces can be also constructed using the [Kotlin](https://kotlinlang.org) programming language. Sierra provides the following functions for declaring layout containers:
 
-TODO row, column, stack
+* `row()`
+* `column()`
+* `stack()`
 
-These methods can be used to declare spacer elements:
+These functions can be used to declare spacer elements:
 
-TODO strut, glue
+* `strut()`
+* `glue()`
 
-For example:
+A `weightBy()` function is added to `JComponent` to facilitate dynamic resizing.
+
+For example, this application was built using Sierra and Kotlin:
 
 TODO
+
+The complete source code can be found [here](TODO). 
 
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).

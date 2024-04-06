@@ -17,15 +17,54 @@ package org.httprpc.sierra
 import javax.swing.JComponent
 
 /**
- * The component's weight, or `null` for no weight.
+ * The component's weight, or `null` if a weight value has not been applied.
  */
-var JComponent.weight: Double?
+val JComponent.weight: Double?
     get() = getClientProperty("weight") as? Double
-    set(value) {
-        require(value == null || value >= 0.0)
 
-        putClientProperty("weight", value)
-    }
+/**
+ * Applies a weight value to a component.
+ *
+ * @param weight The weight value.
+ *
+ * @return The component instance.
+ */
+fun JComponent.weightBy(weight: Double): JComponent {
+    require(weight >= 0.0)
+
+    putClientProperty("weight", weight)
+
+    return this
+}
+
+/**
+ * Declares a row.
+ *
+ * @param components The row's contents.
+ *
+ * @return The row panel.
+ */
+fun row(vararg components: JComponent) = row(0, false, *components)
+
+/**
+ * Declares a row.
+ *
+ * @param spacing The row spacing.
+ * @param components The row's contents.
+ *
+ * @return The row panel.
+ */
+fun row(spacing: Int, vararg components: JComponent) = row(spacing, false, *components)
+
+/**
+ * Declares a row.
+ *
+ * @param alignToBaseline `true` to align to baseline; `false`, otherwise.
+ * @param components The row's contents.
+ *
+ * @return The row panel.
+ */
+fun row(alignToBaseline: Boolean, vararg components: JComponent) = row(0, alignToBaseline, *components)
 
 /**
  * Declares a row.
@@ -33,8 +72,10 @@ var JComponent.weight: Double?
  * @param spacing The row spacing.
  * @param alignToBaseline `true` to align to baseline; `false`, otherwise.
  * @param components The row's contents.
+ *
+ * @return The row panel.
  */
-fun row(spacing: Int = 0, alignToBaseline: Boolean = false, vararg components: JComponent): RowPanel {
+fun row(spacing: Int, alignToBaseline: Boolean, vararg components: JComponent): RowPanel {
     val rowPanel = RowPanel()
 
     rowPanel.spacing = spacing
@@ -50,11 +91,42 @@ fun row(spacing: Int = 0, alignToBaseline: Boolean = false, vararg components: J
 /**
  * Declares a column.
  *
+ * @param components The column's contents.
+ *
+ * @return The column panel.
+ */
+fun column(vararg components: JComponent) = column(0, false, *components)
+
+/**
+ * Declares a column.
+ *
+ * @param spacing The column spacing.
+ * @param components The column's contents.
+ *
+ * @return The column panel.
+ */
+fun column(spacing: Int, vararg components: JComponent) = column(spacing, false, *components)
+
+/**
+ * Declares a column.
+ *
+ * @param alignToGrid `true` to align to grid; `false`, otherwise.
+ * @param components The column's contents.
+ *
+ * @return The column panel.
+ */
+fun column(alignToGrid: Boolean, vararg components: JComponent) = column(0, alignToGrid, *components)
+
+/**
+ * Declares a column.
+ *
  * @param spacing The column spacing.
  * @param alignToGrid `true` to align to grid; `false`, otherwise.
  * @param components The column's contents.
+ *
+ * @return The column panel.
  */
-fun column(spacing: Int = 0, alignToGrid: Boolean = false, vararg components: JComponent): ColumnPanel {
+fun column(spacing: Int, alignToGrid: Boolean, vararg components: JComponent): ColumnPanel {
     val columnPanel = ColumnPanel()
 
     columnPanel.spacing = spacing
@@ -71,6 +143,8 @@ fun column(spacing: Int = 0, alignToGrid: Boolean = false, vararg components: JC
  * Declares a fixed-size spacer.
  *
  * @param size The spacer size.
+ *
+ * @return The spacer component.
  */
 fun strut(size: Int) = Spacer(size)
 
@@ -78,19 +152,17 @@ fun strut(size: Int) = Spacer(size)
  * Declares a flexible spacer.
  *
  * @param weight The spacer weight.
+ *
+ * @return The spacer component.
  */
-fun glue(weight: Double = 1.0): Spacer {
-    val spacer = Spacer(0)
-
-    spacer.weight = weight
-
-    return spacer
-}
+fun glue(weight: Double = 1.0) = Spacer(0).weightBy(weight)
 
 /**
  * Declares a stack.
  *
  * @param components The stack's contents.
+ *
+ * @return The stack panel.
  */
 fun stack(vararg components: JComponent): StackPanel {
     val stackPanel = StackPanel()
