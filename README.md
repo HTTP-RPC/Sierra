@@ -12,8 +12,8 @@ This guide introduces the Sierra framework and provides an overview of its key f
 # Contents
 * [Getting Sierra](#getting-sierra)
 * [Sierra Classes](#sierra-classes)
-* [Kotlin Support](#kotlin-support)
 * [Examples](#examples)
+* [Kotlin Support](#kotlin-support)
 * [Additional Information](#additional-information)
 
 # Getting Sierra
@@ -130,9 +130,6 @@ taskExecutor.execute(() -> {
 
 Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/TaskExecutorTest.java) for more information.
 
-# Kotlin Support
-TODO row, column, strut, glue, stack, apply
-
 # Examples
 This section includes examples demonstrating usage of `UIBuilder` with the [Flat](https://github.com/JFormDesigner/FlatLaf) look-and-feel.
 
@@ -206,6 +203,19 @@ Inspired by Wikipedia's [classification of the elements](https://en.wikipedia.or
 [PeriodicTableTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/PeriodicTableTest.java)
 
 <img src="README/periodic-table.png" width="1060px"/>
+
+# Kotlin Support
+Sierra-based user interfaces can be also constructed using the [Kotlin](https://kotlinlang.org) programming language. Sierra provides the following Kotlin functions for declaring layout containers:
+
+TODO row, column, stack
+
+These methods can be used to declare spacer elements:
+
+TODO strut, glue
+
+For example:
+
+TODO
 
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).
