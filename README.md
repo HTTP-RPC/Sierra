@@ -3,7 +3,7 @@
 [![javadoc](https://javadoc.io/badge2/org.httprpc/sierra/javadoc.svg)](https://javadoc.io/doc/org.httprpc/sierra)
 
 # Introduction
-Sierra is an open-source framework for simplifying development of Java Swing applications. It is extremely lightweight (less than 60KB) and has no external dependencies. The project's name comes from the nautical _S_ or _Sierra_ flag, representing the first letter in "Swing":
+Sierra is an open-source framework for simplifying development of Java Swing applications. It is extremely lightweight (less than 62KB) and has no external dependencies. The project's name comes from the nautical _S_ or _Sierra_ flag, representing the first letter in "Swing":
 
 ![](sierra.png)
 
@@ -12,6 +12,7 @@ This guide introduces the Sierra framework and provides an overview of its key f
 # Contents
 * [Getting Sierra](#getting-sierra)
 * [Sierra Classes](#sierra-classes)
+* [Kotlin Support](#kotlin-support)
 * [Examples](#examples)
 * [Additional Information](#additional-information)
 
@@ -128,6 +129,9 @@ taskExecutor.execute(() -> {
 ```
 
 Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/TaskExecutorTest.java) for more information.
+
+# Kotlin Support
+TODO row, column, strut, glue, stack, apply
 
 # Examples
 This section includes examples demonstrating usage of `UIBuilder` with the [Flat](https://github.com/JFormDesigner/FlatLaf) look-and-feel.
