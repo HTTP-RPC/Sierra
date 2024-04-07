@@ -18,6 +18,7 @@ import com.formdev.flatlaf.FlatLightLaf
 import java.awt.Color
 import java.awt.Image
 import java.io.IOException
+import java.util.concurrent.Executors
 import javax.imageio.ImageIO
 import javax.swing.JFrame
 import javax.swing.JLabel
@@ -28,6 +29,13 @@ import javax.swing.border.EmptyBorder
 import javax.swing.border.LineBorder
 
 class KotlinTest: JFrame("Kotlin Test"), Runnable {
+    private lateinit var textPane: TextPane
+    private lateinit var activityIndicator: ActivityIndicator
+
+    private val taskExecutor = TaskExecutor(Executors.newCachedThreadPool { Thread(it).apply { isDaemon = true } })
+
+    private val text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
     init {
         defaultCloseOperation = EXIT_ON_CLOSE
     }
@@ -38,8 +46,6 @@ class KotlinTest: JFrame("Kotlin Test"), Runnable {
         } catch (exception: IOException) {
             null
         }
-
-        val text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 
         contentPane = column(spacing = 8,
             row(
@@ -55,14 +61,17 @@ class KotlinTest: JFrame("Kotlin Test"), Runnable {
                 },
                 row(
                     strut(size = 8),
-                    TextPane(text).weightBy(1).apply {
-                        foreground = Color(0x44000000)
+                    TextPane().weightBy(1).apply {
+                        foreground = Color(0x00, 0x00, 0x00, 0xdd)
                         horizontalAlignment = HorizontalAlignment.CENTER
                         verticalAlignment = VerticalAlignment.CENTER
                         wrapText = true
-                    },
+                    }.also { textPane = it },
                     strut(size = 8)
                 ),
+                ActivityIndicator(48).apply {
+                    foreground = Color(0xff, 0xff, 0xff, 0xdd)
+                }.also { activityIndicator = it }
             ).weightBy(1).apply {
                 border = LineBorder(Color.LIGHT_GRAY)
             }
@@ -75,6 +84,18 @@ class KotlinTest: JFrame("Kotlin Test"), Runnable {
         setSize(360, 320)
 
         isVisible = true
+
+        executeTask()
+    }
+
+    private fun executeTask() {
+        activityIndicator.start()
+
+        taskExecutor.execute({ Thread.sleep(5000) }) { _: Any?, _: Exception? ->
+            activityIndicator.stop()
+
+            textPane.text = text
+        }
     }
 }
 
