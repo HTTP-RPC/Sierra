@@ -29,7 +29,16 @@ val JComponent.weight: Double?
  *
  * @return The component instance.
  */
-fun JComponent.weightBy(weight: Double): JComponent {
+fun <C: JComponent> C.weightBy(weight: Int) = weightBy(weight.toDouble())
+
+/**
+ * Applies a weight value to a component.
+ *
+ * @param weight The weight value.
+ *
+ * @return The component instance.
+ */
+fun <C: JComponent> C.weightBy(weight: Double): C {
     require(weight >= 0.0)
 
     putClientProperty("weight", weight)

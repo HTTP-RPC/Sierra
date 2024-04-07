@@ -12,9 +12,13 @@
  * limitations under the License.
  */
 
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.23'
+}
+
 subprojects {
     group = 'org.httprpc'
-    version = '2.1'
+    version = '2.1.1'
 
     apply plugin: 'java-library'
 
@@ -37,6 +41,15 @@ subprojects {
                 'Implementation-Title': project.name,
                 'Implementation-Version': project.version
             )
+        }
+    }
+
+    compileKotlin {
+        compilerOptions {
+            freeCompilerArgs = [
+                '-jvm-target', '17',
+                '-java-parameters'
+            ]
         }
     }
 }

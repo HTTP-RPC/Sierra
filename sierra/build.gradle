@@ -13,7 +13,7 @@
  */
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
+    id 'org.jetbrains.kotlin.jvm'
     id 'org.jetbrains.dokka' version '1.9.20'
 }
 

@@ -53,13 +53,17 @@ class KotlinTest: JFrame("Kotlin Test"), Runnable {
                 ImagePane(image).apply {
                     scaleMode = ImagePane.ScaleMode.FILL_HEIGHT
                 },
-                TextPane(text).apply {
-                    foreground = Color(0x44000000)
-                    horizontalAlignment = HorizontalAlignment.CENTER
-                    verticalAlignment = VerticalAlignment.CENTER
-                    wrapText = true
-                }
-            ).weightBy(1.0).apply {
+                row(
+                    strut(size = 8),
+                    TextPane(text).weightBy(1).apply {
+                        foreground = Color(0x44000000)
+                        horizontalAlignment = HorizontalAlignment.CENTER
+                        verticalAlignment = VerticalAlignment.CENTER
+                        wrapText = true
+                    },
+                    strut(size = 8)
+                ),
+            ).weightBy(1).apply {
                 border = LineBorder(Color.LIGHT_GRAY)
             }
         ).apply {
