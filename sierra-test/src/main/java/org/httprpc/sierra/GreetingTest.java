@@ -24,8 +24,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.IOException;
 
-import static org.httprpc.sierra.UIBuilder.cell;
-import static org.httprpc.sierra.UIBuilder.column;
+import static org.httprpc.sierra.UIBuilder.*;
 
 public class GreetingTest extends JFrame implements Runnable {
     private GreetingTest() {

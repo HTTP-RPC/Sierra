@@ -26,10 +26,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import static org.httprpc.sierra.UIBuilder.cell;
-import static org.httprpc.sierra.UIBuilder.column;
-import static org.httprpc.sierra.UIBuilder.glue;
-import static org.httprpc.sierra.UIBuilder.row;
+import static org.httprpc.sierra.UIBuilder.*;
 
 public class PeriodicTableTest extends JFrame implements Runnable {
     private enum Group {

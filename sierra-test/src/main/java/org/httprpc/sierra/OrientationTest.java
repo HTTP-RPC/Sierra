@@ -26,10 +26,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.ComponentOrientation;
 import java.util.Locale;
 
-import static org.httprpc.sierra.UIBuilder.cell;
-import static org.httprpc.sierra.UIBuilder.column;
-import static org.httprpc.sierra.UIBuilder.glue;
-import static org.httprpc.sierra.UIBuilder.row;
+import static org.httprpc.sierra.UIBuilder.*;
 
 public class OrientationTest extends JFrame implements Runnable {
     private RowPanel rowPanel;

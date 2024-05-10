@@ -28,9 +28,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 
-import static org.httprpc.sierra.UIBuilder.cell;
-import static org.httprpc.sierra.UIBuilder.glue;
-import static org.httprpc.sierra.UIBuilder.row;
+import static org.httprpc.sierra.UIBuilder.*;
 
 public class BaselineTest extends JFrame implements Runnable {
     private BaselineTest() {

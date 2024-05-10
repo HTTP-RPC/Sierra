@@ -27,9 +27,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.function.Consumer;
 
-import static org.httprpc.sierra.UIBuilder.cell;
-import static org.httprpc.sierra.UIBuilder.column;
-import static org.httprpc.sierra.UIBuilder.row;
+import static org.httprpc.sierra.UIBuilder.*;
 
 public class BorderTest extends JFrame implements Runnable {
     private BorderTest() {

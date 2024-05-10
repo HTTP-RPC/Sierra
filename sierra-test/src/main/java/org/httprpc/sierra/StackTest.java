@@ -21,11 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import static org.httprpc.sierra.UIBuilder.cell;
-import static org.httprpc.sierra.UIBuilder.column;
-import static org.httprpc.sierra.UIBuilder.glue;
-import static org.httprpc.sierra.UIBuilder.row;
-import static org.httprpc.sierra.UIBuilder.stack;
+import static org.httprpc.sierra.UIBuilder.*;
 
 public class StackTest extends JFrame implements Runnable {
     private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";

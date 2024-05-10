@@ -25,10 +25,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.util.concurrent.Executors;
 
-import static org.httprpc.sierra.UIBuilder.cell;
-import static org.httprpc.sierra.UIBuilder.column;
-import static org.httprpc.sierra.UIBuilder.glue;
-import static org.httprpc.sierra.UIBuilder.row;
+import static org.httprpc.sierra.UIBuilder.*;
 
 public class TaskExecutorTest extends JFrame implements Runnable {
     private JButton button;

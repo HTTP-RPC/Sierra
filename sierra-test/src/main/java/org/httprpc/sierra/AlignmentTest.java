@@ -23,9 +23,7 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.util.function.Consumer;
 
-import static org.httprpc.sierra.UIBuilder.cell;
-import static org.httprpc.sierra.UIBuilder.column;
-import static org.httprpc.sierra.UIBuilder.row;
+import static org.httprpc.sierra.UIBuilder.*;
 
 public class AlignmentTest extends JFrame implements Runnable {
     private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";

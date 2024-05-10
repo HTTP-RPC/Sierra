@@ -26,9 +26,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.KeyboardFocusManager;
 import java.util.function.Consumer;
 
-import static org.httprpc.sierra.UIBuilder.cell;
-import static org.httprpc.sierra.UIBuilder.column;
-import static org.httprpc.sierra.UIBuilder.row;
+import static org.httprpc.sierra.UIBuilder.*;
 
 public class FormTest extends JFrame implements Runnable {
     private FormTest() {

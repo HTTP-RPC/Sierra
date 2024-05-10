@@ -24,8 +24,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.IOException;
 
-import static org.httprpc.sierra.UIBuilder.cell;
-import static org.httprpc.sierra.UIBuilder.row;
+import static org.httprpc.sierra.UIBuilder.*;
 
 public class FlowTest extends JFrame implements Runnable {
     private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
