@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.httprpc.sierra;
+package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;

@@ -12,9 +12,12 @@
  * limitations under the License.
  */
 
-package org.httprpc.sierra;
+package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.HorizontalAlignment;
+import org.httprpc.sierra.TextPane;
+import org.httprpc.sierra.VerticalAlignment;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

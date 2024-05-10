@@ -12,46 +12,55 @@
  * limitations under the License.
  */
 
-package org.httprpc.sierra;
+package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.HorizontalAlignment;
+import org.httprpc.sierra.TextPane;
+import org.httprpc.sierra.VerticalAlignment;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import static org.httprpc.sierra.UIBuilder.*;
 
-public class ActionTest extends JFrame implements Runnable {
-    private JLabel greetingLabel;
+public class StackTest extends JFrame implements Runnable {
+    private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
-    private ActionTest() {
-        super("Action Test");
+    private StackTest() {
+        super("Stack Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(row(
-            glue(),
-            column(8,
-                cell(new JButton("Say Hello")).with(button -> button.addActionListener(event -> greetingLabel.setText("Hello, World!"))),
-                cell(new JLabel(null, null, SwingConstants.CENTER)).with(label -> greetingLabel = label)
-            ),
-            glue()
+        setContentPane(stack(
+            cell(new TextPane(TEXT)).with(textPane -> {
+                textPane.setWrapText(true);
+                textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
+                textPane.setVerticalAlignment(VerticalAlignment.CENTER);
+            }),
+            column(
+                glue(),
+                row(
+                    glue(),
+                    cell(new JButton("Press Me")),
+                    glue()
+                ),
+                glue()
+            )
         ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
-        setSize(240, 180);
+        setSize(320, 240);
         setVisible(true);
     }
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new ActionTest());
+        SwingUtilities.invokeLater(new StackTest());
     }
 }

@@ -12,9 +12,11 @@
  * limitations under the License.
  */
 
-package org.httprpc.sierra;
+package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.ActivityIndicator;
+import org.httprpc.sierra.TaskExecutor;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;

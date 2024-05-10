@@ -12,9 +12,12 @@
  * limitations under the License.
  */
 
-package org.httprpc.sierra;
+package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.DatePicker;
+import org.httprpc.sierra.TimePicker;
+import org.httprpc.sierra.VerticalAlignment;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;

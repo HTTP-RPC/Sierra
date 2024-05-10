@@ -12,9 +12,10 @@
  * limitations under the License.
  */
 
-package org.httprpc.sierra
+package org.httprpc.sierra.test
 
 import com.formdev.flatlaf.FlatLightLaf
+import org.httprpc.sierra.*
 import java.awt.Color
 import java.awt.Image
 import java.io.IOException

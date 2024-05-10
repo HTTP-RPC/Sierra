@@ -65,7 +65,7 @@ The resulting output is shown below:
 
 <img src="README/greeting.png" width="432px"/>
 
-The complete source code for this example can be found [here](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GreetingTest.java).
+The complete source code for this example can be found [here](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
 
 ### Cell Alignment
 When grid alignment is enabled in a `ColumnPanel`, the sub-components (or "cells") of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each sub-column is determined as the maximum preferred width of the cells in that column (i.e. the components having the same index in each row).
@@ -80,7 +80,7 @@ The `MenuButton` component displays a popup menu when pressed. For example:
 
 <img src="README/menu-button.png" width="210px"/>
 
-See [MenuButtonTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/MenuButtonTest.java) for more information.
+See [MenuButtonTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/MenuButtonTest.java) for more information.
 
 ### Date and Time Pickers
 The `DatePicker` and `TimePicker` components allow a user to select a local date and time, respectively:
@@ -88,14 +88,14 @@ The `DatePicker` and `TimePicker` components allow a user to select a local date
 <img src="README/date-picker.png" width="298px"/>
 <img src="README/time-picker.png" width="298px"/>
 
-These classes are localized. See [DateTimePickerTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/DateTimePickerTest.java) for more information.
+These classes are localized. See [DateTimePickerTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/DateTimePickerTest.java) for more information.
 
 ### Activity Indicators
 The `ActivityIndicator` component shows indeterminate progress:
 
 <img src="README/activity-indicator.png" width="157px"/>
 
-See [ActivityIndicatorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/ActivityIndicatorTest.java) for more information.
+See [ActivityIndicatorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/ActivityIndicatorTest.java) for more information.
 
 ## Focus Management
 The `ScrollingKeyboardFocusManager` class ensures that components are automatically scrolled into view when focused (something that Swing oddly does not do by default). It can be installed at application startup as follows:
@@ -104,7 +104,7 @@ The `ScrollingKeyboardFocusManager` class ensures that components are automatica
 KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
 ```
 
-See [FormTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/FormTest.java) for more information.
+See [FormTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java) for more information.
 
 ## Task Execution
 The `TaskExecutor` class performs a task in the background and and invokes a callback on the UI thread when the task is complete:
@@ -128,7 +128,7 @@ taskExecutor.execute(() -> {
 });
 ```
 
-Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/TaskExecutorTest.java) for more information.
+Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/TaskExecutorTest.java) for more information.
 
 # Examples
 This section includes examples demonstrating usage of `UIBuilder` with the [Flat](https://github.com/JFormDesigner/FlatLaf) look-and-feel.
@@ -136,71 +136,71 @@ This section includes examples demonstrating usage of `UIBuilder` with the [Flat
 ## Border Layout
 Inspired by the [border layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/border.html) tutorial example.
 
-[BorderTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BorderTest.java)
+[BorderTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/BorderTest.java)
 
 <img src="README/border.png" width="592px"/>
 
 ## Component Orientation
 Inspired by the [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/flow.html) tutorial example.
 
-[OrientationTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/OrientationTest.java)
+[OrientationTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/OrientationTest.java)
 
 <img src="README/orientation.png" width="451px"/>
 
 ## Baseline Alignment
 Demonstrates baseline alignment.
 
-[BaselineTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BaselineTest.java)
+[BaselineTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/BaselineTest.java)
 
 <img src="README/baseline.png" width="348px"/>
 
 ## Box Alignment
 Demonstrates box alignment.
 
-[BoxTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/BoxTest.java)
+[BoxTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/BoxTest.java)
 
 <img src="README/box.png" width="547px"/>
 
 ## Grid Alignment
 Demonstrates grid alignment.
 
-[FormTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/FormTest.java)
+[FormTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java)
 
 <img src="README/form.png" width="592px"/>
 
-[GridTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/GridTest.java)
+[GridTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/GridTest.java)
 
 <img src="README/grid.png" width="432px"/>
 
-[AlignmentTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/AlignmentTest.java)
+[AlignmentTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/AlignmentTest.java)
 
 <img src="README/alignment.png" width="332px"/>
 
 ## Action Handling
 Demonstrates associating an action handler with a button.
 
-[ActionTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/ActionTest.java)
+[ActionTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/ActionTest.java)
 
 <img src="README/action.png" width="352px"/>
 
 ## Button Group
 Demonstrates a button group.
 
-[ButtonGroupTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/ButtonGroupTest.java)
+[ButtonGroupTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/ButtonGroupTest.java)
 
 <img src="README/button-group.png" width="432px"/>
 
 ## Cell Renderer
 Demonstrates a custom cell renderer.
 
-[CellRendererTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/CellRendererTest.java)
+[CellRendererTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/CellRendererTest.java)
 
 <img src="README/cell-renderer.png" width="532px"/>
 
 ## Periodic Table
 Inspired by Wikipedia's [classification of the elements](https://en.wikipedia.org/wiki/Periodic_table#Classification_of_elements).
 
-[PeriodicTableTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/PeriodicTableTest.java)
+[PeriodicTableTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/PeriodicTableTest.java)
 
 <img src="README/periodic-table.png" width="1060px"/>
 
@@ -218,7 +218,7 @@ These functions can be used to declare spacer elements:
 
 A `weightBy()` function is added to `JComponent` to facilitate dynamic resizing.
 
-For [example](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/KotlinTest.kt):
+For [example](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/KotlinTest.kt):
 
 <img src="README/kotlin.png" width="472px"/>
 
