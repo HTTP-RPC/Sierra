@@ -218,7 +218,7 @@ These functions can be used to declare spacer elements:
 
 A `weightBy()` function is added to `JComponent` to facilitate dynamic resizing.
 
-For [example](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/KotlinTest.kt):
+For [example](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/kotlin/org/httprpc/sierra/test/KotlinTest.kt):
 
 <img src="README/kotlin.png" width="472px"/>
 
