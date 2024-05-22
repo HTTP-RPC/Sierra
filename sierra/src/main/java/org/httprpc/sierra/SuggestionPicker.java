@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Text field that provides a list of suggestions.
+ * Text field that provides a list of suggested values.
  */
 public class SuggestionPicker extends Picker {
     private class TimePickerListModel implements ListModel<String> {
