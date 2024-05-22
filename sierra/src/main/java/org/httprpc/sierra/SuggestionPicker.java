@@ -27,7 +27,7 @@ import java.util.List;
  * Text field that provides a list of suggested values.
  */
 public class SuggestionPicker extends Picker {
-    private class TimePickerListModel implements ListModel<String> {
+    private class SuggestionPickerListModel implements ListModel<String> {
         @Override
         public int getSize() {
             return suggestions.size();
@@ -128,7 +128,7 @@ public class SuggestionPicker extends Picker {
     protected JComponent getPopupComponent() {
         var list = new JList<String>();
 
-        list.setModel(new TimePickerListModel());
+        list.setModel(new SuggestionPickerListModel());
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setVisibleRowCount(Math.min(suggestions.size(), maximumRowCount));
         list.setFocusable(false);
