@@ -112,7 +112,8 @@ public class SuggestionPicker extends Picker {
     }
 
     /**
-     * Returns {@code true}.
+     * Returns {@code true} if the suggestion list is not empty;
+     * {@code false}, otherwise.
      * {@inheritDoc}
      */
     @Override
