@@ -48,6 +48,8 @@ public class SuggestionPickerTest extends JFrame implements Runnable {
                         "medium",
                         "large"
                     ));
+
+                    suggestionPicker.addActionListener(event -> System.out.println(suggestionPicker.getText()));
                 })
             ),
             row(4,
@@ -65,6 +67,8 @@ public class SuggestionPickerTest extends JFrame implements Runnable {
                     ));
 
                     suggestionPicker.setMaximumRowCount(4);
+
+                    suggestionPicker.addActionListener(event -> System.out.println(suggestionPicker.getText()));
                 })
             ),
             glue()
