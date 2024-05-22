@@ -179,8 +179,8 @@ public class DatePicker extends Picker {
 
     private LocalDate date = null;
 
-    private LocalDate minimumDate;
-    private LocalDate maximumDate;
+    private LocalDate minimumDate = null;
+    private LocalDate maximumDate = null;
 
     private final InputVerifier inputVerifier = new InputVerifier() {
         @Override

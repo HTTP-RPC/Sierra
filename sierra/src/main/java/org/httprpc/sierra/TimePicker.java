@@ -302,7 +302,6 @@ public class TimePicker extends Picker {
         list.setModel(new TimePicker.TimePickerListModel());
         list.setSelectionModel(new TimePicker.TimePickerListSelectionModel());
         list.setCellRenderer(new TimePicker.TimePickerListCellRenderer());
-
         list.setVisibleRowCount(8);
         list.setFocusable(false);
 

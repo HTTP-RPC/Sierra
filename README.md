@@ -3,7 +3,7 @@
 [![javadoc](https://javadoc.io/badge2/org.httprpc/sierra/javadoc.svg)](https://javadoc.io/doc/org.httprpc/sierra)
 
 # Introduction
-Sierra is an open-source framework for simplifying development of Java Swing applications. It is extremely lightweight (less than 62KB) and has no external dependencies. The project's name comes from the nautical _S_ or _Sierra_ flag, representing the first letter in "Swing":
+Sierra is an open-source framework for simplifying development of Java Swing applications. It is extremely lightweight (less than 65KB) and has no external dependencies. The project's name comes from the nautical _S_ or _Sierra_ flag, representing the first letter in "Swing":
 
 ![](sierra.png)
 
@@ -89,6 +89,13 @@ The `DatePicker` and `TimePicker` components allow a user to select a local date
 <img src="README/time-picker.png" width="298px"/>
 
 These classes are localized. See [DateTimePickerTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/DateTimePickerTest.java) for more information.
+
+### Suggestion Pickers
+The `SuggestionPicker` component allows a user to select from a list of predefined values: 
+
+<img src="README/suggestion-picker.png" width="289px"/>
+
+See [SuggestionPickerTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/SuggestionPickerTest.java) for more information.
 
 ### Activity Indicators
 The `ActivityIndicator` component shows indeterminate progress:
