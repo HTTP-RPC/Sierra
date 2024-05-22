@@ -314,7 +314,7 @@ public class TimePicker extends Picker {
 
             super.fireActionPerformed();
 
-            getRootPane().requestFocus();
+            hidePopup();
         });
 
         return scrollPane;

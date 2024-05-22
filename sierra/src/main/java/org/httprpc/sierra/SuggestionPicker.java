@@ -142,7 +142,7 @@ public class SuggestionPicker extends Picker {
 
             super.fireActionPerformed();
 
-            getRootPane().requestFocus();
+            hidePopup();
         });
 
         return scrollPane;

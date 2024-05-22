@@ -68,7 +68,7 @@ public class DatePicker extends Picker {
 
                 DatePicker.super.fireActionPerformed();
 
-                DatePicker.this.getRootPane().requestFocus();
+                hidePopup();
             }
         }
 

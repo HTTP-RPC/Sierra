@@ -135,7 +135,7 @@ public abstract class Picker extends JTextField {
 
         return false;
     }
-  
+
     /**
      * Processes a key event.
      * {@inheritDoc}
@@ -165,7 +165,10 @@ public abstract class Picker extends JTextField {
      */
     protected abstract JComponent getPopupComponent();
 
-    private void showPopup() {
+    /**
+     * Shows the popup.
+     */
+    protected void showPopup() {
         if (popup != null || !isPopupEnabled()) {
             return;
         }
@@ -204,7 +207,10 @@ public abstract class Picker extends JTextField {
         addHierarchyBoundsListener(hierarchyBoundsListener);
     }
 
-    private void hidePopup() {
+    /**
+     * Hides the popup.
+     */
+    protected void hidePopup() {
         if (popup == null) {
             return;
         }

@@ -19,6 +19,7 @@ import org.httprpc.sierra.SuggestionPicker;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.util.Arrays;
@@ -35,6 +36,10 @@ public class SuggestionPickerTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(column(4, true,
+            row(4,
+                cell(new JLabel("Quantity")),
+                cell(new JTextField(18))
+            ),
             row(4,
                 cell(new JLabel("Size")),
                 cell(new SuggestionPicker(18)).with(suggestionPicker -> {
