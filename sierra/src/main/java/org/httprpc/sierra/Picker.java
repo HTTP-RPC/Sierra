@@ -31,8 +31,8 @@ public abstract class Picker extends JTextField {
     private HorizontalAlignment popupHorizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
 
-    private Popup popup = null;
     private JComponent popupComponent = null;
+    private Popup popup = null;
 
     private HierarchyBoundsListener hierarchyBoundsListener = new HierarchyBoundsListener() {
         @Override
