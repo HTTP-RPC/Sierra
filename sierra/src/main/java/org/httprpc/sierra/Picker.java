@@ -36,13 +36,13 @@ public abstract class Picker extends JTextField {
 
     private HierarchyBoundsListener hierarchyBoundsListener = new HierarchyBoundsListener() {
         @Override
-        public void ancestorMoved(HierarchyEvent e) {
+        public void ancestorMoved(HierarchyEvent event) {
             hidePopup();
         }
 
         @Override
-        public void ancestorResized(HierarchyEvent e) {
-            hidePopup();
+        public void ancestorResized(HierarchyEvent event) {
+            // No-op
         }
     };
 
