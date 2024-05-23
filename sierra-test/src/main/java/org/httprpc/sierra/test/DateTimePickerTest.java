@@ -60,28 +60,26 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                 cell(new DatePicker()).with(datePicker -> {
                     var now = LocalDate.now();
 
-                    datePicker.setDate(now);
                     datePicker.setMinimumDate(now.minusMonths(3));
                     datePicker.setMaximumDate(now.plusMonths(3));
+
                     datePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
 
                     datePicker.addActionListener(event -> showSelection(dateFormatter, datePicker.getDate()));
                 }),
-                cell(new TimePicker()).with(timePicker -> {
-                    var now = LocalTime.now();
-
-                    timePicker.setTime(now);
+                cell(new TimePicker(30)).with(timePicker -> {
                     timePicker.setMinimumTime(LocalTime.of(6, 0));
                     timePicker.setMaximumTime(LocalTime.of(18, 0));
+
                     timePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
 
                     timePicker.addActionListener(event -> showSelection(timeFormatter, timePicker.getTime()));
                 }),
                 cell(new JSeparator(SwingConstants.VERTICAL)),
-                cell(new TimePicker(30)).with(timePicker -> {
-                    timePicker.setTime(LocalTime.of(14, 30));
+                cell(new TimePicker()).with(timePicker -> {
                     timePicker.setMinimumTime(LocalTime.of(6, 0));
                     timePicker.setMaximumTime(LocalTime.of(18, 0));
+
                     timePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
 
                     timePicker.addActionListener(event -> showSelection(timeFormatter, timePicker.getTime()));

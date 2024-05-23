@@ -18,8 +18,7 @@ import java.awt.Component;
 import java.util.function.Consumer;
 
 /**
- * Provides static factory methods for declaratively constructing a component
- * hierarchy.
+ * Provides methods for declaratively constructing a component hierarchy.
  */
 public class UIBuilder {
     /**
@@ -64,22 +63,18 @@ public class UIBuilder {
         }
 
         /**
-         * Applies consumers to a cell's component.
+         * Applies initializers to a cell's component.
          *
-         * @param consumers
-         * The consumers to apply.
+         * @param initializers
+         * The initializers to apply.
          *
          * @return
          * The cell instance.
          */
         @SafeVarargs
-        public final Cell<C> with(Consumer<? super C>... consumers) {
-            if (consumers == null) {
-                throw new IllegalArgumentException();
-            }
-
-            for (var i = 0; i < consumers.length; i++) {
-                consumers[i].accept(component);
+        public final Cell<C> with(Consumer<C>... initializers) {
+            for (var i = 0; i < initializers.length; i++) {
+                initializers[i].accept(component);
             }
 
             return this;
@@ -115,10 +110,6 @@ public class UIBuilder {
      * The cell instance.
      */
     public static Cell<RowPanel> row(Cell<?>... cells) {
-        if (cells == null) {
-            throw new IllegalArgumentException();
-        }
-
         return cell(populate(new RowPanel(), cells));
     }
 
@@ -186,10 +177,6 @@ public class UIBuilder {
      * The cell instance.
      */
     public static Cell<ColumnPanel> column(Cell<?>... cells) {
-        if (cells == null) {
-            throw new IllegalArgumentException();
-        }
-
         return cell(populate(new ColumnPanel(), cells));
     }
 
@@ -271,7 +258,7 @@ public class UIBuilder {
     }
 
     /**
-     * Declares a flexible spacer cell with a weight of 1.0.
+     * Declares a flexible spacer cell.
      *
      * @return
      * The cell instance.
@@ -281,7 +268,7 @@ public class UIBuilder {
     }
 
     /**
-     * Declares a flexible spacer cell with a given weight.
+     * Declares a flexible spacer cell.
      *
      * @param weight
      * The cell weight.
@@ -303,10 +290,6 @@ public class UIBuilder {
      * The cell instance.
      */
     public static Cell<StackPanel> stack(Cell<?>... cells) {
-        if (cells == null) {
-            throw new IllegalArgumentException();
-        }
-
         var panel = new StackPanel();
 
         for (var i = cells.length - 1; i >= 0; i--) {

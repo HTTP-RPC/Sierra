@@ -37,7 +37,7 @@ public static <C extends Component> Cell<C> cell(C component) { ... }
 The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
 
 * `weightBy()` - specifies the amount of excess space in a container that should be allocated to the component, relative to other weighted components
-* `with()` - accepts a callback that can be used to set properties or invoke methods on the component
+* `with()` - accepts initialization callbacks that can be used to set properties or invoke methods on the component
 
 A reference to the configured component can be obtained via `Cell#getComponent()`.
 
@@ -85,8 +85,8 @@ See [MenuButtonTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-
 ### Date and Time Pickers
 The `DatePicker` and `TimePicker` components allow a user to select a local date and time, respectively:
 
-<img src="README/date-picker.png" width="298px"/>
-<img src="README/time-picker.png" width="298px"/>
+<img src="README/date-picker.png" width="292px"/>
+<img src="README/time-picker.png" width="292px"/>
 
 These classes are localized. See [DateTimePickerTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/DateTimePickerTest.java) for more information.
 

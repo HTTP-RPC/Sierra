@@ -155,6 +155,10 @@ public class TimePicker extends Picker {
         this.minuteInterval = minuteInterval;
 
         setInputVerifier(inputVerifier);
+
+        var now = LocalTime.now();
+
+        setTime(LocalTime.of(now.getHour(), (now.getMinute() / minuteInterval) * minuteInterval));
     }
 
     /**
@@ -184,15 +188,11 @@ public class TimePicker extends Picker {
      * The selected time.
      */
     public void setTime(LocalTime time) {
-        if (time == null) {
-            super.setText(null);
-        } else {
-            if (!validate(time)) {
-                throw new IllegalArgumentException();
-            }
-
-            super.setText(timeFormatter.format(time));
+        if (time == null || !validate(time)) {
+            throw new IllegalArgumentException();
         }
+
+        super.setText(timeFormatter.format(time));
 
         this.time = truncate(time);
     }
@@ -264,15 +264,6 @@ public class TimePicker extends Picker {
     }
 
     /**
-     * Throws {@link UnsupportedOperationException}.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setText(String text) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
      * Verifies the contents of the text field.
      * {@inheritDoc}
      */
@@ -327,6 +318,6 @@ public class TimePicker extends Picker {
     }
 
     private static LocalTime truncate(LocalTime time) {
-        return (time == null) ? null : time.withSecond(0).withNano(0);
+        return time.withSecond(0).withNano(0);
     }
 }

@@ -216,6 +216,8 @@ public class DatePicker extends Picker {
         super(8);
 
         setInputVerifier(inputVerifier);
+
+        setDate(LocalDate.now());
     }
 
     /**
@@ -235,15 +237,11 @@ public class DatePicker extends Picker {
      * The selected date.
      */
     public void setDate(LocalDate date) {
-        if (date == null) {
-            super.setText(null);
-        } else {
-            if (!validate(date)) {
-                throw new IllegalArgumentException();
-            }
-
-            super.setText(dateFormatter.format(date));
+        if (date == null || !validate(date)) {
+            throw new IllegalArgumentException();
         }
+
+        super.setText(dateFormatter.format(date));
 
         this.date = date;
     }
@@ -311,15 +309,6 @@ public class DatePicker extends Picker {
         }
 
         this.maximumDate = maximumDate;
-    }
-
-    /**
-     * Throws {@link UnsupportedOperationException}.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setText(String text) {
-        throw new UnsupportedOperationException();
     }
 
     /**
