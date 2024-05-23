@@ -71,8 +71,8 @@ public class DateTimePickerTest extends JFrame implements Runnable {
                     var now = LocalTime.now();
 
                     timePicker.setTime(now);
-                    timePicker.setMinimumTime(now.minusHours(3));
-                    timePicker.setMaximumTime(now.plusHours(3));
+                    timePicker.setMinimumTime(LocalTime.of(6, 0));
+                    timePicker.setMaximumTime(LocalTime.of(18, 0));
                     timePicker.setPopupVerticalAlignment(VerticalAlignment.TOP);
 
                     timePicker.addActionListener(event -> showSelection(timeFormatter, timePicker.getTime()));
