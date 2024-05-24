@@ -62,8 +62,6 @@ public class DatePicker extends Picker {
 
             @Override
             protected void fireActionPerformed(ActionEvent event) {
-                super.fireActionPerformed(event);
-
                 setDate(date);
 
                 DatePicker.super.fireActionPerformed();
@@ -193,17 +191,19 @@ public class DatePicker extends Picker {
                 }
 
                 if (!validate(date)) {
+                    selectAll();
+
                     return false;
                 }
 
                 DatePicker.this.date = date;
 
                 DatePicker.super.fireActionPerformed();
-
-                return true;
             } catch (DateTimeParseException exception) {
-                return false;
+                setText(dateFormatter.format(date));
             }
+
+            return true;
         }
     };
 

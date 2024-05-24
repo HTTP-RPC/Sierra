@@ -116,17 +116,19 @@ public class TimePicker extends Picker {
                 }
 
                 if (!validate(time)) {
+                    selectAll();
+
                     return false;
                 }
 
                 TimePicker.this.time = time;
 
                 TimePicker.super.fireActionPerformed();
-
-                return true;
             } catch (DateTimeParseException exception) {
-                return false;
+                setText(timeFormatter.format(time));
             }
+
+            return true;
         }
     };
 
