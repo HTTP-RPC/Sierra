@@ -192,7 +192,7 @@ public class TimePicker extends Picker {
             throw new IllegalArgumentException();
         }
 
-        super.setText(timeFormatter.format(time));
+        setText(timeFormatter.format(time));
 
         this.time = truncate(time);
     }

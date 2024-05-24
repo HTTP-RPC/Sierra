@@ -241,7 +241,7 @@ public class DatePicker extends Picker {
             throw new IllegalArgumentException();
         }
 
-        super.setText(dateFormatter.format(date));
+        setText(dateFormatter.format(date));
 
         this.date = date;
     }
