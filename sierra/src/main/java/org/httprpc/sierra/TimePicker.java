@@ -300,6 +300,8 @@ public class TimePicker extends Picker {
 
         var scrollPane = new JScrollPane(list);
 
+        scrollPane.setBorder(null);
+
         list.setSelectedValue(time, true);
 
         list.addListSelectionListener(event -> {
