@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -103,6 +104,13 @@ public class FormTest extends JFrame implements Runnable {
             row(true,
                 cell(new JLabel("Field 4")).with(labelStyle),
                 cell(new JTextField(null, 12)).with(textFieldStyle)
+            ),
+
+            cell(new JSeparator()),
+
+            row(
+                cell(new JLabel("Notes")).with(labelStyle).with(label -> label.setAlignmentY(0.0f)),
+                cell(new JScrollPane(new JTextArea(4, 20)))
             )
         ).with(viewportView -> viewportView.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
 
