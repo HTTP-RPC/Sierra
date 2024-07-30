@@ -60,8 +60,8 @@ public class GridTest extends JFrame implements Runnable {
                 row(true,
                     cell(new JLabel("xyz")).with(labelStyle),
                     column(4,
-                        cell(new TextPane(TEXT)).with(textPaneStyle, textPane -> textPane.setVerticalAlignment(VerticalAlignment.CENTER)),
-                        cell(new TextPane(TEXT)).with(textPaneStyle, textPane -> textPane.setVerticalAlignment(VerticalAlignment.BOTTOM))
+                        cell(new TextPane(TEXT)).with(textPaneStyle.andThen(textPane -> textPane.setVerticalAlignment(VerticalAlignment.CENTER))),
+                        cell(new TextPane(TEXT)).with(textPaneStyle.andThen(textPane -> textPane.setVerticalAlignment(VerticalAlignment.BOTTOM)))
                     ).weightBy(1.0)
                 )
             ),

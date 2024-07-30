@@ -69,35 +69,35 @@ public class ButtonGroupTest extends JFrame implements Runnable {
         setContentPane(column(8,
             row(8,
                 row(
-                    cell(new JToggleButton(alignLeftIcon)).with(buttonStyle, buttonGroup::add, button -> {
+                    cell(new JToggleButton(alignLeftIcon)).with(buttonStyle.andThen(buttonGroup::add).andThen(button -> {
                         button.addActionListener(event -> updateSelection());
 
                         alignLeftButton = button;
-                    }),
+                    })),
 
                     cell(new JSeparator(SwingConstants.VERTICAL)),
 
-                    cell(new JToggleButton(alignCenterIcon)).with(buttonStyle, buttonGroup::add, button -> {
+                    cell(new JToggleButton(alignCenterIcon)).with(buttonStyle.andThen(buttonGroup::add).andThen(button -> {
                         button.addActionListener(event -> updateSelection());
 
                         alignCenterButton = button;
-                    }),
+                    })),
 
                     cell(new JSeparator(SwingConstants.VERTICAL)),
 
-                    cell(new JToggleButton(alignRightIcon)).with(buttonStyle, buttonGroup::add, button -> {
+                    cell(new JToggleButton(alignRightIcon)).with(buttonStyle.andThen(buttonGroup::add).andThen(button -> {
                         button.addActionListener(event -> updateSelection());
 
                         alignRightButton = button;
-                    }),
+                    })),
 
                     cell(new JSeparator(SwingConstants.VERTICAL)),
 
-                    cell(new JToggleButton(alignJustifyIcon)).with(buttonStyle, buttonGroup::add, button -> {
+                    cell(new JToggleButton(alignJustifyIcon)).with(buttonStyle.andThen(buttonGroup::add).andThen(button -> {
                         button.addActionListener(event -> updateSelection());
 
                         alignJustifyButton = button;
-                    })
+                    }))
                 ).with(row -> row.setBorder(new FlatLineBorder(new Insets(2, 2, 2, 2), Color.LIGHT_GRAY, 1, 8))),
 
                 cell(new JLabel()).with(label -> selectionLabel = label)

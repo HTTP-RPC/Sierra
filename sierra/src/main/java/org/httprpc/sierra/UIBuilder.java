@@ -63,19 +63,20 @@ public class UIBuilder {
         }
 
         /**
-         * Applies initializers to a cell's component.
+         * Applies an initializer to a cell's component.
          *
-         * @param initializers
-         * The initializers to apply.
+         * @param initializer
+         * The initializer to apply.
          *
          * @return
          * The cell instance.
          */
-        @SafeVarargs
-        public final Cell<C> with(Consumer<C>... initializers) {
-            for (var i = 0; i < initializers.length; i++) {
-                initializers[i].accept(component);
+        public final Cell<C> with(Consumer<C> initializer) {
+            if (initializer == null) {
+                throw new IllegalArgumentException();
             }
+
+            initializer.accept(component);
 
             return this;
         }
