@@ -12,9 +12,4 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'org.jetbrains.kotlin.jvm'
-    id 'org.jetbrains.dokka' version '1.9.20'
-}
-
 apply from: rootProject.file('publish.gradle')

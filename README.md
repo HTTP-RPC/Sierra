@@ -13,7 +13,6 @@ This guide introduces the Sierra framework and provides an overview of its key f
 * [Getting Sierra](#getting-sierra)
 * [Sierra Classes](#sierra-classes)
 * [Examples](#examples)
-* [Kotlin Support](#kotlin-support)
 * [Additional Information](#additional-information)
 
 # Getting Sierra
@@ -37,7 +36,7 @@ public static <C extends Component> Cell<C> cell(C component) { ... }
 The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
 
 * `weightBy()` - specifies the amount of excess space in a container that should be allocated to the component, relative to other weighted components
-* `with()` - accepts initialization callbacks that can be used to set properties or invoke methods on the component
+* `with()` - accepts an initialization callback that can be used to set properties or invoke methods on the component
 
 A reference to the configured component can be obtained via `Cell#getComponent()`.
 
@@ -210,24 +209,6 @@ Inspired by Wikipedia's [classification of the elements](https://en.wikipedia.or
 [PeriodicTableTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/PeriodicTableTest.java)
 
 <img src="README/periodic-table.png" width="1060px"/>
-
-# Kotlin Support
-Sierra-based user interfaces can be also constructed using the [Kotlin](https://kotlinlang.org) programming language. Sierra provides the following functions for declaring layout containers:
-
-* `row()`
-* `column()`
-* `stack()`
-
-These functions can be used to declare spacer elements:
-
-* `strut()`
-* `glue()`
-
-A `weightBy()` function is added to `JComponent` to facilitate dynamic resizing.
-
-For [example](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/kotlin/org/httprpc/sierra/test/KotlinTest.kt):
-
-<img src="README/kotlin.png" width="472px"/>
 
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).
