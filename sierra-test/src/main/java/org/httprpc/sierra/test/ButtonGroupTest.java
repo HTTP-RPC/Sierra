@@ -69,32 +69,36 @@ public class ButtonGroupTest extends JFrame implements Runnable {
         setContentPane(column(8,
             row(8,
                 row(
-                    cell(new JToggleButton(alignLeftIcon)).with(buttonStyle.andThen(buttonGroup::add).andThen(button -> {
+                    cell(new JToggleButton(alignLeftIcon)).with(buttonStyle.andThen(button -> {
                         button.addActionListener(event -> updateSelection());
+                        buttonGroup.add(button);
 
                         alignLeftButton = button;
                     })),
 
                     cell(new JSeparator(SwingConstants.VERTICAL)),
 
-                    cell(new JToggleButton(alignCenterIcon)).with(buttonStyle.andThen(buttonGroup::add).andThen(button -> {
+                    cell(new JToggleButton(alignCenterIcon)).with(buttonStyle.andThen(button -> {
                         button.addActionListener(event -> updateSelection());
+                        buttonGroup.add(button);
 
                         alignCenterButton = button;
                     })),
 
                     cell(new JSeparator(SwingConstants.VERTICAL)),
 
-                    cell(new JToggleButton(alignRightIcon)).with(buttonStyle.andThen(buttonGroup::add).andThen(button -> {
+                    cell(new JToggleButton(alignRightIcon)).with(buttonStyle.andThen(button -> {
                         button.addActionListener(event -> updateSelection());
+                        buttonGroup.add(button);
 
                         alignRightButton = button;
                     })),
 
                     cell(new JSeparator(SwingConstants.VERTICAL)),
 
-                    cell(new JToggleButton(alignJustifyIcon)).with(buttonStyle.andThen(buttonGroup::add).andThen(button -> {
+                    cell(new JToggleButton(alignJustifyIcon)).with(buttonStyle.andThen(button -> {
                         button.addActionListener(event -> updateSelection());
+                        buttonGroup.add(button);
 
                         alignJustifyButton = button;
                     }))
