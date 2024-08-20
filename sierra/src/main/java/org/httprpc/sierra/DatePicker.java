@@ -45,7 +45,7 @@ public class DatePicker extends Picker {
             LocalDate date = null;
 
             DateButton() {
-                super("00");
+                super("AA");
 
                 putClientProperty("JButton.buttonType", "toolBarButton");
 
