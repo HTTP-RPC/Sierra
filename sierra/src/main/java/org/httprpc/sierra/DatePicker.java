@@ -45,7 +45,7 @@ public class DatePicker extends Picker {
             LocalDate date = null;
 
             DateButton() {
-                super("00");
+                super("000"); // give enough space for hi-dpi screens
 
                 putClientProperty("JButton.buttonType", "toolBarButton");
 
