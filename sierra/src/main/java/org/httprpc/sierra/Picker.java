@@ -113,7 +113,11 @@ public abstract class Picker extends JTextField {
         super.processFocusEvent(event);
 
         switch (event.getID()) {
-            case FocusEvent.FOCUS_GAINED -> showPopup();
+            case FocusEvent.FOCUS_GAINED -> {
+                if (event.getCause() != FocusEvent.Cause.ACTIVATION) {
+                    showPopup();
+                }
+            }
             case FocusEvent.FOCUS_LOST -> {
                 if (!inPopup(event.getOppositeComponent())) {
                     hidePopup();
