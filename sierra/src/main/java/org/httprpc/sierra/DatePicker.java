@@ -175,7 +175,7 @@ public class DatePicker extends Picker {
         }
     }
 
-    private LocalDate date;
+    private LocalDate date = null;
 
     private LocalDate minimumDate = null;
     private LocalDate maximumDate = null;

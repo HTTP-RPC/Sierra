@@ -100,7 +100,7 @@ public class TimePicker extends Picker {
 
     private int minuteInterval;
 
-    private LocalTime time;
+    private LocalTime time = null;
 
     private LocalTime minimumTime = null;
     private LocalTime maximumTime = null;
