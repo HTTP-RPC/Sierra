@@ -25,9 +25,12 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListDataListener;
 import java.awt.Component;
 import java.time.LocalTime;
+import java.time.chrono.Chronology;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
+import java.util.Locale;
 
 /**
  * Text field that supports local time entry.
@@ -132,7 +135,15 @@ public class TimePicker extends Picker {
         }
     };
 
-    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+    private static final String pattern;
+    private static final DateTimeFormatter timeFormatter;
+
+    static {
+        var locale = Locale.getDefault();
+
+        pattern = DateTimeFormatterBuilder.getLocalizedDateTimePattern(null, FormatStyle.SHORT, Chronology.ofLocale(locale), locale);
+        timeFormatter = DateTimeFormatter.ofPattern(pattern);
+    }
 
     /**
      * Constructs a new time picker.
@@ -161,6 +172,8 @@ public class TimePicker extends Picker {
         var now = LocalTime.now();
 
         setTime(LocalTime.of(now.getHour(), (now.getMinute() / minuteInterval) * minuteInterval));
+
+        putClientProperty("JTextField.placeholderText", pattern);
     }
 
     /**
