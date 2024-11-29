@@ -25,7 +25,6 @@ import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.ComponentOrientation;
-import java.util.Locale;
 
 import static org.httprpc.sierra.UIBuilder.*;
 
@@ -91,9 +90,6 @@ public class OrientationTest extends JFrame implements Runnable {
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
-
-        // Deliberately set locale to one with RTL orientation.
-        Locale.setDefault(new Locale("ar", "SA"));
 
         SwingUtilities.invokeLater(new OrientationTest());
     }
