@@ -15,6 +15,6 @@
 dependencies {
     implementation project(':sierra')
 
-    implementation 'com.formdev:flatlaf:3.5.2:no-natives'
-    implementation 'com.formdev:flatlaf-extras:3.5.2'
+    implementation 'com.formdev:flatlaf:3.5.4:no-natives'
+    implementation 'com.formdev:flatlaf-extras:3.5.4'
 }
