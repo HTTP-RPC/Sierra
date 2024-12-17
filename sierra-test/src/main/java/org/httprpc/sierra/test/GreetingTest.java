@@ -15,45 +15,23 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import org.httprpc.sierra.HorizontalAlignment;
-import org.httprpc.sierra.ImagePane;
-import org.httprpc.sierra.TextPane;
+import org.httprpc.sierra.UILoader;
 
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.Image;
-import java.io.IOException;
-
-import static org.httprpc.sierra.UIBuilder.*;
+import javax.swing.*;
+import java.util.ResourceBundle;
 
 public class GreetingTest extends JFrame implements Runnable {
+    private static ResourceBundle resourceBundle = ResourceBundle.getBundle(GreetingTest.class.getName());
+
     private GreetingTest() {
-        super("Greeting Test");
+        super(resourceBundle.getString("title"));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        Image image;
-        try {
-            image = ImageIO.read(getClass().getResource("world.png"));
-        } catch (IOException exception) {
-            image = null;
-        }
-
-        setContentPane(column(4,
-            cell(new ImagePane(image)).with(imagePane -> imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH)),
-            cell(new TextPane("Hello, World!")).with(textPane -> textPane.setHorizontalAlignment(HorizontalAlignment.CENTER))
-        ).with(contentPane -> {
-            contentPane.setBackground(Color.WHITE);
-            contentPane.setOpaque(true);
-            contentPane.setBorder(new EmptyBorder(8, 8, 8, 8));
-        }).getComponent());
-
+        setContentPane(UILoader.load(this, "greeting-test.xml", resourceBundle));
         setSize(320, 480);
         setVisible(true);
     }
