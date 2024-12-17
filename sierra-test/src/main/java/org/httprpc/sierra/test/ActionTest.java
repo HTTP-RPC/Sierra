@@ -15,38 +15,33 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.UILoader;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-
-import static org.httprpc.sierra.UIBuilder.*;
+import java.util.ResourceBundle;
 
 public class ActionTest extends JFrame implements Runnable {
     private JLabel greetingLabel;
 
+    private static ResourceBundle resourceBundle = ResourceBundle.getBundle(ActionTest.class.getName());
+
     private ActionTest() {
-        super("Action Test");
+        super(resourceBundle.getString("title"));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(row(
-            glue(),
-            column(8,
-                cell(new JButton("Say Hello")).with(button -> button.addActionListener(event -> greetingLabel.setText("Hello, World!"))),
-                cell(new JLabel(null, null, SwingConstants.CENTER)).with(label -> greetingLabel = label)
-            ),
-            glue()
-        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
-
+        setContentPane(UILoader.load(this, "action-test.xml", resourceBundle));
         setSize(240, 180);
         setVisible(true);
+    }
+
+    private void sayHello() {
+        greetingLabel.setText(resourceBundle.getString("greeting"));
     }
 
     public static void main(String[] args) {
