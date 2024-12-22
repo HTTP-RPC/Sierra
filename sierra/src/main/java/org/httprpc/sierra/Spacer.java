@@ -23,6 +23,12 @@ import java.awt.Dimension;
 public class Spacer extends JComponent {
     /**
      * Constructs a new spacer.
+     */
+    public Spacer() {
+    }
+
+    /**
+     * Constructs a new spacer.
      *
      * @param size
      * The spacer's size.

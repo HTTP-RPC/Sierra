@@ -17,7 +17,9 @@ package org.httprpc.sierra.test;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.UILoader;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class GreetingTest extends JFrame implements Runnable {
@@ -31,7 +33,12 @@ public class GreetingTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "greeting-test.xml", resourceBundle));
+        try {
+            setContentPane(UILoader.load(this, "greeting-test.xml", resourceBundle));
+        } catch (IOException exception) {
+            return;
+        }
+
         setSize(320, 480);
         setVisible(true);
     }
