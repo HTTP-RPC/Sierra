@@ -32,6 +32,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Deque;
@@ -47,6 +48,8 @@ public class UILoader {
     private Object owner;
     private String name;
     private ResourceBundle resourceBundle;
+
+    private Map<String, Field> fields = new HashMap<>();
 
     private Deque<JComponent> components = new LinkedList<>();
 
@@ -81,9 +84,21 @@ public class UILoader {
     }
 
     private JComponent load() throws IOException {
+        var type = owner.getClass();
+
+        var fields = type.getDeclaredFields();
+
+        for (var i = 0; i < fields.length; i++) {
+            var field = fields[i];
+
+            if (JComponent.class.isAssignableFrom(field.getType())) {
+                this.fields.put(field.getName(), field);
+            }
+        }
+
         var xmlInputFactory = XMLInputFactory.newInstance();
 
-        try (var inputStream = owner.getClass().getResourceAsStream(name)) {
+        try (var inputStream = type.getResourceAsStream(name)) {
             var xmlStreamReader = xmlInputFactory.createXMLStreamReader(inputStream);
 
             while (xmlStreamReader.hasNext()) {
@@ -119,14 +134,23 @@ public class UILoader {
 
         for (int i = 0, n = xmlStreamReader.getAttributeCount(); i < n; i++) {
             var name = xmlStreamReader.getAttributeLocalName(i);
+            var value = xmlStreamReader.getAttributeValue(i);
 
             if (name.equals("name")) {
-                // TODO Inject member
-            } else if (name.startsWith("on")) {
-                // TODO Add event listener
-            } else {
-                var value = xmlStreamReader.getAttributeValue(i);
+                var field = fields.get(value);
 
+                if (field == null) {
+                    throw new IOException("Invalid field name.");
+                }
+
+                field.setAccessible(true);
+
+                try {
+                    field.set(owner, component);
+                } catch (IllegalAccessException exception) {
+                    throw new UnsupportedOperationException(exception);
+                }
+            } else {
                 if (name.equals("weight")) {
                     constraints = Double.valueOf(value);
                 } else if (name.equals("size")) {

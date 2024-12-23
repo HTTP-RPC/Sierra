@@ -17,6 +17,7 @@ package org.httprpc.sierra.test;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.UILoader;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class ActionTest extends JFrame implements Runnable {
+    private JButton greetingButton;
     private JLabel greetingLabel;
 
     private static ResourceBundle resourceBundle = ResourceBundle.getBundle(ActionTest.class.getName());
@@ -42,6 +44,8 @@ public class ActionTest extends JFrame implements Runnable {
             exception.printStackTrace(System.out);
             return;
         }
+
+        greetingButton.addActionListener(event -> sayHello());
 
         setSize(240, 180);
         setVisible(true);

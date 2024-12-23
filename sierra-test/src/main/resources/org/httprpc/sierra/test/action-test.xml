@@ -4,7 +4,7 @@
     <spacer weight="1"/>
 
     <column-panel spacing="8">
-        <button text="prompt" onAction="sayHello"/>
+        <button name="greetingButton" text="prompt"/>
         <label name="greetingLabel" horizontalAlignment="center"/>
     </column-panel>
 
