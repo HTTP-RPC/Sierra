@@ -187,7 +187,7 @@ public class UILoader {
 
                         argument = value;
                     } else if (type == Color.class) {
-                        argument = parseColor(value);
+                        argument = Color.decode(value);
                     } else if (type == Border.class) {
                         argument = parseBorder(value);
                     } else if (type == HorizontalAlignment.class) {
@@ -238,14 +238,9 @@ public class UILoader {
         components.push(component);
     }
 
-    private static Color parseColor(String value) {
-        // TODO
-        return Color.RED;
-    }
-
     private static Border parseBorder(String value) {
         // TODO
-        return new EmptyBorder(0, 0, 0, 0);
+        return new EmptyBorder(8, 8, 8, 8);
     }
 
     private void processEndElement() {

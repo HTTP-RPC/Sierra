@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<column-panel opaque="true" background="white" border="empty(8, 8, 8, 8)">
+<column-panel opaque="true" background="#ffffff" border="empty(8, 8, 8, 8)">
     <image-pane image="world.png" scaleMode="fill-width"/>
     <text-pane text = "$greeting" horizontalAlignment="center"/>
 </column-panel>
