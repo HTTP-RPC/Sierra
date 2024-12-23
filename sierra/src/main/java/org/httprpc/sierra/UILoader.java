@@ -14,12 +14,14 @@
 
 package org.httprpc.sierra;
 
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -127,18 +129,9 @@ public class UILoader {
                 var value = xmlStreamReader.getAttributeValue(i);
 
                 if (name.equals("weight")) {
-                    try {
-                        constraints = Double.valueOf(value);
-                    } catch (NumberFormatException exception) {
-                        throw new IOException("Invalid weight value.", exception);
-                    }
+                    constraints = Double.valueOf(value);
                 } else if (name.equals("size")) {
-                    int size;
-                    try {
-                        size = Integer.parseInt(value);
-                    } catch (NumberFormatException exception) {
-                        throw new IOException("Invalid size value.", exception);
-                    }
+                    var size = Integer.parseInt(value);
 
                     component.setPreferredSize(new Dimension(size, size));
                 } else {
@@ -154,34 +147,31 @@ public class UILoader {
                     if (type == Boolean.TYPE || type == Boolean.class) {
                         argument = Boolean.valueOf(value);
                     } else if (type == Integer.TYPE || type == Integer.class) {
-                        if (name.equals("horizontalAlignment") || name.equals("verticalAlignment")) {
-                            // TODO
-                            argument = SwingConstants.CENTER;
+                        if (name.equals("horizontalAlignment")) {
+                            argument = switch (value) {
+                                case "left" -> SwingConstants.LEFT;
+                                case "center" -> SwingConstants.CENTER;
+                                case "right" -> SwingConstants.RIGHT;
+                                case "leading" -> SwingConstants.LEADING;
+                                case "trailing" -> SwingConstants.TRAILING;
+                                default -> throw new IllegalArgumentException("Invalid horizontal alignment.");
+                            };
+                        } else if (name.equals("verticalAlignment")) {
+                            argument = switch (value) {
+                                case "top" -> SwingConstants.TOP;
+                                case "center" -> SwingConstants.CENTER;
+                                case "bottom" -> SwingConstants.BOTTOM;
+                                default -> throw new IllegalArgumentException("Invalid vertical alignment.");
+                            };
                         } else {
-                            try {
-                                argument = Integer.valueOf(value);
-                            } catch (NumberFormatException exception) {
-                                throw new IOException("Invalid integer value.", exception);
-                            }
+                            argument = Integer.valueOf(value);
                         }
                     } else if (type == Long.TYPE || type == Long.class) {
-                        try {
-                            argument = Long.valueOf(value);
-                        } catch (NumberFormatException exception) {
-                            throw new IOException("Invalid long value.", exception);
-                        }
+                        argument = Long.valueOf(value);
                     } else if (type == Float.TYPE || type == Float.class) {
-                        try {
-                            argument = Float.valueOf(value);
-                        } catch (NumberFormatException exception) {
-                            throw new IOException("Invalid float value.", exception);
-                        }
+                        argument = Float.valueOf(value);
                     } else if (type == Double.TYPE || type == Double.class) {
-                        try {
-                            argument = Double.valueOf(value);
-                        } catch (NumberFormatException exception) {
-                            throw new IOException("Invalid double value.", exception);
-                        }
+                        argument = Double.valueOf(value);
                     } else if (type == String.class) {
                         if (value.startsWith(RESOURCE_PREFIX)) {
                             value = value.substring(RESOURCE_PREFIX.length());
@@ -197,26 +187,35 @@ public class UILoader {
 
                         argument = value;
                     } else if (type == Color.class) {
-                        // TODO Parse color
-                        continue;
+                        argument = parseColor(value);
                     } else if (type == Border.class) {
-                        // TODO Parse border
-                        continue;
+                        argument = parseBorder(value);
                     } else if (type == HorizontalAlignment.class) {
-                        // TODO
-                        continue;
+                        argument = switch (value) {
+                            case "leading" -> HorizontalAlignment.LEADING;
+                            case "trailing" -> HorizontalAlignment.TRAILING;
+                            case "center" -> HorizontalAlignment.CENTER;
+                            default -> throw new IllegalArgumentException("Invalid horizontal alignment.");
+                        };
                     } else if (type == VerticalAlignment.class) {
-                        // TODO
-                        continue;
+                        argument = switch (value) {
+                            case "top" -> VerticalAlignment.TOP;
+                            case "bottom" -> VerticalAlignment.BOTTOM;
+                            case "center" -> VerticalAlignment.CENTER;
+                            default -> throw new IllegalArgumentException("Invalid vertical alignment.");
+                        };
                     } else if (type == ImagePane.ScaleMode.class) {
-                        // TODO
-                        continue;
+                        argument = switch (value) {
+                            case "none" -> ImagePane.ScaleMode.NONE;
+                            case "fill-width" -> ImagePane.ScaleMode.FILL_WIDTH;
+                            case "fill-height" -> ImagePane.ScaleMode.FILL_HEIGHT;
+                            default -> throw new IllegalArgumentException("Invalid image pane scale mode.");
+                        };
                     } else if (type == Icon.class) {
                         // TODO Handle SVG documents
                         continue;
                     } else if (type == Image.class) {
-                        // TODO
-                        continue;
+                        argument = ImageIO.read(owner.getClass().getResource(value));
                     } else {
                         throw new UnsupportedOperationException("Unsupported property type.");
                     }
@@ -237,6 +236,16 @@ public class UILoader {
         }
 
         components.push(component);
+    }
+
+    private static Color parseColor(String value) {
+        // TODO
+        return Color.RED;
+    }
+
+    private static Border parseBorder(String value) {
+        // TODO
+        return new EmptyBorder(0, 0, 0, 0);
     }
 
     private void processEndElement() {
