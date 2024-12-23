@@ -28,6 +28,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -50,8 +51,6 @@ public class UILoader {
     private Deque<JComponent> components = new LinkedList<>();
 
     private JComponent root = null;
-
-    private static final String RESOURCE_PREFIX = "$";
 
     private static final String SET_PREFIX = "set";
 
@@ -173,21 +172,15 @@ public class UILoader {
                     } else if (type == Double.TYPE || type == Double.class) {
                         argument = Double.valueOf(value);
                     } else if (type == String.class) {
-                        if (value.startsWith(RESOURCE_PREFIX)) {
-                            value = value.substring(RESOURCE_PREFIX.length());
-
-                            if (value.isEmpty()) {
-                                throw new IOException("Invalid resource name.");
-                            }
-
-                            if (resourceBundle != null && !value.startsWith(RESOURCE_PREFIX)) {
-                                value = resourceBundle.getString(value);
-                            }
+                        if (resourceBundle == null) {
+                            argument = value;
+                        } else {
+                            argument = resourceBundle.getString(value);
                         }
-
-                        argument = value;
                     } else if (type == Color.class) {
                         argument = Color.decode(value);
+                    } else if (type == Font.class) {
+                        argument = Font.decode(value);
                     } else if (type == Border.class) {
                         argument = parseBorder(value);
                     } else if (type == HorizontalAlignment.class) {
@@ -236,11 +229,6 @@ public class UILoader {
         }
 
         components.push(component);
-    }
-
-    private static Border parseBorder(String value) {
-        // TODO
-        return new EmptyBorder(8, 8, 8, 8);
     }
 
     private void processEndElement() {
@@ -343,5 +331,10 @@ public class UILoader {
                 mutators.computeIfAbsent(tag, key -> new HashMap<>()).put(propertyName, method);
             }
         }
+    }
+
+    private static Border parseBorder(String value) {
+        // TODO
+        return new EmptyBorder(8, 8, 8, 8);
     }
 }

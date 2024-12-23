@@ -2,5 +2,5 @@
 
 <column-panel opaque="true" background="#ffffff" border="empty(8, 8, 8, 8)">
     <image-pane image="world.png" scaleMode="fill-width"/>
-    <text-pane text = "$greeting" horizontalAlignment="center"/>
+    <text-pane text="greeting" horizontalAlignment="center"/>
 </column-panel>
