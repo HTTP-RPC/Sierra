@@ -15,23 +15,15 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.formdev.flatlaf.ui.FlatLineBorder;
+import org.httprpc.sierra.UILoader;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.Insets;
-import java.net.URISyntaxException;
-import java.util.function.Consumer;
-
-import static org.httprpc.sierra.UIBuilder.*;
+import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class ButtonGroupTest extends JFrame implements Runnable {
     private JToggleButton alignLeftButton;
@@ -41,72 +33,34 @@ public class ButtonGroupTest extends JFrame implements Runnable {
 
     private JLabel selectionLabel;
 
+    private static ResourceBundle resourceBundle = ResourceBundle.getBundle(ButtonGroupTest.class.getName());
+
     private ButtonGroupTest() {
-        super("Button Group Test");
+        super(resourceBundle.getString("title"));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        FlatSVGIcon alignLeftIcon;
-        FlatSVGIcon alignCenterIcon;
-        FlatSVGIcon alignRightIcon;
-        FlatSVGIcon alignJustifyIcon;
         try {
-            alignLeftIcon = new FlatSVGIcon(ButtonGroupTest.class.getResource("format_align_left_black_18dp.svg").toURI());
-            alignCenterIcon = new FlatSVGIcon(ButtonGroupTest.class.getResource("format_align_center_black_18dp.svg").toURI());
-            alignRightIcon = new FlatSVGIcon(ButtonGroupTest.class.getResource("format_align_right_black_18dp.svg").toURI());
-            alignJustifyIcon = new FlatSVGIcon(ButtonGroupTest.class.getResource("format_align_justify_black_18dp.svg").toURI());
-        } catch (URISyntaxException exception) {
-            throw new RuntimeException(exception);
+            setContentPane(UILoader.load(this, "button-group-test.xml"));
+        } catch (IOException exception) {
+            exception.printStackTrace(System.out);
+            return;
         }
-
-        Consumer<JToggleButton> buttonStyle = button -> button.putClientProperty("JButton.buttonType", "toolBarButton");
 
         var buttonGroup = new ButtonGroup();
 
-        setContentPane(column(8,
-            row(8,
-                row(
-                    cell(new JToggleButton(alignLeftIcon)).with(buttonStyle.andThen(button -> {
-                        button.addActionListener(event -> updateSelection());
-                        buttonGroup.add(button);
+        buttonGroup.add(alignLeftButton);
+        buttonGroup.add(alignCenterButton);
+        buttonGroup.add(alignRightButton);
+        buttonGroup.add(alignJustifyButton);
 
-                        alignLeftButton = button;
-                    })),
-
-                    cell(new JSeparator(SwingConstants.VERTICAL)),
-
-                    cell(new JToggleButton(alignCenterIcon)).with(buttonStyle.andThen(button -> {
-                        button.addActionListener(event -> updateSelection());
-                        buttonGroup.add(button);
-
-                        alignCenterButton = button;
-                    })),
-
-                    cell(new JSeparator(SwingConstants.VERTICAL)),
-
-                    cell(new JToggleButton(alignRightIcon)).with(buttonStyle.andThen(button -> {
-                        button.addActionListener(event -> updateSelection());
-                        buttonGroup.add(button);
-
-                        alignRightButton = button;
-                    })),
-
-                    cell(new JSeparator(SwingConstants.VERTICAL)),
-
-                    cell(new JToggleButton(alignJustifyIcon)).with(buttonStyle.andThen(button -> {
-                        button.addActionListener(event -> updateSelection());
-                        buttonGroup.add(button);
-
-                        alignJustifyButton = button;
-                    }))
-                ).with(row -> row.setBorder(new FlatLineBorder(new Insets(2, 2, 2, 2), Color.LIGHT_GRAY, 1, 8))),
-
-                cell(new JLabel()).with(label -> selectionLabel = label)
-            )
-        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        alignLeftButton.addActionListener(event -> updateSelection());
+        alignCenterButton.addActionListener(event -> updateSelection());
+        alignRightButton.addActionListener(event -> updateSelection());
+        alignJustifyButton.addActionListener(event -> updateSelection());
 
         alignLeftButton.setSelected(true);
 
@@ -119,13 +73,13 @@ public class ButtonGroupTest extends JFrame implements Runnable {
     private void updateSelection() {
         String text;
         if (alignLeftButton.isSelected()) {
-            text = "Align left";
+            text = resourceBundle.getString("alignLeft");
         } else if (alignCenterButton.isSelected()) {
-            text = "Align center";
+            text = resourceBundle.getString("alignCenter");
         } else if (alignRightButton.isSelected()) {
-            text = "Align right";
+            text = resourceBundle.getString("alignRight");
         } else if (alignJustifyButton.isSelected()) {
-            text = "Align justify";
+            text = resourceBundle.getString("alignJustify");
         } else {
             throw new UnsupportedOperationException();
         }

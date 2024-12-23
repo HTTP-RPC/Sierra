@@ -14,11 +14,20 @@
 
 package org.httprpc.sierra;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -35,6 +44,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -61,9 +71,15 @@ public class UILoader {
     private static Map<String, Map<String, Method>> mutators = new HashMap<>();
 
     static {
-        // TODO Additional types
         bind("label", JLabel.class);
         bind("button", JButton.class);
+        bind("toggle-button", JToggleButton.class);
+        bind("radio-button", JRadioButton.class);
+        bind("check-box", JCheckBox.class);
+        bind("text-field", JTextField.class);
+        bind("combo-box", JComboBox.class);
+        bind("list", JList.class);
+        bind("separator", JSeparator.class);
 
         bind("row-panel", RowPanel.class);
         bind("column-panel", ColumnPanel.class);
@@ -170,8 +186,8 @@ public class UILoader {
                     if (type == Boolean.TYPE || type == Boolean.class) {
                         argument = Boolean.valueOf(value);
                     } else if (type == Integer.TYPE || type == Integer.class) {
-                        if (name.equals("horizontalAlignment")) {
-                            argument = switch (value) {
+                        argument = switch (name) {
+                            case "horizontalAlignment" -> switch (value) {
                                 case "left" -> SwingConstants.LEFT;
                                 case "center" -> SwingConstants.CENTER;
                                 case "right" -> SwingConstants.RIGHT;
@@ -179,16 +195,19 @@ public class UILoader {
                                 case "trailing" -> SwingConstants.TRAILING;
                                 default -> throw new IllegalArgumentException("Invalid horizontal alignment.");
                             };
-                        } else if (name.equals("verticalAlignment")) {
-                            argument = switch (value) {
+                            case "verticalAlignment" -> switch (value) {
                                 case "top" -> SwingConstants.TOP;
                                 case "center" -> SwingConstants.CENTER;
                                 case "bottom" -> SwingConstants.BOTTOM;
                                 default -> throw new IllegalArgumentException("Invalid vertical alignment.");
                             };
-                        } else {
-                            argument = Integer.valueOf(value);
-                        }
+                            case "orientation" -> switch (value) {
+                                case "horizontal" -> SwingConstants.HORIZONTAL;
+                                case "vertical" -> SwingConstants.VERTICAL;
+                                default -> throw new IllegalArgumentException("Invalid orientation.");
+                            };
+                            default -> Integer.valueOf(value);
+                        };
                     } else if (type == Long.TYPE || type == Long.class) {
                         argument = Long.valueOf(value);
                     } else if (type == Float.TYPE || type == Float.class) {
@@ -229,8 +248,15 @@ public class UILoader {
                             default -> throw new IllegalArgumentException("Invalid image pane scale mode.");
                         };
                     } else if (type == Icon.class) {
-                        // TODO Handle SVG documents
-                        continue;
+                        if (value.endsWith(".svg")) {
+                            try {
+                                argument = new FlatSVGIcon(owner.getClass().getResource(value).toURI());
+                            } catch (URISyntaxException exception) {
+                                throw new IllegalArgumentException("Invalid icon path.", exception);
+                            }
+                        } else {
+                            throw new UnsupportedOperationException("Unsupported icon type.");
+                        }
                     } else if (type == Image.class) {
                         argument = ImageIO.read(owner.getClass().getResource(value));
                     } else {
