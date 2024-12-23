@@ -36,6 +36,7 @@ public class GreetingTest extends JFrame implements Runnable {
         try {
             setContentPane(UILoader.load(this, "greeting-test.xml", resourceBundle));
         } catch (IOException exception) {
+            exception.printStackTrace(System.out);
             return;
         }
 

@@ -39,6 +39,7 @@ public class ActionTest extends JFrame implements Runnable {
         try {
             setContentPane(UILoader.load(this, "action-test.xml", resourceBundle));
         } catch (IOException exception) {
+            exception.printStackTrace(System.out);
             return;
         }
 

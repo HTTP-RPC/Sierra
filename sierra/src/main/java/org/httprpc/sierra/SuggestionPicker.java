@@ -55,6 +55,13 @@ public class SuggestionPicker extends Picker {
 
     /**
      * Constructs a new suggestion picker.
+     */
+    public SuggestionPicker() {
+        this(0);
+    }
+
+    /**
+     * Constructs a new suggestion picker.
      *
      * @param columns
      * The column count.
