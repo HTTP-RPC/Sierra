@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<column-panel spacing="4" alignToGrid="true" FlatLaf.style="border: 8, 8, 8, 8">
+<column-panel spacing="4" alignToGrid="true" padding="8, 8, 8, 8">
     <row-panel>
-        <text-pane text="abc" alignmentX="0.25" alignmentY="0.0"/>
-        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" weight="1"/>
-        <text-pane text="def" alignmentX="1.0" alignmentY="0.25"/>
+        <text-pane text="abc" alignmentX="0.25" alignmentY="0.0" border="#c0c0c0"/>
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" border="#c0c0c0" weight="1"/>
+        <text-pane text="def" alignmentX="1.0" alignmentY="0.25" border="#c0c0c0"/>
     </row-panel>
 
     <row-panel spacing="16">
-        <text-pane text="abcdef" alignmentX="1.0"/>
-        <text-pane text="ABCDEFGHIJKL"/>
-        <text-pane text="ghijkl" alignmentX="0.0"/>
+        <text-pane text="abcdef" alignmentX="1.0" border="#c0c0c0"/>
+        <text-pane text="ABCDEFGHIJKL" border="#c0c0c0"/>
+        <text-pane text="ghijkl" alignmentX="0.0" border="#c0c0c0"/>
     </row-panel>
 
     <row-panel>
-        <text-pane text="ghi" alignmentX="0.0" alignmentY="0.75"/>
-        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" weight="1"/>
-        <text-pane text="jkl" alignmentX="0.75" alignmentY="1.0"/>
+        <text-pane text="ghi" alignmentX="0.0" alignmentY="0.75" border="#c0c0c0"/>
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" border="#c0c0c0" weight="1"/>
+        <text-pane text="jkl" alignmentX="0.75" alignmentY="1.0" border="#c0c0c0"/>
     </row-panel>
 </column-panel>

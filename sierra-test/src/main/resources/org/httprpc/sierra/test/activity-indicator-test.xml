@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<column-panel FlatLaf.style="border: 8, 8, 8, 8">
+<column-panel padding="8, 8, 8, 8">
     <spacer weight="1"/>
 
     <row-panel spacing="16">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<column-panel opaque="true" background="#ffffff" FlatLaf.style="border: 8, 8, 8, 8">
+<column-panel padding="8, 8, 8, 8" opaque="true" background="#ffffff">
     <image-pane image="world.png" scaleMode="fill-width"/>
     <text-pane text="greeting" horizontalAlignment="center"/>
 </column-panel>

@@ -29,6 +29,9 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -145,6 +148,9 @@ public class UILoader {
             throw new UnsupportedOperationException(exception);
         }
 
+        LineBorder lineBorder = null;
+        EmptyBorder emptyBorder = null;
+
         Object constraints = null;
 
         for (int i = 0, n = xmlStreamReader.getAttributeCount(); i < n; i++) {
@@ -165,12 +171,16 @@ public class UILoader {
                 } catch (IllegalAccessException exception) {
                     throw new UnsupportedOperationException(exception);
                 }
-            } else if (name.equals("weight")) {
-                constraints = Double.valueOf(value);
             } else if (name.equals("size")) {
                 var size = Integer.parseInt(value);
 
                 component.setPreferredSize(new Dimension(size, size));
+            } else if (name.equals("border")) {
+                lineBorder = parseBorder(value);
+            } else if (name.equals("padding")) {
+                emptyBorder = parsePadding(value);
+            } else if (name.equals("weight")) {
+                constraints = Double.valueOf(value);
             } else {
                 var mutator = mutators.get(tag).get(name);
 
@@ -265,6 +275,10 @@ public class UILoader {
                     component.putClientProperty(name, value);
                 }
             }
+        }
+
+        if (lineBorder != null || emptyBorder != null) {
+            component.setBorder(new CompoundBorder(lineBorder, emptyBorder));
         }
 
         var parent = components.peek();
@@ -376,5 +390,44 @@ public class UILoader {
                 mutators.computeIfAbsent(tag, key -> new HashMap<>()).put(propertyName, method);
             }
         }
+    }
+
+    private static LineBorder parseBorder(String value) {
+        var components = value.split(",");
+
+        if (components.length > 3) {
+            throw new IllegalArgumentException("Invalid border.");
+        }
+
+        var color = Color.decode(value.trim());
+
+        if (components.length == 1) {
+            return new LineBorder(color);
+        } else {
+            var thickness = Integer.parseInt(components[1]);
+
+            if (components.length == 2) {
+                return new LineBorder(color, thickness);
+            } else {
+                var roundedCorners = Boolean.parseBoolean(components[2]);
+
+                return new LineBorder(color, thickness, roundedCorners);
+            }
+        }
+    }
+
+    private static EmptyBorder parsePadding(String value) {
+        var components = value.split(",");
+
+        if (components.length != 4) {
+            throw new IllegalArgumentException("Invalid padding.");
+        }
+
+        var top = Integer.parseInt(components[0].trim());
+        var left = Integer.parseInt(components[1].trim());
+        var bottom = Integer.parseInt(components[2].trim());
+        var right = Integer.parseInt(components[3].trim());
+
+        return new EmptyBorder(top, left, bottom, right);
     }
 }
