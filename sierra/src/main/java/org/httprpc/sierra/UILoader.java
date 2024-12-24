@@ -171,102 +171,98 @@ public class UILoader {
                 var size = Integer.parseInt(value);
 
                 component.setPreferredSize(new Dimension(size, size));
-            } else if (name.equals("style")) {
-                component.putClientProperty("FlatLaf.style", value);
-            } else if (name.equals("styleClass")) {
-                component.putClientProperty("FlatLaf.styleClass", value);
             } else {
                 var mutator = mutators.get(tag).get(name);
 
-                if (mutator == null) {
-                    throw new IOException("Invalid property name.");
-                }
+                if (mutator != null) {
+                    var type = mutator.getParameterTypes()[0];
 
-                var type = mutator.getParameterTypes()[0];
-
-                Object argument;
-                if (type == Boolean.TYPE || type == Boolean.class) {
-                    argument = Boolean.valueOf(value);
-                } else if (type == Integer.TYPE || type == Integer.class) {
-                    argument = switch (name) {
-                        case "horizontalAlignment" -> switch (value) {
-                            case "left" -> SwingConstants.LEFT;
-                            case "center" -> SwingConstants.CENTER;
-                            case "right" -> SwingConstants.RIGHT;
-                            case "leading" -> SwingConstants.LEADING;
-                            case "trailing" -> SwingConstants.TRAILING;
+                    Object argument;
+                    if (type == Boolean.TYPE || type == Boolean.class) {
+                        argument = Boolean.valueOf(value);
+                    } else if (type == Integer.TYPE || type == Integer.class) {
+                        argument = switch (name) {
+                            case "horizontalAlignment" -> switch (value) {
+                                case "left" -> SwingConstants.LEFT;
+                                case "center" -> SwingConstants.CENTER;
+                                case "right" -> SwingConstants.RIGHT;
+                                case "leading" -> SwingConstants.LEADING;
+                                case "trailing" -> SwingConstants.TRAILING;
+                                default -> throw new IllegalArgumentException("Invalid horizontal alignment.");
+                            };
+                            case "verticalAlignment" -> switch (value) {
+                                case "top" -> SwingConstants.TOP;
+                                case "center" -> SwingConstants.CENTER;
+                                case "bottom" -> SwingConstants.BOTTOM;
+                                default -> throw new IllegalArgumentException("Invalid vertical alignment.");
+                            };
+                            case "orientation" -> switch (value) {
+                                case "horizontal" -> SwingConstants.HORIZONTAL;
+                                case "vertical" -> SwingConstants.VERTICAL;
+                                default -> throw new IllegalArgumentException("Invalid orientation.");
+                            };
+                            default -> Integer.valueOf(value);
+                        };
+                    } else if (type == Long.TYPE || type == Long.class) {
+                        argument = Long.valueOf(value);
+                    } else if (type == Float.TYPE || type == Float.class) {
+                        argument = Float.valueOf(value);
+                    } else if (type == Double.TYPE || type == Double.class) {
+                        argument = Double.valueOf(value);
+                    } else if (type == String.class) {
+                        if (resourceBundle == null) {
+                            argument = value;
+                        } else {
+                            argument = resourceBundle.getString(value);
+                        }
+                    } else if (type == Color.class) {
+                        argument = Color.decode(value);
+                    } else if (type == Font.class) {
+                        argument = Font.decode(value);
+                    } else if (type == HorizontalAlignment.class) {
+                        argument = switch (value) {
+                            case "leading" -> HorizontalAlignment.LEADING;
+                            case "trailing" -> HorizontalAlignment.TRAILING;
+                            case "center" -> HorizontalAlignment.CENTER;
                             default -> throw new IllegalArgumentException("Invalid horizontal alignment.");
                         };
-                        case "verticalAlignment" -> switch (value) {
-                            case "top" -> SwingConstants.TOP;
-                            case "center" -> SwingConstants.CENTER;
-                            case "bottom" -> SwingConstants.BOTTOM;
+                    } else if (type == VerticalAlignment.class) {
+                        argument = switch (value) {
+                            case "top" -> VerticalAlignment.TOP;
+                            case "bottom" -> VerticalAlignment.BOTTOM;
+                            case "center" -> VerticalAlignment.CENTER;
                             default -> throw new IllegalArgumentException("Invalid vertical alignment.");
                         };
-                        case "orientation" -> switch (value) {
-                            case "horizontal" -> SwingConstants.HORIZONTAL;
-                            case "vertical" -> SwingConstants.VERTICAL;
-                            default -> throw new IllegalArgumentException("Invalid orientation.");
+                    } else if (type == ImagePane.ScaleMode.class) {
+                        argument = switch (value) {
+                            case "none" -> ImagePane.ScaleMode.NONE;
+                            case "fill-width" -> ImagePane.ScaleMode.FILL_WIDTH;
+                            case "fill-height" -> ImagePane.ScaleMode.FILL_HEIGHT;
+                            default -> throw new IllegalArgumentException("Invalid image pane scale mode.");
                         };
-                        default -> Integer.valueOf(value);
-                    };
-                } else if (type == Long.TYPE || type == Long.class) {
-                    argument = Long.valueOf(value);
-                } else if (type == Float.TYPE || type == Float.class) {
-                    argument = Float.valueOf(value);
-                } else if (type == Double.TYPE || type == Double.class) {
-                    argument = Double.valueOf(value);
-                } else if (type == String.class) {
-                    if (resourceBundle == null) {
-                        argument = value;
-                    } else {
-                        argument = resourceBundle.getString(value);
-                    }
-                } else if (type == Color.class) {
-                    argument = Color.decode(value);
-                } else if (type == Font.class) {
-                    argument = Font.decode(value);
-                } else if (type == HorizontalAlignment.class) {
-                    argument = switch (value) {
-                        case "leading" -> HorizontalAlignment.LEADING;
-                        case "trailing" -> HorizontalAlignment.TRAILING;
-                        case "center" -> HorizontalAlignment.CENTER;
-                        default -> throw new IllegalArgumentException("Invalid horizontal alignment.");
-                    };
-                } else if (type == VerticalAlignment.class) {
-                    argument = switch (value) {
-                        case "top" -> VerticalAlignment.TOP;
-                        case "bottom" -> VerticalAlignment.BOTTOM;
-                        case "center" -> VerticalAlignment.CENTER;
-                        default -> throw new IllegalArgumentException("Invalid vertical alignment.");
-                    };
-                } else if (type == ImagePane.ScaleMode.class) {
-                    argument = switch (value) {
-                        case "none" -> ImagePane.ScaleMode.NONE;
-                        case "fill-width" -> ImagePane.ScaleMode.FILL_WIDTH;
-                        case "fill-height" -> ImagePane.ScaleMode.FILL_HEIGHT;
-                        default -> throw new IllegalArgumentException("Invalid image pane scale mode.");
-                    };
-                } else if (type == Icon.class) {
-                    if (value.endsWith(".svg")) {
-                        try {
-                            argument = new FlatSVGIcon(owner.getClass().getResource(value).toURI());
-                        } catch (URISyntaxException exception) {
-                            throw new IllegalArgumentException("Invalid icon path.", exception);
+                    } else if (type == Icon.class) {
+                        if (value.endsWith(".svg")) {
+                            try {
+                                argument = new FlatSVGIcon(owner.getClass().getResource(value).toURI());
+                            } catch (URISyntaxException exception) {
+                                throw new IllegalArgumentException("Invalid icon path.", exception);
+                            }
+                        } else {
+                            throw new UnsupportedOperationException("Unsupported icon type.");
                         }
+                    } else if (type == Image.class) {
+                        argument = ImageIO.read(owner.getClass().getResource(value));
                     } else {
-                        throw new UnsupportedOperationException("Unsupported icon type.");
+                        throw new UnsupportedOperationException("Unsupported property type.");
                     }
-                } else if (type == Image.class) {
-                    argument = ImageIO.read(owner.getClass().getResource(value));
-                } else {
-                    throw new UnsupportedOperationException("Unsupported property type.");
-                }
 
-                try {
-                    mutator.invoke(component, argument);
-                } catch (IllegalAccessException | InvocationTargetException exception) {
-                    throw new UnsupportedOperationException(exception);
+                    try {
+                        mutator.invoke(component, argument);
+                    } catch (IllegalAccessException | InvocationTargetException exception) {
+                        throw new UnsupportedOperationException(exception);
+                    }
+                } else {
+                    component.putClientProperty(name, value);
                 }
             }
         }

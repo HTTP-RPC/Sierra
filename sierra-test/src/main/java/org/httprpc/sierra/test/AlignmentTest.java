@@ -15,22 +15,13 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import org.httprpc.sierra.HorizontalAlignment;
-import org.httprpc.sierra.TextPane;
-import org.httprpc.sierra.VerticalAlignment;
+import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.util.function.Consumer;
-
-import static org.httprpc.sierra.UIBuilder.*;
+import java.io.IOException;
 
 public class AlignmentTest extends JFrame implements Runnable {
-    private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-
     private AlignmentTest() {
         super("Alignment Test");
 
@@ -39,39 +30,12 @@ public class AlignmentTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Consumer<TextPane> cellStyle = textPane -> textPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
-
-        setContentPane(column(4, true,
-            row(
-                cell(new TextPane("abc")).with(cellStyle.andThen(textPane -> {
-                    textPane.setAlignmentX(0.25f);
-                    textPane.setAlignmentY(0.0f);
-                })),
-                cell(new TextPane(TEXT)).with(cellStyle.andThen(textPane -> textPane.setWrapText(true))).weightBy(1),
-                cell(new TextPane("def")).with(cellStyle.andThen(textPane -> {
-                    textPane.setAlignmentX(1.0f);
-                    textPane.setAlignmentY(0.25f);
-                }))
-            ),
-            row(16,
-                cell(new TextPane("abcdef")).with(cellStyle.andThen(textPane -> textPane.setAlignmentX(1.0f))),
-                cell(new TextPane("ABCDEFGHIJKL")).with(cellStyle),
-                cell(new TextPane("ghijkl")).with(cellStyle.andThen(textPane -> textPane.setAlignmentX(0.0f)))
-            ),
-            row(
-                cell(new TextPane("ghi")).with(cellStyle.andThen(textPane -> {
-                    textPane.setVerticalAlignment(VerticalAlignment.BOTTOM);
-                    textPane.setAlignmentX(0.0f);
-                    textPane.setAlignmentY(0.75f);
-                })),
-                cell(new TextPane(TEXT)).with(cellStyle.andThen(textPane -> textPane.setWrapText(true))).weightBy(1),
-                cell(new TextPane("jkl")).with(cellStyle.andThen(textPane -> {
-                    textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
-                    textPane.setAlignmentX(0.75f);
-                    textPane.setAlignmentY(1.0f);
-                }))
-            )
-        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        try {
+            setContentPane(UILoader.load(this, "alignment-test.xml"));
+        } catch (IOException exception) {
+            exception.printStackTrace(System.out);
+            return;
+        }
 
         pack();
         setVisible(true);
