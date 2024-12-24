@@ -117,6 +117,10 @@ public class UILoader {
         var xmlInputFactory = XMLInputFactory.newInstance();
 
         try (var inputStream = type.getResourceAsStream(name)) {
+            if (inputStream == null) {
+                throw new IOException("Named resource does not exist.");
+            }
+
             var xmlStreamReader = xmlInputFactory.createXMLStreamReader(inputStream);
 
             while (xmlStreamReader.hasNext()) {

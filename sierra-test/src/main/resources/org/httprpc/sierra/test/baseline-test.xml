@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<row-panel spacing="4" alignToBaseline="true" padding="8, 8, 8, 8">
+    <spacer weight="1"/>
+
+    <label text="abcdefg" border="#c0c0c0" FlatLaf.styleClass="h3"/>
+    <label text="hijk" border="#c0c0c0" FlatLaf.styleClass="h00"/>
+
+    <image-pane image="add.png" scaleMode="fill-width" size="20" border="#c0c0c0"/>
+
+    <label text="lmnop" border="#c0c0c0" FlatLaf.styleClass="h1"/>
+
+    <spacer weight="1"/>
+</row-panel>

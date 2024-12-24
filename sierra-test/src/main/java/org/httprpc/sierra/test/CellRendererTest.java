@@ -16,6 +16,7 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.ImagePane;
+import org.httprpc.sierra.UILoader;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
@@ -26,15 +27,10 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
-
-import static org.httprpc.sierra.UIBuilder.*;
 
 public class CellRendererTest extends JFrame implements Runnable {
     private static class Flag {
@@ -58,28 +54,11 @@ public class CellRendererTest extends JFrame implements Runnable {
         JLabel descriptionLabel;
 
         FlagCellRenderer() {
-            var labelFont = javax.swing.UIManager.getDefaults().getFont("Label.font");
-
-            component = row(4,
-                cell(new ImagePane()).with(imagePane -> {
-                    imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH);
-                    imagePane.setPreferredSize(new Dimension(30, 30));
-
-                    this.imagePane = imagePane;
-                }),
-                column(
-                    cell(new JLabel()).with(label -> {
-                        label.setFont(labelFont.deriveFont(Font.BOLD, labelFont.getSize() + 2));
-
-                        nameLabel = label;
-                    }),
-                    glue(),
-                    cell(new JLabel()).with(label -> descriptionLabel = label)
-                )
-            ).with(component -> {
-                component.setOpaque(true);
-                component.setBorder(new EmptyBorder(4, 4, 4, 4));
-            }).getComponent();
+            try {
+                component = UILoader.load(this, "flag-cell-renderer.xml");
+            } catch (IOException exception) {
+                throw new RuntimeException(exception);
+            }
         }
 
         @Override

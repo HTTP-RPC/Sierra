@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<row-panel spacing="4" padding="4, 4, 4, 4" opaque="true">
+    <image-pane name="imagePane" size="30" scaleMode="fill-width"/>
+
+    <column-panel>
+        <label name="nameLabel" FlatLaf.styleClass="h4"/>
+        <label name="descriptionLabel"/>
+    </column-panel>
+</row-panel>
