@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<row-panel border="empty(8, 8, 8, 8)">
+<row-panel style="border: 8, 8, 8, 8">
     <spacer weight="1"/>
 
     <column-panel spacing="8">

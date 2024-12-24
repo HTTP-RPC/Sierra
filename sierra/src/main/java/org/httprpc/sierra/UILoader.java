@@ -29,8 +29,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -227,8 +225,6 @@ public class UILoader {
                     argument = Color.decode(value);
                 } else if (type == Font.class) {
                     argument = Font.decode(value);
-                } else if (type == Border.class) {
-                    argument = parseBorder(value);
                 } else if (type == HorizontalAlignment.class) {
                     argument = switch (value) {
                         case "leading" -> HorizontalAlignment.LEADING;
@@ -383,10 +379,5 @@ public class UILoader {
                 mutators.computeIfAbsent(tag, key -> new HashMap<>()).put(propertyName, method);
             }
         }
-    }
-
-    private static Border parseBorder(String value) {
-        // TODO
-        return new EmptyBorder(8, 8, 8, 8);
     }
 }

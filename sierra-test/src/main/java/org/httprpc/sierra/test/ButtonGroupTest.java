@@ -15,8 +15,6 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.ui.FlatLineBorder;
-import org.httprpc.sierra.RowPanel;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.ButtonGroup;
@@ -24,14 +22,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
-import java.awt.Color;
-import java.awt.Insets;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class ButtonGroupTest extends JFrame implements Runnable {
-    private RowPanel buttonRow;
-
     private JToggleButton alignLeftButton;
     private JToggleButton alignCenterButton;
     private JToggleButton alignRightButton;
@@ -55,8 +49,6 @@ public class ButtonGroupTest extends JFrame implements Runnable {
             exception.printStackTrace(System.out);
             return;
         }
-
-        buttonRow.setBorder(new FlatLineBorder(new Insets(2, 2, 2, 2), Color.LIGHT_GRAY, 1, 8));
 
         var buttonGroup = new ButtonGroup();
 
