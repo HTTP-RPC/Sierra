@@ -89,6 +89,7 @@ public class UILoader {
         bind("date-picker", DatePicker.class);
         bind("time-picker", TimePicker.class);
         bind("suggestion-picker", SuggestionPicker.class);
+        bind("activity-indicator", ActivityIndicator.class);
     }
 
     private UILoader(Object owner, String name, ResourceBundle resourceBundle) {

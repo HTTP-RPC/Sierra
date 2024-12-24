@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<column-panel style="border: 8, 8, 8, 8">
+    <spacer weight="1"/>
+
+    <row-panel spacing="16">
+        <spacer weight="1"/>
+        <activity-indicator name="activityIndicator1" indicatorSize="12"/>
+        <activity-indicator name="activityIndicator2"/>
+        <activity-indicator name="activityIndicator3" indicatorSize="48"/>
+        <spacer weight="1"/>
+    </row-panel>
+
+    <spacer weight="1"/>
+
+    <row-panel>
+        <spacer weight="1"/>
+        <toggle-button name="toggleButton" text="active"/>
+        <spacer weight="1"/>
+    </row-panel>
+</column-panel>

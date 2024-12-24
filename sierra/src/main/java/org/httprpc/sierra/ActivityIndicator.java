@@ -141,12 +141,7 @@ public class ActivityIndicator extends JComponent {
     public ActivityIndicator(int indicatorSize) {
         setUI(new ActivityIndicatorUI());
 
-        this.indicatorSize = indicatorSize;
-
-        var spokeWidth = indicatorSize / 3;
-        var spokeHeight = indicatorSize / 8;
-
-        spokeShape = new RoundRectangle2D.Double(spokeWidth / 2.0, -spokeHeight / 2.0, spokeWidth, spokeHeight, spokeHeight, spokeHeight);
+        setIndicatorSize(indicatorSize);
 
         if (UIManager.getLookAndFeelDefaults().get("Label.disabledForeground") instanceof Color foreground) {
             setForeground(foreground);
@@ -161,6 +156,27 @@ public class ActivityIndicator extends JComponent {
      */
     public int getIndicatorSize() {
         return indicatorSize;
+    }
+
+    /**
+     * Sets the indicator size.
+     *
+     * @param indicatorSize
+     * The indicator size.
+     */
+    public void setIndicatorSize(int indicatorSize) {
+        if (indicatorSize < 12) {
+            throw new IllegalArgumentException();
+        }
+
+        this.indicatorSize = indicatorSize;
+
+        var spokeWidth = indicatorSize / 3.0;
+        var spokeHeight = indicatorSize / 8.0;
+
+        spokeShape = new RoundRectangle2D.Double(spokeWidth / 2, -spokeHeight / 2, spokeWidth, spokeHeight, spokeHeight, spokeHeight);
+
+        revalidate();
     }
 
     /**

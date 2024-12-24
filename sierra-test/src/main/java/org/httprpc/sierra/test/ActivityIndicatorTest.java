@@ -16,43 +16,39 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.ActivityIndicator;
+import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-
-import static org.httprpc.sierra.UIBuilder.*;
+import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class ActivityIndicatorTest extends JFrame implements Runnable {
-    ActivityIndicator activityIndicator1;
-    ActivityIndicator activityIndicator2;
-    ActivityIndicator activityIndicator3;
+    private ActivityIndicator activityIndicator1;
+    private ActivityIndicator activityIndicator2;
+    private ActivityIndicator activityIndicator3;
+
+    private JToggleButton toggleButton;
+
+    private static ResourceBundle resourceBundle = ResourceBundle.getBundle(ActivityIndicatorTest.class.getName());
 
     private ActivityIndicatorTest() {
-        super("Activity Indicator Test");
+        super(resourceBundle.getString("title"));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(column(
-            glue(),
-            row(16,
-                glue(),
-                cell(new ActivityIndicator(12)).with(activityIndicator -> activityIndicator1 = activityIndicator),
-                cell(new ActivityIndicator()).with(activityIndicator -> activityIndicator2 = activityIndicator),
-                cell(new ActivityIndicator(48)).with(activityIndicator -> activityIndicator3 = activityIndicator),
-                glue()
-            ),
-            glue(),
-            row(
-                glue(),
-                cell(new JToggleButton("Active")).with(button -> button.addActionListener(event -> toggleActivityIndicators(button.isSelected()))),
-                glue()
-            )
-        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        try {
+            setContentPane(UILoader.load(this, "activity-indicator-test.xml", resourceBundle));
+        } catch (IOException exception) {
+            exception.printStackTrace(System.out);
+            return;
+        }
+
+        toggleButton.addActionListener(event -> toggleActivityIndicators(toggleButton.isSelected()));
 
         setSize(360, 240);
         setVisible(true);
