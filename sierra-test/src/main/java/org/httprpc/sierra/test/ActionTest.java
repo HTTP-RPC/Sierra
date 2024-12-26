@@ -21,7 +21,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class ActionTest extends JFrame implements Runnable {
@@ -38,12 +37,7 @@ public class ActionTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        try {
-            setContentPane(UILoader.load(this, "action-test.xml", resourceBundle));
-        } catch (IOException exception) {
-            exception.printStackTrace(System.out);
-            return;
-        }
+        setContentPane(UILoader.load(this, "action-test.xml", resourceBundle));
 
         greetingButton.addActionListener(event -> sayHello());
 

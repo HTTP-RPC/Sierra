@@ -21,7 +21,6 @@ import org.httprpc.sierra.UILoader;
 import javax.swing.JFrame;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
-import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class ActivityIndicatorTest extends JFrame implements Runnable {
@@ -41,12 +40,7 @@ public class ActivityIndicatorTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        try {
-            setContentPane(UILoader.load(this, "activity-indicator-test.xml", resourceBundle));
-        } catch (IOException exception) {
-            exception.printStackTrace(System.out);
-            return;
-        }
+        setContentPane(UILoader.load(this, "activity-indicator-test.xml", resourceBundle));
 
         toggleButton.addActionListener(event -> toggleActivityIndicators(toggleButton.isSelected()));
 

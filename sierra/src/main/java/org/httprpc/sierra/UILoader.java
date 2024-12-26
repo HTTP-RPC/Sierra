@@ -101,7 +101,7 @@ public class UILoader {
         this.resourceBundle = resourceBundle;
     }
 
-    private JComponent load() throws IOException {
+    private JComponent load() {
         var type = owner.getClass();
 
         var fields = type.getDeclaredFields();
@@ -118,7 +118,7 @@ public class UILoader {
 
         try (var inputStream = type.getResourceAsStream(name)) {
             if (inputStream == null) {
-                throw new IOException("Named resource does not exist.");
+                throw new UnsupportedOperationException("Named resource does not exist.");
             }
 
             var xmlStreamReader = xmlInputFactory.createXMLStreamReader(inputStream);
@@ -130,19 +130,21 @@ public class UILoader {
                 }
             }
         } catch (XMLStreamException exception) {
-            throw new IOException(exception);
+            throw new UnsupportedOperationException(exception);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
         }
 
         return root;
     }
 
-    private void processStartElement(XMLStreamReader xmlStreamReader) throws IOException {
+    private void processStartElement(XMLStreamReader xmlStreamReader) {
         var tag = xmlStreamReader.getLocalName();
 
         var constructor = constructors.get(tag);
 
         if (constructor == null) {
-            throw new IOException("Invalid tag.");
+            throw new UnsupportedOperationException("Invalid tag.");
         }
 
         JComponent component;
@@ -165,7 +167,7 @@ public class UILoader {
                 var field = fields.get(value);
 
                 if (field == null) {
-                    throw new IOException("Invalid field name.");
+                    throw new UnsupportedOperationException("Invalid field name.");
                 }
 
                 field.setAccessible(true);
@@ -265,7 +267,11 @@ public class UILoader {
                             throw new UnsupportedOperationException("Unsupported icon type.");
                         }
                     } else if (type == Image.class) {
-                        argument = ImageIO.read(owner.getClass().getResource(value));
+                        try {
+                            argument = ImageIO.read(owner.getClass().getResource(value));
+                        } catch (IOException exception) {
+                            throw new UnsupportedOperationException(exception);
+                        }
                     } else {
                         throw new UnsupportedOperationException("Unsupported property type.");
                     }
@@ -310,7 +316,7 @@ public class UILoader {
      * @return
      * The deserialized component hierarchy.
      */
-    public static JComponent load(Object owner, String name) throws IOException {
+    public static JComponent load(Object owner, String name) {
         return load(owner, name, null);
     }
 
@@ -329,7 +335,7 @@ public class UILoader {
      * @return
      * The deserialized component hierarchy.
      */
-    public static JComponent load(Object owner, String name, ResourceBundle resourceBundle) throws IOException {
+    public static JComponent load(Object owner, String name, ResourceBundle resourceBundle) {
         if (owner == null || name == null) {
             throw new IllegalArgumentException();
         }

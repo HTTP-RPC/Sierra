@@ -19,7 +19,6 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import java.io.IOException;
 
 public class BaselineTest extends JFrame implements Runnable {
     private BaselineTest() {
@@ -30,12 +29,7 @@ public class BaselineTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        try {
-            setContentPane(UILoader.load(this, "baseline-test.xml"));
-        } catch (IOException exception) {
-            exception.printStackTrace(System.out);
-            return;
-        }
+        setContentPane(UILoader.load(this, "baseline-test.xml"));
 
         pack();
         setVisible(true);

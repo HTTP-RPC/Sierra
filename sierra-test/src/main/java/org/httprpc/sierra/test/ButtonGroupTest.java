@@ -22,7 +22,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
-import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class ButtonGroupTest extends JFrame implements Runnable {
@@ -43,12 +42,7 @@ public class ButtonGroupTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        try {
-            setContentPane(UILoader.load(this, "button-group-test.xml"));
-        } catch (IOException exception) {
-            exception.printStackTrace(System.out);
-            return;
-        }
+        setContentPane(UILoader.load(this, "button-group-test.xml"));
 
         var buttonGroup = new ButtonGroup();
 
