@@ -139,9 +139,9 @@ public class ActivityIndicator extends JComponent {
      * The indicator size.
      */
     public ActivityIndicator(int indicatorSize) {
-        setUI(new ActivityIndicatorUI());
-
         setIndicatorSize(indicatorSize);
+
+        setUI(new ActivityIndicatorUI());
 
         if (UIManager.getLookAndFeelDefaults().get("Label.disabledForeground") instanceof Color foreground) {
             setForeground(foreground);
