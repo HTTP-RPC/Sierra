@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<column-panel spacing="4" alignToGrid="true" padding="8, 8, 8, 8">
+    <row-panel alignToBaseline="true">
+        <label text="firstName" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="lastName" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="streetAddress" alignmentX="1.0"/>
+        <text-field columns="24" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="city" alignmentX="1.0"/>
+        <text-field columns="16" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="state" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="postalCode" alignmentX="1.0"/>
+        <text-field columns="8" alignmentX="0.0"/>
+    </row-panel>
+
+    <separator/>
+
+    <row-panel alignToBaseline="true">
+        <label text="emailAddress" alignmentX="1.0"/>
+        <text-field columns="16" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="homePhone" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="mobilePhone" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="fax" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <separator/>
+
+    <row-panel alignToBaseline="true">
+        <label text="field1" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="field2" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="field3" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="field4" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <separator/>
+
+    <row-panel>
+        <label text="notes" alignmentX="1.0" alignmentY="0.0"/>
+
+        <scroll-pane>
+            <text-area rows="4" columns="20" alignmentX="0.0"/>
+        </scroll-pane>
+    </row-panel>
+</column-panel>

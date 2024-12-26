@@ -25,7 +25,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
@@ -79,8 +81,10 @@ public class UILoader {
         bind("check-box", JCheckBox.class);
         bind("text-field", JTextField.class);
         bind("combo-box", JComboBox.class);
-        bind("list", JList.class);
         bind("separator", JSeparator.class);
+        bind("scroll-pane", JScrollPane.class);
+        bind("list", JList.class);
+        bind("text-area", JTextArea.class);
 
         bind("row-panel", RowPanel.class);
         bind("column-panel", ColumnPanel.class);
@@ -294,7 +298,11 @@ public class UILoader {
         var parent = components.peek();
 
         if (parent != null) {
-            parent.add(component, constraints);
+            if (parent instanceof JScrollPane scrollPane) {
+                scrollPane.setViewportView(component);
+            } else {
+                parent.add(component, constraints);
+            }
         }
 
         components.push(component);

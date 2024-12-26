@@ -16,103 +16,26 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.ScrollingKeyboardFocusManager;
+import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 import java.awt.KeyboardFocusManager;
-import java.util.function.Consumer;
-
-import static org.httprpc.sierra.UIBuilder.*;
+import java.util.ResourceBundle;
 
 public class FormTest extends JFrame implements Runnable {
+    private static ResourceBundle resourceBundle = ResourceBundle.getBundle(FormTest.class.getName());
+
     private FormTest() {
-        super("Form Test");
+        super(resourceBundle.getString("title"));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        Consumer<JLabel> labelStyle = label -> label.setAlignmentX(1.0f);
-        Consumer<JTextField> textFieldStyle = textField -> textField.setAlignmentX(0.0f);
-
-        var scrollPane = new JScrollPane(column(4, true,
-            row(true,
-                cell(new JLabel("First Name")).with(labelStyle),
-                cell(new JTextField(null, 12)).with(textFieldStyle)
-            ),
-            row(true,
-                cell(new JLabel("Last Name")).with(labelStyle),
-                cell(new JTextField(null, 12)).with(textFieldStyle)
-            ),
-            row(true,
-                cell(new JLabel("Street Address")).with(labelStyle),
-                cell(new JTextField(null, 24)).with(textFieldStyle)
-            ),
-            row(true,
-                cell(new JLabel("City")).with(labelStyle),
-                cell(new JTextField(null, 16)).with(textFieldStyle)
-            ),
-            row(true,
-                cell(new JLabel("State")).with(labelStyle),
-                cell(new JTextField(null, 12)).with(textFieldStyle)
-            ),
-            row(true,
-                cell(new JLabel("Postal Code")).with(labelStyle),
-                cell(new JTextField(null, 8)).with(textFieldStyle)
-            ),
-
-            cell(new JSeparator()),
-
-            row(true,
-                cell(new JLabel("Email Address")).with(labelStyle),
-                cell(new JTextField(null, 16)).with(textFieldStyle)
-            ),
-            row(true,
-                cell(new JLabel("Home Phone")).with(labelStyle),
-                cell(new JTextField(null, 12)).with(textFieldStyle)
-            ),
-            row(true,
-                cell(new JLabel("Mobile Phone")).with(labelStyle),
-                cell(new JTextField(null, 12)).with(textFieldStyle)
-            ),
-            row(true,
-                cell(new JLabel("Fax")).with(labelStyle),
-                cell(new JTextField(null, 12)).with(textFieldStyle)
-            ),
-
-            cell(new JSeparator()),
-
-            row(true,
-                cell(new JLabel("Field 1")).with(labelStyle),
-                cell(new JTextField(null, 12)).with(textFieldStyle)
-            ),
-            row(true,
-                cell(new JLabel("Field 2")).with(labelStyle),
-                cell(new JTextField(null, 12)).with(textFieldStyle)
-            ),
-            row(true,
-                cell(new JLabel("Field 3")).with(labelStyle),
-                cell(new JTextField(null, 12)).with(textFieldStyle)
-            ),
-            row(true,
-                cell(new JLabel("Field 4")).with(labelStyle),
-                cell(new JTextField(null, 12)).with(textFieldStyle)
-            ),
-
-            cell(new JSeparator()),
-
-            row(
-                cell(new JLabel("Notes")).with(labelStyle).with(label -> label.setAlignmentY(0.0f)),
-                cell(new JScrollPane(new JTextArea(4, 20)))
-            )
-        ).with(viewportView -> viewportView.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        var scrollPane = new JScrollPane(UILoader.load(this, "form-test.xml", resourceBundle));
 
         scrollPane.setBorder(null);
 
