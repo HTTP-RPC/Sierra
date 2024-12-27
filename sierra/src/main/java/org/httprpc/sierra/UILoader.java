@@ -193,16 +193,16 @@ public class UILoader {
                 } catch (IllegalAccessException exception) {
                     throw new UnsupportedOperationException(exception);
                 }
-            } else if (name.equals("size")) {
-                var size = Integer.parseInt(value);
-
-                component.setPreferredSize(new Dimension(size, size));
             } else if (name.equals("border")) {
                 lineBorder = parseBorder(value);
             } else if (name.equals("padding")) {
                 emptyBorder = parsePadding(value);
             } else if (name.equals("weight")) {
                 constraints = Double.valueOf(value);
+            } else if (name.equals("size")) {
+                var size = Integer.parseInt(value);
+
+                component.setPreferredSize(new Dimension(size, size));
             } else if (name.contains(".")) {
                 component.putClientProperty(name, value);
             } else {
