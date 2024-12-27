@@ -25,7 +25,7 @@ Sierra provides the `UILoader` class, which can be used in conjunction with the 
 * `ColumnPanel`, a container that automatically arranges sub-components along the y-axis
 * `StackPanel`, a container that automatically arranges sub-components by z-order
 
-These types offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. `RowPanel` optionally aligns sub-components to baseline, similar to `FlowLayout`. `ColumnPanel` optionally aligns sub-components to a grid, similar to an HTML table or `GridBagLayout`. Additionally, the `Spacer` type can be used to provide fixed or flexible space between components in row and column panels. 
+These components offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. `RowPanel` optionally aligns sub-components to baseline, similar to `FlowLayout`. `ColumnPanel` optionally aligns sub-components to a grid, similar to an HTML table or `GridBagLayout`. Additionally, the `Spacer` type can be used to provide fixed or flexible space between components in row and column panels. 
 
 Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping text without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`.
 
