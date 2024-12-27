@@ -15,13 +15,10 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.UILoader;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-
-import static org.httprpc.sierra.UIBuilder.*;
 
 public class BoxTest extends JFrame implements Runnable {
     private BoxTest() {
@@ -32,35 +29,7 @@ public class BoxTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(column(4,
-            row(
-                cell(new JButton("1a")),
-                strut(4),
-                cell(new JButton("1b")),
-                strut(4),
-                cell(new JButton("1c")),
-                glue()
-            ),
-            row(
-                glue(),
-                cell(new JButton("2a")),
-                strut(4),
-                cell(new JButton("2b")),
-                strut(4),
-                cell(new JButton("2c"))
-            ),
-            row(
-                glue(),
-                cell(new JButton("3a")),
-                strut(4),
-                cell(new JButton("3b")),
-                strut(4),
-                cell(new JButton("3c")),
-                glue()
-            ),
-            cell(new JButton("4")).weightBy(1.0),
-            cell(new JButton("5"))
-        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        setContentPane(UILoader.load(this, "box-test.xml"));
 
         pack();
         setVisible(true);
