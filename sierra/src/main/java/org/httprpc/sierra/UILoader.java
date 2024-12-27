@@ -327,7 +327,7 @@ public class UILoader {
     }
 
     /**
-     * Loads a component hierarchy from a markup document.
+     * Deserializes a component hierarchy from a markup document.
      *
      * @param owner
      * The document's owner.
