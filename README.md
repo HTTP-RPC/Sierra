@@ -32,7 +32,10 @@ Sierra also includes the `TextPane` and `ImagePane` components, which provide an
 For example, the following code declares a column panel containing a graphic and a simple greeting:
 
 ```xml
-TODO
+<column-panel padding="8" opaque="true" background="#ffffff">
+    <image-pane image="world.png" scaleMode="fill-width"/>
+    <text-pane text="Hello, World!" horizontalAlignment="center"/>
+</column-panel>
 ```
 
 The resulting output is shown below:
@@ -122,7 +125,7 @@ taskExecutor.execute(() -> {
 Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/TaskExecutorTest.java) for more information.
 
 # Examples
-This section includes examples demonstrating usage of `UILoader` with the [Flat](https://github.com/JFormDesigner/FlatLaf) look-and-feel.
+This section includes additional examples demonstrating usage of `UILoader`.
 
 ## Border Layout
 Inspired by the [border layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/border.html) tutorial example.
@@ -136,7 +139,7 @@ Inspired by the [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/la
 
 [OrientationTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/OrientationTest.java)
 
-<img src="README/orientation.png" width="451px"/>
+<img src="README/orientation.png" width="454px"/>
 
 ## Flow Alignment
 Demonstrates flow alignment.
@@ -150,14 +153,14 @@ Demonstrates box alignment.
 
 [BoxTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/BoxTest.java)
 
-<img src="README/box.png" width="547px"/>
+<img src="README/box.png" width="559px"/>
 
 ## Baseline Alignment
 Demonstrates baseline alignment.
 
 [BaselineTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/BaselineTest.java)
 
-<img src="README/baseline.png" width="348px"/>
+<img src="README/baseline.png" width="363px"/>
 
 ## Action Handling
 Demonstrates associating an action handler with a button.
