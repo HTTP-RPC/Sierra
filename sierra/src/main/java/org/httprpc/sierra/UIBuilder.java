@@ -26,7 +26,10 @@ import java.util.function.Consumer;
 public class UIBuilder {
     /**
      * Provides a fluent API for configuring a sub-component.
+     *
+     * @deprecated Use {@link UILoader} instead.
      */
+    @Deprecated
     public static class Cell<C extends Component> {
         private C component;
 
