@@ -30,7 +30,7 @@ public class ActivityIndicatorTest extends JFrame implements Runnable {
 
     private JToggleButton toggleButton;
 
-    private static ResourceBundle resourceBundle = ResourceBundle.getBundle(ActivityIndicatorTest.class.getName());
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ActivityIndicatorTest.class.getName());
 
     private ActivityIndicatorTest() {
         super(resourceBundle.getString("title"));

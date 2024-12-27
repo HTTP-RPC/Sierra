@@ -27,7 +27,7 @@ public class ActionTest extends JFrame implements Runnable {
     private JButton greetingButton;
     private JLabel greetingLabel;
 
-    private static ResourceBundle resourceBundle = ResourceBundle.getBundle(ActionTest.class.getName());
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ActionTest.class.getName());
 
     private ActionTest() {
         super(resourceBundle.getString("title"));

@@ -25,7 +25,7 @@ import java.awt.KeyboardFocusManager;
 import java.util.ResourceBundle;
 
 public class FormTest extends JFrame implements Runnable {
-    private static ResourceBundle resourceBundle = ResourceBundle.getBundle(FormTest.class.getName());
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(FormTest.class.getName());
 
     private FormTest() {
         super(resourceBundle.getString("title"));

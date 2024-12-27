@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<row-panel padding="8, 8, 8, 8">
+<row-panel padding="8">
     <spacer weight="1"/>
 
     <column-panel spacing="8">

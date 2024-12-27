@@ -15,48 +15,24 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.awt.Font;
-import java.util.function.Consumer;
-
-import static org.httprpc.sierra.UIBuilder.*;
+import java.util.ResourceBundle;
 
 public class BorderTest extends JFrame implements Runnable {
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(BorderTest.class.getName());
+
     private BorderTest() {
-        super("Border Test");
+        super(resourceBundle.getString("title"));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        var labelFont = javax.swing.UIManager.getDefaults().getFont("Label.font");
-
-        Consumer<JLabel> cellStyle = label -> {
-            label.setHorizontalAlignment(SwingConstants.CENTER);
-            label.setBorder(new CompoundBorder(
-                new LineBorder(Color.LIGHT_GRAY),
-                new EmptyBorder(4, 4, 4, 4)
-            ));
-        };
-
-        setContentPane(column(4,
-            cell(new JLabel("Page Start")).with(cellStyle),
-            row(4,
-                cell(new JLabel("Line Start")).with(cellStyle.andThen(label -> label.setFont(labelFont.deriveFont(Font.PLAIN, 24)))),
-                cell(new JLabel("Center")).weightBy(1.0).with(cellStyle.andThen(label -> label.setFont(labelFont.deriveFont(Font.BOLD, 48)))),
-                cell(new JLabel("Line End")).with(cellStyle.andThen(label -> label.setFont(labelFont.deriveFont(Font.PLAIN, 24))))
-            ).weightBy(1.0),
-            cell(new JLabel("Page End")).with(cellStyle)
-        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        setContentPane(UILoader.load(this, "border-test.xml", resourceBundle));
 
         setSize(480, 320);
         setVisible(true);

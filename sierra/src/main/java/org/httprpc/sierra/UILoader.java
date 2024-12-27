@@ -425,10 +425,6 @@ public class UILoader {
     private static LineBorder parseBorder(String value) {
         var components = value.split(",");
 
-        if (components.length > 3) {
-            throw new IllegalArgumentException("Invalid border.");
-        }
-
         var color = Color.decode(value.trim());
 
         if (components.length == 1) {
@@ -441,7 +437,11 @@ public class UILoader {
             } else {
                 var roundedCorners = Boolean.parseBoolean(components[2]);
 
-                return new LineBorder(color, thickness, roundedCorners);
+                if (components.length == 3) {
+                    return new LineBorder(color, thickness, roundedCorners);
+                } else {
+                    throw new IllegalArgumentException("Invalid border.");
+                }
             }
         }
     }
@@ -449,15 +449,19 @@ public class UILoader {
     private static EmptyBorder parsePadding(String value) {
         var components = value.split(",");
 
-        if (components.length != 4) {
+        if (components.length == 1) {
+            var size = Integer.parseInt(components[0].trim());
+
+            return new EmptyBorder(size, size, size, size);
+        } else if (components.length == 4) {
+            var top = Integer.parseInt(components[0].trim());
+            var left = Integer.parseInt(components[1].trim());
+            var bottom = Integer.parseInt(components[2].trim());
+            var right = Integer.parseInt(components[3].trim());
+
+            return new EmptyBorder(top, left, bottom, right);
+        } else {
             throw new IllegalArgumentException("Invalid padding.");
         }
-
-        var top = Integer.parseInt(components[0].trim());
-        var left = Integer.parseInt(components[1].trim());
-        var bottom = Integer.parseInt(components[2].trim());
-        var right = Integer.parseInt(components[3].trim());
-
-        return new EmptyBorder(top, left, bottom, right);
     }
 }

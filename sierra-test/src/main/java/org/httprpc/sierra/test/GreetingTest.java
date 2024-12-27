@@ -22,7 +22,7 @@ import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
 
 public class GreetingTest extends JFrame implements Runnable {
-    private static ResourceBundle resourceBundle = ResourceBundle.getBundle(GreetingTest.class.getName());
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(GreetingTest.class.getName());
 
     private GreetingTest() {
         super(resourceBundle.getString("title"));

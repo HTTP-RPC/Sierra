@@ -32,7 +32,7 @@ public class ButtonGroupTest extends JFrame implements Runnable {
 
     private JLabel selectionLabel;
 
-    private static ResourceBundle resourceBundle = ResourceBundle.getBundle(ButtonGroupTest.class.getName());
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ButtonGroupTest.class.getName());
 
     private ButtonGroupTest() {
         super(resourceBundle.getString("title"));

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<column-panel spacing="4" alignToGrid="true" padding="8, 8, 8, 8">
+<column-panel spacing="4" alignToGrid="true" padding="8">
     <row-panel alignToBaseline="true">
         <label text="firstName" alignmentX="1.0"/>
         <text-field columns="12" alignmentX="0.0"/>
