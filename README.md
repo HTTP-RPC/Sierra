@@ -19,13 +19,31 @@ This guide introduces the Sierra framework and provides an overview of its key f
 Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 17 or later is required.
 
 # Sierra Classes
-Sierra provides the the following components:
+Sierra provides the `UIBuilder` class, whose methods can be used to declaratively establish a hierarchy of user interface elements. The methods defined by this class form a DSL, or "domain-specific language", that makes it easy to visualize the resulting output:
 
-* `RowPanel`, a container that automatically arranges sub-components along the x-axis
-* `ColumnPanel`, a container that automatically arranges sub-components along the y-axis
-* `StackPanel`, a container that automatically arranges sub-components by z-order
+* `row()` - produces an instance of `RowPanel`, a container that automatically arranges sub-components along the x-axis
+* `column()` - produces an instance of `ColumnPanel`, a container that automatically arranges sub-components along the y-axis
+* `stack()` - produces an instance of `StackPanel`, a container that automatically arranges sub-components by z-order
 
 These components offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. `RowPanel` optionally aligns sub-components to baseline, similar to `FlowLayout`. `ColumnPanel` optionally aligns sub-components to a grid, similar to an HTML table or `GridBagLayout`. 
+
+Additionally, `UIBuilder` provides this method for declaring a panel's contents:
+
+```java
+public static <C extends Component> Cell<C> cell(C component) { ... }
+```
+
+The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
+
+* `weightBy()` - specifies the amount of excess space in a container that should be allocated to the component, relative to other weighted components
+* `with()` - accepts an initialization callback that can be used to set properties or invoke methods on the component
+
+A reference to the configured component can be obtained via `Cell#getComponent()`.
+
+Finally, these `UIBuilder` methods can be used to declare spacer cells in column and row panels, similar to `BoxLayout`:
+
+* `strut()` - declares a fixed-size spacer cell
+* `glue()` - declares a flexible spacer cell
 
 Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping text without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`.
 
