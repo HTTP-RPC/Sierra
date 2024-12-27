@@ -16,56 +16,42 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.MenuButton;
+import org.httprpc.sierra.UILoader;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-
-import static org.httprpc.sierra.UIBuilder.*;
+import java.util.ResourceBundle;
 
 public class MenuButtonTest extends JFrame implements Runnable {
     private MenuButton menuButton;
 
     private JCheckBox focusableCheckBox;
 
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(MenuButtonTest.class.getName());
+
     private MenuButtonTest() {
-        super("Menu Button Test");
+        super(resourceBundle.getString("title"));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(column(
-            glue(),
-            row(
-                glue(),
-                row(8,
-                    cell(new MenuButton("Show Menu")).with(menuButton -> {
-                        var popupMenu = new JPopupMenu();
+        setContentPane(UILoader.load(this, "menu-button-test.xml", resourceBundle));
 
-                        popupMenu.add(new JMenuItem("Item 1"));
-                        popupMenu.add(new JMenuItem("Item 2"));
-                        popupMenu.add(new JMenuItem("Item 3"));
+        var popupMenu = new JPopupMenu();
 
-                        menuButton.setPopupMenu(popupMenu);
+        popupMenu.add(new JMenuItem(resourceBundle.getString("item1")));
+        popupMenu.add(new JMenuItem(resourceBundle.getString("item2")));
+        popupMenu.add(new JMenuItem(resourceBundle.getString("item3")));
 
-                        this.menuButton = menuButton;
-                    }),
-                    cell(new JCheckBox("Focusable")).with(checkBox -> {
-                        checkBox.addActionListener(event -> toggleFocusable());
-                        checkBox.setSelected(true);
+        menuButton.setPopupMenu(popupMenu);
 
-                        focusableCheckBox = checkBox;
-                    })
-                ),
-                glue()
-            ),
-            glue()
-        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        focusableCheckBox.addActionListener(event -> toggleFocusable());
+        focusableCheckBox.setSelected(true);
 
         setSize(480, 360);
         setVisible(true);
