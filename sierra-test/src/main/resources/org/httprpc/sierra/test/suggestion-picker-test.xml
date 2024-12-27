@@ -1,2 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<column-panel spacing="4" alignToGrid="true" padding="8">
+    <row-panel spacing="4">
+        <label text="Quantity"/>
+        <text-field columns="18"/>
+    </row-panel>
+    <row-panel spacing="4">
+        <label text="Size"/>
+        <suggestion-picker name="sizeSuggestionPicker"/>
+    </row-panel>
+    <row-panel spacing="4">
+        <label text="Color"/>
+        <suggestion-picker name="colorSuggestionPicker" maximumRowCount="4"/>
+    </row-panel>
+    <spacer weight="1"/>
+</column-panel>

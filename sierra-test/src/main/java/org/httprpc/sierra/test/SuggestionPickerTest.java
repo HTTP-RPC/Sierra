@@ -16,17 +16,16 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.SuggestionPicker;
+import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 import java.util.Arrays;
 
-import static org.httprpc.sierra.UIBuilder.*;
-
 public class SuggestionPickerTest extends JFrame implements Runnable {
+    private SuggestionPicker sizeSuggestionPicker;
+    private SuggestionPicker colorSuggestionPicker;
+
     private SuggestionPickerTest() {
         super("Suggestion Picker Test");
 
@@ -35,44 +34,28 @@ public class SuggestionPickerTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(column(4, true,
-            row(4,
-                cell(new JLabel("Quantity")),
-                cell(new JTextField(18))
-            ),
-            row(4,
-                cell(new JLabel("Size")),
-                cell(new SuggestionPicker(18)).with(suggestionPicker -> {
-                    suggestionPicker.setSuggestions(Arrays.asList(
-                        "small",
-                        "medium",
-                        "large"
-                    ));
+        setContentPane(UILoader.load(this, "suggestion-picker-test.xml"));
 
-                    suggestionPicker.addActionListener(event -> System.out.println(suggestionPicker.getText()));
-                })
-            ),
-            row(4,
-                cell(new JLabel("Color")),
-                cell(new SuggestionPicker(18)).with(suggestionPicker -> {
-                    suggestionPicker.setSuggestions(Arrays.asList(
-                        "red",
-                        "orange",
-                        "yellow",
-                        "green",
-                        "blue",
-                        "purple",
-                        "brown",
-                        "black"
-                    ));
+        sizeSuggestionPicker.setSuggestions(Arrays.asList(
+            "small",
+            "medium",
+            "large"
+        ));
 
-                    suggestionPicker.setMaximumRowCount(4);
+        sizeSuggestionPicker.addActionListener(event -> System.out.println(sizeSuggestionPicker.getText()));
 
-                    suggestionPicker.addActionListener(event -> System.out.println(suggestionPicker.getText()));
-                })
-            ),
-            glue()
-        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        colorSuggestionPicker.setSuggestions(Arrays.asList(
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+            "purple",
+            "brown",
+            "black"
+        ));
+
+        colorSuggestionPicker.addActionListener(event -> System.out.println(colorSuggestionPicker.getText()));
 
         setSize(320, 240);
         setVisible(true);
