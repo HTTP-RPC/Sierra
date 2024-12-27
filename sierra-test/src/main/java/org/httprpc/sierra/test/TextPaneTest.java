@@ -23,8 +23,6 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 
 public class TextPaneTest extends JFrame implements Runnable {
-    private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-
     private TextPaneTest() {
         super("Text Pane Test");
 
@@ -33,7 +31,7 @@ public class TextPaneTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var textPane = new TextPane(TEXT);
+        var textPane = new TextPane("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
 
         textPane.setBackground(Color.WHITE);
         textPane.setOpaque(true);

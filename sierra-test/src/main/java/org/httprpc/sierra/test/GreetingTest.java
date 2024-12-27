@@ -19,20 +19,17 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import java.util.ResourceBundle;
 
 public class GreetingTest extends JFrame implements Runnable {
-    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(GreetingTest.class.getName());
-
     private GreetingTest() {
-        super(resourceBundle.getString("title"));
+        super("Greeting Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "greeting-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "greeting-test.xml"));
 
         setSize(320, 480);
         setVisible(true);

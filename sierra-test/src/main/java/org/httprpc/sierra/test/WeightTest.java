@@ -15,21 +15,12 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import org.httprpc.sierra.TextPane;
+import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.util.function.Consumer;
-
-import static org.httprpc.sierra.UIBuilder.*;
 
 public class WeightTest extends JFrame implements Runnable {
-    private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-
     private WeightTest() {
         super("Weight Test");
 
@@ -38,23 +29,7 @@ public class WeightTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Consumer<TextPane> textPaneStyle = textPane -> {
-            textPane.setWrapText(true);
-            textPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        };
-
-        setContentPane(column(4, true,
-            row(
-                cell(new JLabel("abcdefg")),
-                cell(new TextPane(TEXT)).weightBy(1).with(textPaneStyle),
-                cell(new TextPane(TEXT)).weightBy(1).with(textPaneStyle)
-            ),
-            row(
-                cell(new JLabel("hijklmnop")),
-                cell(new TextPane(TEXT)).weightBy(3).with(textPaneStyle),
-                cell(new TextPane(TEXT)).weightBy(1).with(textPaneStyle)
-            )
-        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        setContentPane(UILoader.load(this, "weight-test.xml"));
 
         setSize(480, 360);
         setVisible(true);

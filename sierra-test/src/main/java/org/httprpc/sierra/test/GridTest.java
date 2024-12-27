@@ -15,23 +15,13 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import org.httprpc.sierra.TextPane;
-import org.httprpc.sierra.VerticalAlignment;
+import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.util.function.Consumer;
-
-import static org.httprpc.sierra.UIBuilder.*;
 
 public class GridTest extends JFrame implements Runnable {
-    private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-
     private GridTest() {
         super("Grid Test");
 
@@ -40,42 +30,7 @@ public class GridTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Consumer<TextPane> textPaneStyle = textPane -> {
-            textPane.setWrapText(true);
-            textPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        };
-
-        Consumer<JLabel> labelStyle = label -> label.setAlignmentX(1.0f);
-
-        var scrollPane = new JScrollPane(column(4,
-            cell(new TextPane(TEXT)).with(textPaneStyle),
-            column(4, true,
-                row(true,
-                    cell(new JLabel("abcdefg")).with(labelStyle),
-                    column(4,
-                        cell(new TextPane(TEXT)).with(textPaneStyle),
-                        cell(new TextPane(TEXT)).with(textPaneStyle)
-                    ).weightBy(1.0)
-                ),
-                row(true,
-                    cell(new JLabel("xyz")).with(labelStyle),
-                    column(4,
-                        cell(new TextPane(TEXT)).with(textPaneStyle.andThen(textPane -> textPane.setVerticalAlignment(VerticalAlignment.CENTER))),
-                        cell(new TextPane(TEXT)).with(textPaneStyle.andThen(textPane -> textPane.setVerticalAlignment(VerticalAlignment.BOTTOM)))
-                    ).weightBy(1.0)
-                )
-            ),
-            row(4, true,
-                column(
-                    cell(new TextPane(TEXT)).with(textPaneStyle),
-                    glue()
-                ).weightBy(2.0),
-                cell(new TextPane(TEXT)).weightBy(1.0).with(textPaneStyle)
-            )
-        ).with(viewportView -> {
-            viewportView.setBorder(new EmptyBorder(8, 8, 8, 8));
-            viewportView.setScrollableTracksViewportWidth(true);
-        }).getComponent());
+        var scrollPane = new JScrollPane(UILoader.load(this, "grid-test.xml"));
 
         scrollPane.setBorder(null);
 

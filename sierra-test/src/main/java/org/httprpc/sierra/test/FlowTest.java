@@ -15,24 +15,12 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import org.httprpc.sierra.HorizontalAlignment;
-import org.httprpc.sierra.ImagePane;
-import org.httprpc.sierra.TextPane;
-import org.httprpc.sierra.VerticalAlignment;
+import org.httprpc.sierra.UILoader;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.Image;
-import java.io.IOException;
-
-import static org.httprpc.sierra.UIBuilder.*;
 
 public class FlowTest extends JFrame implements Runnable {
-    private static final String TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-
     private FlowTest() {
         super("Flow Test");
 
@@ -41,26 +29,7 @@ public class FlowTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        Image image;
-        try {
-            image = ImageIO.read(getClass().getResource("world.png"));
-        } catch (IOException exception) {
-            image = null;
-        }
-
-        setContentPane(row(4,
-            cell(new ImagePane(image)).with(imagePane -> imagePane.setScaleMode(ImagePane.ScaleMode.FILL_HEIGHT)),
-            cell(new TextPane(TEXT)).with(textPane -> {
-                textPane.setWrapText(true);
-                textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
-                textPane.setVerticalAlignment(VerticalAlignment.CENTER);
-            }).weightBy(1.0),
-            cell(new ImagePane(image)).with(imagePane -> imagePane.setScaleMode(ImagePane.ScaleMode.FILL_HEIGHT))
-        ).with(contentPane -> {
-            contentPane.setBackground(Color.WHITE);
-            contentPane.setOpaque(true);
-            contentPane.setBorder(new EmptyBorder(8, 8, 8, 8));
-        }).getComponent());
+        setContentPane(UILoader.load(this, "flow-test.xml"));
 
         setSize(720, 160);
         setVisible(true);

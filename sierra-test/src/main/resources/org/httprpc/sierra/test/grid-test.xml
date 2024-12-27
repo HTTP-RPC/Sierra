@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<column-panel spacing="4" padding="8" scrollableTracksViewportWidth="true">
+    <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" border="#c0c0c0"/>
+
+    <column-panel spacing="4" alignToGrid="true">
+        <row-panel alignToBaseline="true">
+            <label text="abcdefg" alignmentX="1.0"/>
+            <column-panel spacing="4" weight="1">
+                <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" border="#c0c0c0"/>
+                <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" border="#c0c0c0"/>
+            </column-panel>
+        </row-panel>
+        <row-panel alignToBaseline="true">
+            <label text="xyz" alignmentX="1.0"/>
+            <column-panel spacing="4" weight="1">
+                <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" verticalAlignment="center" border="#c0c0c0"/>
+                <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" verticalAlignment="bottom" border="#c0c0c0"/>
+            </column-panel>
+        </row-panel>
+    </column-panel>
+
+    <row-panel spacing="4" alignToBaseline="true">
+        <column-panel weight="2">
+            <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" border="#c0c0c0"/>
+            <spacer weight="1"/>
+        </column-panel>
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" border="#c0c0c0" weight="1"/>
+    </row-panel>
+</column-panel>
