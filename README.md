@@ -19,35 +19,17 @@ This guide introduces the Sierra framework and provides an overview of its key f
 Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 17 or later is required.
 
 # Sierra Classes
-Sierra provides the `UIBuilder` class, whose methods can be used to declaratively establish a hierarchy of user interface elements. The methods defined by this class form a DSL, or "domain-specific language", that makes it easy to visualize the resulting output:
+Sierra provides the `UILoader` class, which can be used in conjunction with the following types to to declaratively establish a hierarchy of user interface elements:
 
-* `row()` - produces an instance of `RowPanel`, a container that automatically arranges sub-components along the x-axis
-* `column()` - produces an instance of `ColumnPanel`, a container that automatically arranges sub-components along the y-axis
-* `stack()` - produces an instance of `StackPanel`, a container that automatically arranges sub-components by z-order
+* `RowPanel`, a container that automatically arranges sub-components along the x-axis
+* `ColumnPanel`, a container that automatically arranges sub-components along the y-axis
+* `StackPanel`, a container that automatically arranges sub-components by z-order
 
 These components offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. `RowPanel` optionally aligns sub-components to baseline, similar to `FlowLayout`. `ColumnPanel` optionally aligns sub-components to a grid, similar to an HTML table or `GridBagLayout`. 
 
-Additionally, `UIBuilder` provides this method for declaring a panel's contents:
-
-```java
-public static <C extends Component> Cell<C> cell(C component) { ... }
-```
-
-The returned `Cell` instance can be used to further customize the layout or configuration of the provided component:
-
-* `weightBy()` - specifies the amount of excess space in a container that should be allocated to the component, relative to other weighted components
-* `with()` - accepts an initialization callback that can be used to set properties or invoke methods on the component
-
-A reference to the configured component can be obtained via `Cell#getComponent()`.
-
-Finally, these `UIBuilder` methods can be used to declare spacer cells in column and row panels, similar to `BoxLayout`:
-
-* `strut()` - declares a fixed-size spacer cell
-* `glue()` - declares a flexible spacer cell
-
 Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping text without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`.
 
-For example, the following code declares a column panel containing a graphic and a simple greeting:
+For example, the following markup declares a column panel containing a graphic and a simple greeting:
 
 ```xml
 <column-panel padding="8" opaque="true" background="#ffffff">
@@ -67,13 +49,7 @@ When grid alignment is enabled in a `ColumnPanel`, the sub-components (or "cells
 
 Cell contents are aligned based on the component's _x_ and _y_ alignment values (returned by `getAlignmentX()` and `getAlignmentY()`, respectively). For most components, the default is 0.5, indicating that the component should fill the entire cell along both axes. Values between 0.0 and 0.5 will align the component to the cell's leading or top edge, and values between 0.5 and 1.0 will align the component to the cell's trailing or bottom edge. In both cases, a proportional amount of the excess space will be allocated to the component. A value of 0 or 1 will result in no excess space being given to the component (i.e. it will be aligned to the appropriate edge and will be given its preferred size along that axis).
 
-TODO Examples
-
-[GridTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/GridTest.java)
-
-<img src="README/grid.png" width="432px"/>
-
-[AlignmentTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/AlignmentTest.java)
+For [example](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/resources/org/httprpc/sierra/test/alignment-test.xml):
 
 <img src="README/alignment.png" width="332px"/>
 
@@ -143,7 +119,7 @@ taskExecutor.execute(() -> {
 Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/TaskExecutorTest.java) for more information.
 
 # Examples
-This section includes additional examples demonstrating usage of `UILoader`.
+This section includes additional examples demonstrating usage of various Sierra features.
 
 ## Border Layout
 Inspired by the [border layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/border.html) tutorial example.
