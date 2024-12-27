@@ -19,7 +19,10 @@ import java.util.function.Consumer;
 
 /**
  * Provides methods for declaratively constructing a component hierarchy.
+ *
+ * @deprecated Use {@link UILoader} instead.
  */
+@Deprecated
 public class UIBuilder {
     /**
      * Provides a fluent API for configuring a sub-component.
