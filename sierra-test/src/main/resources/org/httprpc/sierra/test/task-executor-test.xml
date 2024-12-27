@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<column-panel spacing="8" padding="8">
+    <column-panel>
+        <check-box text="checkBox1"/>
+        <check-box text="checkBox2"/>
+    </column-panel>
+
+    <row-panel spacing="8">
+        <button name="button" text="executeTask"/>
+        <label name="label" foreground="#808080"/>
+        <spacer weight="1"/>
+        <activity-indicator name="activityIndicator" indicatorSize="18"/>
+    </row-panel>
+</column-panel>

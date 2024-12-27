@@ -17,24 +17,23 @@ package org.httprpc.sierra.test;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.ActivityIndicator;
 import org.httprpc.sierra.TaskExecutor;
+import org.httprpc.sierra.UILoader;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
+import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
-
-import static org.httprpc.sierra.UIBuilder.*;
 
 public class TaskExecutorTest extends JFrame implements Runnable {
     private JButton button;
     private JLabel label;
     private ActivityIndicator activityIndicator;
 
-    private static TaskExecutor taskExecutor = new TaskExecutor(Executors.newCachedThreadPool(runnable -> {
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(TaskExecutorTest.class.getName());
+
+    private static final TaskExecutor taskExecutor = new TaskExecutor(Executors.newCachedThreadPool(runnable -> {
         var thread = new Thread(runnable);
 
         thread.setDaemon(true);
@@ -43,33 +42,16 @@ public class TaskExecutorTest extends JFrame implements Runnable {
     }));
 
     private TaskExecutorTest() {
-        super("Task Executor Test");
+        super(resourceBundle.getString("title"));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(column(8,
-            column(
-                cell(new JCheckBox("Checkbox 1")),
-                cell(new JCheckBox("Checkbox 2"))
-            ),
-            row(8,
-                cell(new JButton("Execute Task")).with(button -> {
-                    button.addActionListener(event -> executeTask());
+        setContentPane(UILoader.load(this, "task-executor-test.xml", resourceBundle));
 
-                    this.button = button;
-                }),
-                cell(new JLabel()).with(label -> {
-                    label.setForeground(Color.GRAY);
-
-                    this.label = label;
-                }),
-                glue(),
-                cell(new ActivityIndicator(18)).with(activityIndicator -> this.activityIndicator = activityIndicator)
-            )
-        ).with(contentPane -> contentPane.setBorder(new EmptyBorder(8, 8, 8, 8))).getComponent());
+        button.addActionListener(event -> executeTask());
 
         setSize(320, 180);
         setVisible(true);
@@ -78,21 +60,27 @@ public class TaskExecutorTest extends JFrame implements Runnable {
     private void executeTask() {
         button.setEnabled(false);
 
-        label.setText("Executing task...");
+        label.setText(resourceBundle.getString("executingTask"));
 
         activityIndicator.start();
 
         taskExecutor.execute(() -> {
-            Thread.sleep(5000);
+            var value = Math.random();
+
+            Thread.sleep((long)(5000 * value));
+
+            if (value < 0.5) {
+                throw new Exception();
+            }
 
             return 100.0;
         }, (result, exception) -> {
             button.setEnabled(true);
 
             if (exception == null) {
-                label.setText(String.format("Task %.1f%% complete", result));
+                label.setText(String.format(resourceBundle.getString("taskCompleteFormat"), result));
             } else {
-                label.setText("Task failed");
+                label.setText(resourceBundle.getString("taskFailed"));
             }
 
             activityIndicator.stop();
