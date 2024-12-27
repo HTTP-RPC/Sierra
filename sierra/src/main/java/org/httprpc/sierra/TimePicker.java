@@ -161,17 +161,9 @@ public class TimePicker extends Picker {
     public TimePicker(int minuteInterval) {
         super(6);
 
-        if (60 % minuteInterval != 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.minuteInterval = minuteInterval;
+        setMinuteInterval(minuteInterval);
 
         setInputVerifier(inputVerifier);
-
-        var now = LocalTime.now();
-
-        setTime(LocalTime.of(now.getHour(), (now.getMinute() / minuteInterval) * minuteInterval));
 
         putClientProperty("JTextField.placeholderText", pattern);
     }
@@ -184,6 +176,24 @@ public class TimePicker extends Picker {
      */
     public int getMinuteInterval() {
         return minuteInterval;
+    }
+
+    /**
+     * Sets the minute interval.
+     *
+     * @param minuteInterval
+     * The minute interval.
+     */
+    public void setMinuteInterval(int minuteInterval) {
+        if (60 % minuteInterval != 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.minuteInterval = minuteInterval;
+
+        var now = LocalTime.now();
+
+        setTime(LocalTime.of(now.getHour(), (now.getMinute() / minuteInterval) * minuteInterval));
     }
 
     /**

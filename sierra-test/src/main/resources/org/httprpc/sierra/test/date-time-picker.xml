@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<column-panel padding="8">
+    <label name="selectionLabel" horizontalAlignment="center" weight="1"/>
+
+    <row-panel spacing="4">
+        <spacer weight="1"/>
+
+        <date-picker name="datePicker" popupVerticalAlignment="top"/>
+
+        <time-picker name="timePicker1" minuteInterval="30" popupVerticalAlignment="top"/>
+        <time-picker name="timePicker2" popupVerticalAlignment="top"/>
+
+        <spacer weight="1"/>
+    </row-panel>
+</column-panel>
