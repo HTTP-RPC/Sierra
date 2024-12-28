@@ -160,6 +160,8 @@ Any attribute whose name contains a period (".") is considered a "client propert
 
 <img src="README/cell-renderer.png" width="532px"/>
 
+See [CellRendererTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/CellRendererTest.java) for more information.
+
 ### Element Names
 The "name" attribute associates an identifier with a component. The value is automatically injected into a field with the same name defined by the document's owner (called an "outlet"). 
 
