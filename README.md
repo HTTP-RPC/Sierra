@@ -38,7 +38,7 @@ For example, the following markup declares a column panel containing a graphic a
 </column-panel>
 ```
 
-This markup could be deserialized and set as the content pane of a frame or dialog like this:
+This markup could be deserialized and set as the content pane of a frame or dialog as follows:
 
 ```java
 setContentPane(UILoader.load(this, "greeting-test.xml"));
@@ -165,7 +165,7 @@ See [CellRendererTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierr
 ### Element Names
 The "name" attribute associates an identifier with a component. The value is automatically injected into a field with the same name defined by the document's owner (called an "outlet"). 
 
-For example, the following markup defines outlets named "greetingButton" and "greetingLabel": 
+For example, the following markup declares outlets named "greetingButton" and "greetingLabel": 
 
 ```xml
 <button name="greetingButton" text="prompt"/>
