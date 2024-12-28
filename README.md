@@ -83,25 +83,125 @@ XML attributes generally represent component properties. For example, this marku
 Numeric and boolean values are automatically converted to the appropriate type. Properties that expect values defined by the `SwingConstants` class (such as "horizontalAlignment") can be specified via a lowercase/hyphenated version of the constant name. This also applies to the constants defined by Sierra's `HorizontalAlignment`, `VerticalAlignment`, and `ImagePane.ScaleMode` enum types.
 
 ### Color and Font Values
-TODO
+Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `JLabel` and sets its "foreground" property to gray:
+
+```xml
+<label name="label" foreground="#808080"/>
+```
 
 ### Image and Icon Values
-TODO
+Image and icon properties can be specified via a path to an image document on the application's classpath. The path is relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:
+
+```xml
+<image-pane image="world.png" scaleMode="fill-width"/>
+```
+
+Icon support is currently limited to SVG documents and requires the [FlatLaf Extras](https://repo1.maven.org/maven2/com/formdev/flatlaf-extras/) library.
 
 ### Border and Padding Values
-TODO
+The "border" and "padding" attributes can be used to specify a component's border and padding, respectively. These attributes mirror the corresponding concepts in the CSS box model. For example, this markup creates an instance of `JLabel` with a light gray line border and four pixels of padding on each side:
+
+```xml
+<label text="pageStart" horizontalAlignment="center" border="#c0c0c0" padding="4"/>
+```
 
 ### Weight and Size Values
-TODO
+The "weight" attribute specifies the amount of excess space in a container that should be allocated to a component, relative to other weighted components. When applied to a `Spacer` instance, it creates a "glue" component that automatically shrinks or stretches depending on the size of its container. However, weights are not limited to spacers and can be applied to any component type:
+
+```xml
+<row-panel spacing="4" weight="1">
+    <label text="lineStart" horizontalAlignment="center" border="#c0c0c0" padding="4" FlatLaf.styleClass="h2"/>
+    <label text="center" horizontalAlignment="center" border="#c0c0c0" padding="4" FlatLaf.styleClass="h00" weight="1"/>
+    <label text="lineEnd" horizontalAlignment="center" border="#c0c0c0" padding="4" FlatLaf.styleClass="h2"/>
+</row-panel>
+```
+
+<img src="README/border.png" width="592px"/>
+
+The "size" attribute specifies a fixed dimension for a component. It is typically used with `Spacer` instances to create "struts" between components, as an alternative to the "spacing" property provided by `RowPanel` and `ColumnPanel`:
+
+```xml
+<column-panel spacing="4" padding="8">
+    <row-panel>
+        <button text="1a"/>
+        <spacer size="4"/>
+        <button text="1b"/>
+        <spacer size="4"/>
+        <button text="1c"/>
+        <spacer weight="1"/>
+    </row-panel>
+    
+    ...
+    
+</column-panel>
+```
+
+<img src="README/box.png" width="559px"/>
 
 ### Client Properties
-TODO
+Any attribute that contains a period (".") is considered a "client property" and is applied via `JComponent#putClientProperty()`. For example, this markup applies the "h2" FlatLaf style class to a `JLabel` instance:
+
+```xml
+<label name="nameLabel" FlatLaf.styleClass="h4"/>
+```
 
 ### Element Names
-TODO
+The "name" attribute associates a name with a component. The value is automatically injected into a field with the same name defined by the document's owner (called an "outlet"). 
+
+For example, the following markup defines outlets named "greetingButton" and "greetingLabel": 
+
+```xml
+<button name="greetingButton" text="prompt"/>
+<label name="greetingLabel" horizontalAlignment="center"/>
+```
+
+When the `load()` method returns, the corresponding fields in the owner type will be populated with the instances declared in the markup:
+
+```java
+public class ActionTest extends JFrame implements Runnable {
+    private JButton greetingButton;
+    private JLabel greetingLabel;
+    
+    ...
+}
+```
 
 ### Resource Bundles
-TODO
+If a non-`null` value is passed as the third argument to the `load()` method, values of text properties are considered resource keys and are used to look up the associated value in the provided resource bundle. For example:
+
+```xml
+<column-panel spacing="4" alignToGrid="true" padding="8">
+    <row-panel alignToBaseline="true">
+        <label text="firstName" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="lastName" alignmentX="1.0"/>
+        <text-field columns="12" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="streetAddress" alignmentX="1.0"/>
+        <text-field columns="24" alignmentX="0.0"/>
+    </row-panel>
+    
+    ...
+    
+</column-panel>
+```
+
+```properties
+title = Form Test
+
+firstName = First Name
+lastName = Last Name
+streetAddress = Street Address
+
+...
+```
+
+<img src="README/form.png" width="548px"/>
 
 ## Cell Alignment
 When grid alignment is enabled in a `ColumnPanel`, the sub-components (or "cells") of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each sub-column is determined as the maximum preferred width of the cells in that column (i.e. the components having the same index in each row).
@@ -180,13 +280,6 @@ Internally, tasks are submitted to an executor service provided to the `TaskExec
 # Examples
 This section includes additional examples demonstrating usage of various Sierra features.
 
-## Border Layout
-Inspired by the [border layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/border.html) tutorial example.
-
-[BorderTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/BorderTest.java)
-
-<img src="README/border.png" width="592px"/>
-
 ## Component Orientation
 Inspired by the [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/flow.html) tutorial example.
 
@@ -201,26 +294,12 @@ Demonstrates flow alignment.
 
 <img src="README/flow.png" width="562px"/>
 
-## Box Alignment
-Demonstrates box alignment.
-
-[BoxTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/BoxTest.java)
-
-<img src="README/box.png" width="559px"/>
-
 ## Baseline Alignment
 Demonstrates baseline alignment.
 
 [BaselineTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/BaselineTest.java)
 
 <img src="README/baseline.png" width="363px"/>
-
-## Action Handling
-Demonstrates associating an action handler with a button.
-
-[ActionTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/ActionTest.java)
-
-<img src="README/action.png" width="352px"/>
 
 ## Button Group
 Demonstrates a button group.
