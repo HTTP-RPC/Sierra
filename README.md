@@ -100,6 +100,9 @@ TODO
 ### Element Names
 TODO
 
+### Resource Bundles
+TODO
+
 ## Cell Alignment
 When grid alignment is enabled in a `ColumnPanel`, the sub-components (or "cells") of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each sub-column is determined as the maximum preferred width of the cells in that column (i.e. the components having the same index in each row).
 
