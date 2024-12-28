@@ -71,7 +71,7 @@ Elements can be nested to create a component hierarchy. For example:
 </column-panel>
 ```
 
-<img src="README/task-executor.png" width="388px"/>
+<img src="README/task-executor.png" width="432px"/>
 
 ## Attributes
 XML attributes generally represent component properties. For example, this markup creates an instance of `TextPane` and sets its "text" property to "Hello, World!":
@@ -209,7 +209,7 @@ streetAddress = Street Address
 ...
 ```
 
-<img src="README/form.png" width="548px"/>
+<img src="README/form.png" width="592px"/>
 
 ## Cell Alignment
 When grid alignment is enabled in a `ColumnPanel`, the sub-components (or "cells") of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each sub-column is determined as the maximum preferred width of the cells in that column (i.e. the components having the same index in each row).
