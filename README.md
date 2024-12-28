@@ -12,7 +12,6 @@ This guide introduces the Sierra framework and provides an overview of its key f
 # Contents
 * [Getting Sierra](#getting-sierra)
 * [Sierra Classes](#sierra-classes)
-* [Examples](#examples)
 * [Additional Information](#additional-information)
 
 # Getting Sierra
@@ -24,8 +23,9 @@ Sierra provides the `UILoader` class, which can be used in conjunction with the 
 * `RowPanel`, a container that automatically arranges sub-components along the x-axis
 * `ColumnPanel`, a container that automatically arranges sub-components along the y-axis
 * `StackPanel`, a container that automatically arranges sub-components by z-order
+* `Spacer`, a component that provides fixed or flexible space between other components
 
-These components offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. `RowPanel` optionally aligns sub-components to baseline, similar to `FlowLayout`. `ColumnPanel` optionally aligns sub-components to a grid, similar to an HTML table or `GridBagLayout`. Additionally, the `Spacer` type can be used to provide fixed or flexible space between components in row and column panels. 
+These types offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. `RowPanel` optionally aligns sub-components to baseline, similar to `FlowLayout`. `ColumnPanel` optionally aligns sub-components to a grid, similar to an HTML table or `GridBagLayout`. 
 
 Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping text without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`.
 
@@ -96,7 +96,13 @@ Image and icon properties can be specified via a path to an image document on th
 <image-pane image="world.png" scaleMode="fill-width"/>
 ```
 
-Icon support is currently limited to SVG documents and requires the [FlatLaf Extras](https://repo1.maven.org/maven2/com/formdev/flatlaf-extras/) library.
+Icon support is currently limited to SVG documents and requires the [FlatLaf Extras](https://github.com/JFormDesigner/FlatLaf/tree/main/flatlaf-extras) library:
+
+```xml
+<toggle-button name="alignLeftButton" icon="format_align_left_black_18dp.svg" FlatLaf.style="buttonType: toolBarButton"/>
+```
+
+<img src="README/button-group.png" width="432px"/>
 
 ### Border and Padding Values
 The "border" and "padding" attributes can be used to specify a component's border and padding, respectively. These attributes mirror the corresponding concepts in the CSS box model. For example, this markup creates an instance of `JLabel` with a light gray line border and four pixels of padding on each side:
@@ -139,11 +145,13 @@ The "size" attribute specifies a fixed dimension for a component. It is typicall
 <img src="README/box.png" width="559px"/>
 
 ### Client Properties
-Any attribute that contains a period (".") is considered a "client property" and is applied via `JComponent#putClientProperty()`. For example, this markup applies the "h2" FlatLaf style class to a `JLabel` instance:
+Any attribute whose name contains a period (".") is considered a "client property" and is applied via `JComponent#putClientProperty()`. For example, this markup applies the "h2" FlatLaf style class to a `JLabel` instance:
 
 ```xml
 <label name="nameLabel" FlatLaf.styleClass="h4"/>
 ```
+
+<img src="README/cell-renderer.png" width="532px"/>
 
 ### Element Names
 The "name" attribute associates a name with a component. The value is automatically injected into a field with the same name defined by the document's owner (called an "outlet"). 
@@ -155,7 +163,7 @@ For example, the following markup defines outlets named "greetingButton" and "gr
 <label name="greetingLabel" horizontalAlignment="center"/>
 ```
 
-When the `load()` method returns, the corresponding fields in the owner type will be populated with the instances declared in the markup:
+When the `load()` method returns, the corresponding fields in the owner will be populated with the instances declared in the markup:
 
 ```java
 public class ActionTest extends JFrame implements Runnable {
@@ -276,44 +284,6 @@ taskExecutor.execute(() -> {
 ```
 
 Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/TaskExecutorTest.java) for more information.
-
-# Examples
-This section includes additional examples demonstrating usage of various Sierra features.
-
-## Component Orientation
-Inspired by the [flow layout](https://docs.oracle.com/javase/tutorial/uiswing/layout/flow.html) tutorial example.
-
-[OrientationTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/OrientationTest.java)
-
-<img src="README/orientation.png" width="454px"/>
-
-## Flow Alignment
-Demonstrates flow alignment.
-
-[FlowTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/FlowTest.java)
-
-<img src="README/flow.png" width="562px"/>
-
-## Baseline Alignment
-Demonstrates baseline alignment.
-
-[BaselineTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/BaselineTest.java)
-
-<img src="README/baseline.png" width="363px"/>
-
-## Button Group
-Demonstrates a button group.
-
-[ButtonGroupTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/ButtonGroupTest.java)
-
-<img src="README/button-group.png" width="432px"/>
-
-## Cell Renderer
-Demonstrates a custom cell renderer.
-
-[CellRendererTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/CellRendererTest.java)
-
-<img src="README/cell-renderer.png" width="532px"/>
 
 # Additional Information
 This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).
