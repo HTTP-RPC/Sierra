@@ -145,16 +145,23 @@ The "size" attribute specifies a fixed dimension for a component. It is typicall
 <img src="README/box.png" width="559px"/>
 
 ### Client Properties
-Any attribute whose name contains a period (".") is considered a "client property" and is applied via `JComponent#putClientProperty()`. For example, this markup applies the "h2" FlatLaf style class to a `JLabel` instance:
+Any attribute whose name contains a period (".") is considered a "client property" and is applied via `JComponent#putClientProperty()`. For example, this markup applies the "h2" FlatLaf style class to a `JLabel` instance used by a list cell renderer:
 
 ```xml
-<label name="nameLabel" FlatLaf.styleClass="h4"/>
+<row-panel spacing="4" padding="4" opaque="true">
+    <image-pane name="imagePane" size="30" scaleMode="fill-width"/>
+
+    <column-panel>
+        <label name="nameLabel" FlatLaf.styleClass="h4"/>
+        <label name="descriptionLabel"/>
+    </column-panel>
+</row-panel>
 ```
 
 <img src="README/cell-renderer.png" width="532px"/>
 
 ### Element Names
-The "name" attribute associates a name with a component. The value is automatically injected into a field with the same name defined by the document's owner (called an "outlet"). 
+The "name" attribute associates an identifier with a component. The value is automatically injected into a field with the same name defined by the document's owner (called an "outlet"). 
 
 For example, the following markup defines outlets named "greetingButton" and "greetingLabel": 
 
@@ -162,6 +169,8 @@ For example, the following markup defines outlets named "greetingButton" and "gr
 <button name="greetingButton" text="prompt"/>
 <label name="greetingLabel" horizontalAlignment="center"/>
 ```
+
+<img src="README/action.png" width="352px"/>
 
 When the `load()` method returns, the corresponding fields in the owner will be populated with the instances declared in the markup:
 
@@ -173,6 +182,8 @@ public class ActionTest extends JFrame implements Runnable {
     ...
 }
 ```
+
+See [ActionTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/ActionTest.java) for more information.
 
 ### Resource Bundles
 If a non-`null` value is passed as the third argument to the `load()` method, values of text properties are considered resource keys and are used to look up the associated value in the provided resource bundle. For example:
