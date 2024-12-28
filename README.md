@@ -38,13 +38,69 @@ For example, the following markup declares a column panel containing a graphic a
 </column-panel>
 ```
 
+This markup could be deserialized and set as the content pane of a frame or dialog like this:
+
+```java
+setContentPane(UILoader.load(this, "greeting-test.xml"));
+```
+
 The resulting output is shown below:
 
 <img src="README/greeting.png" width="432px"/>
 
 The complete source code for this example can be found [here](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
 
-### Cell Alignment
+## Elements
+XML elements represent component instances. Most Swing and all Sierra components are supported by default. Support for custom elements can be added via the `bind()` method of the `UILoader` class.
+
+Elements can be nested to create a component hierarchy. For example:
+
+```xml
+<column-panel spacing="8" padding="8">
+    <column-panel>
+        <check-box text="checkBox1"/>
+        <check-box text="checkBox2"/>
+    </column-panel>
+
+    <row-panel spacing="8">
+        <button name="button" text="executeTask"/>
+        <label name="label" foreground="#808080"/>
+        <spacer weight="1"/>
+        <activity-indicator name="activityIndicator" indicatorSize="18"/>
+    </row-panel>
+</column-panel>
+```
+
+<img src="README/task-executor.png" width="388px"/>
+
+## Attributes
+XML attributes generally represent component properties. For example, this markup creates an instance of `TextPane` and sets its "text" property to "Hello, World!":
+
+```xml
+<text-pane text="Hello, World!" horizontalAlignment="center"/>
+```
+
+Numeric and boolean values are automatically converted to the appropriate type. Properties that expect values defined by the `SwingConstants` class (such as "horizontalAlignment") can be specified via a lowercase version of the constant name. This also applies to the constants defined by Sierra's `HorizontalAlignment`, `VerticalAlignment`, and `ImagePane.ScaleMode` enums.
+
+### Color and Font Values
+TODO
+
+### Image and Icon Values
+TODO
+
+### Border and Padding Values
+TODO
+
+### Weight and Size Values
+TODO
+
+### Client Properties
+TODO
+
+### Element Names
+TODO
+
+## Cell Alignment
 When grid alignment is enabled in a `ColumnPanel`, the sub-components (or "cells") of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each sub-column is determined as the maximum preferred width of the cells in that column (i.e. the components having the same index in each row).
 
 Cell contents are aligned based on the component's _x_ and _y_ alignment values (returned by `getAlignmentX()` and `getAlignmentY()`, respectively). For most components, the default is 0.5, indicating that the component should fill the entire cell along both axes. Values between 0.0 and 0.5 will align the component to the cell's leading or top edge, and values between 0.5 and 1.0 will align the component to the cell's trailing or bottom edge. In both cases, a proportional amount of the excess space will be allocated to the component. A value of 0 or 1 will result in no excess space being given to the component (i.e. it will be aligned to the appropriate edge and will be given its preferred size along that axis).
