@@ -286,4 +286,4 @@ taskExecutor.execute(() -> {
 Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/TaskExecutorTest.java) for more information.
 
 # Additional Information
-This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [source code](https://github.com/HTTP-RPC/Sierra/tree/master/sierra/src/main/java/org/httprpc/sierra).
+This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [examples](https://github.com/HTTP-RPC/Sierra/tree/master/sierra-test/src/main/java/org/httprpc/sierra/test).
