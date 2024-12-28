@@ -80,7 +80,7 @@ XML attributes generally represent component properties. For example, this marku
 <text-pane text="Hello, World!" horizontalAlignment="center"/>
 ```
 
-Numeric and boolean values are automatically converted to the appropriate type. Properties that expect values defined by the `SwingConstants` class (such as "horizontalAlignment") can be specified via a lowercase version of the constant name. This also applies to the constants defined by Sierra's `HorizontalAlignment`, `VerticalAlignment`, and `ImagePane.ScaleMode` enums.
+Numeric and boolean values are automatically converted to the appropriate type. Properties that expect values defined by the `SwingConstants` class (such as "horizontalAlignment") can be specified via a lowercase/hyphenated version of the constant name. This also applies to the constants defined by Sierra's `HorizontalAlignment`, `VerticalAlignment`, and `ImagePane.ScaleMode` enum types.
 
 ### Color and Font Values
 TODO
