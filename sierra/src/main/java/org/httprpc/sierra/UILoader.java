@@ -65,7 +65,7 @@ import java.util.ResourceBundle;
  * Provides support for deserializing a component hierarchy from markup.
  */
 public class UILoader {
-    static class LoadException extends RuntimeException {
+    private static class LoadException extends RuntimeException {
         Location location;
 
         LoadException(RuntimeException exception, Location location) {
