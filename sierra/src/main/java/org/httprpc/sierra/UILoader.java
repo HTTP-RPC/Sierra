@@ -40,6 +40,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.xml.stream.Location;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -64,6 +65,39 @@ import java.util.ResourceBundle;
  * Provides support for deserializing a component hierarchy from markup.
  */
 public class UILoader {
+    static class LoadException extends RuntimeException {
+        Location location;
+
+        LoadException(RuntimeException exception, Location location) {
+            super(exception);
+
+            this.location = location;
+        }
+
+        LoadException(Exception exception) {
+            super(exception);
+
+            location = null;
+        }
+
+        @Override
+        public String getMessage() {
+            var message = getCause().getMessage();
+
+            if (location == null) {
+                return message;
+            } else {
+                var lineNumber = location.getLineNumber();
+
+                if (lineNumber == -1) {
+                    return message;
+                } else {
+                    return String.format("[Line %d] %s", lineNumber, message);
+                }
+            }
+        }
+    }
+
     private Object owner;
     private String name;
     private ResourceBundle resourceBundle;
@@ -141,14 +175,18 @@ public class UILoader {
 
             while (xmlStreamReader.hasNext()) {
                 switch (xmlStreamReader.next()) {
-                    case XMLStreamConstants.START_ELEMENT -> processStartElement(xmlStreamReader);
+                    case XMLStreamConstants.START_ELEMENT -> {
+                        try {
+                            processStartElement(xmlStreamReader);
+                        } catch (RuntimeException exception) {
+                            throw new LoadException(exception, xmlStreamReader.getLocation());
+                        }
+                    }
                     case XMLStreamConstants.END_ELEMENT -> processEndElement();
                 }
             }
-        } catch (XMLStreamException exception) {
-            throw new UnsupportedOperationException(exception);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
+        } catch (XMLStreamException | IOException exception) {
+            throw new LoadException(exception);
         }
 
         return root;
@@ -160,7 +198,7 @@ public class UILoader {
         var constructor = constructors.get(tag);
 
         if (constructor == null) {
-            throw new UnsupportedOperationException("Invalid tag.");
+            throw new UnsupportedOperationException(String.format("Invalid tag (%s).", tag));
         }
 
         JComponent component;
@@ -183,7 +221,7 @@ public class UILoader {
                 var field = fields.get(value);
 
                 if (field == null) {
-                    throw new UnsupportedOperationException("Invalid field name.");
+                    throw new UnsupportedOperationException(String.format("Invalid field name (%s).", value));
                 }
 
                 field.setAccessible(true);
@@ -209,7 +247,7 @@ public class UILoader {
                 var mutator = mutators.get(tag).get(name);
 
                 if (mutator == null) {
-                    throw new UnsupportedOperationException("Invalid attribute name.");
+                    throw new UnsupportedOperationException(String.format("Invalid attribute name (%s).", name));
                 }
 
                 var type = mutator.getParameterTypes()[0];
