@@ -2,6 +2,6 @@
 
 <row-panel spacing="4" padding="8, 16, 8, 16" opaque="true" background="#ffffff">
     <image-pane image="world.png" scaleMode="fill-height" border="#ff0000, 2"/>
-    <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" horizontalAlignment="center" verticalAlignment="center" weight="1"/>
+    <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." font="Arial-PLAIN-24" wrapText="true" horizontalAlignment="center" verticalAlignment="center" weight="1"/>
     <image-pane image="world.png" scaleMode="fill-height" border="#00ff00, 2"/>
 </row-panel>
