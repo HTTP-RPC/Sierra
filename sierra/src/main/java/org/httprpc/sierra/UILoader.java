@@ -113,6 +113,10 @@ public class UILoader {
     private static Map<String, Constructor<? extends JComponent>> constructors = new HashMap<>();
     private static Map<String, Map<String, Method>> mutators = new HashMap<>();
 
+    private static Map<String, Color> colors = new HashMap<>();
+
+    private static Map<String, Font> fonts = new HashMap<>();
+
     static {
         bind("label", JLabel.class);
         bind("button", JButton.class);
@@ -143,6 +147,25 @@ public class UILoader {
         bind("time-picker", TimePicker.class);
         bind("suggestion-picker", SuggestionPicker.class);
         bind("activity-indicator", ActivityIndicator.class);
+    }
+
+    static {
+        define("white", new Color(0xffffff));
+        define("silver", new Color(0xc0c0c0));
+        define("gray", new Color(0x808080));
+        define("black", new Color(0x000000));
+        define("red", new Color(0xff0000));
+        define("maroon", new Color(0x800000));
+        define("yellow", new Color(0xffff00));
+        define("olive", new Color(0x808000));
+        define("lime", new Color(0x00ff00));
+        define("green", new Color(0x008000));
+        define("aqua", new Color(0x00ffff));
+        define("teal", new Color(0x008080));
+        define("blue", new Color(0x0000ff));
+        define("navy", new Color(0x000080));
+        define("fuschia", new Color(0xff00ff));
+        define("purple", new Color(0x800080));
     }
 
     private UILoader(Object owner, String name, ResourceBundle resourceBundle) {
@@ -291,9 +314,9 @@ public class UILoader {
                         argument = resourceBundle.getString(value);
                     }
                 } else if (type == Color.class) {
-                    argument = Color.decode(value);
+                    argument = parseColor(value);
                 } else if (type == Font.class) {
-                    argument = Font.decode(value);
+                    argument = parseFont(value);
                 } else if (type == HorizontalAlignment.class) {
                     argument = switch (value) {
                         case "leading" -> HorizontalAlignment.LEADING;
@@ -462,10 +485,44 @@ public class UILoader {
         }
     }
 
+    /**
+     * Associates a name with a color.
+     *
+     * @param name
+     * The color name.
+     *
+     * @param color
+     * The color value.
+     */
+    public static void define(String name, Color color) {
+        if (name == null || color == null) {
+            throw new IllegalArgumentException();
+        }
+
+        colors.put(name, color);
+    }
+
+    /**
+     * Associates a font with a color.
+     *
+     * @param name
+     * The font name.
+     *
+     * @param font
+     * The font value.
+     */
+    public static void define(String name, Font font) {
+        if (name == null || font == null) {
+            throw new IllegalArgumentException();
+        }
+
+        fonts.put(name, font);
+    }
+
     private static LineBorder parseBorder(String value) {
         var components = value.split(",");
 
-        var color = Color.decode(components[0].trim());
+        var color = parseColor(components[0].trim());
 
         if (components.length == 1) {
             return new LineBorder(color);
@@ -497,5 +554,17 @@ public class UILoader {
         } else {
             throw new IllegalArgumentException("Invalid padding.");
         }
+    }
+
+    private static Color parseColor(String value) {
+        var color = colors.get(value);
+
+        return (color == null) ? Color.decode(value) : color;
+    }
+
+    private static Font parseFont(String value) {
+        var font = fonts.get(value);
+
+        return (font == null) ? Font.decode(value) : font;
     }
 }

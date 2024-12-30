@@ -19,6 +19,7 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import java.awt.Font;
 
 public class BaselineTest extends JFrame implements Runnable {
     private BaselineTest() {
@@ -36,6 +37,10 @@ public class BaselineTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        UILoader.define("small", new Font("Arial", Font.PLAIN, 12));
+        UILoader.define("medium", new Font("Arial", Font.PLAIN, 24));
+        UILoader.define("large", new Font("Arial", Font.BOLD, 48));
+
         FlatLightLaf.setup();
 
         SwingUtilities.invokeLater(new BaselineTest());

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<column-panel padding="8" opaque="true" background="#ffffff">
+<column-panel padding="8" opaque="true" background="white">
     <image-pane image="world.png" scaleMode="fill-width"/>
     <text-pane text="Hello, World!" horizontalAlignment="center"/>
 </column-panel>
