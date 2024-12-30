@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <column-panel spacing="4" padding="8">
-    <label text="pageStart" horizontalAlignment="center" border="#c0c0c0" padding="4"/>
+    <label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
 
     <row-panel spacing="4" weight="1">
-        <label text="lineStart" horizontalAlignment="center" border="#c0c0c0" padding="4" FlatLaf.styleClass="h2"/>
-        <label text="center" horizontalAlignment="center" border="#c0c0c0" padding="4" FlatLaf.styleClass="h00" weight="1"/>
-        <label text="lineEnd" horizontalAlignment="center" border="#c0c0c0" padding="4" FlatLaf.styleClass="h2"/>
+        <label text="lineStart" horizontalAlignment="center" border="silver" padding="4" FlatLaf.styleClass="h2"/>
+        <label text="center" horizontalAlignment="center" border="silver" padding="4" FlatLaf.styleClass="h00" weight="1"/>
+        <label text="lineEnd" horizontalAlignment="center" border="silver" padding="4" FlatLaf.styleClass="h2"/>
     </row-panel>
 
-    <label text="pageEnd" horizontalAlignment="center" border="#c0c0c0" padding="4"/>
+    <label text="pageEnd" horizontalAlignment="center" border="silver" padding="4"/>
 </column-panel>

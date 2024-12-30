@@ -3,12 +3,29 @@
 <column-panel spacing="4" alignToGrid="true" padding="8">
     <row-panel>
         <label text="abcdefg"/>
-        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" weight="1" border="#c0c0c0"/>
-        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" weight="1" border="#c0c0c0"/>
+
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            wrapText="true"
+            weight="1"
+            border="silver"/>
+
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            wrapText="true"
+            weight="1"
+            border="silver"/>
     </row-panel>
+
     <row-panel>
         <label text="hijklmnop"/>
-        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" weight="3" border="#c0c0c0"/>
-        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" weight="1" border="#c0c0c0"/>
+
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            wrapText="true"
+            weight="3"
+            border="silver"/>
+
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            wrapText="true"
+            weight="1"
+            border="silver"/>
     </row-panel>
 </column-panel>

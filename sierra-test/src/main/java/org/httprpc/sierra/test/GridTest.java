@@ -36,7 +36,7 @@ public class GridTest extends JFrame implements Runnable {
 
         setContentPane(scrollPane);
 
-        setSize(320, 640);
+        setSize(320, 560);
         setVisible(true);
     }
 

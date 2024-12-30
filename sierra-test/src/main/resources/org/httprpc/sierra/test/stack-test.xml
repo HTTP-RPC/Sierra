@@ -3,13 +3,18 @@
 <stack-panel padding="8">
     <column-panel>
         <spacer weight="1"/>
+
         <row-panel>
             <spacer weight="1"/>
             <button text="Press Me"/>
             <spacer weight="1"/>
         </row-panel>
+
         <spacer weight="1"/>
     </column-panel>
 
-    <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" horizontalAlignment="center" verticalAlignment="center"/>
+    <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        wrapText="true"
+        horizontalAlignment="center"
+        verticalAlignment="center"/>
 </stack-panel>

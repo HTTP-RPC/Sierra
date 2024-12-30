@@ -2,13 +2,17 @@
 
 <column-panel padding="8">
     <spacer weight="1"/>
+
     <row-panel>
         <spacer weight="1"/>
+
         <row-panel spacing="8">
             <menu-button name="menuButton" text="showMenu"/>
             <check-box name="focusableCheckBox" text="focusable"/>
         </row-panel>
+
         <spacer weight="1"/>
     </row-panel>
+
     <spacer weight="1"/>
 </column-panel>

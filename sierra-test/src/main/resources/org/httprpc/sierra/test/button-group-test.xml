@@ -2,7 +2,7 @@
 
 <column-panel spacing="8" padding="8">
     <row-panel spacing="8">
-        <row-panel FlatLaf.style="border: 2, 2, 2, 2, #c0c0c0, 1, 8">
+        <row-panel>
             <toggle-button name="alignLeftButton" icon="format_align_left_black_18dp.svg" FlatLaf.style="buttonType: toolBarButton"/>
             <separator orientation="vertical"/>
             <toggle-button name="alignCenterButton" icon="format_align_center_black_18dp.svg" FlatLaf.style="buttonType: toolBarButton"/>
