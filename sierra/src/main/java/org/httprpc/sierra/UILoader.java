@@ -465,23 +465,17 @@ public class UILoader {
     private static LineBorder parseBorder(String value) {
         var components = value.split(",");
 
-        var color = Color.decode(value.trim());
+        var color = Color.decode(components[0].trim());
 
         if (components.length == 1) {
             return new LineBorder(color);
         } else {
-            var thickness = Integer.parseInt(components[1]);
+            var thickness = Integer.parseInt(components[1].trim());
 
             if (components.length == 2) {
                 return new LineBorder(color, thickness);
             } else {
-                var roundedCorners = Boolean.parseBoolean(components[2]);
-
-                if (components.length == 3) {
-                    return new LineBorder(color, thickness, roundedCorners);
-                } else {
-                    throw new IllegalArgumentException("Invalid border.");
-                }
+                throw new IllegalArgumentException("Invalid border.");
             }
         }
     }
