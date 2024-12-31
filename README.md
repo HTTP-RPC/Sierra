@@ -32,7 +32,7 @@ Sierra also includes the `TextPane` and `ImagePane` components, which provide an
 For example, the following markup declares a column panel containing a graphic and a simple greeting:
 
 ```xml
-<column-panel padding="8" opaque="true" background="#ffffff">
+<column-panel padding="8" opaque="true" background="white">
     <image-pane image="world.png" scaleMode="fill-width"/>
     <text-pane text="Hello, World!" horizontalAlignment="center"/>
 </column-panel>
@@ -51,7 +51,7 @@ The resulting output is shown below:
 The complete source code for this example can be found [here](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
 
 ## Elements
-XML elements represent component instances. Most Swing and all Sierra components are supported by default. Support for custom elements can be added via the `bind()` method of the `UILoader` class.
+XML elements represent component instances. Most Swing and all Sierra components are supported by default. Support for additional elements can be added via the `bind()` method of the `UILoader` class.
 
 Elements can be nested to create a component hierarchy. For example:
 
@@ -88,6 +88,14 @@ Color and font properties can be specified using the formats supported by `Color
 ```xml
 <label name="label" foreground="#808080"/>
 ```
+
+Colors and fonts can also be referenced by name: 
+
+```xml
+<label name="label" foreground="gray"/>
+```
+
+Sierra includes support for the 16 "basic" [web colors](https://en.wikipedia.org/wiki/Web_colors) by default. Support for additional colors and fonts can be added via the `define()` method of the `UILoader` class.
 
 ### Image and Icon Values
 Image and icon properties can be specified via a path to an image document on the application's classpath. The path is relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:

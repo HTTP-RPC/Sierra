@@ -8,7 +8,7 @@
 
     <row-panel spacing="8">
         <button name="button" text="executeTask"/>
-        <label name="label" foreground="#808080"/>
+        <label name="label" foreground="gray"/>
         <spacer weight="1"/>
         <activity-indicator name="activityIndicator" indicatorSize="18"/>
     </row-panel>
