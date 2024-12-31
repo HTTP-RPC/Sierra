@@ -119,6 +119,18 @@ The "border" and "padding" attributes can be used to specify a component's borde
 <label text="pageStart" horizontalAlignment="center" border="#c0c0c0" padding="4"/>
 ```
 
+Border thickness can be specified as shown below:
+
+```xml
+border="#00ff00, 4"
+```
+
+Padding values for all four sides can be specified in _top_, _left_, _bottom_, _right_ order:
+
+```xml
+padding="8, 8, 8, 8"
+```
+
 ### Weight and Size Values
 The "weight" attribute specifies the amount of excess space in a container that should be allocated to a component, relative to other weighted components. When applied to a `Spacer` instance, it creates a "glue" component that automatically shrinks or stretches depending on the size of its container. However, weights are not limited to spacers and can be applied to any component type:
 
