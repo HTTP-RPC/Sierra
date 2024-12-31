@@ -19,6 +19,7 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import java.awt.Font;
 import java.util.ResourceBundle;
 
 public class BorderTest extends JFrame implements Runnable {
@@ -39,6 +40,9 @@ public class BorderTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        UILoader.define("h1", new Font("Arial", Font.BOLD, 24));
+        UILoader.define("h2", new Font("Arial", Font.PLAIN, 18));
+
         FlatLightLaf.setup();
 
         SwingUtilities.invokeLater(new BorderTest());

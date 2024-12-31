@@ -136,9 +136,9 @@ The "weight" attribute specifies the amount of excess space in a container that 
 
 ```xml
 <row-panel spacing="4" weight="1">
-    <label text="lineStart" horizontalAlignment="center" border="#c0c0c0" padding="4" FlatLaf.styleClass="h2"/>
-    <label text="center" horizontalAlignment="center" border="#c0c0c0" padding="4" FlatLaf.styleClass="h00" weight="1"/>
-    <label text="lineEnd" horizontalAlignment="center" border="#c0c0c0" padding="4" FlatLaf.styleClass="h2"/>
+    <label text="lineStart" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
+    <label text="center" font="h1" horizontalAlignment="center" border="silver" padding="4" weight="1"/>
+    <label text="lineEnd" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
 </row-panel>
 ```
 
