@@ -15,6 +15,7 @@
 package org.httprpc.sierra;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import org.httprpc.kilo.beans.BeanAdapter;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -53,7 +54,6 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -110,7 +110,7 @@ public class UILoader {
     private static final String SET_PREFIX = "set";
 
     private static Map<String, Constructor<? extends JComponent>> constructors = new HashMap<>();
-    private static Map<String, Map<String, Method>> mutators = new HashMap<>();
+    private static Map<String, Map<String, BeanAdapter.Property>> properties = new HashMap<>();
 
     private static Map<String, Color> colors = new HashMap<>();
 
@@ -266,7 +266,7 @@ public class UILoader {
             } else if (name.contains(".")) {
                 component.putClientProperty(name, value);
             } else {
-                var mutator = mutators.get(tag).get(name);
+                var mutator = properties.get(tag).get(name).getMutator();
 
                 if (mutator == null) {
                     throw new UnsupportedOperationException(String.format("Invalid attribute name (%s).", name));
@@ -446,38 +446,7 @@ public class UILoader {
 
         constructors.put(tag, constructor);
 
-        var methods = type.getMethods();
-
-        for (var i = 0; i < methods.length; i++) {
-            var method = methods[i];
-
-            if (method.getDeclaringClass() == Object.class) {
-                continue;
-            }
-
-            var methodName = method.getName();
-
-            if (methodName.startsWith(SET_PREFIX)
-                && method.getReturnType() == Void.TYPE
-                && method.getParameterCount() == 1) {
-                var j = SET_PREFIX.length();
-                var n = methodName.length();
-
-                if (j == n) {
-                    continue;
-                }
-
-                var c = methodName.charAt(j++);
-
-                if (j == n || Character.isLowerCase(methodName.charAt(j))) {
-                    c = Character.toLowerCase(c);
-                }
-
-                var propertyName = c + methodName.substring(j);
-
-                mutators.computeIfAbsent(tag, key -> new HashMap<>()).put(propertyName, method);
-            }
-        }
+        properties.put(tag, BeanAdapter.getProperties(type));
     }
 
     /**

@@ -14,12 +14,13 @@
 
 subprojects {
     group = 'org.httprpc'
-    version = '2.4.1'
+    version = '2.4.2'
 
     apply plugin: 'java-library'
 
     repositories {
         mavenCentral()
+        mavenLocal()
     }
 
     java {
