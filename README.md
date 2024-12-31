@@ -95,7 +95,7 @@ Colors and fonts can also be referenced by name:
 <label name="label" foreground="gray"/>
 ```
 
-Sierra includes support for the 16 "basic" [web colors](https://en.wikipedia.org/wiki/Web_colors) by default. Support for additional colors and fonts can be added via the `define()` method of the `UILoader` class.
+Sierra includes support for the 16 "basic" [web colors](https://en.wikipedia.org/wiki/Web_colors) by default. Support for additional colors and fonts can be added via the `define()` methods of the `UILoader` class.
 
 ### Image and Icon Values
 Image and icon properties can be specified via a path to an image document on the application's classpath. The path is relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:
@@ -116,7 +116,7 @@ Icon support is currently limited to SVG documents and requires the [FlatLaf Ext
 The "border" and "padding" attributes can be used to specify a component's border and padding, respectively. These attributes mirror the corresponding concepts in the CSS box model. For example, this markup creates an instance of `JLabel` with a light gray line border and four pixels of padding on each side:
 
 ```xml
-<label text="pageStart" horizontalAlignment="center" border="#c0c0c0" padding="4"/>
+<label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
 ```
 
 Border thickness can be specified as shown below:
@@ -132,7 +132,7 @@ padding="8, 8, 8, 8"
 ```
 
 ### Weight and Size Values
-The "weight" attribute specifies the amount of excess space in a container that should be allocated to a component, relative to other weighted components. When applied to a `Spacer` instance, it creates a "glue" component that automatically shrinks or stretches depending on the size of its container. However, weights are not limited to spacers and can be applied to any component type:
+The "weight" attribute specifies the amount of excess space in a container that should be allocated to a component, relative to other weighted components in the container. When applied to a `Spacer` instance, it creates a "glue" component that automatically shrinks or stretches depending on the size of its container. However, weights are not limited to spacers and can be applied to any component type:
 
 ```xml
 <row-panel spacing="4" weight="1">
