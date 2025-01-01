@@ -21,15 +21,26 @@ public enum VerticalAlignment {
     /**
      * Top alignment.
      */
-    TOP,
+    TOP("top"),
 
     /**
      * Bottom alignment.
      */
-    BOTTOM,
+    BOTTOM("bottom"),
 
     /**
      * Center alignment.
      */
-    CENTER
+    CENTER("center");
+
+    private final String value;
+
+    VerticalAlignment(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

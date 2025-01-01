@@ -277,9 +277,7 @@ public class UILoader {
                 var type = mutator.getParameterTypes()[0];
 
                 Object argument;
-                if (type == Boolean.TYPE || type == Boolean.class) {
-                    argument = Boolean.valueOf(value);
-                } else if (type == Integer.TYPE || type == Integer.class) {
+                if (type == Integer.TYPE || type == Integer.class) {
                     argument = switch (name) {
                         case "horizontalAlignment" -> switch (value) {
                             case "left" -> SwingConstants.LEFT;
@@ -302,12 +300,6 @@ public class UILoader {
                         };
                         default -> Integer.valueOf(value);
                     };
-                } else if (type == Long.TYPE || type == Long.class) {
-                    argument = Long.valueOf(value);
-                } else if (type == Float.TYPE || type == Float.class) {
-                    argument = Float.valueOf(value);
-                } else if (type == Double.TYPE || type == Double.class) {
-                    argument = Double.valueOf(value);
                 } else if (type == String.class) {
                     if (resourceBundle == null) {
                         argument = value;
@@ -318,27 +310,6 @@ public class UILoader {
                     argument = parseColor(value);
                 } else if (type == Font.class) {
                     argument = parseFont(value);
-                } else if (type == HorizontalAlignment.class) {
-                    argument = switch (value) {
-                        case "leading" -> HorizontalAlignment.LEADING;
-                        case "trailing" -> HorizontalAlignment.TRAILING;
-                        case "center" -> HorizontalAlignment.CENTER;
-                        default -> throw new IllegalArgumentException("Invalid horizontal alignment.");
-                    };
-                } else if (type == VerticalAlignment.class) {
-                    argument = switch (value) {
-                        case "top" -> VerticalAlignment.TOP;
-                        case "bottom" -> VerticalAlignment.BOTTOM;
-                        case "center" -> VerticalAlignment.CENTER;
-                        default -> throw new IllegalArgumentException("Invalid vertical alignment.");
-                    };
-                } else if (type == ImagePane.ScaleMode.class) {
-                    argument = switch (value) {
-                        case "none" -> ImagePane.ScaleMode.NONE;
-                        case "fill-width" -> ImagePane.ScaleMode.FILL_WIDTH;
-                        case "fill-height" -> ImagePane.ScaleMode.FILL_HEIGHT;
-                        default -> throw new IllegalArgumentException("Invalid image pane scale mode.");
-                    };
                 } else if (type == Icon.class) {
                     if (value.endsWith(".svg")) {
                         argument = new FlatSVGIcon(owner.getClass().getResource(value));
@@ -352,7 +323,7 @@ public class UILoader {
                         throw new UnsupportedOperationException(exception);
                     }
                 } else {
-                    throw new UnsupportedOperationException("Unsupported property type.");
+                    argument = BeanAdapter.coerce(value, type);
                 }
 
                 try {
