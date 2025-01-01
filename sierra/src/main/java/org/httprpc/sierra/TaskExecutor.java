@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * Executes tasks in the background and notifies result handlers on the UI
@@ -57,7 +58,16 @@ public class TaskExecutor {
             throw new IllegalArgumentException();
         }
 
+        if (!SwingUtilities.isEventDispatchThread()) {
+            throw new IllegalStateException();
+        }
+
+        // TODO Throw if consumer is non-null
+
+        // TODO Increment count
+
         executorService.submit(() -> {
+            // TODO Decrement count on EDT and invoke notification consumer, if specified
             try {
                 var result = callable.call();
 
@@ -66,5 +76,21 @@ public class TaskExecutor {
                 SwingUtilities.invokeLater(() -> consumer.accept(null, exception));
             }
         });
+    }
+
+    /**
+     * TODO
+     *
+     * @param consumer
+     * TODO
+     */
+    public void notify(Consumer<Boolean> consumer) {
+        if (!SwingUtilities.isEventDispatchThread()) {
+            throw new IllegalStateException();
+        }
+
+        // TODO Throw if consumer is non-null
+
+        // TODO If count == 0, invoke/clear consumer
     }
 }

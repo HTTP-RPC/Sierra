@@ -4,19 +4,19 @@
     <row-panel spacing="8">
         <row-panel spacing="4">
             <label text="ticker"/>
-            <text-field columns="8"/>
+            <text-field name="tickerTextField" columns="8"/>
         </row-panel>
 
         <row-panel spacing="4">
             <label text="count"/>
-            <text-field columns="4"/>
+            <text-field name="countTextField" columns="4"/>
         </row-panel>
 
-        <activity-indicator/>
+        <activity-indicator name="activityIndicator" indicatorSize="18"/>
 
         <spacer weight="1"/>
 
-        <button text="submit"/>
+        <button name="submitButton" text="submit"/>
     </row-panel>
 
     <separator/>
@@ -26,27 +26,39 @@
             <row-panel>
                 <label text="name" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field columns="12" editable="false"/>
+                    <text-field name="nameTextField" columns="12" editable="false"/>
                 </row-panel>
             </row-panel>
             <row-panel>
                 <label text="exchangeCode" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field columns="6" editable="false"/>
+                    <text-field name="exchangeCodeTextField" columns="6" editable="false"/>
                 </row-panel>
             </row-panel>
             <row-panel>
                 <label text="description" alignmentX="1.0" alignmentY="0.0"/>
                 <scroll-pane>
-                    <text-area rows="6" columns="16" editable="false"/>
+                    <text-area name="descriptionTextArea" rows="6" columns="16" editable="false"/>
                 </scroll-pane>
+            </row-panel>
+            <row-panel>
+                <label text="startDate" alignmentX="1.0"/>
+                <row-panel>
+                    <text-field name="startDateTextField" columns="8" editable="false"/>
+                </row-panel>
+            </row-panel>
+            <row-panel>
+                <label text="endDate" alignmentX="1.0"/>
+                <row-panel>
+                    <text-field name="endDateTextField" columns="8" editable="false"/>
+                </row-panel>
             </row-panel>
         </column-panel>
 
         <separator orientation="vertical"/>
 
         <scroll-pane size="360" weight="1">
-            <table/>
+            <table name="assetPricingTable"/>
         </scroll-pane>
     </row-panel>
 </column-panel>
