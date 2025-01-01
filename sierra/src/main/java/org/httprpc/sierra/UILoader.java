@@ -60,6 +60,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import static org.httprpc.kilo.util.Optionals.*;
+
 /**
  * Provides support for deserializing a component hierarchy from markup.
  */
@@ -266,7 +268,7 @@ public class UILoader {
             } else if (name.contains(".")) {
                 component.putClientProperty(name, value);
             } else {
-                var mutator = properties.get(tag).get(name).getMutator();
+                var mutator = map(properties.get(tag).get(name), BeanAdapter.Property::getMutator);
 
                 if (mutator == null) {
                     throw new UnsupportedOperationException(String.format("Invalid attribute name (%s).", name));
