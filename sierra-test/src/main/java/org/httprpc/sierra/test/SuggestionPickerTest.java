@@ -20,7 +20,8 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import java.util.Arrays;
+
+import static org.httprpc.kilo.util.Collections.*;
 
 public class SuggestionPickerTest extends JFrame implements Runnable {
     private SuggestionPicker sizeSuggestionPicker;
@@ -36,7 +37,7 @@ public class SuggestionPickerTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "suggestion-picker-test.xml"));
 
-        sizeSuggestionPicker.setSuggestions(Arrays.asList(
+        sizeSuggestionPicker.setSuggestions(listOf(
             "small",
             "medium",
             "large"
@@ -44,7 +45,7 @@ public class SuggestionPickerTest extends JFrame implements Runnable {
 
         sizeSuggestionPicker.addActionListener(event -> System.out.println(sizeSuggestionPicker.getText()));
 
-        colorSuggestionPicker.setSuggestions(Arrays.asList(
+        colorSuggestionPicker.setSuggestions(listOf(
             "red",
             "orange",
             "yellow",
