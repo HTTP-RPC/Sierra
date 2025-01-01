@@ -54,6 +54,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -408,6 +409,10 @@ public class UILoader {
     public static void bind(String tag, Class<? extends JComponent> type) {
         if (tag == null || type == null) {
             throw new IllegalArgumentException();
+        }
+
+        if (Modifier.isAbstract(type.getModifiers())) {
+            throw new IllegalArgumentException("Type is abstract.");
         }
 
         Constructor<? extends JComponent> constructor;
