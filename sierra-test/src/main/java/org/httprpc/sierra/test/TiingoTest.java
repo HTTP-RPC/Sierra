@@ -16,6 +16,7 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.kilo.WebServiceProxy;
+import org.httprpc.kilo.beans.BeanAdapter;
 import org.httprpc.sierra.ActivityIndicator;
 import org.httprpc.sierra.TaskExecutor;
 import org.httprpc.sierra.TextPane;
@@ -28,17 +29,76 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 
 import static org.httprpc.kilo.util.Collections.*;
 
 public class TiingoTest extends JFrame implements Runnable {
+    private static class HistoricalPricingTableModel implements TableModel {
+        private List<BeanAdapter> values;
+
+        private List<String> columns = listOf("date", "open", "high", "low", "close", "volume");
+        private Map<String, BeanAdapter.Property> properties = BeanAdapter.getProperties(AssetPricing.class);
+
+        public HistoricalPricingTableModel(List<AssetPricing> rows) {
+            values = rows.stream().map(BeanAdapter::new).toList();
+        }
+
+        @Override
+        public int getRowCount() {
+            return values.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return columns.size();
+        }
+
+        @Override
+        public String getColumnName(int columnIndex) {
+            return resourceBundle.getString(columns.get(columnIndex));
+        }
+
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            return properties.get(columns.get(columnIndex)).getAccessor().getReturnType();
+        }
+
+        @Override
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            return values.get(rowIndex).get(columns.get(columnIndex));
+        }
+
+        @Override
+        public void setValueAt(Object value, int rowIndex, int columnIndex) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void addTableModelListener(TableModelListener listener) {
+            // No-op
+        }
+
+        @Override
+        public void removeTableModelListener(TableModelListener listener) {
+            // No-op
+        }
+    }
+
     private JTextField tickerTextField;
     private JTextField countTextField;
 
@@ -53,7 +113,7 @@ public class TiingoTest extends JFrame implements Runnable {
 
     private TextPane descriptionTextPane;
 
-    private JTable assetPricingTable;
+    private JTable historicalPricingTable;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(TiingoTest.class.getName());
 
@@ -85,7 +145,7 @@ public class TiingoTest extends JFrame implements Runnable {
 
         rootPane.setDefaultButton(submitButton);
 
-        setSize(860, 480);
+        setSize(960, 540);
         setVisible(true);
     }
 
@@ -140,7 +200,7 @@ public class TiingoTest extends JFrame implements Runnable {
 
         taskExecutor.execute(() -> tiingoServiceProxy.getHistoricalPricing(ticker, startDate, endDate), (result, exception) -> {
             if (exception == null) {
-                updateAssetPricing(result);
+                updateHistoricalPricing(result);
             } else {
                 exception.printStackTrace(System.out);
             }
@@ -166,6 +226,8 @@ public class TiingoTest extends JFrame implements Runnable {
 
     private void updateAsset(Asset asset) {
         nameTextField.setText(asset.getName());
+        nameTextField.setCaretPosition(0);
+
         exchangeCodeTextField.setText(asset.getExchangeCode());
 
         var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
@@ -176,8 +238,8 @@ public class TiingoTest extends JFrame implements Runnable {
         descriptionTextPane.setText(asset.getDescription());
     }
 
-    private void updateAssetPricing(List<AssetPricing> assetPricing) {
-        // TODO
+    private void updateHistoricalPricing(List<AssetPricing> historicalPricing) {
+        historicalPricingTable.setModel(new HistoricalPricingTableModel(historicalPricing));
     }
 
     public static void main(String[] args) {

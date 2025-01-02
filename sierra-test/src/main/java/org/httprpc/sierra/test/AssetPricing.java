@@ -18,9 +18,9 @@ import java.time.Instant;
 
 public interface AssetPricing {
     Instant getDate();
-    double getOpen();
-    double getHigh();
-    double getLow();
-    double getClose();
-    long getVolume();
+    Double getOpen();
+    Double getHigh();
+    Double getLow();
+    Double getClose();
+    Long getVolume();
 }

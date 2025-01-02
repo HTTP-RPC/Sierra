@@ -18,3 +18,9 @@ dependencies {
     implementation 'com.formdev:flatlaf:3.5.4:no-natives'
     implementation 'com.formdev:flatlaf-extras:3.5.4'
 }
+
+compileJava {
+    options.compilerArgs = [
+        '-parameters'
+    ]
+}

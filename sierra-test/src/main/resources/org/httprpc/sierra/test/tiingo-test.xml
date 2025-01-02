@@ -4,12 +4,12 @@
     <row-panel spacing="8">
         <row-panel spacing="4">
             <label text="ticker"/>
-            <text-field name="tickerTextField" columns="8"/>
+            <text-field name="tickerTextField" columns="6"/>
         </row-panel>
 
         <row-panel spacing="4">
             <label text="count"/>
-            <text-field name="countTextField" columns="4"/>
+            <text-field name="countTextField" columns="3"/>
         </row-panel>
 
         <activity-indicator name="activityIndicator" indicatorSize="18"/>
@@ -26,25 +26,25 @@
             <row-panel>
                 <label text="name" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field name="nameTextField" columns="16" editable="false" focusable="false"/>
+                    <text-field name="nameTextField" columns="16" editable="false"/>
                 </row-panel>
             </row-panel>
             <row-panel>
                 <label text="exchangeCode" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field name="exchangeCodeTextField" columns="6" editable="false" focusable="false"/>
+                    <text-field name="exchangeCodeTextField" columns="6" editable="false"/>
                 </row-panel>
             </row-panel>
             <row-panel>
                 <label text="startDate" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field name="startDateTextField" columns="12" editable="false" focusable="false"/>
+                    <text-field name="startDateTextField" columns="12" editable="false"/>
                 </row-panel>
             </row-panel>
             <row-panel>
                 <label text="endDate" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field name="endDateTextField" columns="12" editable="false" focusable="false"/>
+                    <text-field name="endDateTextField" columns="12" editable="false"/>
                 </row-panel>
             </row-panel>
 
@@ -60,7 +60,7 @@
         <separator orientation="vertical"/>
 
         <scroll-pane size="360" weight="1">
-            <table name="assetPricingTable"/>
+            <table name="historicalPricingTable"/>
         </scroll-pane>
     </row-panel>
 </column-panel>
