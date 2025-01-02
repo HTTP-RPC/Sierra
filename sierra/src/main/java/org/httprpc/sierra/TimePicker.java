@@ -137,7 +137,6 @@ public class TimePicker extends Picker {
 
     private static final String pattern;
     private static final DateTimeFormatter timeFormatter;
-
     static {
         var locale = Locale.getDefault();
 

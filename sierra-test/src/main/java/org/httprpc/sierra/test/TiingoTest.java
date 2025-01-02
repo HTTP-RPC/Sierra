@@ -28,19 +28,28 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import java.net.URI;
+import java.text.NumberFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 
 import static org.httprpc.kilo.util.Collections.*;
+import static org.httprpc.kilo.util.Optionals.*;
 
 public class TiingoTest extends JFrame implements Runnable {
     private static class HistoricalPricingTableModel implements TableModel {
@@ -96,6 +105,52 @@ public class TiingoTest extends JFrame implements Runnable {
         @Override
         public void removeTableModelListener(TableModelListener listener) {
             // No-op
+        }
+    }
+
+    private static class DateRenderer extends DefaultTableCellRenderer {
+        static DateTimeFormatter dateFormatter;
+        static {
+            dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withZone(ZoneId.of("America/New_York"));
+        }
+
+        @Override
+        public void setValue(Object value) {
+            setText(map((Instant)value, dateFormatter::format));
+        }
+    }
+
+    private static class PriceRenderer extends DefaultTableCellRenderer {
+        static NumberFormat priceFormat;
+        static {
+            priceFormat = NumberFormat.getCurrencyInstance(Locale.US);
+        }
+
+        PriceRenderer() {
+            setHorizontalAlignment(SwingConstants.TRAILING);
+        }
+
+        @Override
+        public void setValue(Object value) {
+            setText(map((Number)value, priceFormat::format));
+        }
+    }
+
+    private static class VolumeRenderer extends DefaultTableCellRenderer {
+        static NumberFormat volumeFormat;
+        static {
+            volumeFormat = NumberFormat.getNumberInstance();
+
+            volumeFormat.setGroupingUsed(true);
+        }
+
+        VolumeRenderer() {
+            setHorizontalAlignment(SwingConstants.TRAILING);
+        }
+
+        @Override
+        public void setValue(Object value) {
+            setText(map((Number)value, volumeFormat::format));
         }
     }
 
@@ -239,7 +294,24 @@ public class TiingoTest extends JFrame implements Runnable {
     }
 
     private void updateHistoricalPricing(List<AssetPricing> historicalPricing) {
+        historicalPricing.sort(Comparator.comparing(AssetPricing::getDate).reversed());
+
         historicalPricingTable.setModel(new HistoricalPricingTableModel(historicalPricing));
+
+        var columnModel = historicalPricingTable.getColumnModel();
+
+        columnModel.getColumn(0).setCellRenderer(new DateRenderer());
+
+        var priceRenderer = new PriceRenderer();
+
+        columnModel.getColumn(1).setCellRenderer(priceRenderer);
+        columnModel.getColumn(2).setCellRenderer(priceRenderer);
+        columnModel.getColumn(3).setCellRenderer(priceRenderer);
+        columnModel.getColumn(4).setCellRenderer(priceRenderer);
+
+        columnModel.getColumn(5).setCellRenderer(new VolumeRenderer());
+
+        historicalPricingTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     public static void main(String[] args) {

@@ -211,7 +211,6 @@ public class DatePicker extends Picker {
 
     private static final String pattern;
     private static final DateTimeFormatter dateFormatter;
-
     static {
         var locale = Locale.getDefault();
 
