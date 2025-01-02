@@ -44,7 +44,6 @@ import java.time.format.FormatStyle;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 
@@ -56,7 +55,6 @@ public class TiingoTest extends JFrame implements Runnable {
         private List<BeanAdapter> values;
 
         private List<String> columns = listOf("date", "open", "high", "low", "close", "volume");
-        private Map<String, BeanAdapter.Property> properties = BeanAdapter.getProperties(AssetPricing.class);
 
         public HistoricalPricingTableModel(List<AssetPricing> rows) {
             values = rows.stream().map(BeanAdapter::new).toList();
@@ -79,7 +77,7 @@ public class TiingoTest extends JFrame implements Runnable {
 
         @Override
         public Class<?> getColumnClass(int columnIndex) {
-            return properties.get(columns.get(columnIndex)).getAccessor().getReturnType();
+            return Object.class;
         }
 
         @Override
@@ -108,7 +106,7 @@ public class TiingoTest extends JFrame implements Runnable {
         }
     }
 
-    private static class DateRenderer extends DefaultTableCellRenderer {
+    private static class DateCellRenderer extends DefaultTableCellRenderer {
         static DateTimeFormatter dateFormatter;
         static {
             dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withZone(ZoneId.of("America/New_York"));
@@ -120,13 +118,13 @@ public class TiingoTest extends JFrame implements Runnable {
         }
     }
 
-    private static class PriceRenderer extends DefaultTableCellRenderer {
+    private static class PriceCellRenderer extends DefaultTableCellRenderer {
         static NumberFormat priceFormat;
         static {
             priceFormat = NumberFormat.getCurrencyInstance(Locale.US);
         }
 
-        PriceRenderer() {
+        PriceCellRenderer() {
             setHorizontalAlignment(SwingConstants.TRAILING);
         }
 
@@ -136,7 +134,7 @@ public class TiingoTest extends JFrame implements Runnable {
         }
     }
 
-    private static class VolumeRenderer extends DefaultTableCellRenderer {
+    private static class VolumeCellRenderer extends DefaultTableCellRenderer {
         static NumberFormat volumeFormat;
         static {
             volumeFormat = NumberFormat.getNumberInstance();
@@ -144,7 +142,7 @@ public class TiingoTest extends JFrame implements Runnable {
             volumeFormat.setGroupingUsed(true);
         }
 
-        VolumeRenderer() {
+        VolumeCellRenderer() {
             setHorizontalAlignment(SwingConstants.TRAILING);
         }
 
@@ -300,16 +298,16 @@ public class TiingoTest extends JFrame implements Runnable {
 
         var columnModel = historicalPricingTable.getColumnModel();
 
-        columnModel.getColumn(0).setCellRenderer(new DateRenderer());
+        columnModel.getColumn(0).setCellRenderer(new DateCellRenderer());
 
-        var priceRenderer = new PriceRenderer();
+        var priceRenderer = new PriceCellRenderer();
 
         columnModel.getColumn(1).setCellRenderer(priceRenderer);
         columnModel.getColumn(2).setCellRenderer(priceRenderer);
         columnModel.getColumn(3).setCellRenderer(priceRenderer);
         columnModel.getColumn(4).setCellRenderer(priceRenderer);
 
-        columnModel.getColumn(5).setCellRenderer(new VolumeRenderer());
+        columnModel.getColumn(5).setCellRenderer(new VolumeCellRenderer());
 
         historicalPricingTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
