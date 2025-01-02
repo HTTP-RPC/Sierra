@@ -53,7 +53,7 @@
             <scroll-pane weight="1">
                 <column-panel padding="4, 8, 4, 8" scrollableTracksViewportWidth="true">
                     <text-pane name="descriptionTextPane" wrapText="true"/>
-                </column-panel>s
+                </column-panel>
             </scroll-pane>
         </column-panel>
 
