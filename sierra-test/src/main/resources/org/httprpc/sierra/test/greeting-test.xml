@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
 <column-panel padding="8" opaque="true" background="white">
     <image-pane image="world.png" scaleMode="fill-width"/>
     <text-pane text="Hello, World!" horizontalAlignment="center"/>

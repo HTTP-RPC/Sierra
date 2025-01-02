@@ -25,6 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
@@ -411,8 +412,8 @@ public class UILoader {
             throw new IllegalArgumentException();
         }
 
-        if (Modifier.isAbstract(type.getModifiers())) {
-            throw new IllegalArgumentException("Type is abstract.");
+        if (Modifier.isAbstract(type.getModifiers()) || type == JPanel.class) {
+            throw new IllegalArgumentException("Invalid type.");
         }
 
         Constructor<? extends JComponent> constructor;

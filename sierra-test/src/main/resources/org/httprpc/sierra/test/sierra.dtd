@@ -1,0 +1,21 @@
+<!ENTITY % UILoader "name ID border CDATA padding CDATA weight CDATA size CDATA">
+<!ENTITY % JComponent "%UILoader; background CDATA foreground CDATA opaque (true|false)">
+<!ENTITY % JPanel "%JComponent;">
+<!ENTITY % LayoutPanel "%JPanel; scrollableTracksViewportWidth (true|false) scrollableTracksViewportHeight (true|false)">
+<!ENTITY % BoxPanel "%LayoutPanel; spacing CDATA">
+
+<!ELEMENT row-panel (ANY)>
+<!ATTLIST row-panel %BoxPanel; alignToBaseline (true|false)>
+<!ELEMENT column-panel (ANY)>
+<!ATTLIST column-panel %BoxPanel; alignToGrid (true|false)>
+<!ELEMENT spacer EMPTY>
+<!ATTLIST spacer %JComponent;>
+<!ELEMENT image-pane EMPTY>
+<!ATTLIST image-pane %JComponent; image CDATA scaleMode (none|fill-width|fill-height) horizontalAlignment (leading|trailing|center) verticalAlignment (top|bottom|center)>
+<!ELEMENT text-pane EMPTY>
+<!ATTLIST text-pane %JComponent; text CDATA wrapText (true|false) horizontalAlignment (leading|trailing|center) verticalAlignment (top|bottom|center)>
+
+<!ELEMENT button EMPTY>
+<!ATTLIST button %JComponent; text CDATA>
+<!ELEMENT label EMPTY>
+<!ATTLIST label %JComponent; text CDATA horizontalAlignment (left|center|right|leading|trailing) verticalAlignment (top|center|bottom)>
