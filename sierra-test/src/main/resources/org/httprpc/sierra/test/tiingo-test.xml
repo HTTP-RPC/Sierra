@@ -26,33 +26,35 @@
             <row-panel>
                 <label text="name" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field name="nameTextField" columns="12" editable="false"/>
+                    <text-field name="nameTextField" columns="16" editable="false" focusable="false"/>
                 </row-panel>
             </row-panel>
             <row-panel>
                 <label text="exchangeCode" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field name="exchangeCodeTextField" columns="6" editable="false"/>
+                    <text-field name="exchangeCodeTextField" columns="6" editable="false" focusable="false"/>
                 </row-panel>
-            </row-panel>
-            <row-panel>
-                <label text="description" alignmentX="1.0" alignmentY="0.0"/>
-                <scroll-pane>
-                    <text-area name="descriptionTextArea" rows="6" columns="16" editable="false"/>
-                </scroll-pane>
             </row-panel>
             <row-panel>
                 <label text="startDate" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field name="startDateTextField" columns="8" editable="false"/>
+                    <text-field name="startDateTextField" columns="12" editable="false" focusable="false"/>
                 </row-panel>
             </row-panel>
             <row-panel>
                 <label text="endDate" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field name="endDateTextField" columns="8" editable="false"/>
+                    <text-field name="endDateTextField" columns="12" editable="false" focusable="false"/>
                 </row-panel>
             </row-panel>
+
+            <separator/>
+
+            <scroll-pane weight="1">
+                <column-panel padding="4, 8, 4, 8" scrollableTracksViewportWidth="true">
+                    <text-pane name="descriptionTextPane" wrapText="true"/>
+                </column-panel>s
+            </scroll-pane>
         </column-panel>
 
         <separator orientation="vertical"/>

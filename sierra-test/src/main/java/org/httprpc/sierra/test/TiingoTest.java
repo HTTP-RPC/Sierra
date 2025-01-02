@@ -15,18 +15,28 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.kilo.WebServiceProxy;
 import org.httprpc.sierra.ActivityIndicator;
 import org.httprpc.sierra.TaskExecutor;
+import org.httprpc.sierra.TextPane;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import java.net.URI;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
+
+import static org.httprpc.kilo.util.Collections.*;
 
 public class TiingoTest extends JFrame implements Runnable {
     private JTextField tickerTextField;
@@ -38,9 +48,10 @@ public class TiingoTest extends JFrame implements Runnable {
 
     private JTextField nameTextField;
     private JTextField exchangeCodeTextField;
-    private JTextArea descriptionTextArea;
     private JTextField startDateTextField;
     private JTextField endDateTextField;
+
+    private TextPane descriptionTextPane;
 
     private JTable assetPricingTable;
 
@@ -54,6 +65,8 @@ public class TiingoTest extends JFrame implements Runnable {
         return thread;
     }));
 
+    private static final URI baseURI = URI.create("https://api.tiingo.com/");
+
     private TiingoTest() {
         super(resourceBundle.getString("title"));
 
@@ -66,46 +79,105 @@ public class TiingoTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "tiingo-test.xml", resourceBundle));
 
+        countTextField.setText(Integer.toString(30));
+
         submitButton.addActionListener(event -> submit());
 
-        setSize(720, 360);
+        rootPane.setDefaultButton(submitButton);
+
+        setSize(860, 480);
         setVisible(true);
     }
 
     private void submit() {
+        var token = System.getProperty("token");
+
+        if (token == null) {
+            showErrorMessage("apiTokenRequired", null);
+            return;
+        }
+
+        var ticker = tickerTextField.getText().trim();
+
+        if (ticker.isEmpty()) {
+            showErrorMessage("tickerRequired", tickerTextField);
+            return;
+        }
+
+        var countText = countTextField.getText().trim();
+
+        if (countText.isEmpty()) {
+            showErrorMessage("countRequired", countTextField);
+            return;
+        }
+
+        int count;
+        try {
+            count = Integer.parseInt(countText);
+        } catch (NumberFormatException exception) {
+            showErrorMessage("invalidCount", countTextField);
+            return;
+        }
+
+        var endDate = LocalDate.now();
+        var startDate = endDate.minusDays(count);
+
         submitButton.setEnabled(false);
 
         activityIndicator.start();
 
-        // TODO Clear fields/table
+        var tiingoServiceProxy = WebServiceProxy.of(TiingoServiceProxy.class, baseURI, mapOf(
+            entry("Authorization", String.format("Token %s", token))
+        ));
 
-        taskExecutor.execute(() -> {
-            // TODO Load asset details
-
-            return null;
-        }, (result, exception) -> {
+        taskExecutor.execute(() -> tiingoServiceProxy.getAsset(ticker), (result, exception) -> {
             if (exception == null) {
-                // TODO
+                updateAsset(result);
             } else {
-                // TODO
+                exception.printStackTrace(System.out);
             }
         });
 
-        taskExecutor.execute(() -> {
-            // TODO Load asset pricing history
-
-            return null;
-        }, (result, exception) -> {
+        taskExecutor.execute(() -> tiingoServiceProxy.getHistoricalPricing(ticker, startDate, endDate), (result, exception) -> {
             if (exception == null) {
-                // TODO
+                updateAssetPricing(result);
             } else {
-                // TODO
+                exception.printStackTrace(System.out);
             }
         });
 
-        taskExecutor.notify(result -> {
-            // TODO Stop activity indicator and enable submit button
+        taskExecutor.notify(() -> {
+            submitButton.setEnabled(true);
+
+            activityIndicator.stop();
         });
+    }
+
+    private void showErrorMessage(String messageKey, JComponent component) {
+        JOptionPane.showMessageDialog(this,
+            resourceBundle.getString(messageKey),
+            resourceBundle.getString("error"),
+            JOptionPane.ERROR_MESSAGE);
+
+        if (component != null) {
+            component.requestFocus();
+        }
+    }
+
+    private void updateAsset(Asset asset) {
+        nameTextField.setText(asset.getName());
+        exchangeCodeTextField.setText(asset.getExchangeCode());
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
+
+        startDateTextField.setText(dateFormatter.format(asset.getStartDate()));
+        endDateTextField.setText(dateFormatter.format(asset.getEndDate()));
+
+        descriptionTextPane.setText(asset.getDescription());
+    }
+
+    private void updateAssetPricing(List<AssetPricing> assetPricing) {
+        // TODO
     }
 
     public static void main(String[] args) {

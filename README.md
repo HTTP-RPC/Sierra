@@ -298,7 +298,7 @@ See [FormTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/s
 The `TaskExecutor` class performs a task in the background and and invokes a callback on the UI thread when the task is complete:
 
 ```java
-public <T> void execute(Callable<T> callable, BiConsumer<T, Exception> consumer) { ... }
+public <T> void execute(Callable<T> task, BiConsumer<T, Exception> handler) { ... }
 ```
 
 For example:
