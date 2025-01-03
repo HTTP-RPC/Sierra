@@ -75,7 +75,7 @@ XML attributes generally represent component properties. For example, this marku
 <text-pane text="Hello, World!" horizontalAlignment="center"/>
 ```
 
-Numeric and boolean values are automatically converted to the appropriate type. Properties that expect values defined by the `SwingConstants` class (such as "horizontalAlignment") can be specified via a lowercase version of the constant name. Enum values are specified using [kebab-case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
+Numeric and boolean values are automatically converted to the appropriate type. Properties that expect values defined by the `SwingConstants` class (such as "horizontalAlignment") can be specified via a lowercase version of the constant name. Enum values are specified using [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
 
 ### Color and Font Values
 Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `JLabel` and sets its "foreground" property to gray:
@@ -160,7 +160,7 @@ The "size" attribute specifies a fixed dimension for a component. It is typicall
 <img src="README/box.png" width="559px"/>
 
 ### FlatLaf Styles and Style Classes
-FlatLaf style and style class values can be specified via the "FlatLaf.style" and "FlatLaf.styleClass" attributes, respectively. For example, this markup applies the "h2" style class to a `JLabel` instance used by a list cell renderer:
+FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "FlatLaf.style" and "FlatLaf.styleClass" attributes, respectively. For example, this markup applies the "h2" style class to a `JLabel` instance used by a list cell renderer:
 
 ```xml
 <row-panel spacing="4" padding="4" opaque="true">
