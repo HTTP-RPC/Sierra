@@ -159,8 +159,8 @@ The "size" attribute specifies a fixed dimension for a component. It is typicall
 
 <img src="README/box.png" width="559px"/>
 
-### Client Properties
-Any attribute whose name contains a period (".") is considered a "client property" and is applied via `JComponent#putClientProperty()`. For example, this markup applies the "h2" FlatLaf style class to a `JLabel` instance used by a list cell renderer:
+### FlatLaf Styles and Style Classes
+FlatLaf style and style class values can be specified via the "FlatLaf.style" and "FlatLaf.styleClass" attributes, respectively. For example, this markup applies the "h2" style class to a `JLabel` instance used by a list cell renderer:
 
 ```xml
 <row-panel spacing="4" padding="4" opaque="true">

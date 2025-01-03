@@ -1,4 +1,4 @@
-<!ENTITY % UILoader "name ID border CDATA padding CDATA weight CDATA size CDATA ">
+<!ENTITY % UILoader "name ID border CDATA padding CDATA weight CDATA size CDATA FlatLaf.style CDATA FlatLaf.styleClass CDATA ">
 <!ENTITY % Component "%UILoader; background CDATA enabled (true|false) focusTraversalKeysEnabled (true|false) focusable (true|false) font CDATA foreground CDATA ignoreRepaint (true|false) name CDATA visible (true|false) ">
 <!ENTITY % Container "%Component; focusCycleRoot (true|false) focusTraversalPolicyProvider (true|false) font CDATA ">
 <!ENTITY % JComponent "%Container; alignmentX CDATA alignmentY CDATA autoscrolls (true|false) background CDATA debugGraphicsOptions CDATA doubleBuffered (true|false) enabled (true|false) font CDATA foreground CDATA inheritsPopupMenu (true|false) opaque (true|false) requestFocusEnabled (true|false) toolTipText CDATA verifyInputWhenFocusTarget (true|false) visible (true|false) ">

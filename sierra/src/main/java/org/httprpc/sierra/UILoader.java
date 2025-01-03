@@ -122,12 +122,15 @@ public class UILoader {
         public void write(Void value, Writer writer) throws IOException {
             startEntityDeclaration(UILoader.class, null, writer);
 
-            appendAttributeDeclaration("name", "ID", writer);
+            appendAttributeDeclaration(NAME, "ID", writer);
 
-            appendAttributeDeclaration("border", CDATA, writer);
-            appendAttributeDeclaration("padding", CDATA, writer);
-            appendAttributeDeclaration("weight", CDATA, writer);
-            appendAttributeDeclaration("size", CDATA, writer);
+            appendAttributeDeclaration(BORDER, CDATA, writer);
+            appendAttributeDeclaration(PADDING, CDATA, writer);
+            appendAttributeDeclaration(WEIGHT, CDATA, writer);
+            appendAttributeDeclaration(SIZE, CDATA, writer);
+
+            appendAttributeDeclaration(FLAT_LAF_STYLE, CDATA, writer);
+            appendAttributeDeclaration(FLAT_LAF_STYLE_CLASS, CDATA, writer);
 
             endEntityDeclaration(writer);
 
@@ -279,6 +282,16 @@ public class UILoader {
 
     private JComponent root = null;
 
+    private static final String NAME = "name";
+
+    private static final String BORDER = "border";
+    private static final String PADDING = "padding";
+    private static final String WEIGHT = "weight";
+    private static final String SIZE = "size";
+
+    private static final String FLAT_LAF_STYLE = "FlatLaf.style";
+    private static final String FLAT_LAF_STYLE_CLASS = "FlatLaf.styleClass";
+
     private static final String HORIZONTAL_ALIGNMENT = "horizontalAlignment";
     private static final String VERTICAL_ALIGNMENT = "verticalAlignment";
     private static final String ORIENTATION = "orientation";
@@ -426,7 +439,7 @@ public class UILoader {
             var name = xmlStreamReader.getAttributeLocalName(i);
             var value = xmlStreamReader.getAttributeValue(i);
 
-            if (name.equals("name")) {
+            if (name.equals(NAME)) {
                 var field = fields.get(value);
 
                 if (field == null) {
@@ -440,17 +453,17 @@ public class UILoader {
                 } catch (IllegalAccessException exception) {
                     throw new UnsupportedOperationException(exception);
                 }
-            } else if (name.equals("border")) {
+            } else if (name.equals(BORDER)) {
                 lineBorder = parseBorder(value);
-            } else if (name.equals("padding")) {
+            } else if (name.equals(PADDING)) {
                 emptyBorder = parsePadding(value);
-            } else if (name.equals("weight")) {
+            } else if (name.equals(WEIGHT)) {
                 constraints = Double.valueOf(value);
-            } else if (name.equals("size")) {
+            } else if (name.equals(SIZE)) {
                 var size = Integer.parseInt(value);
 
                 component.setPreferredSize(new Dimension(size, size));
-            } else if (name.contains(".")) {
+            } else if (name.equals(FLAT_LAF_STYLE) || name.equals(FLAT_LAF_STYLE_CLASS)) {
                 component.putClientProperty(name, value);
             } else {
                 var mutator = map(properties.get(tag).get(name), BeanAdapter.Property::getMutator);
