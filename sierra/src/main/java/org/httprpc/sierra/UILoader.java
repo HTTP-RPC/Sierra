@@ -16,6 +16,7 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.kilo.beans.BeanAdapter;
+import org.httprpc.kilo.io.Encoder;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -51,6 +52,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -61,6 +63,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -98,6 +101,115 @@ public class UILoader {
                     return message;
                 } else {
                     return String.format("[Line %d] %s", lineNumber, message);
+                }
+            }
+        }
+    }
+
+    private static class DTDEncoder extends Encoder<Void> {
+        List<Class<?>> typeList;
+        Map<Class<?>, String> tags;
+
+        DTDEncoder(List<Class<?>> typeList, Map<Class<?>, String> tags) {
+            this.typeList = typeList;
+            this.tags = tags;
+        }
+
+        @Override
+        public void write(Void value, Writer writer) throws IOException {
+            for (var type : typeList) {
+                writer.append(type.getSimpleName());
+                writer.append(": ");
+                writer.append(type.getSuperclass().getSimpleName());
+                writer.append(" ");
+
+                var i = 0;
+
+                for (var entry : BeanAdapter.getProperties(type).entrySet()) {
+                    var property = entry.getValue();
+                    var accessor = property.getAccessor();
+
+                    if (accessor.getDeclaringClass() != type || property.getMutator() == null) {
+                        continue;
+                    }
+
+                    var propertyName = entry.getKey();
+                    var propertyType = accessor.getReturnType();
+
+                    String attributeType;
+                    if (propertyType == Integer.TYPE || propertyType == Integer.class) {
+                        // TODO SwingConstants
+                        attributeType = "CDATA";
+                    } else if (propertyType == Boolean.TYPE || propertyType == Boolean.class) {
+                        attributeType = String.format("(%b|%b)", true, false);
+                    } else if (Enum.class.isAssignableFrom(propertyType)) {
+                        var attributeTypeBuilder = new StringBuilder();
+
+                        attributeTypeBuilder.append('(');
+
+                        var fields = propertyType.getDeclaredFields();
+
+                        var j = 0;
+
+                        for (var k = 0; k < fields.length; k++) {
+                            var field = fields[k];
+
+                            if (!field.isEnumConstant()) {
+                                continue;
+                            }
+
+                            if (j > 0) {
+                                attributeTypeBuilder.append('|');
+                            }
+
+                            Object constant;
+                            try {
+                                constant = field.get(null);
+                            } catch (IllegalAccessException exception) {
+                                throw new RuntimeException(exception);
+                            }
+
+                            attributeTypeBuilder.append(constant.toString());
+
+                            j++;
+                        }
+
+                        attributeTypeBuilder.append(')');
+
+                        attributeType = attributeTypeBuilder.toString();
+                    } else if (propertyType == String.class
+                        || propertyType == Color.class
+                        || propertyType == Font.class
+                        || propertyType == Icon.class
+                        || propertyType == Image.class
+                        || Number.class.isAssignableFrom(propertyType)) {
+                        attributeType = "CDATA";
+                    } else {
+                        attributeType = null;
+                    }
+
+                    if (attributeType != null) {
+                        if (i > 0) {
+                            writer.append(" ");
+                        }
+
+                        writer.append(propertyName);
+                        writer.append(' ');
+                        writer.append(attributeType);
+
+                        i++;
+                    }
+                }
+
+                writer.append('\n');
+
+                var tag = tags.get(type);
+
+                if (tag != null) {
+                    writer.append(tag);
+                    writer.append('=');
+                    writer.append(type.getSimpleName());
+                    writer.append('\n');
                 }
             }
         }
@@ -519,7 +631,7 @@ public class UILoader {
      * @param args
      * Command-line arguments (unused).
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         var typeSet = new HashSet<Class<?>>();
 
         var tags = new HashMap<Class<?>, String>();
@@ -541,96 +653,9 @@ public class UILoader {
 
         typeList.sort(Comparator.comparing(UILoader::getDepth).thenComparing(Class::getSimpleName));
 
-        for (var type : typeList) {
-            System.out.print(type.getSimpleName());
-            System.out.print(": ");
-            System.out.print(type.getSuperclass().getSimpleName());
-            System.out.print(" ");
+        var dtdEncoder = new DTDEncoder(typeList, tags);
 
-            var i = 0;
-
-            for (var entry : BeanAdapter.getProperties(type).entrySet()) {
-                var property = entry.getValue();
-                var accessor = property.getAccessor();
-
-                if (accessor.getDeclaringClass() != type || property.getMutator() == null) {
-                    continue;
-                }
-
-                var propertyName = entry.getKey();
-                var propertyType = accessor.getReturnType();
-
-                String attributeType;
-                if (propertyType == Integer.TYPE || propertyType == Integer.class) {
-                    // TODO SwingConstants
-                    attributeType = "CDATA";
-                } else if (propertyType == Boolean.TYPE || propertyType == Boolean.class) {
-                    attributeType = String.format("(%b|%b)", true, false);
-                } else if (Enum.class.isAssignableFrom(propertyType)) {
-                    var attributeTypeBuilder = new StringBuilder();
-
-                    attributeTypeBuilder.append('(');
-
-                    var fields = propertyType.getDeclaredFields();
-
-                    var j = 0;
-
-                    for (var k = 0; k < fields.length; k++) {
-                        var field = fields[k];
-
-                        if (!field.isEnumConstant()) {
-                            continue;
-                        }
-
-                        if (j > 0) {
-                            attributeTypeBuilder.append('|');
-                        }
-
-                        Object constant;
-                        try {
-                            constant = field.get(null);
-                        } catch (IllegalAccessException exception) {
-                            throw new RuntimeException(exception);
-                        }
-
-                        attributeTypeBuilder.append(constant.toString());
-
-                        j++;
-                    }
-
-                    attributeTypeBuilder.append(')');
-
-                    attributeType = attributeTypeBuilder.toString();
-                } else if (propertyType == String.class
-                    || propertyType == Color.class
-                    || propertyType == Font.class
-                    || propertyType == Icon.class
-                    || propertyType == Image.class
-                    || Number.class.isAssignableFrom(propertyType)) {
-                    attributeType = "CDATA";
-                } else {
-                    attributeType = null;
-                }
-
-                if (attributeType != null) {
-                    if (i > 0) {
-                        System.out.print(" ");
-                    }
-
-                    System.out.print(propertyName + " " + attributeType);
-
-                    i++;
-                }
-            }
-
-            System.out.println();
-
-            var tag = tags.get(type);
-
-            if (tag != null) {
-                System.out.println(tag + " = " + type.getSimpleName());
-            }
-        }
+        dtdEncoder.write(null, System.out);
     }
 
     private static int getDepth(Class<?> type) {
