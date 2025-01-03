@@ -55,8 +55,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -508,5 +511,137 @@ public class UILoader {
         var font = fonts.get(value);
 
         return (font == null) ? Font.decode(value) : font;
+    }
+
+    /**
+     * Generates a DTD.
+     *
+     * @param args
+     * Command-line arguments (unused).
+     */
+    public static void main(String[] args) {
+        var typeSet = new HashSet<Class<?>>();
+
+        var tags = new HashMap<Class<?>, String>();
+
+        for (var entry : constructors.entrySet()) {
+            var tag = entry.getKey();
+            var type = (Class<?>)entry.getValue().getDeclaringClass();
+
+            tags.put(type, tag);
+
+            while (type != Object.class) {
+                typeSet.add(type);
+
+                type = type.getSuperclass();
+            }
+        }
+
+        var typeList = new ArrayList<>(typeSet);
+
+        typeList.sort(Comparator.comparing(UILoader::getDepth).thenComparing(Class::getSimpleName));
+
+        for (var type : typeList) {
+            System.out.print(type.getSimpleName());
+            System.out.print(": ");
+            System.out.print(type.getSuperclass().getSimpleName());
+            System.out.print(" ");
+
+            var i = 0;
+
+            for (var entry : BeanAdapter.getProperties(type).entrySet()) {
+                var property = entry.getValue();
+                var accessor = property.getAccessor();
+
+                if (accessor.getDeclaringClass() != type || property.getMutator() == null) {
+                    continue;
+                }
+
+                var propertyName = entry.getKey();
+                var propertyType = accessor.getReturnType();
+
+                String attributeType;
+                if (propertyType == Integer.TYPE || propertyType == Integer.class) {
+                    // TODO SwingConstants
+                    attributeType = "CDATA";
+                } else if (propertyType == Boolean.TYPE || propertyType == Boolean.class) {
+                    attributeType = String.format("(%b|%b)", true, false);
+                } else if (Enum.class.isAssignableFrom(propertyType)) {
+                    var attributeTypeBuilder = new StringBuilder();
+
+                    attributeTypeBuilder.append('(');
+
+                    var fields = propertyType.getDeclaredFields();
+
+                    var j = 0;
+
+                    for (var k = 0; k < fields.length; k++) {
+                        var field = fields[k];
+
+                        if (!field.isEnumConstant()) {
+                            continue;
+                        }
+
+                        if (j > 0) {
+                            attributeTypeBuilder.append('|');
+                        }
+
+                        Object constant;
+                        try {
+                            constant = field.get(null);
+                        } catch (IllegalAccessException exception) {
+                            throw new RuntimeException(exception);
+                        }
+
+                        attributeTypeBuilder.append(constant.toString());
+
+                        j++;
+                    }
+
+                    attributeTypeBuilder.append(')');
+
+                    attributeType = attributeTypeBuilder.toString();
+                } else if (propertyType == String.class
+                    || propertyType == Color.class
+                    || propertyType == Font.class
+                    || propertyType == Icon.class
+                    || propertyType == Image.class
+                    || Number.class.isAssignableFrom(propertyType)) {
+                    attributeType = "CDATA";
+                } else {
+                    attributeType = null;
+                }
+
+                if (attributeType != null) {
+                    if (i > 0) {
+                        System.out.print(" ");
+                    }
+
+                    System.out.print(propertyName + " " + attributeType);
+
+                    i++;
+                }
+            }
+
+            System.out.println();
+
+            var tag = tags.get(type);
+
+            if (tag != null) {
+                System.out.println(tag + " = " + type.getSimpleName());
+            }
+        }
+    }
+
+    private static int getDepth(Class<?> type) {
+        var depth = 0;
+
+        while (type != Object.class) {
+            depth++;
+
+            type = type.getSuperclass();
+        }
+
+        return depth;
     }
 }
