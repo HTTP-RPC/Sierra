@@ -52,6 +52,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
@@ -741,7 +743,11 @@ public class UILoader {
 
         var dtdEncoder = new DTDEncoder(typeList, tags);
 
-        dtdEncoder.write(null, System.out);
+        var file = new File(new File(System.getProperty("user.dir")), "sierra.dtd");
+
+        try (var outputStream = new FileOutputStream(file)) {
+            dtdEncoder.write(null, outputStream);
+        }
     }
 
     private static int getDepth(Class<?> type) {
