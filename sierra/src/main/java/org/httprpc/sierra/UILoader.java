@@ -159,8 +159,7 @@ public class UILoader {
                         }
                     } else if (propertyType == Boolean.TYPE || propertyType == Boolean.class) {
                         attributeType = String.format("(%b|%b)", true, false);
-                    } else if (Enum.class.isAssignableFrom(propertyType) && propertyType.getPackage() == UILoader.class.getPackage()) {
-                        // TODO Convert to all-caps snake case
+                    } else if (Enum.class.isAssignableFrom(propertyType)) {
                         var attributeTypeBuilder = new StringBuilder();
 
                         attributeTypeBuilder.append('(');
@@ -180,14 +179,7 @@ public class UILoader {
                                 attributeTypeBuilder.append('|');
                             }
 
-                            Object constant;
-                            try {
-                                constant = field.get(null);
-                            } catch (IllegalAccessException exception) {
-                                throw new RuntimeException(exception);
-                            }
-
-                            attributeTypeBuilder.append(constant.toString());
+                            attributeTypeBuilder.append(field.getName().toLowerCase().replace('_', '-'));
 
                             i++;
                         }
@@ -516,6 +508,10 @@ public class UILoader {
                         throw new UnsupportedOperationException(exception);
                     }
                 } else {
+                    if (Enum.class.isAssignableFrom(type)) {
+                        value = value.toUpperCase().replace('-', '_');
+                    }
+
                     argument = BeanAdapter.coerce(value, type);
                 }
 

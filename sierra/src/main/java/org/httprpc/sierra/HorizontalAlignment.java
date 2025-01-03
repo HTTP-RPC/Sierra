@@ -21,26 +21,15 @@ public enum HorizontalAlignment {
     /**
      * Leading alignment.
      */
-    LEADING("leading"),
+    LEADING,
 
     /**
      * Trailing alignment.
      */
-    TRAILING("trailing"),
+    TRAILING,
 
     /**
      * Center alignment.
      */
-    CENTER("center");
-
-    private final String value;
-
-    HorizontalAlignment(String value) {
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return value;
-    }
+    CENTER
 }

@@ -32,28 +32,17 @@ public class ImagePane extends JComponent {
         /**
          * No scaling.
          */
-        NONE("none"),
+        NONE,
 
         /**
          * Image will be scaled to match the width of the image pane.
          */
-        FILL_WIDTH("fill-width"),
+        FILL_WIDTH,
 
         /**
          * Image will be scaled to match the height of the image pane.
          */
-        FILL_HEIGHT("fill-height");
-
-        private final String value;
-
-        ScaleMode(String value) {
-            this.value = value;
-        }
-
-        @Override
-        public String toString() {
-            return value;
-        }
+        FILL_HEIGHT
     }
 
     // Image pane UI

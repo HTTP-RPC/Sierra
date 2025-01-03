@@ -15,7 +15,7 @@
 <!ENTITY % JLabel "%JComponent; disabledIcon CDATA displayedMnemonic CDATA displayedMnemonicIndex CDATA horizontalAlignment (left|center|right|leading|trailing) horizontalTextPosition CDATA icon CDATA iconTextGap CDATA text CDATA verticalAlignment (top|center|bottom) verticalTextPosition CDATA ">
 <!ELEMENT label EMPTY>
 <!ATTLIST label %JLabel;>
-<!ENTITY % JList "%JComponent; dragEnabled (true|false) fixedCellHeight CDATA fixedCellWidth CDATA layoutOrientation CDATA selectedIndex CDATA selectionBackground CDATA selectionForeground CDATA selectionMode CDATA valueIsAdjusting (true|false) visibleRowCount CDATA ">
+<!ENTITY % JList "%JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) fixedCellHeight CDATA fixedCellWidth CDATA layoutOrientation CDATA selectedIndex CDATA selectionBackground CDATA selectionForeground CDATA selectionMode CDATA valueIsAdjusting (true|false) visibleRowCount CDATA ">
 <!ELEMENT list EMPTY>
 <!ATTLIST list %JList;>
 <!ENTITY % JPanel "%JComponent; ">
@@ -34,11 +34,11 @@
 <!ENTITY % JSpinner "%JComponent; ">
 <!ELEMENT spinner EMPTY>
 <!ATTLIST spinner %JSpinner;>
-<!ENTITY % JTable "%JComponent; autoCreateColumnsFromModel (true|false) autoCreateRowSorter (true|false) autoResizeMode CDATA cellSelectionEnabled (true|false) columnSelectionAllowed (true|false) dragEnabled (true|false) editingColumn CDATA editingRow CDATA fillsViewportHeight (true|false) gridColor CDATA rowHeight CDATA rowMargin CDATA rowSelectionAllowed (true|false) selectionBackground CDATA selectionForeground CDATA showHorizontalLines (true|false) showVerticalLines (true|false) surrendersFocusOnKeystroke (true|false) updateSelectionOnSort (true|false) ">
+<!ENTITY % JTable "%JComponent; autoCreateColumnsFromModel (true|false) autoCreateRowSorter (true|false) autoResizeMode CDATA cellSelectionEnabled (true|false) columnSelectionAllowed (true|false) dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editingColumn CDATA editingRow CDATA fillsViewportHeight (true|false) gridColor CDATA rowHeight CDATA rowMargin CDATA rowSelectionAllowed (true|false) selectionBackground CDATA selectionForeground CDATA showHorizontalLines (true|false) showVerticalLines (true|false) surrendersFocusOnKeystroke (true|false) updateSelectionOnSort (true|false) ">
 <!ELEMENT table EMPTY>
 <!ATTLIST table %JTable;>
-<!ENTITY % JTextComponent "%JComponent; caretColor CDATA caretPosition CDATA disabledTextColor CDATA dragEnabled (true|false) editable (true|false) focusAccelerator CDATA selectedTextColor CDATA selectionColor CDATA selectionEnd CDATA selectionStart CDATA text CDATA ">
-<!ENTITY % JTree "%JComponent; dragEnabled (true|false) editable (true|false) expandsSelectedPaths (true|false) invokesStopCellEditing (true|false) largeModel (true|false) rootVisible (true|false) rowHeight CDATA scrollsOnExpand (true|false) showsRootHandles (true|false) toggleClickCount CDATA visibleRowCount CDATA ">
+<!ENTITY % JTextComponent "%JComponent; caretColor CDATA caretPosition CDATA disabledTextColor CDATA dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) focusAccelerator CDATA selectedTextColor CDATA selectionColor CDATA selectionEnd CDATA selectionStart CDATA text CDATA ">
+<!ENTITY % JTree "%JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) expandsSelectedPaths (true|false) invokesStopCellEditing (true|false) largeModel (true|false) rootVisible (true|false) rowHeight CDATA scrollsOnExpand (true|false) showsRootHandles (true|false) toggleClickCount CDATA visibleRowCount CDATA ">
 <!ELEMENT tree EMPTY>
 <!ATTLIST tree %JTree;>
 <!ENTITY % Spacer "%JComponent; ">
