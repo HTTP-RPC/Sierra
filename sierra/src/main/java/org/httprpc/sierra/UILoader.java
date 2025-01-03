@@ -136,23 +136,31 @@ public class UILoader {
 
                 for (var entry : BeanAdapter.getProperties(type).entrySet()) {
                     var property = entry.getValue();
-                    var accessor = property.getAccessor();
+                    var mutator = property.getMutator();
 
-                    if (accessor.getDeclaringClass() != type || property.getMutator() == null) {
+                    if (mutator == null || mutator.getDeclaringClass() != type) {
                         continue;
                     }
 
                     var attributeName = entry.getKey();
 
-                    var propertyType = accessor.getReturnType();
+                    var propertyType = mutator.getParameterTypes()[0];
 
                     String attributeType;
                     if (propertyType == Integer.TYPE || propertyType == Integer.class) {
-                        // TODO SwingConstants
-                        attributeType = CDATA;
+                        if (attributeName.equals(HORIZONTAL_ALIGNMENT)) {
+                            attributeType = String.format("(%s|%s|%s|%s|%s)", LEFT, CENTER, RIGHT, LEADING, TRAILING);
+                        } else if (attributeName.equals(VERTICAL_ALIGNMENT)) {
+                            attributeType = String.format("(%s|%s|%s)", TOP, CENTER, BOTTOM);
+                        } else if (attributeName.equals(ORIENTATION)) {
+                            attributeType = String.format("(%s|%s)", HORIZONTAL, VERTICAL);
+                        } else {
+                            attributeType = CDATA;
+                        }
                     } else if (propertyType == Boolean.TYPE || propertyType == Boolean.class) {
                         attributeType = String.format("(%b|%b)", true, false);
                     } else if (Enum.class.isAssignableFrom(propertyType) && propertyType.getPackage() == UILoader.class.getPackage()) {
+                        // TODO Convert to all-caps snake case
                         var attributeTypeBuilder = new StringBuilder();
 
                         attributeTypeBuilder.append('(');
@@ -187,12 +195,13 @@ public class UILoader {
                         attributeTypeBuilder.append(')');
 
                         attributeType = attributeTypeBuilder.toString();
-                    } else if (propertyType == String.class
+                    } else if (propertyType.isPrimitive()
+                        || Number.class.isAssignableFrom(propertyType)
+                        || propertyType == String.class
                         || propertyType == Color.class
                         || propertyType == Font.class
                         || propertyType == Icon.class
-                        || propertyType == Image.class
-                        || Number.class.isAssignableFrom(propertyType)) {
+                        || propertyType == Image.class) {
                         attributeType = CDATA;
                     } else {
                         attributeType = null;
@@ -230,15 +239,15 @@ public class UILoader {
                     writer.append(baseType.getSimpleName());
                 }
 
-                writer.append(";");
+                writer.append("; ");
             }
         }
 
         void appendAttributeDeclaration(String name, String type, Writer writer) throws IOException {
-            writer.append(" ");
             writer.append(name);
             writer.append(" ");
             writer.append(type);
+            writer.append(" ");
         }
 
         void endEntityDeclaration(Writer writer) throws IOException {
@@ -250,7 +259,7 @@ public class UILoader {
             writer.append(tag);
             writer.append(" ");
 
-            if (JPanel.class.isAssignableFrom(type)) {
+            if (type == JScrollPane.class || JPanel.class.isAssignableFrom(type)) {
                 writer.append("(ANY)");
             } else {
                 writer.append("EMPTY");
@@ -278,7 +287,22 @@ public class UILoader {
 
     private JComponent root = null;
 
-    private static final String SET_PREFIX = "set";
+    private static final String HORIZONTAL_ALIGNMENT = "horizontalAlignment";
+    private static final String VERTICAL_ALIGNMENT = "verticalAlignment";
+    private static final String ORIENTATION = "orientation";
+
+    private static final String LEFT = "left";
+    private static final String RIGHT = "right";
+    private static final String LEADING = "leading";
+    private static final String TRAILING = "trailing";
+
+    private static final String TOP = "top";
+    private static final String BOTTOM = "bottom";
+
+    private static final String CENTER = "center";
+
+    private static final String HORIZONTAL = "horizontal";
+    private static final String VERTICAL = "vertical";
 
     private static Map<String, Constructor<? extends JComponent>> constructors = new HashMap<>();
     private static Map<String, Map<String, BeanAdapter.Property>> properties = new HashMap<>();
@@ -448,23 +472,23 @@ public class UILoader {
                 Object argument;
                 if (type == Integer.TYPE || type == Integer.class) {
                     argument = switch (name) {
-                        case "horizontalAlignment" -> switch (value) {
-                            case "left" -> SwingConstants.LEFT;
-                            case "center" -> SwingConstants.CENTER;
-                            case "right" -> SwingConstants.RIGHT;
-                            case "leading" -> SwingConstants.LEADING;
-                            case "trailing" -> SwingConstants.TRAILING;
+                        case HORIZONTAL_ALIGNMENT -> switch (value) {
+                            case LEFT -> SwingConstants.LEFT;
+                            case CENTER -> SwingConstants.CENTER;
+                            case RIGHT -> SwingConstants.RIGHT;
+                            case LEADING -> SwingConstants.LEADING;
+                            case TRAILING -> SwingConstants.TRAILING;
                             default -> throw new IllegalArgumentException("Invalid horizontal alignment.");
                         };
-                        case "verticalAlignment" -> switch (value) {
-                            case "top" -> SwingConstants.TOP;
-                            case "center" -> SwingConstants.CENTER;
-                            case "bottom" -> SwingConstants.BOTTOM;
+                        case VERTICAL_ALIGNMENT -> switch (value) {
+                            case TOP -> SwingConstants.TOP;
+                            case CENTER -> SwingConstants.CENTER;
+                            case BOTTOM -> SwingConstants.BOTTOM;
                             default -> throw new IllegalArgumentException("Invalid vertical alignment.");
                         };
-                        case "orientation" -> switch (value) {
-                            case "horizontal" -> SwingConstants.HORIZONTAL;
-                            case "vertical" -> SwingConstants.VERTICAL;
+                        case ORIENTATION -> switch (value) {
+                            case HORIZONTAL -> SwingConstants.HORIZONTAL;
+                            case VERTICAL -> SwingConstants.VERTICAL;
                             default -> throw new IllegalArgumentException("Invalid orientation.");
                         };
                         default -> Integer.valueOf(value);

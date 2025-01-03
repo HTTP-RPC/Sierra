@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!DOCTYPE row-panel SYSTEM "sierra.dtd">
+
 <row-panel spacing="4" alignToBaseline="true" padding="8">
     <spacer weight="1"/>
 

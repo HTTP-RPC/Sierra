@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!DOCTYPE row-panel SYSTEM "sierra.dtd">
+
 <row-panel spacing="8" padding="8, 16, 8, 16" opaque="true" background="#ffffff">
     <image-pane image="world.png" scaleMode="fill-height" border="#ff0000, 2"/>
 

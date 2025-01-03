@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!DOCTYPE stack-panel SYSTEM "sierra.dtd">
+
 <stack-panel padding="8">
     <column-panel>
         <spacer weight="1"/>

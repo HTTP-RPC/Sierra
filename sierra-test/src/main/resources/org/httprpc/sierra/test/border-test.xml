@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
 <column-panel spacing="4" padding="8">
     <label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
 
