@@ -9,11 +9,6 @@ Sierra is an open-source framework for simplifying development of Java Swing app
 
 This guide introduces the Sierra framework and provides an overview of its key features.
 
-# Contents
-* [Getting Sierra](#getting-sierra)
-* [Sierra Classes](#sierra-classes)
-* [Additional Information](#additional-information)
-
 # Getting Sierra
 Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 17 or later is required.
 
@@ -64,7 +59,7 @@ Elements can be nested to create a component hierarchy. For example:
 
     <row-panel spacing="8">
         <button name="button" text="executeTask"/>
-        <label name="label" foreground="#808080"/>
+        <label name="label" foreground="gray"/>
         <spacer weight="1"/>
         <activity-indicator name="activityIndicator" indicatorSize="18"/>
     </row-panel>
@@ -318,5 +313,21 @@ taskExecutor.execute(() -> {
 
 Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/TaskExecutorTest.java) for more information.
 
-# Additional Information
-This guide introduced the Sierra framework and provided an overview of its key features. For additional information, see the [examples](https://github.com/HTTP-RPC/Sierra/tree/master/sierra-test/src/main/java/org/httprpc/sierra/test).
+# Complete Example
+The following is a complete example of an application built using Sierra. It uses the Tiingo [End-of-Day](https://www.tiingo.com/documentation/end-of-day) API to retrieve historical stock pricing information:
+
+<img src="README/tiingo.png" width="1072px"/>
+
+The application consists of the following source files:
+
+* [TiingoTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/TiingoTest.java) - primary application logic
+* [TiingoServiceProxy.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/TiingoServiceProxy.java) - proxy interface used to submit API requests
+* [Asset.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/Asset.java) and [AssetPricing.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/AssetPricing.java) - data types used by `TiingoServiceProxy`
+* [tiingo-test.xml](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/resources/org/httprpc/sierra/test/tiingo-test.xml) - UI declaration
+* [TiingoTest.properties](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/resources/org/httprpc/sierra/test/TiingoTest.properties) - localized string resources
+
+An API token is required and must be specified as a system property at application startup:
+
+```
+-Dtoken=<Tiingo API Token>
+```
