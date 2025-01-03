@@ -26,6 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
@@ -110,6 +111,8 @@ public class UILoader {
         List<Class<?>> typeList;
         Map<Class<?>, String> tags;
 
+        static final String CDATA = "CDATA";
+
         DTDEncoder(List<Class<?>> typeList, Map<Class<?>, String> tags) {
             this.typeList = typeList;
             this.tags = tags;
@@ -117,13 +120,19 @@ public class UILoader {
 
         @Override
         public void write(Void value, Writer writer) throws IOException {
-            for (var type : typeList) {
-                writer.append(type.getSimpleName());
-                writer.append(": ");
-                writer.append(type.getSuperclass().getSimpleName());
-                writer.append(" ");
+            startEntityDeclaration(UILoader.class, null, writer);
 
-                var i = 0;
+            appendAttributeDeclaration("name", "ID", writer);
+
+            appendAttributeDeclaration("border", CDATA, writer);
+            appendAttributeDeclaration("padding", CDATA, writer);
+            appendAttributeDeclaration("weight", CDATA, writer);
+            appendAttributeDeclaration("size", CDATA, writer);
+
+            endEntityDeclaration(writer);
+
+            for (var type : typeList) {
+                startEntityDeclaration(type, type.getSuperclass(), writer);
 
                 for (var entry : BeanAdapter.getProperties(type).entrySet()) {
                     var property = entry.getValue();
@@ -133,32 +142,33 @@ public class UILoader {
                         continue;
                     }
 
-                    var propertyName = entry.getKey();
+                    var attributeName = entry.getKey();
+
                     var propertyType = accessor.getReturnType();
 
                     String attributeType;
                     if (propertyType == Integer.TYPE || propertyType == Integer.class) {
                         // TODO SwingConstants
-                        attributeType = "CDATA";
+                        attributeType = CDATA;
                     } else if (propertyType == Boolean.TYPE || propertyType == Boolean.class) {
                         attributeType = String.format("(%b|%b)", true, false);
-                    } else if (Enum.class.isAssignableFrom(propertyType)) {
+                    } else if (Enum.class.isAssignableFrom(propertyType) && propertyType.getPackage() == UILoader.class.getPackage()) {
                         var attributeTypeBuilder = new StringBuilder();
 
                         attributeTypeBuilder.append('(');
 
                         var fields = propertyType.getDeclaredFields();
 
-                        var j = 0;
+                        var i = 0;
 
-                        for (var k = 0; k < fields.length; k++) {
-                            var field = fields[k];
+                        for (var j = 0; j < fields.length; j++) {
+                            var field = fields[j];
 
                             if (!field.isEnumConstant()) {
                                 continue;
                             }
 
-                            if (j > 0) {
+                            if (i > 0) {
                                 attributeTypeBuilder.append('|');
                             }
 
@@ -171,7 +181,7 @@ public class UILoader {
 
                             attributeTypeBuilder.append(constant.toString());
 
-                            j++;
+                            i++;
                         }
 
                         attributeTypeBuilder.append(')');
@@ -183,35 +193,78 @@ public class UILoader {
                         || propertyType == Icon.class
                         || propertyType == Image.class
                         || Number.class.isAssignableFrom(propertyType)) {
-                        attributeType = "CDATA";
+                        attributeType = CDATA;
                     } else {
                         attributeType = null;
                     }
 
                     if (attributeType != null) {
-                        if (i > 0) {
-                            writer.append(" ");
-                        }
-
-                        writer.append(propertyName);
-                        writer.append(' ');
-                        writer.append(attributeType);
-
-                        i++;
+                        appendAttributeDeclaration(attributeName, attributeType, writer);
                     }
                 }
 
-                writer.append('\n');
+                endEntityDeclaration(writer);
 
                 var tag = tags.get(type);
 
                 if (tag != null) {
-                    writer.append(tag);
-                    writer.append('=');
-                    writer.append(type.getSimpleName());
-                    writer.append('\n');
+                    declareElement(tag, type, writer);
+                    declareAttributeList(tag, type, writer);
                 }
             }
+
+            writer.flush();
+        }
+
+        void startEntityDeclaration(Class<?> type, Class<?> baseType, Writer writer) throws IOException {
+            writer.append("<!ENTITY % ");
+            writer.append(type.getSimpleName());
+            writer.append(" \"");
+
+            if (baseType != null) {
+                writer.append("%");
+
+                if (baseType == Object.class) {
+                    writer.append(UILoader.class.getSimpleName());
+                } else {
+                    writer.append(baseType.getSimpleName());
+                }
+
+                writer.append(";");
+            }
+        }
+
+        void appendAttributeDeclaration(String name, String type, Writer writer) throws IOException {
+            writer.append(" ");
+            writer.append(name);
+            writer.append(" ");
+            writer.append(type);
+        }
+
+        void endEntityDeclaration(Writer writer) throws IOException {
+            writer.append("\">\n");
+        }
+
+        void declareElement(String tag, Class<?> type, Writer writer) throws IOException {
+            writer.append("<!ELEMENT ");
+            writer.append(tag);
+            writer.append(" ");
+
+            if (JPanel.class.isAssignableFrom(type)) {
+                writer.append("(ANY)");
+            } else {
+                writer.append("EMPTY");
+            }
+
+            writer.append(">\n");
+        }
+
+        void declareAttributeList(String tag, Class<?> type, Writer writer) throws IOException {
+            writer.append("<!ATTLIST ");
+            writer.append(tag);
+            writer.append(" %");
+            writer.append(type.getSimpleName());
+            writer.append(";>\n");
         }
     }
 
