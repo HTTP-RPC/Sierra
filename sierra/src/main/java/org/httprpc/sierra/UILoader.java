@@ -684,9 +684,9 @@ public class UILoader {
         var components = value.split(",");
 
         if (components.length == 1) {
-            var size = Integer.parseInt(components[0].trim());
+            var padding = Integer.parseInt(components[0].trim());
 
-            return new EmptyBorder(size, size, size, size);
+            return new EmptyBorder(padding, padding, padding, padding);
         } else if (components.length == 4) {
             var top = Integer.parseInt(components[0].trim());
             var left = Integer.parseInt(components[1].trim());
