@@ -462,9 +462,7 @@ public class UILoader {
             } else if (name.equals(WEIGHT)) {
                 constraints = Double.valueOf(value);
             } else if (name.equals(SIZE)) {
-                var size = Integer.parseInt(value);
-
-                component.setPreferredSize(new Dimension(size, size));
+                component.setPreferredSize(parseSize(value));
             } else if (name.equals(FLAT_LAF_STYLE) || name.equals(FLAT_LAF_STYLE_CLASS)) {
                 component.putClientProperty(name, value);
             } else {
@@ -698,6 +696,23 @@ public class UILoader {
             return new EmptyBorder(top, left, bottom, right);
         } else {
             throw new IllegalArgumentException("Invalid padding.");
+        }
+    }
+
+    private Dimension parseSize(String value) {
+        var components = value.split(",");
+
+        if (components.length == 1) {
+            var size = Integer.parseInt(components[0].trim());
+
+            return new Dimension(size, size);
+        } else if (components.length == 2) {
+            var width = Integer.parseInt(components[0].trim());
+            var height = Integer.parseInt(components[1].trim());
+
+            return new Dimension(width, height);
+        } else {
+            throw new IllegalArgumentException("Invalid size.");
         }
     }
 

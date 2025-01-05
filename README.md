@@ -120,7 +120,7 @@ Border thickness can be specified as shown below:
 border="#00ff00, 4"
 ```
 
-Padding values for all four sides can be specified in _top_, _left_, _bottom_, _right_ order:
+Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _right_ order:
 
 ```xml
 padding="8, 8, 8, 8"
@@ -159,12 +159,18 @@ The "size" attribute specifies a fixed dimension for a component. It is typicall
 
 <img src="README/box.png" width="559px"/>
 
+Size values for multiple dimensions can be specified in _width_, _height_ order:
+
+```xml
+size="20, 20"
+```
+
 ### FlatLaf Styles and Style Classes
 FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "FlatLaf.style" and "FlatLaf.styleClass" attributes, respectively. For example, this markup applies the "h2" style class to a `JLabel` instance used by a list cell renderer:
 
 ```xml
 <row-panel spacing="4" padding="4" opaque="true">
-    <image-pane name="imagePane" size="30" scaleMode="fill-width"/>
+    <image-pane name="imagePane" size="30, 30" scaleMode="fill-width"/>
 
     <column-panel>
         <label name="nameLabel" FlatLaf.styleClass="h4"/>

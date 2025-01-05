@@ -61,7 +61,7 @@
 
         <separator orientation="vertical"/>
 
-        <scroll-pane size="360" weight="1">
+        <scroll-pane weight="1">
             <table name="historicalPricingTable"/>
         </scroll-pane>
     </row-panel>
