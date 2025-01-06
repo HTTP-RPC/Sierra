@@ -451,6 +451,10 @@ public class UILoader {
                 field.setAccessible(true);
 
                 try {
+                    if (field.get(owner) != null) {
+                        throw new UnsupportedOperationException(String.format("Field is already assigned (%s).", value));
+                    }
+
                     field.set(owner, component);
                 } catch (IllegalAccessException exception) {
                     throw new UnsupportedOperationException(exception);
