@@ -183,8 +183,6 @@ public class TiingoTest extends JFrame implements Runnable {
     private TiingoTest() {
         super(resourceBundle.getString("title"));
 
-        setContentPane(UILoader.load(this, "tiingo-test.xml", resourceBundle));
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
