@@ -19,6 +19,8 @@ import org.httprpc.kilo.beans.BeanAdapter;
 import org.httprpc.kilo.io.Encoder;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -124,7 +126,8 @@ public class UILoader {
         public void write(Void value, Writer writer) throws IOException {
             startEntityDeclaration(UILoader.class, null, writer);
 
-            appendAttributeDeclaration(NAME, "ID", writer);
+            appendAttributeDeclaration(NAME, CDATA, writer);
+            appendAttributeDeclaration(GROUP, CDATA, writer);
 
             appendAttributeDeclaration(BORDER, CDATA, writer);
             appendAttributeDeclaration(PADDING, CDATA, writer);
@@ -279,12 +282,14 @@ public class UILoader {
     private ResourceBundle resourceBundle;
 
     private Map<String, Field> fields = new HashMap<>();
+    private Map<String, ButtonGroup> groups = new HashMap<>();
 
     private Deque<JComponent> components = new LinkedList<>();
 
     private JComponent root = null;
 
     private static final String NAME = "name";
+    private static final String GROUP = "group";
 
     private static final String BORDER = "border";
     private static final String PADDING = "padding";
@@ -459,6 +464,12 @@ public class UILoader {
                 } catch (IllegalAccessException exception) {
                     throw new UnsupportedOperationException(exception);
                 }
+            } else if (name.equals(GROUP)) {
+                if (!(component instanceof AbstractButton button)) {
+                    throw new UnsupportedOperationException("Component is not a button.");
+                }
+
+                groups.computeIfAbsent(value, key -> new ButtonGroup()).add(button);
             } else if (name.equals(BORDER)) {
                 lineBorder = parseBorder(value);
             } else if (name.equals(PADDING)) {

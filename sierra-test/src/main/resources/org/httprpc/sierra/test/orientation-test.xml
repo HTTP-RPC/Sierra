@@ -15,10 +15,9 @@
 
     <row-panel spacing="4">
         <spacer weight="1"/>
-        <radio-button name="leftToRightButton" text="leftToRight"/>
-        <radio-button name="rightToLeftButton" text="rightToLeft"/>
+        <radio-button name="leftToRightButton" group="orientation" text="leftToRight"/>
+        <radio-button name="rightToLeftButton" group="orientation" text="rightToLeft"/>
         <button name="applyOrientationButton" text="applyOrientation"/>
         <spacer weight="1"/>
     </row-panel>
-)
 </column-panel>

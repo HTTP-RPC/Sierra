@@ -208,6 +208,18 @@ public class ActionTest extends JFrame implements Runnable {
 
 See [ActionTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/ActionTest.java) for more information.
 
+### Button Groups
+The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:
+
+```xml
+<radio-button name="leftToRightButton" group="orientation" text="leftToRight"/>
+<radio-button name="rightToLeftButton" group="orientation" text="rightToLeft"/>
+```
+
+<img src="README/orientation.png" width="454px"/>
+
+See [OrientationTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/OrientationTest.java) for more information.
+
 ### Resource Bundles
 If a non-`null` value is passed as the third argument to the `load()` method, values of text properties are considered resource keys and are used to look up the associated strings in the provided resource bundle. For example:
 

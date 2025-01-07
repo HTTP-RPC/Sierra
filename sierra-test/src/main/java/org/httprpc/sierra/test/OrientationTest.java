@@ -18,7 +18,6 @@ import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.RowPanel;
 import org.httprpc.sierra.UILoader;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
@@ -45,11 +44,6 @@ public class OrientationTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(UILoader.load(this, "orientation-test.xml", resourceBundle));
-
-        var buttonGroup = new ButtonGroup();
-
-        buttonGroup.add(leftToRightButton);
-        buttonGroup.add(rightToLeftButton);
 
         leftToRightButton.setSelected(true);
 
