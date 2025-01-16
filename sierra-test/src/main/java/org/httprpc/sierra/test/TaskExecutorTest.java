@@ -27,9 +27,9 @@ import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 
 public class TaskExecutorTest extends JFrame implements Runnable {
-    private JButton button;
-    private JLabel label;
-    private ActivityIndicator activityIndicator;
+    private JButton button = null;
+    private JLabel label = null;
+    private ActivityIndicator activityIndicator = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(TaskExecutorTest.class.getName());
 

@@ -199,8 +199,8 @@ When the `load()` method returns, the corresponding fields in the owner will be 
 
 ```java
 public class ActionTest extends JFrame implements Runnable {
-    private JButton greetingButton;
-    private JLabel greetingLabel;
+    private JButton greetingButton = null;
+    private JLabel greetingLabel = null;
     
     ...
 }

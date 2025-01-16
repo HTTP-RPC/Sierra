@@ -26,12 +26,12 @@ import java.awt.ComponentOrientation;
 import java.util.ResourceBundle;
 
 public class OrientationTest extends JFrame implements Runnable {
-    private RowPanel rowPanel;
+    private RowPanel rowPanel = null;
 
-    private JRadioButton leftToRightButton;
-    private JRadioButton rightToLeftButton;
+    private JRadioButton leftToRightButton = null;
+    private JRadioButton rightToLeftButton = null;
 
-    private JButton applyOrientationButton;
+    private JButton applyOrientationButton = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(OrientationTest.class.getName());
 

@@ -24,11 +24,11 @@ import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
 
 public class ActivityIndicatorTest extends JFrame implements Runnable {
-    private ActivityIndicator activityIndicator1;
-    private ActivityIndicator activityIndicator2;
-    private ActivityIndicator activityIndicator3;
+    private ActivityIndicator activityIndicator1 = null;
+    private ActivityIndicator activityIndicator2 = null;
+    private ActivityIndicator activityIndicator3 = null;
 
-    private JToggleButton toggleButton;
+    private JToggleButton toggleButton = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ActivityIndicatorTest.class.getName());
 

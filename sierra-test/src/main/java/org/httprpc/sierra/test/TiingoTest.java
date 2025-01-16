@@ -152,21 +152,21 @@ public class TiingoTest extends JFrame implements Runnable {
         }
     }
 
-    private JTextField tickerTextField;
-    private JTextField countTextField;
+    private JTextField tickerTextField = null;
+    private JTextField countTextField = null;
 
-    private ActivityIndicator activityIndicator;
+    private ActivityIndicator activityIndicator = null;
 
-    private JButton submitButton;
+    private JButton submitButton = null;
 
-    private JTextField nameTextField;
-    private JTextField exchangeCodeTextField;
-    private JTextField startDateTextField;
-    private JTextField endDateTextField;
+    private JTextField nameTextField = null;
+    private JTextField exchangeCodeTextField = null;
+    private JTextField startDateTextField = null;
+    private JTextField endDateTextField = null;
 
-    private TextPane descriptionTextPane;
+    private TextPane descriptionTextPane = null;
 
-    private JTable historicalPricingTable;
+    private JTable historicalPricingTable = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(TiingoTest.class.getName());
 

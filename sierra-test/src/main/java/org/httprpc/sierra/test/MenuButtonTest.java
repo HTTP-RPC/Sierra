@@ -26,9 +26,9 @@ import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
 
 public class MenuButtonTest extends JFrame implements Runnable {
-    private MenuButton menuButton;
+    private MenuButton menuButton = null;
 
-    private JCheckBox focusableCheckBox;
+    private JCheckBox focusableCheckBox = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(MenuButtonTest.class.getName());
 

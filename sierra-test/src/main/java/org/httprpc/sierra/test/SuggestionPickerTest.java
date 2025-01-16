@@ -24,8 +24,8 @@ import javax.swing.SwingUtilities;
 import static org.httprpc.kilo.util.Collections.*;
 
 public class SuggestionPickerTest extends JFrame implements Runnable {
-    private SuggestionPicker sizeSuggestionPicker;
-    private SuggestionPicker colorSuggestionPicker;
+    private SuggestionPicker sizeSuggestionPicker = null;
+    private SuggestionPicker colorSuggestionPicker = null;
 
     private SuggestionPickerTest() {
         super("Suggestion Picker Test");

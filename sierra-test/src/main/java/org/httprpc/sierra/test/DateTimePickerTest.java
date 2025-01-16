@@ -32,12 +32,12 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class DateTimePickerTest extends JFrame implements Runnable {
-    private JLabel selectionLabel;
+    private JLabel selectionLabel = null;
 
-    private DatePicker datePicker;
+    private DatePicker datePicker = null;
 
-    private TimePicker timePicker1;
-    private TimePicker timePicker2;
+    private TimePicker timePicker1 = null;
+    private TimePicker timePicker2 = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(DateTimePickerTest.class.getName());
 

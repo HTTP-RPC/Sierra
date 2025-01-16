@@ -49,9 +49,9 @@ public class CellRendererTest extends JFrame implements Runnable {
     private static class FlagCellRenderer implements ListCellRenderer<Flag> {
         JComponent component;
 
-        ImagePane imagePane;
-        JLabel nameLabel;
-        JLabel descriptionLabel;
+        ImagePane imagePane = null;
+        JLabel nameLabel = null;
+        JLabel descriptionLabel = null;
 
         FlagCellRenderer() {
             component = UILoader.load(this, "flag-cell-renderer.xml");

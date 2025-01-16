@@ -25,12 +25,12 @@ import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
 
 public class ButtonGroupTest extends JFrame implements Runnable {
-    private JToggleButton alignLeftButton;
-    private JToggleButton alignCenterButton;
-    private JToggleButton alignRightButton;
-    private JToggleButton alignJustifyButton;
+    private JToggleButton alignLeftButton = null;
+    private JToggleButton alignCenterButton = null;
+    private JToggleButton alignRightButton = null;
+    private JToggleButton alignJustifyButton = null;
 
-    private JLabel selectionLabel;
+    private JLabel selectionLabel = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ButtonGroupTest.class.getName());
 

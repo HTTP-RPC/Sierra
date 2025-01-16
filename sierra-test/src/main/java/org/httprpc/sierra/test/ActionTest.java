@@ -24,8 +24,8 @@ import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
 
 public class ActionTest extends JFrame implements Runnable {
-    private JButton greetingButton;
-    private JLabel greetingLabel;
+    private JButton greetingButton = null;
+    private JLabel greetingLabel = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ActionTest.class.getName());
 
