@@ -79,8 +79,6 @@ public class DatePicker extends Picker {
         CalendarPanel() {
             setSpacing(6);
 
-            monthSpinner = new JSpinner();
-
             var zoneId = ZoneId.systemDefault();
 
             var value = Date.from(date.atStartOfDay(zoneId).toInstant());
@@ -88,9 +86,17 @@ public class DatePicker extends Picker {
             var start = (minimumDate == null) ? null : Date.from(minimumDate.withDayOfMonth(1).atStartOfDay(zoneId).toInstant());
             var end = (maximumDate == null) ? null : Date.from(maximumDate.atStartOfDay(zoneId).toInstant());
 
+            monthSpinner = new JSpinner();
+
             monthSpinner.setModel(new SpinnerDateModel(value, start, end, Calendar.MONTH));
-            monthSpinner.setEditor(new JSpinner.DateEditor(monthSpinner, "MMMM yyyy"));
             monthSpinner.setFocusable(false);
+
+            var dateEditor = new JSpinner.DateEditor(monthSpinner, "MMMM yyyy");
+
+            dateEditor.setFocusable(false);
+
+            monthSpinner.setEditor(dateEditor);
+
             monthSpinner.addChangeListener(event -> updateMonth());
 
             add(monthSpinner);
