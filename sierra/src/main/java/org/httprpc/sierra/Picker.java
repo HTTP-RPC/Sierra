@@ -18,7 +18,6 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.Popup;
 import javax.swing.PopupFactory;
-import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.HierarchyBoundsListener;
 import java.awt.event.HierarchyEvent;
@@ -31,7 +30,6 @@ public abstract class Picker extends JTextField {
     private HorizontalAlignment popupHorizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
 
-    private JComponent popupComponent = null;
     private Popup popup = null;
 
     private HierarchyBoundsListener hierarchyBoundsListener = new HierarchyBoundsListener() {
@@ -114,26 +112,8 @@ public abstract class Picker extends JTextField {
 
         switch (event.getID()) {
             case FocusEvent.FOCUS_GAINED -> showPopup();
-            case FocusEvent.FOCUS_LOST -> {
-                if (!inPopup(event.getOppositeComponent())) {
-                    hidePopup();
-                } else {
-                    requestFocus();
-                }
-            }
+            case FocusEvent.FOCUS_LOST -> hidePopup();
         }
-    }
-
-    private boolean inPopup(Component component) {
-        while (component != null) {
-            if (component.equals(popupComponent)) {
-                return true;
-            }
-
-            component = component.getParent();
-        }
-
-        return false;
     }
 
     /**
@@ -173,7 +153,7 @@ public abstract class Picker extends JTextField {
             return;
         }
 
-        popupComponent = getPopupComponent();
+        var popupComponent = getPopupComponent();
 
         popupComponent.applyComponentOrientation(getComponentOrientation());
 
