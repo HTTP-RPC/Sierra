@@ -89,6 +89,6 @@
 <!ENTITY % SuggestionPicker "%Picker; maximumRowCount CDATA ">
 <!ELEMENT suggestion-picker EMPTY>
 <!ATTLIST suggestion-picker %SuggestionPicker;>
-<!ENTITY % TimePicker "%Picker; minuteInterval CDATA ">
+<!ENTITY % TimePicker "%Picker; minuteInterval CDATA strict (true|false) ">
 <!ELEMENT time-picker EMPTY>
 <!ATTLIST time-picker %TimePicker;>

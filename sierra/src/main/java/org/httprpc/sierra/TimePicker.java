@@ -314,13 +314,13 @@ public class TimePicker extends Picker {
     }
 
     /**
-     * Returns {@code true} if the minute interval is 15 minutes or greater;
+     * Returns {@code true} if the minute interval greater than one;
      * {@code false}, otherwise.
      * {@inheritDoc}
      */
     @Override
     protected boolean isPopupEnabled() {
-        return minuteInterval >= 15;
+        return minuteInterval > 1;
     }
 
     /**
@@ -341,7 +341,7 @@ public class TimePicker extends Picker {
 
         scrollPane.setBorder(null);
 
-        if (strict) {
+        if (minuteInterval > 1 && time.getMinute() % minuteInterval == 0) {
             list.setSelectedValue(time, true);
         }
 
