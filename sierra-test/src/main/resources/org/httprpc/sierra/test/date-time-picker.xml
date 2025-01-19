@@ -3,16 +3,29 @@
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
 <column-panel padding="8">
-    <label name="selectionLabel" horizontalAlignment="center" weight="1"/>
+    <column-panel spacing="4" alignToGrid="true">
+        <row-panel alignToBaseline="true">
+            <label text="date" alignmentX="1.0"/>
+            <date-picker name="datePicker" alignmentX="0.0"/>
+        </row-panel>
 
-    <row-panel spacing="4">
-        <spacer weight="1"/>
+        <separator/>
 
-        <date-picker name="datePicker" popupVerticalAlignment="top"/>
+        <row-panel alignToBaseline="true">
+            <label text="time" alignmentX="1.0"/>
+            <time-picker name="timePicker" alignmentX="0.0"/>
+        </row-panel>
+        <row-panel alignToBaseline="true">
+            <label text="minuteInterval" alignmentX="1.0"/>
+            <combo-box name="minuteIntervalComboBox" alignmentX="0.0"/>
+        </row-panel>
+        <row-panel alignToBaseline="true">
+            <spacer/>
+            <check-box name="strictCheckBox" text="strict" alignmentX="0.0"/>
+        </row-panel>
+    </column-panel>
 
-        <time-picker name="timePicker1" minuteInterval="30" popupVerticalAlignment="top"/>
-        <time-picker name="timePicker2" popupVerticalAlignment="top"/>
+    <spacer weight="1"/>
 
-        <spacer weight="1"/>
-    </row-panel>
+    <label name="selectionLabel" horizontalAlignment="center"/>
 </column-panel>

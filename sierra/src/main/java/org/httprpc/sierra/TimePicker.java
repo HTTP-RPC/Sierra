@@ -207,7 +207,7 @@ public class TimePicker extends Picker {
      * The minute interval.
      */
     public void setMinuteInterval(int minuteInterval) {
-        if (minuteInterval <= 0 || 60 % minuteInterval != 0) {
+        if (minuteInterval <= 0 || minuteInterval > 60 || 60 % minuteInterval != 0) {
             throw new IllegalArgumentException();
         }
 

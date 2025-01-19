@@ -228,7 +228,7 @@ public class DatePicker extends Picker {
      * Constructs a new date picker.
      */
     public DatePicker() {
-        super(8);
+        super(6);
 
         setDate(LocalDate.now());
 

@@ -19,6 +19,9 @@ import org.httprpc.sierra.DatePicker;
 import org.httprpc.sierra.TimePicker;
 import org.httprpc.sierra.UILoader;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -32,12 +35,13 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class DateTimePickerTest extends JFrame implements Runnable {
-    private JLabel selectionLabel = null;
-
     private DatePicker datePicker = null;
 
-    private TimePicker timePicker1 = null;
-    private TimePicker timePicker2 = null;
+    private TimePicker timePicker = null;
+    private JComboBox<Integer> minuteIntervalComboBox = null;
+    private JCheckBox strictCheckBox = null;
+
+    private JLabel selectionLabel = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(DateTimePickerTest.class.getName());
 
@@ -65,15 +69,15 @@ public class DateTimePickerTest extends JFrame implements Runnable {
 
         var timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
-        timePicker1.setMinimumTime(minimumTime);
-        timePicker1.setMaximumTime(maximumTime);
+        timePicker.setMinimumTime(minimumTime);
+        timePicker.setMaximumTime(maximumTime);
 
-        timePicker1.addActionListener(event -> showSelection(timeFormatter, timePicker1.getTime()));
+        timePicker.addActionListener(event -> showSelection(timeFormatter, timePicker.getTime()));
 
-        timePicker2.setMinimumTime(minimumTime);
-        timePicker2.setMaximumTime(maximumTime);
+        minuteIntervalComboBox.setModel(new DefaultComboBoxModel<>(new Integer[] {1, 2, 3, 4, 5, 6, 10, 15, 20, 30, 60}));
+        minuteIntervalComboBox.addActionListener(event -> timePicker.setMinuteInterval((Integer)minuteIntervalComboBox.getSelectedItem()));
 
-        timePicker2.addActionListener(event -> showSelection(timeFormatter, timePicker2.getTime()));
+        strictCheckBox.addActionListener(event -> timePicker.setStrict(strictCheckBox.isSelected()));
 
         applyComponentOrientation(ComponentOrientation.getOrientation(Locale.getDefault()));
 
