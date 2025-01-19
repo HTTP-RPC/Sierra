@@ -230,9 +230,9 @@ public class DatePicker extends Picker {
     public DatePicker() {
         super(8);
 
-        setInputVerifier(inputVerifier);
-
         setDate(LocalDate.now());
+
+        setInputVerifier(inputVerifier);
 
         putClientProperty("JTextField.placeholderText", pattern);
     }

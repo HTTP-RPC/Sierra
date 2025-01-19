@@ -101,9 +101,10 @@ public class TimePicker extends Picker {
         }
     }
 
-    private int minuteInterval;
-
     private LocalTime time;
+
+    private int minuteInterval = 1;
+    private boolean strict = false;
 
     private LocalTime minimumTime = null;
     private LocalTime maximumTime = null;
@@ -148,51 +149,13 @@ public class TimePicker extends Picker {
      * Constructs a new time picker.
      */
     public TimePicker() {
-        this(1);
-    }
-
-    /**
-     * Constructs a new time picker.
-     *
-     * @param minuteInterval
-     * The minute interval. Must be a value that evenly divides into 60.
-     */
-    public TimePicker(int minuteInterval) {
         super(6);
 
-        setMinuteInterval(minuteInterval);
+        setTime(LocalTime.now());
 
         setInputVerifier(inputVerifier);
 
         putClientProperty("JTextField.placeholderText", pattern);
-    }
-
-    /**
-     * Returns the minute interval.
-     *
-     * @return
-     * The minute interval.
-     */
-    public int getMinuteInterval() {
-        return minuteInterval;
-    }
-
-    /**
-     * Sets the minute interval.
-     *
-     * @param minuteInterval
-     * The minute interval.
-     */
-    public void setMinuteInterval(int minuteInterval) {
-        if (60 % minuteInterval != 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.minuteInterval = minuteInterval;
-
-        var now = LocalTime.now();
-
-        setTime(LocalTime.of(now.getHour(), (now.getMinute() / minuteInterval) * minuteInterval));
     }
 
     /**
@@ -222,9 +185,63 @@ public class TimePicker extends Picker {
     }
 
     private boolean validate(LocalTime time) {
-        return (time.getMinute() % minuteInterval == 0
+        return ((minuteInterval == 1 || !strict || time.getMinute() % minuteInterval == 0)
             && (minimumTime == null || !time.isBefore(minimumTime))
             && (maximumTime == null || !time.isAfter(maximumTime)));
+    }
+
+    /**
+     * Returns the minute interval.
+     *
+     * @return
+     * The minute interval.
+     */
+    public int getMinuteInterval() {
+        return minuteInterval;
+    }
+
+    /**
+     * Sets the minute interval.
+     *
+     * @param minuteInterval
+     * The minute interval.
+     */
+    public void setMinuteInterval(int minuteInterval) {
+        if (minuteInterval <= 0 || 60 % minuteInterval != 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.minuteInterval = minuteInterval;
+
+        adjustTime();
+    }
+
+    /**
+     * Indicates that strict mode is enabled.
+     *
+     * @return
+     * {@code true} if strict mode is enabled; {@code false}, otherwise.
+     */
+    public boolean isStrict() {
+        return strict;
+    }
+
+    /**
+     * Toggles strict mode.
+     *
+     * @param strict
+     * {@code true} to enable strict mode; {@code false}, otherwise.
+     */
+    public void setStrict(boolean strict) {
+        this.strict = strict;
+
+        adjustTime();
+    }
+
+    private void adjustTime() {
+        if (minuteInterval > 1 && strict) {
+            setTime(LocalTime.of(time.getHour(), (time.getMinute() / minuteInterval) * minuteInterval));
+        }
     }
 
     /**
@@ -324,7 +341,9 @@ public class TimePicker extends Picker {
 
         scrollPane.setBorder(null);
 
-        list.setSelectedValue(time, true);
+        if (strict) {
+            list.setSelectedValue(time, true);
+        }
 
         list.addListSelectionListener(event -> {
             setTime(list.getSelectedValue());
