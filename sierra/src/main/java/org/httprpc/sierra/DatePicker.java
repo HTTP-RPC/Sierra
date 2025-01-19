@@ -199,6 +199,7 @@ public class DatePicker extends Picker {
                 }
 
                 if (!validate(date)) {
+                    setText(dateFormatter.format(DatePicker.this.date));
                     selectAll();
 
                     return false;

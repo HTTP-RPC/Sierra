@@ -120,6 +120,7 @@ public class TimePicker extends Picker {
                 }
 
                 if (!validate(time)) {
+                    setText(timeFormatter.format(TimePicker.this.time));
                     selectAll();
 
                     return false;
