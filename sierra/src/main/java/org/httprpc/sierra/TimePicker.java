@@ -314,7 +314,7 @@ public class TimePicker extends Picker {
     }
 
     /**
-     * Returns {@code true} if the minute interval greater than one;
+     * Returns {@code true} if the minute interval is greater than one;
      * {@code false}, otherwise.
      * {@inheritDoc}
      */
