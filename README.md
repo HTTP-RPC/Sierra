@@ -39,8 +39,6 @@ This markup could be deserialized and set as the content pane of a frame or dial
 setContentPane(UILoader.load(this, "greeting-test.xml"));
 ```
 
-The resulting output is shown below:
-
 <img src="README/greeting.png" width="432px"/>
 
 The complete source code for this example can be found [here](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
@@ -181,7 +179,15 @@ FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) val
 
 <img src="README/cell-renderer.png" width="532px"/>
 
-See [CellRendererTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/CellRendererTest.java) for more information.
+### Button Groups
+The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:
+
+```xml
+<radio-button name="leftToRightButton" group="orientation" text="leftToRight"/>
+<radio-button name="rightToLeftButton" group="orientation" text="rightToLeft"/>
+```
+
+<img src="README/orientation.png" width="454px"/>
 
 ### Element Names
 The "name" attribute associates an identifier with a component. The value is automatically injected into a field with the same name defined by the document's owner (called an "outlet"). 
@@ -203,22 +209,17 @@ public class ActionTest extends JFrame implements Runnable {
     private JLabel greetingLabel = null;
     
     ...
+
+    @Override
+    public void run() {
+        setContentPane(UILoader.load(this, "action-test.xml", resourceBundle));
+        
+        ...
+    }
 }
 ```
 
 See [ActionTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/ActionTest.java) for more information.
-
-### Button Groups
-The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:
-
-```xml
-<radio-button name="leftToRightButton" group="orientation" text="leftToRight"/>
-<radio-button name="rightToLeftButton" group="orientation" text="rightToLeft"/>
-```
-
-<img src="README/orientation.png" width="454px"/>
-
-See [OrientationTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/OrientationTest.java) for more information.
 
 ### Resource Bundles
 If a non-`null` value is passed as the third argument to the `load()` method, values of text properties are considered resource keys and are used to look up the associated strings in the provided resource bundle. For example:
@@ -255,14 +256,63 @@ streetAddress = Street Address
 ...
 ```
 
+```java
+public class FormTest extends JFrame implements Runnable {
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(FormTest.class.getName());
+
+    ...
+
+    @Override
+    public void run() {
+        var scrollPane = new JScrollPane(UILoader.load(this, "form-test.xml", resourceBundle));
+
+        ...
+    }
+}
+```
+
 <img src="README/form.png" width="592px"/>
+
+See [FormTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java) for more information.
 
 ## Cell Alignment
 When grid alignment is enabled in a `ColumnPanel`, the sub-components (or "cells") of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each sub-column is determined as the maximum preferred width of the cells in that column (i.e. the components having the same index in each row).
 
 Cell contents are aligned based on the component's _x_ and _y_ alignment values (returned by `getAlignmentX()` and `getAlignmentY()`, respectively). For most components, the default is 0.5, indicating that the component should fill the entire cell along both axes. Values between 0.0 and 0.5 will align the component to the cell's leading or top edge, and values between 0.5 and 1.0 will align the component to the cell's trailing or bottom edge. In both cases, a proportional amount of the excess space will be allocated to the component. A value of 0 or 1 will result in no excess space being given to the component (i.e. it will be aligned to the appropriate edge and will be given its preferred size along that axis).
 
-For [example](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/resources/org/httprpc/sierra/test/alignment-test.xml):
+For example:
+
+```xml
+<column-panel spacing="4" alignToGrid="true" padding="8">
+    <row-panel>
+        <text-pane text="abc" alignmentX="0.25" alignmentY="0.0" border="silver"/>
+
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            wrapText="true"
+            border="silver"
+            weight="1"/>
+
+        <text-pane text="def" alignmentX="1.0" alignmentY="0.25" border="silver"/>
+    </row-panel>
+
+    <row-panel spacing="16">
+        <text-pane text="abcdef" alignmentX="1.0" border="silver"/>
+        <text-pane text="ABCDEFGHIJKL" border="silver"/>
+        <text-pane text="ghijkl" alignmentX="0.0" border="silver"/>
+    </row-panel>
+
+    <row-panel>
+        <text-pane text="ghi" alignmentX="0.0" alignmentY="0.75" border="silver"/>
+
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            wrapText="true"
+            border="silver"
+            weight="1"/>
+
+        <text-pane text="jkl" alignmentX="0.75" alignmentY="1.0" border="silver"/>
+    </row-panel>
+</column-panel>
+```
 
 <img src="README/alignment.png" width="332px"/>
 
