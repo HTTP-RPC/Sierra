@@ -3,17 +3,17 @@
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
 <column-panel spacing="4" alignToGrid="true" padding="8">
-    <row-panel spacing="4">
-        <label text="Quantity"/>
-        <text-field columns="18"/>
+    <row-panel spacing="4" alignToBaseline="true">
+        <label text="Quantity" alignmentX="1.0"/>
+        <text-field columns="6" alignmentX="0.0"/>
     </row-panel>
-    <row-panel spacing="4">
-        <label text="Size"/>
-        <suggestion-picker name="sizeSuggestionPicker"/>
+    <row-panel spacing="4" alignToBaseline="true">
+        <label text="Size" alignmentX="1.0"/>
+        <suggestion-picker name="sizeSuggestionPicker" columns="10" alignmentX="0.0"/>
     </row-panel>
-    <row-panel spacing="4">
-        <label text="Color"/>
-        <suggestion-picker name="colorSuggestionPicker" maximumRowCount="4"/>
+    <row-panel spacing="4" alignToBaseline="true">
+        <label text="Color" alignmentX="1.0"/>
+        <suggestion-picker name="colorSuggestionPicker" columns="10" maximumRowCount="4" alignmentX="0.0"/>
     </row-panel>
     <spacer weight="1"/>
 </column-panel>
