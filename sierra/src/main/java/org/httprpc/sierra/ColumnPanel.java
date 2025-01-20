@@ -210,7 +210,7 @@ public class ColumnPanel extends BoxPanel {
      * Toggles grid alignment.
      *
      * @param alignToGrid
-     * {@code true} to align row descendants to grid; {@code false}, otherwise.
+     * {@code true} to enable grid alignment; {@code false} to disable it.
      */
     public void setAlignToGrid(boolean alignToGrid) {
         this.alignToGrid = alignToGrid;

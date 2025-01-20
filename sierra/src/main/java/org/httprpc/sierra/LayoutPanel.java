@@ -210,7 +210,8 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
      * Toggles viewport width tracking.
      *
      * @param scrollableTracksViewportWidth
-     * {@code true} to track viewport width; {@code false}, otherwise.
+     * {@code true} to enable viewport width tracking; {@code false} to disable
+     * it.
      */
     public void setScrollableTracksViewportWidth(boolean scrollableTracksViewportWidth) {
         this.scrollableTracksViewportWidth = scrollableTracksViewportWidth;
@@ -231,7 +232,8 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
      * Toggles viewport height tracking.
      *
      * @param scrollableTracksViewportHeight
-     * {@code true} to track viewport height; {@code false}, otherwise.
+     * {@code true} to enable viewport height tracking; {@code false} to
+     * disable it.
      */
     public void setScrollableTracksViewportHeight(boolean scrollableTracksViewportHeight) {
         this.scrollableTracksViewportHeight = scrollableTracksViewportHeight;

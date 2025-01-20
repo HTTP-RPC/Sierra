@@ -192,7 +192,7 @@ public class TimePicker extends Picker {
     }
 
     /**
-     * Returns the minute interval.
+     * Returns the minute interval. The default value is 1.
      *
      * @return
      * The minute interval.
@@ -220,7 +220,8 @@ public class TimePicker extends Picker {
     }
 
     /**
-     * Indicates that strict mode is enabled.
+     * Indicates that strict mode is enabled. The default value is
+     * {@code false}.
      *
      * @return
      * {@code true} if strict mode is enabled; {@code false}, otherwise.
@@ -233,7 +234,7 @@ public class TimePicker extends Picker {
      * Toggles strict mode.
      *
      * @param strict
-     * {@code true} to enable strict mode; {@code false}, otherwise.
+     * {@code true} to enable strict mode; {@code false} to disable it.
      */
     public void setStrict(boolean strict) {
         this.strict = strict;

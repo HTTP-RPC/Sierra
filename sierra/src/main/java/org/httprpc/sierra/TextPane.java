@@ -284,7 +284,7 @@ public class TextPane extends JComponent {
      * Toggles line wrapping.
      *
      * @param wrapText
-     * {@code true} to wrap text when needed; {@code false}, otherwise.
+     * {@code true} to enable line wrapping; {@code false} to disable it.
      */
     public void setWrapText(boolean wrapText) {
         this.wrapText = wrapText;
