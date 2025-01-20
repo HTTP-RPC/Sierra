@@ -74,7 +74,7 @@ public class DateTimePickerTest extends JFrame implements Runnable {
 
         timePicker.addActionListener(event -> showSelection(timeFormatter, timePicker.getTime()));
 
-        minuteIntervalComboBox.setModel(new DefaultComboBoxModel<>(new Integer[] {1, 2, 3, 4, 5, 6, 10, 15, 20, 30, 60}));
+        minuteIntervalComboBox.setModel(new DefaultComboBoxModel<>(new Integer[] {1, 2, 3, 4, 5, 6, 10, 15, 20, 30}));
         minuteIntervalComboBox.addActionListener(event -> timePicker.setMinuteInterval((Integer)minuteIntervalComboBox.getSelectedItem()));
 
         strictCheckBox.addActionListener(event -> timePicker.setStrict(strictCheckBox.isSelected()));

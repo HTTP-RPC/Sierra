@@ -202,13 +202,15 @@ public class TimePicker extends Picker {
     }
 
     /**
-     * Sets the minute interval.
+     * Sets the minute interval. The value must be between 1 and 30 and must
+     * divide evently into 60. If strict mode is enabled, input will be limited
+     * to this interval.
      *
      * @param minuteInterval
      * The minute interval.
      */
     public void setMinuteInterval(int minuteInterval) {
-        if (minuteInterval <= 0 || minuteInterval > 60 || 60 % minuteInterval != 0) {
+        if (minuteInterval <= 0 || minuteInterval > 30 || 60 % minuteInterval != 0) {
             throw new IllegalArgumentException();
         }
 
@@ -315,7 +317,7 @@ public class TimePicker extends Picker {
     }
 
     /**
-     * Returns {@code true} if the minute interval is greater than one;
+     * Returns {@code true} if the minute interval is greater than 1;
      * {@code false}, otherwise.
      * {@inheritDoc}
      */
