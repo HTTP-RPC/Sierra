@@ -213,7 +213,7 @@ public class ActionTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(UILoader.load(this, "action-test.xml", resourceBundle));
-        
+
         ...
     }
 }
