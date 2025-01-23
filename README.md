@@ -17,12 +17,12 @@ Sierra provides the `UILoader` class, which can be used in conjunction with the 
 
 * `RowPanel` - arranges sub-components in a horizontal line, optionally aligning to baseline
 * `ColumnPanel` - arranges sub-components in a vertical line, optionally aligning nested elements to a grid
-* `StackPanel` - sizes sub-components to fill the container
+* `StackPanel` - sizes sub-components to fill the available space
 * `Spacer` - provides fixed or flexible space between other components
 
 These classes offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice.
 
-Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping text without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`.
+Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`.
 
 For example, the following markup declares a column panel containing a graphic and a simple greeting:
 

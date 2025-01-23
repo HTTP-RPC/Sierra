@@ -18,8 +18,8 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
- * Sizes sub-components to fill the container. The panel's preferred size is
- * the maximum preferred width/height of all sub-components, plus insets.
+ * Sizes sub-components to fill the available space. The panel's preferred size
+ * is the maximum preferred width/height of all sub-components, plus insets.
  */
 public class StackPanel extends LayoutPanel {
     private class StackLayoutManager extends AbstractLayoutManager {
