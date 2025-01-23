@@ -60,15 +60,11 @@ public abstract class BoxPanel extends LayoutPanel {
     protected double getWeight(int index) {
         var constraints = getConstraints(index);
 
-        if (constraints == null) {
+        if (constraints instanceof Double weight) {
+            return weight;
+        } else {
             return Double.NaN;
         }
-
-        if (!(constraints instanceof Double)) {
-            throw new IllegalStateException();
-        }
-
-        return (double)constraints;
     }
 
     /**

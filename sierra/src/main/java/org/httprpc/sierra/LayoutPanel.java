@@ -94,6 +94,9 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         super(null);
 
         setOpaque(false);
+
+        setAlignmentX(0.5f);
+        setAlignmentY(0.5f);
     }
 
     /**
