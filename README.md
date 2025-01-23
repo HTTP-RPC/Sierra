@@ -199,8 +199,6 @@ For example, the following markup declares outlets named "greetingButton" and "g
 <label name="greetingLabel" horizontalAlignment="center"/>
 ```
 
-<img src="README/action.png" width="352px"/>
-
 When the `load()` method returns, the corresponding fields in the owner will be populated with the instances declared in the markup:
 
 ```java
@@ -218,6 +216,8 @@ public class ActionTest extends JFrame implements Runnable {
     }
 }
 ```
+
+<img src="README/action.png" width="352px"/>
 
 See [ActionTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/ActionTest.java) for more information.
 
@@ -280,31 +280,58 @@ When grid alignment is enabled in a `ColumnPanel`, the sub-components of every `
 
 Cell contents are aligned based on the component's _x_ and _y_ alignment values (returned by `getAlignmentX()` and `getAlignmentY()`, respectively). For most components, the default is 0.5, indicating that the component should fill the entire cell along both axes. Values between 0.0 and 0.5 will align the component to the cell's leading or top edge, and values between 0.5 and 1.0 will align the component to the cell's trailing or bottom edge. In both cases, a proportional amount of the excess space will be allocated to the component. A value of 0 or 1 will result in no excess space being given to the component (i.e. it will be aligned to the appropriate edge and will be given its preferred size along that axis).
 
-For example:
+For example, the following markup demonstrates x-alignment:
 
 ```xml
 <column-panel spacing="4" alignToGrid="true" padding="8">
     <row-panel>
-        <text-pane text="A" horizontalAlignment="center" alignmentX="0.25" alignmentY="0.0" border="silver"/>
-        <spacer size="60, 45" border="silver"/>
-        <text-pane text="B" verticalAlignment="center" alignmentX="0.0" alignmentY="0.75" border="silver"/>
+        <text-pane text="0.0" alignmentX="0.0" border="silver"/>
+        <text-pane text="0.25" horizontalAlignment="center" alignmentX="0.25" border="silver"/>
+        <text-pane text="0.5" horizontalAlignment="center" alignmentX="0.5" border="silver"/>
+        <text-pane text="0.75" horizontalAlignment="center" alignmentX="0.75" border="silver"/>
+        <text-pane text="1.0" alignmentX="1.0" border="silver"/>
     </row-panel>
 
     <row-panel>
-        <spacer size="120, 45" border="silver"/>
-        <text-pane text="C" horizontalAlignment="center" verticalAlignment="center" border="silver"/>
-        <spacer size="120, 45" border="silver"/>
-    </row-panel>
-
-    <row-panel>
-        <text-pane text="D" verticalAlignment="center" alignmentX="1.0" alignmentY="0.25" border="silver"/>
-        <spacer size="0, 45" border="silver"/>
-        <text-pane text="E" horizontalAlignment="center" alignmentX="0.75" alignmentY="1.0" border="silver"/>
+        <spacer size="120, 40" border="silver"/>
+        <spacer size="120, 40" border="silver"/>
+        <spacer size="120, 40" border="silver"/>
+        <spacer size="120, 40" border="silver"/>
+        <spacer size="120, 40" border="silver"/>
     </row-panel>
 </column-panel>
 ```
 
-<img src="README/alignment.png" width="436px"/>
+<img src="README/alignment-x.png" width="744px"/>
+
+This markup demonstrates y-alignment:
+
+```xml
+<column-panel spacing="4" alignToGrid="true" padding="8">
+    <row-panel>
+        <text-pane text="0.0" alignmentY="0.0" border="silver"/>
+        <spacer size="160, 80" border="silver"/>
+    </row-panel>
+    <row-panel>
+        <text-pane text="0.25" verticalAlignment="center" alignmentY="0.25" border="silver"/>
+        <spacer size="160, 80" border="silver"/>
+    </row-panel>
+    <row-panel>
+        <text-pane text="0.5" verticalAlignment="center" alignmentY="0.5" border="silver"/>
+        <spacer size="160, 80" border="silver"/>
+    </row-panel>
+    <row-panel>
+        <text-pane text="0.75" verticalAlignment="center" alignmentY="0.75" border="silver"/>
+        <spacer size="160, 80" border="silver"/>
+    </row-panel>
+    <row-panel>
+        <text-pane text="1.0" alignmentY="1.0" border="silver"/>
+        <spacer size="160, 80" border="silver"/>
+    </row-panel>
+</column-panel>
+```
+
+<img src="README/alignment-y.png" width="319px"/>
 
 ## Utility Components
 In addition to the features outlined above, Sierra also includes some common user interface elements not provided by Swing.

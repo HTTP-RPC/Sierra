@@ -20,16 +20,16 @@ import org.httprpc.sierra.UILoader;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-public class AlignmentTest extends JFrame implements Runnable {
-    private AlignmentTest() {
-        super("Alignment Test");
+public class AlignmentYTest extends JFrame implements Runnable {
+    private AlignmentYTest() {
+        super("Y-Alignment Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "alignment-test.xml"));
+        setContentPane(UILoader.load(this, "alignment-y-test.xml"));
 
         pack();
         setVisible(true);
@@ -38,6 +38,6 @@ public class AlignmentTest extends JFrame implements Runnable {
     public static void main(String[] args) {
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new AlignmentTest());
+        SwingUtilities.invokeLater(new AlignmentYTest());
     }
 }
