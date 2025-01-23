@@ -111,25 +111,7 @@ public class TextPane extends JComponent {
 
         @Override
         public int getBaseline(JComponent component, int width, int height) {
-            if (text == null || verticalAlignment == VerticalAlignment.CENTER) {
-                return -1;
-            }
-
-            var insets = getInsets();
-
-            var lineMetrics = getFont().getLineMetrics("", fontRenderContext);
-
-            var ascent = lineMetrics.getAscent();
-
-            return switch (verticalAlignment) {
-                case TOP -> insets.top + Math.round(ascent);
-                case BOTTOM -> {
-                    var lineHeight = lineMetrics.getHeight();
-
-                    yield height - (insets.bottom + Math.round(lineHeight - ascent));
-                }
-                default -> throw new UnsupportedOperationException();
-            };
+            return -1;
         }
 
         @Override

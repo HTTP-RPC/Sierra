@@ -8,7 +8,7 @@
     <label text="abcdefg" font="small" border="silver"/>
     <label text="hijk" font="large" border="silver"/>
 
-    <image-pane image="add.png" scaleMode="fill-width" size="20, 20" border="silver"/>
+    <spacer size="20, 20" border="silver"/>
 
     <label text="lmnop" font="medium" border="silver"/>
 
