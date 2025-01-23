@@ -397,6 +397,10 @@ public class UILoader {
 
         var xmlInputFactory = XMLInputFactory.newInstance();
 
+        xmlInputFactory.setProperty("javax.xml.stream.isValidating", false);
+        xmlInputFactory.setProperty("javax.xml.stream.isNamespaceAware", false);
+        xmlInputFactory.setProperty("javax.xml.stream.isSupportingExternalEntities", false);
+
         try (var inputStream = type.getResourceAsStream(name)) {
             if (inputStream == null) {
                 throw new UnsupportedOperationException("Named resource does not exist.");
