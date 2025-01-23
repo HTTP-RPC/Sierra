@@ -18,17 +18,14 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
- * Arranges sub-components by z-order, pinning component edges to the
- * container's insets.
+ * Sizes sub-components to fill the container. The panel's preferred size is
+ * the maximum preferred width/height of all sub-components, plus insets.
  */
 public class StackPanel extends LayoutPanel {
     private class StackLayoutManager extends AbstractLayoutManager {
         @Override
         protected Dimension preferredLayoutSize() {
-            var size = getSize();
             var insets = getInsets();
-
-            var width = Math.max(size.width - (insets.left + insets.right), 0);
 
             var preferredWidth = 0;
             var preferredHeight = 0;
@@ -37,8 +34,6 @@ public class StackPanel extends LayoutPanel {
 
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
-
-                component.setSize(width, Integer.MAX_VALUE);
 
                 var preferredSize = component.getPreferredSize();
 
