@@ -333,6 +333,8 @@ This markup demonstrates y-alignment:
 
 <img src="README/alignment-y.png" width="319px"/>
 
+Row spacing and cell weights are ignored when grid alignment is enabled.
+
 ## Utility Components
 In addition to the features outlined above, Sierra also includes some common user interface elements not provided by Swing.
 
