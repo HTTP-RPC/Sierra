@@ -58,7 +58,7 @@ public class RowPanel extends BoxPanel {
 
                 var weight = getWeight(i);
 
-                if (Double.isNaN(weight)) {
+                if (Double.isNaN(weight) || columnWidths != null) {
                     component.setSize(Integer.MAX_VALUE, height);
                     component.setSize(component.getPreferredSize());
 
@@ -93,13 +93,10 @@ public class RowPanel extends BoxPanel {
 
                 var weight = getWeight(i);
 
-                if (!Double.isNaN(weight)) {
-                    // TODO
-                    var columnWidth = (columnWidths == null) ? 0 : columnWidths.get(i);
-
+                if (!Double.isNaN(weight) && columnWidths == null) {
                     int width;
                     if (i < n - 1) {
-                        width = (columnWidth > 0) ? columnWidth : (int)Math.round(excessWidth * (weight / totalWeight));
+                        width = (int)Math.round(excessWidth * (weight / totalWeight));
 
                         remainingWidth -= width;
                     } else {
@@ -158,7 +155,7 @@ public class RowPanel extends BoxPanel {
 
                 var weight = getWeight(i);
 
-                if (Double.isNaN(weight)) {
+                if (Double.isNaN(weight) || columnWidths != null) {
                     component.setSize(Integer.MAX_VALUE, height);
                     component.setSize(component.getPreferredSize());
 
@@ -188,11 +185,6 @@ public class RowPanel extends BoxPanel {
 
                     excessWidth -= columnWidth;
                 } else {
-                    // TODO
-                    if (columnWidths != null && i == columnWidths.size()) {
-                        columnWidths.add(0);
-                    }
-
                     totalWeight += weight;
                 }
             }
@@ -221,18 +213,14 @@ public class RowPanel extends BoxPanel {
 
                 var weight = getWeight(i);
 
-                if (!Double.isNaN(weight)) {
-                    // TODO
-                    var width = (columnWidths == null) ? 0 : columnWidths.get(i);
+                if (!Double.isNaN(weight) && columnWidths == null) {
+                    int width;
+                    if (i < n - 1) {
+                        width = (int)Math.round(excessWidth * (weight / totalWeight));
 
-                    if (width == 0) {
-                        if (i < n - 1) {
-                            width = (int)Math.round(excessWidth * (weight / totalWeight));
-
-                            remainingWidth -= width;
-                        } else {
-                            width = remainingWidth;
-                        }
+                        remainingWidth -= width;
+                    } else {
+                        width = remainingWidth;
                     }
 
                     if (alignToBaseline) {
