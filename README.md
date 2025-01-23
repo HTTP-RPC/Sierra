@@ -20,7 +20,7 @@ Sierra provides the `UILoader` class, which can be used in conjunction with the 
 * `StackPanel` - sizes sub-components to fill the container
 * `Spacer` - provides fixed or flexible space between other components
 
-These types offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice.
+These classes offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice.
 
 Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping text without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`.
 
