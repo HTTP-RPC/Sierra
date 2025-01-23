@@ -23,7 +23,7 @@ import java.util.List;
  * Arranges sub-components in a vertical line. The panel's preferred width is
  * the maximum preferred width of its unweighted sub-components plus horizontal
  * insets. Preferred height is the total preferred height of all
- * sub-components, plus vertical insets.
+ * sub-components plus vertical insets.
  */
 public class ColumnPanel extends BoxPanel {
     // Column layout manager
