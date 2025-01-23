@@ -50,7 +50,7 @@ public class ImagePaneTest extends JFrame implements Runnable {
 
         setContentPane(imagePane);
 
-        setSize(320, 240);
+        pack();
         setVisible(true);
     }
 

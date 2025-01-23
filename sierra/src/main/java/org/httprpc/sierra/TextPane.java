@@ -51,19 +51,19 @@ public class TextPane extends JComponent {
                 return new Dimension(0, 0);
             }
 
+            var font = getFont();
+
             var insets = getInsets();
 
-            var font = getFont();
+            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
 
             double textWidth;
             double textHeight;
-            if (wrapText) {
+            if (wrapText && width > 0) {
                 var lineHeight = font.getLineMetrics("", fontRenderContext).getHeight();
 
                 textWidth = 0.0;
                 textHeight = lineHeight;
-
-                var width = Math.max(getWidth() - (insets.left + insets.right), 0);
 
                 var lineWidth = 0.0;
                 var lastWhitespaceIndex = -1;

@@ -63,16 +63,20 @@ public class ImagePane extends JComponent {
                 return new Dimension(0, 0);
             }
 
-            var size = getSize();
             var insets = getInsets();
 
-            var width = Math.max(size.width - (insets.left + insets.right), 0);
-            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
+            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+            var height = Math.max(getHeight() - (insets.top + insets.bottom), 0);
 
             var imageWidth = image.getWidth(null);
             var imageHeight = image.getHeight(null);
 
-            var scale = getScale(width, height, imageWidth, imageHeight);
+            double scale;
+            if (width > 0 && height > 0) {
+                scale = getScale(width, height, imageWidth, imageHeight);
+            } else {
+                scale = 1.0;
+            }
 
             var preferredWidth = (int)Math.round(imageWidth * scale) + insets.left + insets.right;
             var preferredHeight = (int)Math.round(imageHeight * scale) + insets.top + insets.bottom;
