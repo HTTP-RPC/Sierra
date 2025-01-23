@@ -215,6 +215,8 @@ public class UILoader {
                 if (type == JTextField.class) {
                     appendAttributeDeclaration(PLACEHOLDER_TEXT, CDATA, writer);
                     appendAttributeDeclaration(SHOW_CLEAR_BUTTON, String.format("(%b|%b)", true, false), writer);
+                    appendAttributeDeclaration(LEADING_ICON, CDATA, writer);
+                    appendAttributeDeclaration(TRAILING_ICON, CDATA, writer);
                 }
 
                 endEntityDeclaration(writer);
@@ -308,6 +310,8 @@ public class UILoader {
 
     private static final String PLACEHOLDER_TEXT = "placeholderText";
     private static final String SHOW_CLEAR_BUTTON = "showClearButton";
+    private static final String LEADING_ICON = "leadingIcon";
+    private static final String TRAILING_ICON = "trailingIcon";
 
     private static final String HORIZONTAL_ALIGNMENT = "horizontalAlignment";
     private static final String VERTICAL_ALIGNMENT = "verticalAlignment";
@@ -513,6 +517,19 @@ public class UILoader {
                 }
 
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), Boolean.valueOf(value));
+            } else if (name.equals(LEADING_ICON) || name.equals(TRAILING_ICON)) {
+                if (!(component instanceof JTextField)) {
+                    throw new UnsupportedOperationException("Component is not a text field.");
+                }
+
+                Icon icon;
+                if (value.endsWith(".svg")) {
+                    icon = new FlatSVGIcon(owner.getClass().getResource(value));
+                } else {
+                    throw new UnsupportedOperationException("Unsupported icon type.");
+                }
+
+                component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), icon);
             } else {
                 var mutator = map(properties.get(tag).get(name), BeanAdapter.Property::getMutator);
 

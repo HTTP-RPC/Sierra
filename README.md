@@ -185,6 +185,10 @@ Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-p
 <column-panel spacing="4" padding="8">
     <text-field columns="16" placeholderText="firstName" showClearButton="true"/>
     <text-field columns="16" placeholderText="lastName" showClearButton="true"/>
+
+    <spacer size="8"/>
+
+    <text-field columns="16" leadingIcon="search_18dp.svg" trailingIcon="people_18dp.svg"/>
 </column-panel>
 ```
 
