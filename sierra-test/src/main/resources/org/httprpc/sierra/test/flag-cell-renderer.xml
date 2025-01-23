@@ -6,7 +6,7 @@
     <image-pane name="imagePane" size="30, 30" scaleMode="fill-width"/>
 
     <column-panel>
-        <label name="nameLabel" FlatLaf.styleClass="h4"/>
+        <label name="nameLabel" styleClass="h4"/>
         <label name="descriptionLabel"/>
     </column-panel>
 </row-panel>

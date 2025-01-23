@@ -4,30 +4,20 @@
 
 <column-panel spacing="4" alignToGrid="true" padding="8">
     <row-panel>
-        <text-pane text="abc" alignmentX="0.25" alignmentY="0.0" border="silver"/>
-
-        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            wrapText="true"
-            border="silver"
-            weight="1"/>
-
-        <text-pane text="def" alignmentX="1.0" alignmentY="0.25" border="silver"/>
-    </row-panel>
-
-    <row-panel spacing="16">
-        <text-pane text="abcdef" alignmentX="1.0" border="silver"/>
-        <text-pane text="ABCDEFGHIJKL" border="silver"/>
-        <text-pane text="ghijkl" alignmentX="0.0" border="silver"/>
+        <text-pane text="A" horizontalAlignment="center" alignmentX="0.25" alignmentY="0.0" border="silver"/>
+        <spacer size="60, 45" border="silver"/>
+        <text-pane text="B" verticalAlignment="center" alignmentX="0.0" alignmentY="0.75" border="silver"/>
     </row-panel>
 
     <row-panel>
-        <text-pane text="ghi" alignmentX="0.0" alignmentY="0.75" border="silver"/>
+        <spacer size="120, 45" border="silver"/>
+        <text-pane text="C" horizontalAlignment="center" verticalAlignment="center" border="silver"/>
+        <spacer size="120, 45" border="silver"/>
+    </row-panel>
 
-        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            wrapText="true"
-            border="silver"
-            weight="1"/>
-
-        <text-pane text="jkl" alignmentX="0.75" alignmentY="1.0" border="silver"/>
+    <row-panel>
+        <text-pane text="D" verticalAlignment="center" alignmentX="1.0" alignmentY="0.25" border="silver"/>
+        <spacer size="0, 45" border="silver"/>
+        <text-pane text="E" horizontalAlignment="center" alignmentX="0.75" alignmentY="1.0" border="silver"/>
     </row-panel>
 </column-panel>

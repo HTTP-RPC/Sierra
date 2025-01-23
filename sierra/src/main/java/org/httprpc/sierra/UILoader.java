@@ -134,8 +134,8 @@ public class UILoader {
             appendAttributeDeclaration(WEIGHT, CDATA, writer);
             appendAttributeDeclaration(SIZE, CDATA, writer);
 
-            appendAttributeDeclaration(FLAT_LAF_STYLE, CDATA, writer);
-            appendAttributeDeclaration(FLAT_LAF_STYLE_CLASS, CDATA, writer);
+            appendAttributeDeclaration(STYLE, CDATA, writer);
+            appendAttributeDeclaration(STYLE_CLASS, CDATA, writer);
 
             endEntityDeclaration(writer);
 
@@ -296,8 +296,10 @@ public class UILoader {
     private static final String WEIGHT = "weight";
     private static final String SIZE = "size";
 
-    private static final String FLAT_LAF_STYLE = "FlatLaf.style";
-    private static final String FLAT_LAF_STYLE_CLASS = "FlatLaf.styleClass";
+    private static final String STYLE = "style";
+    private static final String STYLE_CLASS = "styleClass";
+
+    private static final String FLAT_LAF_PREFIX = "FlatLaf";
 
     private static final String HORIZONTAL_ALIGNMENT = "horizontalAlignment";
     private static final String VERTICAL_ALIGNMENT = "verticalAlignment";
@@ -478,8 +480,8 @@ public class UILoader {
                 constraints = Double.valueOf(value);
             } else if (name.equals(SIZE)) {
                 component.setPreferredSize(parseSize(value));
-            } else if (name.equals(FLAT_LAF_STYLE) || name.equals(FLAT_LAF_STYLE_CLASS)) {
-                component.putClientProperty(name, value);
+            } else if (name.equals(STYLE) || name.equals(STYLE_CLASS)) {
+                component.putClientProperty(String.format("%s.%s", FLAT_LAF_PREFIX, name), value);
             } else {
                 var mutator = map(properties.get(tag).get(name), BeanAdapter.Property::getMutator);
 

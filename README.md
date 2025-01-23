@@ -10,17 +10,17 @@ Sierra is an open-source framework for simplifying development of Java Swing app
 This guide introduces the Sierra framework and provides an overview of its key features.
 
 # Getting Sierra
-Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 17 or later is required.
+Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 17 or later is required. [FlatLaf](https://www.formdev.com/flatlaf/) is recommended.
 
 # Sierra Classes
 Sierra provides the `UILoader` class, which can be used in conjunction with the following types to to declaratively establish a hierarchy of user interface elements:
 
-* `RowPanel`, a container that automatically arranges sub-components along the x-axis
-* `ColumnPanel`, a container that automatically arranges sub-components along the y-axis
-* `StackPanel`, a container that automatically arranges sub-components by z-order
-* `Spacer`, a component that provides fixed or flexible space between other components
+* `RowPanel` - arranges sub-components in a horizontal line, optionally aligning to baseline
+* `ColumnPanel` - arranges sub-components in a vertical line, optionally aligning nested elements to a grid
+* `StackPanel` - sizes sub-components to fill the container
+* `Spacer` - provides fixed or flexible space between other components
 
-These types offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice. `RowPanel` optionally aligns sub-components to baseline, similar to `FlowLayout`. `ColumnPanel` optionally aligns sub-components to a grid, similar to an HTML table or `GridBagLayout`. 
+These types offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice.
 
 Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping text without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`.
 
@@ -100,7 +100,7 @@ Image and icon properties can be specified via a path to an image document on th
 Icon support is currently limited to SVG documents and requires the [FlatLaf Extras](https://github.com/JFormDesigner/FlatLaf/tree/main/flatlaf-extras) library:
 
 ```xml
-<toggle-button name="alignLeftButton" icon="format_align_left_black_18dp.svg" FlatLaf.style="buttonType: toolBarButton"/>
+<toggle-button name="alignLeftButton" icon="format_align_left_black_18dp.svg" style="buttonType: toolBarButton"/>
 ```
 
 <img src="README/button-group.png" width="432px"/>
@@ -163,15 +163,15 @@ Size values for multiple dimensions can be specified in _width_, _height_ order:
 size="20, 20"
 ```
 
-### FlatLaf Styles and Style Classes
-FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "FlatLaf.style" and "FlatLaf.styleClass" attributes, respectively. For example, this markup applies the "h2" style class to a `JLabel` instance used by a list cell renderer:
+### Styles and Style Classes
+FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "style" and "styleClass" attributes, respectively. For example, this markup applies the "h2" style class to a `JLabel` instance used by a list cell renderer:
 
 ```xml
 <row-panel spacing="4" padding="4" opaque="true">
     <image-pane name="imagePane" size="30, 30" scaleMode="fill-width"/>
 
     <column-panel>
-        <label name="nameLabel" FlatLaf.styleClass="h4"/>
+        <label name="nameLabel" styleClass="h4"/>
         <label name="descriptionLabel"/>
     </column-panel>
 </row-panel>
@@ -276,7 +276,7 @@ public class FormTest extends JFrame implements Runnable {
 See [FormTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java) for more information.
 
 ## Cell Alignment
-When grid alignment is enabled in a `ColumnPanel`, the sub-components (or "cells") of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each sub-column is determined as the maximum preferred width of the cells in that column (i.e. the components having the same index in each row).
+When grid alignment is enabled in a `ColumnPanel`, the sub-components of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each sub-column is the maximum preferred width of the "cells" in that column (i.e. the components having the same index in each row).
 
 Cell contents are aligned based on the component's _x_ and _y_ alignment values (returned by `getAlignmentX()` and `getAlignmentY()`, respectively). For most components, the default is 0.5, indicating that the component should fill the entire cell along both axes. Values between 0.0 and 0.5 will align the component to the cell's leading or top edge, and values between 0.5 and 1.0 will align the component to the cell's trailing or bottom edge. In both cases, a proportional amount of the excess space will be allocated to the component. A value of 0 or 1 will result in no excess space being given to the component (i.e. it will be aligned to the appropriate edge and will be given its preferred size along that axis).
 
@@ -285,36 +285,26 @@ For example:
 ```xml
 <column-panel spacing="4" alignToGrid="true" padding="8">
     <row-panel>
-        <text-pane text="abc" alignmentX="0.25" alignmentY="0.0" border="silver"/>
-
-        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            wrapText="true"
-            border="silver"
-            weight="1"/>
-
-        <text-pane text="def" alignmentX="1.0" alignmentY="0.25" border="silver"/>
-    </row-panel>
-
-    <row-panel spacing="16">
-        <text-pane text="abcdef" alignmentX="1.0" border="silver"/>
-        <text-pane text="ABCDEFGHIJKL" border="silver"/>
-        <text-pane text="ghijkl" alignmentX="0.0" border="silver"/>
+        <text-pane text="A" horizontalAlignment="center" alignmentX="0.25" alignmentY="0.0" border="silver"/>
+        <spacer size="60, 45" border="silver"/>
+        <text-pane text="B" verticalAlignment="center" alignmentX="0.0" alignmentY="0.75" border="silver"/>
     </row-panel>
 
     <row-panel>
-        <text-pane text="ghi" alignmentX="0.0" alignmentY="0.75" border="silver"/>
+        <spacer size="120, 45" border="silver"/>
+        <text-pane text="C" horizontalAlignment="center" verticalAlignment="center" border="silver"/>
+        <spacer size="120, 45" border="silver"/>
+    </row-panel>
 
-        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            wrapText="true"
-            border="silver"
-            weight="1"/>
-
-        <text-pane text="jkl" alignmentX="0.75" alignmentY="1.0" border="silver"/>
+    <row-panel>
+        <text-pane text="D" verticalAlignment="center" alignmentX="1.0" alignmentY="0.25" border="silver"/>
+        <spacer size="0, 45" border="silver"/>
+        <text-pane text="E" horizontalAlignment="center" alignmentX="0.75" alignmentY="1.0" border="silver"/>
     </row-panel>
 </column-panel>
 ```
 
-<img src="README/alignment.png" width="332px"/>
+<img src="README/alignment.png" width="436px"/>
 
 ## Utility Components
 In addition to the features outlined above, Sierra also includes some common user interface elements not provided by Swing.
