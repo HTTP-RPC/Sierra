@@ -134,7 +134,7 @@ public class CellRendererTest extends JFrame implements Runnable {
 
         setContentPane(scrollPane);
 
-        setSize(420, 640);
+        setSize(420, 560);
         setVisible(true);
     }
 

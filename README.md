@@ -163,7 +163,7 @@ Size values for multiple dimensions can be specified in _width_, _height_ order:
 size="20, 20"
 ```
 
-### Styles and Style Classes
+### FlatLaf Client Properties
 FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "style" and "styleClass" attributes, respectively. For example, this markup applies the "h2" style class to a `JLabel` instance used by a list cell renderer:
 
 ```xml
@@ -178,6 +178,17 @@ FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) val
 ```
 
 <img src="README/cell-renderer.png" width="532px"/>
+
+Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-properties/#JTextField) are also supported. For example: 
+
+```xml
+<column-panel spacing="4" padding="8">
+    <text-field columns="16" placeholderText="firstName" showClearButton="true"/>
+    <text-field columns="16" placeholderText="lastName" showClearButton="true"/>
+</column-panel>
+```
+
+<img src="README/text-fields.png" width="318px"/>
 
 ### Button Groups
 The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:

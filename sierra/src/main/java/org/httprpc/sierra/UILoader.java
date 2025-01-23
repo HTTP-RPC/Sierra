@@ -212,6 +212,11 @@ public class UILoader {
                     }
                 }
 
+                if (type == JTextField.class) {
+                    appendAttributeDeclaration(PLACEHOLDER_TEXT, CDATA, writer);
+                    appendAttributeDeclaration(SHOW_CLEAR_BUTTON, String.format("(%b|%b)", true, false), writer);
+                }
+
                 endEntityDeclaration(writer);
 
                 var tag = tags.get(type);
@@ -300,6 +305,9 @@ public class UILoader {
     private static final String STYLE_CLASS = "styleClass";
 
     private static final String FLAT_LAF_PREFIX = "FlatLaf";
+
+    private static final String PLACEHOLDER_TEXT = "placeholderText";
+    private static final String SHOW_CLEAR_BUTTON = "showClearButton";
 
     private static final String HORIZONTAL_ALIGNMENT = "horizontalAlignment";
     private static final String VERTICAL_ALIGNMENT = "verticalAlignment";
@@ -486,6 +494,25 @@ public class UILoader {
                 component.setPreferredSize(parseSize(value));
             } else if (name.equals(STYLE) || name.equals(STYLE_CLASS)) {
                 component.putClientProperty(String.format("%s.%s", FLAT_LAF_PREFIX, name), value);
+            } else if (name.equals(PLACEHOLDER_TEXT)) {
+                if (!(component instanceof JTextField)) {
+                    throw new UnsupportedOperationException("Component is not a text field.");
+                }
+
+                String placeholderText;
+                if (resourceBundle == null) {
+                    placeholderText = value;
+                } else {
+                    placeholderText = resourceBundle.getString(value);
+                }
+
+                component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), placeholderText);
+            } else if (name.equals(SHOW_CLEAR_BUTTON)) {
+                if (!(component instanceof JTextField)) {
+                    throw new UnsupportedOperationException("Component is not a text field.");
+                }
+
+                component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), Boolean.valueOf(value));
             } else {
                 var mutator = map(properties.get(tag).get(name), BeanAdapter.Property::getMutator);
 
