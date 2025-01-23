@@ -21,8 +21,8 @@ import java.util.List;
 
 /**
  * Arranges sub-components in a vertical line. The panel's preferred width is
- * the maximum preferred width of its unweighted sub-components plus horizontal
- * insets. Preferred height is the total preferred height of all
+ * the maximum preferred width of its sub-components plus horizontal insets.
+ * Preferred height is the total preferred height of all unweighted
  * sub-components plus vertical insets.
  */
 public class ColumnPanel extends BoxPanel {
@@ -45,24 +45,25 @@ public class ColumnPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                if (Double.isNaN(getWeight(i))) {
-                    component.setSize(width, Integer.MAX_VALUE);
+                component.setSize(width, Integer.MAX_VALUE);
 
-                    if (alignToGrid && component instanceof RowPanel) {
-                        component.doLayout();
-                    } else {
-                        var preferredSize = component.getPreferredSize();
+                if (alignToGrid && component instanceof RowPanel) {
+                    component.doLayout();
+                } else {
+                    var preferredSize = component.getPreferredSize();
 
-                        preferredWidth = Math.max(preferredWidth, preferredSize.width);
+                    preferredWidth = Math.max(preferredWidth, preferredSize.width);
+
+                    if (Double.isNaN(getWeight(i))) {
                         preferredHeight += preferredSize.height;
                     }
                 }
             }
 
-            if (alignToGrid) {
-                var totalColumnWidth = columnWidths.stream().reduce(0, Integer::sum);
+            var spacing = getSpacing();
 
-                preferredWidth = totalColumnWidth + (columnWidths.size() - 1) * getSpacing();
+            if (alignToGrid) {
+                preferredWidth = columnWidths.stream().reduce(0, Integer::sum) + (columnWidths.size() - 1) * spacing;
 
                 for (var i = 0; i < n; i++) {
                     var component = getComponent(i);
@@ -73,7 +74,7 @@ public class ColumnPanel extends BoxPanel {
                 }
             }
 
-            preferredHeight += getSpacing() * (n - 1);
+            preferredHeight += spacing * (n - 1);
 
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
         }

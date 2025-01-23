@@ -15,8 +15,31 @@
         <spacer weight="1"/>
     </column-panel>
 
-    <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        wrapText="true"
-        horizontalAlignment="center"
-        verticalAlignment="center"/>
+    <column-panel spacing="8">
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            wrapText="true"
+            horizontalAlignment="center"
+            verticalAlignment="top"
+            border="silver"
+            weight="1"/>
+
+        <text-pane text="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            wrapText="true"
+            horizontalAlignment="center"
+            verticalAlignment="center"
+            border="silver"/>
+
+        <text-pane text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            wrapText="true"
+            horizontalAlignment="center"
+            verticalAlignment="center"
+            border="silver"/>
+
+        <text-pane text="Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            wrapText="true"
+            horizontalAlignment="center"
+            verticalAlignment="bottom"
+            border="silver"
+            weight="1"/>
+    </column-panel>
 </stack-panel>

@@ -31,7 +31,7 @@ public class StackTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "stack-test.xml"));
 
-        setSize(320, 240);
+        pack();
         setVisible(true);
     }
 
