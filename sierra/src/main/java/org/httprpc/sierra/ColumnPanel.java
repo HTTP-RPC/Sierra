@@ -20,11 +20,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Arranges sub-components vertically in a column, pinning component edges to
- * the container's leading and trailing insets. The panel's preferred width is
- * determined as the maximum preferred width of its unweighted sub-components
- * plus horizontal insets. Preferred height is the total preferred height of
- * all unweighted sub-components, plus vertical insets.
+ * Arranges sub-components in a vertical line. The panel's preferred width is
+ * the maximum preferred width of its unweighted sub-components plus horizontal
+ * insets. Preferred height is the total preferred height of all
+ * sub-components, plus vertical insets.
  */
 public class ColumnPanel extends BoxPanel {
     // Column layout manager
@@ -32,9 +31,6 @@ public class ColumnPanel extends BoxPanel {
         @Override
         public Dimension preferredLayoutSize() {
             columnWidths.clear();
-            columnWeights.clear();
-
-            maximumRowSpacing = 0;
 
             var size = getSize();
             var insets = getInsets();
@@ -52,10 +48,8 @@ public class ColumnPanel extends BoxPanel {
                 if (Double.isNaN(getWeight(i))) {
                     component.setSize(width, Integer.MAX_VALUE);
 
-                    if (alignToGrid && component instanceof RowPanel rowPanel) {
+                    if (alignToGrid && component instanceof RowPanel) {
                         component.doLayout();
-
-                        maximumRowSpacing = Math.max(maximumRowSpacing, rowPanel.getSpacing());
                     } else {
                         var preferredSize = component.getPreferredSize();
 
@@ -68,7 +62,7 @@ public class ColumnPanel extends BoxPanel {
             if (alignToGrid) {
                 var totalColumnWidth = columnWidths.stream().reduce(0, Integer::sum);
 
-                preferredWidth = totalColumnWidth + (columnWidths.size() - 1) * getRowSpacing();
+                preferredWidth = totalColumnWidth + (columnWidths.size() - 1) * getSpacing();
 
                 for (var i = 0; i < n; i++) {
                     var component = getComponent(i);
@@ -87,9 +81,6 @@ public class ColumnPanel extends BoxPanel {
         @Override
         public void layoutContainer() {
             columnWidths.clear();
-            columnWeights.clear();
-
-            maximumRowSpacing = 0;
 
             var size = getSize();
             var insets = getInsets();
@@ -109,10 +100,8 @@ public class ColumnPanel extends BoxPanel {
                 if (Double.isNaN(weight)) {
                     component.setSize(width, Integer.MAX_VALUE);
 
-                    if (alignToGrid && component instanceof RowPanel rowPanel) {
+                    if (alignToGrid && component instanceof RowPanel) {
                         component.doLayout();
-
-                        maximumRowSpacing = Math.max(maximumRowSpacing, rowPanel.getSpacing());
                     } else {
                         component.setSize(width, component.getPreferredSize().height);
 
@@ -170,9 +159,6 @@ public class ColumnPanel extends BoxPanel {
     private boolean alignToGrid = false;
 
     private List<Integer> columnWidths = new LinkedList<>();
-    private List<Double> columnWeights = new LinkedList<>();
-
-    private int maximumRowSpacing= 0;
 
     /**
      * Constructs a new column panel.
@@ -195,11 +181,11 @@ public class ColumnPanel extends BoxPanel {
     }
 
     /**
-     * Indicates that row descendants will be vertically aligned in a grid. The
+     * Indicates that nested elements will be vertically aligned in a grid. The
      * default value is {@code false}.
      *
      * @return
-     * {@code true} if row descendants will be aligned to grid; {@code false},
+     * {@code true} if nested elements will be aligned to grid; {@code false},
      * otherwise.
      */
     public boolean getAlignToGrid() {
@@ -226,25 +212,5 @@ public class ColumnPanel extends BoxPanel {
      */
     protected List<Integer> getColumnWidths() {
         return columnWidths;
-    }
-
-    /**
-     * Returns the calculated column weights.
-     *
-     * @return
-     * The calculated column weights.
-     */
-    protected List<Double> getColumnWeights() {
-        return columnWeights;
-    }
-
-    /**
-     * Returns the calculated row spacing.
-     *
-     * @return
-     * The calculated row spacing.
-     */
-    protected int getRowSpacing() {
-        return Math.max(getSpacing(), maximumRowSpacing);
     }
 }
