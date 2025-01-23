@@ -4,20 +4,18 @@
 
 <column-panel spacing="4" alignToGrid="true" padding="8">
     <row-panel>
-        <text-pane text="A" horizontalAlignment="center" alignmentX="0.25" alignmentY="0.0" border="silver"/>
-        <spacer size="60, 45" border="silver"/>
-        <text-pane text="B" verticalAlignment="center" alignmentX="0.0" alignmentY="0.75" border="silver"/>
+        <text-pane text="0.0" alignmentX="0.0" border="silver"/>
+        <text-pane text="0.25" horizontalAlignment="center" alignmentX="0.25" border="silver"/>
+        <text-pane text="0.5" horizontalAlignment="center" alignmentX="0.5" border="silver"/>
+        <text-pane text="0.75" horizontalAlignment="center" alignmentX="0.75" border="silver"/>
+        <text-pane text="1.0" alignmentX="1.0" border="silver"/>
     </row-panel>
 
     <row-panel>
-        <spacer size="120, 45" border="silver"/>
-        <text-pane text="C" horizontalAlignment="center" verticalAlignment="center" border="silver"/>
-        <spacer size="120, 45" border="silver"/>
-    </row-panel>
-
-    <row-panel>
-        <text-pane text="D" verticalAlignment="center" alignmentX="1.0" alignmentY="0.25" border="silver"/>
-        <spacer size="0, 45" border="silver"/>
-        <text-pane text="E" horizontalAlignment="center" alignmentX="0.75" alignmentY="1.0" border="silver"/>
+        <spacer size="120, 40" border="silver"/>
+        <spacer size="120, 40" border="silver"/>
+        <spacer size="120, 40" border="silver"/>
+        <spacer size="120, 40" border="silver"/>
+        <spacer size="120, 40" border="silver"/>
     </row-panel>
 </column-panel>
