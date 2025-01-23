@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!DOCTYPE row-panel SYSTEM "sierra.dtd">
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<row-panel spacing="4" alignToBaseline="true" padding="8">
-    <spacer weight="1"/>
+<column-panel padding="8">
+    <row-panel spacing="4" alignToBaseline="true">
+        <label text="abcdefg" font="small" border="silver"/>
+        <label text="hijk" font="large" border="silver"/>
 
-    <label text="abcdefg" font="small" border="silver"/>
-    <label text="hijk" font="large" border="silver"/>
+        <spacer size="20, 20" border="silver"/>
 
-    <spacer size="20, 20" border="silver"/>
-
-    <label text="lmnop" font="medium" border="silver"/>
-
-    <spacer weight="1"/>
-</row-panel>
+        <label text="lmnop" font="medium" border="silver"/>
+    </row-panel>
+</column-panel>
