@@ -12,6 +12,8 @@ This guide introduces the Sierra framework and provides an overview of its key f
 # Getting Sierra
 Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 17 or later is required. [FlatLaf](https://www.formdev.com/flatlaf/) is recommended.
 
+A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required.
+
 # Sierra Classes
 Sierra provides the `UILoader` class, which can be used in conjunction with the following types to to declaratively establish a hierarchy of user interface elements:
 
@@ -46,8 +48,6 @@ setContentPane(UILoader.load(this, "greeting-test.xml"));
 <img src="README/greeting.png" width="432px"/>
 
 The complete source code for this example can be found [here](sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
-
-A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required.
 
 ## Elements
 XML elements represent component instances. Most Swing and all Sierra components are supported by default. Support for additional elements can be added via the `bind()` method of the `UILoader` class.
