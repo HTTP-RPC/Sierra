@@ -112,7 +112,7 @@ Icon support is currently limited to SVG documents and requires the [FlatLaf Ext
 <img src="README/button-group.png" width="432px"/>
 
 ### Border and Padding Values
-The "border" and "padding" attributes can be used to create a border around and reserve space within a component, respectively. These attributes mirror the corresponding concepts in the CSS [box model[(https://en.wikipedia.org/wiki/CSS_box_model). 
+The "border" and "padding" attributes can be used to create a border around and reserve space within a component, respectively. These attributes mirror the corresponding concepts in the CSS [box model](https://www.w3.org/TR/css-box-3/).
 
 For example, this markup creates an instance of `JLabel` with a light gray line border and four pixels of padding on each side:
 
