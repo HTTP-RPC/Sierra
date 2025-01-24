@@ -372,7 +372,7 @@ The `DatePicker` and `TimePicker` components allow a user to select a local date
 <img src="README/date-picker.png" width="394px"/>
 <img src="README/time-picker.png" width="394px"/>
 
-These classes are localized. See [DateTimePickerTest.java]sierra-test/src/main/java/org/httprpc/sierra/test/DateTimePickerTest.java) for more information.
+These classes are localized. See [DateTimePickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/DateTimePickerTest.java) for more information.
 
 ### Suggestion Pickers
 The `SuggestionPicker` component allows a user to choose from a list of predefined values: 
