@@ -27,6 +27,10 @@ Sierra also includes the `TextPane` and `ImagePane` components, which provide an
 For example, the following markup declares a column panel containing a graphic and a simple greeting:
 
 ```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
 <column-panel padding="8" opaque="true" background="white">
     <image-pane image="world.png" scaleMode="fill-width"/>
     <text-pane text="Hello, World!" horizontalAlignment="center"/>
@@ -41,7 +45,9 @@ setContentPane(UILoader.load(this, "greeting-test.xml"));
 
 <img src="README/greeting.png" width="432px"/>
 
-The complete source code for this example can be found [here](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
+The complete source code for this example can be found [here](sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
+
+A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required.
 
 ## Elements
 XML elements represent component instances. Most Swing and all Sierra components are supported by default. Support for additional elements can be added via the `bind()` method of the `UILoader` class.
@@ -234,7 +240,7 @@ public class ActionTest extends JFrame implements Runnable {
 
 <img src="README/action.png" width="352px"/>
 
-See [ActionTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/ActionTest.java) for more information.
+See [ActionTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActionTest.java) for more information.
 
 ### Resource Bundles
 If a non-`null` value is passed as the third argument to the `load()` method, values of text properties are considered resource keys and are used to look up the associated strings in the provided resource bundle. For example:
@@ -288,7 +294,7 @@ public class FormTest extends JFrame implements Runnable {
 
 <img src="README/form.png" width="592px"/>
 
-See [FormTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java) for more information.
+See [FormTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java) for more information.
 
 ## Cell Alignment
 When grid alignment is enabled in a `ColumnPanel`, the sub-components of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each sub-column is the maximum preferred width of the "cells" in that column (i.e. the components having the same index in each row).
@@ -358,7 +364,7 @@ The `MenuButton` component displays a popup menu when pressed. For example:
 
 <img src="README/menu-button.png" width="210px"/>
 
-See [MenuButtonTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/MenuButtonTest.java) for more information.
+See [MenuButtonTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/MenuButtonTest.java) for more information.
 
 ### Date and Time Pickers
 The `DatePicker` and `TimePicker` components allow a user to select a local date and time, respectively:
@@ -366,21 +372,21 @@ The `DatePicker` and `TimePicker` components allow a user to select a local date
 <img src="README/date-picker.png" width="394px"/>
 <img src="README/time-picker.png" width="394px"/>
 
-These classes are localized. See [DateTimePickerTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/DateTimePickerTest.java) for more information.
+These classes are localized. See [DateTimePickerTest.java]sierra-test/src/main/java/org/httprpc/sierra/test/DateTimePickerTest.java) for more information.
 
 ### Suggestion Pickers
 The `SuggestionPicker` component allows a user to choose from a list of predefined values: 
 
 <img src="README/suggestion-picker.png" width="291px"/>
 
-See [SuggestionPickerTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/SuggestionPickerTest.java) for more information.
+See [SuggestionPickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/SuggestionPickerTest.java) for more information.
 
 ### Activity Indicators
 The `ActivityIndicator` component shows indeterminate progress:
 
 <img src="README/activity-indicator.png" width="157px"/>
 
-See [ActivityIndicatorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/ActivityIndicatorTest.java) for more information.
+See [ActivityIndicatorTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActivityIndicatorTest.java) for more information.
 
 ## Focus Management
 The `ScrollingKeyboardFocusManager` class ensures that components are automatically scrolled into view when focused (something that Swing oddly does not do by default). It can be installed at application startup as follows:
@@ -389,7 +395,7 @@ The `ScrollingKeyboardFocusManager` class ensures that components are automatica
 KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
 ```
 
-See [FormTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java) for more information.
+See [FormTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java) for more information.
 
 ## Task Execution
 The `TaskExecutor` class performs a task in the background and and invokes a callback on the UI thread when the task is complete:
@@ -413,7 +419,7 @@ taskExecutor.execute(() -> {
 });
 ```
 
-Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/TaskExecutorTest.java) for more information.
+Internally, tasks are submitted to an executor service provided to the `TaskExecutor` constructor. See [TaskExecutorTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/TaskExecutorTest.java) for more information.
 
 # Complete Example
 The following is a complete example of an application built using Sierra. It uses the Tiingo [End-of-Day](https://www.tiingo.com/documentation/end-of-day) API to retrieve historical stock pricing information:
@@ -422,9 +428,9 @@ The following is a complete example of an application built using Sierra. It use
 
 The application consists of the following source files:
 
-* [TiingoTest.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/TiingoTest.java) - primary application logic
-* [TiingoServiceProxy.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/TiingoServiceProxy.java) - proxy interface used to submit API requests
-* [Asset.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/Asset.java) and [AssetPricing.java](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/java/org/httprpc/sierra/test/AssetPricing.java) - data types used by `TiingoServiceProxy`
+* [TiingoTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/TiingoTest.java) - primary application logic
+* [TiingoServiceProxy.java](sierra-test/src/main/java/org/httprpc/sierra/test/TiingoServiceProxy.java) - proxy interface used to submit API requests
+* [Asset.java](sierra-test/src/main/java/org/httprpc/sierra/test/Asset.java) and [AssetPricing.java](sierra-test/src/main/java/org/httprpc/sierra/test/AssetPricing.java) - data types used by `TiingoServiceProxy`
 * [tiingo-test.xml](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/resources/org/httprpc/sierra/test/tiingo-test.xml) - UI declaration
 * [TiingoTest.properties](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/resources/org/httprpc/sierra/test/TiingoTest.properties) - localized string resources
 
