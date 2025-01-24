@@ -499,37 +499,11 @@ public class UILoader {
             } else if (name.equals(STYLE) || name.equals(STYLE_CLASS)) {
                 component.putClientProperty(String.format("%s.%s", FLAT_LAF_PREFIX, name), value);
             } else if (name.equals(PLACEHOLDER_TEXT)) {
-                if (!(component instanceof JTextField)) {
-                    throw new UnsupportedOperationException("Component is not a text field.");
-                }
-
-                String placeholderText;
-                if (resourceBundle == null) {
-                    placeholderText = value;
-                } else {
-                    placeholderText = resourceBundle.getString(value);
-                }
-
-                component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), placeholderText);
+                component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), getText(value));
             } else if (name.equals(SHOW_CLEAR_BUTTON)) {
-                if (!(component instanceof JTextField)) {
-                    throw new UnsupportedOperationException("Component is not a text field.");
-                }
-
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), Boolean.valueOf(value));
             } else if (name.equals(LEADING_ICON) || name.equals(TRAILING_ICON)) {
-                if (!(component instanceof JTextField)) {
-                    throw new UnsupportedOperationException("Component is not a text field.");
-                }
-
-                Icon icon;
-                if (value.endsWith(".svg")) {
-                    icon = new FlatSVGIcon(owner.getClass().getResource(value));
-                } else {
-                    throw new UnsupportedOperationException("Unsupported icon type.");
-                }
-
-                component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), icon);
+                component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), getIcon(value));
             } else {
                 var mutator = map(properties.get(tag).get(name), BeanAdapter.Property::getMutator);
 
@@ -564,27 +538,15 @@ public class UILoader {
                         default -> Integer.valueOf(value);
                     };
                 } else if (type == String.class) {
-                    if (resourceBundle == null) {
-                        argument = value;
-                    } else {
-                        argument = resourceBundle.getString(value);
-                    }
+                    argument = getText(value);
                 } else if (type == Color.class) {
                     argument = parseColor(value);
                 } else if (type == Font.class) {
                     argument = parseFont(value);
-                } else if (type == Icon.class) {
-                    if (value.endsWith(".svg")) {
-                        argument = new FlatSVGIcon(owner.getClass().getResource(value));
-                    } else {
-                        throw new UnsupportedOperationException("Unsupported icon type.");
-                    }
                 } else if (type == Image.class) {
-                    try {
-                        argument = ImageIO.read(owner.getClass().getResource(value));
-                    } catch (IOException exception) {
-                        throw new UnsupportedOperationException(exception);
-                    }
+                    argument = getImage(value);
+                } else if (type == Icon.class) {
+                    argument = getIcon(value);
                 } else {
                     if (Enum.class.isAssignableFrom(type)) {
                         value = value.toUpperCase().replace('-', '_');
@@ -616,6 +578,30 @@ public class UILoader {
         }
 
         components.push(component);
+    }
+
+    private String getText(String value) {
+        if (resourceBundle == null) {
+            return value;
+        } else {
+            return resourceBundle.getString(value);
+        }
+    }
+
+    private Image getImage(String value) {
+        try {
+            return ImageIO.read(owner.getClass().getResource(value));
+        } catch (IOException exception) {
+            throw new UnsupportedOperationException(exception);
+        }
+    }
+
+    private Icon getIcon(String value) {
+        if (value.endsWith(".svg")) {
+            return new FlatSVGIcon(owner.getClass().getResource(value));
+        } else {
+            throw new UnsupportedOperationException("Unsupported icon type.");
+        }
     }
 
     private void processEndElement() {
