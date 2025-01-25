@@ -543,10 +543,10 @@ public class UILoader {
                     argument = parseColor(value);
                 } else if (type == Font.class) {
                     argument = parseFont(value);
-                } else if (type == Image.class) {
-                    argument = getImage(value);
                 } else if (type == Icon.class) {
                     argument = getIcon(value);
+                } else if (type == Image.class) {
+                    argument = getImage(value);
                 } else {
                     if (Enum.class.isAssignableFrom(type)) {
                         value = value.toUpperCase().replace('-', '_');
@@ -588,19 +588,19 @@ public class UILoader {
         }
     }
 
-    private Image getImage(String value) {
-        try {
-            return ImageIO.read(owner.getClass().getResource(value));
-        } catch (IOException exception) {
-            throw new UnsupportedOperationException(exception);
-        }
-    }
-
     private Icon getIcon(String value) {
         if (value.endsWith(".svg")) {
             return new FlatSVGIcon(owner.getClass().getResource(value));
         } else {
             throw new UnsupportedOperationException("Unsupported icon type.");
+        }
+    }
+
+    private Image getImage(String value) {
+        try {
+            return ImageIO.read(owner.getClass().getResource(value));
+        } catch (IOException exception) {
+            throw new UnsupportedOperationException(exception);
         }
     }
 
