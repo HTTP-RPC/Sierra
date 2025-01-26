@@ -493,7 +493,13 @@ public class UILoader {
             } else if (name.equals(PADDING)) {
                 emptyBorder = parsePadding(value);
             } else if (name.equals(WEIGHT)) {
-                constraints = Double.valueOf(value);
+                var weight = Double.parseDouble(value);
+
+                if (weight <= 0.0) {
+                    throw new UnsupportedOperationException("Invalid weight.");
+                }
+
+                constraints = weight;
             } else if (name.equals(SIZE)) {
                 component.setPreferredSize(parseSize(value));
             } else if (name.equals(STYLE) || name.equals(STYLE_CLASS)) {

@@ -61,6 +61,10 @@ public abstract class BoxPanel extends LayoutPanel {
         var constraints = getConstraints(index);
 
         if (constraints instanceof Double weight) {
+            if (weight <= 0.0) {
+                throw new IllegalStateException();
+            }
+
             return weight;
         } else {
             return Double.NaN;
