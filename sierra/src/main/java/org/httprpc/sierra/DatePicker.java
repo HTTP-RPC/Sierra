@@ -288,7 +288,7 @@ public class DatePicker extends Picker {
     public void setMinimumDate(LocalDate minimumDate) {
         if (minimumDate != null) {
             if (maximumDate != null && minimumDate.isAfter(maximumDate)) {
-                throw new IllegalStateException();
+                throw new IllegalArgumentException();
             }
 
             if (date != null && date.isBefore(minimumDate)) {
@@ -318,7 +318,7 @@ public class DatePicker extends Picker {
     public void setMaximumDate(LocalDate maximumDate) {
         if (maximumDate != null) {
             if (minimumDate != null && maximumDate.isBefore(minimumDate)) {
-                throw new IllegalStateException();
+                throw new IllegalArgumentException();
             }
 
             if (date != null && date.isAfter(maximumDate)) {

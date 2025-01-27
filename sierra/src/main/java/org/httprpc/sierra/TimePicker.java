@@ -267,7 +267,7 @@ public class TimePicker extends Picker {
     public void setMinimumTime(LocalTime minimumTime) {
         if (minimumTime != null) {
             if (maximumTime != null && minimumTime.isAfter(maximumTime)) {
-                throw new IllegalStateException();
+                throw new IllegalArgumentException();
             }
 
             if (time != null && time.isBefore(minimumTime)) {
@@ -297,7 +297,7 @@ public class TimePicker extends Picker {
     public void setMaximumTime(LocalTime maximumTime) {
         if (maximumTime != null) {
             if (minimumTime != null && maximumTime.isBefore(minimumTime)) {
-                throw new IllegalStateException();
+                throw new IllegalArgumentException();
             }
 
             if (time != null && time.isAfter(maximumTime)) {
