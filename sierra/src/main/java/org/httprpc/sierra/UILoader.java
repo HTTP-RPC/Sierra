@@ -496,7 +496,7 @@ public class UILoader {
                 var weight = Double.parseDouble(value);
 
                 if (weight <= 0.0) {
-                    throw new UnsupportedOperationException("Invalid weight.");
+                    throw new IllegalArgumentException("Invalid weight.");
                 }
 
                 constraints = weight;
