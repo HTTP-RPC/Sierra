@@ -377,7 +377,7 @@ These classes are localized. See [DateTimePickerTest.java](sierra-test/src/main/
 ### Suggestion Pickers
 The `SuggestionPicker` component allows a user to choose from a list of predefined values: 
 
-<img src="README/suggestion-picker.png" width="291px"/>
+<img src="README/suggestion-picker.png" width="300px"/>
 
 See [SuggestionPickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/SuggestionPickerTest.java) for more information.
 
