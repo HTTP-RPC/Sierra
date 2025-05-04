@@ -15,7 +15,7 @@
 apply from: rootProject.file('publish.gradle')
 
 dependencies {
-    api 'org.httprpc:kilo-client:4.9.5'
+    api "org.httprpc:kilo-client:${kiloVersion}"
 
     compileOnly "com.formdev:flatlaf-extras:${flatLafVersion}"
 }
