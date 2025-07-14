@@ -12,6 +12,10 @@
  * limitations under the License.
  */
 
+plugins {
+    id 'application'
+}
+
 dependencies {
     implementation project(':sierra')
 
@@ -19,7 +23,7 @@ dependencies {
     implementation "com.formdev:flatlaf-extras:${flatLafVersion}"
 }
 
-compileJava {
+tasks.withType(JavaCompile) {
     options.compilerArgs = [
         '-parameters'
     ]

@@ -16,27 +16,20 @@ subprojects {
     group = 'org.httprpc'
     version = '2.8'
 
-    apply plugin: 'java-library'
-
     repositories {
         mavenCentral()
         mavenLocal()
     }
+}
 
-    jar {
+configure(subprojects) {
+    tasks.withType(Jar) {
         manifest {
             attributes (
                 'Implementation-Title': project.name,
                 'Implementation-Version': project.version
             )
         }
-    }
-}
-
-configure(subprojects) {
-    tasks.withType(JavaCompile) {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 
     tasks.withType(Javadoc) {
