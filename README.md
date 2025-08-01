@@ -10,7 +10,7 @@ Sierra is an open-source framework for simplifying development of Java Swing app
 This guide introduces the Sierra framework and provides an overview of its key features.
 
 # Getting Sierra
-Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 17 or later is required. [FlatLaf](https://www.formdev.com/flatlaf/) is recommended.
+Sierra is distributed via Maven Central at [org.httprpc:sierra](https://repo1.maven.org/maven2/org/httprpc/sierra/). Java 21 or later is required. [FlatLaf](https://www.formdev.com/flatlaf/) is recommended.
 
 A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required.
 
