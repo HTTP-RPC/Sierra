@@ -14,15 +14,29 @@
 
 plugins {
     id 'java-library'
+    id 'maven-publish'
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+
+    withJavadocJar()
+    withSourcesJar()
 }
 
 dependencies {
     api "org.httprpc:kilo-client:${kiloVersion}"
 
     compileOnly "com.formdev:flatlaf-extras:${flatLafVersion}"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = project.name
+
+            from components.java
+        }
+    }
 }
