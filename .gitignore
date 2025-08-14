@@ -1,5 +1,4 @@
 .gradle
-.idea/sonarlint
 **/build
 **/out
 **/.DS_Store
