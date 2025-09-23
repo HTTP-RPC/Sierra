@@ -213,19 +213,21 @@ public class RowPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                var weight = getWeight(i);
+                if (columnWidths == null) {
+                    var weight = getWeight(i);
 
-                if (!Double.isNaN(weight) && columnWidths == null) {
-                    int width;
-                    if (i < n - 1) {
-                        width = (int)Math.round(excessWidth * (weight / totalWeight));
+                    if (!Double.isNaN(weight)) {
+                        int width;
+                        if (i < n - 1) {
+                            width = (int)Math.round(excessWidth * (weight / totalWeight));
 
-                        remainingWidth -= width;
-                    } else {
-                        width = remainingWidth;
+                            remainingWidth -= width;
+                        } else {
+                            width = remainingWidth;
+                        }
+
+                        component.setSize(width, height);
                     }
-
-                    component.setSize(width, height);
                 }
 
                 var width = component.getWidth();
