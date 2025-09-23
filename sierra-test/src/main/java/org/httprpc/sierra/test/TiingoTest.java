@@ -19,7 +19,6 @@ import org.httprpc.kilo.WebServiceProxy;
 import org.httprpc.kilo.beans.BeanAdapter;
 import org.httprpc.sierra.ActivityIndicator;
 import org.httprpc.sierra.TaskExecutor;
-import org.httprpc.sierra.TextPane;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JButton;
@@ -27,6 +26,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -164,7 +164,7 @@ public class TiingoTest extends JFrame implements Runnable {
     private JTextField startDateTextField = null;
     private JTextField endDateTextField = null;
 
-    private TextPane descriptionTextPane = null;
+    private JTextArea descriptionTextArea = null;
 
     private JTable historicalPricingTable = null;
 
@@ -286,7 +286,8 @@ public class TiingoTest extends JFrame implements Runnable {
         startDateTextField.setText(dateFormatter.format(asset.getStartDate()));
         endDateTextField.setText(dateFormatter.format(asset.getEndDate()));
 
-        descriptionTextPane.setText(asset.getDescription());
+        descriptionTextArea.setText(asset.getDescription());
+        descriptionTextArea.setCaretPosition(0);
     }
 
     private void updateHistoricalPricing(List<AssetPricing> historicalPricing) {

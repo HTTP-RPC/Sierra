@@ -24,38 +24,38 @@
     <separator/>
 
     <row-panel spacing="8" weight="1">
-        <column-panel spacing="4" alignToGrid="true">
-            <row-panel>
-                <label text="name" alignmentX="1.0"/>
+        <column-panel spacing="4">
+            <column-panel spacing="4" alignToGrid="true">
                 <row-panel>
-                    <text-field name="nameTextField" columns="16" editable="false"/>
+                    <label text="name" alignmentX="1.0"/>
+                    <row-panel>
+                        <text-field name="nameTextField" columns="16" editable="false"/>
+                    </row-panel>
                 </row-panel>
-            </row-panel>
-            <row-panel>
-                <label text="exchangeCode" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field name="exchangeCodeTextField" columns="6" editable="false"/>
+                    <label text="exchangeCode" alignmentX="1.0"/>
+                    <row-panel>
+                        <text-field name="exchangeCodeTextField" columns="6" editable="false"/>
+                    </row-panel>
                 </row-panel>
-            </row-panel>
-            <row-panel>
-                <label text="startDate" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field name="startDateTextField" columns="12" editable="false"/>
+                    <label text="startDate" alignmentX="1.0"/>
+                    <row-panel>
+                        <text-field name="startDateTextField" columns="12" editable="false"/>
+                    </row-panel>
                 </row-panel>
-            </row-panel>
-            <row-panel>
-                <label text="endDate" alignmentX="1.0"/>
                 <row-panel>
-                    <text-field name="endDateTextField" columns="12" editable="false"/>
+                    <label text="endDate" alignmentX="1.0"/>
+                    <row-panel>
+                        <text-field name="endDateTextField" columns="12" editable="false"/>
+                    </row-panel>
                 </row-panel>
-            </row-panel>
+            </column-panel>
 
             <separator/>
 
             <scroll-pane weight="1">
-                <column-panel padding="4, 8, 4, 8" scrollableTracksViewportWidth="true">
-                    <text-pane name="descriptionTextPane" wrapText="true"/>
-                </column-panel>
+                <text-area name="descriptionTextArea" editable="false" lineWrap="true" wrapStyleWord="true"/>
             </scroll-pane>
         </column-panel>
 
