@@ -2,7 +2,7 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel spacing="4" alignToGrid="true" padding="8">
+<column-panel spacing="4" alignToGrid="true" padding="8" scrollableTracksViewportWidth="true">
     <row-panel alignToBaseline="true">
         <label text="firstName" alignmentX="1.0"/>
         <text-field columns="12" alignmentX="0.0"/>
@@ -83,7 +83,7 @@
         <label text="notes" alignmentX="1.0" alignmentY="0.0"/>
 
         <scroll-pane>
-            <text-area rows="4" columns="20" alignmentX="0.0"/>
+            <text-area rows="4" columns="20"/>
         </scroll-pane>
     </row-panel>
 </column-panel>
