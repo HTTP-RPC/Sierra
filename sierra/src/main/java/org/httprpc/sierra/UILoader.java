@@ -42,6 +42,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -774,15 +775,11 @@ public class UILoader {
     }
 
     private static Color parseColor(String value) {
-        var color = colors.get(value);
-
-        return (color == null) ? Color.decode(value) : color;
+        return coalesce(colors.get(value), () -> coalesce(UIManager.getColor(value), () -> Color.decode(value)));
     }
 
     private static Font parseFont(String value) {
-        var font = fonts.get(value);
-
-        return (font == null) ? Font.decode(value) : font;
+        return coalesce(fonts.get(value), () -> coalesce(UIManager.getFont(value), () -> Font.decode(value)));
     }
 
     /**

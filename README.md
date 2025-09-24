@@ -88,7 +88,7 @@ Color and font properties can be specified using the formats supported by `Color
 <label name="label" foreground="#808080"/>
 ```
 
-Colors and fonts can also be referenced by name: 
+Colors and fonts can also be specified by name. The name can refer to either a value provided by Swing's UI defaults or a value defined by `UILoader`:
 
 ```xml
 <label name="label" foreground="gray"/>
