@@ -246,7 +246,7 @@ See [ActionTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActionTe
 If a non-`null` value is passed as the third argument to the `load()` method, values of text properties are considered resource keys and are used to look up the associated strings in the provided resource bundle. For example:
 
 ```xml
-<column-panel spacing="4" alignToGrid="true" padding="8">
+<column-panel spacing="4" alignToGrid="true" padding="8" scrollableTracksViewportWidth="true">
     <row-panel alignToBaseline="true">
         <label text="firstName" alignmentX="1.0"/>
         <text-field columns="12" alignmentX="0.0"/>
