@@ -73,8 +73,6 @@ public class ActivityIndicator extends JComponent {
 
             graphics = (Graphics2D)graphics.create();
 
-            graphics.setClip(insets.left, insets.top, width, height);
-
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             var radius = indicatorSize / 2;

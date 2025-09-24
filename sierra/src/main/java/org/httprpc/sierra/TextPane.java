@@ -142,8 +142,6 @@ public class TextPane extends JComponent {
 
             graphics = (Graphics2D)graphics.create();
 
-            graphics.setClip(insets.left, insets.top, width, height);
-
             graphics.setColor(getForeground());
             graphics.setFont(font);
 
