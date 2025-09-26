@@ -106,7 +106,10 @@ Image and icon properties can be specified via a path to an image document on th
 Icon support is currently limited to SVG documents and requires the [FlatLaf Extras](https://github.com/JFormDesigner/FlatLaf/tree/main/flatlaf-extras) library:
 
 ```xml
-<toggle-button name="alignLeftButton" icon="format_align_left_black_18dp.svg" style="buttonType: toolBarButton"/>
+<toggle-button name="alignLeftButton"
+    icon="format_align_left_black_18dp.svg"
+    style="buttonType: toolBarButton"
+    group="alignment"/>
 ```
 
 <img src="README/button-group.png" width="432px"/>

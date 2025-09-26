@@ -17,7 +17,6 @@ package org.httprpc.sierra.test;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.UILoader;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
@@ -43,13 +42,6 @@ public class ButtonGroupTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(UILoader.load(this, "button-group-test.xml"));
-
-        var buttonGroup = new ButtonGroup();
-
-        buttonGroup.add(alignLeftButton);
-        buttonGroup.add(alignCenterButton);
-        buttonGroup.add(alignRightButton);
-        buttonGroup.add(alignJustifyButton);
 
         alignLeftButton.addActionListener(event -> updateSelection());
         alignCenterButton.addActionListener(event -> updateSelection());
