@@ -2,38 +2,59 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel spacing="4" padding="8" scrollableTracksViewportWidth="true">
-    <text-pane text="Heading 1" font="h1.font" wrapText="true"/>
-    <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true"/>
+<column-panel spacing="8" padding="8" scrollableTracksViewportWidth="true">
+    <column-panel spacing="4">
+        <text-pane text="Heading 1" font="h1.font" wrapText="true"/>
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true"/>
 
-    <spacer size="4"/>
+        <row-panel>
+            <column-panel spacing="4" alignToGrid="true">
+                <row-panel alignToBaseline="true">
+                    <label text="Field 1" alignmentX="1.0"/>
+                    <text-field columns="12" alignmentX="0.0"/>
+                </row-panel>
 
-    <text-pane text="Heading 2a" font="h2.font" wrapText="true"/>
-    <text-pane text="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." wrapText="true"/>
+                <row-panel alignToBaseline="true">
+                    <label text="Field 2" alignmentX="1.0"/>
+                    <text-field columns="12" alignmentX="0.0"/>
+                </row-panel>
 
-    <row-panel>
-        <spacer weight="1"/>
-        <image-pane image="world.png" scaleMode="fill-width" size="120"/>
-        <spacer weight="1"/>
-    </row-panel>
-
-    <spacer size="4"/>
-
-    <text-pane text="Heading 2b" font="h2.font" wrapText="true"/>
-    <text-pane text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." wrapText="true"/>
-
-    <column-panel padding="0, 8, 0, 0">
-        <row-panel spacing="4">
-            <text-pane text="•"/>
-            <text-pane text="Excepteur sint occaecat cupidatat non proident" wrapText="true" weight="1"/>
+                <row-panel>
+                    <spacer/>
+                    <check-box text="Check box"/>
+                </row-panel>
+            </column-panel>
         </row-panel>
-        <row-panel spacing="4">
-            <text-pane text="•"/>
-            <text-pane text="Sunt in culpa qui officia deserunt" wrapText="true" weight="1"/>
+    </column-panel>
+
+    <column-panel spacing="4">
+        <text-pane text="Heading 2a" font="h2.font" wrapText="true"/>
+        <text-pane text="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." wrapText="true"/>
+
+        <row-panel>
+            <spacer weight="1"/>
+            <image-pane image="world.png" scaleMode="fill-height" size="120"/>
+            <spacer weight="1"/>
         </row-panel>
-        <row-panel spacing="4">
-            <text-pane text="•"/>
-            <text-pane text="Mollit anim id est laborum" wrapText="true" weight="1"/>
-        </row-panel>
+    </column-panel>
+
+    <column-panel spacing="4">
+        <text-pane text="Heading 2b" font="h2.font" wrapText="true"/>
+        <text-pane text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." wrapText="true"/>
+
+        <column-panel padding="0, 8, 0, 0">
+            <row-panel spacing="4">
+                <text-pane text="•"/>
+                <text-pane text="Excepteur sint occaecat cupidatat non proident" wrapText="true" weight="1"/>
+            </row-panel>
+            <row-panel spacing="4">
+                <text-pane text="•"/>
+                <text-pane text="Sunt in culpa qui officia deserunt" wrapText="true" weight="1"/>
+            </row-panel>
+            <row-panel spacing="4">
+                <text-pane text="•"/>
+                <text-pane text="Mollit anim id est laborum" wrapText="true" weight="1"/>
+            </row-panel>
+        </column-panel>
     </column-panel>
 </column-panel>
