@@ -127,7 +127,7 @@ public class ColumnPanel extends BoxPanel {
 
             var spacing = getSpacing();
 
-            excessHeight = Math.max(0, excessHeight - spacing * (n - 1));
+            excessHeight = Math.max(excessHeight - spacing * (n - 1), 0);
 
             var remainingHeight = excessHeight;
 

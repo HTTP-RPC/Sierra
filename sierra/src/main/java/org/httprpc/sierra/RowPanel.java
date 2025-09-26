@@ -31,6 +31,9 @@ public class RowPanel extends BoxPanel {
     private class RowLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {
+            var size = getSize();
+            var insets = getInsets();
+
             var parent = getParent();
 
             List<Integer> columnWidths;
@@ -42,9 +45,6 @@ public class RowPanel extends BoxPanel {
                 columnWidths = null;
                 spacing = getSpacing();
             }
-
-            var size = getSize();
-            var insets = getInsets();
 
             var preferredWidth = 0;
             var totalWeight = 0.0;
@@ -130,6 +130,9 @@ public class RowPanel extends BoxPanel {
 
         @Override
         public void layoutContainer() {
+            var size = getSize();
+            var insets = getInsets();
+
             var parent = getParent();
 
             List<Integer> columnWidths;
@@ -141,9 +144,6 @@ public class RowPanel extends BoxPanel {
                 columnWidths = null;
                 spacing = getSpacing();
             }
-
-            var size = getSize();
-            var insets = getInsets();
 
             var excessWidth = Math.max(size.width - (insets.left + insets.right), 0);
             var totalWeight = 0.0;
@@ -191,7 +191,7 @@ public class RowPanel extends BoxPanel {
                 }
             }
 
-            excessWidth = Math.max(0, excessWidth - spacing * (n - 1));
+            excessWidth = Math.max(excessWidth - spacing * (n - 1), 0);
 
             var remainingWidth = excessWidth;
 
