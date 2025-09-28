@@ -26,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -163,6 +164,8 @@ public class UILoader {
                             attributeType = String.format("(%s|%s|%s)", TOP, CENTER, BOTTOM);
                         } else if (attributeName.equals(ORIENTATION)) {
                             attributeType = String.format("(%s|%s)", HORIZONTAL, VERTICAL);
+                        } else if (attributeName.equals(FOCUS_LOST_BEHAVIOR)) {
+                            attributeType = String.format("(%s|%s|%s|%s)", COMMIT, COMMIT_OR_REVERT, REVERT, PERSIST);
                         } else {
                             attributeType = CDATA;
                         }
@@ -317,6 +320,7 @@ public class UILoader {
     private static final String HORIZONTAL_ALIGNMENT = "horizontalAlignment";
     private static final String VERTICAL_ALIGNMENT = "verticalAlignment";
     private static final String ORIENTATION = "orientation";
+    private static final String FOCUS_LOST_BEHAVIOR = "focusLostBehavior";
 
     private static final String LEFT = "left";
     private static final String RIGHT = "right";
@@ -330,6 +334,11 @@ public class UILoader {
 
     private static final String HORIZONTAL = "horizontal";
     private static final String VERTICAL = "vertical";
+
+    private static final String COMMIT = "commit";
+    private static final String COMMIT_OR_REVERT = "commit-or-revert";
+    private static final String REVERT = "revert";
+    private static final String PERSIST = "persist";
 
     private static Map<String, Constructor<? extends JComponent>> constructors = new HashMap<>();
     private static Map<String, Map<String, BeanAdapter.Property>> properties = new HashMap<>();
@@ -345,6 +354,7 @@ public class UILoader {
         bind("radio-button", JRadioButton.class);
         bind("check-box", JCheckBox.class);
         bind("text-field", JTextField.class);
+        bind("formatted-text-field", JFormattedTextField.class);
         bind("password-field", JPasswordField.class);
         bind("combo-box", JComboBox.class);
         bind("spinner", JSpinner.class);
@@ -541,6 +551,13 @@ public class UILoader {
                             case HORIZONTAL -> SwingConstants.HORIZONTAL;
                             case VERTICAL -> SwingConstants.VERTICAL;
                             default -> throw new IllegalArgumentException("Invalid orientation.");
+                        };
+                        case FOCUS_LOST_BEHAVIOR -> switch(value) {
+                            case COMMIT -> JFormattedTextField.COMMIT;
+                            case COMMIT_OR_REVERT -> JFormattedTextField.COMMIT_OR_REVERT;
+                            case REVERT -> JFormattedTextField.REVERT;
+                            case PERSIST -> JFormattedTextField.PERSIST;
+                            default -> throw new IllegalArgumentException("Invalid focus lost behavior.");
                         };
                         default -> Integer.valueOf(value);
                     };

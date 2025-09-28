@@ -64,6 +64,9 @@
 <!ENTITY % JCheckBox "%JToggleButton; borderPaintedFlat (true|false) ">
 <!ELEMENT check-box EMPTY>
 <!ATTLIST check-box %JCheckBox;>
+<!ENTITY % JFormattedTextField "%JTextField; focusLostBehavior (commit|commit-or-revert|revert|persist) ">
+<!ELEMENT formatted-text-field EMPTY>
+<!ATTLIST formatted-text-field %JFormattedTextField;>
 <!ENTITY % JPasswordField "%JTextField; echoChar CDATA text CDATA ">
 <!ELEMENT password-field EMPTY>
 <!ATTLIST password-field %JPasswordField;>

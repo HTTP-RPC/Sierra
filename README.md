@@ -79,7 +79,7 @@ XML attributes generally represent component properties. For example, this marku
 <text-pane text="Hello, World!" horizontalAlignment="center"/>
 ```
 
-Numeric and boolean values are automatically converted to the appropriate type. Properties that expect values defined by the `SwingConstants` class (such as "horizontalAlignment") can be specified via a lowercase version of the constant name. Enum values are specified using [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
+Numeric and boolean values are automatically converted to the appropriate type. Supported constants and enum values can be specified using [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
 
 ### Color and Font Values
 Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `JLabel` and sets its "foreground" property to gray:

@@ -11,12 +11,12 @@
             <column-panel spacing="4" alignToGrid="true">
                 <row-panel alignToBaseline="true">
                     <label text="Field 1" alignmentX="1.0"/>
-                    <text-field columns="12" alignmentX="0.0"/>
+                    <formatted-text-field columns="12" alignmentX="0.0"/>
                 </row-panel>
 
                 <row-panel alignToBaseline="true">
                     <label text="Field 2" alignmentX="1.0"/>
-                    <text-field columns="12" alignmentX="0.0"/>
+                    <formatted-text-field focusLostBehavior="revert" columns="12" alignmentX="0.0"/>
                 </row-panel>
 
                 <row-panel>
