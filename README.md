@@ -261,7 +261,7 @@ public class ActionTest extends JFrame implements Runnable {
 See [ActionTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActionTest.java) for more information.
 
 ### Resource Bundles
-If a non-`null` value is passed as the third argument to the `load()` method, values of text properties are considered resource keys and are used to look up the associated strings in the provided resource bundle. For example:
+An optional resource bundle may be provided as the third argument to the `load()` method. When specified, values of text properties are considered resource keys and are used to look up the associated strings in the bundle. For example:
 
 ```xml
 <column-panel spacing="4" alignToGrid="true" padding="8" scrollableTracksViewportWidth="true">
