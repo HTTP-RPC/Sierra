@@ -18,13 +18,22 @@ import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.ScrollingKeyboardFocusManager;
 import org.httprpc.sierra.UILoader;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import java.awt.KeyboardFocusManager;
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
 public class FormTest extends JFrame implements Runnable {
+    private JFormattedTextField formattedTextField1 = null;
+    private JFormattedTextField formattedTextField2 = null;
+    private JFormattedTextField formattedTextField3 = null;
+    private JFormattedTextField formattedTextField4 = null;
+
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(FormTest.class.getName());
 
     private FormTest() {
@@ -40,6 +49,13 @@ public class FormTest extends JFrame implements Runnable {
         scrollPane.setBorder(null);
 
         setContentPane(scrollPane);
+
+        var numberFormat = NumberFormat.getIntegerInstance();
+
+        formattedTextField1.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(numberFormat)));
+        formattedTextField2.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(numberFormat)));
+        formattedTextField3.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(numberFormat)));
+        formattedTextField4.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(numberFormat)));
 
         setSize(480, 360);
         setVisible(true);
