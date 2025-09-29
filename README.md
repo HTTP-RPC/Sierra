@@ -194,7 +194,7 @@ FlatLaf text styles are also accessible via the "font" property:
 <text-pane text="Heading 1" font="h1.font" wrapText="true"/>
 ```
 
-<img src="README/block-layout-test.png" width="472px"/>
+<img src="README/block-layout.png" width="472px"/>
 
 Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-properties/#JTextField) are also supported. For example: 
 
