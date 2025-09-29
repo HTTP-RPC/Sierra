@@ -23,6 +23,7 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -34,6 +35,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import java.net.URI;
 import java.text.NumberFormat;
 import java.time.Instant;
@@ -153,7 +156,7 @@ public class TiingoTest extends JFrame implements Runnable {
     }
 
     private JTextField tickerTextField = null;
-    private JTextField countTextField = null;
+    private JFormattedTextField countTextField = null;
 
     private ActivityIndicator activityIndicator = null;
 
@@ -190,11 +193,10 @@ public class TiingoTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "tiingo-test.xml", resourceBundle));
 
-        countTextField.setText(Integer.toString(30));
+        countTextField.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getIntegerInstance())));
+        countTextField.setValue(30);
 
         submitButton.addActionListener(event -> submit());
-
-        rootPane.setDefaultButton(submitButton);
 
         setSize(960, 540);
         setVisible(true);
@@ -208,24 +210,21 @@ public class TiingoTest extends JFrame implements Runnable {
             return;
         }
 
-        var ticker = tickerTextField.getText().trim();
+        var ticker = tickerTextField.getText();
 
         if (ticker.isEmpty()) {
             showErrorMessage("tickerRequired", tickerTextField);
             return;
         }
 
-        var countText = countTextField.getText().trim();
+        var count = map(countTextField.getValue(), value -> ((Number)value).intValue());
 
-        if (countText.isEmpty()) {
+        if (count == null) {
             showErrorMessage("countRequired", countTextField);
             return;
         }
 
-        int count;
-        try {
-            count = Integer.parseInt(countText);
-        } catch (NumberFormatException exception) {
+        if (count <= 0) {
             showErrorMessage("invalidCount", countTextField);
             return;
         }

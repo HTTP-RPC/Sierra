@@ -543,7 +543,7 @@ public class UILoader {
             } else if (name.equals(STYLE) || name.equals(STYLE_CLASS)) {
                 component.putClientProperty(String.format("FlatLaf.%s", name), value);
             } else if (name.equals(PATTERN)) {
-                component.setInputVerifier(new RegexInputVerifier(getText(value)));
+                component.setInputVerifier(new RegexInputVerifier(value));
             } else if (name.equals(PLACEHOLDER_TEXT)) {
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), getText(value));
             } else if (name.equals(SHOW_CLEAR_BUTTON)) {

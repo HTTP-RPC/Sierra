@@ -6,12 +6,12 @@
     <row-panel spacing="8">
         <row-panel spacing="4">
             <label text="ticker"/>
-            <text-field name="tickerTextField" columns="6"/>
+            <text-field name="tickerTextField" pattern="[\w]*" columns="6"/>
         </row-panel>
 
         <row-panel spacing="4">
             <label text="count"/>
-            <text-field name="countTextField" columns="3"/>
+            <formatted-text-field name="countTextField" columns="3"/>
         </row-panel>
 
         <activity-indicator name="activityIndicator" indicatorSize="18"/>
