@@ -79,7 +79,7 @@ XML attributes generally represent component properties. For example, this marku
 <text-pane text="Hello, World!" horizontalAlignment="center"/>
 ```
 
-Numeric and boolean values are automatically converted to the appropriate type. Supported constants and enum values can be specified using [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
+Numeric and boolean values are specified via their string representations. Supported constants and enum values are specified in [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
 
 ### Color and Font Values
 Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `JLabel` and sets its "foreground" property to gray:
@@ -94,7 +94,7 @@ Colors and fonts can also be specified by name. The name can refer to either a v
 <label name="label" foreground="gray"/>
 ```
 
-Sierra includes support for the 16 "basic" [web colors](https://en.wikipedia.org/wiki/Web_colors) by default. Support for additional colors and fonts can be added via the `define()` methods of the `UILoader` class.
+Sierra supports the 16 [basic web colors](https://en.wikipedia.org/wiki/Web_colors#Basic_colors) by default. Additional named colors and fonts can be added via the `define()` methods of the `UILoader` class.
 
 ### Image and Icon Values
 Image and icon properties can be specified via a path to an image document on the application's classpath. The path is relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:
@@ -115,7 +115,7 @@ Icon support is currently limited to SVG documents and requires the [FlatLaf Ext
 <img src="README/button-group.png" width="432px"/>
 
 ### Border and Padding Values
-The "border" and "padding" attributes are used to create a solid border and reserve space around a component, respectively. For example, this markup creates a label with a light gray border and four pixels of padding on each side:
+The "border" and "padding" attributes can be used to create a solid border and reserve space around a component, respectively. For example, this markup creates a label with a light gray border and four pixels of padding on each side:
 
 ```xml
 <label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
@@ -173,7 +173,7 @@ size="20, 20"
 ```
 
 ### FlatLaf Client Properties
-FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "style" and "styleClass" attributes, respectively. For example, this markup applies the "h2" style class to a `JLabel` instance used by a list cell renderer:
+FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "style" and "styleClass" attributes, respectively. For example, this markup applies the "h4" style class to a `JLabel` instance used by a list cell renderer:
 
 ```xml
 <row-panel spacing="4" padding="4" opaque="true">
@@ -222,7 +222,7 @@ The "group" attribute associates a button with a button group. For example, the 
 <img src="README/orientation.png" width="454px"/>
 
 ### Input Validation
-The "pattern" attribute can be used to associate a regular expression with a text field. When specified, user input is valiadated against the given pattern. Input that doesn't match is rejected:
+The "pattern" attribute can be used to associate a regular expression with a text field. When specified, user input is validated against the given pattern. Input that doesn't match is rejected:
 
 ```xml
 <text-field columns="12" pattern="[a-zA-z]*" alignmentX="0.0"/>
@@ -297,6 +297,8 @@ streetAddress = Street Address
 
 ```java
 public class FormTest extends JFrame implements Runnable {
+    ...
+
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(FormTest.class.getName());
 
     ...
@@ -449,8 +451,8 @@ The application consists of the following source files:
 * [TiingoTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/TiingoTest.java) - primary application logic
 * [TiingoServiceProxy.java](sierra-test/src/main/java/org/httprpc/sierra/test/TiingoServiceProxy.java) - proxy interface used to submit API requests
 * [Asset.java](sierra-test/src/main/java/org/httprpc/sierra/test/Asset.java) and [AssetPricing.java](sierra-test/src/main/java/org/httprpc/sierra/test/AssetPricing.java) - data types used by `TiingoServiceProxy`
-* [tiingo-test.xml](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/resources/org/httprpc/sierra/test/tiingo-test.xml) - UI declaration
-* [TiingoTest.properties](https://github.com/HTTP-RPC/Sierra/blob/master/sierra-test/src/main/resources/org/httprpc/sierra/test/TiingoTest.properties) - localized string resources
+* [tiingo-test.xml](sierra-test/src/main/resources/org/httprpc/sierra/test/tiingo-test.xml) - UI declaration
+* [TiingoTest.properties](sierra-test/src/main/resources/org/httprpc/sierra/test/TiingoTest.properties) - localized string resources
 
 An API token is required and must be specified as a system property at application startup:
 

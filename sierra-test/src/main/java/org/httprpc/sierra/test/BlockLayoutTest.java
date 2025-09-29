@@ -24,7 +24,7 @@ import java.awt.Color;
 
 public class BlockLayoutTest extends JFrame implements Runnable {
     private BlockLayoutTest() {
-        super("Block Layout");
+        super("Block Layout Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
