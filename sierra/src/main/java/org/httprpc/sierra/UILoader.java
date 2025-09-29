@@ -57,6 +57,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -300,9 +301,18 @@ public class UILoader {
 
         @Override
         public boolean verify(JComponent input) {
-            var textField = (JTextField)input;
+            return pattern.matcher(((JTextField)input).getText()).matches();
+        }
 
-            return pattern.matcher(textField.getText()).matches();
+        @Override
+        public boolean shouldYieldFocus(JComponent source, JComponent target) {
+            var verified = verify(source);
+
+            if (!verified) {
+                Toolkit.getDefaultToolkit().beep();
+            }
+
+            return verified;
         }
     }
 

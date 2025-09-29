@@ -221,6 +221,13 @@ The "group" attribute associates a button with a button group. For example, the 
 
 <img src="README/orientation.png" width="454px"/>
 
+### Input Validation
+The "pattern" attribute can be used to associate a regular expression with a text field. When specified, user input is valiadated against the given pattern. Input that doesn't match is rejected:
+
+```xml
+<text-field columns="12" pattern="[a-zA-z]*" alignmentX="0.0"/>
+```
+
 ### Element Names
 The "name" attribute associates an identifier with a component. The value is automatically injected into a field with the same name defined by the document's owner (called an "outlet"). 
 
