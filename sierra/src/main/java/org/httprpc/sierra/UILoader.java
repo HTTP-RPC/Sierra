@@ -22,6 +22,7 @@ import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
+import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -73,6 +74,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import static org.httprpc.kilo.util.Optionals.*;
 
@@ -217,6 +219,7 @@ public class UILoader {
                 }
 
                 if (type == JTextField.class) {
+                    appendAttributeDeclaration(PATTERN, CDATA, writer);
                     appendAttributeDeclaration(PLACEHOLDER_TEXT, CDATA, writer);
                     appendAttributeDeclaration(SHOW_CLEAR_BUTTON, String.format("(%b|%b)", true, false), writer);
                     appendAttributeDeclaration(LEADING_ICON, CDATA, writer);
@@ -288,6 +291,21 @@ public class UILoader {
         }
     }
 
+    private static class RegexInputVerifier extends InputVerifier {
+        Pattern pattern;
+
+        RegexInputVerifier(String regex) {
+            pattern = Pattern.compile(regex);
+        }
+
+        @Override
+        public boolean verify(JComponent input) {
+            var textField = (JTextField)input;
+
+            return pattern.matcher(textField.getText()).matches();
+        }
+    }
+
     private Object owner;
     private String name;
     private ResourceBundle resourceBundle;
@@ -310,8 +328,7 @@ public class UILoader {
     private static final String STYLE = "style";
     private static final String STYLE_CLASS = "styleClass";
 
-    private static final String FLAT_LAF_PREFIX = "FlatLaf";
-
+    private static final String PATTERN = "pattern";
     private static final String PLACEHOLDER_TEXT = "placeholderText";
     private static final String SHOW_CLEAR_BUTTON = "showClearButton";
     private static final String LEADING_ICON = "leadingIcon";
@@ -514,7 +531,9 @@ public class UILoader {
             } else if (name.equals(SIZE)) {
                 component.setPreferredSize(parseSize(value));
             } else if (name.equals(STYLE) || name.equals(STYLE_CLASS)) {
-                component.putClientProperty(String.format("%s.%s", FLAT_LAF_PREFIX, name), value);
+                component.putClientProperty(String.format("FlatLaf.%s", name), value);
+            } else if (name.equals(PATTERN)) {
+                component.setInputVerifier(new RegexInputVerifier(getText(value)));
             } else if (name.equals(PLACEHOLDER_TEXT)) {
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), getText(value));
             } else if (name.equals(SHOW_CLEAR_BUTTON)) {
