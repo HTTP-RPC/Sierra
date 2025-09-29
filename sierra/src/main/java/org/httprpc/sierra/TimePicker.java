@@ -22,6 +22,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.ListDataListener;
 import java.awt.Component;
 import java.time.LocalTime;
@@ -110,30 +111,40 @@ public class TimePicker extends Picker {
     private LocalTime maximumTime = null;
 
     private final InputVerifier inputVerifier = new InputVerifier() {
+        LocalTime time = null;
+
         @Override
         public boolean verify(JComponent input) {
             try {
-                var time = LocalTime.parse(getText(), timeFormatter);
+                time = LocalTime.parse(getText(), timeFormatter);
 
-                if (time.equals(TimePicker.this.time)) {
-                    return true;
-                }
-
-                if (!validate(time)) {
-                    setText(timeFormatter.format(TimePicker.this.time));
-                    selectAll();
-
-                    return false;
-                }
-
-                TimePicker.this.time = time;
-
-                TimePicker.super.fireActionPerformed();
+                return true;
             } catch (DateTimeParseException exception) {
-                setText(timeFormatter.format(time));
+                return false;
             }
+        }
 
-            return true;
+        @Override
+        public boolean shouldYieldFocus(JComponent source, JComponent target) {
+            if (verify(source)) {
+                if (validate(time) && !time.equals(TimePicker.this.time)) {
+                    TimePicker.this.time = time;
+
+                    TimePicker.super.fireActionPerformed();
+                } else {
+                    setText(timeFormatter.format(TimePicker.this.time));
+                }
+
+                selectAll();
+
+                time = null;
+
+                return true;
+            } else {
+                UIManager.getLookAndFeel().provideErrorFeedback(source);
+
+                return false;
+            }
         }
     };
 
@@ -314,7 +325,7 @@ public class TimePicker extends Picker {
      */
     @Override
     protected void fireActionPerformed() {
-        inputVerifier.verify(this);
+        inputVerifier.shouldYieldFocus(this, null);
     }
 
     /**

@@ -57,7 +57,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -309,7 +308,7 @@ public class UILoader {
             var verified = verify(source);
 
             if (!verified) {
-                Toolkit.getDefaultToolkit().beep();
+                UIManager.getLookAndFeel().provideErrorFeedback(source);
             }
 
             return verified;
