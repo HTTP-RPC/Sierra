@@ -227,6 +227,10 @@ public class RowPanel extends BoxPanel {
                         }
 
                         component.setSize(width, height);
+
+                        if (alignToBaseline) {
+                            component.setSize(width, component.getPreferredSize().height);
+                        }
                     }
                 }
 
