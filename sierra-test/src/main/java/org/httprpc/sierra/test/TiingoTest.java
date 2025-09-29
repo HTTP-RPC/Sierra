@@ -23,20 +23,19 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 import java.net.URI;
 import java.text.NumberFormat;
 import java.time.Instant;
@@ -156,7 +155,7 @@ public class TiingoTest extends JFrame implements Runnable {
     }
 
     private JTextField tickerTextField = null;
-    private JFormattedTextField countTextField = null;
+    private JSpinner countSpinner = null;
 
     private ActivityIndicator activityIndicator = null;
 
@@ -193,8 +192,7 @@ public class TiingoTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "tiingo-test.xml", resourceBundle));
 
-        countTextField.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(NumberFormat.getIntegerInstance())));
-        countTextField.setValue(30);
+        countSpinner.setModel(new SpinnerNumberModel(30, 10, 150, 10));
 
         submitButton.addActionListener(event -> submit());
 
@@ -217,17 +215,7 @@ public class TiingoTest extends JFrame implements Runnable {
             return;
         }
 
-        var count = map(countTextField.getValue(), value -> ((Number)value).intValue());
-
-        if (count == null) {
-            showErrorMessage("countRequired", countTextField);
-            return;
-        }
-
-        if (count <= 0) {
-            showErrorMessage("invalidCount", countTextField);
-            return;
-        }
+        var count = map(countSpinner.getValue(), value -> ((Number)value).intValue());
 
         var endDate = LocalDate.now();
         var startDate = endDate.minusDays(count);

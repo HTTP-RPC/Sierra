@@ -11,7 +11,7 @@
 
         <row-panel spacing="4">
             <label text="count"/>
-            <formatted-text-field name="countTextField" columns="3"/>
+            <spinner name="countSpinner"/>
         </row-panel>
 
         <activity-indicator name="activityIndicator" indicatorSize="18"/>
