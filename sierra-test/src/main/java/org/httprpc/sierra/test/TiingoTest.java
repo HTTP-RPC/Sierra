@@ -215,7 +215,7 @@ public class TiingoTest extends JFrame implements Runnable {
             return;
         }
 
-        var count = map(countSpinner.getValue(), value -> ((Number)value).intValue());
+        var count = (int)countSpinner.getValue();
 
         var endDate = LocalDate.now();
         var startDate = endDate.minusDays(count);
