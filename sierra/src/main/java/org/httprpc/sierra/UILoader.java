@@ -546,7 +546,7 @@ public class UILoader {
                     throw new UnsupportedOperationException("Component is not a text field.");
                 }
 
-                textField.setInputVerifier(new RegexInputVerifier(value));
+                textField.setInputVerifier(new RegexInputVerifier(getText(value)));
 
                 textField.addActionListener(event -> {
                     if (textField.getInputVerifier().shouldYieldFocus(textField, null)) {
