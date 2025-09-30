@@ -228,6 +228,8 @@ The "pattern" attribute can be used to associate a regular expression with a tex
 <text-field columns="12" pattern="[a-zA-z]*" alignmentX="0.0"/>
 ```
 
+If the text field's root pane has a default button, the button's action will only be performed if the input is valid.
+
 ### Element Names
 The "name" attribute associates an identifier with a component. The value is automatically injected into a field with the same name defined by the document's owner (called an "outlet"). 
 

@@ -550,10 +550,14 @@ public class UILoader {
 
                 textField.addActionListener(event -> {
                     if (textField.getInputVerifier().shouldYieldFocus(textField, null)) {
-                        var defaultButton = textField.getRootPane().getDefaultButton();
+                        var rootPane = textField.getRootPane();
 
-                        if (defaultButton != null) {
-                            defaultButton.doClick(20);
+                        if (rootPane != null) {
+                            var defaultButton = rootPane.getDefaultButton();
+
+                            if (defaultButton != null) {
+                                defaultButton.doClick(20);
+                            }
                         }
                     }
                 });
