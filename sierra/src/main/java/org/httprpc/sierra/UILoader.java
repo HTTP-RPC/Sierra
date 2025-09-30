@@ -542,7 +542,21 @@ public class UILoader {
             } else if (name.equals(STYLE) || name.equals(STYLE_CLASS)) {
                 component.putClientProperty(String.format("FlatLaf.%s", name), value);
             } else if (name.equals(PATTERN)) {
-                component.setInputVerifier(new RegexInputVerifier(value));
+                if (!(component instanceof JTextField textField)) {
+                    throw new UnsupportedOperationException("Component is not a text field.");
+                }
+
+                textField.setInputVerifier(new RegexInputVerifier(value));
+
+                textField.addActionListener(event -> {
+                    if (textField.getInputVerifier().shouldYieldFocus(textField, null)) {
+                        var defaultButton = textField.getRootPane().getDefaultButton();
+
+                        if (defaultButton != null) {
+                            defaultButton.doClick(20);
+                        }
+                    }
+                });
             } else if (name.equals(PLACEHOLDER_TEXT)) {
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), getText(value));
             } else if (name.equals(SHOW_CLEAR_BUTTON)) {

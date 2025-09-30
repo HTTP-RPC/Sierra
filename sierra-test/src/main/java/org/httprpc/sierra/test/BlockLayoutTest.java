@@ -17,12 +17,16 @@ package org.httprpc.sierra.test;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.UILoader;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import java.awt.Color;
 
 public class BlockLayoutTest extends JFrame implements Runnable {
+    private JButton submitButton = null;
+
     private BlockLayoutTest() {
         super("Block Layout Test");
 
@@ -38,8 +42,16 @@ public class BlockLayoutTest extends JFrame implements Runnable {
 
         setContentPane(scrollPane);
 
+        submitButton.addActionListener(event -> submitForm());
+
+        rootPane.setDefaultButton(submitButton);
+
         setSize(360, 480);
         setVisible(true);
+    }
+
+    private void submitForm() {
+        JOptionPane.showMessageDialog(this, "Form submitted.");
     }
 
     public static void main(String[] args) {

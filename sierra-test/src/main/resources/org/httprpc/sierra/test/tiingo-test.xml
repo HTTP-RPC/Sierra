@@ -6,7 +6,7 @@
     <row-panel spacing="8">
         <row-panel spacing="4">
             <label text="ticker"/>
-            <text-field name="tickerTextField" pattern="[\w]*" columns="6"/>
+            <text-field name="tickerTextField" columns="6"/>
         </row-panel>
 
         <row-panel spacing="4">

@@ -23,6 +23,11 @@
                     <spacer/>
                     <check-box text="Check box"/>
                 </row-panel>
+
+                <row-panel>
+                    <spacer/>
+                    <button name="submitButton" text="Submit"/>
+                </row-panel>
             </column-panel>
         </row-panel>
     </column-panel>
