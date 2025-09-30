@@ -196,6 +196,8 @@ public class TiingoTest extends JFrame implements Runnable {
 
         submitButton.addActionListener(event -> submit());
 
+        rootPane.setDefaultButton(submitButton);
+
         setSize(960, 540);
         setVisible(true);
     }
