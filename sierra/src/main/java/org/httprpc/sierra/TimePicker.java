@@ -368,8 +368,6 @@ public class TimePicker extends Picker {
         list.addListSelectionListener(event -> {
             setTime(list.getSelectedValue());
 
-            super.fireActionPerformed();
-
             hidePopup();
         });
 

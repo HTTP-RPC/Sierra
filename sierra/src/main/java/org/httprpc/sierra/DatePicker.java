@@ -70,8 +70,6 @@ public class DatePicker extends Picker {
             protected void fireActionPerformed(ActionEvent event) {
                 setDate(date);
 
-                DatePicker.super.fireActionPerformed();
-
                 hidePopup();
             }
         }

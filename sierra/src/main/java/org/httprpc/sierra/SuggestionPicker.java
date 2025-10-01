@@ -150,8 +150,6 @@ public class SuggestionPicker extends Picker {
         list.addListSelectionListener(event -> {
             setText(list.getSelectedValue());
 
-            fireActionPerformed();
-
             hidePopup();
         });
 
