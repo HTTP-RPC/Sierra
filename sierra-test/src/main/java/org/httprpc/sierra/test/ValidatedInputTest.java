@@ -17,24 +17,29 @@ package org.httprpc.sierra.test;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.NumberField;
 import org.httprpc.sierra.UILoader;
+import org.httprpc.sierra.ValidatedTextField;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
 import static org.httprpc.kilo.util.Optionals.*;
 
-public class NumberFieldTest extends JFrame implements Runnable {
-    private NumberField defaultNumberField = null;
-    private NumberField customNumberField = null;
+public class ValidatedInputTest extends JFrame implements Runnable {
+    private NumberField numberField1 = null;
+    private NumberField numberField2 = null;
 
-    private JLabel selectionLabel = null;
+    private ValidatedTextField validatedTextField = null;
 
-    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(NumberFieldTest.class.getName());
+    private JButton submitButton = null;
 
-    private NumberFieldTest() {
+    private JLabel messageLabel = null;
+
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ValidatedInputTest.class.getName());
+
+    private ValidatedInputTest() {
         super(resourceBundle.getString("title"));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -42,28 +47,28 @@ public class NumberFieldTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "number-field-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "validated-input-test.xml", resourceBundle));
 
-        defaultNumberField.addActionListener(event -> showSelection());
+        submitButton.addActionListener(event -> showSelection());
 
-        customNumberField.setFormat(NumberFormat.getIntegerInstance());
-
-        customNumberField.addActionListener(event -> showSelection());
+        rootPane.setDefaultButton(submitButton);
 
         setSize(480, 320);
         setVisible(true);
     }
 
     private void showSelection() {
-        var defaultValue = map(defaultNumberField.getValue(), Number::doubleValue);
-        var customValue = map(customNumberField.getValue(), Number::doubleValue);
+        var number1 = map(numberField1.getValue(), Number::doubleValue);
+        var number2 = map(numberField2.getValue(), Number::doubleValue);
 
-        selectionLabel.setText(String.format(resourceBundle.getString("selectionFormat"), defaultValue, customValue));
+        var validatedText = validatedTextField.getValue();
+
+        messageLabel.setText(String.format(resourceBundle.getString("messageFormat"), number1, number2, validatedText));
     }
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new NumberFieldTest());
+        SwingUtilities.invokeLater(new ValidatedInputTest());
     }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
+<column-panel padding="8">
+    <column-panel spacing="4" alignToGrid="true">
+        <row-panel>
+            <label text="number1"/>
+            <number-field name="numberField1" columns="8"/>
+        </row-panel>
+        <row-panel>
+            <label text="number2"/>
+            <number-field name="numberField2" columns="8"/>
+        </row-panel>
+        <row-panel>
+            <label text="validatedText"/>
+            <validated-text-field name="validatedTextField" columns="8" pattern="validatedTextPattern"/>
+        </row-panel>
+        <row-panel>
+            <spacer/>
+            <button name="submitButton" text="submit"/>
+        </row-panel>
+    </column-panel>
+
+    <spacer weight="1"/>
+
+    <label name="messageLabel" horizontalAlignment="center"/>
+</column-panel>
