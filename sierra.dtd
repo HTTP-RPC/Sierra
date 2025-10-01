@@ -76,6 +76,9 @@
 <!ENTITY % MenuButton "%JButton; popupHorizontalAlignment (leading|trailing|center) popupVerticalAlignment (top|bottom|center) ">
 <!ELEMENT menu-button EMPTY>
 <!ATTLIST menu-button %MenuButton;>
+<!ENTITY % NumberField "%JTextField; value CDATA ">
+<!ELEMENT number-field EMPTY>
+<!ATTLIST number-field %NumberField;>
 <!ENTITY % Picker "%JTextField; popupHorizontalAlignment (leading|trailing|center) popupVerticalAlignment (top|bottom|center) ">
 <!ENTITY % StackPanel "%LayoutPanel; ">
 <!ELEMENT stack-panel (ANY)>

@@ -110,7 +110,7 @@ public class TimePicker extends Picker {
     private LocalTime minimumTime = null;
     private LocalTime maximumTime = null;
 
-    private final InputVerifier inputVerifier = new InputVerifier() {
+    private InputVerifier inputVerifier = new InputVerifier() {
         LocalTime time = null;
 
         @Override

@@ -399,6 +399,7 @@ public class UILoader {
         bind("spacer", Spacer.class);
         bind("text-pane", TextPane.class);
         bind("image-pane", ImagePane.class);
+        bind("number-field", NumberField.class);
         bind("menu-button", MenuButton.class);
         bind("date-picker", DatePicker.class);
         bind("time-picker", TimePicker.class);

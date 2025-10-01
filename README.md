@@ -381,8 +381,15 @@ Row spacing and cell weights are ignored when grid alignment is enabled.
 ## Utility Components
 In addition to the features outlined above, Sierra also includes some common user interface elements not provided by Swing.
 
+### Number Fields
+The `NumberField` component accepts numeric entry:
+
+TODO
+
+See [NumberFieldTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/NumberFieldTest.java) for more information.
+
 ### Menu Buttons
-The `MenuButton` component displays a popup menu when pressed. For example:
+The `MenuButton` component displays a popup menu when pressed:
 
 <img src="README/menu-button.png" width="210px"/>
 

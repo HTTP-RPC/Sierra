@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
+<column-panel spacing="4" padding="8" alignToGrid="true">
+    <row-panel>
+        <label text="number"/>
+        <number-field name="numberField" columns="8"/>
+    </row-panel>
+    <row-panel>
+        <label text="text"/>
+        <text-field columns="8"/>
+    </row-panel>
+</column-panel>
