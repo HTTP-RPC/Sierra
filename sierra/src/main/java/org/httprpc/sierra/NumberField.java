@@ -63,8 +63,6 @@ public class NumberField extends JTextField {
                     setText(null);
                 }
 
-                selectAll();
-
                 value = null;
 
                 return true;

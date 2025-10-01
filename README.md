@@ -384,7 +384,7 @@ In addition to the features outlined above, Sierra also includes some common use
 ### Number Fields
 The `NumberField` component accepts numeric entry:
 
-TODO
+<img src="README/number-field.png" width="244px"/>
 
 See [NumberFieldTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/NumberFieldTest.java) for more information.
 
