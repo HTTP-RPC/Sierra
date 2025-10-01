@@ -380,8 +380,8 @@ See [ValidatedInputTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/
 ### Date and Time Pickers
 The `DatePicker` and `TimePicker` components allow a user to select a local date and time, respectively:
 
-<img src="README/date-time-picker-1.png" width="394px"/>
-<img src="README/date-time-picker-2.png" width="394px"/>
+<img src="README/date-time-picker-1.png" width="460px"/>
+<img src="README/date-time-picker-2.png" width="460px"/>
 
 See [DateTimePickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/DateTimePickerTest.java) for more information.
 
