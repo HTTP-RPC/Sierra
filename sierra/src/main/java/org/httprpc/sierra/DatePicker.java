@@ -22,7 +22,6 @@ import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.time.DayOfWeek;
@@ -205,25 +204,21 @@ public class DatePicker extends Picker {
 
         @Override
         public boolean shouldYieldFocus(JComponent source, JComponent target) {
-            if (verify(source)) {
-                if (validate(date) && !date.equals(DatePicker.this.date)) {
+            if (verify(source) && validate(date)) {
+                if (!date.equals(DatePicker.this.date)) {
                     DatePicker.this.date = date;
 
                     DatePicker.super.fireActionPerformed();
-                } else {
-                    setText(dateFormatter.format(DatePicker.this.date));
                 }
-
-                selectAll();
-
-                date = null;
-
-                return true;
             } else {
-                UIManager.getLookAndFeel().provideErrorFeedback(source);
-
-                return false;
+                setText(dateFormatter.format(DatePicker.this.date));
             }
+
+            selectAll();
+
+            date = null;
+
+            return true;
         }
     };
 
