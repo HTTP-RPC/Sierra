@@ -14,10 +14,12 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.AbstractButton;
 import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JRootPane;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -37,6 +39,8 @@ import java.time.temporal.WeekFields;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Text field that supports local date entry.
@@ -207,8 +211,6 @@ public class DatePicker extends Picker {
             if (verify(source) && validate(date)) {
                 if (!date.equals(DatePicker.this.date)) {
                     DatePicker.this.date = date;
-
-                    DatePicker.super.fireActionPerformed();
                 }
             } else {
                 setText(dateFormatter.format(DatePicker.this.date));
@@ -240,6 +242,12 @@ public class DatePicker extends Picker {
         setDate(LocalDate.now());
 
         setInputVerifier(inputVerifier);
+
+        addActionListener(event -> {
+            if (inputVerifier.shouldYieldFocus(this, null)) {
+                perform(map(getRootPane(), JRootPane::getDefaultButton), AbstractButton::doClick);
+            }
+        });
 
         putClientProperty("JTextField.placeholderText", pattern);
     }
@@ -341,7 +349,9 @@ public class DatePicker extends Picker {
      */
     @Override
     protected void fireActionPerformed() {
-        inputVerifier.shouldYieldFocus(this, null);
+        if (inputVerifier.shouldYieldFocus(this, null)) {
+            super.fireActionPerformed();
+        }
     }
 
     /**

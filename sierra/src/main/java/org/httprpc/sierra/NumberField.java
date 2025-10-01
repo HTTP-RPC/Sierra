@@ -14,13 +14,17 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.AbstractButton;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Objects;
+
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Text field that supports numeric data entry.
@@ -55,8 +59,6 @@ public class NumberField extends JTextField {
             if (verify(source)) {
                 if (!Objects.equals(value, NumberField.this.value)) {
                     setValue(value);
-
-                    NumberField.super.fireActionPerformed();
                 } else if (NumberField.this.value != null) {
                     setText(format.format(NumberField.this.value));
                 } else {
@@ -79,6 +81,12 @@ public class NumberField extends JTextField {
      */
     public NumberField() {
         setInputVerifier(inputVerifier);
+
+        addActionListener(event -> {
+            if (inputVerifier.shouldYieldFocus(this, null)) {
+                perform(map(getRootPane(), JRootPane::getDefaultButton), AbstractButton::doClick);
+            }
+        });
     }
 
     /**
@@ -137,6 +145,8 @@ public class NumberField extends JTextField {
      */
     @Override
     protected void fireActionPerformed() {
-        inputVerifier.shouldYieldFocus(this, null);
+        if (inputVerifier.shouldYieldFocus(this, null)) {
+            super.fireActionPerformed();
+        }
     }
 }

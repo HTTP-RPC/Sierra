@@ -14,12 +14,16 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.AbstractButton;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import java.util.Objects;
 import java.util.regex.Pattern;
+
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Text field that validates input against a regular expression.
@@ -50,8 +54,6 @@ public class ValidatedTextField extends JTextField {
             if (verify(source)) {
                 if (!Objects.equals(value, ValidatedTextField.this.value)) {
                     setValue(value);
-
-                    ValidatedTextField.super.fireActionPerformed();
                 } else if (ValidatedTextField.this.value != null) {
                     setText(ValidatedTextField.this.value);
                 } else {
@@ -74,6 +76,12 @@ public class ValidatedTextField extends JTextField {
      */
     public ValidatedTextField() {
         setInputVerifier(inputVerifier);
+
+        addActionListener(event -> {
+            if (inputVerifier.shouldYieldFocus(this, null)) {
+                perform(map(getRootPane(), JRootPane::getDefaultButton), AbstractButton::doClick);
+            }
+        });
     }
 
     /**
@@ -132,6 +140,8 @@ public class ValidatedTextField extends JTextField {
      */
     @Override
     protected void fireActionPerformed() {
-        inputVerifier.shouldYieldFocus(this, null);
+        if (inputVerifier.shouldYieldFocus(this, null)) {
+            super.fireActionPerformed();
+        }
     }
 }

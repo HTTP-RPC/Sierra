@@ -14,11 +14,13 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.AbstractButton;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
@@ -31,6 +33,8 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.util.Locale;
+
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Text field that supports local time entry.
@@ -128,8 +132,6 @@ public class TimePicker extends Picker {
             if (verify(source) && validate(time)) {
                 if (!time.equals(TimePicker.this.time)) {
                     TimePicker.this.time = time;
-
-                    TimePicker.super.fireActionPerformed();
                 }
             } else {
                 setText(timeFormatter.format(TimePicker.this.time));
@@ -161,6 +163,12 @@ public class TimePicker extends Picker {
         setTime(LocalTime.now());
 
         setInputVerifier(inputVerifier);
+
+        addActionListener(event -> {
+            if (inputVerifier.shouldYieldFocus(this, null)) {
+                perform(map(getRootPane(), JRootPane::getDefaultButton), AbstractButton::doClick);
+            }
+        });
 
         putClientProperty("JTextField.placeholderText", pattern);
     }
@@ -320,7 +328,9 @@ public class TimePicker extends Picker {
      */
     @Override
     protected void fireActionPerformed() {
-        inputVerifier.shouldYieldFocus(this, null);
+        if (inputVerifier.shouldYieldFocus(this, null)) {
+            super.fireActionPerformed();
+        }
     }
 
     /**
