@@ -388,13 +388,6 @@ TODO
 
 See [NumberFieldTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/NumberFieldTest.java) for more information.
 
-### Menu Buttons
-The `MenuButton` component displays a popup menu when pressed:
-
-<img src="README/menu-button.png" width="210px"/>
-
-See [MenuButtonTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/MenuButtonTest.java) for more information.
-
 ### Date and Time Pickers
 The `DatePicker` and `TimePicker` components allow a user to select a local date and time, respectively:
 
@@ -409,6 +402,13 @@ The `SuggestionPicker` component allows a user to choose from a list of predefin
 <img src="README/suggestion-picker.png" width="300px"/>
 
 See [SuggestionPickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/SuggestionPickerTest.java) for more information.
+
+### Menu Buttons
+The `MenuButton` component displays a popup menu when pressed:
+
+<img src="README/menu-button.png" width="210px"/>
+
+See [MenuButtonTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/MenuButtonTest.java) for more information.
 
 ### Activity Indicators
 The `ActivityIndicator` component shows indeterminate progress:

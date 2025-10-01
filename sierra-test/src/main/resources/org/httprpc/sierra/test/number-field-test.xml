@@ -2,13 +2,19 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel spacing="4" padding="8" alignToGrid="true">
-    <row-panel>
-        <label text="number"/>
-        <number-field name="numberField" columns="8"/>
-    </row-panel>
-    <row-panel>
-        <label text="text"/>
-        <text-field columns="8"/>
-    </row-panel>
+<column-panel padding="8">
+    <column-panel spacing="4" alignToGrid="true">
+        <row-panel>
+            <label text="default"/>
+            <number-field name="defaultNumberField" columns="8"/>
+        </row-panel>
+        <row-panel>
+            <label text="custom"/>
+            <number-field name="customNumberField" columns="8"/>
+        </row-panel>
+    </column-panel>
+
+    <spacer weight="1"/>
+
+    <label name="selectionLabel" horizontalAlignment="center"/>
 </column-panel>

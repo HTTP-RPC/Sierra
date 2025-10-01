@@ -19,11 +19,18 @@ import org.httprpc.sierra.NumberField;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
+import static org.httprpc.kilo.util.Optionals.*;
+
 public class NumberFieldTest extends JFrame implements Runnable {
-    private NumberField numberField = null;
+    private NumberField defaultNumberField = null;
+    private NumberField customNumberField = null;
+
+    private JLabel selectionLabel = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(NumberFieldTest.class.getName());
 
@@ -37,8 +44,21 @@ public class NumberFieldTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "number-field-test.xml", resourceBundle));
 
-        setSize(480, 360);
+        defaultNumberField.addActionListener(event -> showSelection());
+
+        customNumberField.setFormat(NumberFormat.getIntegerInstance());
+
+        customNumberField.addActionListener(event -> showSelection());
+
+        setSize(480, 320);
         setVisible(true);
+    }
+
+    private void showSelection() {
+        var defaultValue = map(defaultNumberField.getValue(), Number::doubleValue);
+        var customValue = map(customNumberField.getValue(), Number::doubleValue);
+
+        selectionLabel.setText(String.format(resourceBundle.getString("selectionFormat"), defaultValue, customValue));
     }
 
     public static void main(String[] args) {

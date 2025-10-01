@@ -54,7 +54,7 @@ public class NumberField extends JTextField {
         public boolean shouldYieldFocus(JComponent source, JComponent target) {
             if (verify(source)) {
                 if (!Objects.equals(value, NumberField.this.value)) {
-                    NumberField.this.value = value;
+                    setValue(value);
 
                     NumberField.super.fireActionPerformed();
                 } else if (NumberField.this.value != null) {
@@ -80,8 +80,6 @@ public class NumberField extends JTextField {
      * Constructs a new number field.
      */
     public NumberField() {
-        format.setGroupingUsed(false);
-
         setInputVerifier(inputVerifier);
     }
 
@@ -109,6 +107,30 @@ public class NumberField extends JTextField {
         }
 
         this.value = value;
+    }
+
+    /**
+     * Returns the number format.
+     *
+     * @return
+     * The number format.
+     */
+    public NumberFormat getFormat() {
+        return format;
+    }
+
+    /**
+     * Sets the number format.
+     *
+     * @param format
+     * The number format.
+     */
+    public void setFormat(NumberFormat format) {
+        if (format == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.format = format;
     }
 
     /**
