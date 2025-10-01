@@ -221,15 +221,6 @@ The "group" attribute associates a button with a button group. For example, the 
 
 <img src="README/orientation.png" width="454px"/>
 
-### Input Validation
-The "pattern" attribute can be used to associate a regular expression with a text field. When specified, user input is validated against the given pattern. Input that doesn't match is rejected:
-
-```xml
-<text-field columns="12" pattern="[a-zA-z]*" alignmentX="0.0"/>
-```
-
-If the text field's root pane has a default button, the button's action will only be performed if the input is valid.
-
 ### Element Names
 The "name" attribute associates an identifier with a component. The value is automatically injected into a field with the same name defined by the document's owner (called an "outlet"). 
 
@@ -381,12 +372,8 @@ Row spacing and cell weights are ignored when grid alignment is enabled.
 ## Utility Components
 In addition to the features outlined above, Sierra also includes some common user interface elements not provided by Swing.
 
-### Number Fields
-The `NumberField` component accepts numeric entry:
-
-<img src="README/number-field.png" width="244px"/>
-
-See [NumberFieldTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/NumberFieldTest.java) for more information.
+### Validated Input
+The `NumberField` and `ValidatedTextField` components can be used to validate user input. `NumberField` accepts only numeric data, and `ValidatedTextField` accepts only text that matches a provided regular expression. Similiar to `JFormattedTextField`, the `getValue()` method of these classes can be used to obtain the most recently validated value.
 
 ### Date and Time Pickers
 The `DatePicker` and `TimePicker` components allow a user to select a local date and time, respectively:

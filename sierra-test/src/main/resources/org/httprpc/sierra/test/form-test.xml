@@ -37,22 +37,22 @@
 
     <row-panel alignToBaseline="true">
         <label text="emailAddress" alignmentX="1.0"/>
-        <text-field columns="16" pattern="emailAddressPattern" alignmentX="0.0"/>
+        <validated-text-field columns="16" pattern="emailAddressPattern" alignmentX="0.0"/>
     </row-panel>
 
     <row-panel alignToBaseline="true">
         <label text="homePhone" alignmentX="1.0"/>
-        <text-field columns="12" pattern="phoneNumberPattern" alignmentX="0.0"/>
+        <validated-text-field columns="12" pattern="phoneNumberPattern" alignmentX="0.0"/>
     </row-panel>
 
     <row-panel alignToBaseline="true">
         <label text="mobilePhone" alignmentX="1.0"/>
-        <text-field columns="12" pattern="phoneNumberPattern" alignmentX="0.0"/>
+        <validated-text-field columns="12" pattern="phoneNumberPattern" alignmentX="0.0"/>
     </row-panel>
 
     <row-panel alignToBaseline="true">
         <label text="fax" alignmentX="1.0"/>
-        <text-field columns="12" pattern="phoneNumberPattern" alignmentX="0.0"/>
+        <validated-text-field columns="12" pattern="phoneNumberPattern" alignmentX="0.0"/>
     </row-panel>
 
     <separator/>
