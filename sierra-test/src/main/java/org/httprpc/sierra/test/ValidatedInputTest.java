@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
 import static org.httprpc.kilo.util.Optionals.*;
@@ -48,6 +49,8 @@ public class ValidatedInputTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(UILoader.load(this, "validated-input-test.xml", resourceBundle));
+
+        numberField2.setFormat(NumberFormat.getIntegerInstance());
 
         submitButton.addActionListener(event -> showMessage());
 
