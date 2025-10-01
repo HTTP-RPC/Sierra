@@ -20,6 +20,7 @@ import org.httprpc.sierra.TimePicker;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -30,7 +31,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -40,6 +40,8 @@ public class DateTimePickerTest extends JFrame implements Runnable {
     private TimePicker timePicker = null;
     private JComboBox<Integer> minuteIntervalComboBox = null;
     private JCheckBox strictCheckBox = null;
+
+    private JButton submitButton = null;
 
     private JLabel selectionLabel = null;
 
@@ -55,29 +57,25 @@ public class DateTimePickerTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "date-time-picker-test.xml", resourceBundle));
 
-        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
-
         var now = LocalDate.now();
 
         datePicker.setMinimumDate(now.minusMonths(3));
         datePicker.setMaximumDate(now.plusMonths(3));
 
-        datePicker.addActionListener(event -> showSelection(dateFormatter, datePicker.getDate()));
-
         var minimumTime = LocalTime.of(6, 0);
         var maximumTime = LocalTime.of(18, 0);
 
-        var timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
-
         timePicker.setMinimumTime(minimumTime);
         timePicker.setMaximumTime(maximumTime);
-
-        timePicker.addActionListener(event -> showSelection(timeFormatter, timePicker.getTime()));
 
         minuteIntervalComboBox.setModel(new DefaultComboBoxModel<>(new Integer[] {1, 2, 3, 4, 5, 6, 10, 15, 20, 30}));
         minuteIntervalComboBox.addActionListener(event -> timePicker.setMinuteInterval((Integer)minuteIntervalComboBox.getSelectedItem()));
 
         strictCheckBox.addActionListener(event -> timePicker.setStrict(strictCheckBox.isSelected()));
+
+        submitButton.addActionListener(event -> showSelection());
+
+        rootPane.setDefaultButton(submitButton);
 
         applyComponentOrientation(ComponentOrientation.getOrientation(Locale.getDefault()));
 
@@ -85,8 +83,13 @@ public class DateTimePickerTest extends JFrame implements Runnable {
         setVisible(true);
     }
 
-    private void showSelection(DateTimeFormatter formatter, TemporalAccessor value) {
-        var message = String.format(resourceBundle.getString("selectionFormat"), formatter.format(value));
+    private void showSelection() {
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+        var timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+
+        var message = String.format(resourceBundle.getString("selectionFormat"),
+            dateFormatter.format(datePicker.getDate()),
+            timeFormatter.format(timePicker.getTime()));
 
         selectionLabel.setText(message);
     }

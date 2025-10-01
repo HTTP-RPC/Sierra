@@ -4,18 +4,22 @@
 
 <column-panel padding="8">
     <column-panel spacing="4" alignToGrid="true">
-        <row-panel>
-            <label text="number1"/>
-            <number-field name="numberField1" columns="8"/>
+        <row-panel alignToBaseline="true">
+            <label text="number1" alignmentX="1.0"/>
+            <number-field name="numberField1" columns="8" alignmentX="0.0"/>
         </row-panel>
-        <row-panel>
-            <label text="number2"/>
-            <number-field name="numberField2" columns="8"/>
+        <row-panel alignToBaseline="true">
+            <label text="number2" alignmentX="1.0"/>
+            <number-field name="numberField2" columns="8" alignmentX="0.0"/>
         </row-panel>
-        <row-panel>
-            <label text="validatedText"/>
-            <validated-text-field name="validatedTextField" columns="8" pattern="validatedTextPattern"/>
+
+        <row-panel alignToBaseline="true">
+            <label text="validatedText" alignmentX="1.0"/>
+            <validated-text-field name="validatedTextField" columns="8" pattern="validatedTextPattern" alignmentX="0.0"/>
         </row-panel>
+
+        <separator/>
+
         <row-panel>
             <spacer/>
             <button name="submitButton" text="submit"/>

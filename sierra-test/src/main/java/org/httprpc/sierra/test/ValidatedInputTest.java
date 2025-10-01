@@ -49,7 +49,7 @@ public class ValidatedInputTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "validated-input-test.xml", resourceBundle));
 
-        submitButton.addActionListener(event -> showSelection());
+        submitButton.addActionListener(event -> showMessage());
 
         rootPane.setDefaultButton(submitButton);
 
@@ -57,7 +57,7 @@ public class ValidatedInputTest extends JFrame implements Runnable {
         setVisible(true);
     }
 
-    private void showSelection() {
+    private void showMessage() {
         var number1 = map(numberField1.getValue(), Number::doubleValue);
         var number2 = map(numberField2.getValue(), Number::doubleValue);
 
