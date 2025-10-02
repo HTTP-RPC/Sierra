@@ -375,9 +375,9 @@ In addition to the features outlined above, Sierra also includes some common use
 ### Validated Input
 The `NumberField` and `ValidatedTextField` components can be used to validate user input. `NumberField` accepts only numeric content, and `ValidatedTextField` accepts only content that matches a provided regular expression. Similiar to `JFormattedTextField`, the `getValue()` method of these classes can be used to obtain the validated data.
 
-See [ValidatedInputTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ValidatedInputTest.java) for more information.
+`NumberField` is localized. See [ValidatedInputTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ValidatedInputTest.java) for more information.
 
-### Date and Time Pickers
+### Date and Time Selection
 The `DatePicker` and `TimePicker` components allow a user to select a local date and time, respectively:
 
 <img src="README/date-time-picker-1.png" width="460px"/>
