@@ -244,8 +244,12 @@ public class ActionTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "action-test.xml", resourceBundle));
 
+        greetingButton.addActionListener(event -> sayHello());
+
         ...
     }
+
+    ...
 }
 ```
 
