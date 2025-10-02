@@ -62,11 +62,15 @@ public class DateTimePickerTest extends JFrame implements Runnable {
         datePicker.setMinimumDate(now.minusMonths(3));
         datePicker.setMaximumDate(now.plusMonths(3));
 
+        datePicker.addChangeListener(event -> System.out.println(datePicker.getDate()));
+
         var minimumTime = LocalTime.of(6, 0);
         var maximumTime = LocalTime.of(18, 0);
 
         timePicker.setMinimumTime(minimumTime);
         timePicker.setMaximumTime(maximumTime);
+
+        timePicker.addChangeListener(event -> System.out.println(timePicker.getTime()));
 
         minuteIntervalComboBox.setModel(new DefaultComboBoxModel<>(new Integer[] {1, 2, 3, 4, 5, 6, 10, 15, 20, 30}));
         minuteIntervalComboBox.addActionListener(event -> timePicker.setMinuteInterval((Integer)minuteIntervalComboBox.getSelectedItem()));

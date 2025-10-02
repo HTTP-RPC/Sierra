@@ -39,12 +39,12 @@ public class SuggestionPicker extends Picker {
         }
 
         @Override
-        public void addListDataListener(ListDataListener l) {
+        public void addListDataListener(ListDataListener listener) {
             // No-op
         }
 
         @Override
-        public void removeListDataListener(ListDataListener l) {
+        public void removeListDataListener(ListDataListener listener) {
             // No-op
         }
     }

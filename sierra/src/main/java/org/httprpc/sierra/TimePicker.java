@@ -24,6 +24,8 @@ import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataListener;
 import java.awt.Component;
 import java.time.LocalTime;
@@ -32,6 +34,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 import static org.httprpc.kilo.util.Optionals.*;
@@ -52,12 +57,12 @@ public class TimePicker extends Picker {
         }
 
         @Override
-        public void addListDataListener(ListDataListener l) {
+        public void addListDataListener(ListDataListener listener) {
             // No-op
         }
 
         @Override
-        public void removeListDataListener(ListDataListener l) {
+        public void removeListDataListener(ListDataListener listener) {
             // No-op
         }
     }
@@ -132,6 +137,8 @@ public class TimePicker extends Picker {
             if (verify(source) && validate(time)) {
                 if (!time.equals(TimePicker.this.time)) {
                     TimePicker.this.time = time;
+
+                    fireChangeEvent();
                 }
             } else {
                 setText(timeFormatter.format(TimePicker.this.time));
@@ -144,6 +151,8 @@ public class TimePicker extends Picker {
             return true;
         }
     };
+
+    private List<ChangeListener> changeListeners = new LinkedList<>();
 
     private static final String pattern;
     private static final DateTimeFormatter timeFormatter;
@@ -197,6 +206,8 @@ public class TimePicker extends Picker {
         setText(timeFormatter.format(time));
 
         this.time = truncate(time);
+
+        fireChangeEvent();
     }
 
     private boolean validate(LocalTime time) {
@@ -231,6 +242,12 @@ public class TimePicker extends Picker {
         this.minuteInterval = minuteInterval;
 
         adjustTime();
+    }
+
+    private LocalTime getTimeAt(int index) {
+        var minutes = index * minuteInterval;
+
+        return LocalTime.of(minutes / 60, minutes % 60);
     }
 
     /**
@@ -374,13 +391,43 @@ public class TimePicker extends Picker {
         return scrollPane;
     }
 
-    private LocalTime getTimeAt(int index) {
-        var minutes = index * minuteInterval;
+    /**
+     * Adds a change listener.
+     *
+     * @param listener
+     * The change listenener to add.
+     */
+    public void addChangeListener(ChangeListener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException();
+        }
 
-        return LocalTime.of(minutes / 60, minutes % 60);
+        changeListeners.add(listener);
+    }
+
+    /**
+     * Removes a change listener.
+     *
+     * @param listener
+     * The change listenener to remove.
+     */
+    public void removeChangeListener(ChangeListener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException();
+        }
+
+        changeListeners.remove(listener);
+    }
+
+    private void fireChangeEvent() {
+        var event = new ChangeEvent(this);
+
+        for (var listener : changeListeners) {
+            listener.stateChanged(event);
+        }
     }
 
     private static LocalTime truncate(LocalTime time) {
-        return time.withSecond(0).withNano(0);
+        return time.truncatedTo(ChronoUnit.MINUTES);
     }
 }

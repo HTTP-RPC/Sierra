@@ -25,6 +25,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -38,6 +40,8 @@ import java.time.format.TextStyle;
 import java.time.temporal.WeekFields;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 import static org.httprpc.kilo.util.Optionals.*;
@@ -209,6 +213,8 @@ public class DatePicker extends Picker {
             if (verify(source) && validate(date)) {
                 if (!date.equals(DatePicker.this.date)) {
                     DatePicker.this.date = date;
+
+                    fireChangeEvent();
                 }
             } else {
                 setText(dateFormatter.format(DatePicker.this.date));
@@ -221,6 +227,8 @@ public class DatePicker extends Picker {
             return true;
         }
     };
+
+    private List<ChangeListener> changeListeners = new LinkedList<>();
 
     private static final String pattern;
     private static final DateTimeFormatter dateFormatter;
@@ -274,6 +282,8 @@ public class DatePicker extends Picker {
         setText(dateFormatter.format(date));
 
         this.date = date;
+
+        fireChangeEvent();
     }
 
     private boolean validate(LocalDate date) {
@@ -368,5 +378,41 @@ public class DatePicker extends Picker {
     @Override
     protected JComponent getPopupComponent() {
         return new CalendarPanel();
+    }
+
+    /**
+     * Adds a change listener.
+     *
+     * @param listener
+     * The change listenener to add.
+     */
+    public void addChangeListener(ChangeListener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException();
+        }
+
+        changeListeners.add(listener);
+    }
+
+    /**
+     * Removes a change listener.
+     *
+     * @param listener
+     * The change listenener to remove.
+     */
+    public void removeChangeListener(ChangeListener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException();
+        }
+
+        changeListeners.remove(listener);
+    }
+
+    private void fireChangeEvent() {
+        var event = new ChangeEvent(this);
+
+        for (var listener : changeListeners) {
+            listener.stateChanged(event);
+        }
     }
 }
