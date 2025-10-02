@@ -22,7 +22,6 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Objects;
 
 import static org.httprpc.kilo.util.Optionals.*;
 
@@ -57,13 +56,9 @@ public class NumberField extends JTextField {
         @Override
         public boolean shouldYieldFocus(JComponent source, JComponent target) {
             if (verify(source)) {
-                if (!Objects.equals(value, NumberField.this.value)) {
-                    setValue(value);
-                } else if (NumberField.this.value != null) {
-                    setText(format.format(NumberField.this.value));
-                } else {
-                    setText(null);
-                }
+                setText(map(value, format::format));
+
+                NumberField.this.value = value;
 
                 value = null;
 
@@ -106,11 +101,7 @@ public class NumberField extends JTextField {
      * The field's numeric value, or {@code null} for no value.
      */
     public void setValue(Number value) {
-        if (value != null) {
-            setText(format.format(value));
-        } else {
-            setText(null);
-        }
+        setText(map(value, format::format));
 
         this.value = value;
     }

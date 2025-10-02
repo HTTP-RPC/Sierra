@@ -20,7 +20,6 @@ import javax.swing.JComponent;
 import javax.swing.JRootPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 import static org.httprpc.kilo.util.Optionals.*;
@@ -40,25 +39,26 @@ public class ValidatedTextField extends JTextField {
         public boolean verify(JComponent input) {
             var text = getText();
 
-            if (pattern.matcher(text).matches()) {
-                value = text;
-
-                return true;
+            if (!text.isEmpty()) {
+                if (pattern.matcher(text).matches()) {
+                    value = text;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                value = null;
             }
+
+            return true;
+
         }
 
         @Override
         public boolean shouldYieldFocus(JComponent source, JComponent target) {
             if (verify(source)) {
-                if (!Objects.equals(value, ValidatedTextField.this.value)) {
-                    setValue(value);
-                } else if (ValidatedTextField.this.value != null) {
-                    setText(ValidatedTextField.this.value);
-                } else {
-                    setText(null);
-                }
+                setText(value);
+
+                ValidatedTextField.this.value = value;
 
                 value = null;
 

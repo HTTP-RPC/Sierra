@@ -32,7 +32,8 @@ public class ValidatedInputTest extends JFrame implements Runnable {
     private NumberField numberField1 = null;
     private NumberField numberField2 = null;
 
-    private ValidatedTextField validatedTextField = null;
+    private ValidatedTextField validatedTextField1 = null;
+    private ValidatedTextField validatedTextField2 = null;
 
     private JButton submitButton = null;
 
@@ -50,7 +51,11 @@ public class ValidatedInputTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "validated-input-test.xml", resourceBundle));
 
+        numberField1.setValue(123.0);
+
         numberField2.setFormat(NumberFormat.getIntegerInstance());
+
+        validatedTextField1.setValue("abc");
 
         submitButton.addActionListener(event -> showMessage());
 
@@ -64,9 +69,14 @@ public class ValidatedInputTest extends JFrame implements Runnable {
         var number1 = map(numberField1.getValue(), Number::doubleValue);
         var number2 = map(numberField2.getValue(), Number::doubleValue);
 
-        var validatedText = validatedTextField.getValue();
+        var validatedText1 = validatedTextField1.getValue();
+        var validatedText2 = validatedTextField2.getValue();
 
-        messageLabel.setText(String.format(resourceBundle.getString("messageFormat"), number1, number2, validatedText));
+        messageLabel.setText(String.format(resourceBundle.getString("messageFormat"),
+            number1,
+            number2,
+            validatedText1 == null ? null : String.format("\"%s\"", validatedText1),
+            validatedText2 == null ? null : String.format("\"%s\"", validatedText2)));
     }
 
     public static void main(String[] args) {
