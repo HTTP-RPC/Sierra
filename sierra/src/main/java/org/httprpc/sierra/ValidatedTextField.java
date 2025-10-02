@@ -75,6 +75,18 @@ public class ValidatedTextField extends JTextField {
      * Constructs a new validated text field.
      */
     public ValidatedTextField() {
+        this(0);
+    }
+
+    /**
+     * Constructs a new validated text field.
+     *
+     * @param columns
+     * The column count.
+     */
+    public ValidatedTextField(int columns) {
+        super(columns);
+
         setInputVerifier(inputVerifier);
 
         addActionListener(event -> {

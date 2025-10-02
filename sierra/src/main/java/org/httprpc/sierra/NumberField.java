@@ -80,6 +80,18 @@ public class NumberField extends JTextField {
      * Constructs a new number field.
      */
     public NumberField() {
+        this(0);
+    }
+
+    /**
+     * Constructs a new number field.
+     *
+     * @param columns
+     * The column count.
+     */
+    public NumberField(int columns) {
+        super(columns);
+
         setInputVerifier(inputVerifier);
 
         addActionListener(event -> {
