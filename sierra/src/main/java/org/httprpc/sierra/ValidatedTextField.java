@@ -111,20 +111,20 @@ public class ValidatedTextField extends JTextField {
     }
 
     /**
-     * Returns the regular expression pattern.
+     * Returns the validation pattern.
      *
      * @return
-     * The regular expression pattern.
+     * The validation pattern.
      */
     public String getPattern() {
         return pattern.toString();
     }
 
     /**
-     * Sets the regular expression pattern.
+     * Sets the validation pattern.
      *
      * @param pattern
-     * The regular expression pattern.
+     * The validation pattern.
      */
     public void setPattern(String pattern) {
         if (pattern == null) {
