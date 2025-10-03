@@ -283,11 +283,13 @@ public class DatePicker extends Picker {
             throw new IllegalArgumentException();
         }
 
-        setText(dateFormatter.format(date));
+        if (!date.equals(this.date)) {
+            setText(dateFormatter.format(date));
 
-        this.date = date;
+            this.date = date;
 
-        fireChangeEvent();
+            fireChangeEvent();
+        }
     }
 
     private boolean validate(LocalDate date) {

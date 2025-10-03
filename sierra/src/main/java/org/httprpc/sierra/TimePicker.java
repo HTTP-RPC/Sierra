@@ -207,11 +207,13 @@ public class TimePicker extends Picker {
             throw new IllegalArgumentException();
         }
 
-        setText(timeFormatter.format(time));
+        if (!time.equals(this.time)) {
+            setText(timeFormatter.format(time));
 
-        this.time = truncate(time);
+            this.time = truncate(time);
 
-        fireChangeEvent();
+            fireChangeEvent();
+        }
     }
 
     private boolean validate(LocalTime time) {
