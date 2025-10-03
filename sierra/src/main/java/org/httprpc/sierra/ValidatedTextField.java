@@ -45,8 +45,6 @@ public class ValidatedTextField extends JTextField {
                 } else {
                     return false;
                 }
-            } else {
-                value = null;
             }
 
             return true;

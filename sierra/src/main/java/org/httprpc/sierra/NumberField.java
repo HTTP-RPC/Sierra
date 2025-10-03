@@ -46,8 +46,6 @@ public class NumberField extends JTextField {
                 } catch (ParseException exception) {
                     return false;
                 }
-            } else {
-                value = null;
             }
 
             return true;
