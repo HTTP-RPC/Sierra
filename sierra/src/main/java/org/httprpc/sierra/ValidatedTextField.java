@@ -30,7 +30,7 @@ import static org.httprpc.kilo.util.Optionals.*;
 public class ValidatedTextField extends JTextField {
     private String value = null;
 
-    private Pattern pattern = Pattern.compile("");
+    private Pattern pattern = Pattern.compile(".*");
 
     private InputVerifier inputVerifier = new InputVerifier() {
         String value = null;
@@ -111,7 +111,7 @@ public class ValidatedTextField extends JTextField {
     }
 
     /**
-     * Returns the validation pattern.
+     * Returns the validation pattern. The default value is ".*".
      *
      * @return
      * The validation pattern.
