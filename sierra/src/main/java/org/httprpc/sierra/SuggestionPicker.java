@@ -85,7 +85,7 @@ public class SuggestionPicker extends Picker {
     }
 
     /**
-     * Returns the maximum row count.
+     * Returns the maximum row count. The default value is 8.
      *
      * @return
      * The maximum row count.

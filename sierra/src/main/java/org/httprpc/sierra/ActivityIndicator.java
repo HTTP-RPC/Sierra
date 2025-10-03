@@ -28,6 +28,8 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.httprpc.kilo.util.Optionals.*;
+
 /**
  * Shows indeterminate progress.
  */
@@ -141,9 +143,7 @@ public class ActivityIndicator extends JComponent {
 
         setUI(new ActivityIndicatorUI());
 
-        if (UIManager.getLookAndFeelDefaults().get("Label.disabledForeground") instanceof Color foreground) {
-            setForeground(foreground);
-        }
+        perform(UIManager.getColor("Label.disabledForeground"), this::setForeground);
     }
 
     /**
