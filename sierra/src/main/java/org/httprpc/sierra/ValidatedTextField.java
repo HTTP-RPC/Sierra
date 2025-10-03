@@ -135,7 +135,7 @@ public class ValidatedTextField extends JTextField {
             throw new IllegalArgumentException();
         }
 
-        this.pattern = Pattern.compile(pattern);
+        this.pattern = Pattern.compile(pattern, Pattern.UNICODE_CHARACTER_CLASS);
     }
 
     /**
