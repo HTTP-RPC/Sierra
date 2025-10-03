@@ -37,7 +37,13 @@ public class ValidatedTextField extends JTextField {
 
         @Override
         public boolean verify(JComponent input) {
+            if (input != ValidatedTextField.this) {
+                throw new IllegalArgumentException();
+            }
+
             var text = getText();
+
+            value = null;
 
             if (!text.isEmpty()) {
                 if (pattern.matcher(text).matches()) {

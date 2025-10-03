@@ -123,6 +123,10 @@ public class TimePicker extends Picker {
 
         @Override
         public boolean verify(JComponent input) {
+            if (input != TimePicker.this) {
+                throw new IllegalArgumentException();
+            }
+
             try {
                 time = LocalTime.parse(getText(), timeFormatter);
 

@@ -199,6 +199,10 @@ public class DatePicker extends Picker {
 
         @Override
         public boolean verify(JComponent input) {
+            if (input != DatePicker.this) {
+                throw new IllegalArgumentException();
+            }
+
             try {
                 date = LocalDate.parse(getText(), dateFormatter);
 

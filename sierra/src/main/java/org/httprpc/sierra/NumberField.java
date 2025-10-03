@@ -38,7 +38,13 @@ public class NumberField extends JTextField {
 
         @Override
         public boolean verify(JComponent input) {
+            if (input != NumberField.this) {
+                throw new IllegalArgumentException();
+            }
+
             var text = getText();
+
+            value = null;
 
             if (!text.isEmpty()) {
                 try {
