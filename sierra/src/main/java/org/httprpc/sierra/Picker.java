@@ -18,11 +18,15 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.Popup;
 import javax.swing.PopupFactory;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Abstract base class for picker components.
@@ -30,6 +34,8 @@ import java.awt.event.KeyEvent;
 public abstract class Picker extends JTextField {
     private HorizontalAlignment popupHorizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
+
+    private List<ChangeListener> changeListeners = new LinkedList<>();
 
     private Popup popup = null;
 
@@ -106,6 +112,45 @@ public abstract class Picker extends JTextField {
         }
 
         this.popupVerticalAlignment = popupVerticalAlignment;
+    }
+
+    /**
+     * Adds a change listener.
+     *
+     * @param listener
+     * The change listenener to add.
+     */
+    public void addChangeListener(ChangeListener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException();
+        }
+
+        changeListeners.add(listener);
+    }
+
+    /**
+     * Removes a change listener.
+     *
+     * @param listener
+     * The change listenener to remove.
+     */
+    public void removeChangeListener(ChangeListener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException();
+        }
+
+        changeListeners.remove(listener);
+    }
+
+    /**
+     * Fires a change event.
+     */
+    protected void fireChangeEvent() {
+        var event = new ChangeEvent(this);
+
+        for (var listener : changeListeners) {
+            listener.stateChanged(event);
+        }
     }
 
     /**

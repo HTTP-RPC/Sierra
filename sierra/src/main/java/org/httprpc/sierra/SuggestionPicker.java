@@ -141,6 +141,8 @@ public class SuggestionPicker extends Picker {
             setText(list.getSelectedValue());
 
             hidePopup();
+
+            fireChangeEvent();
         });
 
         return scrollPane;

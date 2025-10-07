@@ -24,8 +24,6 @@ import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataListener;
 import java.awt.Component;
 import java.time.LocalTime;
@@ -35,8 +33,6 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 
 import static org.httprpc.kilo.util.Optionals.*;
@@ -155,8 +151,6 @@ public class TimePicker extends Picker {
             return true;
         }
     };
-
-    private List<ChangeListener> changeListeners = new LinkedList<>();
 
     private static final String pattern;
     private static final DateTimeFormatter timeFormatter;
@@ -395,42 +389,6 @@ public class TimePicker extends Picker {
         });
 
         return scrollPane;
-    }
-
-    /**
-     * Adds a change listener.
-     *
-     * @param listener
-     * The change listenener to add.
-     */
-    public void addChangeListener(ChangeListener listener) {
-        if (listener == null) {
-            throw new IllegalArgumentException();
-        }
-
-        changeListeners.add(listener);
-    }
-
-    /**
-     * Removes a change listener.
-     *
-     * @param listener
-     * The change listenener to remove.
-     */
-    public void removeChangeListener(ChangeListener listener) {
-        if (listener == null) {
-            throw new IllegalArgumentException();
-        }
-
-        changeListeners.remove(listener);
-    }
-
-    private void fireChangeEvent() {
-        var event = new ChangeEvent(this);
-
-        for (var listener : changeListeners) {
-            listener.stateChanged(event);
-        }
     }
 
     private static LocalTime truncate(LocalTime time) {

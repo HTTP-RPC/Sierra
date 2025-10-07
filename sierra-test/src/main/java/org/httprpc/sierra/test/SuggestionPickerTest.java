@@ -43,7 +43,7 @@ public class SuggestionPickerTest extends JFrame implements Runnable {
             "large"
         ));
 
-        sizeSuggestionPicker.addActionListener(event -> System.out.println(sizeSuggestionPicker.getText()));
+        sizeSuggestionPicker.addChangeListener(event -> System.out.println(sizeSuggestionPicker.getText()));
 
         colorSuggestionPicker.setSuggestions(listOf(
             "red",
@@ -56,7 +56,7 @@ public class SuggestionPickerTest extends JFrame implements Runnable {
             "black"
         ));
 
-        colorSuggestionPicker.addActionListener(event -> System.out.println(colorSuggestionPicker.getText()));
+        colorSuggestionPicker.addChangeListener(event -> System.out.println(colorSuggestionPicker.getText()));
 
         setSize(320, 240);
         setVisible(true);
