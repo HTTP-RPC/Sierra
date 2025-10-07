@@ -18,14 +18,23 @@ import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.SuggestionPicker;
 import org.httprpc.sierra.UILoader;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import static org.httprpc.kilo.util.Collections.*;
 
 public class SuggestionPickerTest extends JFrame implements Runnable {
+    private JSpinner countSpinner = null;
     private SuggestionPicker sizeSuggestionPicker = null;
     private SuggestionPicker colorSuggestionPicker = null;
+
+    private JButton submitButton = null;
+
+    private JLabel selectionLabel = null;
 
     private SuggestionPickerTest() {
         super("Suggestion Picker Test");
@@ -36,6 +45,8 @@ public class SuggestionPickerTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(UILoader.load(this, "suggestion-picker-test.xml"));
+
+        countSpinner.setModel(new SpinnerNumberModel(0, 0, 10, 1));
 
         sizeSuggestionPicker.setSuggestions(listOf(
             "small",
@@ -58,8 +69,23 @@ public class SuggestionPickerTest extends JFrame implements Runnable {
 
         colorSuggestionPicker.addChangeListener(event -> System.out.println(colorSuggestionPicker.getText()));
 
-        setSize(320, 240);
+        submitButton.addActionListener(event -> showSelection());
+
+        rootPane.setDefaultButton(submitButton);
+
+        setSize(360, 240);
         setVisible(true);
+    }
+
+    private void showSelection() {
+        var count = (int)countSpinner.getValue();
+
+        var size = sizeSuggestionPicker.getText();
+        var color = colorSuggestionPicker.getText();
+
+        var message = String.format("You selected %d, \"%s\", and \"%s\".", count, size, color);
+
+        selectionLabel.setText(message);
     }
 
     public static void main(String[] args) {
