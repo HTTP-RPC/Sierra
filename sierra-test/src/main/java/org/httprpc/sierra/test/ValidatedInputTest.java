@@ -69,10 +69,14 @@ public class ValidatedInputTest extends JFrame implements Runnable {
         var number1 = map(numberField1.getValue(), Number::doubleValue);
         var number2 = map(numberField2.getValue(), Number::doubleValue);
 
-        var validatedText1 = map(validatedTextField1.getValue(), value -> String.format("\"%s\"", value));
-        var validatedText2 = map(validatedTextField2.getValue(), value -> String.format("\"%s\"", value));
+        var validatedText1 = validatedTextField1.getValue() ;
+        var validatedText2 = validatedTextField2.getValue();
 
-        var message = String.format(resourceBundle.getString("messageFormat"), number1, number2, validatedText1, validatedText2);
+        var message = String.format(resourceBundle.getString("messageFormat"),
+            number1,
+            number2,
+            map(validatedText1, value -> String.format("\"%s\"", value)),
+            map(validatedText2, value -> String.format("\"%s\"", value)));
 
         messageLabel.setText(message);
     }
