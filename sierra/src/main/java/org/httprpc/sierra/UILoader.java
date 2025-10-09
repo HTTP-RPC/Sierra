@@ -453,13 +453,19 @@ public class UILoader {
     private void processStartElement(XMLStreamReader xmlStreamReader) {
         var tag = xmlStreamReader.getLocalName();
 
-        var supplier = suppliers.get(tag);
+        var type = types.get(tag);
 
-        if (supplier == null) {
+        if (type == null) {
             throw new UnsupportedOperationException(String.format("Invalid tag (%s).", tag));
         }
 
-        var component = supplier.get();
+        var properties = BeanAdapter.getProperties(type);
+
+        var component = suppliers.get(tag).get();
+
+        if (component == null) {
+            return;
+        }
 
         LineBorder lineBorder = null;
         EmptyBorder emptyBorder = null;
@@ -517,16 +523,16 @@ public class UILoader {
             } else if (name.equals(LEADING_ICON) || name.equals(TRAILING_ICON)) {
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), getIcon(value));
             } else {
-                var mutator = map(BeanAdapter.getProperties(types.get(tag)).get(name), BeanAdapter.Property::getMutator);
+                var mutator = map(properties.get(name), BeanAdapter.Property::getMutator);
 
                 if (mutator == null) {
                     throw new UnsupportedOperationException(String.format("Invalid attribute name (%s).", name));
                 }
 
-                var type = mutator.getParameterTypes()[0];
+                var propertyType = mutator.getParameterTypes()[0];
 
                 Object argument;
-                if (type == Integer.TYPE || type == Integer.class) {
+                if (propertyType == Integer.TYPE || propertyType == Integer.class) {
                     argument = switch (name) {
                         case HORIZONTAL_ALIGNMENT -> switch (value) {
                             case LEFT -> SwingConstants.LEFT;
@@ -556,22 +562,22 @@ public class UILoader {
                         };
                         default -> Integer.valueOf(value);
                     };
-                } else if (type == String.class) {
+                } else if (propertyType == String.class) {
                     argument = getText(value);
-                } else if (type == Color.class) {
+                } else if (propertyType == Color.class) {
                     argument = parseColor(value);
-                } else if (type == Font.class) {
+                } else if (propertyType == Font.class) {
                     argument = parseFont(value);
-                } else if (type == Icon.class) {
+                } else if (propertyType == Icon.class) {
                     argument = getIcon(value);
-                } else if (type == Image.class) {
+                } else if (propertyType == Image.class) {
                     argument = getImage(value);
                 } else {
-                    if (Enum.class.isAssignableFrom(type)) {
+                    if (Enum.class.isAssignableFrom(propertyType)) {
                         value = value.toUpperCase().replace('-', '_');
                     }
 
-                    argument = BeanAdapter.coerce(value, type);
+                    argument = BeanAdapter.coerce(value, propertyType);
                 }
 
                 try {
