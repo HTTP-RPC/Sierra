@@ -60,10 +60,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Writer;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Deque;
@@ -73,6 +71,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Supplier;
 
 import static org.httprpc.kilo.util.Optionals.*;
 
@@ -338,46 +337,47 @@ public class UILoader {
     private static final String REVERT = "revert";
     private static final String PERSIST = "persist";
 
-    private static Map<String, Constructor<? extends JComponent>> constructors = new HashMap<>();
-    private static Map<String, Map<String, BeanAdapter.Property>> properties = new HashMap<>();
+
+    private static Map<String, Class<? extends JComponent>> types = new HashMap<>();
+    private static Map<String, Supplier<? extends JComponent>> suppliers = new HashMap<>();
 
     private static Map<String, Color> colors = new HashMap<>();
 
     private static Map<String, Font> fonts = new HashMap<>();
 
     static {
-        bind("label", JLabel.class);
-        bind("button", JButton.class);
-        bind("toggle-button", JToggleButton.class);
-        bind("radio-button", JRadioButton.class);
-        bind("check-box", JCheckBox.class);
-        bind("text-field", JTextField.class);
-        bind("formatted-text-field", JFormattedTextField.class);
-        bind("password-field", JPasswordField.class);
-        bind("combo-box", JComboBox.class);
-        bind("spinner", JSpinner.class);
-        bind("slider", JSlider.class);
-        bind("progress-bar", JProgressBar.class);
-        bind("separator", JSeparator.class);
-        bind("scroll-pane", JScrollPane.class);
-        bind("list", JList.class);
-        bind("text-area", JTextArea.class);
-        bind("table", JTable.class);
-        bind("tree", JTree.class);
+        bind("label", JLabel.class, JLabel::new);
+        bind("button", JButton.class, JButton::new);
+        bind("toggle-button", JToggleButton.class, JToggleButton::new);
+        bind("radio-button", JRadioButton.class, JRadioButton::new);
+        bind("check-box", JCheckBox.class, JCheckBox::new);
+        bind("text-field", JTextField.class, JTextField::new);
+        bind("formatted-text-field", JFormattedTextField.class, JFormattedTextField::new);
+        bind("password-field", JPasswordField.class, JPasswordField::new);
+        bind("combo-box", JComboBox.class, JComboBox::new);
+        bind("spinner", JSpinner.class, JSpinner::new);
+        bind("slider", JSlider.class, JSlider::new);
+        bind("progress-bar", JProgressBar.class, JProgressBar::new);
+        bind("separator", JSeparator.class, JSeparator::new);
+        bind("scroll-pane", JScrollPane.class, JScrollPane::new);
+        bind("list", JList.class, JList::new);
+        bind("text-area", JTextArea.class, JTextArea::new);
+        bind("table", JTable.class, JTable::new);
+        bind("tree", JTree.class, JTree::new);
 
-        bind("row-panel", RowPanel.class);
-        bind("column-panel", ColumnPanel.class);
-        bind("stack-panel", StackPanel.class);
-        bind("spacer", Spacer.class);
-        bind("text-pane", TextPane.class);
-        bind("image-pane", ImagePane.class);
-        bind("number-field", NumberField.class);
-        bind("validated-text-field", ValidatedTextField.class);
-        bind("date-picker", DatePicker.class);
-        bind("time-picker", TimePicker.class);
-        bind("suggestion-picker", SuggestionPicker.class);
-        bind("menu-button", MenuButton.class);
-        bind("activity-indicator", ActivityIndicator.class);
+        bind("row-panel", RowPanel.class, RowPanel::new);
+        bind("column-panel", ColumnPanel.class, ColumnPanel::new);
+        bind("stack-panel", StackPanel.class, StackPanel::new);
+        bind("spacer", Spacer.class, Spacer::new);
+        bind("text-pane", TextPane.class, TextPane::new);
+        bind("image-pane", ImagePane.class, ImagePane::new);
+        bind("number-field", NumberField.class, NumberField::new);
+        bind("validated-text-field", ValidatedTextField.class, ValidatedTextField::new);
+        bind("date-picker", DatePicker.class, DatePicker::new);
+        bind("time-picker", TimePicker.class, TimePicker::new);
+        bind("suggestion-picker", SuggestionPicker.class, SuggestionPicker::new);
+        bind("menu-button", MenuButton.class, MenuButton::new);
+        bind("activity-indicator", ActivityIndicator.class, ActivityIndicator::new);
     }
 
     static {
@@ -453,18 +453,13 @@ public class UILoader {
     private void processStartElement(XMLStreamReader xmlStreamReader) {
         var tag = xmlStreamReader.getLocalName();
 
-        var constructor = constructors.get(tag);
+        var supplier = suppliers.get(tag);
 
-        if (constructor == null) {
+        if (supplier == null) {
             throw new UnsupportedOperationException(String.format("Invalid tag (%s).", tag));
         }
 
-        JComponent component;
-        try {
-            component = constructor.newInstance();
-        } catch (InstantiationException | IllegalAccessException  | InvocationTargetException exception) {
-            throw new UnsupportedOperationException(exception);
-        }
+        var component = supplier.get();
 
         LineBorder lineBorder = null;
         EmptyBorder emptyBorder = null;
@@ -522,7 +517,7 @@ public class UILoader {
             } else if (name.equals(LEADING_ICON) || name.equals(TRAILING_ICON)) {
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), getIcon(value));
             } else {
-                var mutator = map(properties.get(tag).get(name), BeanAdapter.Property::getMutator);
+                var mutator = map(BeanAdapter.getProperties(types.get(tag)).get(name), BeanAdapter.Property::getMutator);
 
                 if (mutator == null) {
                     throw new UnsupportedOperationException(String.format("Invalid attribute name (%s).", name));
@@ -681,26 +676,17 @@ public class UILoader {
      *
      * @param type
      * The component type.
+     *
+     * @param supplier
+     * The component supplier.
      */
-    public static void bind(String tag, Class<? extends JComponent> type) {
-        if (tag == null || type == null) {
+    public static <T extends JComponent> void bind(String tag, Class<T> type, Supplier<T> supplier) {
+        if (tag == null || type == null || supplier == null) {
             throw new IllegalArgumentException();
         }
 
-        if (Modifier.isAbstract(type.getModifiers())) {
-            throw new IllegalArgumentException("Invalid type.");
-        }
-
-        Constructor<? extends JComponent> constructor;
-        try {
-            constructor = type.getDeclaredConstructor();
-        } catch (NoSuchMethodException exception) {
-            throw new UnsupportedOperationException(exception);
-        }
-
-        constructors.put(tag, constructor);
-
-        properties.put(tag, BeanAdapter.getProperties(type));
+        types.put(tag, type);
+        suppliers.put(tag, supplier);
     }
 
     /**
@@ -810,7 +796,7 @@ public class UILoader {
 
         var tags = new HashMap<Class<?>, String>();
 
-        for (var entry : constructors.entrySet()) {
+        for (var entry : types.entrySet()) {
             var tag = entry.getKey();
             var type = (Class<?>)entry.getValue().getDeclaringClass();
 
