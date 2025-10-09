@@ -26,6 +26,10 @@ public class StackPanel extends LayoutPanel {
     private class StackLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize(Container container) {
+            if (container != StackPanel.this) {
+                throw new IllegalArgumentException();
+            }
+
             var insets = getInsets();
 
             var preferredWidth = 0;
@@ -47,6 +51,10 @@ public class StackPanel extends LayoutPanel {
 
         @Override
         public void layoutContainer(Container container) {
+            if (container != StackPanel.this) {
+                throw new IllegalArgumentException();
+            }
+
             var size = getSize();
             var insets = getInsets();
 
@@ -68,10 +76,6 @@ public class StackPanel extends LayoutPanel {
         setLayout(new StackLayoutManager());
     }
 
-    /**
-     * Sets the layout manager.
-     * {@inheritDoc}
-     */
     @Override
     public void setLayout(LayoutManager layoutManager) {
         if (layoutManager != null && !(layoutManager instanceof StackLayoutManager)) {

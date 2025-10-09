@@ -29,10 +29,7 @@ import java.util.List;
  * Abstract base class for layout panels.
  */
 public abstract class LayoutPanel extends JPanel implements Scrollable {
-    /**
-     * Abstract base class for layout panel layout managers.
-     */
-    protected abstract static class AbstractLayoutManager implements LayoutManager2 {
+    abstract static class AbstractLayoutManager implements LayoutManager2 {
         @Override
         public void addLayoutComponent(String name, Component component) {
             // No-op
@@ -76,13 +73,10 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
     private List<Object> constraints = new ArrayList<>();
 
-    private boolean scrollableTracksViewportWidth;
-    private boolean scrollableTracksViewportHeight;
+    private boolean scrollableTracksViewportWidth = false;
+    private boolean scrollableTracksViewportHeight = false;
 
-    /**
-     * Constructs a new layout panel.
-     */
-    protected LayoutPanel() {
+    LayoutPanel() {
         super(null);
 
         setOpaque(false);
@@ -91,10 +85,10 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         setAlignmentY(0.5f);
     }
 
-    /**
-     * Adds a component to the panel.
-     * {@inheritDoc}
-     */
+    Object getConstraints(int index) {
+        return constraints.get(index);
+    }
+
     @Override
     protected void addImpl(Component component, Object constraints, int index) {
         super.addImpl(component, constraints, index);
@@ -105,10 +99,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         repaint();
     }
 
-    /**
-     * Removes a component from the panel.
-     * {@inheritDoc}
-     */
     @Override
     public void remove(int index) {
         super.remove(index);
@@ -119,10 +109,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         repaint();
     }
 
-    /**
-     * Removes all components from the panel.
-     * {@inheritDoc}
-     */
     @Override
     public void removeAll() {
         super.removeAll();
@@ -131,20 +117,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
         revalidate();
         repaint();
-    }
-
-    /**
-     * Returns the constraints associated with the component at a given index.
-     *
-     * @param index
-     * The component index.
-     *
-     * @return
-     * The component's constraints, or {@code null} if no weight is associated
-     * with the component
-     */
-    protected Object getConstraints(int index) {
-        return constraints.get(index);
     }
 
     /**
@@ -218,7 +190,7 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
      * Indicates that the panel tracks viewport height.
      * {@inheritDoc}
      */
-     @Override
+    @Override
     public boolean getScrollableTracksViewportHeight() {
         return scrollableTracksViewportHeight;
     }

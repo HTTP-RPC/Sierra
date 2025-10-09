@@ -20,6 +20,20 @@ package org.httprpc.sierra;
 public abstract class BoxPanel extends LayoutPanel {
     private int spacing = 0;
 
+    double getWeight(int index) {
+        var constraints = getConstraints(index);
+
+        if (constraints instanceof Double weight) {
+            if (weight <= 0.0) {
+                throw new IllegalStateException();
+            }
+
+            return weight;
+        } else {
+            return Double.NaN;
+        }
+    }
+
     /**
      * Returns the amount of space between successive sub-components. The
      * default value is 0.
@@ -45,30 +59,6 @@ public abstract class BoxPanel extends LayoutPanel {
         this.spacing = spacing;
 
         revalidate();
-    }
-
-    /**
-     * Returns the weight associated with the component at a given index.
-     *
-     * @param index
-     * The component index.
-     *
-     * @return
-     * The component's weight, or {@link Double#NaN} if no weight is associated
-     * with the component.
-     */
-    protected double getWeight(int index) {
-        var constraints = getConstraints(index);
-
-        if (constraints instanceof Double weight) {
-            if (weight <= 0.0) {
-                throw new IllegalStateException();
-            }
-
-            return weight;
-        } else {
-            return Double.NaN;
-        }
     }
 
     /**

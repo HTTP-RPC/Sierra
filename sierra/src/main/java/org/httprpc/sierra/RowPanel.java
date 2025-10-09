@@ -31,6 +31,10 @@ public class RowPanel extends BoxPanel {
     private class RowLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize(Container container) {
+            if (container != RowPanel.this) {
+                throw new IllegalArgumentException();
+            }
+
             var size = getSize();
             var insets = getInsets();
 
@@ -130,6 +134,10 @@ public class RowPanel extends BoxPanel {
 
         @Override
         public void layoutContainer(Container container) {
+            if (container != RowPanel.this) {
+                throw new IllegalArgumentException();
+            }
+
             var size = getSize();
             var insets = getInsets();
 
@@ -298,32 +306,19 @@ public class RowPanel extends BoxPanel {
                 }
             }
         }
+
+        static int adjustSize(int preferredSize, int size, float alignment) {
+            return Math.round(preferredSize + Math.max(size - preferredSize, 0) * (1.0f - Math.abs((0.5f - alignment) / 0.5f)));
+        }
     }
 
     private boolean alignToBaseline = false;
-
-    private static int adjustSize(int preferredSize, int size, float alignment) {
-        return Math.round(preferredSize + Math.max(size - preferredSize, 0) * (1.0f - Math.abs((0.5f - alignment) / 0.5f)));
-    }
 
     /**
      * Constructs a new row panel.
      */
     public RowPanel() {
         setLayout(new RowLayoutManager());
-    }
-
-    /**
-     * Sets the layout manager.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLayout(LayoutManager layoutManager) {
-        if (layoutManager != null && !(layoutManager instanceof RowLayoutManager)) {
-            throw new IllegalArgumentException();
-        }
-
-        super.setLayout(layoutManager);
     }
 
     /**
@@ -356,5 +351,14 @@ public class RowPanel extends BoxPanel {
     @Override
     public int getBaseline(int width, int height) {
         return alignToBaseline ? super.getBaseline(width, height) : -1;
+    }
+
+    @Override
+    public void setLayout(LayoutManager layoutManager) {
+        if (layoutManager != null && !(layoutManager instanceof RowLayoutManager)) {
+            throw new IllegalArgumentException();
+        }
+
+        super.setLayout(layoutManager);
     }
 }

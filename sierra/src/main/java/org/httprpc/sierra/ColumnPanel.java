@@ -30,6 +30,10 @@ public class ColumnPanel extends BoxPanel {
     private class ColumnLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize(Container container) {
+            if (container != ColumnPanel.this) {
+                throw new IllegalArgumentException();
+            }
+
             columnWidths.clear();
 
             var size = getSize();
@@ -81,6 +85,10 @@ public class ColumnPanel extends BoxPanel {
 
         @Override
         public void layoutContainer(Container container) {
+            if (container != ColumnPanel.this) {
+                throw new IllegalArgumentException();
+            }
+
             columnWidths.clear();
 
             var size = getSize();
@@ -157,9 +165,9 @@ public class ColumnPanel extends BoxPanel {
         }
     }
 
-    private boolean alignToGrid = false;
-
     private List<Integer> columnWidths = new LinkedList<>();
+
+    private boolean alignToGrid = false;
 
     /**
      * Constructs a new column panel.
@@ -168,17 +176,8 @@ public class ColumnPanel extends BoxPanel {
         setLayout(new ColumnLayoutManager());
     }
 
-    /**
-     * Sets the layout manager.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLayout(LayoutManager layoutManager) {
-        if (layoutManager != null && !(layoutManager instanceof ColumnLayoutManager)) {
-            throw new IllegalArgumentException();
-        }
-
-        super.setLayout(layoutManager);
+    List<Integer> getColumnWidths() {
+        return columnWidths;
     }
 
     /**
@@ -205,13 +204,12 @@ public class ColumnPanel extends BoxPanel {
         revalidate();
     }
 
-    /**
-     * Returns the calculated column widths.
-     *
-     * @return
-     * The calculated column widths.
-     */
-    protected List<Integer> getColumnWidths() {
-        return columnWidths;
+    @Override
+    public void setLayout(LayoutManager layoutManager) {
+        if (layoutManager != null && !(layoutManager instanceof ColumnLayoutManager)) {
+            throw new IllegalArgumentException();
+        }
+
+        super.setLayout(layoutManager);
     }
 }
