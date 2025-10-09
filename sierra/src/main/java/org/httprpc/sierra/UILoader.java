@@ -680,7 +680,7 @@ public class UILoader {
      * @param supplier
      * The component supplier.
      */
-    public static <T extends JComponent> void bind(String tag, Class<T> type, Supplier<T> supplier) {
+    public static <C extends JComponent> void bind(String tag, Class<C> type, Supplier<C> supplier) {
         if (tag == null || type == null || supplier == null) {
             throw new IllegalArgumentException();
         }
