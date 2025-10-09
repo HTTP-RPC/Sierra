@@ -173,11 +173,11 @@ public abstract class Picker extends JTextField {
      */
     @Override
     protected void processKeyEvent(KeyEvent event) {
-        super.processKeyEvent(event);
-
         if (event.getID() == KeyEvent.KEY_PRESSED) {
             hidePopup();
         }
+
+        super.processKeyEvent(event);
     }
 
     /**
