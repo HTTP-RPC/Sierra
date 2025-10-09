@@ -27,7 +27,6 @@ import java.util.List;
  * insets.
  */
 public class RowPanel extends BoxPanel {
-    // Row layout manager
     private class RowLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {

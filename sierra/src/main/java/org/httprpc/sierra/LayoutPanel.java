@@ -29,7 +29,7 @@ import java.util.List;
  * Abstract base class for layout panels.
  */
 public abstract class LayoutPanel extends JPanel implements Scrollable {
-    abstract static class AbstractLayoutManager implements LayoutManager2 {
+    protected abstract static class AbstractLayoutManager implements LayoutManager2 {
         @Override
         public void addLayoutComponent(String name, Component component) {
             // No-op

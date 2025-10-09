@@ -26,7 +26,6 @@ import java.util.List;
  * sub-components plus vertical insets.
  */
 public class ColumnPanel extends BoxPanel {
-    // Column layout manager
     private class ColumnLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize() {

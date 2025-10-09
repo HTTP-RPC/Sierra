@@ -33,7 +33,6 @@ import java.util.Map;
  * Displays a string of text.
  */
 public class TextPane extends JComponent {
-    // Text pane UI
     private class TextPaneUI extends ComponentUI {
         @Override
         public Dimension getMinimumSize(JComponent component) {

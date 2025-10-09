@@ -45,7 +45,6 @@ public class ImagePane extends JComponent {
         FILL_HEIGHT
     }
 
-    // Image pane UI
     private class ImagePaneUI extends ComponentUI {
         @Override
         public Dimension getMinimumSize(JComponent component) {
