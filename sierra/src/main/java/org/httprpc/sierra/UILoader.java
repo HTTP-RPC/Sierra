@@ -338,7 +338,7 @@ public class UILoader {
     private static final String PERSIST = "persist";
 
 
-    private static Map<String, Class<? extends JComponent>> types = new HashMap<>();
+    private static Map<String, Class<?>> types = new HashMap<>();
     private static Map<String, Supplier<? extends JComponent>> suppliers = new HashMap<>();
 
     private static Map<String, Color> colors = new HashMap<>();
@@ -805,7 +805,7 @@ public class UILoader {
         for (var entry : types.entrySet()) {
             var tag = entry.getKey();
 
-            Class<?> type = entry.getValue();
+            var type = entry.getValue();
 
             tags.put(type, tag);
 
