@@ -89,15 +89,16 @@
 <!ENTITY % ColumnPanel "%BoxPanel; alignToGrid (true|false) ">
 <!ELEMENT column-panel (ANY)>
 <!ATTLIST column-panel %ColumnPanel;>
-<!ENTITY % DatePicker "%Picker; ">
-<!ELEMENT date-picker EMPTY>
-<!ATTLIST date-picker %DatePicker;>
 <!ENTITY % RowPanel "%BoxPanel; alignToBaseline (true|false) ">
 <!ELEMENT row-panel (ANY)>
 <!ATTLIST row-panel %RowPanel;>
 <!ENTITY % SuggestionPicker "%Picker; maximumRowCount CDATA ">
 <!ELEMENT suggestion-picker EMPTY>
 <!ATTLIST suggestion-picker %SuggestionPicker;>
-<!ENTITY % TimePicker "%Picker; minuteInterval CDATA strict (true|false) ">
+<!ENTITY % TemporalPicker "%Picker; ">
+<!ENTITY % DatePicker "%TemporalPicker; ">
+<!ELEMENT date-picker EMPTY>
+<!ATTLIST date-picker %DatePicker;>
+<!ENTITY % TimePicker "%TemporalPicker; minuteInterval CDATA strict (true|false) ">
 <!ELEMENT time-picker EMPTY>
 <!ATTLIST time-picker %TimePicker;>

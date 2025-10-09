@@ -804,7 +804,8 @@ public class UILoader {
 
         for (var entry : types.entrySet()) {
             var tag = entry.getKey();
-            var type = (Class<?>)entry.getValue().getDeclaringClass();
+
+            Class<?> type = entry.getValue();
 
             tags.put(type, tag);
 
