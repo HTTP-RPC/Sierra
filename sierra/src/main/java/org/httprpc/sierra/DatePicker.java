@@ -14,12 +14,10 @@
 
 package org.httprpc.sierra;
 
-import javax.swing.AbstractButton;
 import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JRootPane;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -40,12 +38,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import static org.httprpc.kilo.util.Optionals.*;
-
 /**
  * Text field that supports local date entry.
  */
-public class DatePicker extends Picker {
+public class DatePicker extends TemporalPicker {
     private class CalendarPanel extends ColumnPanel {
         private class DateButton extends JButton {
             LocalDate date = null;
@@ -190,44 +186,6 @@ public class DatePicker extends Picker {
     private LocalDate minimumDate = null;
     private LocalDate maximumDate = null;
 
-    private InputVerifier inputVerifier = new InputVerifier() {
-        LocalDate date = null;
-
-        @Override
-        public boolean verify(JComponent input) {
-            if (input != DatePicker.this) {
-                throw new IllegalArgumentException();
-            }
-
-            try {
-                date = LocalDate.parse(getText(), dateFormatter);
-
-                return true;
-            } catch (DateTimeParseException exception) {
-                return false;
-            }
-        }
-
-        @Override
-        public boolean shouldYieldFocus(JComponent source, JComponent target) {
-            if (verify(source) && validate(date)) {
-                if (!date.equals(DatePicker.this.date)) {
-                    DatePicker.this.date = date;
-
-                    fireChangeEvent();
-                }
-            } else {
-                setText(dateFormatter.format(DatePicker.this.date));
-            }
-
-            selectAll();
-
-            date = null;
-
-            return true;
-        }
-    };
-
     private static final String pattern;
     private static final DateTimeFormatter dateFormatter;
     static {
@@ -245,11 +203,41 @@ public class DatePicker extends Picker {
 
         setDate(LocalDate.now());
 
-        setInputVerifier(inputVerifier);
+        super.setInputVerifier(new InputVerifier() {
+            LocalDate date = null;
 
-        addActionListener(event -> {
-            if (inputVerifier.shouldYieldFocus(this, null)) {
-                perform(map(getRootPane(), JRootPane::getDefaultButton), AbstractButton::doClick);
+            @Override
+            public boolean verify(JComponent input) {
+                if (input != DatePicker.this) {
+                    throw new IllegalArgumentException();
+                }
+
+                try {
+                    date = LocalDate.parse(getText(), dateFormatter);
+
+                    return true;
+                } catch (DateTimeParseException exception) {
+                    return false;
+                }
+            }
+
+            @Override
+            public boolean shouldYieldFocus(JComponent source, JComponent target) {
+                if (verify(source) && validate(date)) {
+                    if (!date.equals(DatePicker.this.date)) {
+                        DatePicker.this.date = date;
+
+                        fireStateChanged();
+                    }
+                } else {
+                    setText(dateFormatter.format(DatePicker.this.date));
+                }
+
+                selectAll();
+
+                date = null;
+
+                return true;
             }
         });
 
@@ -282,7 +270,7 @@ public class DatePicker extends Picker {
 
             this.date = date;
 
-            fireChangeEvent();
+            fireStateChanged();
         }
     }
 
@@ -352,14 +340,12 @@ public class DatePicker extends Picker {
     }
 
     /**
-     * Verifies the contents of the text field.
+     * Throws {@link UnsupportedOperationException}.
      * {@inheritDoc}
      */
     @Override
-    protected void fireActionPerformed() {
-        if (inputVerifier.shouldYieldFocus(this, null)) {
-            super.fireActionPerformed();
-        }
+    public void setInputVerifier(InputVerifier inputVerifier) {
+        throw new UnsupportedOperationException();
     }
 
     /**

@@ -142,7 +142,7 @@ public class SuggestionPicker extends Picker {
 
             hidePopup();
 
-            fireChangeEvent();
+            fireStateChanged();
         });
 
         return scrollPane;

@@ -145,7 +145,7 @@ public abstract class Picker extends JTextField {
     /**
      * Fires a change event.
      */
-    protected void fireChangeEvent() {
+    protected void fireStateChanged() {
         var event = new ChangeEvent(this);
 
         for (var listener : changeListeners) {

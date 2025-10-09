@@ -14,13 +14,11 @@
 
 package org.httprpc.sierra;
 
-import javax.swing.AbstractButton;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JList;
-import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
@@ -35,12 +33,10 @@ import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 
-import static org.httprpc.kilo.util.Optionals.*;
-
 /**
  * Text field that supports local time entry.
  */
-public class TimePicker extends Picker {
+public class TimePicker extends TemporalPicker {
     private class TimePickerListModel implements ListModel<LocalTime> {
         @Override
         public int getSize() {
@@ -114,44 +110,6 @@ public class TimePicker extends Picker {
     private LocalTime minimumTime = null;
     private LocalTime maximumTime = null;
 
-    private InputVerifier inputVerifier = new InputVerifier() {
-        LocalTime time = null;
-
-        @Override
-        public boolean verify(JComponent input) {
-            if (input != TimePicker.this) {
-                throw new IllegalArgumentException();
-            }
-
-            try {
-                time = LocalTime.parse(getText(), timeFormatter);
-
-                return true;
-            } catch (DateTimeParseException exception) {
-                return false;
-            }
-        }
-
-        @Override
-        public boolean shouldYieldFocus(JComponent source, JComponent target) {
-            if (verify(source) && validate(time)) {
-                if (!time.equals(TimePicker.this.time)) {
-                    TimePicker.this.time = time;
-
-                    fireChangeEvent();
-                }
-            } else {
-                setText(timeFormatter.format(TimePicker.this.time));
-            }
-
-            selectAll();
-
-            time = null;
-
-            return true;
-        }
-    };
-
     private static final String pattern;
     private static final DateTimeFormatter timeFormatter;
     static {
@@ -169,11 +127,41 @@ public class TimePicker extends Picker {
 
         setTime(LocalTime.now());
 
-        setInputVerifier(inputVerifier);
+        super.setInputVerifier(new InputVerifier() {
+            LocalTime time = null;
 
-        addActionListener(event -> {
-            if (inputVerifier.shouldYieldFocus(this, null)) {
-                perform(map(getRootPane(), JRootPane::getDefaultButton), AbstractButton::doClick);
+            @Override
+            public boolean verify(JComponent input) {
+                if (input != TimePicker.this) {
+                    throw new IllegalArgumentException();
+                }
+
+                try {
+                    time = LocalTime.parse(getText(), timeFormatter);
+
+                    return true;
+                } catch (DateTimeParseException exception) {
+                    return false;
+                }
+            }
+
+            @Override
+            public boolean shouldYieldFocus(JComponent source, JComponent target) {
+                if (verify(source) && validate(time)) {
+                    if (!time.equals(TimePicker.this.time)) {
+                        TimePicker.this.time = time;
+
+                        fireStateChanged();
+                    }
+                } else {
+                    setText(timeFormatter.format(TimePicker.this.time));
+                }
+
+                selectAll();
+
+                time = null;
+
+                return true;
             }
         });
 
@@ -206,7 +194,7 @@ public class TimePicker extends Picker {
 
             this.time = truncate(time);
 
-            fireChangeEvent();
+            fireStateChanged();
         }
     }
 
@@ -340,14 +328,12 @@ public class TimePicker extends Picker {
     }
 
     /**
-     * Verifies the contents of the text field.
+     * Throws {@link UnsupportedOperationException}.
      * {@inheritDoc}
      */
     @Override
-    protected void fireActionPerformed() {
-        if (inputVerifier.shouldYieldFocus(this, null)) {
-            super.fireActionPerformed();
-        }
+    public void setInputVerifier(InputVerifier inputVerifier) {
+        throw new UnsupportedOperationException();
     }
 
     /**

@@ -90,7 +90,10 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     private boolean scrollableTracksViewportWidth;
     private boolean scrollableTracksViewportHeight;
 
-    LayoutPanel() {
+    /**
+     * Constructs a new layout panel.
+     */
+    protected LayoutPanel() {
         super(null);
 
         setOpaque(false);
