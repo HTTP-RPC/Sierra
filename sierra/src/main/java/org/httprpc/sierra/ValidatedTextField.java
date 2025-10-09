@@ -79,7 +79,7 @@ public class ValidatedTextField extends JTextField {
      * Constructs a new validated text field.
      */
     public ValidatedTextField() {
-        setInputVerifier(inputVerifier);
+        super.setInputVerifier(inputVerifier);
 
         addActionListener(event -> {
             if (inputVerifier.shouldYieldFocus(this, null)) {
@@ -136,6 +136,15 @@ public class ValidatedTextField extends JTextField {
         }
 
         this.pattern = Pattern.compile(pattern, Pattern.UNICODE_CHARACTER_CLASS);
+    }
+
+    /**
+     * Throws {@link UnsupportedOperationException}.
+     * {@inheritDoc}
+     */
+    @Override
+    public void setInputVerifier(InputVerifier inputVerifier) {
+        throw new UnsupportedOperationException();
     }
 
     /**
