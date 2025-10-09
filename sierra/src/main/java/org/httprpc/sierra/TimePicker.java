@@ -22,6 +22,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.ListDataListener;
 import java.awt.Component;
 import java.time.LocalTime;
@@ -147,21 +148,27 @@ public class TimePicker extends TemporalPicker {
 
             @Override
             public boolean shouldYieldFocus(JComponent source, JComponent target) {
-                if (verify(source) && validate(time)) {
-                    if (!time.equals(TimePicker.this.time)) {
-                        TimePicker.this.time = time;
+                if (verify(source)) {
+                    if (validate(time)) {
+                        if (!time.equals(TimePicker.this.time)) {
+                            TimePicker.this.time = time;
 
-                        fireStateChanged();
+                            fireStateChanged();
+                        }
+                    } else {
+                        setText(timeFormatter.format(TimePicker.this.time));
                     }
+
+                    selectAll();
+
+                    time = null;
+
+                    return true;
                 } else {
-                    setText(timeFormatter.format(TimePicker.this.time));
+                    UIManager.getLookAndFeel().provideErrorFeedback(source);
+
+                    return false;
                 }
-
-                selectAll();
-
-                time = null;
-
-                return true;
             }
         });
 
