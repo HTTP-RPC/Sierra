@@ -14,8 +14,8 @@
 
 package org.httprpc.sierra;
 
+import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,7 +28,7 @@ import java.util.List;
 public class ColumnPanel extends BoxPanel {
     private class ColumnLayoutManager extends AbstractLayoutManager {
         @Override
-        public Dimension preferredLayoutSize() {
+        public Dimension preferredLayoutSize(Container container) {
             columnWidths.clear();
 
             var size = getSize();
@@ -79,7 +79,7 @@ public class ColumnPanel extends BoxPanel {
         }
 
         @Override
-        public void layoutContainer() {
+        public void layoutContainer(Container container) {
             columnWidths.clear();
 
             var size = getSize();
@@ -193,18 +193,5 @@ public class ColumnPanel extends BoxPanel {
         this.alignToGrid = alignToGrid;
 
         revalidate();
-    }
-
-    /**
-     * Sets the layout manager.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLayout(LayoutManager layoutManager) {
-        if (layoutManager != null && !(layoutManager instanceof ColumnLayoutManager)) {
-            throw new IllegalArgumentException();
-        }
-
-        super.setLayout(layoutManager);
     }
 }

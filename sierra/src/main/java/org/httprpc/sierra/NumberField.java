@@ -79,7 +79,7 @@ public class NumberField extends JTextField {
      * Constructs a new number field.
      */
     public NumberField() {
-        super.setInputVerifier(inputVerifier);
+        setInputVerifier(inputVerifier);
 
         addActionListener(event -> {
             if (inputVerifier.shouldYieldFocus(this, null)) {
@@ -132,15 +132,6 @@ public class NumberField extends JTextField {
         }
 
         this.format = format;
-    }
-
-    /**
-     * Throws {@link UnsupportedOperationException}.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setInputVerifier(InputVerifier inputVerifier) {
-        throw new UnsupportedOperationException();
     }
 
     /**

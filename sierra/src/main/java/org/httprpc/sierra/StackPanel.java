@@ -14,8 +14,8 @@
 
 package org.httprpc.sierra;
 
+import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 
 /**
  * Sizes sub-components to fill the available space. The panel's preferred size
@@ -24,7 +24,7 @@ import java.awt.LayoutManager;
 public class StackPanel extends LayoutPanel {
     private class StackLayoutManager extends AbstractLayoutManager {
         @Override
-        public Dimension preferredLayoutSize() {
+        public Dimension preferredLayoutSize(Container container) {
             var insets = getInsets();
 
             var preferredWidth = 0;
@@ -45,7 +45,7 @@ public class StackPanel extends LayoutPanel {
         }
 
         @Override
-        public void layoutContainer() {
+        public void layoutContainer(Container container) {
             var size = getSize();
             var insets = getInsets();
 
@@ -65,18 +65,5 @@ public class StackPanel extends LayoutPanel {
      */
     public StackPanel() {
         setLayout(new StackLayoutManager());
-    }
-
-    /**
-     * Sets the layout manager.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLayout(LayoutManager layoutManager) {
-        if (layoutManager != null && !(layoutManager instanceof StackLayoutManager)) {
-            throw new IllegalArgumentException();
-        }
-
-        super.setLayout(layoutManager);
     }
 }

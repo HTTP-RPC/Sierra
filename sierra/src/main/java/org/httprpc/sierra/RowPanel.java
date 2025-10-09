@@ -14,8 +14,8 @@
 
 package org.httprpc.sierra;
 
+import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 import java.util.List;
 
 /**
@@ -29,7 +29,7 @@ import java.util.List;
 public class RowPanel extends BoxPanel {
     private class RowLayoutManager extends AbstractLayoutManager {
         @Override
-        public Dimension preferredLayoutSize() {
+        public Dimension preferredLayoutSize(Container container) {
             var size = getSize();
             var insets = getInsets();
 
@@ -128,7 +128,7 @@ public class RowPanel extends BoxPanel {
         }
 
         @Override
-        public void layoutContainer() {
+        public void layoutContainer(Container container) {
             var size = getSize();
             var insets = getInsets();
 
@@ -342,18 +342,5 @@ public class RowPanel extends BoxPanel {
     @Override
     public int getBaseline(int width, int height) {
         return alignToBaseline ? super.getBaseline(width, height) : -1;
-    }
-
-    /**
-     * Sets the layout manager.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLayout(LayoutManager layoutManager) {
-        if (layoutManager != null && !(layoutManager instanceof RowLayoutManager)) {
-            throw new IllegalArgumentException();
-        }
-
-        super.setLayout(layoutManager);
     }
 }

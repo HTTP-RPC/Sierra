@@ -203,7 +203,7 @@ public class DatePicker extends TemporalPicker {
 
         setDate(LocalDate.now());
 
-        super.setInputVerifier(new InputVerifier() {
+        setInputVerifier(new InputVerifier() {
             LocalDate date = null;
 
             @Override
@@ -337,15 +337,6 @@ public class DatePicker extends TemporalPicker {
         }
 
         this.maximumDate = maximumDate;
-    }
-
-    /**
-     * Throws {@link UnsupportedOperationException}.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setInputVerifier(InputVerifier inputVerifier) {
-        throw new UnsupportedOperationException();
     }
 
     /**

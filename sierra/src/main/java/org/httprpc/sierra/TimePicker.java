@@ -127,7 +127,7 @@ public class TimePicker extends TemporalPicker {
 
         setTime(LocalTime.now());
 
-        super.setInputVerifier(new InputVerifier() {
+        setInputVerifier(new InputVerifier() {
             LocalTime time = null;
 
             @Override
@@ -325,15 +325,6 @@ public class TimePicker extends TemporalPicker {
         }
 
         this.maximumTime = truncate(maximumTime);
-    }
-
-    /**
-     * Throws {@link UnsupportedOperationException}.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setInputVerifier(InputVerifier inputVerifier) {
-        throw new UnsupportedOperationException();
     }
 
     /**
