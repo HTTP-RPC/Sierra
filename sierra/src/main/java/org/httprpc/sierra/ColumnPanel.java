@@ -204,6 +204,10 @@ public class ColumnPanel extends BoxPanel {
         revalidate();
     }
 
+    /**
+     * Sets the layout manager.
+     * {@inheritDoc}
+     */
     @Override
     public void setLayout(LayoutManager layoutManager) {
         if (layoutManager != null && !(layoutManager instanceof ColumnLayoutManager)) {

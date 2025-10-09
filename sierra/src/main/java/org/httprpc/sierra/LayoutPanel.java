@@ -89,6 +89,10 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         return constraints.get(index);
     }
 
+    /**
+     * Adds a component to the panel.
+     * {@inheritDoc}
+     */
     @Override
     protected void addImpl(Component component, Object constraints, int index) {
         super.addImpl(component, constraints, index);
@@ -99,6 +103,10 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         repaint();
     }
 
+    /**
+     * Removes a component from the panel.
+     * {@inheritDoc}
+     */
     @Override
     public void remove(int index) {
         super.remove(index);
@@ -109,6 +117,10 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         repaint();
     }
 
+    /**
+     * Removes all components from the panel.
+     * {@inheritDoc}
+     */
     @Override
     public void removeAll() {
         super.removeAll();

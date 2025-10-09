@@ -76,6 +76,10 @@ public class StackPanel extends LayoutPanel {
         setLayout(new StackLayoutManager());
     }
 
+    /**
+     * Sets the layout manager.
+     * {@inheritDoc}
+     */
     @Override
     public void setLayout(LayoutManager layoutManager) {
         if (layoutManager != null && !(layoutManager instanceof StackLayoutManager)) {

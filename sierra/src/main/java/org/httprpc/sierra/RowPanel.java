@@ -353,6 +353,10 @@ public class RowPanel extends BoxPanel {
         return alignToBaseline ? super.getBaseline(width, height) : -1;
     }
 
+    /**
+     * Sets the layout manager.
+     * {@inheritDoc}
+     */
     @Override
     public void setLayout(LayoutManager layoutManager) {
         if (layoutManager != null && !(layoutManager instanceof RowLayoutManager)) {
