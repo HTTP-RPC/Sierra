@@ -29,6 +29,9 @@ import java.util.List;
  * Abstract base class for layout panels.
  */
 public abstract class LayoutPanel extends JPanel implements Scrollable {
+    /**
+     * Abstract base class for layout panel layout managers.
+     */
     protected abstract static class AbstractLayoutManager implements LayoutManager2 {
         @Override
         public void addLayoutComponent(String name, Component component) {
@@ -69,20 +72,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         public Dimension maximumLayoutSize(Container container) {
             return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         }
-
-        @Override
-        public Dimension preferredLayoutSize(Container container) {
-            return preferredLayoutSize();
-        }
-
-        protected abstract Dimension preferredLayoutSize();
-
-        @Override
-        public void layoutContainer(Container container) {
-            layoutContainer();
-        }
-
-        protected abstract void layoutContainer();
     }
 
     private List<Object> constraints = new ArrayList<>();
