@@ -248,7 +248,7 @@ public class DatePicker extends TemporalPicker {
     }
 
     /**
-     * Applies the current date value.
+     * Applies the currently selected date value.
      * {@inheritDoc}
      */
     @Override

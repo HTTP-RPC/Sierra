@@ -172,7 +172,7 @@ public class TimePicker extends TemporalPicker {
     }
 
     /**
-     * Applies the current time value.
+     * Applies the currently selected time value.
      * {@inheritDoc}
      */
     @Override
