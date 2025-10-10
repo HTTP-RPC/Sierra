@@ -77,7 +77,7 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     private boolean scrollableTracksViewportHeight = false;
 
     LayoutPanel() {
-        super(null, false);
+        super(null, true);
 
         setOpaque(false);
 
