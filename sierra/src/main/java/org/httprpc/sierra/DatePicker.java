@@ -231,7 +231,7 @@ public class DatePicker extends TemporalPicker {
                         }
                     }
 
-                    setText(dateFormatter.format(DatePicker.this.date));
+                    applyValue();
 
                     date = null;
 
@@ -245,6 +245,15 @@ public class DatePicker extends TemporalPicker {
         });
 
         putClientProperty("JTextField.placeholderText", pattern);
+    }
+
+    /**
+     * Applies the current date value.
+     * {@inheritDoc}
+     */
+    @Override
+    protected void applyValue() {
+        setText(dateFormatter.format(DatePicker.this.date));
     }
 
     /**
@@ -269,9 +278,9 @@ public class DatePicker extends TemporalPicker {
         }
 
         if (!date.equals(this.date)) {
-            setText(dateFormatter.format(date));
-
             this.date = date;
+
+            applyValue();
 
             fireStateChanged();
         }

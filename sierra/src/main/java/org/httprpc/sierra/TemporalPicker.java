@@ -33,6 +33,11 @@ public abstract class TemporalPicker extends Picker {
     }
 
     /**
+     * Applies the currently selected value.
+     */
+    protected abstract void applyValue();
+
+    /**
      * Verifies the contents of the text field.
      * {@inheritDoc}
      */
@@ -49,11 +54,24 @@ public abstract class TemporalPicker extends Picker {
      */
     @Override
     protected void processKeyEvent(KeyEvent event) {
-        if (event.getID() == KeyEvent.KEY_TYPED) {
-            var keyChar = event.getKeyChar();
+        switch (event.getID()) {
+            case KeyEvent.KEY_PRESSED -> {
+                if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    var text = getText();
 
-            if (Character.isSpaceChar(keyChar)) {
-                event.setKeyChar((char)0x202f);
+                    applyValue();
+
+                    if (!text.equals(getText())) {
+                        return;
+                    }
+                }
+            }
+            case KeyEvent.KEY_TYPED -> {
+                var keyChar = event.getKeyChar();
+
+                if (Character.isSpaceChar(keyChar)) {
+                    event.setKeyChar((char)0x202f);
+                }
             }
         }
 

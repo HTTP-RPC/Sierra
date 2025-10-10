@@ -155,7 +155,7 @@ public class TimePicker extends TemporalPicker {
                         }
                     }
 
-                    setText(timeFormatter.format(TimePicker.this.time));
+                    applyValue();
 
                     time = null;
 
@@ -169,6 +169,15 @@ public class TimePicker extends TemporalPicker {
         });
 
         putClientProperty("JTextField.placeholderText", pattern);
+    }
+
+    /**
+     * Applies the current time value.
+     * {@inheritDoc}
+     */
+    @Override
+    protected void applyValue() {
+        setText(timeFormatter.format(TimePicker.this.time));
     }
 
     /**
@@ -193,9 +202,9 @@ public class TimePicker extends TemporalPicker {
         }
 
         if (!time.equals(this.time)) {
-            setText(timeFormatter.format(time));
-
             this.time = truncate(time);
+
+            applyValue();
 
             fireStateChanged();
         }
