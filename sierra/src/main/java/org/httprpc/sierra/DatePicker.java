@@ -229,9 +229,9 @@ public class DatePicker extends TemporalPicker {
 
                             fireStateChanged();
                         }
-                    } else {
-                        setText(dateFormatter.format(DatePicker.this.date));
                     }
+
+                    setText(dateFormatter.format(DatePicker.this.date));
 
                     date = null;
 

@@ -153,9 +153,9 @@ public class TimePicker extends TemporalPicker {
 
                             fireStateChanged();
                         }
-                    } else {
-                        setText(timeFormatter.format(TimePicker.this.time));
                     }
+
+                    setText(timeFormatter.format(TimePicker.this.time));
 
                     time = null;
 
