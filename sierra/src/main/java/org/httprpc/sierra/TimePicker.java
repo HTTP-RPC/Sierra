@@ -159,8 +159,6 @@ public class TimePicker extends TemporalPicker {
                         setText(timeFormatter.format(TimePicker.this.time));
                     }
 
-                    selectAll();
-
                     time = null;
 
                     return true;

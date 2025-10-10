@@ -235,8 +235,6 @@ public class DatePicker extends TemporalPicker {
                         setText(dateFormatter.format(DatePicker.this.date));
                     }
 
-                    selectAll();
-
                     date = null;
 
                     return true;
