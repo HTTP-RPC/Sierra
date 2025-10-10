@@ -51,14 +51,14 @@ public class MenuButton extends JButton {
     private boolean ignorePress = false;
 
     /**
-     * Constructs a menu button.
+     * Constructs a new menu button.
      */
     public MenuButton() {
         this(null, null);
     }
 
     /**
-     * Constructs a menu button.
+     * Constructs a new menu button.
      *
      * @param text
      * The button text.
@@ -68,7 +68,7 @@ public class MenuButton extends JButton {
     }
 
     /**
-     * Constructs a menu button.
+     * Constructs a new menu button.
      *
      * @param icon
      * The button icon.
@@ -78,7 +78,7 @@ public class MenuButton extends JButton {
     }
 
     /**
-     * Constructs a menu button.
+     * Constructs a new menu button.
      *
      * @param text
      * The button text.

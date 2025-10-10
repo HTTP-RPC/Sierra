@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.ScrollingKeyboardFocusManager;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import java.awt.Color;
+import java.awt.KeyboardFocusManager;
 
 public class BlockLayoutTest extends JFrame implements Runnable {
     private JButton submitButton = null;
@@ -56,6 +58,8 @@ public class BlockLayoutTest extends JFrame implements Runnable {
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
+
+        KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
 
         SwingUtilities.invokeLater(new BlockLayoutTest());
     }

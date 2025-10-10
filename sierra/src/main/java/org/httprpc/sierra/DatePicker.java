@@ -200,8 +200,6 @@ public class DatePicker extends TemporalPicker {
      * Constructs a new date picker.
      */
     public DatePicker() {
-        super(6);
-
         setDate(LocalDate.now());
 
         setInputVerifier(new InputVerifier() {

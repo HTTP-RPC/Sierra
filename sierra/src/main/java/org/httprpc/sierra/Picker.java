@@ -56,14 +56,7 @@ public abstract class Picker extends JTextField {
         }
     };
 
-    /**
-     * Constructs a new picker.
-     *
-     * @param columns
-     * The column count.
-     */
-    protected Picker(int columns) {
-        super(columns);
+    Picker() {
     }
 
     /**

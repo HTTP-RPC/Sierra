@@ -20,6 +20,9 @@ package org.httprpc.sierra;
 public abstract class BoxPanel extends LayoutPanel {
     private int spacing = 0;
 
+    BoxPanel() {
+    }
+
     double getWeight(int index) {
         var constraints = getConstraints(index);
 
@@ -62,8 +65,7 @@ public abstract class BoxPanel extends LayoutPanel {
     }
 
     /**
-     * Calculates the panel's baseline, as determined by the first component
-     * that reports a valid baseline.
+     * Calculates the box panel's baseline.
      * {@inheritDoc}
      */
     @Override

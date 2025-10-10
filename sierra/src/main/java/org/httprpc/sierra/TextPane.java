@@ -207,14 +207,14 @@ public class TextPane extends JComponent {
     }
 
     /**
-     * Constructs a text pane.
+     * Constructs a new text pane.
      */
     public TextPane() {
         this(null);
     }
 
     /**
-     * Constructs a text pane.
+     * Constructs a new text pane.
      *
      * @param text
      * The text to display, or {@code null} for no text.

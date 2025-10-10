@@ -336,7 +336,7 @@ public class RowPanel extends BoxPanel {
     }
 
     /**
-     * Calculates the panel's baseline.
+     * Calculates the row panel's baseline.
      * {@inheritDoc}
      */
     @Override

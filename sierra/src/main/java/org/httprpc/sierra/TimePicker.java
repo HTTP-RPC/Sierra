@@ -124,8 +124,6 @@ public class TimePicker extends TemporalPicker {
      * Constructs a new time picker.
      */
     public TimePicker() {
-        super(6);
-
         setTime(LocalTime.now());
 
         setInputVerifier(new InputVerifier() {

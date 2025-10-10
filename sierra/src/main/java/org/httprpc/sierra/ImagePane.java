@@ -157,14 +157,14 @@ public class ImagePane extends JComponent {
     private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
 
     /**
-     * Constructs an image pane.
+     * Constructs a new image pane.
      */
     public ImagePane() {
         this(null);
     }
 
     /**
-     * Constructs an image pane.
+     * Constructs a new image pane.
      *
      * @param image
      * The image to display, or {@code null} for no image.

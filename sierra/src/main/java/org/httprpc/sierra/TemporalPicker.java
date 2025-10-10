@@ -24,12 +24,7 @@ import static org.httprpc.kilo.util.Optionals.*;
  * Abstract base class for temporal pickers.
  */
 public abstract class TemporalPicker extends Picker {
-    /**
-     * Constructs a new temporal picker.
-     */
-    protected TemporalPicker(int columns) {
-        super(columns);
-
+    TemporalPicker() {
         addActionListener(event -> {
             if (getInputVerifier().shouldYieldFocus(this, null)) {
                 perform(map(getRootPane(), JRootPane::getDefaultButton), AbstractButton::doClick);

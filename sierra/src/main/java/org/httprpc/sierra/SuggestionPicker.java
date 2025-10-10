@@ -57,7 +57,6 @@ public class SuggestionPicker extends Picker {
      * Constructs a new suggestion picker.
      */
     public SuggestionPicker() {
-        super(0);
     }
 
     /**
