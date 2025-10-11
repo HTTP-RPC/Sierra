@@ -20,6 +20,7 @@ import javax.swing.JComponent;
 import javax.swing.JRootPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
@@ -143,5 +144,22 @@ public class NumberField extends JTextField {
         if (inputVerifier.shouldYieldFocus(this, null)) {
             super.fireActionPerformed();
         }
+    }
+
+    /**
+     * Processes a key event.
+     * {@inheritDoc}
+     */
+    @Override
+    protected void processKeyEvent(KeyEvent event) {
+        if (event.getID() == KeyEvent.KEY_TYPED) {
+            var keyChar = event.getKeyChar();
+
+            if (Character.isSpaceChar(keyChar)) {
+                event.setKeyChar((char)0x202f);
+            }
+        }
+
+        super.processKeyEvent(event);
     }
 }
