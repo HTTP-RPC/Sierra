@@ -377,7 +377,9 @@ Row spacing and cell weights are ignored when grid alignment is enabled.
 In addition to the features outlined above, Sierra also includes some common user interface elements not provided by Swing.
 
 ### Validated Input
-The `NumberField` and `ValidatedTextField` components can be used to validate user input. `NumberField` accepts only numeric content, and `ValidatedTextField` accepts only content that matches a provided regular expression. Similiar to `JFormattedTextField`, the `getValue()` method of these classes can be used to obtain the validated data.
+The `NumberField` and `ValidatedTextField` components can be used to validate user input. `NumberField` accepts only numeric content, and `ValidatedTextField` accepts only content that matches a provided regular expression. Similiar to `JFormattedTextField`, the `getValue()` method of these classes can be used to obtain the validated data:
+
+<img src="README/validated-input.png" width="325px"/>
 
 `NumberField` is localized. See [ValidatedInputTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ValidatedInputTest.java) for more information.
 
