@@ -62,6 +62,8 @@ public abstract class TemporalPicker extends Picker {
                     applyValue();
 
                     if (!text.equals(getText())) {
+                        showPopup();
+
                         return;
                     }
                 }
