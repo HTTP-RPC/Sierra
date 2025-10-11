@@ -26,13 +26,10 @@ import javax.swing.UIManager;
 import javax.swing.event.ListDataListener;
 import java.awt.Component;
 import java.time.LocalTime;
-import java.time.chrono.Chronology;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
-import java.util.Locale;
 
 /**
  * Text field that supports local time entry.
@@ -111,14 +108,7 @@ public class TimePicker extends TemporalPicker {
     private LocalTime minimumTime = null;
     private LocalTime maximumTime = null;
 
-    private static final String pattern;
-    private static final DateTimeFormatter timeFormatter;
-    static {
-        var locale = Locale.getDefault();
-
-        pattern = DateTimeFormatterBuilder.getLocalizedDateTimePattern(null, FormatStyle.SHORT, Chronology.ofLocale(locale), locale);
-        timeFormatter = DateTimeFormatter.ofPattern(pattern);
-    }
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
     /**
      * Constructs a new time picker.
@@ -167,8 +157,6 @@ public class TimePicker extends TemporalPicker {
                 }
             }
         });
-
-        putClientProperty("JTextField.placeholderText", pattern);
     }
 
     /**

@@ -99,6 +99,10 @@ public class DateTimePickerTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        if (args.length > 1) {
+            Locale.setDefault(Locale.of(args[0], args[1]));
+        }
+
         FlatLightLaf.setup();
 
         SwingUtilities.invokeLater(new DateTimePickerTest());

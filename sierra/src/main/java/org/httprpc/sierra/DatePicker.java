@@ -28,9 +28,7 @@ import java.awt.event.ActionEvent;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.chrono.Chronology;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
@@ -187,14 +185,7 @@ public class DatePicker extends TemporalPicker {
     private LocalDate minimumDate = null;
     private LocalDate maximumDate = null;
 
-    private static final String pattern;
-    private static final DateTimeFormatter dateFormatter;
-    static {
-        var locale = Locale.getDefault();
-
-        pattern = DateTimeFormatterBuilder.getLocalizedDateTimePattern(FormatStyle.SHORT, null, Chronology.ofLocale(locale), locale);
-        dateFormatter = DateTimeFormatter.ofPattern(pattern);
-    }
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
 
     /**
      * Constructs a new date picker.
@@ -243,8 +234,6 @@ public class DatePicker extends TemporalPicker {
                 }
             }
         });
-
-        putClientProperty("JTextField.placeholderText", pattern);
     }
 
     /**

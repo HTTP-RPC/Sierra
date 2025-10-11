@@ -24,6 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static org.httprpc.kilo.util.Optionals.*;
@@ -82,6 +83,10 @@ public class ValidatedInputTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        if (args.length > 1) {
+            Locale.setDefault(Locale.of(args[0], args[1]));
+        }
+
         FlatLightLaf.setup();
 
         SwingUtilities.invokeLater(new ValidatedInputTest());

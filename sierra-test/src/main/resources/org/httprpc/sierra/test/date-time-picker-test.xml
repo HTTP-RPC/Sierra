@@ -6,12 +6,12 @@
     <column-panel spacing="4" alignToGrid="true">
         <row-panel alignToBaseline="true">
             <label text="date" alignmentX="1.0"/>
-            <date-picker name="datePicker" columns="6" alignmentX="0.0"/>
+            <date-picker name="datePicker" columns="8" alignmentX="0.0"/>
         </row-panel>
 
         <row-panel alignToBaseline="true">
             <label text="time" alignmentX="1.0"/>
-            <time-picker name="timePicker" columns="6" alignmentX="0.0"/>
+            <time-picker name="timePicker" columns="8" alignmentX="0.0"/>
         </row-panel>
         <row-panel alignToBaseline="true">
             <label text="minuteInterval" alignmentX="1.0"/>
