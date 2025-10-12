@@ -44,7 +44,7 @@ public class FormTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var scrollPane = new JScrollPane(UILoader.load(this, "form-test.xml", resourceBundle));
+        var scrollPane = new JScrollPane(UILoader.load(this, "FormTest.xml", resourceBundle));
 
         scrollPane.setBorder(null);
 

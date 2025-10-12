@@ -190,7 +190,7 @@ public class TiingoTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "tiingo-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "TiingoTest.xml", resourceBundle));
 
         countSpinner.setModel(new SpinnerNumberModel(30, 10, 150, 10));
 

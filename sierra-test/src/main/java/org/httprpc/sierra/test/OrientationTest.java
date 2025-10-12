@@ -43,7 +43,7 @@ public class OrientationTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "orientation-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "OrientationTest.xml", resourceBundle));
 
         leftToRightButton.setSelected(true);
 

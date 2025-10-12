@@ -55,7 +55,7 @@ public class DateTimePickerTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "date-time-picker-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "DateTimePickerTest.xml", resourceBundle));
 
         var now = LocalDate.now();
 

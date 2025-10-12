@@ -42,7 +42,7 @@ For example, the following markup declares a column panel containing a graphic a
 This markup could be deserialized and set as the content pane of a frame or dialog as follows:
 
 ```java
-setContentPane(UILoader.load(this, "greeting-test.xml"));
+setContentPane(UILoader.load(this, "GreetingTest.xml"));
 ```
 
 <img src="README/greeting.png" width="432px"/>
@@ -242,7 +242,7 @@ public class ActionTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "action-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "ActionTest.xml", resourceBundle));
 
         greetingButton.addActionListener(event -> sayHello());
 
@@ -302,7 +302,7 @@ public class FormTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var scrollPane = new JScrollPane(UILoader.load(this, "form-test.xml", resourceBundle));
+        var scrollPane = new JScrollPane(UILoader.load(this, "FormTest.xml", resourceBundle));
 
         ...
     }
@@ -455,7 +455,7 @@ The application consists of the following source files:
 * [TiingoTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/TiingoTest.java) - primary application logic
 * [TiingoServiceProxy.java](sierra-test/src/main/java/org/httprpc/sierra/test/TiingoServiceProxy.java) - proxy interface used to submit API requests
 * [Asset.java](sierra-test/src/main/java/org/httprpc/sierra/test/Asset.java) and [AssetPricing.java](sierra-test/src/main/java/org/httprpc/sierra/test/AssetPricing.java) - data types used by `TiingoServiceProxy`
-* [tiingo-test.xml](sierra-test/src/main/resources/org/httprpc/sierra/test/tiingo-test.xml) - UI declaration
+* [TiingoTest.xml](sierra-test/src/main/resources/org/httprpc/sierra/test/TiingoTest.xml) - UI declaration
 * [TiingoTest.properties](sierra-test/src/main/resources/org/httprpc/sierra/test/TiingoTest.properties) - localized string resources
 
 An API token is required and must be specified as a system property at application startup:

@@ -30,7 +30,7 @@ public class BaselineTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "baseline-test.xml"));
+        setContentPane(UILoader.load(this, "BaselineTest.xml"));
 
         pack();
         setVisible(true);

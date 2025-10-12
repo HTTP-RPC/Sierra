@@ -54,7 +54,7 @@ public class CellRendererTest extends JFrame implements Runnable {
         JLabel descriptionLabel = null;
 
         FlagCellRenderer() {
-            component = UILoader.load(this, "flag-cell-renderer.xml");
+            component = UILoader.load(this, "CellRendererTest.FlagCellRenderer.xml");
         }
 
         @Override

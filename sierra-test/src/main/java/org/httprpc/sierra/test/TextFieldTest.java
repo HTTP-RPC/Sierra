@@ -32,7 +32,7 @@ public class TextFieldTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "text-field-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "TextFieldTest.xml", resourceBundle));
 
         pack();
         setVisible(true);

@@ -50,7 +50,7 @@ public class ValidatedInputTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "validated-input-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "ValidatedInputTest.xml", resourceBundle));
 
         numberField1.setValue(123.0);
 

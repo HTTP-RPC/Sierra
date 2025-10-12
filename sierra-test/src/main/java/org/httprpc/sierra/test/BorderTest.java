@@ -33,7 +33,7 @@ public class BorderTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "border-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "BorderTest.xml", resourceBundle));
 
         setSize(480, 320);
         setVisible(true);

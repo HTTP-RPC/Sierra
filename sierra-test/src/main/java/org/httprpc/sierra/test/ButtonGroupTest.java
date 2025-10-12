@@ -41,7 +41,7 @@ public class ButtonGroupTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "button-group-test.xml"));
+        setContentPane(UILoader.load(this, "ButtonGroupTest.xml"));
 
         alignLeftButton.addActionListener(event -> updateSelection());
         alignCenterButton.addActionListener(event -> updateSelection());

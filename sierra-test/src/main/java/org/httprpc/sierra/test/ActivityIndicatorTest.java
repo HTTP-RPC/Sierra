@@ -40,7 +40,7 @@ public class ActivityIndicatorTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "activity-indicator-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "ActivityIndicatorTest.xml", resourceBundle));
 
         toggleButton.addActionListener(event -> toggleActivityIndicators(toggleButton.isSelected()));
 

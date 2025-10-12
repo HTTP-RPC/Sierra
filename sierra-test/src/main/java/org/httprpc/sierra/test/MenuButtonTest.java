@@ -40,7 +40,7 @@ public class MenuButtonTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "menu-button-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "MenuButtonTest.xml", resourceBundle));
 
         var popupMenu = new JPopupMenu();
 

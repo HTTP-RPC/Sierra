@@ -29,7 +29,7 @@ public class AlignmentYTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "alignment-y-test.xml"));
+        setContentPane(UILoader.load(this, "AlignmentYTest.xml"));
 
         pack();
         setVisible(true);

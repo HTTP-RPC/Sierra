@@ -29,7 +29,7 @@ public class GreetingTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "greeting-test.xml"));
+        setContentPane(UILoader.load(this, "GreetingTest.xml"));
 
         setSize(320, 480);
         setVisible(true);

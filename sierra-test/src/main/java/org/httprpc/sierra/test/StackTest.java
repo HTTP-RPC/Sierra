@@ -29,7 +29,7 @@ public class StackTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "stack-test.xml"));
+        setContentPane(UILoader.load(this, "StackTest.xml"));
 
         pack();
         setVisible(true);

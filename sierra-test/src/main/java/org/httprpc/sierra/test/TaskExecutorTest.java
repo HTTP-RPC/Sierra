@@ -49,7 +49,7 @@ public class TaskExecutorTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "task-executor-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "TaskExecutorTest.xml", resourceBundle));
 
         button.addActionListener(event -> executeTask());
 

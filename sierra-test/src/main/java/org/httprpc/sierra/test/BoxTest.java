@@ -29,7 +29,7 @@ public class BoxTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "box-test.xml"));
+        setContentPane(UILoader.load(this, "BoxTest.xml"));
 
         pack();
         setVisible(true);

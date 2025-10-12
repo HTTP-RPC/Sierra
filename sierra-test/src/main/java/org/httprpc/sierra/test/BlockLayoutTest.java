@@ -37,7 +37,7 @@ public class BlockLayoutTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var scrollPane = new JScrollPane(UILoader.load(this, "block-layout-test.xml"));
+        var scrollPane = new JScrollPane(UILoader.load(this, "BlockLayoutTest.xml"));
 
         scrollPane.getViewport().setBackground(Color.WHITE);
         scrollPane.setBorder(null);

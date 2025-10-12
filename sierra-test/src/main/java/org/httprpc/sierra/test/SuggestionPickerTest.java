@@ -44,7 +44,7 @@ public class SuggestionPickerTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "suggestion-picker-test.xml"));
+        setContentPane(UILoader.load(this, "SuggestionPickerTest.xml"));
 
         countSpinner.setModel(new SpinnerNumberModel(0, 0, 10, 1));
 

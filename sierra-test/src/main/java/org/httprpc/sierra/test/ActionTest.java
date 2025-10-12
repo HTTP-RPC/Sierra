@@ -37,7 +37,7 @@ public class ActionTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "action-test.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "ActionTest.xml", resourceBundle));
 
         greetingButton.addActionListener(event -> sayHello());
 

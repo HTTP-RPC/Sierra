@@ -29,7 +29,7 @@ public class FlowTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "flow-test.xml"));
+        setContentPane(UILoader.load(this, "FlowTest.xml"));
 
         setSize(800, 240);
         setVisible(true);
