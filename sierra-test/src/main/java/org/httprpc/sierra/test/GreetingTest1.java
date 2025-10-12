@@ -14,23 +14,21 @@
 
 package org.httprpc.sierra.test;
 
+import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.UILoader;
+
 import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
-public abstract class GreetingTest extends JFrame implements Runnable {
-    protected GreetingTest() {
-        super("Greeting Test");
-
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
-
+public class GreetingTest1 extends GreetingTest {
     @Override
-    public void run() {
-        setContentPane(createContentPane());
-
-        setSize(320, 480);
-        setVisible(true);
+    public JComponent createContentPane() {
+        return UILoader.load(this, "GreetingTest.xml");
     }
 
-    protected abstract JComponent createContentPane();
+    public static void main(String[] args) {
+        FlatLightLaf.setup();
+
+        SwingUtilities.invokeLater(new GreetingTest1());
+    }
 }

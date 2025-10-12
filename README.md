@@ -47,7 +47,34 @@ setContentPane(UILoader.load(this, "GreetingTest.xml"));
 
 <img src="README/greeting.png" width="432px"/>
 
-The complete source code for this example can be found [here](sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
+The same result could be achieved programmatically as shown below. However, the markup version is less verbose and more readable:
+
+```java
+var columnPanel = new ColumnPanel();
+
+columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
+
+columnPanel.setOpaque(true);
+columnPanel.setBackground(Color.WHITE);
+
+var imagePane = new ImagePane();
+
+try (var inputStream = getClass().getResourceAsStream("world.png")) {
+    imagePane.setImage(ImageIO.read(inputStream));
+} catch (IOException exception) {
+    throw new RuntimeException(exception);
+}
+
+imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH);
+
+columnPanel.add(imagePane);
+
+var textPane = new TextPane("Hello, World!");
+
+textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+columnPanel.add(textPane);
+```
 
 ## Elements
 XML elements represent component instances. Most Swing and all Sierra components are supported by default. Support for additional elements can be added via the `bind()` method of the `UILoader` class.
