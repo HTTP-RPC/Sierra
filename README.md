@@ -47,7 +47,7 @@ setContentPane(UILoader.load(this, "GreetingTest.xml"));
 
 <img src="README/greeting.png" width="432px"/>
 
-The same result could be achieved programmatically as shown below. However, the markup version is less verbose and more readable:
+The same result could be achieved programmatically as shown below. However, the markup version is much less verbose and more readable:
 
 ```java
 var columnPanel = new ColumnPanel();
@@ -75,6 +75,8 @@ textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
 
 columnPanel.add(textPane);
 ```
+
+The complete source code for this example can be found [here](sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
 
 ## Elements
 XML elements represent component instances. Most Swing and all Sierra components are supported by default. Support for additional elements can be added via the `bind()` method of the `UILoader` class.
