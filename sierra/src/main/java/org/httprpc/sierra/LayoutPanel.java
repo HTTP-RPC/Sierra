@@ -141,37 +141,26 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     }
 
     /**
-     * Returns 10% of the visible height for vertical orientations and 10% of
-     * the visible width for horizontal orientations.
+     * Returns 25% of the scrollable block increment.
      * {@inheritDoc}
      */
     @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        if (visibleRect == null) {
-            throw new IllegalArgumentException();
-        }
-
-        return switch (orientation) {
-            case SwingConstants.VERTICAL -> visibleRect.height / 10;
-            case SwingConstants.HORIZONTAL -> visibleRect.width / 10;
-            default -> throw new UnsupportedOperationException();
-        };
+        return getScrollableBlockIncrement(visibleRect, orientation, direction) / 4;
     }
 
     /**
-     * Returns the visible height for vertical orientations and the visible
-     * width for horizontal orientations.
+     * Returns 10% of the panel's height for vertical orientations and 10% of
+     * the panel's width for horizontal orientations.
      * {@inheritDoc}
      */
     @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        if (visibleRect == null) {
-            throw new IllegalArgumentException();
-        }
+        var size = getSize();
 
         return switch (orientation) {
-            case SwingConstants.VERTICAL -> visibleRect.height;
-            case SwingConstants.HORIZONTAL -> visibleRect.width;
+            case SwingConstants.VERTICAL -> size.height / 10;
+            case SwingConstants.HORIZONTAL -> size.width / 10;
             default -> throw new UnsupportedOperationException();
         };
     }
