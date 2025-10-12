@@ -42,16 +42,20 @@ public class ScrollingKeyboardFocusManager extends DefaultKeyboardFocusManager {
         var dispatched = super.dispatchEvent(event);
 
         if (dispatched && event.getID() == FocusEvent.FOCUS_GAINED) {
-            var component = (Component)event.getSource();
+            var cause = ((FocusEvent)event).getCause();
 
-            var parent = component.getParent();
+            if (cause == FocusEvent.Cause.TRAVERSAL_FORWARD || cause == FocusEvent.Cause.TRAVERSAL_BACKWARD) {
+                var component = (Component) event.getSource();
 
-            if (parent instanceof JViewport) {
-                parent = parent.getParent();
-            }
+                var parent = component.getParent();
 
-            if (parent instanceof JComponent) {
-                ((JComponent)parent).scrollRectToVisible(SwingUtilities.convertRectangle(parent, component.getBounds(), parent));
+                if (parent instanceof JViewport) {
+                    parent = parent.getParent();
+                }
+
+                if (parent instanceof JComponent) {
+                    ((JComponent) parent).scrollRectToVisible(SwingUtilities.convertRectangle(parent, component.getBounds(), parent));
+                }
             }
         }
 
