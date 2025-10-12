@@ -40,6 +40,18 @@ public class ValidatedInputTest extends JFrame implements Runnable {
 
     private JLabel messageLabel = null;
 
+    static {
+        var language = System.getProperty("language");
+
+        if (language != null) {
+            var country = System.getProperty("country");
+
+            if (country != null) {
+                Locale.setDefault(Locale.of(language, country));
+            }
+        }
+    }
+
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ValidatedInputTest.class.getName());
 
     private ValidatedInputTest() {
@@ -83,10 +95,6 @@ public class ValidatedInputTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        if (args.length > 1) {
-            Locale.setDefault(Locale.of(args[0], args[1]));
-        }
-
         FlatLightLaf.setup();
 
         SwingUtilities.invokeLater(new ValidatedInputTest());
