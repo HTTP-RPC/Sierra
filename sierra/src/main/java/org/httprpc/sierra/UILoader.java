@@ -24,6 +24,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
@@ -358,6 +359,7 @@ public class UILoader {
         bind("spinner", JSpinner.class, JSpinner::new);
         bind("slider", JSlider.class, JSlider::new);
         bind("progress-bar", JProgressBar.class, JProgressBar::new);
+        bind("color-chooser", JColorChooser.class, JColorChooser::new);
         bind("separator", JSeparator.class, JSeparator::new);
         bind("scroll-pane", JScrollPane.class, JScrollPane::new);
         bind("list", JList.class, JList::new);

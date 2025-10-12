@@ -9,6 +9,9 @@
 <!ENTITY % ImagePane "%JComponent; horizontalAlignment (leading|trailing|center) image CDATA scaleMode (none|fill-width|fill-height) verticalAlignment (top|bottom|center) ">
 <!ELEMENT image-pane EMPTY>
 <!ATTLIST image-pane %ImagePane;>
+<!ENTITY % JColorChooser "%JComponent; color CDATA dragEnabled (true|false) ">
+<!ELEMENT color-chooser EMPTY>
+<!ATTLIST color-chooser %JColorChooser;>
 <!ENTITY % JComboBox "%JComponent; actionCommand CDATA editable (true|false) enabled (true|false) lightWeightPopupEnabled (true|false) maximumRowCount CDATA popupVisible (true|false) selectedIndex CDATA ">
 <!ELEMENT combo-box EMPTY>
 <!ATTLIST combo-box %JComboBox;>
