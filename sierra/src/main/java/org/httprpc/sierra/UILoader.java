@@ -698,6 +698,19 @@ public class UILoader {
     }
 
     /**
+     * Retrieves a named color.
+     *
+     * @param name
+     * The color name.
+     *
+     * @return
+     * The named color, or {@code null} if the color is not defined.
+     */
+    public Color getColor(String name) {
+        return colors.get(name);
+    }
+
+    /**
      * Associates a name with a color.
      *
      * @param name
@@ -712,6 +725,19 @@ public class UILoader {
         }
 
         colors.put(name, color);
+    }
+
+    /**
+     * Retrieves a named font.
+     *
+     * @param name
+     * The font name.
+     *
+     * @return
+     * The named font, or {@code null} if the font is not defined.
+     */
+    public Font getFont(String name) {
+        return fonts.get(name);
     }
 
     /**
