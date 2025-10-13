@@ -48,7 +48,6 @@ public class ColorChooserTest extends JFrame implements Runnable {
             "light-pink",
             "pink"
         )),
-
         new ColorGroup("Red colors", listOf(
             "dark-red",
             "red",
@@ -59,6 +58,149 @@ public class ColorChooserTest extends JFrame implements Runnable {
             "salmon",
             "dark-salmon",
             "light-salmon"
+        )),
+        new ColorGroup("Orange colors", listOf(
+            "orange-red",
+            "tomato",
+            "dark-orange",
+            "coral",
+            "orange"
+        )),
+        new ColorGroup("Yellow colors", listOf(
+            "dark-khaki",
+            "gold",
+            "khaki",
+            "peach-puff",
+            "yellow",
+            "pale-goldenrod",
+            "moccasin",
+            "papaya-whip",
+            "light-goldenrod-yellow",
+            "lemon-chiffon",
+            "light-yellow"
+        )),
+        new ColorGroup("Brown colors", listOf(
+            "maroon",
+            "brown",
+            "saddle-brown",
+            "sienna",
+            "chocolate",
+            "dark-goldenrod",
+            "peru",
+            "rosy-brown",
+            "goldenrod",
+            "sandy-brown",
+            "tan",
+            "burlywood",
+            "wheat",
+            "navajo-white",
+            "bisque",
+            "blanched-almond",
+            "cornsilk"
+        )),
+        new ColorGroup("Purple, violet, and magenta colors", listOf(
+            "indigo",
+            "purple",
+            "dark-magenta",
+            "dark-violet",
+            "dark-slate-blue",
+            "blue-violet",
+            "dark-orchid",
+            "fuchsia",
+            "magenta",
+            "slate-blue",
+            "medium-slate-blue",
+            "medium-orchid",
+            "medium-purple",
+            "orchid",
+            "violet",
+            "plum",
+            "thistle",
+            "lavender"
+        )),
+        new ColorGroup("Blue colors", listOf(
+            "midnight-blue",
+            "navy",
+            "dark-blue",
+            "medium-blue",
+            "blue",
+            "royal-blue",
+            "steel-blue",
+            "dodger-blue",
+            "deep-sky-blue",
+            "cornflower-blue",
+            "skyblue",
+            "light-sky-blue",
+            "light-steel-blue",
+            "light-blue",
+            "powder-blue"
+        )),
+        new ColorGroup("Cyan colors", listOf(
+            "teal",
+            "dark-cyan",
+            "light-sea-green",
+            "cadet-blue",
+            "dark-turquoise",
+            "medium-turquoise",
+            "turquoise",
+            "aqua",
+            "cyan",
+            "aquamarine",
+            "pale-turquoise",
+            "light-cyan"
+        )),
+        new ColorGroup("Green colors", listOf(
+            "dark-green",
+            "green",
+            "dark-olive-green",
+            "forest-green",
+            "sea-green",
+            "olive",
+            "olive-drab",
+            "medium-sea-green",
+            "lime-green",
+            "lime",
+            "spring-green",
+            "medium-spring-green",
+            "dark-sea-green",
+            "medium-aquamarine",
+            "yellow-green",
+            "lawn-green",
+            "chartreuse",
+            "light-green",
+            "green-yellow",
+            "pale-green"
+        )),
+        new ColorGroup("White colors", listOf(
+            "misty-rose",
+            "antique-white",
+            "linen",
+            "beige",
+            "white-smoke",
+            "lavender-blush",
+            "old-lace",
+            "alice-blue",
+            "seashell",
+            "ghost-white",
+            "honeydew",
+            "floral-white",
+            "azure",
+            "mint-cream",
+            "snow",
+            "ivory",
+            "white"
+        )),
+        new ColorGroup("Gray and black colors", listOf(
+            "black",
+            "dark-slate-gray",
+            "dim-gray",
+            "slate-gray",
+            "gray",
+            "light-slate-gray",
+            "dark-gray",
+            "silver",
+            "light-gray",
+            "gainsboro"
         ))
     );
 
@@ -117,6 +259,8 @@ public class ColorChooserTest extends JFrame implements Runnable {
                 // No-op
             }
         });
+
+        colorTree.addTreeSelectionListener(event -> System.out.println(colorTree.getSelectionPath().getLastPathComponent()));
 
         setSize(960, 480);
         setVisible(true);
