@@ -15,14 +15,23 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.ImagePane;
 import org.httprpc.sierra.UILoader;
 
+import javax.imageio.ImageIO;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListDataListener;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Image;
+import java.io.IOException;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -104,5 +113,70 @@ public class CellRendererTest extends JFrame implements Runnable {
         FlatLightLaf.setup();
 
         SwingUtilities.invokeLater(new CellRendererTest());
+    }
+}
+
+class Flag {
+    private Image image;
+    private String name;
+    private String description;
+
+    Flag(String imageName, String name, String description) {
+        try {
+            image = ImageIO.read(CellRendererTest.class.getResource(String.format("flags/%s", imageName)));
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+
+        this.name = name;
+        this.description = description;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+}
+
+class FlagCellRenderer implements ListCellRenderer<Flag> {
+    private JComponent component;
+
+    private ImagePane imagePane = null;
+    private JLabel nameLabel = null;
+    private JLabel descriptionLabel = null;
+
+    FlagCellRenderer() {
+        component = UILoader.load(this, "FlagCellRenderer.xml");
+    }
+
+    @Override
+    public Component getListCellRendererComponent(JList<? extends Flag> list, Flag value, int index, boolean selected, boolean cellHasFocus) {
+        imagePane.setImage(value.getImage());
+        nameLabel.setText(value.getName());
+        descriptionLabel.setText(value.getDescription());
+
+        Color background;
+        Color foreground;
+        if (selected) {
+            background = list.getSelectionBackground();
+            foreground = list.getSelectionForeground();
+        } else {
+            background = list.getBackground();
+            foreground = list.getForeground();
+        }
+
+        component.setBackground(background);
+
+        nameLabel.setForeground(foreground);
+        descriptionLabel.setForeground(foreground);
+
+        return component;
     }
 }
