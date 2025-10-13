@@ -2,7 +2,7 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel spacing="4" alignToGrid="true" padding="8">
+<column-panel spacing="4" padding="8" alignToGrid="true">
     <row-panel>
         <text-pane text="0.0" alignmentX="0.0" border="silver"/>
         <text-pane text="0.25" horizontalAlignment="center" alignmentX="0.25" border="silver"/>

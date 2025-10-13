@@ -350,7 +350,7 @@ Cell contents are aligned based on the component's _x_ and _y_ alignment values 
 For example, the following markup demonstrates x-alignment:
 
 ```xml
-<column-panel spacing="4" alignToGrid="true" padding="8">
+<column-panel spacing="4" padding="8" alignToGrid="true">
     <row-panel>
         <text-pane text="0.0" alignmentX="0.0" border="silver"/>
         <text-pane text="0.25" horizontalAlignment="center" alignmentX="0.25" border="silver"/>
@@ -374,7 +374,7 @@ For example, the following markup demonstrates x-alignment:
 This markup demonstrates y-alignment:
 
 ```xml
-<column-panel spacing="4" alignToGrid="true" padding="8">
+<column-panel spacing="4" padding="8" alignToGrid="true">
     <row-panel>
         <text-pane text="0.0" alignmentY="0.0" border="silver"/>
         <spacer size="160, 80" border="silver"/>
