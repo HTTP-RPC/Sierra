@@ -35,6 +35,9 @@ public class BorderTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "BorderTest.xml", resourceBundle));
 
+        System.out.printf("h1 = %s\n", UILoader.getFont("h1"));
+        System.out.printf("h2 = %s\n", UILoader.getFont("h2"));
+
         setSize(480, 320);
         setVisible(true);
     }
