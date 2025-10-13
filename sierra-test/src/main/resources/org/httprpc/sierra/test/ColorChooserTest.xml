@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE row-panel SYSTEM "sierra.dtd">
+
+<row-panel spacing="8" padding="8">
+    <color-chooser name="colorChooser" weight="0.75"/>
+
+    <separator orientation="vertical"/>
+
+    <scroll-pane weight="0.25">
+        <tree name="tree"/>
+    </scroll-pane>
+</row-panel>
