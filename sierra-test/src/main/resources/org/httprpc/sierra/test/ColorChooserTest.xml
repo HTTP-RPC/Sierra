@@ -8,6 +8,6 @@
     <separator orientation="vertical"/>
 
     <scroll-pane weight="0.25">
-        <tree name="tree"/>
+        <tree name="colorTree" rootVisible="false" showsRootHandles="true"/>
     </scroll-pane>
 </row-panel>
