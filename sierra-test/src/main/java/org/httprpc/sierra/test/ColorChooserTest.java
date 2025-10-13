@@ -24,6 +24,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -38,6 +39,8 @@ public class ColorChooserTest extends JFrame implements Runnable {
 
     private JColorChooser colorChooser = null;
     private JTree colorTree = null;
+
+    private boolean updatingColor = false;
 
     private List<ColorGroup> colorGroups = listOf(
         new ColorGroup("Pink colors", listOf(
@@ -260,13 +263,31 @@ public class ColorChooserTest extends JFrame implements Runnable {
             }
         });
 
+        colorTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+
         colorTree.addTreeSelectionListener(event -> {
-            if (colorTree.getSelectionPath().getLastPathComponent() instanceof String name) {
+            var selectionPath = colorTree.getSelectionPath();
+
+            if (selectionPath == null) {
+                return;
+            }
+
+            if (selectionPath.getLastPathComponent() instanceof String name) {
+                updatingColor = true;
+
                 colorChooser.setColor(UILoader.getColor(name));
+
+                updatingColor = false;
             }
         });
 
-        setSize(960, 480);
+        colorChooser.getSelectionModel().addChangeListener(event -> {
+            if (!updatingColor) {
+                colorTree.clearSelection();
+            }
+        });
+
+        setSize(1024, 480);
         setVisible(true);
     }
 
