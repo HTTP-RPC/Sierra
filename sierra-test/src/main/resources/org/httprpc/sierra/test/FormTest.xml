@@ -36,6 +36,18 @@
     <separator/>
 
     <row-panel alignToBaseline="true">
+        <label text="username" alignmentX="1.0"/>
+        <text-field columns="8" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="password" alignmentX="1.0"/>
+        <password-field columns="8" alignmentX="0.0"/>
+    </row-panel>
+
+    <separator/>
+
+    <row-panel alignToBaseline="true">
         <label text="emailAddress" alignmentX="1.0"/>
         <text-field columns="16" alignmentX="0.0"/>
     </row-panel>
