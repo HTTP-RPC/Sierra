@@ -840,7 +840,7 @@ public class UILoader {
      * @return
      * The named color, or {@code null} if the color is not defined.
      */
-    public Color getColor(String name) {
+    public static Color getColor(String name) {
         return colors.get(name);
     }
 
@@ -870,7 +870,7 @@ public class UILoader {
      * @return
      * The named font, or {@code null} if the font is not defined.
      */
-    public Font getFont(String name) {
+    public static Font getFont(String name) {
         return fonts.get(name);
     }
 

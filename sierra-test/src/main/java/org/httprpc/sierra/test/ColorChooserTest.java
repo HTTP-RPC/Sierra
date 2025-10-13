@@ -260,7 +260,11 @@ public class ColorChooserTest extends JFrame implements Runnable {
             }
         });
 
-        colorTree.addTreeSelectionListener(event -> System.out.println(colorTree.getSelectionPath().getLastPathComponent()));
+        colorTree.addTreeSelectionListener(event -> {
+            if (colorTree.getSelectionPath().getLastPathComponent() instanceof String name) {
+                colorChooser.setColor(UILoader.getColor(name));
+            }
+        });
 
         setSize(960, 480);
         setVisible(true);
