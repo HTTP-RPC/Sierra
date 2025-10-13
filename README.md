@@ -111,17 +111,17 @@ XML attributes generally represent component properties. For example, this marku
 Numeric and boolean values are specified via their string representations. Supported constants and enum values are specified in [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
 
 ### Color and Font Values
-Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `JLabel` and sets its "foreground" property to gray:
+Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `RowPanel` and sets its "background" property to white:
 
 ```xml
-<label name="label" foreground="#808080"/>
+<row-panel spacing="8" padding="16" opaque="true" background="#ffffff">
+    ...
+</row-panel>
 ```
 
-Colors and fonts can also be specified by name. The name can refer to either a value provided by Swing's UI defaults or a value defined by `UILoader`:
+Colors and fonts can also be specified by name. The name can refer to either a value provided by Swing's UI defaults or a value defined by `UILoader`: 
 
-```xml
-<label name="label" foreground="gray"/>
-```
+<img src="README/color-chooser.png" width="1136px"/>
 
 Sierra supports the complete set of [extended web colors](https://en.wikipedia.org/wiki/Web_colors#Extended_colors) by default. Additional named colors and fonts can be added via the `define()` methods of the `UILoader` class.
 

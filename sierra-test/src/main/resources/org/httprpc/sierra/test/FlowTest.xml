@@ -2,7 +2,7 @@
 
 <!DOCTYPE row-panel SYSTEM "sierra.dtd">
 
-<row-panel spacing="8" padding="8, 16, 8, 16" opaque="true" background="#ffffff">
+<row-panel spacing="8" padding="16" opaque="true" background="#ffffff">
     <image-pane image="world.png" scaleMode="fill-height" border="#ff0000, 2"/>
 
     <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
