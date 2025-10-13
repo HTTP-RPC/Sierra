@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
+<column-panel>
+    <scroll-pane name="scrollPane" weight="1">
+        <list name="flagList"/>
+    </scroll-pane>
+</column-panel>

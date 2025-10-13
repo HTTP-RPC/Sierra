@@ -47,7 +47,7 @@ setContentPane(UILoader.load(this, "GreetingTest.xml"));
 
 <img src="README/greeting.png" width="432px"/>
 
-The same result could be achieved programmatically as shown below. However, the markup version is much less verbose and more readable:
+The same result could be achieved programmatically as shown below. However, the markup version is less verbose and more readable:
 
 ```java
 var columnPanel = new ColumnPanel();
