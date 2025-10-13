@@ -123,7 +123,7 @@ Colors and fonts can also be specified by name. The name can refer to either a v
 <label name="label" foreground="gray"/>
 ```
 
-Sierra supports the 16 [basic web colors](https://en.wikipedia.org/wiki/Web_colors#Basic_colors) by default. Additional named colors and fonts can be added via the `define()` methods of the `UILoader` class.
+Sierra supports the complete set of [extended web colors](https://en.wikipedia.org/wiki/Web_colors#Extended_colors) by default. Additional named colors and fonts can be added via the `define()` methods of the `UILoader` class.
 
 ### Image and Icon Values
 Image and icon properties can be specified via a path to an image document on the application's classpath. The path is relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:

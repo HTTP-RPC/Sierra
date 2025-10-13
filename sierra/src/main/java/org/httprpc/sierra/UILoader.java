@@ -383,22 +383,156 @@ public class UILoader {
     }
 
     static {
-        define("white", new Color(0xffffff));
-        define("silver", new Color(0xc0c0c0));
-        define("gray", new Color(0x808080));
-        define("black", new Color(0x000000));
+        define("medium-violet-red", new Color(0xc71585));
+        define("deep-pink", new Color(0xff1493));
+        define("pale-violet-red", new Color(0xdb7093));
+        define("hot-pink", new Color(0xff69b4));
+        define("light-pink", new Color(0xffb6c1));
+        define("pink", new Color(0xffc0cb));
+
+        define("dark-red", new Color(0x8b0000));
         define("red", new Color(0xff0000));
-        define("maroon", new Color(0x800000));
+        define("firebrick", new Color(0xb22222));
+        define("crimson", new Color(0xdc143c));
+        define("indian-red", new Color(0xcd5c5c));
+        define("light-coral", new Color(0xf08080));
+        define("salmon", new Color(0xfa8072));
+        define("dark-salmon", new Color(0xe9967a));
+        define("light-salmon", new Color(0xffa07a));
+
+        define("orange-red", new Color(0xff4500));
+        define("tomato", new Color(0xff6347));
+        define("dark-orange", new Color(0xff8c00));
+        define("coral", new Color(0xff7f50));
+        define("orange", new Color(0xffa500));
+
+        define("dark-khaki", new Color(0xbdb76b));
+        define("gold", new Color(0xffd700));
+        define("khaki", new Color(0xf0e68c));
+        define("peach-puff", new Color(0xffdab9));
         define("yellow", new Color(0xffff00));
-        define("olive", new Color(0x808000));
-        define("lime", new Color(0x00ff00));
-        define("green", new Color(0x008000));
-        define("aqua", new Color(0x00ffff));
-        define("teal", new Color(0x008080));
-        define("blue", new Color(0x0000ff));
-        define("navy", new Color(0x000080));
-        define("fuschia", new Color(0xff00ff));
+        define("pale-goldenrod", new Color(0xeee8aa));
+        define("moccasin", new Color(0xffe4b5));
+        define("papaya-whip", new Color(0xffefd5));
+        define("light-goldenrod-yellow", new Color(0xfafad2));
+        define("lemon-chiffon", new Color(0xfffacd));
+        define("light-yellow", new Color(0xffffe0));
+
+        define("maroon", new Color(0x800000));
+        define("brown", new Color(0xa52a2a));
+        define("saddle-brown", new Color(0x8b4513));
+        define("sienna", new Color(0xa0522d));
+        define("chocolate", new Color(0xd2691e));
+        define("dark-goldenrod", new Color(0xb8860b));
+        define("peru", new Color(0xcd853f));
+        define("rosy-brown", new Color(0xbc8f8f));
+        define("goldenrod", new Color(0xdaa520));
+        define("sandy-brown", new Color(0xf4a460));
+        define("tan", new Color(0xd2b48c));
+        define("burlywood", new Color(0xdeb887));
+        define("wheat", new Color(0xf5deb3));
+        define("navajo-white", new Color(0xffdead));
+        define("bisque", new Color(0xffe4c4));
+        define("blanched-almond", new Color(0xffebcd));
+        define("cornsilk", new Color(0xfff8dc));
+
+        define("indigo", new Color(0x4b0082));
         define("purple", new Color(0x800080));
+        define("dark-magenta", new Color(0x8b008b));
+        define("dark-violet", new Color(0x9400d3));
+        define("dark-slate-blue", new Color(0x483d8b));
+        define("blue-violet", new Color(0x8a2be2));
+        define("dark-orchid", new Color(0x9932cc));
+        define("fuchsia", new Color(0xff00ff));
+        define("magenta", new Color(0xff00ff));
+        define("slate-blue", new Color(0x6a5acd));
+        define("medium-slate-blue", new Color(0x7b68ee));
+        define("medium-orchid", new Color(0xba55d3));
+        define("medium-purple", new Color(0x9370db));
+        define("orchid", new Color(0xda70d6));
+        define("violet", new Color(0xee82ee));
+        define("plum", new Color(0xdda0dd));
+        define("thistle", new Color(0xd8bfd8));
+        define("lavender", new Color(0xe6e6fa));
+
+        define("midnight-blue", new Color(0x191970));
+        define("navy", new Color(0x000080));
+        define("dark-blue", new Color(0x00008b));
+        define("medium-blue", new Color(0x0000cd));
+        define("blue", new Color(0x0000ff));
+        define("royal-blue", new Color(0x4169e1));
+        define("steel-blue", new Color(0x4682b4));
+        define("dodger-blue", new Color(0x1e90ff));
+        define("deep-sky-blue", new Color(0x00bfff));
+        define("cornflower-blue", new Color(0x6495ed));
+        define("skyblue", new Color(0x87ceeb));
+        define("light-sky-blue", new Color(0x87cefa));
+        define("light-steel-blue", new Color(0xb0c4de));
+        define("light-blue", new Color(0xadd8e6));
+        define("powder-blue", new Color(0xb0e0e6));
+
+        define("teal", new Color(0x008080));
+        define("dark-cyan", new Color(0x008b8b));
+        define("light-sea-green", new Color(0x20b2aa));
+        define("cadet-blue", new Color(0x5f9ea0));
+        define("dark-turquoise", new Color(0x00ced1));
+        define("medium-turquoise", new Color(0x48d1cc));
+        define("turquoise", new Color(0x40e0d0));
+        define("aqua", new Color(0x00ffff));
+        define("cyan", new Color(0x00ffff));
+        define("aquamarine", new Color(0x7fffd4));
+        define("pale-turquoise", new Color(0xafeeee));
+        define("light-cyan", new Color(0xe0ffff));
+
+        define("dark-green", new Color(0x006400));
+        define("green", new Color(0x008000));
+        define("dark-olive-green", new Color(0x556b2f));
+        define("forest-green", new Color(0x228b22));
+        define("sea-green", new Color(0x2e8b57));
+        define("olive", new Color(0x808000));
+        define("olive-drab", new Color(0x6b8e23));
+        define("medium-sea-green", new Color(0x3cb371));
+        define("lime-green", new Color(0x32cd32));
+        define("lime", new Color(0x00ff00));
+        define("spring-green", new Color(0x00ff7f));
+        define("medium-spring-green", new Color(0x00fa9a));
+        define("dark-sea-green", new Color(0x8fbc8f));
+        define("medium-aquamarine", new Color(0x66cdaa));
+        define("yellow-green", new Color(0x9acd32));
+        define("lawn-green", new Color(0x7cfc00));
+        define("chartreuse", new Color(0x7fff00));
+        define("light-green", new Color(0x90ee90));
+        define("green-yellow", new Color(0xadff2f));
+        define("pale-green", new Color(0x98fb98));
+
+        define("misty-rose", new Color(0xffe4e1));
+        define("antique-white", new Color(0xfaebd7));
+        define("linen", new Color(0xfaf0e6));
+        define("beige", new Color(0xf5f5dc));
+        define("white-smoke", new Color(0xf5f5f5));
+        define("lavender-blush", new Color(0xfff0f5));
+        define("old-lace", new Color(0xfdf5e6));
+        define("alice-blue", new Color(0xf0f8ff));
+        define("seashell", new Color(0xfff5ee));
+        define("ghost-white", new Color(0xf8f8ff));
+        define("honeydew", new Color(0xf0fff0));
+        define("floral-white", new Color(0xfffaf0));
+        define("azure", new Color(0xf0ffff));
+        define("mint-cream", new Color(0xf5fffa));
+        define("snow", new Color(0xfffafa));
+        define("ivory", new Color(0xfffff0));
+        define("white", new Color(0xffffff));
+
+        define("black", new Color(0x000000));
+        define("dark-slate-gray", new Color(0x2f4f4f));
+        define("dim-gray", new Color(0x696969));
+        define("slate-gray", new Color(0x708090));
+        define("gray", new Color(0x808080));
+        define("light-slate-gray", new Color(0x778899));
+        define("dark-gray", new Color(0xa9a9a9));
+        define("silver", new Color(0xc0c0c0));
+        define("light-gray", new Color(0xd3d3d3));
+        define("gainsboro", new Color(0xdcdcdc));
     }
 
     private UILoader(Object owner, String name, ResourceBundle resourceBundle) {
