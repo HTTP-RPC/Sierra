@@ -189,7 +189,6 @@ The "size" attribute specifies a fixed dimension for a component. It is typicall
     </row-panel>
     
     ...
-
 </column-panel>
 ```
 
@@ -313,7 +312,6 @@ An optional resource bundle may be provided as the third argument to the `load()
     </row-panel>
     
     ...
-    
 </column-panel>
 ```
 
