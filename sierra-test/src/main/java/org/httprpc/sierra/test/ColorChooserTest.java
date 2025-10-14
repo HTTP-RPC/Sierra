@@ -21,19 +21,80 @@ import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
-import javax.swing.event.TreeModelListener;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreeSelectionModel;
+import java.util.Enumeration;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
 
 public class ColorChooserTest extends JFrame implements Runnable {
-    private record ColorGroup(String name, List<String> colors) {
+    private abstract static class ColorTreeNode implements TreeNode {
+        String name;
+        List<? extends TreeNode> children;
+
+        ColorTreeNode(String name, List<? extends TreeNode> children) {
+            this.name = name;
+            this.children = children;
+        }
+
+        @Override
+        public TreeNode getParent() {
+            return null;
+        }
+
+        @Override
+        public TreeNode getChildAt(int index) {
+            return children.get(index);
+        }
+
+        @Override
+        public int getChildCount() {
+            return children.size();
+        }
+
+        @Override
+        public int getIndex(TreeNode node) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean getAllowsChildren() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean isLeaf() {
+            return children == null;
+        }
+
+        @Override
+        public Enumeration<? extends TreeNode> children() {
+            throw new UnsupportedOperationException();
+        }
+
         @Override
         public String toString() {
             return name;
+        }
+    }
+
+    private static class RootNode extends ColorTreeNode {
+        RootNode(String name, List<ColorGroupNode> children) {
+            super(name, children);
+        }
+    }
+
+    private static class ColorGroupNode extends ColorTreeNode {
+        ColorGroupNode(String name, List<ColorNode> children) {
+            super(name, children);
+        }
+    }
+
+    private static class ColorNode extends ColorTreeNode {
+        ColorNode(String name) {
+            super(name, null);
         }
     }
 
@@ -42,170 +103,170 @@ public class ColorChooserTest extends JFrame implements Runnable {
 
     private boolean updatingColor = false;
 
-    private List<ColorGroup> colorGroups = listOf(
-        new ColorGroup("Pink colors", listOf(
-            "medium-violet-red",
-            "deep-pink",
-            "pale-violet-red",
-            "hot-pink",
-            "light-pink",
-            "pink"
+    private RootNode rootNode = new RootNode("root", listOf(
+        new ColorGroupNode("Pink colors", listOf(
+            new ColorNode("medium-violet-red"),
+            new ColorNode("deep-pink"),
+            new ColorNode("pale-violet-red"),
+            new ColorNode("hot-pink"),
+            new ColorNode("light-pink"),
+            new ColorNode("pink")
         )),
-        new ColorGroup("Red colors", listOf(
-            "dark-red",
-            "red",
-            "firebrick",
-            "crimson",
-            "indian-red",
-            "light-coral",
-            "salmon",
-            "dark-salmon",
-            "light-salmon"
+        new ColorGroupNode("Red colors", listOf(
+            new ColorNode("dark-red"),
+            new ColorNode("red"),
+            new ColorNode("firebrick"),
+            new ColorNode("crimson"),
+            new ColorNode("indian-red"),
+            new ColorNode("light-coral"),
+            new ColorNode("salmon"),
+            new ColorNode("dark-salmon"),
+            new ColorNode("light-salmon")
         )),
-        new ColorGroup("Orange colors", listOf(
-            "orange-red",
-            "tomato",
-            "dark-orange",
-            "coral",
-            "orange"
+        new ColorGroupNode("Orange colors", listOf(
+            new ColorNode("orange-red"),
+            new ColorNode("tomato"),
+            new ColorNode("dark-orange"),
+            new ColorNode("coral"),
+            new ColorNode("orange")
         )),
-        new ColorGroup("Yellow colors", listOf(
-            "dark-khaki",
-            "gold",
-            "khaki",
-            "peach-puff",
-            "yellow",
-            "pale-goldenrod",
-            "moccasin",
-            "papaya-whip",
-            "light-goldenrod-yellow",
-            "lemon-chiffon",
-            "light-yellow"
+        new ColorGroupNode("Yellow colors", listOf(
+            new ColorNode("dark-khaki"),
+            new ColorNode("gold"),
+            new ColorNode("khaki"),
+            new ColorNode("peach-puff"),
+            new ColorNode("yellow"),
+            new ColorNode("pale-goldenrod"),
+            new ColorNode("moccasin"),
+            new ColorNode("papaya-whip"),
+            new ColorNode("light-goldenrod-yellow"),
+            new ColorNode("lemon-chiffon"),
+            new ColorNode("light-yellow")
         )),
-        new ColorGroup("Brown colors", listOf(
-            "maroon",
-            "brown",
-            "saddle-brown",
-            "sienna",
-            "chocolate",
-            "dark-goldenrod",
-            "peru",
-            "rosy-brown",
-            "goldenrod",
-            "sandy-brown",
-            "tan",
-            "burlywood",
-            "wheat",
-            "navajo-white",
-            "bisque",
-            "blanched-almond",
-            "cornsilk"
+        new ColorGroupNode("Brown colors", listOf(
+            new ColorNode("maroon"),
+            new ColorNode("brown"),
+            new ColorNode("saddle-brown"),
+            new ColorNode("sienna"),
+            new ColorNode("chocolate"),
+            new ColorNode("dark-goldenrod"),
+            new ColorNode("peru"),
+            new ColorNode("rosy-brown"),
+            new ColorNode("goldenrod"),
+            new ColorNode("sandy-brown"),
+            new ColorNode("tan"),
+            new ColorNode("burlywood"),
+            new ColorNode("wheat"),
+            new ColorNode("navajo-white"),
+            new ColorNode("bisque"),
+            new ColorNode("blanched-almond"),
+            new ColorNode("cornsilk")
         )),
-        new ColorGroup("Purple, violet, and magenta colors", listOf(
-            "indigo",
-            "purple",
-            "dark-magenta",
-            "dark-violet",
-            "dark-slate-blue",
-            "blue-violet",
-            "dark-orchid",
-            "fuchsia",
-            "magenta",
-            "slate-blue",
-            "medium-slate-blue",
-            "medium-orchid",
-            "medium-purple",
-            "orchid",
-            "violet",
-            "plum",
-            "thistle",
-            "lavender"
+        new ColorGroupNode("Purple, violet, and magenta colors", listOf(
+            new ColorNode("indigo"),
+            new ColorNode("purple"),
+            new ColorNode("dark-magenta"),
+            new ColorNode("dark-violet"),
+            new ColorNode("dark-slate-blue"),
+            new ColorNode("blue-violet"),
+            new ColorNode("dark-orchid"),
+            new ColorNode("fuchsia"),
+            new ColorNode("magenta"),
+            new ColorNode("slate-blue"),
+            new ColorNode("medium-slate-blue"),
+            new ColorNode("medium-orchid"),
+            new ColorNode("medium-purple"),
+            new ColorNode("orchid"),
+            new ColorNode("violet"),
+            new ColorNode("plum"),
+            new ColorNode("thistle"),
+            new ColorNode("lavender")
         )),
-        new ColorGroup("Blue colors", listOf(
-            "midnight-blue",
-            "navy",
-            "dark-blue",
-            "medium-blue",
-            "blue",
-            "royal-blue",
-            "steel-blue",
-            "dodger-blue",
-            "deep-sky-blue",
-            "cornflower-blue",
-            "skyblue",
-            "light-sky-blue",
-            "light-steel-blue",
-            "light-blue",
-            "powder-blue"
+        new ColorGroupNode("Blue colors", listOf(
+            new ColorNode("midnight-blue"),
+            new ColorNode("navy"),
+            new ColorNode("dark-blue"),
+            new ColorNode("medium-blue"),
+            new ColorNode("blue"),
+            new ColorNode("royal-blue"),
+            new ColorNode("steel-blue"),
+            new ColorNode("dodger-blue"),
+            new ColorNode("deep-sky-blue"),
+            new ColorNode("cornflower-blue"),
+            new ColorNode("skyblue"),
+            new ColorNode("light-sky-blue"),
+            new ColorNode("light-steel-blue"),
+            new ColorNode("light-blue"),
+            new ColorNode("powder-blue")
         )),
-        new ColorGroup("Cyan colors", listOf(
-            "teal",
-            "dark-cyan",
-            "light-sea-green",
-            "cadet-blue",
-            "dark-turquoise",
-            "medium-turquoise",
-            "turquoise",
-            "aqua",
-            "cyan",
-            "aquamarine",
-            "pale-turquoise",
-            "light-cyan"
+        new ColorGroupNode("Cyan colors", listOf(
+            new ColorNode("teal"),
+            new ColorNode("dark-cyan"),
+            new ColorNode("light-sea-green"),
+            new ColorNode("cadet-blue"),
+            new ColorNode("dark-turquoise"),
+            new ColorNode("medium-turquoise"),
+            new ColorNode("turquoise"),
+            new ColorNode("aqua"),
+            new ColorNode("cyan"),
+            new ColorNode("aquamarine"),
+            new ColorNode("pale-turquoise"),
+            new ColorNode("light-cyan")
         )),
-        new ColorGroup("Green colors", listOf(
-            "dark-green",
-            "green",
-            "dark-olive-green",
-            "forest-green",
-            "sea-green",
-            "olive",
-            "olive-drab",
-            "medium-sea-green",
-            "lime-green",
-            "lime",
-            "spring-green",
-            "medium-spring-green",
-            "dark-sea-green",
-            "medium-aquamarine",
-            "yellow-green",
-            "lawn-green",
-            "chartreuse",
-            "light-green",
-            "green-yellow",
-            "pale-green"
+        new ColorGroupNode("Green colors", listOf(
+            new ColorNode("dark-green"),
+            new ColorNode("green"),
+            new ColorNode("dark-olive-green"),
+            new ColorNode("forest-green"),
+            new ColorNode("sea-green"),
+            new ColorNode("olive"),
+            new ColorNode("olive-drab"),
+            new ColorNode("medium-sea-green"),
+            new ColorNode("lime-green"),
+            new ColorNode("lime"),
+            new ColorNode("spring-green"),
+            new ColorNode("medium-spring-green"),
+            new ColorNode("dark-sea-green"),
+            new ColorNode("medium-aquamarine"),
+            new ColorNode("yellow-green"),
+            new ColorNode("lawn-green"),
+            new ColorNode("chartreuse"),
+            new ColorNode("light-green"),
+            new ColorNode("green-yellow"),
+            new ColorNode("pale-green")
         )),
-        new ColorGroup("White colors", listOf(
-            "misty-rose",
-            "antique-white",
-            "linen",
-            "beige",
-            "white-smoke",
-            "lavender-blush",
-            "old-lace",
-            "alice-blue",
-            "seashell",
-            "ghost-white",
-            "honeydew",
-            "floral-white",
-            "azure",
-            "mint-cream",
-            "snow",
-            "ivory",
-            "white"
+        new ColorGroupNode("White colors", listOf(
+            new ColorNode("misty-rose"),
+            new ColorNode("antique-white"),
+            new ColorNode("linen"),
+            new ColorNode("beige"),
+            new ColorNode("white-smoke"),
+            new ColorNode("lavender-blush"),
+            new ColorNode("old-lace"),
+            new ColorNode("alice-blue"),
+            new ColorNode("seashell"),
+            new ColorNode("ghost-white"),
+            new ColorNode("honeydew"),
+            new ColorNode("floral-white"),
+            new ColorNode("azure"),
+            new ColorNode("mint-cream"),
+            new ColorNode("snow"),
+            new ColorNode("ivory"),
+            new ColorNode("white")
         )),
-        new ColorGroup("Gray and black colors", listOf(
-            "black",
-            "dark-slate-gray",
-            "dim-gray",
-            "slate-gray",
-            "gray",
-            "light-slate-gray",
-            "dark-gray",
-            "silver",
-            "light-gray",
-            "gainsboro"
+        new ColorGroupNode("Gray and black colors", listOf(
+            new ColorNode("black"),
+            new ColorNode("dark-slate-gray"),
+            new ColorNode("dim-gray"),
+            new ColorNode("slate-gray"),
+            new ColorNode("gray"),
+            new ColorNode("light-slate-gray"),
+            new ColorNode("dark-gray"),
+            new ColorNode("silver"),
+            new ColorNode("light-gray"),
+            new ColorNode("gainsboro")
         ))
-    );
+    ));
 
     private ColorChooserTest() {
         super("Color Chooser Test");
@@ -217,51 +278,7 @@ public class ColorChooserTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "ColorChooserTest.xml"));
 
-        colorTree.setModel(new TreeModel() {
-            @Override
-            public Object getRoot() {
-                return colorGroups;
-            }
-
-            List<?> getList(Object parent) {
-                return (parent instanceof List<?>) ? (List<?>)parent : ((ColorGroup)parent).colors();
-            }
-
-            @Override
-            public int getChildCount(Object parent) {
-                return getList(parent).size();
-            }
-
-            @Override
-            public Object getChild(Object parent, int index) {
-                return getList(parent).get(index);
-            }
-
-            @Override
-            public int getIndexOfChild(Object parent, Object child) {
-                return getList(parent).indexOf(child);
-            }
-
-            @Override
-            public boolean isLeaf(Object node) {
-                return node instanceof String;
-            }
-
-            @Override
-            public void addTreeModelListener(TreeModelListener listener) {
-                // No-op
-            }
-
-            @Override
-            public void removeTreeModelListener(TreeModelListener listener) {
-                // No-op
-            }
-
-            @Override
-            public void valueForPathChanged(TreePath path, Object newValue) {
-                // No-op
-            }
-        });
+        colorTree.setModel(new DefaultTreeModel(rootNode));
 
         colorTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
@@ -272,10 +289,12 @@ public class ColorChooserTest extends JFrame implements Runnable {
                 return;
             }
 
-            if (selectionPath.getLastPathComponent() instanceof String name) {
+            var selectedNode = (TreeNode)selectionPath.getLastPathComponent();
+
+            if (selectedNode.isLeaf()) {
                 updatingColor = true;
 
-                colorChooser.setColor(UILoader.getColor(name));
+                colorChooser.setColor(UILoader.getColor(selectedNode.toString()));
 
                 updatingColor = false;
             }
