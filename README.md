@@ -260,12 +260,12 @@ For example, the following markup declares outlets named "greetingButton" and "g
 <label name="greetingLabel" horizontalAlignment="center"/>
 ```
 
-When the `load()` method returns, the corresponding fields in the owner will be populated with the instances declared in the markup:
+When the `load()` method returns, the corresponding fields in the owner will be populated with the instances declared in the markup. Though not required, use of the `Outlet` annotation is recommended:
 
 ```java
 public class ActionTest extends JFrame implements Runnable {
-    private JButton greetingButton = null;
-    private JLabel greetingLabel = null;
+    private @Outlet JButton greetingButton = null;
+    private @Outlet JLabel greetingLabel = null;
     
     ...
 

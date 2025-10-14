@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JButton;
@@ -24,8 +25,8 @@ import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
 
 public class ActionTest extends JFrame implements Runnable {
-    private JButton greetingButton = null;
-    private JLabel greetingLabel = null;
+    private @Outlet JButton greetingButton = null;
+    private @Outlet JLabel greetingLabel = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ActionTest.class.getName());
 
