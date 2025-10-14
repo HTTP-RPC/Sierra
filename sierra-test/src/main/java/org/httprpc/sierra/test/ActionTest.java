@@ -42,6 +42,9 @@ public class ActionTest extends JFrame implements Runnable {
 
         greetingButton.addActionListener(event -> sayHello());
 
+        System.out.println(greetingButton.getName());
+        System.out.println(greetingLabel.getName());
+
         setSize(240, 180);
         setVisible(true);
     }
