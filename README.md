@@ -250,7 +250,7 @@ The "group" attribute associates a button with a button group. For example, the 
 <img src="README/orientation.png" width="454px"/>
 
 ### Element Names
-The "name" attribute associates an identifier with a component. In addition to setting the "name" property of the component instance, `UILoader` automatically injects the component itself into a field with the same name defined by the document's owner (called an "outlet").
+The "name" attribute associates an identifier with a component. In addition to setting the component's "name" property, `UILoader` automatically injects the component itself into a field with the same name defined by the document's owner (called an "outlet").
 
 For example, the following markup declares outlets named "greetingButton" and "greetingLabel": 
 
