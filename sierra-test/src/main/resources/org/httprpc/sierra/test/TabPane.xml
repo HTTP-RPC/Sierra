@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
+<column-panel spacing="4" padding="8" alignToGrid="true">
+    <row-panel alignToBaseline="true">
+        <label text="Field 1" alignmentX="1.0"/>
+        <text-field columns="8" alignmentX="0.0"/>
+    </row-panel>
+
+    <row-panel alignToBaseline="true">
+        <label text="Field 2" alignmentX="1.0"/>
+        <text-field columns="8" alignmentX="0.0"/>
+    </row-panel>
+
+    <separator/>
+
+    <row-panel alignToBaseline="true">
+        <spacer/>
+
+        <row-panel spacing="8" alignToBaseline="true">
+            <button name="submitButton" text="Submit"/>
+            <activity-indicator name="activityIndicator" indicatorSize="18"/>
+        </row-panel>
+    </row-panel>
+</column-panel>
