@@ -189,7 +189,7 @@ The "size" attribute specifies a fixed dimension for a component. It is typicall
     </row-panel>
     
     ...
-    
+
 </column-panel>
 ```
 
@@ -266,7 +266,9 @@ When the `load()` method returns, the corresponding fields in the owner will be 
 public class ActionTest extends JFrame implements Runnable {
     private @Outlet JButton greetingButton = null;
     private @Outlet JLabel greetingLabel = null;
-    
+
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ActionTest.class.getName());
+
     ...
 
     @Override
@@ -276,6 +278,10 @@ public class ActionTest extends JFrame implements Runnable {
         greetingButton.addActionListener(event -> sayHello());
 
         ...
+    }
+
+    private void sayHello() {
+        greetingLabel.setText(resourceBundle.getString("greeting"));
     }
 
     ...
@@ -319,23 +325,6 @@ lastName = Last Name
 streetAddress = Street Address
 
 ...
-```
-
-```java
-public class FormTest extends JFrame implements Runnable {
-    ...
-
-    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(FormTest.class.getName());
-
-    ...
-
-    @Override
-    public void run() {
-        var scrollPane = new JScrollPane(UILoader.load(this, "FormTest.xml", resourceBundle));
-
-        ...
-    }
-}
 ```
 
 <img src="README/form.png" width="592px"/>
