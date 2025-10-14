@@ -16,6 +16,7 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.NumberField;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.ValidatedTextField;
 
@@ -30,15 +31,15 @@ import java.util.ResourceBundle;
 import static org.httprpc.kilo.util.Optionals.*;
 
 public class ValidatedInputTest extends JFrame implements Runnable {
-    private NumberField numberField1 = null;
-    private NumberField numberField2 = null;
+    private @Outlet NumberField numberField1 = null;
+    private @Outlet NumberField numberField2 = null;
 
-    private ValidatedTextField validatedTextField1 = null;
-    private ValidatedTextField validatedTextField2 = null;
+    private @Outlet ValidatedTextField validatedTextField1 = null;
+    private @Outlet ValidatedTextField validatedTextField2 = null;
 
-    private JButton submitButton = null;
+    private @Outlet JButton submitButton = null;
 
-    private JLabel messageLabel = null;
+    private @Outlet JLabel messageLabel = null;
 
     static {
         var language = System.getProperty("language");

@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.RowPanel;
 import org.httprpc.sierra.UILoader;
 
@@ -26,12 +27,12 @@ import java.awt.ComponentOrientation;
 import java.util.ResourceBundle;
 
 public class OrientationTest extends JFrame implements Runnable {
-    private RowPanel rowPanel = null;
+    private @Outlet RowPanel rowPanel = null;
 
-    private JRadioButton leftToRightButton = null;
-    private JRadioButton rightToLeftButton = null;
+    private @Outlet JRadioButton leftToRightButton = null;
+    private @Outlet JRadioButton rightToLeftButton = null;
 
-    private JButton applyOrientationButton = null;
+    private @Outlet JButton applyOrientationButton = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(OrientationTest.class.getName());
 

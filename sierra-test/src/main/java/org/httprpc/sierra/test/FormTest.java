@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.ScrollingKeyboardFocusManager;
 import org.httprpc.sierra.UILoader;
 
@@ -29,10 +30,10 @@ import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
 public class FormTest extends JFrame implements Runnable {
-    private JFormattedTextField formattedTextField1 = null;
-    private JFormattedTextField formattedTextField2 = null;
-    private JFormattedTextField formattedTextField3 = null;
-    private JFormattedTextField formattedTextField4 = null;
+    private @Outlet JFormattedTextField formattedTextField1 = null;
+    private @Outlet JFormattedTextField formattedTextField2 = null;
+    private @Outlet JFormattedTextField formattedTextField3 = null;
+    private @Outlet JFormattedTextField formattedTextField4 = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(FormTest.class.getName());
 

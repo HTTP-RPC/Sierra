@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
@@ -28,8 +29,8 @@ import java.util.List;
 import static org.httprpc.kilo.util.Collections.*;
 
 public class CellRendererTest extends JFrame implements Runnable {
-    private JScrollPane scrollPane = null;
-    private JList<Flag> flagList = null;
+    private @Outlet JScrollPane scrollPane = null;
+    private @Outlet JList<Flag> flagList = null;
 
     private List<Flag> flags = listOf(
         new Flag("alpha.png", "Alpha", "I have a diver down; keep well clear at slow speed."),

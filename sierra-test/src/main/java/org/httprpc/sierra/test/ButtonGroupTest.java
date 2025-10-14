@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
@@ -24,12 +25,12 @@ import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
 
 public class ButtonGroupTest extends JFrame implements Runnable {
-    private JToggleButton alignLeftButton = null;
-    private JToggleButton alignCenterButton = null;
-    private JToggleButton alignRightButton = null;
-    private JToggleButton alignJustifyButton = null;
+    private @Outlet JToggleButton alignLeftButton = null;
+    private @Outlet JToggleButton alignCenterButton = null;
+    private @Outlet JToggleButton alignRightButton = null;
+    private @Outlet JToggleButton alignJustifyButton = null;
 
-    private JLabel selectionLabel = null;
+    private @Outlet JLabel selectionLabel = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ButtonGroupTest.class.getName());
 

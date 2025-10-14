@@ -16,6 +16,7 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.ActivityIndicator;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TaskExecutor;
 import org.httprpc.sierra.UILoader;
 
@@ -27,9 +28,9 @@ import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 
 public class TaskExecutorTest extends JFrame implements Runnable {
-    private JButton button = null;
-    private JLabel label = null;
-    private ActivityIndicator activityIndicator = null;
+    private @Outlet JButton button = null;
+    private @Outlet JLabel label = null;
+    private @Outlet ActivityIndicator activityIndicator = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(TaskExecutorTest.class.getName());
 

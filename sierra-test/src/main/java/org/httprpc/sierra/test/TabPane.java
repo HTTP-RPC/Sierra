@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import org.httprpc.sierra.ActivityIndicator;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TaskExecutor;
 import org.httprpc.sierra.UILoader;
 
@@ -28,8 +29,8 @@ import java.awt.event.MouseAdapter;
 public class TabPane extends JRootPane {
     private TaskExecutor taskExecutor;
 
-    private JButton submitButton = null;
-    private ActivityIndicator activityIndicator = null;
+    private @Outlet JButton submitButton = null;
+    private @Outlet ActivityIndicator activityIndicator = null;
 
     public TabPane(String name, TaskExecutor taskExecutor) {
         setName(name);

@@ -16,6 +16,7 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.MenuButton;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JCheckBox;
@@ -26,9 +27,8 @@ import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
 
 public class MenuButtonTest extends JFrame implements Runnable {
-    private MenuButton menuButton = null;
-
-    private JCheckBox focusableCheckBox = null;
+    private @Outlet MenuButton menuButton = null;
+    private @Outlet JCheckBox focusableCheckBox = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(MenuButtonTest.class.getName());
 

@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.ScrollingKeyboardFocusManager;
 import org.httprpc.sierra.UILoader;
 
@@ -27,7 +28,7 @@ import java.awt.Color;
 import java.awt.KeyboardFocusManager;
 
 public class BlockLayoutTest extends JFrame implements Runnable {
-    private JButton submitButton = null;
+    private @Outlet JButton submitButton = null;
 
     private BlockLayoutTest() {
         super("Block Layout Test");

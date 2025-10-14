@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import org.httprpc.sierra.ImagePane;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JComponent;
@@ -27,9 +28,9 @@ import java.awt.Component;
 public class FlagCellRenderer implements ListCellRenderer<Flag> {
     private JComponent component;
 
-    private ImagePane imagePane = null;
-    private JLabel nameLabel = null;
-    private JLabel descriptionLabel = null;
+    private @Outlet ImagePane imagePane = null;
+    private @Outlet JLabel nameLabel = null;
+    private @Outlet JLabel descriptionLabel = null;
 
     public FlagCellRenderer() {
         component = UILoader.load(this, "FlagCellRenderer.xml");

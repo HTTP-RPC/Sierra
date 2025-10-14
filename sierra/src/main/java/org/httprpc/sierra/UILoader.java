@@ -619,6 +619,11 @@ public class UILoader {
                     throw new UnsupportedOperationException(String.format("Invalid field name (%s).", value));
                 }
 
+                // TODO Revert
+                if (field.getAnnotation(Outlet.class) == null) {
+                    throw new UnsupportedOperationException(String.format("Outlet is not annotated (%s).", value));
+                }
+
                 field.setAccessible(true);
 
                 try {

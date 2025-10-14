@@ -16,6 +16,7 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.ActivityIndicator;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
@@ -24,11 +25,11 @@ import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
 
 public class ActivityIndicatorTest extends JFrame implements Runnable {
-    private ActivityIndicator activityIndicator1 = null;
-    private ActivityIndicator activityIndicator2 = null;
-    private ActivityIndicator activityIndicator3 = null;
+    private @Outlet ActivityIndicator activityIndicator1 = null;
+    private @Outlet ActivityIndicator activityIndicator2 = null;
+    private @Outlet ActivityIndicator activityIndicator3 = null;
 
-    private JToggleButton toggleButton = null;
+    private @Outlet JToggleButton toggleButton = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ActivityIndicatorTest.class.getName());
 

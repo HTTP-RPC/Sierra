@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
@@ -23,8 +24,8 @@ import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 
 public class SliderTest extends JFrame implements Runnable {
-    private JSlider slider = null;
-    private JProgressBar progressBar = null;
+    private @Outlet JSlider slider = null;
+    private @Outlet JProgressBar progressBar = null;
 
     private SliderTest() {
         super("Slider Test");

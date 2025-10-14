@@ -16,6 +16,7 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.DatePicker;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TimePicker;
 import org.httprpc.sierra.UILoader;
 
@@ -35,15 +36,15 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class DateTimePickerTest extends JFrame implements Runnable {
-    private DatePicker datePicker = null;
+    private @Outlet DatePicker datePicker = null;
 
-    private TimePicker timePicker = null;
-    private JComboBox<Integer> minuteIntervalComboBox = null;
-    private JCheckBox strictCheckBox = null;
+    private @Outlet TimePicker timePicker = null;
+    private @Outlet JComboBox<Integer> minuteIntervalComboBox = null;
+    private @Outlet JCheckBox strictCheckBox = null;
 
-    private JButton submitButton = null;
+    private @Outlet JButton submitButton = null;
 
-    private JLabel selectionLabel = null;
+    private @Outlet JLabel selectionLabel = null;
 
     static {
         var language = System.getProperty("language");

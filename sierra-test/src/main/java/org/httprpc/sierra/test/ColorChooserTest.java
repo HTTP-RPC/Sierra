@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JColorChooser;
@@ -98,8 +99,8 @@ public class ColorChooserTest extends JFrame implements Runnable {
         }
     }
 
-    private JColorChooser colorChooser = null;
-    private JTree colorTree = null;
+    private @Outlet JColorChooser colorChooser = null;
+    private @Outlet JTree colorTree = null;
 
     private boolean updatingColor = false;
 

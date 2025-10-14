@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.SuggestionPicker;
 import org.httprpc.sierra.UILoader;
 
@@ -28,13 +29,13 @@ import javax.swing.SwingUtilities;
 import static org.httprpc.kilo.util.Collections.*;
 
 public class SuggestionPickerTest extends JFrame implements Runnable {
-    private JSpinner countSpinner = null;
-    private SuggestionPicker sizeSuggestionPicker = null;
-    private SuggestionPicker colorSuggestionPicker = null;
+    private @Outlet JSpinner countSpinner = null;
+    private @Outlet SuggestionPicker sizeSuggestionPicker = null;
+    private @Outlet SuggestionPicker colorSuggestionPicker = null;
 
-    private JButton submitButton = null;
+    private @Outlet JButton submitButton = null;
 
-    private JLabel selectionLabel = null;
+    private @Outlet JLabel selectionLabel = null;
 
     private SuggestionPickerTest() {
         super("Suggestion Picker Test");

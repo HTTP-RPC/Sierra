@@ -18,6 +18,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.kilo.WebServiceProxy;
 import org.httprpc.kilo.beans.BeanAdapter;
 import org.httprpc.sierra.ActivityIndicator;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TaskExecutor;
 import org.httprpc.sierra.UILoader;
 
@@ -154,21 +155,21 @@ public class TiingoTest extends JFrame implements Runnable {
         }
     }
 
-    private JTextField tickerTextField = null;
-    private JSpinner countSpinner = null;
+    private @Outlet JTextField tickerTextField = null;
+    private @Outlet JSpinner countSpinner = null;
 
-    private ActivityIndicator activityIndicator = null;
+    private @Outlet ActivityIndicator activityIndicator = null;
 
-    private JButton submitButton = null;
+    private @Outlet JButton submitButton = null;
 
-    private JTextField nameTextField = null;
-    private JTextField exchangeCodeTextField = null;
-    private JTextField startDateTextField = null;
-    private JTextField endDateTextField = null;
+    private @Outlet JTextField nameTextField = null;
+    private @Outlet JTextField exchangeCodeTextField = null;
+    private @Outlet JTextField startDateTextField = null;
+    private @Outlet JTextField endDateTextField = null;
 
-    private JTextArea descriptionTextArea = null;
+    private @Outlet JTextArea descriptionTextArea = null;
 
-    private JTable historicalPricingTable = null;
+    private @Outlet JTable historicalPricingTable = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(TiingoTest.class.getName());
 
