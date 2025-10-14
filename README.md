@@ -119,7 +119,7 @@ Color and font properties can be specified using the formats supported by `Color
 </row-panel>
 ```
 
-Colors and fonts can also be specified by name. The name can refer to either a value provided by Swing's UI defaults or a value defined by `UILoader`: 
+Colors and fonts can also be specified by name. The name can refer to either a value provided by Swing's UI defaults or a value defined by `UILoader`:
 
 <img src="README/color-chooser.png" width="1136px"/>
 
