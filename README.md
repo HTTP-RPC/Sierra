@@ -250,7 +250,7 @@ The "group" attribute associates a button with a button group. For example, the 
 <img src="README/orientation.png" width="454px"/>
 
 ### Element Names
-The "name" attribute associates an identifier with a component. The value is automatically injected into a field with the same name defined by the document's owner (called an "outlet"). 
+The "name" attribute associates an identifier with a component. The component instance is automatically injected into a field with the same name defined by the document's owner (called an "outlet").
 
 For example, the following markup declares outlets named "greetingButton" and "greetingLabel": 
 

@@ -613,6 +613,8 @@ public class UILoader {
             var value = xmlStreamReader.getAttributeValue(i);
 
             if (name.equals(NAME)) {
+                component.setName(value);
+
                 var field = fields.get(value);
 
                 if (field == null) {
