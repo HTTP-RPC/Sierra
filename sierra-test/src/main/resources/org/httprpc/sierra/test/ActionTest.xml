@@ -2,7 +2,7 @@
 
 <!DOCTYPE row-panel SYSTEM "sierra.dtd">
 
-<row-panel padding="8">
+<row-panel padding="8" opaque="true">
     <spacer weight="1"/>
 
     <column-panel spacing="8">

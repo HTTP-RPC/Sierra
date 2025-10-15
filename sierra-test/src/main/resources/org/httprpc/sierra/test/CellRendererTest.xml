@@ -2,7 +2,7 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel>
+<column-panel opaque="true">
     <scroll-pane name="scrollPane" weight="1">
         <list name="flagList"/>
     </scroll-pane>

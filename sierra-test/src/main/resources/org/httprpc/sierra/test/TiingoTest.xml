@@ -2,7 +2,7 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel spacing="8" padding="8">
+<column-panel spacing="8" padding="8" opaque="true">
     <row-panel spacing="8">
         <row-panel spacing="4">
             <label text="ticker"/>

@@ -84,7 +84,7 @@ XML elements represent component instances. Most Swing and all Sierra components
 Elements can be nested to create a component hierarchy. For example:
 
 ```xml
-<column-panel spacing="8" padding="8">
+<column-panel spacing="8" padding="8" opaque="true">
     <column-panel>
         <check-box text="checkBox1"/>
         <check-box text="checkBox2"/>
@@ -178,7 +178,7 @@ The "weight" attribute specifies the amount of excess space in a container that 
 The "size" attribute specifies a fixed dimension for a component. It is typically used with `Spacer` instances to create "struts" between components, as an alternative to the "spacing" property provided by `RowPanel` and `ColumnPanel`:
 
 ```xml
-<column-panel spacing="4" padding="8">
+<column-panel spacing="4" padding="8" opaque="true">
     <row-panel>
         <button text="1a"/>
         <spacer size="4"/>
@@ -227,7 +227,7 @@ FlatLaf text styles are also accessible via the "font" property:
 Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-properties/#JTextField) are also supported. For example: 
 
 ```xml
-<column-panel spacing="4" padding="8">
+<column-panel spacing="4" padding="8" opaque="true">
     <text-field columns="16" placeholderText="firstName" showClearButton="true"/>
     <text-field columns="16" placeholderText="lastName" showClearButton="true"/>
 
@@ -295,7 +295,7 @@ See [ActionTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActionTe
 An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, values of text properties are considered resource keys and are used to look up the associated strings in the bundle. For example:
 
 ```xml
-<column-panel spacing="4" alignToGrid="true" padding="8" scrollableTracksViewportWidth="true">
+<column-panel spacing="4" padding="8" alignToGrid="true" scrollableTracksViewportWidth="true">
     <row-panel alignToBaseline="true">
         <label text="firstName" alignmentX="1.0"/>
         <text-field columns="12" alignmentX="0.0"/>
@@ -337,7 +337,7 @@ Cell contents are aligned based on the component's _x_ and _y_ alignment values 
 For example, the following markup demonstrates x-alignment:
 
 ```xml
-<column-panel spacing="4" padding="8" alignToGrid="true">
+<column-panel spacing="4" padding="8" alignToGrid="true" opaque="true">
     <row-panel>
         <text-pane text="0.0" alignmentX="0.0" border="silver"/>
         <text-pane text="0.25" horizontalAlignment="center" alignmentX="0.25" border="silver"/>
@@ -361,7 +361,7 @@ For example, the following markup demonstrates x-alignment:
 This markup demonstrates y-alignment:
 
 ```xml
-<column-panel spacing="4" padding="8" alignToGrid="true">
+<column-panel spacing="4" padding="8" alignToGrid="true" opaque="true">
     <row-panel>
         <text-pane text="0.0" alignmentY="0.0" border="silver"/>
         <spacer size="160, 80" border="silver"/>

@@ -2,7 +2,7 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel spacing="4" padding="8">
+<column-panel spacing="4" padding="8" opaque="true">
     <label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
 
     <row-panel spacing="4" weight="1">

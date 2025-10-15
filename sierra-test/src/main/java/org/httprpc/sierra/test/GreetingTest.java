@@ -39,39 +39,37 @@ public class GreetingTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var declarative = map(System.getProperty("declarative"), Boolean::valueOf);
+        var declarative = coalesce(map(System.getProperty("declarative"), Boolean::valueOf), () -> true);
 
-        if (declarative != null) {
-            if (declarative) {
-                setContentPane(UILoader.load(this, "GreetingTest.xml"));
-            } else {
-                var columnPanel = new ColumnPanel();
+        if (declarative) {
+            setContentPane(UILoader.load(this, "GreetingTest.xml"));
+        } else {
+            var columnPanel = new ColumnPanel();
 
-                columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
+            columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
 
-                columnPanel.setOpaque(true);
-                columnPanel.setBackground(Color.WHITE);
+            columnPanel.setOpaque(true);
+            columnPanel.setBackground(Color.WHITE);
 
-                var imagePane = new ImagePane();
+            var imagePane = new ImagePane();
 
-                try (var inputStream = getClass().getResourceAsStream("world.png")) {
-                    imagePane.setImage(ImageIO.read(inputStream));
-                } catch (IOException exception) {
-                    throw new RuntimeException(exception);
-                }
-
-                imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH);
-
-                columnPanel.add(imagePane);
-
-                var textPane = new TextPane("Hello, World!");
-
-                textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
-
-                columnPanel.add(textPane);
-
-                setContentPane(columnPanel);
+            try (var inputStream = getClass().getResourceAsStream("world.png")) {
+                imagePane.setImage(ImageIO.read(inputStream));
+            } catch (IOException exception) {
+                throw new RuntimeException(exception);
             }
+
+            imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH);
+
+            columnPanel.add(imagePane);
+
+            var textPane = new TextPane("Hello, World!");
+
+            textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+            columnPanel.add(textPane);
+
+            setContentPane(columnPanel);
         }
 
         setSize(320, 480);

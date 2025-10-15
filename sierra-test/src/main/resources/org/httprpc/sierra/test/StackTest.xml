@@ -2,7 +2,7 @@
 
 <!DOCTYPE stack-panel SYSTEM "sierra.dtd">
 
-<stack-panel padding="8">
+<stack-panel padding="8" opaque="true">
     <column-panel>
         <spacer weight="1"/>
 

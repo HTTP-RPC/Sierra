@@ -2,7 +2,7 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel spacing="16" padding="32">
+<column-panel spacing="16" padding="32" opaque="true">
     <slider name="slider" minimum="0" maximum="100"/>
     <progress-bar name="progressBar" minimum="0" maximum="100"/>
 </column-panel>

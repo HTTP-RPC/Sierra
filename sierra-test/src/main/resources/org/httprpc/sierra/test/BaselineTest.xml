@@ -2,7 +2,7 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel padding="8">
+<column-panel padding="8" opaque="true">
     <row-panel spacing="4" alignToBaseline="true">
         <label text="abcdefg" font="small" border="silver"/>
         <label text="hijk" font="large" border="silver"/>

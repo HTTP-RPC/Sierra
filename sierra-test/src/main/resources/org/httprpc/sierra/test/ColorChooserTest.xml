@@ -2,7 +2,7 @@
 
 <!DOCTYPE row-panel SYSTEM "sierra.dtd">
 
-<row-panel spacing="8" padding="8">
+<row-panel spacing="8" padding="8" opaque="true">
     <color-chooser name="colorChooser" weight="0.75"/>
 
     <separator orientation="vertical"/>

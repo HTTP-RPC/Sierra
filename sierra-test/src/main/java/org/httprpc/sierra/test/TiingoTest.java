@@ -21,7 +21,7 @@ import org.httprpc.sierra.ActivityIndicator;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TaskExecutor;
 import org.httprpc.sierra.UILoader;
-import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceBusinessLookAndFeel;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -199,7 +199,7 @@ public class TiingoTest extends JFrame implements Runnable {
     public void run() {
         if (radiance) {
             try {
-                UIManager.setLookAndFeel(RadianceGraphiteLookAndFeel.class.getName());
+                UIManager.setLookAndFeel(RadianceBusinessLookAndFeel.class.getName());
             } catch (Exception exception) {
                 throw new RuntimeException(exception);
             }
