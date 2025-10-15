@@ -49,8 +49,13 @@ public class TabPane extends JRootPane {
 
         setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
             @Override
-            public Component getDefaultComponent(Container container) {
-                return getGlassPane().isVisible() ? null : super.getDefaultComponent(container);
+            public Component getFirstComponent(Container container) {
+                return getGlassPane().isVisible() ? null : super.getFirstComponent(container);
+            }
+
+            @Override
+            public Component getLastComponent(Container container) {
+                return getGlassPane().isVisible() ? null : super.getLastComponent(container);
             }
         });
     }
