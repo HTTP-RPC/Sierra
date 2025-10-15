@@ -21,6 +21,8 @@ dependencies {
 
     implementation "com.formdev:flatlaf:${flatLafVersion}:no-natives"
     implementation "com.formdev:flatlaf-extras:${flatLafVersion}"
+
+    implementation "org.pushing-pixels:radiance-theming:${radianceVersion}"
 }
 
 tasks.withType(JavaCompile) {

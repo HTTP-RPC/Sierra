@@ -21,6 +21,7 @@ import org.httprpc.sierra.ActivityIndicator;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TaskExecutor;
 import org.httprpc.sierra.UILoader;
+import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteLookAndFeel;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -34,6 +35,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
@@ -155,6 +157,8 @@ public class TiingoTest extends JFrame implements Runnable {
         }
     }
 
+    private boolean radiance;
+
     private @Outlet JTextField tickerTextField = null;
     private @Outlet JSpinner countSpinner = null;
 
@@ -183,14 +187,24 @@ public class TiingoTest extends JFrame implements Runnable {
 
     private static final URI baseURI = URI.create("https://api.tiingo.com/");
 
-    private TiingoTest() {
+    private TiingoTest(boolean radiance) {
         super(resourceBundle.getString("title"));
+
+        this.radiance = radiance;
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
+        if (radiance) {
+            try {
+                UIManager.setLookAndFeel(RadianceGraphiteLookAndFeel.class.getName());
+            } catch (Exception exception) {
+                throw new RuntimeException(exception);
+            }
+        }
+
         setContentPane(UILoader.load(this, "TiingoTest.xml", resourceBundle));
 
         countSpinner.setModel(new SpinnerNumberModel(30, 10, 150, 10));
@@ -302,8 +316,12 @@ public class TiingoTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        FlatLightLaf.setup();
+        var radiance = coalesce(map(System.getProperty("radiance"), Boolean::valueOf), () -> false);
 
-        SwingUtilities.invokeLater(new TiingoTest());
+        if (!radiance) {
+            FlatLightLaf.setup();
+        }
+
+        SwingUtilities.invokeLater(new TiingoTest(radiance));
     }
 }
