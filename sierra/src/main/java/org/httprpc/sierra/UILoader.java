@@ -295,6 +295,9 @@ public class UILoader {
     private Map<String, Field> fields = new HashMap<>();
     private Map<String, ButtonGroup> groups = new HashMap<>();
 
+    private Map<String, Icon> icons = new HashMap<>();
+    private Map<String, Image> images = new HashMap<>();
+
     private Deque<JComponent> components = new LinkedList<>();
 
     private JComponent root = null;
@@ -337,7 +340,6 @@ public class UILoader {
     private static final String COMMIT_OR_REVERT = "commit-or-revert";
     private static final String REVERT = "revert";
     private static final String PERSIST = "persist";
-
 
     private static Map<String, Class<?>> types = new HashMap<>();
     private static Map<String, Supplier<? extends JComponent>> suppliers = new HashMap<>();
@@ -752,19 +754,23 @@ public class UILoader {
     }
 
     private Icon getIcon(String value) {
-        if (value.endsWith(".svg")) {
-            return new FlatSVGIcon(owner.getClass().getResource(value));
-        } else {
-            throw new UnsupportedOperationException("Unsupported icon type.");
-        }
+        return icons.computeIfAbsent(value, key -> {
+            if (value.endsWith(".svg")) {
+                return new FlatSVGIcon(owner.getClass().getResource(value));
+            } else {
+                throw new UnsupportedOperationException("Unsupported icon type.");
+            }
+        });
     }
 
     private Image getImage(String value) {
-        try {
-            return ImageIO.read(owner.getClass().getResource(value));
-        } catch (IOException exception) {
-            throw new UnsupportedOperationException(exception);
-        }
+        return images.computeIfAbsent(value, key -> {
+            try {
+                return ImageIO.read(owner.getClass().getResource(value));
+            } catch (IOException exception) {
+                throw new UnsupportedOperationException(exception);
+            }
+        });
     }
 
     private void processEndElement() {
