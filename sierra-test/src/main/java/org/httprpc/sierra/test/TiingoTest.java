@@ -57,11 +57,11 @@ import static org.httprpc.kilo.util.Optionals.*;
 
 public class TiingoTest extends JFrame implements Runnable {
     private static class HistoricalPricingTableModel implements TableModel {
-        private List<BeanAdapter> values;
+        List<BeanAdapter> values;
 
-        private List<String> columns = listOf("date", "open", "high", "low", "close", "volume");
+        List<String> columns = listOf("date", "open", "high", "low", "close", "volume");
 
-        public HistoricalPricingTableModel(List<AssetPricing> rows) {
+        HistoricalPricingTableModel(List<AssetPricing> rows) {
             values = rows.stream().map(BeanAdapter::new).toList();
         }
 
@@ -112,7 +112,7 @@ public class TiingoTest extends JFrame implements Runnable {
     }
 
     private static class DateCellRenderer extends DefaultTableCellRenderer {
-        static DateTimeFormatter dateFormatter;
+        static final DateTimeFormatter dateFormatter;
         static {
             dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withZone(ZoneId.of("America/New_York"));
         }
@@ -124,7 +124,7 @@ public class TiingoTest extends JFrame implements Runnable {
     }
 
     private static class PriceCellRenderer extends DefaultTableCellRenderer {
-        static NumberFormat priceFormat;
+        static final NumberFormat priceFormat;
         static {
             priceFormat = NumberFormat.getCurrencyInstance(Locale.US);
         }
@@ -140,11 +140,9 @@ public class TiingoTest extends JFrame implements Runnable {
     }
 
     private static class VolumeCellRenderer extends DefaultTableCellRenderer {
-        static NumberFormat volumeFormat;
+        static final NumberFormat volumeFormat;
         static {
             volumeFormat = NumberFormat.getNumberInstance();
-
-            volumeFormat.setGroupingUsed(true);
         }
 
         VolumeCellRenderer() {
