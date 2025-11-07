@@ -60,6 +60,8 @@ public class PreviewTest extends JFrame implements Runnable {
             throw new RuntimeException(exception);
         }
 
+        System.out.println(workingPath.resolve("a/b/c"));
+
         setSize(320, 480);
         setVisible(true);
     }
