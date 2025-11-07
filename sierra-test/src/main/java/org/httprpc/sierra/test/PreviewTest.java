@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -45,7 +46,7 @@ public class PreviewTest extends JFrame implements Runnable {
 
                 for (var i = 0; i < n; i++) {
                     try (var inputStream = GreetingTest.class.getResourceAsStream(names.get(i))) {
-                        Files.copy(inputStream, paths.get(i));
+                        Files.copy(inputStream, paths.get(i), StandardCopyOption.REPLACE_EXISTING);
                     }
                 }
 

@@ -834,7 +834,7 @@ public class UILoader {
         if (owner != null) {
             return owner.getClass().getResource(value);
         } else {
-            var uri = path.getParent().resolve(value).toUri();
+            var uri = path.resolveSibling(value).toUri();
 
             try {
                 return uri.toURL();
