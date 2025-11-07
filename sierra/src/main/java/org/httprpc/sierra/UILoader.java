@@ -67,9 +67,13 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Deque;
@@ -298,6 +302,8 @@ public class UILoader {
     private Object owner;
     private String name;
     private ResourceBundle resourceBundle;
+
+    private Path path;
 
     private Map<String, Field> fields = new HashMap<>();
     private Map<String, ButtonGroup> groups = new HashMap<>();
@@ -586,16 +592,20 @@ public class UILoader {
         this.resourceBundle = resourceBundle;
     }
 
+    private UILoader(Path path) {
+        this.path = path;
+    }
+
     private JComponent load() {
-        var type = owner.getClass();
+        if (owner != null) {
+            var fields = owner.getClass().getDeclaredFields();
 
-        var fields = type.getDeclaredFields();
+            for (var i = 0; i < fields.length; i++) {
+                var field = fields[i];
 
-        for (var i = 0; i < fields.length; i++) {
-            var field = fields[i];
-
-            if (JComponent.class.isAssignableFrom(field.getType())) {
-                this.fields.put(field.getName(), field);
+                if (JComponent.class.isAssignableFrom(field.getType())) {
+                    this.fields.put(field.getName(), field);
+                }
             }
         }
 
@@ -605,7 +615,7 @@ public class UILoader {
         xmlInputFactory.setProperty("javax.xml.stream.isSupportingExternalEntities", false);
         xmlInputFactory.setProperty("javax.xml.stream.supportDTD", false);
 
-        try (var inputStream = type.getResourceAsStream(name)) {
+        try (var inputStream = open()) {
             if (inputStream == null) {
                 throw new UnsupportedOperationException("Named resource does not exist.");
             }
@@ -629,6 +639,14 @@ public class UILoader {
         }
 
         return root;
+    }
+
+    private InputStream open() throws IOException {
+        if (owner != null) {
+            return owner.getClass().getResourceAsStream(name);
+        } else {
+            return path.toUri().toURL().openStream();
+        }
     }
 
     private void processStartElement(XMLStreamReader xmlStreamReader) {
@@ -660,22 +678,24 @@ public class UILoader {
             if (name.equals(NAME)) {
                 component.setName(value);
 
-                var field = fields.get(value);
+                if (owner != null) {
+                    var field = fields.get(value);
 
-                if (field == null) {
-                    throw new UnsupportedOperationException(String.format("Invalid field name (%s).", value));
-                }
-
-                field.setAccessible(true);
-
-                try {
-                    if (field.get(owner) != null) {
-                        throw new UnsupportedOperationException(String.format("Field is already assigned (%s).", value));
+                    if (field == null) {
+                        throw new UnsupportedOperationException(String.format("Invalid field name (%s).", value));
                     }
 
-                    field.set(owner, component);
-                } catch (IllegalAccessException exception) {
-                    throw new UnsupportedOperationException(exception);
+                    field.setAccessible(true);
+
+                    try {
+                        if (field.get(owner) != null) {
+                            throw new UnsupportedOperationException(String.format("Field is already assigned (%s).", value));
+                        }
+
+                        field.set(owner, component);
+                    } catch (IllegalAccessException exception) {
+                        throw new UnsupportedOperationException(exception);
+                    }
                 }
             } else if (name.equals(GROUP)) {
                 if (!(component instanceof AbstractButton button)) {
@@ -797,23 +817,31 @@ public class UILoader {
     }
 
     private Icon getIcon(String value) {
-        return icons.computeIfAbsent(value, key -> {
-            if (value.endsWith(".svg")) {
-                return new FlatSVGIcon(owner.getClass().getResource(value));
-            } else {
-                throw new UnsupportedOperationException("Unsupported icon type.");
-            }
-        });
+        return icons.computeIfAbsent(value, key -> new FlatSVGIcon(getURL(value)));
     }
 
     private Image getImage(String value) {
         return images.computeIfAbsent(value, key -> {
             try {
-                return ImageIO.read(owner.getClass().getResource(value));
+                return ImageIO.read(getURL(value));
             } catch (IOException exception) {
-                throw new UnsupportedOperationException(exception);
+                throw new RuntimeException(exception);
             }
         });
+    }
+
+    private URL getURL(String value) {
+        if (owner != null) {
+            return owner.getClass().getResource(value);
+        } else {
+            var uri = path.getParent().resolve(value).toUri();
+
+            try {
+                return uri.toURL();
+            } catch (MalformedURLException exception) {
+                throw new RuntimeException(exception);
+            }
+        }
     }
 
     private void processEndElement() {
@@ -857,6 +885,25 @@ public class UILoader {
         }
 
         var uiLoader = new UILoader(owner, name, resourceBundle);
+
+        return uiLoader.load();
+    }
+
+    /**
+     * Deserializes a component hierarchy from a markup document.
+     *
+     * @param path
+     * The document's path.
+     *
+     * @return
+     * The deserialized component hierarchy.
+     */
+    public static JComponent load(Path path) {
+        if (path == null) {
+            throw new IllegalArgumentException();
+        }
+
+        var uiLoader = new UILoader(path);
 
         return uiLoader.load();
     }
