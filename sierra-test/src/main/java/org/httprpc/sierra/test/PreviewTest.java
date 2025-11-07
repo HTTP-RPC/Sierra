@@ -44,7 +44,7 @@ public class PreviewTest extends JFrame implements Runnable {
                 var n = names.size();
 
                 for (var i = 0; i < n; i++) {
-                    try (var inputStream = getClass().getResourceAsStream(names.get(i))) {
+                    try (var inputStream = GreetingTest.class.getResourceAsStream(names.get(i))) {
                         Files.copy(inputStream, paths.get(i));
                     }
                 }
