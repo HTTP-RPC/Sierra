@@ -347,8 +347,6 @@ public class UILoader {
     private static final String REVERT = "revert";
     private static final String PERSIST = "persist";
 
-    private static final String UNDO_ACTION_KEY = "undo";
-
     private static final Map<String, Class<?>> types = new HashMap<>();
     private static final Map<String, Supplier<? extends JComponent>> suppliers = new HashMap<>();
 
