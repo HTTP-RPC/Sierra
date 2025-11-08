@@ -52,7 +52,7 @@ public class ColorChooserTest extends JFrame implements Runnable {
 
         @Override
         public int getChildCount() {
-            return children.size();
+            return children == null ? 0 : children.size();
         }
 
         @Override
