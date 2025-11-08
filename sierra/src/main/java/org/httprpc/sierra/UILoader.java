@@ -19,9 +19,7 @@ import org.httprpc.kilo.beans.BeanAdapter;
 import org.httprpc.kilo.io.Encoder;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
-import javax.swing.Action;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -45,13 +43,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JTree;
-import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.undo.UndoManager;
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -61,9 +57,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -363,31 +356,6 @@ public class UILoader {
 
     private static final Map<String, Font> fonts = new HashMap<>();
 
-    private static final UndoManager undoManager = new UndoManager();
-
-    private static final Action undoAction = new AbstractAction() {
-        @Override
-        public void actionPerformed(ActionEvent event) {
-            if (undoManager.canUndo()) {
-                undoManager.undo();
-            }
-        }
-    };
-
-    private static final KeyStroke undoKeyStroke;
-    static {
-        var osName = System.getProperty("os.name").toLowerCase();
-
-        int modifier;
-        if (osName.contains("mac")) {
-            modifier = InputEvent.META_DOWN_MASK;
-        } else {
-            modifier = InputEvent.CTRL_DOWN_MASK;
-        }
-
-        undoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, modifier);
-    }
-
     static {
         bind("label", JLabel.class, JLabel::new);
         bind("button", JButton.class, JButton::new);
@@ -405,16 +373,7 @@ public class UILoader {
         bind("separator", JSeparator.class, JSeparator::new);
         bind("scroll-pane", JScrollPane.class, JScrollPane::new);
         bind("list", JList.class, JList::new);
-        bind("text-area", JTextArea.class, () -> {
-            var textArea = new JTextArea();
-
-            textArea.getDocument().addUndoableEditListener(undoManager);
-
-            textArea.getActionMap().put(UNDO_ACTION_KEY, undoAction);
-            textArea.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(undoKeyStroke, UNDO_ACTION_KEY);
-
-            return textArea;
-        });
+        bind("text-area", JTextArea.class, JTextArea::new);
         bind("table", JTable.class, JTable::new);
         bind("tree", JTree.class, JTree::new);
 
