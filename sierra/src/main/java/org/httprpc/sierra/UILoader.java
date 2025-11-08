@@ -274,7 +274,7 @@ public class UILoader {
             writer.append(tag);
             writer.append(" ");
 
-            if (type == JScrollPane.class || JPanel.class.isAssignableFrom(type)) {
+            if (JPanel.class.isAssignableFrom(type) || JScrollPane.class.isAssignableFrom(type)) {
                 writer.append("(ANY)");
             } else {
                 writer.append("EMPTY");

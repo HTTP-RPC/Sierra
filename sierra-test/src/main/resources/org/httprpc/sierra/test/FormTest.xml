@@ -95,7 +95,7 @@
         <label text="notes" alignmentX="1.0" alignmentY="0.0"/>
 
         <scroll-pane>
-            <text-area rows="4" columns="20"/>
+            <text-area rows="4" columns="20" tabSize="2"/>
         </scroll-pane>
     </row-panel>
 </column-panel>
