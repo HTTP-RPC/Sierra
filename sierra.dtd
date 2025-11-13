@@ -44,7 +44,7 @@
 <!ELEMENT table EMPTY>
 <!ATTLIST table %javax.swing.JTable;>
 <!ENTITY % javax.swing.JToolBar "%javax.swing.JComponent; borderPainted (true|false) floatable (true|false) orientation (horizontal|vertical) rollover (true|false) ">
-<!ELEMENT tool-bar EMPTY>
+<!ELEMENT tool-bar (ANY)>
 <!ATTLIST tool-bar %javax.swing.JToolBar;>
 <!ENTITY % javax.swing.JTree "%javax.swing.JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) expandsSelectedPaths (true|false) invokesStopCellEditing (true|false) largeModel (true|false) rootVisible (true|false) rowHeight CDATA scrollsOnExpand (true|false) showsRootHandles (true|false) toggleClickCount CDATA visibleRowCount CDATA ">
 <!ELEMENT tree EMPTY>
@@ -68,6 +68,9 @@
 <!ENTITY % javax.swing.JMenuItem "%javax.swing.AbstractButton; armed (true|false) enabled (true|false) ">
 <!ELEMENT menu-item EMPTY>
 <!ATTLIST menu-item %javax.swing.JMenuItem;>
+<!ENTITY % javax.swing.JPopupMenu.Separator "%javax.swing.JSeparator; ">
+<!ELEMENT popup-menu-separator EMPTY>
+<!ATTLIST popup-menu-separator %javax.swing.JPopupMenu.Separator;>
 <!ENTITY % javax.swing.JTextArea "%javax.swing.text.JTextComponent; columns CDATA font CDATA lineWrap (true|false) rows CDATA tabSize CDATA wrapStyleWord (true|false) ">
 <!ELEMENT text-area EMPTY>
 <!ATTLIST text-area %javax.swing.JTextArea;>

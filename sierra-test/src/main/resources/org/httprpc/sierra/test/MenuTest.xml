@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
+<column-panel>
+    <menu-bar>
+        <menu text="Menu">
+            <menu-item text="One"/>
+            <menu-item text="Two"/>
+            <menu-item text="Three"/>
+            <popup-menu-separator/>
+            <check-box-menu-item text="Selection A" selected="true"/>
+            <check-box-menu-item text="Selection B"/>
+            <popup-menu-separator/>
+            <radio-button text="Option 1" group="options" selected="true"/>
+            <radio-button text="Option 2" group="options"/>
+            <radio-button text="Option 3" group="options"/>
+        </menu>
+    </menu-bar>
+
+    <spacer/>
+</column-panel>

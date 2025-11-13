@@ -36,6 +36,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
@@ -294,7 +295,8 @@ public class UILoader {
                 || JSplitPane.class.isAssignableFrom(type)
                 || JTabbedPane.class.isAssignableFrom(type)
                 || JMenuBar.class.isAssignableFrom(type)
-                || JMenu.class.isAssignableFrom(type)) {
+                || JMenu.class.isAssignableFrom(type)
+                || JToolBar.class.isAssignableFrom(type)) {
                 writer.append("(ANY)");
             } else {
                 writer.append("EMPTY");
@@ -410,6 +412,7 @@ public class UILoader {
         bind("menu-item", JMenuItem.class, JMenuItem::new);
         bind("check-box-menu-item", JCheckBoxMenuItem.class, JCheckBoxMenuItem::new);
         bind("radio-button-menu-item", JRadioButtonMenuItem.class, JRadioButtonMenuItem::new);
+        bind("popup-menu-separator", JPopupMenu.Separator.class, JPopupMenu.Separator::new);
         bind("tool-bar", JToolBar.class, JToolBar::new);
         bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
 
@@ -831,6 +834,8 @@ public class UILoader {
                 }
             } else if (parent instanceof JTabbedPane tabbedPane) {
                 tabbedPane.addTab(title, icon, component);
+            } else if (parent instanceof JMenuBar || parent instanceof JMenu || parent instanceof JToolBar) {
+                parent.add(component);
             } else {
                 throw new UnsupportedOperationException("Invalid parent type.");
             }
