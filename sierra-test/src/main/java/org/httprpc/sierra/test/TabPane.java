@@ -32,9 +32,7 @@ public class TabPane extends JRootPane {
     private @Outlet JButton submitButton = null;
     private @Outlet ActivityIndicator activityIndicator = null;
 
-    public TabPane(String name, TaskExecutor taskExecutor) {
-        setName(name);
-
+    public TabPane(TaskExecutor taskExecutor) {
         this.taskExecutor = taskExecutor;
 
         setContentPane(UILoader.load(this, "TabPane.xml"));

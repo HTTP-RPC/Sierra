@@ -15,9 +15,13 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TaskExecutor;
+import org.httprpc.sierra.UILoader;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import java.util.concurrent.Executors;
@@ -31,6 +35,10 @@ public class RootPaneTest extends JFrame implements Runnable {
         return thread;
     }));
 
+    private @Outlet JList<String> list = null;
+
+    private @Outlet JTabbedPane tabbedPane = null;
+
     private RootPaneTest() {
         super("Root Pane Test");
 
@@ -39,15 +47,19 @@ public class RootPaneTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var tabbedPane = new JTabbedPane();
+        setContentPane(UILoader.load(this, "RootPaneTest.xml"));
 
-        tabbedPane.add(new TabPane("Tab 1", taskExecutor));
-        tabbedPane.add(new TabPane("Tab 2", taskExecutor));
-        tabbedPane.add(new TabPane("Tab 3", taskExecutor));
+        list.setModel(new DefaultListModel<>() {{
+            addElement("One");
+            addElement("Two");
+            addElement("Three");
+        }});
 
-        setContentPane(tabbedPane);
+        tabbedPane.add("Tab 2", new TabPane(taskExecutor));
+        tabbedPane.add("Tab 3", new TabPane(taskExecutor));
+        tabbedPane.add("Tab 4", new TabPane(taskExecutor));
 
-        setSize(320, 240);
+        setSize(480, 320);
         setVisible(true);
     }
 

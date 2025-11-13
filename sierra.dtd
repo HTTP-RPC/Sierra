@@ -1,4 +1,4 @@
-<!ENTITY % UILoader "name CDATA group CDATA border CDATA padding CDATA weight CDATA size CDATA style CDATA styleClass CDATA ">
+<!ENTITY % UILoader "name CDATA group CDATA border CDATA padding CDATA weight CDATA size CDATA title CDATA icon CDATA style CDATA styleClass CDATA ">
 <!ENTITY % Component "%UILoader; background CDATA enabled (true|false) focusTraversalKeysEnabled (true|false) focusable (true|false) font CDATA foreground CDATA ignoreRepaint (true|false) name CDATA visible (true|false) ">
 <!ENTITY % Container "%Component; focusCycleRoot (true|false) focusTraversalPolicyProvider (true|false) font CDATA ">
 <!ENTITY % JComponent "%Container; alignmentX CDATA alignmentY CDATA autoscrolls (true|false) background CDATA debugGraphicsOptions CDATA doubleBuffered (true|false) enabled (true|false) font CDATA foreground CDATA inheritsPopupMenu (true|false) opaque (true|false) requestFocusEnabled (true|false) toolTipText CDATA verifyInputWhenFocusTarget (true|false) visible (true|false) ">
@@ -21,6 +21,9 @@
 <!ENTITY % JList "%JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) fixedCellHeight CDATA fixedCellWidth CDATA layoutOrientation CDATA selectedIndex CDATA selectionBackground CDATA selectionForeground CDATA selectionMode CDATA valueIsAdjusting (true|false) visibleRowCount CDATA ">
 <!ELEMENT list EMPTY>
 <!ATTLIST list %JList;>
+<!ENTITY % JMenuBar "%JComponent; borderPainted (true|false) ">
+<!ELEMENT menu-bar (ANY)>
+<!ATTLIST menu-bar %JMenuBar;>
 <!ENTITY % JPanel "%JComponent; ">
 <!ENTITY % JProgressBar "%JComponent; borderPainted (true|false) indeterminate (true|false) maximum CDATA minimum CDATA orientation (horizontal|vertical) string CDATA stringPainted (true|false) value CDATA ">
 <!ELEMENT progress-bar EMPTY>
@@ -37,6 +40,12 @@
 <!ENTITY % JSpinner "%JComponent; ">
 <!ELEMENT spinner EMPTY>
 <!ATTLIST spinner %JSpinner;>
+<!ENTITY % JSplitPane "%JComponent; continuousLayout (true|false) dividerLocation CDATA dividerSize CDATA lastDividerLocation CDATA oneTouchExpandable (true|false) orientation (horizontal|vertical) resizeWeight CDATA ">
+<!ELEMENT split-pane (ANY)>
+<!ATTLIST split-pane %JSplitPane;>
+<!ENTITY % JTabbedPane "%JComponent; selectedIndex CDATA tabLayoutPolicy CDATA tabPlacement CDATA ">
+<!ELEMENT tabbed-pane (ANY)>
+<!ATTLIST tabbed-pane %JTabbedPane;>
 <!ENTITY % JTable "%JComponent; autoCreateColumnsFromModel (true|false) autoCreateRowSorter (true|false) autoResizeMode CDATA cellSelectionEnabled (true|false) columnSelectionAllowed (true|false) dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editingColumn CDATA editingRow CDATA fillsViewportHeight (true|false) gridColor CDATA rowHeight CDATA rowMargin CDATA rowSelectionAllowed (true|false) selectionBackground CDATA selectionForeground CDATA showHorizontalLines (true|false) showVerticalLines (true|false) surrendersFocusOnKeystroke (true|false) updateSelectionOnSort (true|false) ">
 <!ELEMENT table EMPTY>
 <!ATTLIST table %JTable;>
@@ -53,6 +62,9 @@
 <!ENTITY % JButton "%AbstractButton; defaultCapable (true|false) ">
 <!ELEMENT button EMPTY>
 <!ATTLIST button %JButton;>
+<!ENTITY % JMenuItem "%AbstractButton; armed (true|false) enabled (true|false) ">
+<!ELEMENT menu-item EMPTY>
+<!ATTLIST menu-item %JMenuItem;>
 <!ENTITY % JTextArea "%JTextComponent; columns CDATA font CDATA lineWrap (true|false) rows CDATA tabSize CDATA wrapStyleWord (true|false) ">
 <!ELEMENT text-area EMPTY>
 <!ATTLIST text-area %JTextArea;>
@@ -67,15 +79,24 @@
 <!ENTITY % JCheckBox "%JToggleButton; borderPaintedFlat (true|false) ">
 <!ELEMENT check-box EMPTY>
 <!ATTLIST check-box %JCheckBox;>
+<!ENTITY % JCheckBoxMenuItem "%JMenuItem; state (true|false) ">
+<!ELEMENT check-box-menu-item EMPTY>
+<!ATTLIST check-box-menu-item %JCheckBoxMenuItem;>
 <!ENTITY % JFormattedTextField "%JTextField; focusLostBehavior (commit|commit-or-revert|revert|persist) ">
 <!ELEMENT formatted-text-field EMPTY>
 <!ATTLIST formatted-text-field %JFormattedTextField;>
+<!ENTITY % JMenu "%JMenuItem; delay CDATA popupMenuVisible (true|false) selected (true|false) ">
+<!ELEMENT menu (ANY)>
+<!ATTLIST menu %JMenu;>
 <!ENTITY % JPasswordField "%JTextField; echoChar CDATA text CDATA ">
 <!ELEMENT password-field EMPTY>
 <!ATTLIST password-field %JPasswordField;>
 <!ENTITY % JRadioButton "%JToggleButton; ">
 <!ELEMENT radio-button EMPTY>
 <!ATTLIST radio-button %JRadioButton;>
+<!ENTITY % JRadioButtonMenuItem "%JMenuItem; ">
+<!ELEMENT radio-button-menu-item EMPTY>
+<!ATTLIST radio-button-menu-item %JRadioButtonMenuItem;>
 <!ENTITY % MenuButton "%JButton; popupHorizontalAlignment (leading|trailing|center) popupVerticalAlignment (top|bottom|center) ">
 <!ELEMENT menu-button EMPTY>
 <!ATTLIST menu-button %MenuButton;>

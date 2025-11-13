@@ -19,7 +19,7 @@
         </row-panel>
         <row-panel alignToBaseline="true">
             <spacer/>
-            <check-box name="strictCheckBox" text="strict" alignmentX="0.0"/>
+            <check-box name="strictCheckBox" text="strict" alignmentX="0.0" alignmentY="1.0"/>
         </row-panel>
 
         <separator/>

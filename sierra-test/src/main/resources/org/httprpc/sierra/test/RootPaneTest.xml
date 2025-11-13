@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE split-pane SYSTEM "sierra.dtd">
+
+<split-pane orientation="horizontal" dividerLocation="120">
+    <scroll-pane>
+        <list name="list"/>
+    </scroll-pane>
+
+    <tabbed-pane name="tabbedPane">
+        <label title="Tab 1" text="This is the first tab." horizontalAlignment="center" verticalAlignment="center"/>
+    </tabbed-pane>
+</split-pane>

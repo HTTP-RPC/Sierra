@@ -24,25 +24,27 @@ import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -144,6 +146,9 @@ public class UILoader {
             appendAttributeDeclaration(PADDING, CDATA, writer);
             appendAttributeDeclaration(WEIGHT, CDATA, writer);
             appendAttributeDeclaration(SIZE, CDATA, writer);
+
+            appendAttributeDeclaration(TITLE, CDATA, writer);
+            appendAttributeDeclaration(ICON, CDATA, writer);
 
             appendAttributeDeclaration(STYLE, CDATA, writer);
             appendAttributeDeclaration(STYLE_CLASS, CDATA, writer);
@@ -279,10 +284,12 @@ public class UILoader {
             writer.append(tag);
             writer.append(" ");
 
-            if (JPanel.class.isAssignableFrom(type) 
-                    || JScrollPane.class.isAssignableFrom(type)
-                    || JMenuBar.class.isAssignableFrom(type)
-                    || JMenu.class.isAssignableFrom(type)) {
+            if (JPanel.class.isAssignableFrom(type)
+                || JScrollPane.class.isAssignableFrom(type)
+                || JSplitPane.class.isAssignableFrom(type)
+                || JTabbedPane.class.isAssignableFrom(type)
+                || JMenuBar.class.isAssignableFrom(type)
+                || JMenu.class.isAssignableFrom(type)) {
                 writer.append("(ANY)");
             } else {
                 writer.append("EMPTY");
@@ -323,6 +330,8 @@ public class UILoader {
     private static final String PADDING = "padding";
     private static final String WEIGHT = "weight";
     private static final String SIZE = "size";
+    private static final String TITLE = "title";
+    private static final String ICON = "icon";
 
     private static final String STYLE = "style";
     private static final String STYLE_CLASS = "styleClass";
@@ -335,7 +344,10 @@ public class UILoader {
     private static final String HORIZONTAL_ALIGNMENT = "horizontalAlignment";
     private static final String VERTICAL_ALIGNMENT = "verticalAlignment";
     private static final String ORIENTATION = "orientation";
+
     private static final String FOCUS_LOST_BEHAVIOR = "focusLostBehavior";
+
+    // TODO tabPlacement, tabLayoutPolicy
 
     private static final String LEFT = "left";
     private static final String RIGHT = "right";
@@ -382,6 +394,8 @@ public class UILoader {
         bind("text-area", JTextArea.class, JTextArea::new);
         bind("table", JTable.class, JTable::new);
         bind("tree", JTree.class, JTree::new);
+        bind("split-pane", JSplitPane.class, JSplitPane::new);
+        bind("tabbed-pane", JTabbedPane.class, JTabbedPane::new);
         bind("menu-bar", JMenuBar.class, JMenuBar::new);
         bind("menu", JMenu.class, JMenu::new);
         bind("menu-item", JMenuItem.class, JMenuItem::new);
@@ -636,10 +650,18 @@ public class UILoader {
             return;
         }
 
+        if (component instanceof JSplitPane splitPane) {
+            splitPane.setLeftComponent(null);
+            splitPane.setRightComponent(null);
+        }
+
         LineBorder lineBorder = null;
         EmptyBorder emptyBorder = null;
 
         Object constraints = null;
+
+        String title = null;
+        Icon icon = null;
 
         for (int i = 0, n = xmlStreamReader.getAttributeCount(); i < n; i++) {
             var name = xmlStreamReader.getAttributeLocalName(i);
@@ -687,6 +709,10 @@ public class UILoader {
                 constraints = weight;
             } else if (name.equals(SIZE)) {
                 component.setPreferredSize(parseSize(value));
+            } else if (name.equals(TITLE)) {
+                title = getText(value);
+            } else if (name.equals(ICON)) {
+                icon = getIcon(value);
             } else if (name.equals(STYLE) || name.equals(STYLE_CLASS)) {
                 component.putClientProperty(String.format("FlatLaf.%s", name), value);
             } else if (name.equals(PLACEHOLDER_TEXT)) {
@@ -722,8 +748,8 @@ public class UILoader {
                             default -> throw new IllegalArgumentException("Invalid vertical alignment.");
                         };
                         case ORIENTATION -> switch (value) {
-                            case HORIZONTAL -> SwingConstants.HORIZONTAL;
-                            case VERTICAL -> SwingConstants.VERTICAL;
+                            case HORIZONTAL -> component instanceof JSplitPane ? JSplitPane.HORIZONTAL_SPLIT : SwingConstants.HORIZONTAL;
+                            case VERTICAL -> component instanceof JSplitPane ? JSplitPane.VERTICAL_SPLIT : SwingConstants.VERTICAL;
                             default -> throw new IllegalArgumentException("Invalid orientation.");
                         };
                         case FOCUS_LOST_BEHAVIOR -> switch(value) {
@@ -733,6 +759,9 @@ public class UILoader {
                             case PERSIST -> JFormattedTextField.PERSIST;
                             default -> throw new IllegalArgumentException("Invalid focus lost behavior.");
                         };
+
+                        // TODO tabPlacement, tabLayoutPolicy
+
                         default -> Integer.valueOf(value);
                     };
                 } else if (propertyType == String.class) {
@@ -768,10 +797,22 @@ public class UILoader {
         var parent = components.peek();
 
         if (parent != null) {
-            if (parent instanceof JScrollPane scrollPane) {
-                scrollPane.setViewportView(component);
-            } else {
+            if (parent instanceof JPanel) {
                 parent.add(component, constraints);
+            } else if (parent instanceof JScrollPane scrollPane) {
+                scrollPane.setViewportView(component);
+            } else if (parent instanceof JSplitPane splitPane) {
+                if (splitPane.getLeftComponent() == null) {
+                    splitPane.setLeftComponent(component);
+                } else if (splitPane.getRightComponent() == null) {
+                    splitPane.setRightComponent(component);
+                } else {
+                    throw new UnsupportedOperationException("Unexpected split pane content.");
+                }
+            } else if (parent instanceof JTabbedPane tabbedPane) {
+                tabbedPane.addTab(title, icon, component);
+            } else {
+                throw new UnsupportedOperationException("Invalid parent type.");
             }
         }
 
