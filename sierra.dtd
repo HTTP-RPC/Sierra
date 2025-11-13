@@ -1,4 +1,4 @@
-<!ENTITY % org.httprpc.sierra.UILoader "name CDATA group CDATA border CDATA padding CDATA weight CDATA size CDATA title CDATA icon CDATA style CDATA styleClass CDATA ">
+<!ENTITY % org.httprpc.sierra.UILoader "name CDATA group CDATA border CDATA padding CDATA weight CDATA size CDATA tabTitle CDATA tabIcon CDATA style CDATA styleClass CDATA ">
 <!ENTITY % java.awt.Component "%org.httprpc.sierra.UILoader; background CDATA enabled (true|false) focusTraversalKeysEnabled (true|false) focusable (true|false) font CDATA foreground CDATA ignoreRepaint (true|false) name CDATA visible (true|false) ">
 <!ENTITY % java.awt.Container "%java.awt.Component; focusCycleRoot (true|false) focusTraversalPolicyProvider (true|false) font CDATA ">
 <!ENTITY % javax.swing.JComponent "%java.awt.Container; alignmentX CDATA alignmentY CDATA autoscrolls (true|false) background CDATA debugGraphicsOptions CDATA doubleBuffered (true|false) enabled (true|false) font CDATA foreground CDATA inheritsPopupMenu (true|false) opaque (true|false) requestFocusEnabled (true|false) toolTipText CDATA verifyInputWhenFocusTarget (true|false) visible (true|false) ">

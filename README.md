@@ -250,11 +250,11 @@ The "group" attribute associates a button with a button group. For example, the 
 <img src="README/orientation.png" width="454px"/>
 
 ### Tabbed Panes
-When used in conjunction with `JTabbedPane`, the "title" and "icon" attributes can be used to specify a component's title and icon, respectively:
+When used in conjunction with `JTabbedPane`, the "tabTitle" and "tabIcon" attributes can be used to specify a component's tab title and icon, respectively:
 
 ```xml
 <tabbed-pane name="tabbedPane" tabPlacement="top" tabLayoutPolicy="scroll-tab-layout">
-    <label title="Tab 1" icon="home_18dp.svg"
+    <label tabTitle="Tab 1" tabIcon="home_18dp.svg"
         text="This is the first tab."
         horizontalAlignment="center"
         verticalAlignment="center"/>

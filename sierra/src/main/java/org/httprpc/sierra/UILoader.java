@@ -149,8 +149,8 @@ public class UILoader {
             appendAttributeDeclaration(WEIGHT, CDATA, writer);
             appendAttributeDeclaration(SIZE, CDATA, writer);
 
-            appendAttributeDeclaration(TITLE, CDATA, writer);
-            appendAttributeDeclaration(ICON, CDATA, writer);
+            appendAttributeDeclaration(TAB_TITLE, CDATA, writer);
+            appendAttributeDeclaration(TAB_ICON, CDATA, writer);
 
             appendAttributeDeclaration(STYLE, CDATA, writer);
             appendAttributeDeclaration(STYLE_CLASS, CDATA, writer);
@@ -337,8 +337,9 @@ public class UILoader {
     private static final String PADDING = "padding";
     private static final String WEIGHT = "weight";
     private static final String SIZE = "size";
-    private static final String TITLE = "title";
-    private static final String ICON = "icon";
+
+    private static final String TAB_TITLE = "tabTitle";
+    private static final String TAB_ICON = "tabIcon";
 
     private static final String STYLE = "style";
     private static final String STYLE_CLASS = "styleClass";
@@ -674,8 +675,8 @@ public class UILoader {
 
         Object constraints = null;
 
-        String title = null;
-        Icon icon = null;
+        String tabTitle = null;
+        Icon tabIcon = null;
 
         for (int i = 0, n = xmlStreamReader.getAttributeCount(); i < n; i++) {
             var name = xmlStreamReader.getAttributeLocalName(i);
@@ -723,10 +724,10 @@ public class UILoader {
                 constraints = weight;
             } else if (name.equals(SIZE)) {
                 component.setPreferredSize(parseSize(value));
-            } else if (name.equals(TITLE)) {
-                title = getText(value);
-            } else if (name.equals(ICON)) {
-                icon = getIcon(value);
+            } else if (name.equals(TAB_TITLE)) {
+                tabTitle = getText(value);
+            } else if (name.equals(TAB_ICON)) {
+                tabIcon = getIcon(value);
             } else if (name.equals(STYLE) || name.equals(STYLE_CLASS)) {
                 component.putClientProperty(String.format("FlatLaf.%s", name), value);
             } else if (name.equals(PLACEHOLDER_TEXT)) {
@@ -833,7 +834,7 @@ public class UILoader {
                     throw new UnsupportedOperationException("Unexpected split pane content.");
                 }
             } else if (parent instanceof JTabbedPane tabbedPane) {
-                tabbedPane.addTab(title, icon, component);
+                tabbedPane.addTab(tabTitle, tabIcon, component);
             } else if (parent instanceof JMenuBar || parent instanceof JMenu || parent instanceof JToolBar) {
                 parent.add(component);
             } else {
