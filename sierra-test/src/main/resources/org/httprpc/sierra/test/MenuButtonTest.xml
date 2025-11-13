@@ -9,7 +9,12 @@
         <spacer weight="1"/>
 
         <row-panel spacing="8">
-            <menu-button name="menuButton" text="showMenu"/>
+            <menu-button name="menuButton" text="showMenu">
+                <menu-item text="item1"/>
+                <menu-item text="item2"/>
+                <menu-item text="item3"/>
+            </menu-button>
+
             <check-box name="focusableCheckBox" text="focusable"/>
         </row-panel>
 

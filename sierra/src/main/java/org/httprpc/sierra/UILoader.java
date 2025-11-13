@@ -294,9 +294,10 @@ public class UILoader {
                 || JScrollPane.class.isAssignableFrom(type)
                 || JSplitPane.class.isAssignableFrom(type)
                 || JTabbedPane.class.isAssignableFrom(type)
+                || JToolBar.class.isAssignableFrom(type)
                 || JMenuBar.class.isAssignableFrom(type)
                 || JMenu.class.isAssignableFrom(type)
-                || JToolBar.class.isAssignableFrom(type)) {
+                || MenuButton.class.isAssignableFrom(type)) {
                 writer.append("(ANY)");
             } else {
                 writer.append("EMPTY");
@@ -408,14 +409,14 @@ public class UILoader {
         bind("tree", JTree.class, JTree::new);
         bind("split-pane", JSplitPane.class, JSplitPane::new);
         bind("tabbed-pane", JTabbedPane.class, JTabbedPane::new);
+        bind("tool-bar", JToolBar.class, JToolBar::new);
+        bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
         bind("menu-bar", JMenuBar.class, JMenuBar::new);
         bind("menu", JMenu.class, JMenu::new);
         bind("menu-item", JMenuItem.class, JMenuItem::new);
         bind("check-box-menu-item", JCheckBoxMenuItem.class, JCheckBoxMenuItem::new);
         bind("radio-button-menu-item", JRadioButtonMenuItem.class, JRadioButtonMenuItem::new);
         bind("popup-menu-separator", JPopupMenu.Separator.class, JPopupMenu.Separator::new);
-        bind("tool-bar", JToolBar.class, JToolBar::new);
-        bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
 
         bind("row-panel", RowPanel.class, RowPanel::new);
         bind("column-panel", ColumnPanel.class, ColumnPanel::new);
@@ -835,7 +836,10 @@ public class UILoader {
                 }
             } else if (parent instanceof JTabbedPane tabbedPane) {
                 tabbedPane.addTab(tabTitle, tabIcon, component);
-            } else if (parent instanceof JMenuBar || parent instanceof JMenu || parent instanceof JToolBar) {
+            } else if (parent instanceof JToolBar
+                || parent instanceof JMenuBar
+                || parent instanceof JMenu
+                || parent instanceof MenuButton) {
                 parent.add(component);
             } else {
                 throw new UnsupportedOperationException("Invalid parent type.");
