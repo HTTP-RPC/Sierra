@@ -18,5 +18,13 @@
         </menu>
     </menu-bar>
 
+    <tool-bar floatable="false">
+        <button icon="home_18dp.svg" toolTipText="Home"/>
+        <tool-bar-separator/>
+        <toggle-button text="One" group="numbers"/>
+        <toggle-button text="Two" group="numbers"/>
+        <toggle-button text="Three" group="numbers"/>
+    </tool-bar>
+
     <spacer/>
 </column-panel>
