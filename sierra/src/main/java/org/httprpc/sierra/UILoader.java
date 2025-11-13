@@ -30,6 +30,11 @@ import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
@@ -274,7 +279,10 @@ public class UILoader {
             writer.append(tag);
             writer.append(" ");
 
-            if (JPanel.class.isAssignableFrom(type) || JScrollPane.class.isAssignableFrom(type)) {
+            if (JPanel.class.isAssignableFrom(type) 
+                    || JScrollPane.class.isAssignableFrom(type)
+                    || JMenuBar.class.isAssignableFrom(type)
+                    || JMenu.class.isAssignableFrom(type)) {
                 writer.append("(ANY)");
             } else {
                 writer.append("EMPTY");
@@ -374,6 +382,11 @@ public class UILoader {
         bind("text-area", JTextArea.class, JTextArea::new);
         bind("table", JTable.class, JTable::new);
         bind("tree", JTree.class, JTree::new);
+        bind("menu-bar", JMenuBar.class, JMenuBar::new);
+        bind("menu", JMenu.class, JMenu::new);
+        bind("menu-item", JMenuItem.class, JMenuItem::new);
+        bind("check-box-menu-item", JCheckBoxMenuItem.class, JCheckBoxMenuItem::new);
+        bind("radio-button-menu-item", JRadioButtonMenuItem.class, JRadioButtonMenuItem::new);
 
         bind("row-panel", RowPanel.class, RowPanel::new);
         bind("column-panel", ColumnPanel.class, ColumnPanel::new);
