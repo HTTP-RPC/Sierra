@@ -49,6 +49,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -409,6 +410,7 @@ public class UILoader {
         bind("menu-item", JMenuItem.class, JMenuItem::new);
         bind("check-box-menu-item", JCheckBoxMenuItem.class, JCheckBoxMenuItem::new);
         bind("radio-button-menu-item", JRadioButtonMenuItem.class, JRadioButtonMenuItem::new);
+        bind("tool-bar", JToolBar.class, JToolBar::new);
 
         bind("row-panel", RowPanel.class, RowPanel::new);
         bind("column-panel", ColumnPanel.class, ColumnPanel::new);

@@ -50,6 +50,9 @@
 <!ELEMENT table EMPTY>
 <!ATTLIST table %JTable;>
 <!ENTITY % JTextComponent "%JComponent; caretColor CDATA caretPosition CDATA disabledTextColor CDATA dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) focusAccelerator CDATA selectedTextColor CDATA selectionColor CDATA selectionEnd CDATA selectionStart CDATA text CDATA ">
+<!ENTITY % JToolBar "%JComponent; borderPainted (true|false) floatable (true|false) orientation (horizontal|vertical) rollover (true|false) ">
+<!ELEMENT tool-bar EMPTY>
+<!ATTLIST tool-bar %JToolBar;>
 <!ENTITY % JTree "%JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) expandsSelectedPaths (true|false) invokesStopCellEditing (true|false) largeModel (true|false) rootVisible (true|false) rowHeight CDATA scrollsOnExpand (true|false) showsRootHandles (true|false) toggleClickCount CDATA visibleRowCount CDATA ">
 <!ELEMENT tree EMPTY>
 <!ATTLIST tree %JTree;>
