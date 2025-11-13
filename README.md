@@ -250,7 +250,18 @@ The "group" attribute associates a button with a button group. For example, the 
 <img src="README/orientation.png" width="454px"/>
 
 ### Tabbed Panes
-TODO title, icon
+When used in conjunction with `JTabbedPane`, the "title" and "icon" attributes can be used to specify a component's title and icon, respectively:
+
+```xml
+<tabbed-pane name="tabbedPane" tabPlacement="top" tabLayoutPolicy="scroll-tab-layout">
+    <label title="Tab 1" icon="home_18dp.svg"
+        text="This is the first tab."
+        horizontalAlignment="center"
+        verticalAlignment="center"/>
+</tabbed-pane>
+```
+
+<img src="README/root-pane.png" width="592px"/>
 
 ### Element Names
 The "name" attribute associates an identifier with a component. In addition to setting the component's "name" property, `UILoader` automatically injects the component itself into a field with the same name defined by the document's owner (called an "outlet").

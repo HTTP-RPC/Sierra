@@ -43,7 +43,7 @@
 <!ENTITY % JSplitPane "%JComponent; continuousLayout (true|false) dividerLocation CDATA dividerSize CDATA lastDividerLocation CDATA oneTouchExpandable (true|false) orientation (horizontal|vertical) resizeWeight CDATA ">
 <!ELEMENT split-pane (ANY)>
 <!ATTLIST split-pane %JSplitPane;>
-<!ENTITY % JTabbedPane "%JComponent; selectedIndex CDATA tabLayoutPolicy CDATA tabPlacement CDATA ">
+<!ENTITY % JTabbedPane "%JComponent; selectedIndex CDATA tabLayoutPolicy (wrap-tab-layout|scroll-tab-layout) tabPlacement (top|left|bottom|right) ">
 <!ELEMENT tabbed-pane (ANY)>
 <!ATTLIST tabbed-pane %JTabbedPane;>
 <!ENTITY % JTable "%JComponent; autoCreateColumnsFromModel (true|false) autoCreateRowSorter (true|false) autoResizeMode CDATA cellSelectionEnabled (true|false) columnSelectionAllowed (true|false) dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editingColumn CDATA editingRow CDATA fillsViewportHeight (true|false) gridColor CDATA rowHeight CDATA rowMargin CDATA rowSelectionAllowed (true|false) selectionBackground CDATA selectionForeground CDATA showHorizontalLines (true|false) showVerticalLines (true|false) surrendersFocusOnKeystroke (true|false) updateSelectionOnSort (true|false) ">

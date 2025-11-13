@@ -180,6 +180,10 @@ public class UILoader {
                             attributeType = String.format("(%s|%s)", HORIZONTAL, VERTICAL);
                         } else if (attributeName.equals(FOCUS_LOST_BEHAVIOR)) {
                             attributeType = String.format("(%s|%s|%s|%s)", COMMIT, COMMIT_OR_REVERT, REVERT, PERSIST);
+                        } else if (attributeName.equals(TAB_PLACEMENT)) {
+                            attributeType = String.format("(%s|%s|%s|%s)", TOP, LEFT, BOTTOM, RIGHT);
+                        } else if (attributeName.equals(TAB_LAYOUT_POLICY)) {
+                            attributeType = String.format("(%s|%s)", WRAP_TAB_LAYOUT, SCROLL_TAB_LAYOUT);
                         } else {
                             attributeType = CDATA;
                         }
@@ -347,7 +351,8 @@ public class UILoader {
 
     private static final String FOCUS_LOST_BEHAVIOR = "focusLostBehavior";
 
-    // TODO tabPlacement, tabLayoutPolicy
+    private static final String TAB_PLACEMENT = "tabPlacement";
+    private static final String TAB_LAYOUT_POLICY = "tabLayoutPolicy";
 
     private static final String LEFT = "left";
     private static final String RIGHT = "right";
@@ -366,6 +371,9 @@ public class UILoader {
     private static final String COMMIT_OR_REVERT = "commit-or-revert";
     private static final String REVERT = "revert";
     private static final String PERSIST = "persist";
+
+    private static final String WRAP_TAB_LAYOUT = "wrap-tab-layout";
+    private static final String SCROLL_TAB_LAYOUT = "scroll-tab-layout";
 
     private static final Map<String, Class<?>> types = new HashMap<>();
     private static final Map<String, Supplier<? extends JComponent>> suppliers = new HashMap<>();
@@ -759,9 +767,18 @@ public class UILoader {
                             case PERSIST -> JFormattedTextField.PERSIST;
                             default -> throw new IllegalArgumentException("Invalid focus lost behavior.");
                         };
-
-                        // TODO tabPlacement, tabLayoutPolicy
-
+                        case TAB_PLACEMENT -> switch(value) {
+                            case TOP -> JTabbedPane.TOP;
+                            case LEFT -> JTabbedPane.LEFT;
+                            case BOTTOM -> JTabbedPane.BOTTOM;
+                            case RIGHT -> JTabbedPane.RIGHT;
+                            default -> throw new IllegalArgumentException("Invalid tab placement.");
+                        };
+                        case TAB_LAYOUT_POLICY -> switch(value) {
+                            case WRAP_TAB_LAYOUT -> JTabbedPane.WRAP_TAB_LAYOUT;
+                            case SCROLL_TAB_LAYOUT -> JTabbedPane.SCROLL_TAB_LAYOUT;
+                            default -> throw new IllegalArgumentException("Invalid tab layout policy.");
+                        };
                         default -> Integer.valueOf(value);
                     };
                 } else if (propertyType == String.class) {
