@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/sierra" />
+            <option value="$PROJECT_DIR$/sierra-previewer" />
             <option value="$PROJECT_DIR$/sierra-test" />
           </set>
         </option>
