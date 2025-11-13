@@ -257,16 +257,16 @@ public class UILoader {
 
         void startEntityDeclaration(Class<?> type, Class<?> baseType, Writer writer) throws IOException {
             writer.append("<!ENTITY % ");
-            writer.append(type.getSimpleName());
+            writer.append(type.getCanonicalName());
             writer.append(" \"");
 
             if (baseType != null) {
                 writer.append("%");
 
                 if (baseType == Object.class) {
-                    writer.append(UILoader.class.getSimpleName());
+                    writer.append(UILoader.class.getCanonicalName());
                 } else {
-                    writer.append(baseType.getSimpleName());
+                    writer.append(baseType.getCanonicalName());
                 }
 
                 writer.append("; ");
@@ -307,7 +307,7 @@ public class UILoader {
             writer.append("<!ATTLIST ");
             writer.append(tag);
             writer.append(" %");
-            writer.append(type.getSimpleName());
+            writer.append(type.getCanonicalName());
             writer.append(";>\n");
         }
     }
@@ -411,6 +411,7 @@ public class UILoader {
         bind("check-box-menu-item", JCheckBoxMenuItem.class, JCheckBoxMenuItem::new);
         bind("radio-button-menu-item", JRadioButtonMenuItem.class, JRadioButtonMenuItem::new);
         bind("tool-bar", JToolBar.class, JToolBar::new);
+        bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
 
         bind("row-panel", RowPanel.class, RowPanel::new);
         bind("column-panel", ColumnPanel.class, ColumnPanel::new);
@@ -1108,7 +1109,7 @@ public class UILoader {
 
         var typeList = new ArrayList<>(typeSet);
 
-        typeList.sort(Comparator.comparing(UILoader::getDepth).thenComparing(Class::getSimpleName));
+        typeList.sort(Comparator.comparing(UILoader::getDepth).thenComparing(Class::getCanonicalName));
 
         var dtdEncoder = new DTDEncoder(typeList, tags);
 
