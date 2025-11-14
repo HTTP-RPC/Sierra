@@ -853,41 +853,39 @@ public class UILoader {
         if (resourceBundle == null) {
             return value;
         } else {
-            return resourceBundle.getString(value);
+            return resourceBundle.getString(value.trim());
         }
     }
 
     private Icon getIcon(String value) {
-        return icons.computeIfAbsent(value, key -> {
-            var components = value.split(";");
+        var components = value.split(";");
 
-            var icon = new FlatSVGIcon(getURL(components[0]));
+        var icon = icons.computeIfAbsent(components[0].trim(), key -> new FlatSVGIcon(getURL(key)));
 
-            if (components.length > 1) {
-                var size = parseSize(components[1]);
+        if (components.length > 1) {
+            var size = parseSize(components[1]);
 
-                icon = icon.derive(size.width, size.height);
-            }
+            icon = ((FlatSVGIcon)icon).derive(size.width, size.height);
+        }
 
-            return icon;
-        });
+        return icon;
     }
 
     private Image getImage(String value) {
-        return images.computeIfAbsent(value, key -> {
+        return images.computeIfAbsent(value.trim(), key -> {
             try {
-                return ImageIO.read(getURL(value));
+                return ImageIO.read(getURL(key));
             } catch (IOException exception) {
                 throw new RuntimeException(exception);
             }
         });
     }
 
-    private URL getURL(String value) {
+    private URL getURL(String name) {
         if (owner != null) {
-            return owner.getClass().getResource(value);
+            return owner.getClass().getResource(name);
         } else {
-            var uri = path.resolveSibling(value).toUri();
+            var uri = path.resolveSibling(name).toUri();
 
             try {
                 return uri.toURL();
