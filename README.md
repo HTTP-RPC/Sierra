@@ -136,12 +136,18 @@ Icon support is currently limited to SVG documents and requires the [FlatLaf Ext
 
 ```xml
 <toggle-button name="alignLeftButton"
-    icon="format_align_left_black_18dp.svg"
+    icon="icons/format_align_left_24dp.svg"
     style="buttonType: toolBarButton"
     group="alignment"/>
 ```
 
 <img src="README/button-group.png" width="432px"/>
+
+Custom dimensions can be specified either as _path; size_ or _path; width, height_:
+
+```xml
+icon="icons/home_24dp.svg; 18"
+```
 
 ### Border and Padding Values
 The "border" and "padding" attributes can be used to create a solid border and reserve space around a component, respectively. For example, this markup creates a label with a light gray border and four pixels of padding on each side:
@@ -228,12 +234,19 @@ Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-p
 
 ```xml
 <column-panel spacing="4" padding="8" opaque="true">
-    <text-field columns="16" placeholderText="firstName" showClearButton="true"/>
-    <text-field columns="16" placeholderText="lastName" showClearButton="true"/>
+    <text-field columns="16"
+        placeholderText="firstName"
+        showClearButton="true"/>
+    
+    <text-field columns="16"
+        placeholderText="lastName"
+        showClearButton="true"/>
 
     <spacer size="8"/>
 
-    <text-field columns="16" leadingIcon="search_18dp.svg" trailingIcon="people_18dp.svg"/>
+    <text-field columns="16"
+        leadingIcon="icons/search_24dp.svg; 18"
+        trailingIcon="icons/people_24dp.svg; 18"/>
 </column-panel>
 ```
 
@@ -254,7 +267,7 @@ When used in conjunction with `JTabbedPane`, the "tabTitle" and "tabIcon" attrib
 
 ```xml
 <tabbed-pane name="tabbedPane" tabPlacement="top" tabLayoutPolicy="scroll-tab-layout">
-    <label tabTitle="Tab 1" tabIcon="home_18dp.svg"
+    <label tabTitle="Tab 1" tabIcon="icons/home_24dp.svg; 18"
         text="This is the first tab."
         horizontalAlignment="center"
         verticalAlignment="center"/>

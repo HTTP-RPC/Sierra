@@ -19,7 +19,7 @@
     </menu-bar>
 
     <tool-bar floatable="false">
-        <button icon="home_18dp.svg" toolTipText="Home"/>
+        <button icon="icons/home_24dp.svg; 18" toolTipText="Home"/>
         <tool-bar-separator/>
         <toggle-button text="One" group="numbers"/>
         <toggle-button text="Two" group="numbers"/>

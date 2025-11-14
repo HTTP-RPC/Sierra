@@ -858,7 +858,19 @@ public class UILoader {
     }
 
     private Icon getIcon(String value) {
-        return icons.computeIfAbsent(value, key -> new FlatSVGIcon(getURL(value)));
+        return icons.computeIfAbsent(value, key -> {
+            var components = value.split(";");
+
+            var icon = new FlatSVGIcon(getURL(components[0]));
+
+            if (components.length > 1) {
+                var size = parseSize(components[1]);
+
+                icon = icon.derive(size.width, size.height);
+            }
+
+            return icon;
+        });
     }
 
     private Image getImage(String value) {
