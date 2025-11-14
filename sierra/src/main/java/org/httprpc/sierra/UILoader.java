@@ -294,9 +294,10 @@ public class UILoader {
                 || JScrollPane.class.isAssignableFrom(type)
                 || JSplitPane.class.isAssignableFrom(type)
                 || JTabbedPane.class.isAssignableFrom(type)
+                || JToolBar.class.isAssignableFrom(type)
                 || JMenuBar.class.isAssignableFrom(type)
                 || JMenu.class.isAssignableFrom(type)
-                || JToolBar.class.isAssignableFrom(type)) {
+                || MenuButton.class.isAssignableFrom(type)) {
                 writer.append("(ANY)");
             } else {
                 writer.append("EMPTY");
@@ -408,14 +409,14 @@ public class UILoader {
         bind("tree", JTree.class, JTree::new);
         bind("split-pane", JSplitPane.class, JSplitPane::new);
         bind("tabbed-pane", JTabbedPane.class, JTabbedPane::new);
+        bind("tool-bar", JToolBar.class, JToolBar::new);
+        bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
         bind("menu-bar", JMenuBar.class, JMenuBar::new);
         bind("menu", JMenu.class, JMenu::new);
         bind("menu-item", JMenuItem.class, JMenuItem::new);
         bind("check-box-menu-item", JCheckBoxMenuItem.class, JCheckBoxMenuItem::new);
         bind("radio-button-menu-item", JRadioButtonMenuItem.class, JRadioButtonMenuItem::new);
         bind("popup-menu-separator", JPopupMenu.Separator.class, JPopupMenu.Separator::new);
-        bind("tool-bar", JToolBar.class, JToolBar::new);
-        bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
 
         bind("row-panel", RowPanel.class, RowPanel::new);
         bind("column-panel", ColumnPanel.class, ColumnPanel::new);
@@ -835,7 +836,10 @@ public class UILoader {
                 }
             } else if (parent instanceof JTabbedPane tabbedPane) {
                 tabbedPane.addTab(tabTitle, tabIcon, component);
-            } else if (parent instanceof JMenuBar || parent instanceof JMenu || parent instanceof JToolBar) {
+            } else if (parent instanceof JToolBar
+                || parent instanceof JMenuBar
+                || parent instanceof JMenu
+                || parent instanceof MenuButton) {
                 parent.add(component);
             } else {
                 throw new UnsupportedOperationException("Invalid parent type.");
@@ -849,29 +853,39 @@ public class UILoader {
         if (resourceBundle == null) {
             return value;
         } else {
-            return resourceBundle.getString(value);
+            return resourceBundle.getString(value.trim());
         }
     }
 
     private Icon getIcon(String value) {
-        return icons.computeIfAbsent(value, key -> new FlatSVGIcon(getURL(value)));
+        var components = value.split(";");
+
+        var icon = icons.computeIfAbsent(components[0].trim(), key -> new FlatSVGIcon(getURL(key)));
+
+        if (components.length > 1) {
+            var size = parseSize(components[1]);
+
+            icon = ((FlatSVGIcon)icon).derive(size.width, size.height);
+        }
+
+        return icon;
     }
 
     private Image getImage(String value) {
-        return images.computeIfAbsent(value, key -> {
+        return images.computeIfAbsent(value.trim(), key -> {
             try {
-                return ImageIO.read(getURL(value));
+                return ImageIO.read(getURL(key));
             } catch (IOException exception) {
                 throw new RuntimeException(exception);
             }
         });
     }
 
-    private URL getURL(String value) {
+    private URL getURL(String name) {
         if (owner != null) {
-            return owner.getClass().getResource(value);
+            return owner.getClass().getResource(name);
         } else {
-            var uri = path.resolveSibling(value).toUri();
+            var uri = path.resolveSibling(name).toUri();
 
             try {
                 return uri.toURL();

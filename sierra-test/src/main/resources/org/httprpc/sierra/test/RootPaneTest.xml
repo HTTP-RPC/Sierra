@@ -8,7 +8,7 @@
     </scroll-pane>
 
     <tabbed-pane name="tabbedPane" tabPlacement="top" tabLayoutPolicy="scroll-tab-layout">
-        <label tabTitle="Tab 1" tabIcon="home_18dp.svg"
+        <label tabTitle="Tab 1" tabIcon="icons/home_24dp.svg; 18"
             text="This is the first tab."
             horizontalAlignment="center"
             verticalAlignment="center"/>

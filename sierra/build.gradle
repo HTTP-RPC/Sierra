@@ -29,6 +29,7 @@ java {
 dependencies {
     api "org.httprpc:kilo-client:${kiloVersion}"
 
+    compileOnly "com.formdev:flatlaf:${flatLafVersion}"
     compileOnly "com.formdev:flatlaf-extras:${flatLafVersion}"
 }
 

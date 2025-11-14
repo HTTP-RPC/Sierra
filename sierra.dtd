@@ -107,7 +107,7 @@
 <!ATTLIST radio-button-menu-item %javax.swing.JRadioButtonMenuItem;>
 <!ENTITY % org.httprpc.sierra.BoxPanel "%org.httprpc.sierra.LayoutPanel; spacing CDATA ">
 <!ENTITY % org.httprpc.sierra.MenuButton "%javax.swing.JButton; popupHorizontalAlignment (leading|trailing|center) popupVerticalAlignment (top|bottom|center) ">
-<!ELEMENT menu-button EMPTY>
+<!ELEMENT menu-button (ANY)>
 <!ATTLIST menu-button %org.httprpc.sierra.MenuButton;>
 <!ENTITY % org.httprpc.sierra.NumberField "%javax.swing.JTextField; value CDATA ">
 <!ELEMENT number-field EMPTY>

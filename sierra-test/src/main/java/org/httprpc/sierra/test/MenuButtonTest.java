@@ -21,8 +21,6 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
 
@@ -41,14 +39,6 @@ public class MenuButtonTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(UILoader.load(this, "MenuButtonTest.xml", resourceBundle));
-
-        var popupMenu = new JPopupMenu();
-
-        popupMenu.add(new JMenuItem(resourceBundle.getString("item1")));
-        popupMenu.add(new JMenuItem(resourceBundle.getString("item2")));
-        popupMenu.add(new JMenuItem(resourceBundle.getString("item3")));
-
-        menuButton.setPopupMenu(popupMenu);
 
         focusableCheckBox.addActionListener(event -> toggleFocusable());
         focusableCheckBox.setSelected(true);

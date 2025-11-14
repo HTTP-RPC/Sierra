@@ -3,10 +3,17 @@
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
 <column-panel spacing="4" padding="8" opaque="true">
-    <text-field columns="16" placeholderText="firstName" showClearButton="true"/>
-    <text-field columns="16" placeholderText="lastName" showClearButton="true"/>
+    <text-field columns="16"
+        placeholderText="firstName"
+        showClearButton="true"/>
+
+    <text-field columns="16"
+        placeholderText="lastName"
+        showClearButton="true"/>
 
     <spacer size="8"/>
 
-    <text-field columns="16" leadingIcon="search_18dp.svg" trailingIcon="people_18dp.svg"/>
+    <text-field columns="16"
+        leadingIcon="icons/search_24dp.svg; 18"
+        trailingIcon="icons/people_24dp.svg; 18"/>
 </column-panel>

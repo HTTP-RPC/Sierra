@@ -20,16 +20,17 @@ import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import java.awt.Component;
 import java.awt.event.FocusEvent;
 
 /**
  * Displays a popup menu when pressed.
  */
 public class MenuButton extends JButton {
-    private JPopupMenu popupMenu = null;
-
     private HorizontalAlignment popupHorizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
+
+    private JPopupMenu popupMenu = new JPopupMenu();
 
     private PopupMenuListener popupMenuListener = new PopupMenuListener() {
         @Override
@@ -132,6 +133,8 @@ public class MenuButton extends JButton {
                 ignorePress = false;
             }
         });
+
+        popupMenu.addPopupMenuListener(popupMenuListener);
     }
 
     /**
@@ -139,7 +142,11 @@ public class MenuButton extends JButton {
      *
      * @return
      * The popup menu, or {@code null} if no popup menu is set.
+     *
+     * @deprecated
+     * Use {@link #add(Component)} or {@link #remove(Component)} instead.
      */
+    @Deprecated
     public JPopupMenu getPopupMenu() {
         return popupMenu;
     }
@@ -149,7 +156,11 @@ public class MenuButton extends JButton {
      *
      * @param popupMenu
      * The popup menu, or {@code null} for no popup menu.
+     *
+     * @deprecated
+     * Use {@link #add(Component)} or {@link #remove(Component)} instead.
      */
+    @Deprecated
     public void setPopupMenu(JPopupMenu popupMenu) {
         if (this.popupMenu != null) {
             this.popupMenu.removePopupMenuListener(popupMenuListener);
@@ -208,6 +219,39 @@ public class MenuButton extends JButton {
         }
 
         this.popupVerticalAlignment = popupVerticalAlignment;
+    }
+
+    /**
+     * Adds a component to the menu button.
+     *
+     * @param component
+     * The component to add.
+     *
+     * @return
+     * The component that was added.
+     */
+    @Override
+    public Component add(Component component) {
+        if (component == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return popupMenu.add(component);
+    }
+
+    /**
+     * Removes a component from the menu button.
+     *
+     * @param component
+     * The component to remove.
+     */
+    @Override
+    public void remove(Component component) {
+        if (component == null) {
+            throw new IllegalArgumentException();
+        }
+
+        popupMenu.remove(component);
     }
 
     /**
