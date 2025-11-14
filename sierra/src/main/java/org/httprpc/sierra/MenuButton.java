@@ -32,23 +32,6 @@ public class MenuButton extends JButton {
 
     private JPopupMenu popupMenu = new JPopupMenu();
 
-    private PopupMenuListener popupMenuListener = new PopupMenuListener() {
-        @Override
-        public void popupMenuWillBecomeVisible(PopupMenuEvent event) {
-            // No-op
-        }
-
-        @Override
-        public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
-            // No-op
-        }
-
-        @Override
-        public void popupMenuCanceled(PopupMenuEvent event) {
-            ignorePress = true;
-        }
-    };
-
     private boolean ignorePress = false;
 
     /**
@@ -134,43 +117,22 @@ public class MenuButton extends JButton {
             }
         });
 
-        popupMenu.addPopupMenuListener(popupMenuListener);
-    }
+        popupMenu.addPopupMenuListener(new PopupMenuListener() {
+            @Override
+            public void popupMenuWillBecomeVisible(PopupMenuEvent event) {
+                // No-op
+            }
 
-    /**
-     * Returns the popup menu.
-     *
-     * @return
-     * The popup menu, or {@code null} if no popup menu is set.
-     *
-     * @deprecated
-     * Use {@link #add(Component)} or {@link #remove(Component)} instead.
-     */
-    @Deprecated
-    public JPopupMenu getPopupMenu() {
-        return popupMenu;
-    }
+            @Override
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
+                // No-op
+            }
 
-    /**
-     * Sets the popup menu.
-     *
-     * @param popupMenu
-     * The popup menu, or {@code null} for no popup menu.
-     *
-     * @deprecated
-     * Use {@link #add(Component)} or {@link #remove(Component)} instead.
-     */
-    @Deprecated
-    public void setPopupMenu(JPopupMenu popupMenu) {
-        if (this.popupMenu != null) {
-            this.popupMenu.removePopupMenuListener(popupMenuListener);
-        }
-
-        if (popupMenu != null) {
-            popupMenu.addPopupMenuListener(popupMenuListener);
-        }
-
-        this.popupMenu = popupMenu;
+            @Override
+            public void popupMenuCanceled(PopupMenuEvent event) {
+                ignorePress = true;
+            }
+        });
     }
 
     /**
