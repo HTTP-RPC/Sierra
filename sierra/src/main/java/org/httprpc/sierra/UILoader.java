@@ -960,13 +960,23 @@ public class UILoader {
     }
 
     /**
+     * Returns the bound markup tags.
+     *
+     * @return
+     * The bound markup tags.
+     */
+    public static Iterable<String> getTags() {
+        return types.keySet();
+    }
+
+    /**
      * Retrieves a bound component type.
      *
      * @param tag
      * The markup tag.
      *
      * @return
-     * The bound component type, or {@code null} if the tag is not bound.
+     * The component type, or {@code null} if the tag is not bound.
      */
     public static Class<? extends JComponent> getType(String tag) {
         return types.get(tag);
