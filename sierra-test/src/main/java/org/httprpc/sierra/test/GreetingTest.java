@@ -43,6 +43,9 @@ public class GreetingTest extends JFrame implements Runnable {
 
         if (declarative) {
             setContentPane(UILoader.load(this, "GreetingTest.xml"));
+
+            System.out.println(UILoader.getType("image-pane").getName());
+            System.out.println(UILoader.getType("text-pane").getName());
         } else {
             var columnPanel = new ColumnPanel();
 

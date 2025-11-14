@@ -380,7 +380,7 @@ public class UILoader {
     private static final String WRAP_TAB_LAYOUT = "wrap-tab-layout";
     private static final String SCROLL_TAB_LAYOUT = "scroll-tab-layout";
 
-    private static final Map<String, Class<?>> types = new HashMap<>();
+    private static final Map<String, Class<? extends JComponent>> types = new HashMap<>();
     private static final Map<String, Supplier<? extends JComponent>> suppliers = new HashMap<>();
 
     private static final Map<String, Color> colors = new HashMap<>();
@@ -960,6 +960,19 @@ public class UILoader {
     }
 
     /**
+     * Retrieves a bound component type.
+     *
+     * @param tag
+     * The markup tag.
+     *
+     * @return
+     * The bound component type, or {@code null} if the tag is not bound.
+     */
+    public static Class<? extends JComponent> getType(String tag) {
+        return types.get(tag);
+    }
+
+    /**
      * Associates a markup tag with a component type.
      *
      * @param tag
@@ -1116,7 +1129,7 @@ public class UILoader {
         for (var entry : types.entrySet()) {
             var tag = entry.getKey();
 
-            var type = entry.getValue();
+            var type = (Class<?>)entry.getValue();
 
             tags.put(type, tag);
 
