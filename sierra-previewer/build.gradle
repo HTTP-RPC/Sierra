@@ -13,6 +13,7 @@
  */
 
 plugins {
+    id 'java' 
     id 'application'
 }
 
@@ -24,10 +25,26 @@ dependencies {
 
     implementation 'com.fifesoft:rsyntaxtextarea:3.6.0'
     implementation 'com.fifesoft:autocomplete:3.3.2'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.1'
+    testImplementation 'org.mockito:mockito-core:5.9.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.9.0'
+
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1' 
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.withType(JavaCompile) {
     options.compilerArgs = [
         '-parameters'
     ]
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass = 'org.httprpc.sierra.previewer.SierraPreviewerApp'
 }

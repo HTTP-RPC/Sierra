@@ -1,0 +1,107 @@
+<!ENTITY % UILoader "name CDATA group CDATA border CDATA padding CDATA weight CDATA size CDATA style CDATA styleClass CDATA ">
+<!ENTITY % Component "%UILoader; background CDATA enabled (true|false) focusTraversalKeysEnabled (true|false) focusable (true|false) font CDATA foreground CDATA ignoreRepaint (true|false) name CDATA visible (true|false) ">
+<!ENTITY % Container "%Component; focusCycleRoot (true|false) focusTraversalPolicyProvider (true|false) font CDATA ">
+<!ENTITY % JComponent "%Container; alignmentX CDATA alignmentY CDATA autoscrolls (true|false) background CDATA debugGraphicsOptions CDATA doubleBuffered (true|false) enabled (true|false) font CDATA foreground CDATA inheritsPopupMenu (true|false) opaque (true|false) requestFocusEnabled (true|false) toolTipText CDATA verifyInputWhenFocusTarget (true|false) visible (true|false) ">
+<!ENTITY % AbstractButton "%JComponent; actionCommand CDATA borderPainted (true|false) contentAreaFilled (true|false) disabledIcon CDATA disabledSelectedIcon CDATA displayedMnemonicIndex CDATA enabled (true|false) focusPainted (true|false) hideActionText (true|false) horizontalAlignment (left|center|right|leading|trailing) horizontalTextPosition CDATA icon CDATA iconTextGap CDATA label CDATA mnemonic CDATA multiClickThreshhold CDATA pressedIcon CDATA rolloverEnabled (true|false) rolloverIcon CDATA rolloverSelectedIcon CDATA selected (true|false) selectedIcon CDATA text CDATA verticalAlignment (top|center|bottom) verticalTextPosition CDATA ">
+<!ENTITY % ActivityIndicator "%JComponent; indicatorSize CDATA ">
+<!ELEMENT activity-indicator EMPTY>
+<!ATTLIST activity-indicator %ActivityIndicator;>
+<!ENTITY % ImagePane "%JComponent; horizontalAlignment (leading|trailing|center) image CDATA scaleMode (none|fill-width|fill-height) verticalAlignment (top|bottom|center) ">
+<!ELEMENT image-pane EMPTY>
+<!ATTLIST image-pane %ImagePane;>
+<!ENTITY % JColorChooser "%JComponent; color CDATA dragEnabled (true|false) ">
+<!ELEMENT color-chooser EMPTY>
+<!ATTLIST color-chooser %JColorChooser;>
+<!ENTITY % JComboBox "%JComponent; actionCommand CDATA editable (true|false) enabled (true|false) lightWeightPopupEnabled (true|false) maximumRowCount CDATA popupVisible (true|false) selectedIndex CDATA ">
+<!ELEMENT combo-box EMPTY>
+<!ATTLIST combo-box %JComboBox;>
+<!ENTITY % JLabel "%JComponent; disabledIcon CDATA displayedMnemonic CDATA displayedMnemonicIndex CDATA horizontalAlignment (left|center|right|leading|trailing) horizontalTextPosition CDATA icon CDATA iconTextGap CDATA text CDATA verticalAlignment (top|center|bottom) verticalTextPosition CDATA ">
+<!ELEMENT label EMPTY>
+<!ATTLIST label %JLabel;>
+<!ENTITY % JList "%JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) fixedCellHeight CDATA fixedCellWidth CDATA layoutOrientation CDATA selectedIndex CDATA selectionBackground CDATA selectionForeground CDATA selectionMode CDATA valueIsAdjusting (true|false) visibleRowCount CDATA ">
+<!ELEMENT list EMPTY>
+<!ATTLIST list %JList;>
+<!ENTITY % JPanel "%JComponent; ">
+<!ENTITY % JProgressBar "%JComponent; borderPainted (true|false) indeterminate (true|false) maximum CDATA minimum CDATA orientation (horizontal|vertical) string CDATA stringPainted (true|false) value CDATA ">
+<!ELEMENT progress-bar EMPTY>
+<!ATTLIST progress-bar %JProgressBar;>
+<!ENTITY % JScrollPane "%JComponent; horizontalScrollBarPolicy CDATA verticalScrollBarPolicy CDATA wheelScrollingEnabled (true|false) ">
+<!ELEMENT scroll-pane (ANY)>
+<!ATTLIST scroll-pane %JScrollPane;>
+<!ENTITY % JSeparator "%JComponent; orientation (horizontal|vertical) ">
+<!ELEMENT separator EMPTY>
+<!ATTLIST separator %JSeparator;>
+<!ENTITY % JSlider "%JComponent; extent CDATA font CDATA inverted (true|false) majorTickSpacing CDATA maximum CDATA minimum CDATA minorTickSpacing CDATA orientation (horizontal|vertical) paintLabels (true|false) paintTicks (true|false) paintTrack (true|false) snapToTicks (true|false) value CDATA valueIsAdjusting (true|false) ">
+<!ELEMENT slider EMPTY>
+<!ATTLIST slider %JSlider;>
+<!ENTITY % JSpinner "%JComponent; ">
+<!ELEMENT spinner EMPTY>
+<!ATTLIST spinner %JSpinner;>
+<!ENTITY % JTable "%JComponent; autoCreateColumnsFromModel (true|false) autoCreateRowSorter (true|false) autoResizeMode CDATA cellSelectionEnabled (true|false) columnSelectionAllowed (true|false) dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editingColumn CDATA editingRow CDATA fillsViewportHeight (true|false) gridColor CDATA rowHeight CDATA rowMargin CDATA rowSelectionAllowed (true|false) selectionBackground CDATA selectionForeground CDATA showHorizontalLines (true|false) showVerticalLines (true|false) surrendersFocusOnKeystroke (true|false) updateSelectionOnSort (true|false) ">
+<!ELEMENT table EMPTY>
+<!ATTLIST table %JTable;>
+<!ENTITY % JTextComponent "%JComponent; caretColor CDATA caretPosition CDATA disabledTextColor CDATA dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) focusAccelerator CDATA selectedTextColor CDATA selectionColor CDATA selectionEnd CDATA selectionStart CDATA text CDATA ">
+<!ENTITY % JTree "%JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) expandsSelectedPaths (true|false) invokesStopCellEditing (true|false) largeModel (true|false) rootVisible (true|false) rowHeight CDATA scrollsOnExpand (true|false) showsRootHandles (true|false) toggleClickCount CDATA visibleRowCount CDATA ">
+<!ELEMENT tree EMPTY>
+<!ATTLIST tree %JTree;>
+<!ENTITY % Spacer "%JComponent; ">
+<!ELEMENT spacer EMPTY>
+<!ATTLIST spacer %Spacer;>
+<!ENTITY % TextPane "%JComponent; horizontalAlignment (leading|trailing|center) text CDATA verticalAlignment (top|bottom|center) wrapText (true|false) ">
+<!ELEMENT text-pane EMPTY>
+<!ATTLIST text-pane %TextPane;>
+<!ENTITY % JButton "%AbstractButton; defaultCapable (true|false) ">
+<!ELEMENT button EMPTY>
+<!ATTLIST button %JButton;>
+<!ENTITY % JTextArea "%JTextComponent; columns CDATA font CDATA lineWrap (true|false) rows CDATA tabSize CDATA wrapStyleWord (true|false) ">
+<!ELEMENT text-area EMPTY>
+<!ATTLIST text-area %JTextArea;>
+<!ENTITY % JTextField "%JTextComponent; columns CDATA font CDATA horizontalAlignment (left|center|right|leading|trailing) scrollOffset CDATA placeholderText CDATA showClearButton (true|false) leadingIcon CDATA trailingIcon CDATA ">
+<!ELEMENT text-field EMPTY>
+<!ATTLIST text-field %JTextField;>
+<!ENTITY % JToggleButton "%AbstractButton; ">
+<!ELEMENT toggle-button EMPTY>
+<!ATTLIST toggle-button %JToggleButton;>
+<!ENTITY % LayoutPanel "%JPanel; scrollableTracksViewportHeight (true|false) scrollableTracksViewportWidth (true|false) ">
+<!ENTITY % BoxPanel "%LayoutPanel; spacing CDATA ">
+<!ENTITY % JCheckBox "%JToggleButton; borderPaintedFlat (true|false) ">
+<!ELEMENT check-box EMPTY>
+<!ATTLIST check-box %JCheckBox;>
+<!ENTITY % JFormattedTextField "%JTextField; focusLostBehavior (commit|commit-or-revert|revert|persist) ">
+<!ELEMENT formatted-text-field EMPTY>
+<!ATTLIST formatted-text-field %JFormattedTextField;>
+<!ENTITY % JPasswordField "%JTextField; echoChar CDATA text CDATA ">
+<!ELEMENT password-field EMPTY>
+<!ATTLIST password-field %JPasswordField;>
+<!ENTITY % JRadioButton "%JToggleButton; ">
+<!ELEMENT radio-button EMPTY>
+<!ATTLIST radio-button %JRadioButton;>
+<!ENTITY % MenuButton "%JButton; popupHorizontalAlignment (leading|trailing|center) popupVerticalAlignment (top|bottom|center) ">
+<!ELEMENT menu-button EMPTY>
+<!ATTLIST menu-button %MenuButton;>
+<!ENTITY % NumberField "%JTextField; value CDATA ">
+<!ELEMENT number-field EMPTY>
+<!ATTLIST number-field %NumberField;>
+<!ENTITY % Picker "%JTextField; popupHorizontalAlignment (leading|trailing|center) popupVerticalAlignment (top|bottom|center) ">
+<!ENTITY % StackPanel "%LayoutPanel; ">
+<!ELEMENT stack-panel (ANY)>
+<!ATTLIST stack-panel %StackPanel;>
+<!ENTITY % ValidatedTextField "%JTextField; pattern CDATA value CDATA ">
+<!ELEMENT validated-text-field EMPTY>
+<!ATTLIST validated-text-field %ValidatedTextField;>
+<!ENTITY % ColumnPanel "%BoxPanel; alignToGrid (true|false) ">
+<!ELEMENT column-panel (ANY)>
+<!ATTLIST column-panel %ColumnPanel;>
+<!ENTITY % RowPanel "%BoxPanel; alignToBaseline (true|false) ">
+<!ELEMENT row-panel (ANY)>
+<!ATTLIST row-panel %RowPanel;>
+<!ENTITY % SuggestionPicker "%Picker; maximumRowCount CDATA ">
+<!ELEMENT suggestion-picker EMPTY>
+<!ATTLIST suggestion-picker %SuggestionPicker;>
+<!ENTITY % TemporalPicker "%Picker; ">
+<!ENTITY % DatePicker "%TemporalPicker; ">
+<!ELEMENT date-picker EMPTY>
+<!ATTLIST date-picker %DatePicker;>
+<!ENTITY % TimePicker "%TemporalPicker; minuteInterval CDATA strict (true|false) ">
+<!ELEMENT time-picker EMPTY>
+<!ATTLIST time-picker %TimePicker;>
