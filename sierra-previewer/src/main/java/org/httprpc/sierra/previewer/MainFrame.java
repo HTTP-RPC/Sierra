@@ -58,6 +58,30 @@ public class MainFrame extends JFrame {
 
     // --- UI Components (Injected by Sierra) ---
     @Outlet
+    private JMenuBar menuBar;
+    
+    @Outlet
+    private JMenu fileMenu;
+    
+    @Outlet
+    private JMenuItem openItem;    
+    
+    @Outlet
+    private JMenuItem saveItem;
+    
+    @Outlet
+    private JMenu recentMenu;
+    
+    @Outlet
+    private JMenuItem exitItem;          
+    
+    @Outlet
+    private JMenu aboutMenu;
+        
+    @Outlet
+    private JMenuItem aboutItem;    
+    
+    @Outlet
     private JScrollPane editorScrollPane; // The <scroll-pane> placeholder
 
     @Outlet
@@ -71,8 +95,7 @@ public class MainFrame extends JFrame {
 
     // --- Manually Created Components ---
     private RSyntaxTextArea editorPane;
-    private JMenuItem saveItem; // Reference to the manually created menu item
-    private JMenu recentMenu; // New reference for the Recent Files menu
+
 
     public MainFrame() {
         super("Sierra UI Previewer");
@@ -153,13 +176,9 @@ public class MainFrame extends JFrame {
      * Creates and sets the application's menu bar.
      */
     private void setupMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-
-        // --- File Menu ---
-        JMenu fileMenu = new JMenu("File");
+        menuBar = new JMenuBar();
 
         // Open
-        JMenuItem openItem = new JMenuItem("Open...");
         openItem.addActionListener(e -> {
             int result = fileChooser.showOpenDialog(MainFrame.this);
             if (result == JFileChooser.APPROVE_OPTION) {
@@ -167,26 +186,13 @@ public class MainFrame extends JFrame {
                 loadFile(selectedFile);
             }
         });
-        fileMenu.add(openItem);
 
-        // --- NEW: Recent Menu ---
-        recentMenu = new JMenu("Recent");
-        fileMenu.add(recentMenu);
-        updateRecentMenu(); // Populate the menu initially
+        updateRecentMenu();
 
-        fileMenu.addSeparator();
-
-        // Save
-        saveItem = new JMenuItem("Save");
         saveItem.addActionListener(e -> saveFile());
         saveItem.setEnabled(false); // Disabled until a file is successfully loaded
-        fileMenu.add(saveItem);
-
-        // Separator
-        fileMenu.addSeparator();
 
         // Exit
-        JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(e -> {
             System.exit(0); // Exit the application
         });
@@ -195,8 +201,6 @@ public class MainFrame extends JFrame {
         menuBar.add(fileMenu);
 
         // --- About Menu ---
-        JMenu aboutMenu = new JMenu("About");
-        JMenuItem aboutItem = new JMenuItem("About Previewer");
         aboutItem.addActionListener(e -> {
             JOptionPane.showMessageDialog(
                     this,
@@ -208,7 +212,6 @@ public class MainFrame extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE
             );
         });
-        aboutMenu.add(aboutItem);
         menuBar.add(aboutMenu);
 
         this.setJMenuBar(menuBar);
