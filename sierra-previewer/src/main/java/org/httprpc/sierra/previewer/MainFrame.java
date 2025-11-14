@@ -54,14 +54,12 @@ public class MainFrame extends JFrame {
 
     // --- File Handling State ---
     private final JFileChooser fileChooser;
-    private Path currentFilePath = null; // Stores the path of the currently loaded file
-
+    private Path currentFilePath = null;
     // --- UI Components (Injected by Sierra) ---
-    @Outlet
-    private JMenuBar menuBar;
+    // Stores the path of the currently loaded file
     
-    @Outlet
-    private JMenu fileMenu;
+    @Outlet 
+    private JMenuBar menuBar;
     
     @Outlet
     private JMenuItem openItem;    
@@ -74,10 +72,7 @@ public class MainFrame extends JFrame {
     
     @Outlet
     private JMenuItem exitItem;          
-    
-    @Outlet
-    private JMenu aboutMenu;
-        
+            
     @Outlet
     private JMenuItem aboutItem;    
     
@@ -176,7 +171,6 @@ public class MainFrame extends JFrame {
      * Creates and sets the application's menu bar.
      */
     private void setupMenuBar() {
-        menuBar = new JMenuBar();
 
         // Open
         openItem.addActionListener(e -> {
@@ -196,9 +190,6 @@ public class MainFrame extends JFrame {
         exitItem.addActionListener(e -> {
             System.exit(0); // Exit the application
         });
-        fileMenu.add(exitItem);
-
-        menuBar.add(fileMenu);
 
         // --- About Menu ---
         aboutItem.addActionListener(e -> {
@@ -212,7 +203,6 @@ public class MainFrame extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE
             );
         });
-        menuBar.add(aboutMenu);
 
         this.setJMenuBar(menuBar);
     }

@@ -2,7 +2,7 @@
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 <column-panel>
     <menu-bar name="menuBar">
-        <menu name="fileMenu" text="File">
+        <menu text="File">
             <menu-item name="openItem" text="Open..."/>
             <menu name="recentMenu" text="Recent"/>
             <popup-menu-separator/>
@@ -10,7 +10,7 @@
             <popup-menu-separator/>
             <menu-item name="exitItem" text="Exit"/>
         </menu>
-        <menu name="aboutMenu" text="About">
+        <menu text="About">
             <menu-item name="aboutItem" text="About Previewer"/>
         </menu>        
     </menu-bar>
@@ -18,10 +18,8 @@
     
     <row-panel weight="1">
 
-        <column-panel weight="1">           
-            
-            <scroll-pane name="editorScrollPane" weight="1"/>
-            
+	<column-panel weight="1">                       
+            <scroll-pane name="editorScrollPane" weight="1"/>            
         </column-panel>
 
 
@@ -34,6 +32,7 @@
         </column-panel>
 
     </row-panel>
+
     <label name="filePathLabel" text="" padding="4, 6, 4, 6"/>
     <label name="statusBar" text="Ready." padding="2, 5, 2, 5"/>
 </column-panel>
