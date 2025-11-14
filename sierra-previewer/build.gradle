@@ -13,6 +13,7 @@
  */
 
 plugins {
+    id 'java' 
     id 'application'
 }
 
@@ -25,13 +26,11 @@ dependencies {
     implementation 'com.fifesoft:rsyntaxtextarea:3.6.0'
     implementation 'com.fifesoft:autocomplete:3.3.2'
 
-    // Test dependencies based on your pom.xml
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.1'
     testImplementation 'org.mockito:mockito-core:5.9.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.9.0'
 
-    // This allows the JUnit Platform to discover and execute the Jupiter tests (@Test, etc.)
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1' 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
@@ -43,6 +42,9 @@ tasks.withType(JavaCompile) {
 }
 
 tasks.named('test', Test) {
-    // This tells Gradle to use the JUnit Platform (needed for modern JUnit 5 tests)
     useJUnitPlatform()
+}
+
+application {
+    mainClass = 'org.httprpc.sierra.previewer.SierraPreviewerApp'
 }
