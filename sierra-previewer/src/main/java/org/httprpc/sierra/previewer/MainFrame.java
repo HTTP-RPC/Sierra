@@ -19,7 +19,6 @@ import org.httprpc.sierra.previewer.model.RenderResult;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -46,9 +45,6 @@ import org.httprpc.sierra.Outlet;
  * business logic.
  */
 public class MainFrame extends JFrame {
-
-	private static final long serialVersionUID = 2628641249775639871L;
-
 	// --- Subsystems ---
 	private final RenderingEngine renderingEngine;
 	private final Timer debounceTimer;
@@ -56,18 +52,14 @@ public class MainFrame extends JFrame {
 
 	// --- File Handling State ---
 	private final JFileChooser fileChooser;
+
+    // Stores the path of the currently loaded file
 	private Path currentFilePath = null;
+
 	// --- UI Components (Injected by Sierra) ---
-	// Stores the path of the currently loaded file
-
-	@Outlet
-	private JMenuBar menuBar;
-
-	@Outlet
-	private JMenuItem openItem;
-
-	@Outlet
-	private JMenuItem saveItem;
+	private @Outlet JMenuBar menuBar = null;
+	private @Outlet JMenuItem openItem = null;
+	private @Outlet JMenuItem saveItem = null;
 
 	@Outlet
 	private JMenu recentMenu;
@@ -82,9 +74,6 @@ public class MainFrame extends JFrame {
 	private JSplitPane splitPane;
 
 	@Outlet
-	private JScrollPane editorScrollPane;
-
-	@Outlet
 	private JPanel previewPanel;
 
 	@Outlet
@@ -93,22 +82,23 @@ public class MainFrame extends JFrame {
 	@Outlet
 	private JLabel filePathLabel; // The <label> for the file path
 
-	// --- Manually Created Components ---
-	private RSyntaxTextArea editorPane;
+    @Outlet
+    private RSyntaxTextArea editorPane;
 
 	public MainFrame() {
 		super("Sierra UI Previewer");
-		this.renderingEngine = new RenderingEngine();
+		renderingEngine = new RenderingEngine();
 
-		this.recentFilesManager = new RecentFilesManager(MainFrame.class);
+		recentFilesManager = new RecentFilesManager(MainFrame.class);
 
 		setContentPane(UILoader.load(this, "MainFrame.xml"));
-		// @todo see why it wasn't working to set in xml
-		splitPane.setDividerLocation(0.5);
-		splitPane.setResizeWeight(0.5);
 
-		this.fileChooser = new JFileChooser();
-		FileNameExtensionFilter xmlFilter = new FileNameExtensionFilter("XML Files (*.xml)", "xml");
+		// This is an overloaded setter; BeanAdapter only recognizes the version
+        // with the same type as the getter
+		splitPane.setDividerLocation(0.5);
+
+		fileChooser = new JFileChooser();
+		var xmlFilter = new FileNameExtensionFilter("XML Files (*.xml)", "xml");
 		fileChooser.setFileFilter(xmlFilter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 
@@ -116,10 +106,7 @@ public class MainFrame extends JFrame {
 
 		setupCustomEditor();
 
-		// 5. Set layout for previewPanel
-//        previewPanel.setLayout(new BorderLayout());
-
-		this.debounceTimer = setupDebounceTimer();
+		debounceTimer = setupDebounceTimer();
 
 		// Wire editor events
 		editorPane.getDocument().addDocumentListener(new DocumentListener() {
@@ -141,8 +128,8 @@ public class MainFrame extends JFrame {
 			}
 		});
 
-		URL iconURL = getClass().getResource("/sierra.png");
-		Image icon = new ImageIcon(iconURL).getImage();
+		var iconURL = getClass().getResource("/sierra.png");
+		var icon = new ImageIcon(iconURL).getImage();
 		this.setIconImage(icon);
 
 		// 8. Trigger an initial render
@@ -228,11 +215,7 @@ public class MainFrame extends JFrame {
 	 * placeholder that Sierra injected.
 	 */
 	private void setupCustomEditor() {
-		editorPane = new RSyntaxTextArea(25, 80);
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
-		editorPane.setCodeFoldingEnabled(true);
-		editorPane.setAntiAliasingEnabled(true);
-		editorPane.setEditable(true); // Ensure it's editable
 
 		CompletionProvider provider = createCompletionProvider();
 
@@ -245,8 +228,6 @@ public class MainFrame extends JFrame {
 		if (provider != null) {
 			ac.install(editorPane);
 		}
-
-		editorScrollPane.setViewportView(editorPane);
 	}
 
 	// --- Rendering/Control Logic ---

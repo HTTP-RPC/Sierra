@@ -35,7 +35,7 @@ import org.httprpc.kilo.beans.BeanAdapter;
 import org.httprpc.sierra.UILoader;
 
 /**
- * Provides context-aware autocompletion for Sierra DSL XML by 
+ * Provides context-aware autocompletion for Sierra DSL XML by
  * asking UILoader to obtain valid elements and attributes for the
  * current tag. Includes attribute value definitions in the description.
  */
@@ -47,7 +47,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 	// Map to store the final resolved attributes for each tag
 	// TagName -> {AttributeName -> Description/ValueDefinitionString}
 	private final Map<String, Map<String, String>> elementAttributeDefinitions = new HashMap<>();
-	
+
 	private final Map<String, Map<String, String>> baseClassAttributeDefinitions = new HashMap<>();
 
 	private final List<Completion> tagCompletions = new ArrayList<>();
@@ -58,22 +58,17 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 	}
 
 	private void loadTags() {
-		Iterable<String> tagNames = UILoader.getTags();
-		for (String tagName : tagNames) {
-			tagCompletions.add(new BasicCompletion(this, tagName, "Sierra UI Element"));
-			Class<?> type = UILoader.getType(tagName);
-			Map<String, String> attributes = getAttributesForClass(type);
-			elementAttributeDefinitions.put(tagName, attributes);
+		for (var tag : UILoader.getTags()) {
+			tagCompletions.add(new BasicCompletion(this, tag, "Sierra UI Element"));
+			elementAttributeDefinitions.put(tag, getAttributesForClass(UILoader.getType(tag)));
 		}
-		
+
 		tagCompletions.sort(Comparator.comparing(Completion::getInputText));
-		
-		
+
 		baseClassAttributeDefinitions.put(JComponent.class.getName(), getAttributesForClass(JComponent.class));
 		addCommonAttributes();
-
 	}
-	
+
 	private void addCommonAttributes() {
 		Map<String, String> attributes = new HashMap<>();
 		// Add common attributes applicable to all components
@@ -88,7 +83,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 		attributes.put("styleClass", "String");
 		baseClassAttributeDefinitions.put("CommonAttributes", attributes);
 	}
-	
+
 	private Map<String, String> getAttributesForClass(Class<?> type){
 		Map<String, String> attributes = new HashMap<>();
 		for (var entry : BeanAdapter.getProperties(type).entrySet()) {
@@ -120,7 +115,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 			if (allAttributes == null) {
 				return new ArrayList<>();
 			}
-			
+
 			// parent class
 			// @todo we need to walk all the class hierarchy here?
 			allAttributes.putAll(baseClassAttributeDefinitions.get(JComponent.class.getName()));

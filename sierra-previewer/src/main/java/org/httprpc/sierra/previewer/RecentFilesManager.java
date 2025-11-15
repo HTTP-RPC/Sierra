@@ -49,8 +49,7 @@ public class RecentFilesManager {
             // Split the string by the separator, convert to Path objects, and collect.
             recentFiles.addAll(Arrays.stream(savedList.split(PATH_SEPARATOR))
                     .filter(s -> !s.trim().isEmpty())
-                    .map(Paths::get)
-                    .collect(Collectors.toList()));
+                    .map(Paths::get).toList());
         }
     }
 
@@ -77,7 +76,7 @@ public class RecentFilesManager {
         recentFiles.remove(path);
 
         // 2. Add to the front (most recent)
-        recentFiles.add(0, path);
+        recentFiles.addFirst(path);
 
         // 3. Trim the list if it exceeds the max size
         if (recentFiles.size() > MAX_RECENT_FILES) {

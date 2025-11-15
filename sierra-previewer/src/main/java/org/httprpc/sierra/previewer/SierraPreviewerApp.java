@@ -14,21 +14,21 @@
 package org.httprpc.sierra.previewer;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.httprpc.sierra.UILoader;
+
 import javax.swing.*;
 
 public class SierraPreviewerApp {
 
     public static void main(String[] args) {
+        FlatLightLaf.setup();
+
+        UILoader.bind("syntax-text-area", RSyntaxTextArea.class, RSyntaxTextArea::new);
+
         // Run all UI code on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
-            try {
-                // Set a modern Look and Feel if available
-                UIManager.setLookAndFeel(new FlatLightLaf());
-            } catch (Exception e) {
-                System.err.println("Could not set System Look and Feel.");
-            }
-            
-            MainFrame frame = new MainFrame();
+            var frame = new MainFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(1200, 800);
             frame.setLocationRelativeTo(null); // Center on screen
