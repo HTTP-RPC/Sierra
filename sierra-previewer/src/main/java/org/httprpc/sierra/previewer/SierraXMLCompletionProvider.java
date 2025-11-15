@@ -13,6 +13,9 @@
  */
 package org.httprpc.sierra.previewer;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,6 +27,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
@@ -35,7 +39,7 @@ import org.httprpc.kilo.beans.BeanAdapter;
 import org.httprpc.sierra.UILoader;
 
 /**
- * Provides context-aware autocompletion for Sierra DSL XML by 
+ * Provides context-aware autocompletion for Sierra DSL XML by
  * asking UILoader to obtain valid elements and attributes for the
  * current tag. Includes attribute value definitions in the description.
  */
@@ -47,7 +51,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 	// Map to store the final resolved attributes for each tag
 	// TagName -> {AttributeName -> Description/ValueDefinitionString}
 	private final Map<String, Map<String, String>> elementAttributeDefinitions = new HashMap<>();
-	
+
 	private final Map<String, Map<String, String>> baseClassAttributeDefinitions = new HashMap<>();
 
 	private final List<Completion> tagCompletions = new ArrayList<>();
@@ -65,15 +69,15 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 			Map<String, String> attributes = getAttributesForClass(type);
 			elementAttributeDefinitions.put(tagName, attributes);
 		}
-		
+
 		tagCompletions.sort(Comparator.comparing(Completion::getInputText));
-		
-		
+
+
 		baseClassAttributeDefinitions.put(JComponent.class.getName(), getAttributesForClass(JComponent.class));
 		addCommonAttributes();
 
 	}
-	
+
 	private void addCommonAttributes() {
 		Map<String, String> attributes = new HashMap<>();
 		// Add common attributes applicable to all components
@@ -88,19 +92,29 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 		attributes.put("styleClass", "String");
 		baseClassAttributeDefinitions.put("CommonAttributes", attributes);
 	}
-	
+
 	private Map<String, String> getAttributesForClass(Class<?> type){
 		Map<String, String> attributes = new HashMap<>();
 		for (var entry : BeanAdapter.getProperties(type).entrySet()) {
 			var property = entry.getValue();
 			var mutator = property.getMutator();
 
-			if (mutator == null || mutator.getDeclaringClass() != type) {
+			if (mutator == null) {
 				continue;
 			}
-			var attributeName = entry.getKey();
+
 			var propertyType = mutator.getParameterTypes()[0];
-			attributes.put(attributeName, propertyType.getSimpleName());
+
+            if (propertyType.isPrimitive()
+                || Number.class.isAssignableFrom(propertyType)
+                || Enum.class.isAssignableFrom(propertyType)
+                || propertyType == String.class
+                || propertyType == Color.class
+                || propertyType == Font.class
+                || propertyType == Icon.class
+                || propertyType == Image.class) {
+                attributes.put(entry.getKey(), propertyType.getSimpleName());
+            }
 		}
 		return attributes;
 	}
@@ -120,7 +134,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 			if (allAttributes == null) {
 				return new ArrayList<>();
 			}
-			
+
 			// parent class
 			// @todo we need to walk all the class hierarchy here?
 			allAttributes.putAll(baseClassAttributeDefinitions.get(JComponent.class.getName()));
