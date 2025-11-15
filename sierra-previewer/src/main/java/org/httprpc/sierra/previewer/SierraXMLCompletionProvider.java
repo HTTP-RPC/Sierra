@@ -13,6 +13,9 @@
  */
 package org.httprpc.sierra.previewer;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,6 +27,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
@@ -90,12 +94,22 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 			var property = entry.getValue();
 			var mutator = property.getMutator();
 
-			if (mutator == null || mutator.getDeclaringClass() != type) {
+			if (mutator == null) {
 				continue;
 			}
-			var attributeName = entry.getKey();
+
 			var propertyType = mutator.getParameterTypes()[0];
-			attributes.put(attributeName, propertyType.getSimpleName());
+
+            if (propertyType.isPrimitive()
+                || Number.class.isAssignableFrom(propertyType)
+                || Enum.class.isAssignableFrom(propertyType)
+                || propertyType == String.class
+                || propertyType == Color.class
+                || propertyType == Font.class
+                || propertyType == Icon.class
+                || propertyType == Image.class) {
+                attributes.put(entry.getKey(), propertyType.getSimpleName());
+            }
 		}
 		return attributes;
 	}
