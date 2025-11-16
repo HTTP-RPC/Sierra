@@ -773,42 +773,14 @@ public class UILoader {
 
                 var propertyType = mutator.getParameterTypes()[0];
 
-                Object argument = null;
-
+                Object argument;
                 if (propertyType == Integer.TYPE || propertyType == Integer.class) {
                     if (name.equals(Attribute.HORIZONTAL_ALIGNMENT.getName())) {
-                        for (var horizontalAlignment : HorizontalAlignment.values()) {
-                            if (value.equals(horizontalAlignment.getKey())) {
-                                argument = horizontalAlignment.getValue();
-                                break;
-                            }
-                        }
-
-                        if (argument == null) {
-                            throw new IllegalArgumentException("Invalid horizontal alignment.");
-                        }
+                        argument = getValue(value, HorizontalAlignment.values());
                     } else if (name.equals(Attribute.VERTICAL_ALIGNMENT.getName())) {
-                        for (var verticalAlignment : VerticalAlignment.values()) {
-                            if (value.equals(verticalAlignment.getKey())) {
-                                argument = verticalAlignment.getValue();
-                                break;
-                            }
-                        }
-
-                        if (argument == null) {
-                            throw new IllegalArgumentException("Invalid vertical alignment.");
-                        }
+                        argument = getValue(value, VerticalAlignment.values());
                     } else if (name.equals(Attribute.ORIENTATION.getName())) {
-                        for (var orientation : Orientation.values()) {
-                            if (value.equals(orientation.getKey())) {
-                                argument = orientation.getValue();
-                                break;
-                            }
-                        }
-
-                        if (argument == null) {
-                            throw new IllegalArgumentException("Invalid orientation.");
-                        }
+                        argument = getValue(value, Orientation.values());
 
                         if (component instanceof JSplitPane) {
                             argument = switch ((int)argument) {
@@ -818,38 +790,11 @@ public class UILoader {
                             };
                         }
                     } else if (name.equals(Attribute.FOCUS_LOST_BEHAVIOR.getName())) {
-                        for (var focusLostBehavior : FocusLostBehavior.values()) {
-                            if (value.equals(focusLostBehavior.getKey())) {
-                                argument = focusLostBehavior.getValue();
-                                break;
-                            }
-                        }
-
-                        if (argument == null) {
-                            throw new IllegalArgumentException("Invalid focus lost behavior.");
-                        }
+                        argument = getValue(value, FocusLostBehavior.values());
                     } else if (name.equals(Attribute.TAB_PLACEMENT.getName())) {
-                        for (var tabPlacement : TabPlacement.values()) {
-                            if (value.equals(tabPlacement.getKey())) {
-                                argument = tabPlacement.getValue();
-                                break;
-                            }
-                        }
-
-                        if (argument == null) {
-                            throw new IllegalArgumentException("Invalid tab placement.");
-                        }
+                        argument = getValue(value, TabPlacement.values());
                     } else if (name.equals(Attribute.TAB_LAYOUT_POLICY.getName())) {
-                        for (var tabLayoutPolicy : TabLayoutPolicy.values()) {
-                            if (value.equals(tabLayoutPolicy.getKey())) {
-                                argument = tabLayoutPolicy.getValue();
-                                break;
-                            }
-                        }
-
-                        if (argument == null) {
-                            throw new IllegalArgumentException("Invalid tab layout policy.");
-                        }
+                        argument = getValue(value, TabLayoutPolicy.values());
                     } else {
                         argument = Integer.valueOf(value);
                     }
@@ -911,6 +856,18 @@ public class UILoader {
         }
 
         components.push(component);
+    }
+
+    private int getValue(String key, ConstantAdapter[] values) {
+        for (var i = 0; i < values.length; i++) {
+            var value = values[i];
+
+            if (key.equals(value.getKey())) {
+                return value.getValue();
+            }
+        }
+
+        throw new IllegalArgumentException("Invalid key.");
     }
 
     private String getText(String value) {

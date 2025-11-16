@@ -179,16 +179,12 @@ public class DTDEncoder extends Encoder<Void> {
 
         attributeTypeBuilder.append('(');
 
-        var i = 0;
-
-        for (var value : values) {
+        for (var i = 0; i < values.length; i++) {
             if (i > 0) {
                 attributeTypeBuilder.append('|');
             }
 
-            attributeTypeBuilder.append(value.getKey());
-
-            i++;
+            attributeTypeBuilder.append(values[i].getKey());
         }
 
         attributeTypeBuilder.append(')');
