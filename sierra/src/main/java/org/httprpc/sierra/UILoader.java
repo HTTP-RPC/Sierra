@@ -177,17 +177,17 @@ public class UILoader {
         /**
          * Focus lost behavior attribute.
          */
-        FOCUS_LOST_BEHAVIOR("focusLostBehavior", String.class),
+        FOCUS_LOST_BEHAVIOR("focusLostBehavior", FocusLostBehavior.class),
 
         /**
          * Tab placement attribute.
          */
-        TAB_PLACEMENT("tabPlacement", String.class),
+        TAB_PLACEMENT("tabPlacement", TabPlacement.class),
 
         /**
          * Tab layout policy attribute.
          */
-        TAB_LAYOUT_POLICY("tabLayoutPolicy", String.class);
+        TAB_LAYOUT_POLICY("tabLayoutPolicy", TabLayoutPolicy.class);
 
         private final String name;
         private final Class<?> type;
