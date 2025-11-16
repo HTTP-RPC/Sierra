@@ -64,10 +64,8 @@ public class SierraXMLCompletionProviderTest {
         when(mockComponent.getCaretPosition()).thenReturn(caretOffset);
     }
 
-    // --- Core Test Case: 1. Tag Completion ---
-
     @Test
-    void testCompletion_StartTag_SuggestsAllUIElements() throws BadLocationException {
+    void testAllUiElements() throws BadLocationException {
         // Simulate typing '<' to trigger tag completion (caret at offset 1)
         setComponentText("<", 1);
 
@@ -96,10 +94,8 @@ public class SierraXMLCompletionProviderTest {
         }
     }
 
-    // --- Core Test Case: 2. Attribute Completion for <button> ---
-
     @Test
-    void testCompletion_InsideButtonTag_SuggestsCoreAttributes() throws BadLocationException {
+    void testButtonAttributes() throws BadLocationException {
         var text = "<button ";
         var caretOffset = text.length(); // Caret is right after the space in "<button "
 
@@ -114,7 +110,7 @@ public class SierraXMLCompletionProviderTest {
             .collect(Collectors.toSet());
 
         assertTrue(attributeNames.contains("name"), "Should suggest the mandatory 'name' attribute.");
-        //assertTrue(attributeNames.contains("text"), "Should suggest the mandatory 'text' attribute.");
+        assertTrue(attributeNames.contains("text"), "Should suggest the mandatory 'text' attribute.");
 
         // Verify other essential attributes are present (from the DTD)
         assertTrue(attributeNames.contains("background"), "Should also suggest the 'background' attribute.");
@@ -127,8 +123,8 @@ public class SierraXMLCompletionProviderTest {
         }
     }
 
-        @Test
-    void testCompletion_InsideTextAreaTag_SuggestsCoreAttributes() throws BadLocationException {
+    @Test
+    void testTextAreaAtttributes() throws BadLocationException {
         var text = "<text-area ";
         var caretOffset = text.length();
 
@@ -143,7 +139,7 @@ public class SierraXMLCompletionProviderTest {
             .collect(Collectors.toSet());
 
         assertTrue(attributeNames.contains("name"), "Should suggest the mandatory 'name' attribute.");
-        //assertTrue(attributeNames.contains("text"), "Should suggest the mandatory 'text' attribute.");
+        assertTrue(attributeNames.contains("text"), "Should suggest the mandatory 'text' attribute.");
 
         // specific to text area
         assertTrue(attributeNames.contains("lineWrap"), "Should suggest the mandatory 'lineWrap' attribute.");
@@ -157,5 +153,77 @@ public class SierraXMLCompletionProviderTest {
             var next = suggestions.get(i + 1).getInputText();
             assertTrue(current.compareTo(next) <= 0, "Suggestions should be sorted alphabetically.");
         }
+    }
+
+    @Test
+    void testAttributeNarrowing() throws BadLocationException {
+        // Start with just '<button ' (caret after space)
+        var base = "<button ";
+        setComponentText(base, base.length());
+
+        var suggestionsAll = provider.getCompletions(mockComponent);
+        assertFalse(suggestionsAll.isEmpty(), "Should suggest attributes when inside a tag.");
+        assertTrue(suggestionsAll.stream().anyMatch(c -> c.getInputText().equals("name")),
+            "Suggestions should include 'name' initially.");
+
+        // Type one character: 'n'
+        var oneChar = "<button n";
+        setComponentText(oneChar, oneChar.length());
+
+        var suggestionsN = provider.getCompletions(mockComponent);
+        assertFalse(suggestionsN.isEmpty(), "Should still suggest attributes after typing 'n'.");
+        for (var c : suggestionsN) {
+            assertTrue(c.getInputText().toLowerCase().startsWith("n"),
+                "All suggestions after typing 'n' should start with 'n'.");
+        }
+
+        // Type a second character: 'a' -> prefix 'na'
+        var twoChar = "<button na";
+        setComponentText(twoChar, twoChar.length());
+
+        var suggestionsNA = provider.getCompletions(mockComponent);
+        assertFalse(suggestionsNA.isEmpty(), "Should still suggest attributes after typing 'na'.");
+        for (var c : suggestionsNA) {
+            assertTrue(c.getInputText().toLowerCase().startsWith("na"),
+                "All suggestions after typing 'na' should start with 'na'.");
+        }
+        assertTrue(suggestionsNA.stream().anyMatch(c -> c.getInputText().equals("name")),
+            "Suggestions after 'na' should include the 'name' attribute.");
+    }
+
+    @Test
+    void testTagNarrowing() throws BadLocationException {
+        // Start with just '<' (caret after '<')
+        var base = "<";
+        setComponentText(base, base.length());
+
+        var suggestionsAll = provider.getCompletions(mockComponent);
+        assertFalse(suggestionsAll.isEmpty(), "Should suggest tags when starting a tag.");
+        assertTrue(suggestionsAll.stream().anyMatch(c -> c.getInputText().equals("button")),
+            "Suggestions should include 'button' initially.");
+
+        // Type one character: 'b'
+        var oneChar = "<b";
+        setComponentText(oneChar, oneChar.length());
+
+        var suggestionsB = provider.getCompletions(mockComponent);
+        assertFalse(suggestionsB.isEmpty(), "Should still suggest tags after typing 'b'.");
+        for (var c : suggestionsB) {
+            assertTrue(c.getInputText().toLowerCase().startsWith("b"),
+                "All tag suggestions after typing 'b' should start with 'b'.");
+        }
+
+        // Type a second character: 'u' -> prefix 'bu'
+        var twoChar = "<bu";
+        setComponentText(twoChar, twoChar.length());
+
+        var suggestionsBU = provider.getCompletions(mockComponent);
+        assertFalse(suggestionsBU.isEmpty(), "Should still suggest tags after typing 'bu'.");
+        for (var c : suggestionsBU) {
+            assertTrue(c.getInputText().toLowerCase().startsWith("bu"),
+                "All tag suggestions after typing 'bu' should start with 'bu'.");
+        }
+        assertTrue(suggestionsBU.stream().anyMatch(c -> c.getInputText().equals("button")),
+            "Suggestions after 'bu' should include the 'button' tag.");
     }
 }
