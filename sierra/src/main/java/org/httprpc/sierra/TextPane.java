@@ -154,13 +154,14 @@ public class TextPane extends JComponent {
                 var lineWidth = textBounds.getWidth();
 
                 var x = switch (horizontalAlignment) {
+                    case LEFT -> insets.left;
+                    case RIGHT -> insets.right;
                     case LEADING, TRAILING -> {
                         if (getComponentOrientation().isLeftToRight() ^ horizontalAlignment == HorizontalAlignment.TRAILING) {
                             yield insets.left;
                         } else {
                             yield size.width - (lineWidth + insets.right);
                         }
-
                     }
                     case CENTER -> insets.left + (width - lineWidth) / 2;
                 };
