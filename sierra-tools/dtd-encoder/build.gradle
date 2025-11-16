@@ -18,9 +18,9 @@ plugins {
 
 dependencies {
     implementation project(':sierra')
-    implementation 'com.fifesoft:rsyntaxtextarea:3.6.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+    testImplementation 'com.fifesoft:rsyntaxtextarea:3.6.0'
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
