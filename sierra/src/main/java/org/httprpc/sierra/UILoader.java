@@ -16,7 +16,6 @@ package org.httprpc.sierra;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.kilo.beans.BeanAdapter;
-import org.httprpc.kilo.io.Encoder;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
@@ -66,23 +65,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
@@ -93,6 +85,279 @@ import static org.httprpc.kilo.util.Optionals.*;
  * Provides support for deserializing a component hierarchy from markup.
  */
 public class UILoader {
+    /**
+     * Represents a markup attribute.
+     */
+    public enum Attribute {
+        /**
+         * Name attribute.
+         */
+        NAME("name", String.class),
+
+        /**
+         * Group attribute.
+         */
+        GROUP("group", String.class),
+
+        /**
+         * Border attribute.
+         */
+        BORDER("border", String.class),
+
+        /**
+         * Padding attribute.
+         */
+        PADDING("padding", String.class),
+
+        /**
+         * Weight attribute.
+         */
+        WEIGHT("weight", Double.class),
+
+        /**
+         * Size attribute.
+         */
+        SIZE("size", String.class),
+
+        /**
+         * Tab title attribute.
+         */
+        TAB_TITLE("tabTitle", String.class),
+
+        /**
+         * Tab icon attribute.
+         */
+        TAB_ICON("tabIcon", String.class),
+
+        /**
+         * Style attribute.
+         */
+        STYLE("style", String.class),
+
+        /**
+         * Style class attribute.
+         */
+        STYLE_CLASS("styleClass", String.class),
+
+        /**
+         * Placeholder text attribute.
+         */
+        PLACEHOLDER_TEXT("placeholderText", String.class),
+
+        /**
+         * Show clear button attribute.
+         */
+        SHOW_CLEAR_BUTTON("showClearButton", Boolean.class),
+
+        /**
+         * Leading icon attribute.
+         */
+        LEADING_ICON("leadingIcon", String.class),
+
+        /**
+         * Trailing icon attribute.
+         */
+        TRAILING_ICON("trailingIcon", String.class),
+
+        /**
+         * Horizontal alignment attribute.
+         */
+        HORIZONTAL_ALIGNMENT("horizontalAlignment", HorizontalAlignment.class),
+
+        /**
+         * Vertical alignment attribute.
+         */
+        VERTICAL_ALIGNMENT("verticalAlignment", VerticalAlignment.class),
+
+        /**
+         * Orientation attribute.
+         */
+        ORIENTATION("orientation", Orientation.class),
+
+        /**
+         * Focus lost behavior attribute.
+         */
+        FOCUS_LOST_BEHAVIOR("focusLostBehavior", FocusLostBehavior.class),
+
+        /**
+         * Tab placement attribute.
+         */
+        TAB_PLACEMENT("tabPlacement", TabPlacement.class),
+
+        /**
+         * Tab layout policy attribute.
+         */
+        TAB_LAYOUT_POLICY("tabLayoutPolicy", TabLayoutPolicy.class);
+
+        private final String name;
+        private final Class<?> type;
+
+        Attribute(String name, Class<?> type) {
+            this.name = name;
+            this.type = type;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Class<?> getType() {
+            return type;
+        }
+    }
+
+    /**
+     * Orientation options.
+     */
+    public enum Orientation implements ConstantAdapter {
+        /**
+         * Horizontal orientation.
+         */
+        HORIZONTAL("horizontal", SwingConstants.HORIZONTAL),
+
+        /**
+         * Vertical orientation.
+         */
+        VERTICAL("vertical", SwingConstants.VERTICAL);
+
+        private final String key;
+        private final int value;
+
+        Orientation(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Focus lost behavior options.
+     */
+    public enum FocusLostBehavior implements ConstantAdapter {
+        /**
+         * Commit behavior.
+         */
+        COMMIT("commit", JFormattedTextField.COMMIT),
+
+        /**
+         * Commit or revert behavior.
+         */
+        COMMIT_OR_REVERT("commit-or-revert", JFormattedTextField.COMMIT_OR_REVERT),
+
+        /**
+         * Revert behavior.
+         */
+        REVERT("revert", JFormattedTextField.REVERT),
+
+        /**
+         * Persist behavior.
+         */
+        PERSIST("persist", JFormattedTextField.PERSIST);
+
+        private final String key;
+        private final int value;
+
+        FocusLostBehavior(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Tab placement options.
+     */
+    public enum TabPlacement implements ConstantAdapter {
+        /**
+         * Top tab placement.
+         */
+        TOP("top", JTabbedPane.TOP),
+
+        /**
+         * Left tab placement.
+         */
+        LEFT("left", JTabbedPane.LEFT),
+
+        /**
+         * Bottom tab placement.
+         */
+        BOTTOM("bottom", JTabbedPane.BOTTOM),
+
+        /**
+         * Right tab placement.
+         */
+        RIGHT("right", JTabbedPane.RIGHT);
+
+        private final String key;
+        private final int value;
+
+        TabPlacement(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Tab layout policy options.
+     */
+    public enum TabLayoutPolicy implements ConstantAdapter {
+        /**
+         * Wrap tab layout policy.
+         */
+        WRAP_TAB_LAYOUT("wrap-tab-layout", JTabbedPane.WRAP_TAB_LAYOUT),
+
+        /**
+         * Scroll tab layout policy.
+         */
+        SCROLL_TAB_LAYOUT("scroll-tab-layout", JTabbedPane.SCROLL_TAB_LAYOUT);
+
+        private final String key;
+        private final int value;
+
+        TabLayoutPolicy(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
     private static class LoadException extends RuntimeException {
         Location location;
 
@@ -126,195 +391,6 @@ public class UILoader {
         }
     }
 
-    private static class DTDEncoder extends Encoder<Void> {
-        List<Class<?>> typeList;
-        Map<Class<?>, String> tags;
-
-        static final String CDATA = "CDATA";
-
-        DTDEncoder(List<Class<?>> typeList, Map<Class<?>, String> tags) {
-            this.typeList = typeList;
-            this.tags = tags;
-        }
-
-        @Override
-        public void write(Void value, Writer writer) throws IOException {
-            startEntityDeclaration(UILoader.class, null, writer);
-
-            appendAttributeDeclaration(NAME, CDATA, writer);
-            appendAttributeDeclaration(GROUP, CDATA, writer);
-
-            appendAttributeDeclaration(BORDER, CDATA, writer);
-            appendAttributeDeclaration(PADDING, CDATA, writer);
-            appendAttributeDeclaration(WEIGHT, CDATA, writer);
-            appendAttributeDeclaration(SIZE, CDATA, writer);
-
-            appendAttributeDeclaration(TAB_TITLE, CDATA, writer);
-            appendAttributeDeclaration(TAB_ICON, CDATA, writer);
-
-            appendAttributeDeclaration(STYLE, CDATA, writer);
-            appendAttributeDeclaration(STYLE_CLASS, CDATA, writer);
-
-            endEntityDeclaration(writer);
-
-            for (var type : typeList) {
-                startEntityDeclaration(type, type.getSuperclass(), writer);
-
-                for (var entry : BeanAdapter.getProperties(type).entrySet()) {
-                    var property = entry.getValue();
-                    var mutator = property.getMutator();
-
-                    if (mutator == null || mutator.getDeclaringClass() != type) {
-                        continue;
-                    }
-
-                    var attributeName = entry.getKey();
-
-                    var propertyType = mutator.getParameterTypes()[0];
-
-                    String attributeType;
-                    if (propertyType == Integer.TYPE || propertyType == Integer.class) {
-                        if (attributeName.equals(HORIZONTAL_ALIGNMENT)) {
-                            attributeType = String.format("(%s|%s|%s|%s|%s)", LEFT, CENTER, RIGHT, LEADING, TRAILING);
-                        } else if (attributeName.equals(VERTICAL_ALIGNMENT)) {
-                            attributeType = String.format("(%s|%s|%s)", TOP, CENTER, BOTTOM);
-                        } else if (attributeName.equals(ORIENTATION)) {
-                            attributeType = String.format("(%s|%s)", HORIZONTAL, VERTICAL);
-                        } else if (attributeName.equals(FOCUS_LOST_BEHAVIOR)) {
-                            attributeType = String.format("(%s|%s|%s|%s)", COMMIT, COMMIT_OR_REVERT, REVERT, PERSIST);
-                        } else if (attributeName.equals(TAB_PLACEMENT)) {
-                            attributeType = String.format("(%s|%s|%s|%s)", TOP, LEFT, BOTTOM, RIGHT);
-                        } else if (attributeName.equals(TAB_LAYOUT_POLICY)) {
-                            attributeType = String.format("(%s|%s)", WRAP_TAB_LAYOUT, SCROLL_TAB_LAYOUT);
-                        } else {
-                            attributeType = CDATA;
-                        }
-                    } else if (propertyType == Boolean.TYPE || propertyType == Boolean.class) {
-                        attributeType = String.format("(%b|%b)", true, false);
-                    } else if (Enum.class.isAssignableFrom(propertyType)) {
-                        var attributeTypeBuilder = new StringBuilder();
-
-                        attributeTypeBuilder.append('(');
-
-                        var fields = propertyType.getDeclaredFields();
-
-                        var i = 0;
-
-                        for (var j = 0; j < fields.length; j++) {
-                            var field = fields[j];
-
-                            if (!field.isEnumConstant()) {
-                                continue;
-                            }
-
-                            if (i > 0) {
-                                attributeTypeBuilder.append('|');
-                            }
-
-                            attributeTypeBuilder.append(field.getName().toLowerCase().replace('_', '-'));
-
-                            i++;
-                        }
-
-                        attributeTypeBuilder.append(')');
-
-                        attributeType = attributeTypeBuilder.toString();
-                    } else if (propertyType.isPrimitive()
-                        || Number.class.isAssignableFrom(propertyType)
-                        || propertyType == String.class
-                        || propertyType == Color.class
-                        || propertyType == Font.class
-                        || propertyType == Icon.class
-                        || propertyType == Image.class) {
-                        attributeType = CDATA;
-                    } else {
-                        attributeType = null;
-                    }
-
-                    if (attributeType != null) {
-                        appendAttributeDeclaration(attributeName, attributeType, writer);
-                    }
-                }
-
-                if (type == JTextField.class) {
-                    appendAttributeDeclaration(PLACEHOLDER_TEXT, CDATA, writer);
-                    appendAttributeDeclaration(SHOW_CLEAR_BUTTON, String.format("(%b|%b)", true, false), writer);
-                    appendAttributeDeclaration(LEADING_ICON, CDATA, writer);
-                    appendAttributeDeclaration(TRAILING_ICON, CDATA, writer);
-                }
-
-                endEntityDeclaration(writer);
-
-                var tag = tags.get(type);
-
-                if (tag != null) {
-                    declareElement(tag, type, writer);
-                    declareAttributeList(tag, type, writer);
-                }
-            }
-
-            writer.flush();
-        }
-
-        void startEntityDeclaration(Class<?> type, Class<?> baseType, Writer writer) throws IOException {
-            writer.append("<!ENTITY % ");
-            writer.append(type.getCanonicalName());
-            writer.append(" \"");
-
-            if (baseType != null) {
-                writer.append("%");
-
-                if (baseType == Object.class) {
-                    writer.append(UILoader.class.getCanonicalName());
-                } else {
-                    writer.append(baseType.getCanonicalName());
-                }
-
-                writer.append("; ");
-            }
-        }
-
-        void appendAttributeDeclaration(String name, String type, Writer writer) throws IOException {
-            writer.append(name);
-            writer.append(" ");
-            writer.append(type);
-            writer.append(" ");
-        }
-
-        void endEntityDeclaration(Writer writer) throws IOException {
-            writer.append("\">\n");
-        }
-
-        void declareElement(String tag, Class<?> type, Writer writer) throws IOException {
-            writer.append("<!ELEMENT ");
-            writer.append(tag);
-            writer.append(" ");
-
-            if (JPanel.class.isAssignableFrom(type)
-                || JScrollPane.class.isAssignableFrom(type)
-                || JSplitPane.class.isAssignableFrom(type)
-                || JTabbedPane.class.isAssignableFrom(type)
-                || JToolBar.class.isAssignableFrom(type)
-                || JMenuBar.class.isAssignableFrom(type)
-                || JMenu.class.isAssignableFrom(type)
-                || MenuButton.class.isAssignableFrom(type)) {
-                writer.append("(ANY)");
-            } else {
-                writer.append("EMPTY");
-            }
-
-            writer.append(">\n");
-        }
-
-        void declareAttributeList(String tag, Class<?> type, Writer writer) throws IOException {
-            writer.append("<!ATTLIST ");
-            writer.append(tag);
-            writer.append(" %");
-            writer.append(type.getCanonicalName());
-            writer.append(";>\n");
-        }
-    }
-
     private Object owner;
     private String name;
     private ResourceBundle resourceBundle;
@@ -330,55 +406,6 @@ public class UILoader {
     private Deque<JComponent> components = new LinkedList<>();
 
     private JComponent root = null;
-
-    private static final String NAME = "name";
-    private static final String GROUP = "group";
-
-    private static final String BORDER = "border";
-    private static final String PADDING = "padding";
-    private static final String WEIGHT = "weight";
-    private static final String SIZE = "size";
-
-    private static final String TAB_TITLE = "tabTitle";
-    private static final String TAB_ICON = "tabIcon";
-
-    private static final String STYLE = "style";
-    private static final String STYLE_CLASS = "styleClass";
-
-    private static final String PLACEHOLDER_TEXT = "placeholderText";
-    private static final String SHOW_CLEAR_BUTTON = "showClearButton";
-    private static final String LEADING_ICON = "leadingIcon";
-    private static final String TRAILING_ICON = "trailingIcon";
-
-    private static final String HORIZONTAL_ALIGNMENT = "horizontalAlignment";
-    private static final String VERTICAL_ALIGNMENT = "verticalAlignment";
-    private static final String ORIENTATION = "orientation";
-
-    private static final String FOCUS_LOST_BEHAVIOR = "focusLostBehavior";
-
-    private static final String TAB_PLACEMENT = "tabPlacement";
-    private static final String TAB_LAYOUT_POLICY = "tabLayoutPolicy";
-
-    private static final String LEFT = "left";
-    private static final String RIGHT = "right";
-    private static final String LEADING = "leading";
-    private static final String TRAILING = "trailing";
-
-    private static final String TOP = "top";
-    private static final String BOTTOM = "bottom";
-
-    private static final String CENTER = "center";
-
-    private static final String HORIZONTAL = "horizontal";
-    private static final String VERTICAL = "vertical";
-
-    private static final String COMMIT = "commit";
-    private static final String COMMIT_OR_REVERT = "commit-or-revert";
-    private static final String REVERT = "revert";
-    private static final String PERSIST = "persist";
-
-    private static final String WRAP_TAB_LAYOUT = "wrap-tab-layout";
-    private static final String SCROLL_TAB_LAYOUT = "scroll-tab-layout";
 
     private static final Map<String, Class<? extends JComponent>> types = new HashMap<>();
     private static final Map<String, Supplier<? extends JComponent>> suppliers = new HashMap<>();
@@ -683,7 +710,7 @@ public class UILoader {
             var name = xmlStreamReader.getAttributeLocalName(i);
             var value = xmlStreamReader.getAttributeValue(i);
 
-            if (name.equals(NAME)) {
+            if (name.equals(Attribute.NAME.getName())) {
                 component.setName(value);
 
                 if (owner != null) {
@@ -705,17 +732,17 @@ public class UILoader {
                         throw new UnsupportedOperationException(exception);
                     }
                 }
-            } else if (name.equals(GROUP)) {
+            } else if (name.equals(Attribute.GROUP.getName())) {
                 if (!(component instanceof AbstractButton button)) {
                     throw new UnsupportedOperationException("Component is not a button.");
                 }
 
                 groups.computeIfAbsent(value, key -> new ButtonGroup()).add(button);
-            } else if (name.equals(BORDER)) {
+            } else if (name.equals(Attribute.BORDER.getName())) {
                 lineBorder = parseBorder(value);
-            } else if (name.equals(PADDING)) {
+            } else if (name.equals(Attribute.PADDING.getName())) {
                 emptyBorder = parsePadding(value);
-            } else if (name.equals(WEIGHT)) {
+            } else if (name.equals(Attribute.WEIGHT.getName())) {
                 var weight = Double.parseDouble(value);
 
                 if (weight <= 0.0) {
@@ -723,19 +750,19 @@ public class UILoader {
                 }
 
                 constraints = weight;
-            } else if (name.equals(SIZE)) {
+            } else if (name.equals(Attribute.SIZE.getName())) {
                 component.setPreferredSize(parseSize(value));
-            } else if (name.equals(TAB_TITLE)) {
+            } else if (name.equals(Attribute.TAB_TITLE.getName())) {
                 tabTitle = getText(value);
-            } else if (name.equals(TAB_ICON)) {
+            } else if (name.equals(Attribute.TAB_ICON.getName())) {
                 tabIcon = getIcon(value);
-            } else if (name.equals(STYLE) || name.equals(STYLE_CLASS)) {
+            } else if (name.equals(Attribute.STYLE.getName()) || name.equals(Attribute.STYLE_CLASS.getName())) {
                 component.putClientProperty(String.format("FlatLaf.%s", name), value);
-            } else if (name.equals(PLACEHOLDER_TEXT)) {
+            } else if (name.equals(Attribute.PLACEHOLDER_TEXT.getName())) {
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), getText(value));
-            } else if (name.equals(SHOW_CLEAR_BUTTON)) {
+            } else if (name.equals(Attribute.SHOW_CLEAR_BUTTON.getName())) {
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), Boolean.valueOf(value));
-            } else if (name.equals(LEADING_ICON) || name.equals(TRAILING_ICON)) {
+            } else if (name.equals(Attribute.LEADING_ICON.getName()) || name.equals(Attribute.TRAILING_ICON.getName())) {
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), getIcon(value));
             } else {
                 var mutator = map(properties.get(name), BeanAdapter.Property::getMutator);
@@ -748,47 +775,29 @@ public class UILoader {
 
                 Object argument;
                 if (propertyType == Integer.TYPE || propertyType == Integer.class) {
-                    argument = switch (name) {
-                        case HORIZONTAL_ALIGNMENT -> switch (value) {
-                            case LEFT -> SwingConstants.LEFT;
-                            case CENTER -> SwingConstants.CENTER;
-                            case RIGHT -> SwingConstants.RIGHT;
-                            case LEADING -> SwingConstants.LEADING;
-                            case TRAILING -> SwingConstants.TRAILING;
-                            default -> throw new IllegalArgumentException("Invalid horizontal alignment.");
-                        };
-                        case VERTICAL_ALIGNMENT -> switch (value) {
-                            case TOP -> SwingConstants.TOP;
-                            case CENTER -> SwingConstants.CENTER;
-                            case BOTTOM -> SwingConstants.BOTTOM;
-                            default -> throw new IllegalArgumentException("Invalid vertical alignment.");
-                        };
-                        case ORIENTATION -> switch (value) {
-                            case HORIZONTAL -> component instanceof JSplitPane ? JSplitPane.HORIZONTAL_SPLIT : SwingConstants.HORIZONTAL;
-                            case VERTICAL -> component instanceof JSplitPane ? JSplitPane.VERTICAL_SPLIT : SwingConstants.VERTICAL;
-                            default -> throw new IllegalArgumentException("Invalid orientation.");
-                        };
-                        case FOCUS_LOST_BEHAVIOR -> switch(value) {
-                            case COMMIT -> JFormattedTextField.COMMIT;
-                            case COMMIT_OR_REVERT -> JFormattedTextField.COMMIT_OR_REVERT;
-                            case REVERT -> JFormattedTextField.REVERT;
-                            case PERSIST -> JFormattedTextField.PERSIST;
-                            default -> throw new IllegalArgumentException("Invalid focus lost behavior.");
-                        };
-                        case TAB_PLACEMENT -> switch(value) {
-                            case TOP -> JTabbedPane.TOP;
-                            case LEFT -> JTabbedPane.LEFT;
-                            case BOTTOM -> JTabbedPane.BOTTOM;
-                            case RIGHT -> JTabbedPane.RIGHT;
-                            default -> throw new IllegalArgumentException("Invalid tab placement.");
-                        };
-                        case TAB_LAYOUT_POLICY -> switch(value) {
-                            case WRAP_TAB_LAYOUT -> JTabbedPane.WRAP_TAB_LAYOUT;
-                            case SCROLL_TAB_LAYOUT -> JTabbedPane.SCROLL_TAB_LAYOUT;
-                            default -> throw new IllegalArgumentException("Invalid tab layout policy.");
-                        };
-                        default -> Integer.valueOf(value);
-                    };
+                    if (name.equals(Attribute.HORIZONTAL_ALIGNMENT.getName())) {
+                        argument = getValue(value, HorizontalAlignment.values());
+                    } else if (name.equals(Attribute.VERTICAL_ALIGNMENT.getName())) {
+                        argument = getValue(value, VerticalAlignment.values());
+                    } else if (name.equals(Attribute.ORIENTATION.getName())) {
+                        argument = getValue(value, Orientation.values());
+
+                        if (component instanceof JSplitPane) {
+                            argument = switch ((int)argument) {
+                                case SwingConstants.HORIZONTAL -> JSplitPane.HORIZONTAL_SPLIT;
+                                case SwingConstants.VERTICAL -> JSplitPane.VERTICAL_SPLIT;
+                                default -> throw new UnsupportedOperationException();
+                            };
+                        }
+                    } else if (name.equals(Attribute.FOCUS_LOST_BEHAVIOR.getName())) {
+                        argument = getValue(value, FocusLostBehavior.values());
+                    } else if (name.equals(Attribute.TAB_PLACEMENT.getName())) {
+                        argument = getValue(value, TabPlacement.values());
+                    } else if (name.equals(Attribute.TAB_LAYOUT_POLICY.getName())) {
+                        argument = getValue(value, TabLayoutPolicy.values());
+                    } else {
+                        argument = Integer.valueOf(value);
+                    }
                 } else if (propertyType == String.class) {
                     argument = getText(value);
                 } else if (propertyType == Color.class) {
@@ -847,6 +856,18 @@ public class UILoader {
         }
 
         components.push(component);
+    }
+
+    private int getValue(String key, ConstantAdapter[] values) {
+        for (var i = 0; i < values.length; i++) {
+            var value = values[i];
+
+            if (key.equals(value.getKey())) {
+                return value.getValue();
+            }
+        }
+
+        throw new IllegalArgumentException("Invalid key.");
     }
 
     private String getText(String value) {
@@ -1123,55 +1144,5 @@ public class UILoader {
 
     private static Font parseFont(String value) {
         return coalesce(fonts.get(value), () -> coalesce(UIManager.getFont(value), () -> Font.decode(value)));
-    }
-
-    /**
-     * Generates a DTD.
-     *
-     * @param args
-     * Command-line arguments (unused).
-     */
-    public static void main(String[] args) throws IOException {
-        var typeSet = new HashSet<Class<?>>();
-
-        var tags = new HashMap<Class<?>, String>();
-
-        for (var entry : types.entrySet()) {
-            var tag = entry.getKey();
-
-            var type = (Class<?>)entry.getValue();
-
-            tags.put(type, tag);
-
-            while (type != Object.class) {
-                typeSet.add(type);
-
-                type = type.getSuperclass();
-            }
-        }
-
-        var typeList = new ArrayList<>(typeSet);
-
-        typeList.sort(Comparator.comparing(UILoader::getDepth).thenComparing(Class::getCanonicalName));
-
-        var dtdEncoder = new DTDEncoder(typeList, tags);
-
-        var file = new File(new File(System.getProperty("user.dir")), "sierra.dtd");
-
-        try (var outputStream = new FileOutputStream(file)) {
-            dtdEncoder.write(null, outputStream);
-        }
-    }
-
-    private static int getDepth(Class<?> type) {
-        var depth = 0;
-
-        while (type != Object.class) {
-            depth++;
-
-            type = type.getSuperclass();
-        }
-
-        return depth;
     }
 }
