@@ -14,22 +14,42 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.SwingConstants;
+
 /**
  * Vertical alignment options.
  */
-public enum VerticalAlignment {
+public enum VerticalAlignment implements ConstantAdapter {
     /**
      * Top alignment.
      */
-    TOP,
+    TOP("top", SwingConstants.TOP),
 
     /**
      * Bottom alignment.
      */
-    BOTTOM,
+    BOTTOM("bottom", SwingConstants.BOTTOM),
 
     /**
      * Center alignment.
      */
-    CENTER
+    CENTER("center", SwingConstants.CENTER);
+
+    private final String key;
+    private final int value;
+
+    VerticalAlignment(String key, int value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public int getValue() {
+        return value;
+    }
 }
