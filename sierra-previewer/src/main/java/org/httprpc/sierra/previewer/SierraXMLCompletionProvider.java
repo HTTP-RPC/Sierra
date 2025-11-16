@@ -13,6 +13,16 @@
  */
 package org.httprpc.sierra.previewer;
 
+import org.fife.ui.autocomplete.BasicCompletion;
+import org.fife.ui.autocomplete.Completion;
+import org.fife.ui.autocomplete.DefaultCompletionProvider;
+import org.httprpc.kilo.beans.BeanAdapter;
+import org.httprpc.sierra.UILoader;
+
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -24,19 +34,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.JTextComponent;
-
-import org.fife.ui.autocomplete.BasicCompletion;
-import org.fife.ui.autocomplete.Completion;
-import org.fife.ui.autocomplete.DefaultCompletionProvider;
-import org.httprpc.kilo.beans.BeanAdapter;
-import org.httprpc.sierra.UILoader;
 
 /**
  * Provides context-aware autocompletion for Sierra DSL XML by
@@ -44,66 +42,62 @@ import org.httprpc.sierra.UILoader;
  * current tag. Includes attribute value definitions in the description.
  */
 public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
+    // Regex to find already defined attributes in a tag, e.g., focusable="true"
+    private static final Pattern DEFINED_ATTR_PATTERN = Pattern.compile("\\s+([a-zA-Z]+)\\s*=");
 
-	// Regex to find already defined attributes in a tag, e.g., focusable="true"
-	private static final Pattern DEFINED_ATTR_PATTERN = Pattern.compile("\\s+([a-zA-Z]+)\\s*=");
+    // Map to store the final resolved attributes for each tag
+    // TagName -> {AttributeName -> Description/ValueDefinitionString}
+    private final Map<String, Map<String, String>> elementAttributeDefinitions = new HashMap<>();
 
-	// Map to store the final resolved attributes for each tag
-	// TagName -> {AttributeName -> Description/ValueDefinitionString}
-	private final Map<String, Map<String, String>> elementAttributeDefinitions = new HashMap<>();
+    private final Map<String, Map<String, String>> baseClassAttributeDefinitions = new HashMap<>();
 
-	private final Map<String, Map<String, String>> baseClassAttributeDefinitions = new HashMap<>();
+    private final List<Completion> tagCompletions = new ArrayList<>();
 
-	private final List<Completion> tagCompletions = new ArrayList<>();
+    public SierraXMLCompletionProvider() {
+        loadTags();
+        setAutoActivationRules(true, "< ");
+    }
 
-	public SierraXMLCompletionProvider() {
-		loadTags();
-		setAutoActivationRules(true, "< ");
-	}
+    private void loadTags() {
+        for (var tag : UILoader.getTags()) {
+            tagCompletions.add(new BasicCompletion(this, tag, "Sierra UI Element"));
+            elementAttributeDefinitions.put(tag, getAttributesForClass(UILoader.getType(tag)));
+        }
 
-	private void loadTags() {
-		Iterable<String> tagNames = UILoader.getTags();
-		for (String tagName : tagNames) {
-			tagCompletions.add(new BasicCompletion(this, tagName, "Sierra UI Element"));
-			Class<?> type = UILoader.getType(tagName);
-			Map<String, String> attributes = getAttributesForClass(type);
-			elementAttributeDefinitions.put(tagName, attributes);
-		}
+        tagCompletions.sort(Comparator.comparing(Completion::getInputText));
 
-		tagCompletions.sort(Comparator.comparing(Completion::getInputText));
+        baseClassAttributeDefinitions.put(JComponent.class.getName(), getAttributesForClass(JComponent.class));
+        addCommonAttributes();
 
+    }
 
-		baseClassAttributeDefinitions.put(JComponent.class.getName(), getAttributesForClass(JComponent.class));
-		addCommonAttributes();
+    private void addCommonAttributes() {
+        Map<String, String> attributes = new HashMap<>();
+        // Add common attributes applicable to all components
+        attributes.put("name", "String");
+        attributes.put("group", "String");
+        attributes.put("border", "String");
+        attributes.put("padding", "String");
+        attributes.put("weight", "String");
+        attributes.put("size", "String");
+        attributes.put("tabTitle", "String");
+        attributes.put("tabIcon", "String");
+        attributes.put("style", "String");
+        attributes.put("styleClass", "String");
+        baseClassAttributeDefinitions.put("CommonAttributes", attributes);
+    }
 
-	}
+    private Map<String, String> getAttributesForClass(Class<?> type){
+        Map<String, String> attributes = new HashMap<>();
+        for (var entry : BeanAdapter.getProperties(type).entrySet()) {
+            var property = entry.getValue();
+            var mutator = property.getMutator();
 
-	private void addCommonAttributes() {
-		Map<String, String> attributes = new HashMap<>();
-		// Add common attributes applicable to all components
-		attributes.put("name", "String");
-		attributes.put("group", "String");
-		attributes.put("border", "String");
-		attributes.put("padding", "String");
-		attributes.put("weight", "String");
-		attributes.put("size", "String");
-		attributes.put("tabTitle", "String");
-		attributes.put("style", "String");
-		attributes.put("styleClass", "String");
-		baseClassAttributeDefinitions.put("CommonAttributes", attributes);
-	}
+            if (mutator == null) {
+                continue;
+            }
 
-	private Map<String, String> getAttributesForClass(Class<?> type){
-		Map<String, String> attributes = new HashMap<>();
-		for (var entry : BeanAdapter.getProperties(type).entrySet()) {
-			var property = entry.getValue();
-			var mutator = property.getMutator();
-
-			if (mutator == null) {
-				continue;
-			}
-
-			var propertyType = mutator.getParameterTypes()[0];
+            var propertyType = mutator.getParameterTypes()[0];
 
             if (propertyType.isPrimitive()
                 || Number.class.isAssignableFrom(propertyType)
@@ -115,141 +109,131 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
                 || propertyType == Image.class) {
                 attributes.put(entry.getKey(), propertyType.getSimpleName());
             }
-		}
-		return attributes;
-	}
+        }
+        return attributes;
+    }
 
-	@Override
-	public List<Completion> getCompletions(JTextComponent comp) {
-		int offset = comp.getCaretPosition();
-		CompletionContext context = getCompletionContext(comp, offset);
+    @Override
+    public List<Completion> getCompletions(JTextComponent comp) {
+        var offset = comp.getCaretPosition();
+        var context = getCompletionContext(comp, offset);
 
-		if (context.type == CompletionType.TAG_NAME) {
-			return new ArrayList<>(tagCompletions);
-		}
+        if (context.type == CompletionType.TAG_NAME) {
+            return new ArrayList<>(tagCompletions);
+        }
 
-		if (context.type == CompletionType.ATTRIBUTE_NAME && context.tagName != null) {
+        if (context.type == CompletionType.ATTRIBUTE_NAME && context.tagName != null) {
 
-			Map<String, String> allAttributes = elementAttributeDefinitions.get(context.tagName);
-			if (allAttributes == null) {
-				return new ArrayList<>();
-			}
+            var allAttributes = elementAttributeDefinitions.get(context.tagName);
+            if (allAttributes == null) {
+                return new ArrayList<>();
+            }
 
-			// parent class
-			// @todo we need to walk all the class hierarchy here?
-			allAttributes.putAll(baseClassAttributeDefinitions.get(JComponent.class.getName()));
-			allAttributes.putAll(baseClassAttributeDefinitions.get("CommonAttributes"));
+            // parent class
+            // @todo we need to walk all the class hierarchy here?
+            allAttributes.putAll(baseClassAttributeDefinitions.get(JComponent.class.getName()));
+            allAttributes.putAll(baseClassAttributeDefinitions.get("CommonAttributes"));
 
-			Set<String> definedAttributes = getAlreadyDefinedAttributes(comp, context.tagStartOffset, offset);
-			List<String> availableAttributeNames = new ArrayList<>();
+            var definedAttributes = getAlreadyDefinedAttributes(comp, context.tagStartOffset, offset);
+            List<String> availableAttributeNames = new ArrayList<>();
 
-			for (String attr : allAttributes.keySet()) {
-				if (!definedAttributes.contains(attr)) {
-					availableAttributeNames.add(attr);
-				}
-			}
+            for (var attr : allAttributes.keySet()) {
+                if (!definedAttributes.contains(attr)) {
+                    availableAttributeNames.add(attr);
+                }
+            }
 
-			Collections.sort(availableAttributeNames);
+            Collections.sort(availableAttributeNames);
 
-			List<Completion> suggestions = new ArrayList<>();
-			for (String attr : availableAttributeNames) {
-				String description = allAttributes.get(attr);
+            List<Completion> suggestions = new ArrayList<>();
+            for (var attr : availableAttributeNames) {
+                var description = allAttributes.get(attr);
 
-				// Create a richer HTML tooltip using the full description
-				String tooltip = "<html><b>Attribute for &lt;" + context.tagName + "&gt;</b><br>" + description
-						+ "</html>";
+                // Create a richer HTML tooltip using the full description
+                var tooltip = "<html><b>Attribute for &lt;" + context.tagName + "&gt;</b><br>" + description
+                        + "</html>";
 
-				// Use the brief description (e.g., "Values: true, false") for the main popup
-				// list
-				suggestions.add(new BasicCompletion(this, attr, description, tooltip));
-			}
-			return suggestions;
-		}
+                // Use the brief description (e.g., "Values: true, false") for the main popup
+                // list
+                suggestions.add(new BasicCompletion(this, attr, description, tooltip));
+            }
+            return suggestions;
+        }
 
-		return new ArrayList<>();
-	}
+        return new ArrayList<>();
+    }
 
-	// --- Helper methods remain the same ---
+    // --- Helper methods remain the same ---
 
-	private CompletionContext getCompletionContext(JTextComponent comp, int offset) {
-		// ... (implementation remains the same as previous step) ...
-		try {
-			String text = comp.getText(0, offset);
-			int lastOpenAngle = text.lastIndexOf('<');
-			int lastCloseAngle = text.lastIndexOf('>');
+    private CompletionContext getCompletionContext(JTextComponent comp, int offset) {
+        // ... (implementation remains the same as previous step) ...
+        try {
+            var text = comp.getText(0, offset);
+            var lastOpenAngle = text.lastIndexOf('<');
+            var lastCloseAngle = text.lastIndexOf('>');
 
-			if (lastOpenAngle == -1 || lastCloseAngle > lastOpenAngle) {
-				return new CompletionContext(CompletionType.NONE);
-			}
+            if (lastOpenAngle == -1 || lastCloseAngle > lastOpenAngle) {
+                return new CompletionContext(CompletionType.NONE);
+            }
 
-			int lastQuote = Math.max(text.lastIndexOf('"'), text.lastIndexOf('\''));
-			if (lastQuote > lastOpenAngle) {
-				int quoteCount = 0;
-				char quoteChar = text.charAt(lastQuote);
-				for (int i = lastOpenAngle; i < offset; i++) {
-					if (text.charAt(i) == quoteChar) {
-						quoteCount++;
-					}
-				}
-				if (quoteCount % 2 != 0) {
-					return new CompletionContext(CompletionType.NONE);
-				}
-			}
+            var lastQuote = Math.max(text.lastIndexOf('"'), text.lastIndexOf('\''));
+            if (lastQuote > lastOpenAngle) {
+                var quoteCount = 0;
+                var quoteChar = text.charAt(lastQuote);
+                for (var i = lastOpenAngle; i < offset; i++) {
+                    if (text.charAt(i) == quoteChar) {
+                        quoteCount++;
+                    }
+                }
+                if (quoteCount % 2 != 0) {
+                    return new CompletionContext(CompletionType.NONE);
+                }
+            }
 
-			String tagContent = text.substring(lastOpenAngle + 1);
-			Matcher m = Pattern.compile("^([a-z-]+)").matcher(tagContent);
-			String tagName = null;
-			if (m.find()) {
-				tagName = m.group(1);
-			}
+            var tagContent = text.substring(lastOpenAngle + 1);
+            var m = Pattern.compile("^([a-z-]+)").matcher(tagContent);
+            String tagName = null;
+            if (m.find()) {
+                tagName = m.group(1);
+            }
 
-			String textSinceOpen = text.substring(lastOpenAngle);
-			if (!textSinceOpen.contains(" ") && !textSinceOpen.contains("\n")) {
-				return new CompletionContext(CompletionType.TAG_NAME, tagName, lastOpenAngle);
-			}
+            var textSinceOpen = text.substring(lastOpenAngle);
+            if (!textSinceOpen.contains(" ") && !textSinceOpen.contains("\n")) {
+                return new CompletionContext(CompletionType.TAG_NAME, tagName, lastOpenAngle);
+            }
 
-			char lastChar = text.charAt(offset - 1);
-			if (Character.isWhitespace(lastChar)) {
-				return new CompletionContext(CompletionType.ATTRIBUTE_NAME, tagName, lastOpenAngle);
-			}
+            var lastChar = text.charAt(offset - 1);
+            if (Character.isWhitespace(lastChar)) {
+                return new CompletionContext(CompletionType.ATTRIBUTE_NAME, tagName, lastOpenAngle);
+            }
 
-		} catch (BadLocationException e) {
-			// Ignore
-		}
-		return new CompletionContext(CompletionType.NONE);
-	}
+        } catch (BadLocationException e) {
+            // Ignore
+        }
+        return new CompletionContext(CompletionType.NONE);
+    }
 
-	private Set<String> getAlreadyDefinedAttributes(JTextComponent comp, int tagStartOffset, int caretOffset) {
-		Set<String> definedAttributes = new HashSet<>();
-		try {
-			String tagText = comp.getText(tagStartOffset, caretOffset - tagStartOffset);
-			Matcher m = DEFINED_ATTR_PATTERN.matcher(tagText);
-			while (m.find()) {
-				definedAttributes.add(m.group(1));
-			}
-		} catch (BadLocationException e) {
-			// Ignore
-		}
-		return definedAttributes;
-	}
+    private Set<String> getAlreadyDefinedAttributes(JTextComponent comp, int tagStartOffset, int caretOffset) {
+        Set<String> definedAttributes = new HashSet<>();
+        try {
+            var tagText = comp.getText(tagStartOffset, caretOffset - tagStartOffset);
+            var m = DEFINED_ATTR_PATTERN.matcher(tagText);
+            while (m.find()) {
+                definedAttributes.add(m.group(1));
+            }
+        } catch (BadLocationException e) {
+            // Ignore
+        }
+        return definedAttributes;
+    }
 
-	private enum CompletionType {
-		TAG_NAME, ATTRIBUTE_NAME, NONE
-	}
+    private enum CompletionType {
+        TAG_NAME, ATTRIBUTE_NAME, NONE
+    }
 
-	private static class CompletionContext {
-		final CompletionType type;
-		final String tagName;
-		final int tagStartOffset;
-
-		CompletionContext(CompletionType type) {
-			this(type, null, -1);
-		}
-
-		CompletionContext(CompletionType type, String tagName, int tagStartOffset) {
-			this.type = type;
-			this.tagName = tagName;
-			this.tagStartOffset = tagStartOffset;
-		}
-	}
+    private record CompletionContext(CompletionType type, String tagName, int tagStartOffset) {
+        CompletionContext(CompletionType type) {
+            this(type, null, -1);
+        }
+    }
 }

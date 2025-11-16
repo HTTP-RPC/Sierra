@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
  * Manages the list of recent files using the Preferences API for persistence.
  */
 public class RecentFilesManager {
-
     private static final int MAX_RECENT_FILES = 5;
     private static final String PREF_KEY_RECENT_FILES = "recent_files_list";
     private static final String PATH_SEPARATOR = ";"; // Used to delimit paths in the stored string
@@ -35,7 +34,7 @@ public class RecentFilesManager {
 
     public RecentFilesManager(Class<?> applicationClass) {
         // Get the preferences node for the application
-        this.prefs = Preferences.userNodeForPackage(applicationClass);
+        prefs = Preferences.userNodeForPackage(applicationClass);
         loadRecentFiles();
     }
 
@@ -43,14 +42,14 @@ public class RecentFilesManager {
      * Loads the recent files list from the Preferences store.
      */
     private void loadRecentFiles() {
-        String savedList = prefs.get(PREF_KEY_RECENT_FILES, "");
+        var savedList = prefs.get(PREF_KEY_RECENT_FILES, "");
 
         if (!savedList.isEmpty()) {
             // Split the string by the separator, convert to Path objects, and collect.
             recentFiles.addAll(Arrays.stream(savedList.split(PATH_SEPARATOR))
                     .filter(s -> !s.trim().isEmpty())
                     .map(Paths::get)
-                    .collect(Collectors.toList()));
+                    .toList());
         }
     }
 
@@ -59,7 +58,7 @@ public class RecentFilesManager {
      */
     private void saveRecentFiles() {
         // Convert the list of Paths to a single semicolon-separated string
-        String listToSave = recentFiles.stream()
+        var listToSave = recentFiles.stream()
                 .map(Path::toString)
                 .collect(Collectors.joining(PATH_SEPARATOR));
 
@@ -77,7 +76,7 @@ public class RecentFilesManager {
         recentFiles.remove(path);
 
         // 2. Add to the front (most recent)
-        recentFiles.add(0, path);
+        recentFiles.addFirst(path);
 
         // 3. Trim the list if it exceeds the max size
         if (recentFiles.size() > MAX_RECENT_FILES) {

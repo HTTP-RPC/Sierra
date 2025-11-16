@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
 <column-panel>
     <menu-bar name="menuBar">
         <menu text="File">
@@ -12,26 +14,14 @@
         </menu>
         <menu text="About">
             <menu-item name="aboutItem" text="About Previewer"/>
-        </menu>        
+        </menu>
     </menu-bar>
 
-		<split-pane name="splitPane" weight="1">  
-           <scroll-pane name="editorScrollPane" weight="1">
-              <label text="XML will appear here."
-                   horizontalAlignment="center"
-                   verticalAlignment="center"
-                   foreground="gray"
-                   weight="1"/>
-             </scroll-pane>                   
-   		  <column-panel name="previewPanel" padding="5, 5, 5, 5" weight="1">
-            <label text="Preview will appear here."
-                   horizontalAlignment="center"
-                   verticalAlignment="center"
-                   foreground="gray"
-                   weight="1"/>
-            </column-panel>
-		 </split-pane>
-               
+    <split-pane name="splitPane" resizeWeight="0.5" weight="1">
+        <scroll-pane name="editorScrollPane" weight="1"/>
+        <column-panel name="previewPanel" padding="5, 5, 5, 5" weight="1"/>
+    </split-pane>
+
     <label name="filePathLabel" text="" padding="4, 6, 4, 6"/>
     <label name="statusBar" text="Ready." padding="2, 5, 2, 5"/>
 </column-panel>

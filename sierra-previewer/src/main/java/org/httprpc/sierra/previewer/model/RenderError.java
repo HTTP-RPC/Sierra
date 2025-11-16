@@ -21,7 +21,6 @@ package org.httprpc.sierra.previewer.model;
  * @param exception The underlying exception for debugging.
  */
 public record RenderError(String message, Exception exception) {
-
     @Override
     public String toString() {
         return message;
