@@ -12,23 +12,20 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'application'
-}
+package org.httprpc.sierra.tools;
 
-dependencies {
-    implementation project(':sierra')
-    implementation 'com.fifesoft:rsyntaxtextarea:3.6.0'
+import org.junit.jupiter.api.Test;
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+import static org.junit.jupiter.api.Assertions.*;
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
+public class DTDEncoderTest {
+    @Test
+    public void testCustomBinding() throws Exception {
+        DTDEncoder.main(new String[] {"syntax-text-area=org.fife.ui.rsyntaxtextarea.RSyntaxTextArea"});
+    }
 
-tasks.named('test', Test) {
-    useJUnitPlatform()
-}
-
-application {
-    mainClass = 'org.httprpc.sierra.tools.DTDEncoder'
+    @Test
+    public void testInvalidBinding() {
+        assertThrows(IllegalArgumentException.class, () -> DTDEncoder.main(new String[] {"xyz"}));
+    }
 }

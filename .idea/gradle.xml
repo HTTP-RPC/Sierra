@@ -10,10 +10,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/sierra" />
-            <option value="$PROJECT_DIR$/sierra-previewer" />
             <option value="$PROJECT_DIR$/sierra-test" />
             <option value="$PROJECT_DIR$/sierra-tools" />
             <option value="$PROJECT_DIR$/sierra-tools/dtd-encoder" />
+            <option value="$PROJECT_DIR$/sierra-tools/previewer" />
           </set>
         </option>
       </GradleProjectSettings>

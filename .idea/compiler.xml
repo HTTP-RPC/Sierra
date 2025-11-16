@@ -5,9 +5,6 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Sierra.sierra-previewer" options="-parameters" />
-      <module name="Sierra.sierra-previewer.main" options="-parameters" />
-      <module name="Sierra.sierra-previewer.test" options="-parameters" />
       <module name="Sierra.sierra-test" options="-parameters" />
       <module name="Sierra.sierra-test.main" options="-parameters" />
       <module name="Sierra.sierra-test.test" options="-parameters" />
