@@ -23,7 +23,6 @@ import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.VerticalAlignment;
 
 import javax.swing.Icon;
-import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -251,21 +250,7 @@ public class DTDEncoder extends Encoder<Void> {
         writer.append(";>\n");
     }
 
-    @SuppressWarnings("unchecked")
     public static void main(String[] args) throws Exception {
-        for (var i = 0; i < args.length; i++) {
-            var components = args[i].split("=");
-
-            if (components.length != 2) {
-                throw new IllegalArgumentException("Invalid binding.");
-            }
-
-            var tag = components[0];
-            var type = (Class<? extends JComponent>)Class.forName(components[1]);
-
-            UILoader.bind(tag, type, () -> null);
-        }
-
         var typeSet = new HashSet<Class<?>>();
 
         var tags = new HashMap<Class<?>, String>();
