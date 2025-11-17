@@ -23,6 +23,7 @@ import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.VerticalAlignment;
 
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -34,16 +35,17 @@ import javax.swing.JToolBar;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import static org.httprpc.sierra.UILoader.*;
 
@@ -251,6 +253,12 @@ public class DTDEncoder extends Encoder<Void> {
     }
 
     public static void main(String[] args) throws Exception {
+        var workingPath = Path.of(System.getProperty("user.dir"));
+
+        if (args.length > 0) {
+            applyBindings(workingPath.resolve(args[0]));
+        }
+
         var typeSet = new HashSet<Class<?>>();
 
         var tags = new HashMap<Class<?>, String>();
@@ -271,12 +279,26 @@ public class DTDEncoder extends Encoder<Void> {
 
         typeList.sort(Comparator.comparing(DTDEncoder::getDepth).thenComparing(Class::getCanonicalName));
 
-        var dtdEncoder = new DTDEncoder(typeList, tags);
+        try (var outputStream = Files.newOutputStream(workingPath.resolve("sierra.dtd"))) {
+            var dtdEncoder = new DTDEncoder(typeList, tags);
 
-        var file = new File(new File(System.getProperty("user.dir")), "sierra.dtd");
-
-        try (var outputStream = new FileOutputStream(file)) {
             dtdEncoder.write(null, outputStream);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void applyBindings(Path path) throws IOException, ClassNotFoundException {
+        var bindings = new Properties();
+
+        try (var inputStream = Files.newInputStream(path)) {
+            bindings.load(inputStream);
+        }
+
+        for (var entry : bindings.entrySet()) {
+            var tag = (String)entry.getKey();
+            var type = (Class<? extends JComponent>)Class.forName((String)entry.getValue());
+
+            UILoader.bind(tag, type, () -> null);
         }
     }
 
