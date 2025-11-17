@@ -153,16 +153,11 @@ public class TextPane extends JComponent {
 
                 var lineWidth = textBounds.getWidth();
 
-                var x = switch (horizontalAlignment) {
-                    case LEFT, RIGHT, LEADING, TRAILING -> {
-                        if (horizontalAlignment == HorizontalAlignment.LEFT
-                            || getComponentOrientation().isLeftToRight() ^ horizontalAlignment == HorizontalAlignment.TRAILING) {
-                            yield insets.left;
-                        } else {
-                            yield size.width - (lineWidth + insets.right);
-                        }
-                    }
+                var x = switch (horizontalAlignment.getLocalizedValue(TextPane.this)) {
+                    case LEFT -> insets.left;
+                    case RIGHT -> size.width - (lineWidth + insets.right);
                     case CENTER -> insets.left + (width - lineWidth) / 2;
+                    default -> throw new UnsupportedOperationException();
                 };
 
                 graphics.drawGlyphVector(glyphVector, (float)x, (float)y + ascent);

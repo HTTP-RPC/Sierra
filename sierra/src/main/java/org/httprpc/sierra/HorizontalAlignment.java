@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 
 /**
@@ -31,6 +32,11 @@ public enum HorizontalAlignment implements ConstantAdapter {
     RIGHT("right", SwingConstants.RIGHT),
 
     /**
+     * Center alignment.
+     */
+    CENTER("center", SwingConstants.CENTER),
+
+    /**
      * Leading alignment.
      */
     LEADING("leading", SwingConstants.LEADING),
@@ -38,12 +44,7 @@ public enum HorizontalAlignment implements ConstantAdapter {
     /**
      * Trailing alignment.
      */
-    TRAILING("trailing", SwingConstants.TRAILING),
-
-    /**
-     * Center alignment.
-     */
-    CENTER("center", SwingConstants.CENTER);
+    TRAILING("trailing", SwingConstants.TRAILING);
 
     private final String key;
     private final int value;
@@ -61,5 +62,13 @@ public enum HorizontalAlignment implements ConstantAdapter {
     @Override
     public int getValue() {
         return value;
+    }
+
+    HorizontalAlignment getLocalizedValue(JComponent component) {
+        return switch (this) {
+            case LEFT, RIGHT, CENTER -> this;
+            case LEADING -> component.getComponentOrientation().isLeftToRight() ? LEFT : RIGHT;
+            case TRAILING -> component.getComponentOrientation().isLeftToRight() ? RIGHT : LEFT;
+        };
     }
 }

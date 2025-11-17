@@ -204,17 +204,11 @@ public abstract class Picker extends JTextField {
         var size = getSize();
         var popupSize = popupComponent.getPreferredSize();
 
-        var x = switch (popupHorizontalAlignment) {
-            case LEFT, RIGHT, LEADING, TRAILING -> {
-                if (popupHorizontalAlignment == HorizontalAlignment.LEFT
-                    || getComponentOrientation().isLeftToRight() ^ popupHorizontalAlignment == HorizontalAlignment.TRAILING) {
-                    yield 0;
-                } else {
-                    yield size.width - popupSize.width;
-                }
-
-            }
+        var x = switch (popupHorizontalAlignment.getLocalizedValue(Picker.this)) {
+            case LEFT -> 0;
+            case RIGHT -> size.width - popupSize.width;
             case CENTER -> (size.width - popupSize.width) / 2;
+            default -> throw new UnsupportedOperationException();
         };
 
         var y = switch (popupVerticalAlignment) {

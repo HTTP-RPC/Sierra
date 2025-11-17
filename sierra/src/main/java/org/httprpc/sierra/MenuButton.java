@@ -86,16 +86,11 @@ public class MenuButton extends JButton {
                     var size = getSize();
                     var popupMenuSize = popupMenu.getPreferredSize();
 
-                    var x = switch (popupHorizontalAlignment) {
-                        case LEFT, RIGHT, LEADING, TRAILING -> {
-                            if (popupHorizontalAlignment == HorizontalAlignment.LEFT
-                                || getComponentOrientation().isLeftToRight() ^ popupHorizontalAlignment == HorizontalAlignment.TRAILING) {
-                                yield 0;
-                            } else {
-                                yield size.width - popupMenuSize.width;
-                            }
-                        }
+                    var x = switch (popupHorizontalAlignment.getLocalizedValue(MenuButton.this)) {
+                        case LEFT -> 0;
+                        case RIGHT -> size.width - popupMenuSize.width;
                         case CENTER -> (size.width - popupMenuSize.width) / 2;
+                        default -> throw new UnsupportedOperationException();
                     };
 
                     var y = switch (popupVerticalAlignment) {
