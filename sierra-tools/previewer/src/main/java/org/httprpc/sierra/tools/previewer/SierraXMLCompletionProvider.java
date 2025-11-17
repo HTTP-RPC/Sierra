@@ -49,7 +49,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
     // TagName -> {AttributeName -> Description/ValueDefinitionString}
     private final Map<String, Map<String, String>> elementAttributeDefinitions = new HashMap<>();
 
-    private final Map<String, Map<String, String>> baseClassAttributeDefinitions = new HashMap<>();
+    private final Map<String, Map<String, String>> sierraAttributeDefinitions = new HashMap<>();
 
     private final List<Completion> tagCompletions = new ArrayList<>();
 
@@ -66,7 +66,6 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 
         tagCompletions.sort(Comparator.comparing(Completion::getInputText));
 
-        baseClassAttributeDefinitions.put(JComponent.class.getName(), getAttributesForClass(JComponent.class));
         addCommonAttributes();
 
     }
@@ -77,10 +76,10 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
         for (UILoader.Attribute attr : UILoader.Attribute.values()) { 
             attributes.put(attr.getName(), attr.getType().getSimpleName()); 
         }
-        baseClassAttributeDefinitions.put("CommonAttributes", attributes);
+        sierraAttributeDefinitions.put("CommonAttributes", attributes);
     }
 
-    private Map<String, String> getAttributesForClass(Class<?> type){
+    protected Map<String, String> getAttributesForClass(Class<?> type){
         Map<String, String> attributes = new HashMap<>();
         for (var entry : BeanAdapter.getProperties(type).entrySet()) {
             var property = entry.getValue();
@@ -135,10 +134,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
                 return new ArrayList<>();
             }
 
-            // parent class
-            // @todo we need to walk all the class hierarchy here?
-            allAttributes.putAll(baseClassAttributeDefinitions.get(JComponent.class.getName()));
-            allAttributes.putAll(baseClassAttributeDefinitions.get("CommonAttributes"));
+            allAttributes.putAll(sierraAttributeDefinitions.get("CommonAttributes"));
 
             var definedAttributes = getAlreadyDefinedAttributes(comp, context.tagStartOffset, offset);
             List<String> availableAttributeNames = new ArrayList<>();

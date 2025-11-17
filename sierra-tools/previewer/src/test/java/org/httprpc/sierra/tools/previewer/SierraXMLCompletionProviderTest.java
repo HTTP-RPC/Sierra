@@ -11,17 +11,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.httprpc.sierra.previewer;
+package org.httprpc.sierra.tools.previewer;
 
 import org.fife.ui.autocomplete.Completion;
 import org.httprpc.sierra.tools.previewer.SierraXMLCompletionProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.JComponent;
+import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
+
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -227,4 +231,5 @@ public class SierraXMLCompletionProviderTest {
         assertTrue(suggestionsBU.stream().anyMatch(c -> c.getInputText().equals("button")),
             "Suggestions after 'bu' should include the 'button' tag.");
     }
+    
 }
