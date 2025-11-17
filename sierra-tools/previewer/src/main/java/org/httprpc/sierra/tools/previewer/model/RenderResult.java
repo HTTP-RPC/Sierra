@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.httprpc.sierra.previewer.model;
+package org.httprpc.sierra.tools.previewer.model;
 
 import javax.swing.JComponent;
 

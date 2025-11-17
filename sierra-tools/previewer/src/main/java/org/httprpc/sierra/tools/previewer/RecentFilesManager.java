@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.httprpc.sierra.previewer;
+package org.httprpc.sierra.tools.previewer;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

@@ -14,6 +14,7 @@
 package org.httprpc.sierra.previewer;
 
 import org.fife.ui.autocomplete.Completion;
+import org.httprpc.sierra.tools.previewer.SierraXMLCompletionProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
