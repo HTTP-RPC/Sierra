@@ -23,6 +23,7 @@ import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.VerticalAlignment;
 
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -35,6 +36,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Writer;
@@ -44,6 +46,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import static org.httprpc.sierra.UILoader.*;
 
@@ -250,7 +253,26 @@ public class DTDEncoder extends Encoder<Void> {
         writer.append(";>\n");
     }
 
+    @SuppressWarnings("unchecked")
     public static void main(String[] args) throws Exception {
+        if (args.length > 0) {
+            var bindings = new Properties();
+
+            var directory = new File(System.getProperty("user.dir"));
+            var file = new File(directory, args[0]);
+
+            try (var inputStream = new FileInputStream(file)) {
+                bindings.load(inputStream);
+            }
+
+            for (var entry : bindings.entrySet()) {
+                var tag = (String)entry.getKey();
+                var type = (Class<? extends JComponent>)Class.forName((String)entry.getValue());
+
+                UILoader.bind(tag, type, () -> null);
+            }
+        }
+
         var typeSet = new HashSet<Class<?>>();
 
         var tags = new HashMap<Class<?>, String>();
