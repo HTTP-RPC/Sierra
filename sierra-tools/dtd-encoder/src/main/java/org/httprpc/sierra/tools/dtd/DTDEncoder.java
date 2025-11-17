@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.httprpc.sierra.tools;
+package org.httprpc.sierra.tools.dtd;
 
 import org.httprpc.kilo.beans.BeanAdapter;
 import org.httprpc.kilo.io.Encoder;
@@ -37,6 +37,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -256,7 +258,22 @@ public class DTDEncoder extends Encoder<Void> {
         var workingPath = Path.of(System.getProperty("user.dir"));
 
         if (args.length > 0) {
-            applyBindings(workingPath.resolve(args[0]));
+            ClassLoader classLoader;
+            if (args.length > 1) {
+                try (var paths = Files.walk(workingPath.resolve(args[1]))) {
+                    classLoader = new URLClassLoader(paths.map(path -> {
+                        try {
+                            return path.toUri().toURL();
+                        } catch (IOException exception) {
+                            throw new RuntimeException(exception);
+                        }
+                    }).toArray(URL[]::new));
+                }
+            } else {
+                classLoader = ClassLoader.getSystemClassLoader();
+            }
+
+            applyBindings(workingPath.resolve(args[0]), classLoader);
         }
 
         var typeSet = new HashSet<Class<?>>();
@@ -287,7 +304,7 @@ public class DTDEncoder extends Encoder<Void> {
     }
 
     @SuppressWarnings("unchecked")
-    private static void applyBindings(Path path) throws IOException, ClassNotFoundException {
+    private static void applyBindings(Path path, ClassLoader classLoader) throws IOException, ClassNotFoundException {
         var bindings = new Properties();
 
         try (var inputStream = Files.newInputStream(path)) {
@@ -296,9 +313,9 @@ public class DTDEncoder extends Encoder<Void> {
 
         for (var entry : bindings.entrySet()) {
             var tag = (String)entry.getKey();
-            var type = (Class<? extends JComponent>)Class.forName((String)entry.getValue());
+            var typeName = (String)entry.getValue();
 
-            UILoader.bind(tag, type, () -> null);
+            UILoader.bind(tag, (Class<? extends JComponent>)classLoader.loadClass(typeName), () -> null);
         }
     }
 
