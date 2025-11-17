@@ -205,10 +205,9 @@ public abstract class Picker extends JTextField {
         var popupSize = popupComponent.getPreferredSize();
 
         var x = switch (popupHorizontalAlignment) {
-            case LEFT -> 0;
-            case RIGHT -> size.width - popupSize.width;
-            case LEADING, TRAILING -> {
-                if (getComponentOrientation().isLeftToRight() ^ popupHorizontalAlignment == HorizontalAlignment.TRAILING) {
+            case LEFT, RIGHT, LEADING, TRAILING -> {
+                if (popupHorizontalAlignment == HorizontalAlignment.LEFT
+                    || getComponentOrientation().isLeftToRight() ^ popupHorizontalAlignment == HorizontalAlignment.TRAILING) {
                     yield 0;
                 } else {
                     yield size.width - popupSize.width;

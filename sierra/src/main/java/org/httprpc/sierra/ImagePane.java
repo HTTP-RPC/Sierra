@@ -113,15 +113,13 @@ public class ImagePane extends JComponent {
             var scaledImageHeight = scale * imageHeight;
 
             var x = switch (horizontalAlignment) {
-                case LEFT -> 0;
-                case RIGHT -> width - scaledImageWidth;
-                case LEADING, TRAILING -> {
-                    if (getComponentOrientation().isLeftToRight() ^ horizontalAlignment == HorizontalAlignment.TRAILING) {
+                case LEFT, RIGHT, LEADING, TRAILING -> {
+                    if (horizontalAlignment == HorizontalAlignment.LEFT
+                        || getComponentOrientation().isLeftToRight() ^ horizontalAlignment == HorizontalAlignment.TRAILING) {
                         yield 0;
                     } else {
                         yield width - scaledImageWidth;
                     }
-
                 }
                 case CENTER -> (width - scaledImageWidth) / 2;
             };
