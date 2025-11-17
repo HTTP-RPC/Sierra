@@ -119,7 +119,20 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
         var context = getCompletionContext(comp, offset);
 
         if (context.type == CompletionType.TAG_NAME) {
-            return new ArrayList<>(tagCompletions);
+            // Narrow tag suggestions by the already-entered prefix (case-insensitive)
+            var prefix = getAlreadyEnteredText(comp);
+            var lowerPrefix = prefix == null ? "" : prefix.toLowerCase();
+
+            List<Completion> filtered = new ArrayList<>();
+            for (var c : tagCompletions) {
+                var text = c.getInputText();
+                if (!lowerPrefix.isEmpty() && !text.toLowerCase().startsWith(lowerPrefix)) {
+                    continue;
+                }
+                filtered.add(c);
+            }
+
+            return filtered;
         }
 
         if (context.type == CompletionType.ATTRIBUTE_NAME && context.tagName != null) {
@@ -145,8 +158,17 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 
             Collections.sort(availableAttributeNames);
 
+            // Determine the already-entered text (prefix) so we can narrow suggestions
+            var prefix = getAlreadyEnteredText(comp);
+            var lowerPrefix = prefix == null ? "" : prefix.toLowerCase();
+
             List<Completion> suggestions = new ArrayList<>();
             for (var attr : availableAttributeNames) {
+                // If there's a prefix, filter attributes that don't start with it (case-insensitive)
+                if (!lowerPrefix.isEmpty() && !attr.toLowerCase().startsWith(lowerPrefix)) {
+                    continue;
+                }
+
                 var description = allAttributes.get(attr);
 
                 // Create a richer HTML tooltip using the full description
@@ -198,12 +220,17 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
             }
 
             var textSinceOpen = text.substring(lastOpenAngle);
+            // If there is no space after the tag name, we're still typing the tag name
             if (!textSinceOpen.contains(" ") && !textSinceOpen.contains("\n")) {
                 return new CompletionContext(CompletionType.TAG_NAME, tagName, lastOpenAngle);
             }
 
-            var lastChar = text.charAt(offset - 1);
-            if (Character.isWhitespace(lastChar)) {
+            // If we have reached the attribute area (there is a space/newline after '<...'),
+            // consider this attribute name completion context even if the last character
+            // isn't whitespace (so typing 'na' after '<button ' still triggers attribute
+            // suggestions). We already checked for being inside a quoted attribute value
+            // above.
+            if (textSinceOpen.contains(" ") || textSinceOpen.contains("\n")) {
                 return new CompletionContext(CompletionType.ATTRIBUTE_NAME, tagName, lastOpenAngle);
             }
 
@@ -211,6 +238,35 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
             // Ignore
         }
         return new CompletionContext(CompletionType.NONE);
+    }
+
+    @Override
+    public String getAlreadyEnteredText(JTextComponent comp) {
+        // Return the partial attribute name currently being typed so AutoCompletion
+        // can filter the list of completions.
+        int pos = comp.getCaretPosition();
+        try {
+            var text = comp.getText(0, pos);
+            var lastOpen = text.lastIndexOf('<');
+            if (lastOpen == -1) {
+                return "";
+            }
+
+            // Scan backwards from the caret until we hit whitespace or a character that
+            // can't be part of an attribute name (e.g., '=', '<', quotes).
+            int i = pos - 1;
+            while (i > lastOpen) {
+                char c = text.charAt(i);
+                if (Character.isWhitespace(c) || c == '<' || c == '=' || c == '"' || c == '\'') {
+                    break;
+                }
+                i--;
+            }
+
+            return text.substring(i + 1, pos);
+        } catch (BadLocationException e) {
+            return "";
+        }
     }
 
     private Set<String> getAlreadyDefinedAttributes(JTextComponent comp, int tagStartOffset, int caretOffset) {
