@@ -18,6 +18,15 @@ plugins {
 
 dependencies {
     implementation project(':sierra')
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+    testImplementation 'org.jfree:jfreechart:1.5.6'
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
 }
 
 application {

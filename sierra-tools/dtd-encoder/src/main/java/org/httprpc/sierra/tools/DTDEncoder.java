@@ -35,11 +35,10 @@ import javax.swing.JToolBar;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -253,24 +252,11 @@ public class DTDEncoder extends Encoder<Void> {
         writer.append(";>\n");
     }
 
-    @SuppressWarnings("unchecked")
     public static void main(String[] args) throws Exception {
+        var workingPath = Path.of(System.getProperty("user.dir"));
+
         if (args.length > 0) {
-            var bindings = new Properties();
-
-            var directory = new File(System.getProperty("user.dir"));
-            var file = new File(directory, args[0]);
-
-            try (var inputStream = new FileInputStream(file)) {
-                bindings.load(inputStream);
-            }
-
-            for (var entry : bindings.entrySet()) {
-                var tag = (String)entry.getKey();
-                var type = (Class<? extends JComponent>)Class.forName((String)entry.getValue());
-
-                UILoader.bind(tag, type, () -> null);
-            }
+            applyBindings(workingPath.resolve(args[0]));
         }
 
         var typeSet = new HashSet<Class<?>>();
@@ -293,12 +279,26 @@ public class DTDEncoder extends Encoder<Void> {
 
         typeList.sort(Comparator.comparing(DTDEncoder::getDepth).thenComparing(Class::getCanonicalName));
 
-        var dtdEncoder = new DTDEncoder(typeList, tags);
+        try (var outputStream = Files.newOutputStream(workingPath.resolve("sierra.dtd"))) {
+            var dtdEncoder = new DTDEncoder(typeList, tags);
 
-        var file = new File(new File(System.getProperty("user.dir")), "sierra.dtd");
-
-        try (var outputStream = new FileOutputStream(file)) {
             dtdEncoder.write(null, outputStream);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void applyBindings(Path path) throws IOException, ClassNotFoundException {
+        var bindings = new Properties();
+
+        try (var inputStream = Files.newInputStream(path)) {
+            bindings.load(inputStream);
+        }
+
+        for (var entry : bindings.entrySet()) {
+            var tag = (String)entry.getKey();
+            var type = (Class<? extends JComponent>)Class.forName((String)entry.getValue());
+
+            UILoader.bind(tag, type, () -> null);
         }
     }
 
