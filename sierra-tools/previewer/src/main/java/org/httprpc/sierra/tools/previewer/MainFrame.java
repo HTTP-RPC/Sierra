@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.httprpc.sierra.previewer;
+package org.httprpc.sierra.tools.previewer;
 
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.CompletionProvider;
@@ -19,9 +19,9 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
-import org.httprpc.sierra.previewer.engine.RenderingEngine;
-import org.httprpc.sierra.previewer.model.RenderError;
-import org.httprpc.sierra.previewer.model.RenderResult;
+import org.httprpc.sierra.tools.previewer.engine.RenderingEngine;
+import org.httprpc.sierra.tools.previewer.model.RenderError;
+import org.httprpc.sierra.tools.previewer.model.RenderResult;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;

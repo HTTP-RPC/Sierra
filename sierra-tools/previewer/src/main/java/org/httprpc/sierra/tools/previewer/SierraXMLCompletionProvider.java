@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.httprpc.sierra.previewer;
+package org.httprpc.sierra.tools.previewer;
 
 import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.Completion;
@@ -73,17 +73,10 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 
     private void addCommonAttributes() {
         Map<String, String> attributes = new HashMap<>();
-        // Add common attributes applicable to all components
-        attributes.put("name", "String");
-        attributes.put("group", "String");
-        attributes.put("border", "String");
-        attributes.put("padding", "String");
-        attributes.put("weight", "String");
-        attributes.put("size", "String");
-        attributes.put("tabTitle", "String");
-        attributes.put("tabIcon", "String");
-        attributes.put("style", "String");
-        attributes.put("styleClass", "String");
+        // Add common attributes from UILoader.Attribute enum
+        for (UILoader.Attribute attr : UILoader.Attribute.values()) { 
+            attributes.put(attr.getName(), attr.getType().getSimpleName()); 
+        }
         baseClassAttributeDefinitions.put("CommonAttributes", attributes);
     }
 
