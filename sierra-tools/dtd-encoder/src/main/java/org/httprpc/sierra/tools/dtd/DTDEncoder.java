@@ -49,8 +49,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static org.httprpc.sierra.UILoader.*;
-
 public class DTDEncoder extends Encoder<Void> {
     private List<Class<?>> typeList;
     private Map<Class<?>, String> tags;
@@ -280,8 +278,8 @@ public class DTDEncoder extends Encoder<Void> {
 
         var tags = new HashMap<Class<?>, String>();
 
-        for (var tag : getTags()) {
-            var type = (Class<?>)getType(tag);
+        for (var tag : UILoader.getTags()) {
+            var type = (Class<?>)UILoader.getType(tag);
 
             tags.put(type, tag);
 
