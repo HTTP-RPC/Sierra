@@ -54,7 +54,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
     // TagName -> {AttributeName -> Description/ValueDefinitionString}
     private final Map<String, Map<String, String>> elementAttributeDefinitions = new HashMap<>();
 
-    private final Map<Class, Map<String, String>> sierraAttributeDefinitions = new HashMap<>();
+    private final Map<Class<?>, Map<String, String>> sierraAttributeDefinitions = new HashMap<>();
 
     private final List<Completion> tagCompletions = new ArrayList<>();
 
