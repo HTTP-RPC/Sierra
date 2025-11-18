@@ -13,31 +13,29 @@
  */
 package org.httprpc.sierra.tools.previewer;
 
-import org.fife.ui.autocomplete.Completion;
-import org.httprpc.sierra.tools.previewer.SierraXMLCompletionProvider;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import javax.swing.JComponent;
-import javax.swing.JTextArea;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
-
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import org.fife.ui.autocomplete.Completion;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 /**
- * Unit test for SierraXMLCompletionProvider focusing only on core element and attribute completion logic.
- * This test ensures that the provider correctly reads the 'sierra.dtd' and suggests:
- * 1. All UI element tags when starting a tag.
+ * Unit test for SierraXMLCompletionProvider focusing only on core element and
+ * attribute completion logic. This test ensures that the provider correctly
+ * reads tags and attributes from UILoader and suggests: 
+ * 1. All UI element tags when starting a tag. 
  * 2. Relevant attributes when inside a known tag.
  */
 public class SierraXMLCompletionProviderTest {
+
     private SierraXMLCompletionProvider provider;
     private JTextComponent mockComponent;
 
@@ -53,8 +51,9 @@ public class SierraXMLCompletionProviderTest {
     }
 
     /**
-     * Helper to simulate text insertion into the component and set the caret position.
-     * It also mocks the getText(int, int) call to read from the internal document.
+     * Helper to simulate text insertion into the component and set the caret
+     * position. It also mocks the getText(int, int) call to read from the
+     * internal document.
      */
     private void setComponentText(String text, int caretOffset) throws BadLocationException {
         var doc = mockComponent.getDocument();
@@ -79,12 +78,12 @@ public class SierraXMLCompletionProviderTest {
 
         // Collect the suggested tag names
         var tagNames = suggestions.stream()
-            .map(Completion::getInputText)
-            .collect(Collectors.toSet());
+                .map(Completion::getInputText)
+                .collect(Collectors.toSet());
 
         final var EXPECTED_ELEMENT_COUNT = 42;
         assertEquals(EXPECTED_ELEMENT_COUNT, suggestions.size(),
-            "Should have parsed exactly " + EXPECTED_ELEMENT_COUNT + " elements based on the DTD content.");
+                "Should have parsed exactly " + EXPECTED_ELEMENT_COUNT + " elements based on the DTD content.");
 
         // Verify a selection of known tags from the DTD are present
         assertTrue(tagNames.contains("button"), "Should contain 'button' tag.");
@@ -92,11 +91,7 @@ public class SierraXMLCompletionProviderTest {
         assertTrue(tagNames.contains("activity-indicator"), "Should contain 'activity-indicator' tag.");
 
         // Ensure suggestions are alphabetically sorted
-        for (var i = 0; i < suggestions.size() - 1; i++) {
-            var current = suggestions.get(i).getInputText();
-            var next = suggestions.get(i + 1).getInputText();
-            assertTrue(current.compareTo(next) <= 0, "Suggestions should be sorted alphabetically.");
-        }
+        assertSuggestionsSorted(suggestions);
     }
 
     @Test
@@ -111,8 +106,8 @@ public class SierraXMLCompletionProviderTest {
 
         // Collect the suggested attribute names (InputText)
         var attributeNames = suggestions.stream()
-            .map(Completion::getInputText)
-            .collect(Collectors.toSet());
+                .map(Completion::getInputText)
+                .collect(Collectors.toSet());
 
         assertTrue(attributeNames.contains("name"), "Should suggest the mandatory 'name' attribute.");
         assertTrue(attributeNames.contains("text"), "Should suggest the mandatory 'text' attribute.");
@@ -120,12 +115,8 @@ public class SierraXMLCompletionProviderTest {
         // Verify other essential attributes are present (from the DTD)
         assertTrue(attributeNames.contains("background"), "Should also suggest the 'background' attribute.");
 
-        // Ensure suggestions are sorted alphabetically
-        for (var i = 0; i < suggestions.size() - 1; i++) {
-            var current = suggestions.get(i).getInputText();
-            var next = suggestions.get(i + 1).getInputText();
-            assertTrue(current.compareTo(next) <= 0, "Suggestions should be sorted alphabetically.");
-        }
+        // Ensure suggestions are alphabetically sorted
+        assertSuggestionsSorted(suggestions);
     }
 
     @Test
@@ -140,8 +131,8 @@ public class SierraXMLCompletionProviderTest {
 
         // Collect the suggested attribute names (InputText)
         var attributeNames = suggestions.stream()
-            .map(Completion::getInputText)
-            .collect(Collectors.toSet());
+                .map(Completion::getInputText)
+                .collect(Collectors.toSet());
 
         assertTrue(attributeNames.contains("name"), "Should suggest the mandatory 'name' attribute.");
         assertTrue(attributeNames.contains("text"), "Should suggest the mandatory 'text' attribute.");
@@ -151,13 +142,11 @@ public class SierraXMLCompletionProviderTest {
 
         // Verify other essential attributes are present (from the DTD)
         assertTrue(attributeNames.contains("background"), "Should also suggest the 'background' attribute.");
+        
+        assertFalse(attributeNames.contains("tabLayoutPolicy"), "Should not suggest 'tabLayoutPolicy.");
 
-        // Ensure suggestions are sorted alphabetically
-        for (var i = 0; i < suggestions.size() - 1; i++) {
-            var current = suggestions.get(i).getInputText();
-            var next = suggestions.get(i + 1).getInputText();
-            assertTrue(current.compareTo(next) <= 0, "Suggestions should be sorted alphabetically.");
-        }
+        // Ensure suggestions are alphabetically sorted
+        assertSuggestionsSorted(suggestions);
     }
 
     @Test
@@ -169,7 +158,7 @@ public class SierraXMLCompletionProviderTest {
         var suggestionsAll = provider.getCompletions(mockComponent);
         assertFalse(suggestionsAll.isEmpty(), "Should suggest attributes when inside a tag.");
         assertTrue(suggestionsAll.stream().anyMatch(c -> c.getInputText().equals("name")),
-            "Suggestions should include 'name' initially.");
+                "Suggestions should include 'name' initially.");
 
         // Type one character: 'n'
         var oneChar = "<button n";
@@ -179,7 +168,7 @@ public class SierraXMLCompletionProviderTest {
         assertFalse(suggestionsN.isEmpty(), "Should still suggest attributes after typing 'n'.");
         for (var c : suggestionsN) {
             assertTrue(c.getInputText().toLowerCase().startsWith("n"),
-                "All suggestions after typing 'n' should start with 'n'.");
+                    "All suggestions after typing 'n' should start with 'n'.");
         }
 
         // Type a second character: 'a' -> prefix 'na'
@@ -190,10 +179,10 @@ public class SierraXMLCompletionProviderTest {
         assertFalse(suggestionsNA.isEmpty(), "Should still suggest attributes after typing 'na'.");
         for (var c : suggestionsNA) {
             assertTrue(c.getInputText().toLowerCase().startsWith("na"),
-                "All suggestions after typing 'na' should start with 'na'.");
+                    "All suggestions after typing 'na' should start with 'na'.");
         }
         assertTrue(suggestionsNA.stream().anyMatch(c -> c.getInputText().equals("name")),
-            "Suggestions after 'na' should include the 'name' attribute.");
+                "Suggestions after 'na' should include the 'name' attribute.");
     }
 
     @Test
@@ -205,7 +194,7 @@ public class SierraXMLCompletionProviderTest {
         var suggestionsAll = provider.getCompletions(mockComponent);
         assertFalse(suggestionsAll.isEmpty(), "Should suggest tags when starting a tag.");
         assertTrue(suggestionsAll.stream().anyMatch(c -> c.getInputText().equals("button")),
-            "Suggestions should include 'button' initially.");
+                "Suggestions should include 'button' initially.");
 
         // Type one character: 'b'
         var oneChar = "<b";
@@ -215,7 +204,7 @@ public class SierraXMLCompletionProviderTest {
         assertFalse(suggestionsB.isEmpty(), "Should still suggest tags after typing 'b'.");
         for (var c : suggestionsB) {
             assertTrue(c.getInputText().toLowerCase().startsWith("b"),
-                "All tag suggestions after typing 'b' should start with 'b'.");
+                    "All tag suggestions after typing 'b' should start with 'b'.");
         }
 
         // Type a second character: 'u' -> prefix 'bu'
@@ -226,10 +215,21 @@ public class SierraXMLCompletionProviderTest {
         assertFalse(suggestionsBU.isEmpty(), "Should still suggest tags after typing 'bu'.");
         for (var c : suggestionsBU) {
             assertTrue(c.getInputText().toLowerCase().startsWith("bu"),
-                "All tag suggestions after typing 'bu' should start with 'bu'.");
+                    "All tag suggestions after typing 'bu' should start with 'bu'.");
         }
         assertTrue(suggestionsBU.stream().anyMatch(c -> c.getInputText().equals("button")),
-            "Suggestions after 'bu' should include the 'button' tag.");
+                "Suggestions after 'bu' should include the 'button' tag.");
     }
     
+    private void assertSuggestionsSorted(List<Completion> suggestions) {
+        var actualNames = suggestions.stream()
+                .map(Completion::getInputText)
+                .toList(); // Use .collect(Collectors.toList()) if on Java < 16
+
+        var expectedSortedNames = new ArrayList<>(actualNames);
+        Collections.sort(expectedSortedNames);
+
+        assertEquals(expectedSortedNames, actualNames, "Suggestions should be sorted alphabetically");
+    }
+
 }

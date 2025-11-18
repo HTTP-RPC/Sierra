@@ -54,8 +54,6 @@ public class RenderingEngine {
                     StandardOpenOption.TRUNCATE_EXISTING,
                     StandardOpenOption.WRITE);
 
-            System.out.println("Data saved for rendering to file: " + savePath.toAbsolutePath());
-
             var rootComponent = UILoader.load(savePath);
 
             return new RenderResult.Success(rootComponent);

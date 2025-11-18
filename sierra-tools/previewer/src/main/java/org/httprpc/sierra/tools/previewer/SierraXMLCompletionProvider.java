@@ -35,13 +35,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+
+import static org.httprpc.sierra.UILoader.Attribute.*;
+import static org.httprpc.kilo.util.Collections.mapOf;
+import static org.httprpc.kilo.util.Collections.entry;
 
 /**
- * Provides context-aware autocompletion for Sierra DSL XML by
- * asking UILoader to obtain valid elements and attributes for the
- * current tag. Includes attribute value definitions in the description.
+ * Provides context-aware autocompletion for Sierra DSL XML by asking UILoader
+ * to obtain valid elements and attributes for the current tag. Includes
+ * attribute value definitions in the description.
  */
 public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
+
     // Regex to find already defined attributes in a tag, e.g., focusable="true"
     private static final Pattern DEFINED_ATTR_PATTERN = Pattern.compile("\\s+([a-zA-Z]+)\\s*=");
 
@@ -49,7 +56,32 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
     // TagName -> {AttributeName -> Description/ValueDefinitionString}
     private final Map<String, Map<String, String>> elementAttributeDefinitions = new HashMap<>();
 
-    private final Map<String, Map<String, String>> sierraAttributeDefinitions = new HashMap<>();
+    private final Map<Class<?>, Map<String, String>> sierraAttributeDefinitions = mapOf(
+            entry(JComponent.class, mapOf(
+                    entry(NAME.getName(), NAME.getType().getSimpleName()),
+                    entry(GROUP.getName(), GROUP.getType().getSimpleName()),
+                    entry(BORDER.getName(), BORDER.getType().getSimpleName()),
+                    entry(PADDING.getName(), PADDING.getType().getSimpleName()),
+                    entry(WEIGHT.getName(), WEIGHT.getType().getSimpleName()),
+                    entry(SIZE.getName(), SIZE.getType().getSimpleName()),
+                    entry(TAB_ICON.getName(), TAB_ICON.getType().getSimpleName()),
+                    entry(TAB_TITLE.getName(), TAB_TITLE.getType().getSimpleName()),
+                    entry(HORIZONTAL_ALIGNMENT.getName(), HORIZONTAL_ALIGNMENT.getType().getSimpleName()),
+                    entry(VERTICAL_ALIGNMENT.getName(), VERTICAL_ALIGNMENT.getType().getSimpleName()),
+                    entry(ORIENTATION.getName(), ORIENTATION.getType().getSimpleName()),
+                    entry(FOCUS_LOST_BEHAVIOR.getName(), FOCUS_LOST_BEHAVIOR.getType().getSimpleName())
+            )),
+            entry(JTabbedPane.class, mapOf(
+                    entry(TAB_LAYOUT_POLICY.getName(), TAB_LAYOUT_POLICY.getType().getSimpleName()),
+                    entry(TAB_PLACEMENT.getName(), TAB_PLACEMENT.getType().getSimpleName())
+            )),
+            entry(JTextField.class, mapOf(
+                    entry(PLACEHOLDER_TEXT.getName(), PLACEHOLDER_TEXT.getType().getSimpleName()),
+                    entry(LEADING_ICON.getName(), LEADING_ICON.getType().getSimpleName()),
+                    entry(TRAILING_ICON.getName(), TRAILING_ICON.getType().getSimpleName()),
+                    entry(SHOW_CLEAR_BUTTON.getName(), SHOW_CLEAR_BUTTON.getType().getSimpleName())
+            ))
+    );
 
     private final List<Completion> tagCompletions = new ArrayList<>();
 
@@ -65,23 +97,11 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
         }
 
         tagCompletions.sort(Comparator.comparing(Completion::getInputText));
-
-        addCommonAttributes();
-
     }
 
-    private void addCommonAttributes() {
+    protected Map<String, String> getAttributesForClass(Class<?> componentClass) {
         Map<String, String> attributes = new HashMap<>();
-        // Add common attributes from UILoader.Attribute enum
-        for (UILoader.Attribute attr : UILoader.Attribute.values()) { 
-            attributes.put(attr.getName(), attr.getType().getSimpleName()); 
-        }
-        sierraAttributeDefinitions.put("CommonAttributes", attributes);
-    }
-
-    protected Map<String, String> getAttributesForClass(Class<?> type){
-        Map<String, String> attributes = new HashMap<>();
-        for (var entry : BeanAdapter.getProperties(type).entrySet()) {
+        for (var entry : BeanAdapter.getProperties(componentClass).entrySet()) {
             var property = entry.getValue();
             var mutator = property.getMutator();
 
@@ -92,14 +112,20 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
             var propertyType = mutator.getParameterTypes()[0];
 
             if (propertyType.isPrimitive()
-                || Number.class.isAssignableFrom(propertyType)
-                || Enum.class.isAssignableFrom(propertyType)
-                || propertyType == String.class
-                || propertyType == Color.class
-                || propertyType == Font.class
-                || propertyType == Icon.class
-                || propertyType == Image.class) {
+                    || Number.class.isAssignableFrom(propertyType)
+                    || Enum.class.isAssignableFrom(propertyType)
+                    || propertyType == String.class
+                    || propertyType == Color.class
+                    || propertyType == Font.class
+                    || propertyType == Icon.class
+                    || propertyType == Image.class) {
                 attributes.put(entry.getKey(), propertyType.getSimpleName());
+            }
+        }
+        // now check if we have any Sierra attributes to add
+        for (var entry : sierraAttributeDefinitions.entrySet()) {
+            if (entry.getKey().isAssignableFrom(componentClass)) {
+                attributes.putAll(entry.getValue());
             }
         }
         return attributes;
@@ -133,8 +159,6 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
             if (allAttributes == null) {
                 return new ArrayList<>();
             }
-
-            allAttributes.putAll(sierraAttributeDefinitions.get("CommonAttributes"));
 
             var definedAttributes = getAlreadyDefinedAttributes(comp, context.tagStartOffset, offset);
             List<String> availableAttributeNames = new ArrayList<>();
@@ -175,7 +199,6 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
     }
 
     // --- Helper methods remain the same ---
-
     private CompletionContext getCompletionContext(JTextComponent comp, int offset) {
         // ... (implementation remains the same as previous step) ...
         try {
@@ -277,6 +300,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
     }
 
     private record CompletionContext(CompletionType type, String tagName, int tagStartOffset) {
+
         CompletionContext(CompletionType type) {
             this(type, null, -1);
         }
