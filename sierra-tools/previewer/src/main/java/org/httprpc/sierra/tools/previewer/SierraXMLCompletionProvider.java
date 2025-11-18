@@ -124,13 +124,8 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
         }
         // now check if we have any Sierra attributes to add
         for (var entry : sierraAttributeDefinitions.entrySet()) {
-            Class<?> clazz = entry.getKey();
-            Map<String, String> sierraAttributes = entry.getValue();
-
-            // Check for inheritance/interface implementation
-            if (clazz.isAssignableFrom(componentClass)) {
-                System.out.println("Adding attributes associated with " + clazz + " to " + componentClass);
-                attributes.putAll(sierraAttributes);
+            if (entry.getKey().isAssignableFrom(componentClass)) {
+                attributes.putAll(entry.getValue());
             }
         }
         return attributes;

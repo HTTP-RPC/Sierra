@@ -30,8 +30,9 @@ import static org.mockito.Mockito.*;
 /**
  * Unit test for SierraXMLCompletionProvider focusing only on core element and
  * attribute completion logic. This test ensures that the provider correctly
- * reads the 'sierra.dtd' and suggests: 1. All UI element tags when starting a
- * tag. 2. Relevant attributes when inside a known tag.
+ * reads tags and attributes from UILoader and suggests: 
+ * 1. All UI element tags when starting a tag. 
+ * 2. Relevant attributes when inside a known tag.
  */
 public class SierraXMLCompletionProviderTest {
 
