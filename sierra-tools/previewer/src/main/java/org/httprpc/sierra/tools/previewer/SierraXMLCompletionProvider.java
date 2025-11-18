@@ -39,6 +39,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import static org.httprpc.sierra.UILoader.Attribute.*;
+import static org.httprpc.kilo.util.Collections.mapOf;
+import static org.httprpc.kilo.util.Collections.entry;
 
 /**
  * Provides context-aware autocompletion for Sierra DSL XML by asking UILoader
@@ -54,7 +56,32 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
     // TagName -> {AttributeName -> Description/ValueDefinitionString}
     private final Map<String, Map<String, String>> elementAttributeDefinitions = new HashMap<>();
 
-    private final Map<Class<?>, Map<String, String>> sierraAttributeDefinitions = new HashMap<>();
+    private final Map<Class<?>, Map<String, String>> sierraAttributeDefinitions = mapOf(
+            entry(JComponent.class, mapOf(
+                    entry(NAME.getName(), NAME.getType().getSimpleName()),
+                    entry(GROUP.getName(), GROUP.getType().getSimpleName()),
+                    entry(BORDER.getName(), BORDER.getType().getSimpleName()),
+                    entry(PADDING.getName(), PADDING.getType().getSimpleName()),
+                    entry(WEIGHT.getName(), WEIGHT.getType().getSimpleName()),
+                    entry(SIZE.getName(), SIZE.getType().getSimpleName()),
+                    entry(TAB_ICON.getName(), TAB_ICON.getType().getSimpleName()),
+                    entry(TAB_TITLE.getName(), TAB_TITLE.getType().getSimpleName()),
+                    entry(HORIZONTAL_ALIGNMENT.getName(), HORIZONTAL_ALIGNMENT.getType().getSimpleName()),
+                    entry(VERTICAL_ALIGNMENT.getName(), VERTICAL_ALIGNMENT.getType().getSimpleName()),
+                    entry(ORIENTATION.getName(), ORIENTATION.getType().getSimpleName()),
+                    entry(FOCUS_LOST_BEHAVIOR.getName(), FOCUS_LOST_BEHAVIOR.getType().getSimpleName())
+            )),
+            entry(JTabbedPane.class, mapOf(
+                    entry(TAB_LAYOUT_POLICY.getName(), TAB_LAYOUT_POLICY.getType().getSimpleName()),
+                    entry(TAB_PLACEMENT.getName(), TAB_PLACEMENT.getType().getSimpleName())
+            )),
+            entry(JTextField.class, mapOf(
+                    entry(PLACEHOLDER_TEXT.getName(), PLACEHOLDER_TEXT.getType().getSimpleName()),
+                    entry(LEADING_ICON.getName(), LEADING_ICON.getType().getSimpleName()),
+                    entry(TRAILING_ICON.getName(), TRAILING_ICON.getType().getSimpleName()),
+                    entry(SHOW_CLEAR_BUTTON.getName(), SHOW_CLEAR_BUTTON.getType().getSimpleName())
+            ))
+    );
 
     private final List<Completion> tagCompletions = new ArrayList<>();
 
@@ -70,41 +97,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
         }
 
         tagCompletions.sort(Comparator.comparing(Completion::getInputText));
-
-        addCommonAttributes();
-
     }
-   
-    private void addCommonAttributes() {
-        Map<String, String> commonAttributes = new HashMap<>();
-        commonAttributes.put(NAME.getName(), NAME.getType().getSimpleName());
-        commonAttributes.put(GROUP.getName(), GROUP.getType().getSimpleName());
-        commonAttributes.put(BORDER.getName(), BORDER.getType().getSimpleName());
-        commonAttributes.put(PADDING.getName(), PADDING.getType().getSimpleName());
-        commonAttributes.put(WEIGHT.getName(), WEIGHT.getType().getSimpleName());
-        commonAttributes.put(SIZE.getName(), SIZE.getType().getSimpleName());
-        commonAttributes.put(TAB_ICON.getName(), TAB_ICON.getType().getSimpleName());
-        commonAttributes.put(TAB_TITLE.getName(), TAB_TITLE.getType().getSimpleName());
-        commonAttributes.put(HORIZONTAL_ALIGNMENT.getName(), HORIZONTAL_ALIGNMENT.getType().getSimpleName());
-        commonAttributes.put(VERTICAL_ALIGNMENT.getName(), VERTICAL_ALIGNMENT.getType().getSimpleName());
-        commonAttributes.put(ORIENTATION.getName(), ORIENTATION.getType().getSimpleName());
-        commonAttributes.put(FOCUS_LOST_BEHAVIOR.getName(), FOCUS_LOST_BEHAVIOR.getType().getSimpleName());
-        sierraAttributeDefinitions.put(JComponent.class, commonAttributes);
-        
-        Map<String, String> tabAttributes = new HashMap<>();
-        tabAttributes.put(TAB_LAYOUT_POLICY.getName(), TAB_LAYOUT_POLICY.getType().getSimpleName());
-        tabAttributes.put(TAB_PLACEMENT.getName(), TAB_PLACEMENT.getType().getSimpleName());
-        sierraAttributeDefinitions.put(JTabbedPane.class, tabAttributes);
-        
-        Map<String, String> textFieldAttributes = new HashMap<>();
-        textFieldAttributes.put(PLACEHOLDER_TEXT.getName(), PLACEHOLDER_TEXT.getType().getSimpleName());
-        textFieldAttributes.put(LEADING_ICON.getName(), LEADING_ICON.getType().getSimpleName());
-        textFieldAttributes.put(TRAILING_ICON.getName(), TRAILING_ICON.getType().getSimpleName());
-        textFieldAttributes.put(SHOW_CLEAR_BUTTON.getName(), SHOW_CLEAR_BUTTON.getType().getSimpleName());        
-        sierraAttributeDefinitions.put(JTextField.class, textFieldAttributes);
-        
-    }
-    
 
     protected Map<String, String> getAttributesForClass(Class<?> componentClass) {
         Map<String, String> attributes = new HashMap<>();
@@ -132,7 +125,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
         // now check if we have any Sierra attributes to add
         for (var entry : sierraAttributeDefinitions.entrySet()) {
             Class<?> clazz = entry.getKey();
-            Map<String, String> sierraAttributes = entry.getValue(); 
+            Map<String, String> sierraAttributes = entry.getValue();
 
             // Check for inheritance/interface implementation
             if (clazz.isAssignableFrom(componentClass)) {
