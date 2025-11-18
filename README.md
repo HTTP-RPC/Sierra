@@ -14,7 +14,7 @@ Sierra is distributed via Maven Central at [org.httprpc:sierra](https://central.
 
 A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required. 
 
-Custom DTDs can be generated using the [DTD encoder](sierra-tools/dtd-encoder) tool. An interactive [preview tool](sierra-tools/previewer) is also available.
+A custom DTD can be generated using the [DTD encoder](sierra-tools/dtd-encoder) tool. An interactive [preview tool](sierra-tools/previewer) is also available.
 
 # Sierra Classes
 Sierra provides the `UILoader` class, which can be used in conjunction with the following types to to declaratively establish a hierarchy of user interface elements:
