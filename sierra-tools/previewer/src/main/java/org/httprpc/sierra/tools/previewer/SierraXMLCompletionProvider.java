@@ -35,13 +35,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+
+import static org.httprpc.sierra.UILoader.Attribute.*;
 
 /**
- * Provides context-aware autocompletion for Sierra DSL XML by
- * asking UILoader to obtain valid elements and attributes for the
- * current tag. Includes attribute value definitions in the description.
+ * Provides context-aware autocompletion for Sierra DSL XML by asking UILoader
+ * to obtain valid elements and attributes for the current tag. Includes
+ * attribute value definitions in the description.
  */
 public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
+
     // Regex to find already defined attributes in a tag, e.g., focusable="true"
     private static final Pattern DEFINED_ATTR_PATTERN = Pattern.compile("\\s+([a-zA-Z]+)\\s*=");
 
@@ -49,7 +54,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
     // TagName -> {AttributeName -> Description/ValueDefinitionString}
     private final Map<String, Map<String, String>> elementAttributeDefinitions = new HashMap<>();
 
-    private final Map<String, Map<String, String>> sierraAttributeDefinitions = new HashMap<>();
+    private final Map<Class, Map<String, String>> sierraAttributeDefinitions = new HashMap<>();
 
     private final List<Completion> tagCompletions = new ArrayList<>();
 
@@ -69,19 +74,41 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
         addCommonAttributes();
 
     }
-
+   
     private void addCommonAttributes() {
-        Map<String, String> attributes = new HashMap<>();
-        // Add common attributes from UILoader.Attribute enum
-        for (UILoader.Attribute attr : UILoader.Attribute.values()) { 
-            attributes.put(attr.getName(), attr.getType().getSimpleName()); 
-        }
-        sierraAttributeDefinitions.put("CommonAttributes", attributes);
+        Map<String, String> commonAttributes = new HashMap<>();
+        commonAttributes.put(NAME.getName(), NAME.getType().getSimpleName());
+        commonAttributes.put(GROUP.getName(), GROUP.getType().getSimpleName());
+        commonAttributes.put(BORDER.getName(), BORDER.getType().getSimpleName());
+        commonAttributes.put(PADDING.getName(), PADDING.getType().getSimpleName());
+        commonAttributes.put(WEIGHT.getName(), WEIGHT.getType().getSimpleName());
+        commonAttributes.put(SIZE.getName(), SIZE.getType().getSimpleName());
+        commonAttributes.put(TAB_ICON.getName(), TAB_ICON.getType().getSimpleName());
+        commonAttributes.put(TAB_TITLE.getName(), TAB_TITLE.getType().getSimpleName());
+        commonAttributes.put(HORIZONTAL_ALIGNMENT.getName(), HORIZONTAL_ALIGNMENT.getType().getSimpleName());
+        commonAttributes.put(VERTICAL_ALIGNMENT.getName(), VERTICAL_ALIGNMENT.getType().getSimpleName());
+        commonAttributes.put(ORIENTATION.getName(), ORIENTATION.getType().getSimpleName());
+        commonAttributes.put(FOCUS_LOST_BEHAVIOR.getName(), FOCUS_LOST_BEHAVIOR.getType().getSimpleName());
+        sierraAttributeDefinitions.put(JComponent.class, commonAttributes);
+        
+        Map<String, String> tabAttributes = new HashMap<>();
+        tabAttributes.put(TAB_LAYOUT_POLICY.getName(), TAB_LAYOUT_POLICY.getType().getSimpleName());
+        tabAttributes.put(TAB_PLACEMENT.getName(), TAB_PLACEMENT.getType().getSimpleName());
+        sierraAttributeDefinitions.put(JTabbedPane.class, tabAttributes);
+        
+        Map<String, String> textFieldAttributes = new HashMap<>();
+        textFieldAttributes.put(PLACEHOLDER_TEXT.getName(), PLACEHOLDER_TEXT.getType().getSimpleName());
+        textFieldAttributes.put(LEADING_ICON.getName(), LEADING_ICON.getType().getSimpleName());
+        textFieldAttributes.put(TRAILING_ICON.getName(), TRAILING_ICON.getType().getSimpleName());
+        textFieldAttributes.put(SHOW_CLEAR_BUTTON.getName(), SHOW_CLEAR_BUTTON.getType().getSimpleName());        
+        sierraAttributeDefinitions.put(JTextField.class, textFieldAttributes);
+        
     }
+    
 
-    protected Map<String, String> getAttributesForClass(Class<?> type){
+    protected Map<String, String> getAttributesForClass(Class<?> componentClass) {
         Map<String, String> attributes = new HashMap<>();
-        for (var entry : BeanAdapter.getProperties(type).entrySet()) {
+        for (var entry : BeanAdapter.getProperties(componentClass).entrySet()) {
             var property = entry.getValue();
             var mutator = property.getMutator();
 
@@ -92,14 +119,25 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
             var propertyType = mutator.getParameterTypes()[0];
 
             if (propertyType.isPrimitive()
-                || Number.class.isAssignableFrom(propertyType)
-                || Enum.class.isAssignableFrom(propertyType)
-                || propertyType == String.class
-                || propertyType == Color.class
-                || propertyType == Font.class
-                || propertyType == Icon.class
-                || propertyType == Image.class) {
+                    || Number.class.isAssignableFrom(propertyType)
+                    || Enum.class.isAssignableFrom(propertyType)
+                    || propertyType == String.class
+                    || propertyType == Color.class
+                    || propertyType == Font.class
+                    || propertyType == Icon.class
+                    || propertyType == Image.class) {
                 attributes.put(entry.getKey(), propertyType.getSimpleName());
+            }
+        }
+        // now check if we have any Sierra attributes to add
+        for (var entry : sierraAttributeDefinitions.entrySet()) {
+            Class<?> clazz = entry.getKey();
+            Map<String, String> sierraAttributes = entry.getValue(); 
+
+            // Check for inheritance/interface implementation
+            if (clazz.isAssignableFrom(componentClass)) {
+                System.out.println("Adding attributes associated with " + clazz + " to " + componentClass);
+                attributes.putAll(sierraAttributes);
             }
         }
         return attributes;
@@ -133,8 +171,6 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
             if (allAttributes == null) {
                 return new ArrayList<>();
             }
-
-            allAttributes.putAll(sierraAttributeDefinitions.get("CommonAttributes"));
 
             var definedAttributes = getAlreadyDefinedAttributes(comp, context.tagStartOffset, offset);
             List<String> availableAttributeNames = new ArrayList<>();
@@ -175,7 +211,6 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
     }
 
     // --- Helper methods remain the same ---
-
     private CompletionContext getCompletionContext(JTextComponent comp, int offset) {
         // ... (implementation remains the same as previous step) ...
         try {
@@ -277,6 +312,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
     }
 
     private record CompletionContext(CompletionType type, String tagName, int tagStartOffset) {
+
         CompletionContext(CompletionType type) {
             this(type, null, -1);
         }
