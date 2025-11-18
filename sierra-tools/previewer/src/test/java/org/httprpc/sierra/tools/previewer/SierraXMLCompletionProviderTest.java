@@ -13,25 +13,27 @@
  */
 package org.httprpc.sierra.tools.previewer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.fife.ui.autocomplete.Completion;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
-import org.fife.ui.autocomplete.Completion;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 /**
  * Unit test for SierraXMLCompletionProvider focusing only on core element and
  * attribute completion logic. This test ensures that the provider correctly
- * reads tags and attributes from UILoader and suggests: 
- * 1. All UI element tags when starting a tag. 
+ * reads tags and attributes from UILoader and suggests:
+ * 1. All UI element tags when starting a tag.
  * 2. Relevant attributes when inside a known tag.
  */
 public class SierraXMLCompletionProviderTest {
@@ -142,7 +144,7 @@ public class SierraXMLCompletionProviderTest {
 
         // Verify other essential attributes are present (from the DTD)
         assertTrue(attributeNames.contains("background"), "Should also suggest the 'background' attribute.");
-        
+
         assertFalse(attributeNames.contains("tabLayoutPolicy"), "Should not suggest 'tabLayoutPolicy.");
 
         // Ensure suggestions are alphabetically sorted
@@ -220,7 +222,7 @@ public class SierraXMLCompletionProviderTest {
         assertTrue(suggestionsBU.stream().anyMatch(c -> c.getInputText().equals("button")),
                 "Suggestions after 'bu' should include the 'button' tag.");
     }
-    
+
     private void assertSuggestionsSorted(List<Completion> suggestions) {
         var actualNames = suggestions.stream()
                 .map(Completion::getInputText)

@@ -21,6 +21,8 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 import java.awt.Color;
@@ -35,12 +37,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 
+import static org.httprpc.kilo.util.Collections.*;
 import static org.httprpc.sierra.UILoader.Attribute.*;
-import static org.httprpc.kilo.util.Collections.mapOf;
-import static org.httprpc.kilo.util.Collections.entry;
 
 /**
  * Provides context-aware autocompletion for Sierra DSL XML by asking UILoader
@@ -256,7 +255,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
     public String getAlreadyEnteredText(JTextComponent comp) {
         // Return the partial attribute name currently being typed so AutoCompletion
         // can filter the list of completions.
-        int pos = comp.getCaretPosition();
+        var pos = comp.getCaretPosition();
         try {
             var text = comp.getText(0, pos);
             var lastOpen = text.lastIndexOf('<');
@@ -266,9 +265,9 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
 
             // Scan backwards from the caret until we hit whitespace or a character that
             // can't be part of an attribute name (e.g., '=', '<', quotes).
-            int i = pos - 1;
+            var i = pos - 1;
             while (i > lastOpen) {
-                char c = text.charAt(i);
+                var c = text.charAt(i);
                 if (Character.isWhitespace(c) || c == '<' || c == '=' || c == '"' || c == '\'') {
                     break;
                 }
