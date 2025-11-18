@@ -30,8 +30,6 @@ public class MenuButton extends JButton {
     private HorizontalAlignment popupHorizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
 
-    private JPopupMenu popupMenu = new JPopupMenu();
-
     private boolean ignorePress = false;
 
     /**
@@ -73,14 +71,31 @@ public class MenuButton extends JButton {
     public MenuButton(String text, Icon icon) {
         super(text, icon);
 
+        var popupMenu = new JPopupMenu();
+
+        popupMenu.addPopupMenuListener(new PopupMenuListener() {
+            @Override
+            public void popupMenuWillBecomeVisible(PopupMenuEvent event) {
+                // No-op
+            }
+
+            @Override
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
+                // No-op
+            }
+
+            @Override
+            public void popupMenuCanceled(PopupMenuEvent event) {
+                ignorePress = true;
+            }
+        });
+
+        setComponentPopupMenu(popupMenu);
+
         setModel(new DefaultButtonModel() {
             @Override
             public void setPressed(boolean pressed) {
                 super.setPressed(pressed);
-
-                if (popupMenu == null) {
-                    return;
-                }
 
                 if (pressed && !ignorePress) {
                     var size = getSize();
@@ -110,23 +125,6 @@ public class MenuButton extends JButton {
                 super.setRollover(rollover);
 
                 ignorePress = false;
-            }
-        });
-
-        popupMenu.addPopupMenuListener(new PopupMenuListener() {
-            @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent event) {
-                // No-op
-            }
-
-            @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
-                // No-op
-            }
-
-            @Override
-            public void popupMenuCanceled(PopupMenuEvent event) {
-                ignorePress = true;
             }
         });
     }
@@ -194,7 +192,7 @@ public class MenuButton extends JButton {
             throw new IllegalArgumentException();
         }
 
-        return popupMenu.add(component);
+        return getComponentPopupMenu().add(component);
     }
 
     /**
@@ -209,7 +207,7 @@ public class MenuButton extends JButton {
             throw new IllegalArgumentException();
         }
 
-        popupMenu.remove(component);
+        getComponentPopupMenu().remove(component);
     }
 
     /**
