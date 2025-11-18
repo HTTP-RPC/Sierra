@@ -12,7 +12,7 @@ This guide introduces the Sierra framework and provides an overview of its key f
 # Getting Sierra
 Sierra is distributed via Maven Central at [org.httprpc:sierra](https://central.sonatype.com/artifact/org.httprpc/sierra/versions). Java 21 or later is required. [FlatLaf](https://www.formdev.com/flatlaf/) is recommended.
 
-A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required.
+A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required. An interactive [preview tool](sierra-tools/previewer) is also available.
 
 # Sierra Classes
 Sierra provides the `UILoader` class, which can be used in conjunction with the following types to to declaratively establish a hierarchy of user interface elements:
