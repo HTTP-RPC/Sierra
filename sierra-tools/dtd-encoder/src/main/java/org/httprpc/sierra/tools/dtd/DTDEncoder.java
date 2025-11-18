@@ -256,7 +256,8 @@ public class DTDEncoder extends Encoder<Void> {
         var workingPath = Path.of(System.getProperty("user.dir"));
 
         if (args.length > 0) {
-            ClassLoader classLoader;
+            var classLoader = ClassLoader.getSystemClassLoader();
+
             if (args.length > 1) {
                 try (var paths = Files.walk(workingPath.resolve(args[1]))) {
                     classLoader = new URLClassLoader(paths.map(path -> {
@@ -265,10 +266,8 @@ public class DTDEncoder extends Encoder<Void> {
                         } catch (IOException exception) {
                             throw new RuntimeException(exception);
                         }
-                    }).toArray(URL[]::new));
+                    }).toArray(URL[]::new), classLoader);
                 }
-            } else {
-                classLoader = ClassLoader.getSystemClassLoader();
             }
 
             applyBindings(workingPath.resolve(args[0]), classLoader);

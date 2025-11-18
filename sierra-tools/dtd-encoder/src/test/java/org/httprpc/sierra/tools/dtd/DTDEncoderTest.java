@@ -17,6 +17,7 @@ package org.httprpc.sierra.tools.dtd;
 import org.httprpc.kilo.io.TextDecoder;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.JDesktopPane;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -33,6 +34,7 @@ public class DTDEncoderTest {
 
         var properties = new Properties();
 
+        properties.put("desktop-pane", JDesktopPane.class.getName());
         properties.put("chart-panel", "org.jfree.chart.ChartPanel");
 
         var libraryPath = workingPath.resolve("lib");
@@ -66,6 +68,7 @@ public class DTDEncoderTest {
                 text = textDecoder.read(inputStream);
             }
 
+            assertTrue(text.contains("desktop-pane"));
             assertTrue(text.contains("chart-panel"));
         } finally {
             Files.deleteIfExists(bindingsPath);
