@@ -34,5 +34,5 @@ tasks.named('test', Test) {
 }
 
 application {
-    mainClass = 'org.httprpc.sierra.previewer.SierraPreviewerApp'
+    mainClass = 'org.httprpc.sierra.tools.previewer.SierraPreviewerApp'
 }
