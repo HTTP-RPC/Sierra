@@ -20,5 +20,5 @@ If no arguments are provided, the standard Sierra DTD will be generated.
 
 ## Example
 ```
-$ dtd-encoder bindings.properties build/libs
+$ dtd-encoder src/main/resources/bindings.properties build/libs
 ```
