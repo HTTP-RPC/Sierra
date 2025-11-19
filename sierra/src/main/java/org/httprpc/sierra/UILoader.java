@@ -1033,16 +1033,6 @@ public class UILoader {
      *
      * @param bindings
      * The bindings to apply.
-     */
-    public static void bind(Properties bindings) throws ClassNotFoundException {
-        bind(bindings, ClassLoader.getSystemClassLoader());
-    }
-
-    /**
-     * Applies multiple bindings.
-     *
-     * @param bindings
-     * The bindings to apply.
      *
      * @param classLoader
      * The class loader that will be used to resolve the bindings.

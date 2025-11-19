@@ -57,13 +57,15 @@ public class CustomBindingTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        var classLoader = ClassLoader.getSystemClassLoader();
+
         var bindings = new Properties();
 
-        try (var inputStream = CustomBindingTest.class.getResourceAsStream("/bindings.properties")) {
+        try (var inputStream = classLoader.getResourceAsStream("bindings.properties")) {
             bindings.load(inputStream);
         }
 
-        UILoader.bind(bindings);
+        UILoader.bind(bindings, classLoader);
 
         FlatLightLaf.setup();
 
