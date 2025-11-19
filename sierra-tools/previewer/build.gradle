@@ -24,7 +24,7 @@ dependencies {
     implementation 'com.fifesoft:autocomplete:3.3.2'
 
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
-    testImplementation 'org.mockito:mockito-core:5.9.0'
+    testImplementation 'org.mockito:mockito-core:5.20.0'
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
