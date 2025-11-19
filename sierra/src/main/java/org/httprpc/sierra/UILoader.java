@@ -1034,7 +1034,7 @@ public class UILoader {
      * @param bindings
      * The bindings to apply.
      */
-    public static void bind(Properties bindings) throws ReflectiveOperationException {
+    public static void bind(Properties bindings) throws ClassNotFoundException {
         bind(bindings, ClassLoader.getSystemClassLoader());
     }
 
