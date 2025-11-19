@@ -23,7 +23,6 @@ import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.VerticalAlignment;
 
 import javax.swing.Icon;
-import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -270,7 +269,13 @@ public class DTDEncoder extends Encoder<Void> {
                 }
             }
 
-            applyBindings(workingPath.resolve(args[0]), classLoader);
+            var bindings = new Properties();
+
+            try (var inputStream = Files.newInputStream(workingPath.resolve(args[0]))) {
+                bindings.load(inputStream);
+            }
+
+            UILoader.bind(bindings, classLoader);
         }
 
         var typeSet = new HashSet<Class<?>>();
@@ -297,22 +302,6 @@ public class DTDEncoder extends Encoder<Void> {
             var dtdEncoder = new DTDEncoder(typeList, tags);
 
             dtdEncoder.write(null, outputStream);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private static void applyBindings(Path path, ClassLoader classLoader) throws IOException, ClassNotFoundException {
-        var bindings = new Properties();
-
-        try (var inputStream = Files.newInputStream(path)) {
-            bindings.load(inputStream);
-        }
-
-        for (var entry : bindings.entrySet()) {
-            var tag = (String)entry.getKey();
-            var typeName = (String)entry.getValue();
-
-            UILoader.bind(tag, (Class<? extends JComponent>)classLoader.loadClass(typeName), () -> null);
         }
     }
 

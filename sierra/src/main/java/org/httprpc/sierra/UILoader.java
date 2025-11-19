@@ -67,15 +67,19 @@ import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
 
@@ -1022,6 +1026,57 @@ public class UILoader {
 
         types.put(tag, type);
         suppliers.put(tag, supplier);
+    }
+
+    /**
+     * Applies multiple bindings.
+     *
+     * @param bindings
+     * The bindings to apply.
+     */
+    public static void bind(Properties bindings) throws ReflectiveOperationException {
+        bind(bindings, ClassLoader.getSystemClassLoader());
+    }
+
+    /**
+     * Applies multiple bindings.
+     *
+     * @param bindings
+     * The bindings to apply.
+     *
+     * @param classLoader
+     * The class loader that will be used to resolve the bindings.
+     */
+    @SuppressWarnings("unchecked")
+    public static void bind(Properties bindings, ClassLoader classLoader) throws ClassNotFoundException {
+        if (bindings == null || classLoader == null) {
+            throw new IllegalArgumentException();
+        }
+
+        for (var entry : bindings.entrySet()) {
+            var tag = (String)entry.getKey();
+            var typeName = (String)entry.getValue();
+
+            var type = (Class<?>)classLoader.loadClass(typeName);
+
+            var constructors = type.getConstructors();
+
+            if (constructors.length == 0) {
+                throw new UnsupportedOperationException(String.format("%s cannot be instantiated.", typeName));
+            }
+
+            Arrays.sort(constructors, Comparator.comparing(Constructor::getParameterCount));
+
+            var constructor = constructors[0];
+
+            bind(tag, (Class<JComponent>)type, () -> {
+                try {
+                    return (JComponent)constructor.newInstance(new Object[constructor.getParameterCount()]);
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException exception) {
+                    throw new RuntimeException(exception);
+                }
+            });
+        }
     }
 
     /**
