@@ -13,16 +13,23 @@
  */
 package org.httprpc.sierra.tools.previewer;
 
-import java.awt.BorderLayout;
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
+import org.fife.rsta.ui.search.FindDialog;
+import org.fife.rsta.ui.search.ReplaceDialog;
+import org.fife.rsta.ui.search.SearchEvent;
+import org.fife.rsta.ui.search.SearchListener;
+import org.fife.ui.autocomplete.AutoCompletion;
+import org.fife.ui.autocomplete.CompletionProvider;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rtextarea.RTextScrollPane;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.SearchEngine;
+import org.fife.ui.rtextarea.SearchResult;
+import org.httprpc.sierra.Outlet;
+import org.httprpc.sierra.UILoader;
+import org.httprpc.sierra.tools.previewer.engine.RenderingEngine;
+import org.httprpc.sierra.tools.previewer.model.RenderError;
+import org.httprpc.sierra.tools.previewer.model.RenderResult;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -40,22 +47,16 @@ import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.fife.rsta.ui.search.FindDialog;
-import org.fife.rsta.ui.search.ReplaceDialog;
-import org.fife.rsta.ui.search.SearchEvent;
-import org.fife.rsta.ui.search.SearchListener;
-import org.fife.ui.autocomplete.AutoCompletion;
-import org.fife.ui.autocomplete.CompletionProvider;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rtextarea.RTextScrollPane;
-import org.fife.ui.rtextarea.SearchEngine;
-import org.fife.ui.rtextarea.SearchResult;
-import org.httprpc.sierra.Outlet;
-import org.httprpc.sierra.UILoader;
-import org.httprpc.sierra.tools.previewer.engine.RenderingEngine;
-import org.httprpc.sierra.tools.previewer.model.RenderError;
-import org.httprpc.sierra.tools.previewer.model.RenderResult;
+import java.awt.BorderLayout;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 /**
  * The main application window for the Sierra UI Previewer. UI is defined in
@@ -246,7 +247,6 @@ public class MainFrame extends JFrame implements SearchListener {
         editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
         editorPane.setCodeFoldingEnabled(true);
         editorPane.setAntiAliasingEnabled(true);
-        editorPane.setEditable(true);
 
         var provider = createCompletionProvider();
 
