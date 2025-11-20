@@ -12,6 +12,10 @@
             <popup-menu-separator/>
             <menu-item name="exitItem" text="Exit"/>
         </menu>
+        <menu name="searchMenu" text="Search">
+            <menu-item name="findItem" text="Find"/>
+            <menu-item name="replaceItem" text="Replace"/>            
+        </menu>        
         <menu text="About">
             <menu-item name="aboutItem" text="About Previewer"/>
         </menu>
@@ -22,6 +26,6 @@
         <column-panel name="previewPanel" padding="5, 5, 5, 5" weight="1"/>
     </split-pane>
 
-    <label name="filePathLabel" text="" padding="4, 6, 4, 6"/>
-    <label name="statusBar" text="Ready." padding="2, 5, 2, 5"/>
+    <label name="filePathLabel" text="" padding="4, 6, 4, 6" />
+    <label name="statusBar" text="Ready." padding="2, 5, 2, 5" border="silver, 1"/>
 </column-panel>
