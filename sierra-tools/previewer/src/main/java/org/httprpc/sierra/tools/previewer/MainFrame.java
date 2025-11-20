@@ -13,16 +13,16 @@
  */
 package org.httprpc.sierra.tools.previewer;
 
-import org.fife.ui.autocomplete.AutoCompletion;
-import org.fife.ui.autocomplete.CompletionProvider;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.httprpc.sierra.Outlet;
-import org.httprpc.sierra.UILoader;
-import org.httprpc.sierra.tools.previewer.engine.RenderingEngine;
-import org.httprpc.sierra.tools.previewer.model.RenderError;
-import org.httprpc.sierra.tools.previewer.model.RenderResult;
-
+import java.awt.BorderLayout;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -34,26 +34,36 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.BorderLayout;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
+import org.fife.rsta.ui.search.FindDialog;
+import org.fife.rsta.ui.search.ReplaceDialog;
+import org.fife.rsta.ui.search.SearchEvent;
+import org.fife.rsta.ui.search.SearchListener;
+import org.fife.ui.autocomplete.AutoCompletion;
+import org.fife.ui.autocomplete.CompletionProvider;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.SearchContext;
+import org.fife.ui.rtextarea.SearchEngine;
+import org.fife.ui.rtextarea.SearchResult;
+import org.httprpc.sierra.Outlet;
+import org.httprpc.sierra.UILoader;
+import org.httprpc.sierra.tools.previewer.engine.RenderingEngine;
+import org.httprpc.sierra.tools.previewer.model.RenderError;
+import org.httprpc.sierra.tools.previewer.model.RenderResult;
 
 /**
  * The main application window for the Sierra UI Previewer. UI is defined in
  * MainFrame.xml and loaded by UILoader. This class contains the wiring and
  * business logic.
  */
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements SearchListener {
     // --- Subsystems ---
     private final RenderingEngine renderingEngine;
     private final RecentFilesManager recentFilesManager; // NEW: Manager instance
@@ -69,6 +79,9 @@ public class MainFrame extends JFrame {
     private @Outlet JMenuBar menuBar = null;
     private @Outlet JMenuItem openItem = null;
     private @Outlet JMenuItem saveItem = null;
+    private @Outlet JMenu searchMenu = null;
+    private @Outlet JMenuItem findItem = null;
+    private @Outlet JMenuItem replaceItem = null;
     private @Outlet JMenu recentMenu = null;
     private @Outlet JMenuItem exitItem = null;
     private @Outlet JMenuItem aboutItem = null;
@@ -79,6 +92,8 @@ public class MainFrame extends JFrame {
     private @Outlet JLabel filePathLabel = null; // The <label> for the file path
 
     // --- Manually Created Components ---
+    private FindDialog findDialog = null;
+    private ReplaceDialog replaceDialog = null;
     private RSyntaxTextArea editorPane = null;
 
     public MainFrame() {
@@ -97,12 +112,7 @@ public class MainFrame extends JFrame {
         fileChooser.setAcceptAllFileFilterUsed(false);
 
         setupMenuBar();
-
         setupCustomEditor();
-
-        // 5. Set layout for previewPanel
-//        previewPanel.setLayout(new BorderLayout());
-
         debounceTimer = setupDebounceTimer();
 
         // Wire editor events
@@ -128,8 +138,7 @@ public class MainFrame extends JFrame {
         var iconURL = getClass().getResource("/sierra.png");
         var icon = new ImageIcon(iconURL).getImage();
         setIconImage(icon);
-
-        // 8. Trigger an initial render
+        
         triggerRender();
     }
 
@@ -206,10 +215,33 @@ public class MainFrame extends JFrame {
 
     // --- Editor Setup ---
     /**
-     * Creates the custom RSyntaxTextArea and adds it to the <scroll-pane>
-     * placeholder that Sierra injected.
+     * Creates the custom RSyntaxTextArea/associated functionality and adds it 
+     * to the placeholder that Sierra injected.
      */
     private void setupCustomEditor() {
+        findDialog = new FindDialog(this, this);
+        replaceDialog = new ReplaceDialog(this, this);
+        
+        // This ties the properties of the two dialogs together (match case,
+        // regex, etc.).
+        SearchContext context = findDialog.getSearchContext();
+        replaceDialog.setSearchContext(context);
+        
+        int acceleratorKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
+        findItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, acceleratorKey));
+        findItem.addActionListener((e) -> {
+            if (replaceDialog.isVisible()) {
+                replaceDialog.setVisible(false);
+            }
+            findDialog.setVisible(true);
+        });
+        replaceItem.addActionListener((e) -> {
+            if (findDialog.isVisible()) {
+                findDialog.setVisible(false);
+            }
+            replaceDialog.setVisible(true);
+        });
+        replaceItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, acceleratorKey));
         editorPane = new RSyntaxTextArea(25, 80);
         editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
         editorPane.setCodeFoldingEnabled(true);
@@ -230,7 +262,71 @@ public class MainFrame extends JFrame {
 
         editorScrollPane.setViewportView(editorPane);
     }
+    
+    // -- Extra search/replace functionality
+    
+    @Override
+    public String getSelectedText() {
+        return editorPane.getSelectedText();
+    }
+    
+    /**
+     * Listens for events from our search dialogs and actually does the dirty
+     * work.
+     */
+    @Override
+    public void searchEvent(SearchEvent e) {
 
+        SearchEvent.Type type = e.getType();
+        SearchContext context = e.getSearchContext();
+        SearchResult result = null;
+
+        switch (type) {
+            case MARK_ALL:
+                result = SearchEngine.markAll(editorPane, context);
+                break;
+            case FIND:
+                result = SearchEngine.find(editorPane, context);
+                if (!result.wasFound() || result.isWrapped()) {
+                    UIManager.getLookAndFeel().provideErrorFeedback(editorPane);
+                }
+                break;
+            case REPLACE:
+                result = SearchEngine.replace(editorPane, context);
+                if (!result.wasFound() || result.isWrapped()) {
+                    UIManager.getLookAndFeel().provideErrorFeedback(editorPane);
+                }
+                break;
+            case REPLACE_ALL:
+                result = SearchEngine.replaceAll(editorPane, context);
+                JOptionPane.showMessageDialog(null, result.getCount()
+                        + " occurrences replaced.");
+                break;
+            default:
+                statusBar.setText("Unknown search event");
+                break;
+        }
+        
+        if(result == null){
+            return;
+        }
+        
+        String text;
+        if (result.wasFound()) {
+            text = "Text found; occurrences marked: " + result.getMarkedCount();
+        } else if (type == SearchEvent.Type.MARK_ALL) {
+            if (result.getMarkedCount() > 0) {
+                text = "Occurrences marked: " + result.getMarkedCount();
+            } else {
+                text = "";
+            }
+        } else {
+            text = "Text not found";
+        }
+        statusBar.setText(text);
+
+    }
+    
     // --- Rendering/Control Logic ---
     /**
      * Implements the debounce mechanism.
