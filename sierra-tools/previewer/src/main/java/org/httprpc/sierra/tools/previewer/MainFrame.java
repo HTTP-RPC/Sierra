@@ -57,6 +57,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
  * The main application window for the Sierra UI Previewer. UI is defined in
@@ -85,19 +86,21 @@ public class MainFrame extends JFrame implements SearchListener {
     private @Outlet JMenuItem exitItem = null;
     private @Outlet JMenuItem aboutItem = null;
     private @Outlet JSplitPane splitPane = null;
-    private @Outlet JScrollPane editorScrollPane = null;
     private @Outlet JPanel previewPanel = null;
     private @Outlet JLabel statusBar = null;
-    private @Outlet JLabel filePathLabel = null; // The <label> for the file path
+    private @Outlet JLabel filePathLabel = null;
+
 
     // --- Manually Created Components ---
     private FindDialog findDialog = null;
     private ReplaceDialog replaceDialog = null;
     private RSyntaxTextArea editorPane = null;
+    private RTextScrollPane editorScrollPane = null;
+
 
     public MainFrame() {
         super("Sierra UI Previewer");
-
+        
         renderingEngine = new RenderingEngine();
         recentFilesManager = new RecentFilesManager(MainFrame.class);
 
@@ -245,7 +248,7 @@ public class MainFrame extends JFrame implements SearchListener {
         editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
         editorPane.setCodeFoldingEnabled(true);
         editorPane.setAntiAliasingEnabled(true);
-        editorPane.setEditable(true); // Ensure it's editable
+        editorPane.setEditable(true);
 
         var provider = createCompletionProvider();
 
@@ -258,8 +261,11 @@ public class MainFrame extends JFrame implements SearchListener {
         if (provider != null) {
             ac.install(editorPane);
         }
+        editorScrollPane = new RTextScrollPane(editorPane);
+        editorScrollPane.setLineNumbersEnabled(true);
+        editorScrollPane.setFoldIndicatorEnabled(true);
+        splitPane.setLeftComponent(editorScrollPane);
 
-        editorScrollPane.setViewportView(editorPane);
     }
 
     // -- Extra search/replace functionality
