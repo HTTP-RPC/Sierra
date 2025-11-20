@@ -13,16 +13,22 @@
  */
 package org.httprpc.sierra.tools.previewer;
 
-import java.awt.BorderLayout;
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
+import org.fife.rsta.ui.search.FindDialog;
+import org.fife.rsta.ui.search.ReplaceDialog;
+import org.fife.rsta.ui.search.SearchEvent;
+import org.fife.rsta.ui.search.SearchListener;
+import org.fife.ui.autocomplete.AutoCompletion;
+import org.fife.ui.autocomplete.CompletionProvider;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.SearchEngine;
+import org.fife.ui.rtextarea.SearchResult;
+import org.httprpc.sierra.Outlet;
+import org.httprpc.sierra.UILoader;
+import org.httprpc.sierra.tools.previewer.engine.RenderingEngine;
+import org.httprpc.sierra.tools.previewer.model.RenderError;
+import org.httprpc.sierra.tools.previewer.model.RenderResult;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -41,22 +47,16 @@ import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.fife.rsta.ui.search.FindDialog;
-import org.fife.rsta.ui.search.ReplaceDialog;
-import org.fife.rsta.ui.search.SearchEvent;
-import org.fife.rsta.ui.search.SearchListener;
-import org.fife.ui.autocomplete.AutoCompletion;
-import org.fife.ui.autocomplete.CompletionProvider;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rtextarea.SearchContext;
-import org.fife.ui.rtextarea.SearchEngine;
-import org.fife.ui.rtextarea.SearchResult;
-import org.httprpc.sierra.Outlet;
-import org.httprpc.sierra.UILoader;
-import org.httprpc.sierra.tools.previewer.engine.RenderingEngine;
-import org.httprpc.sierra.tools.previewer.model.RenderError;
-import org.httprpc.sierra.tools.previewer.model.RenderResult;
+import java.awt.BorderLayout;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 /**
  * The main application window for the Sierra UI Previewer. UI is defined in
@@ -79,7 +79,6 @@ public class MainFrame extends JFrame implements SearchListener {
     private @Outlet JMenuBar menuBar = null;
     private @Outlet JMenuItem openItem = null;
     private @Outlet JMenuItem saveItem = null;
-    private @Outlet JMenu searchMenu = null;
     private @Outlet JMenuItem findItem = null;
     private @Outlet JMenuItem replaceItem = null;
     private @Outlet JMenu recentMenu = null;
@@ -138,7 +137,7 @@ public class MainFrame extends JFrame implements SearchListener {
         var iconURL = getClass().getResource("/sierra.png");
         var icon = new ImageIcon(iconURL).getImage();
         setIconImage(icon);
-        
+
         triggerRender();
     }
 
@@ -215,19 +214,19 @@ public class MainFrame extends JFrame implements SearchListener {
 
     // --- Editor Setup ---
     /**
-     * Creates the custom RSyntaxTextArea/associated functionality and adds it 
+     * Creates the custom RSyntaxTextArea/associated functionality and adds it
      * to the placeholder that Sierra injected.
      */
     private void setupCustomEditor() {
         findDialog = new FindDialog(this, this);
         replaceDialog = new ReplaceDialog(this, this);
-        
+
         // This ties the properties of the two dialogs together (match case,
         // regex, etc.).
-        SearchContext context = findDialog.getSearchContext();
+        var context = findDialog.getSearchContext();
         replaceDialog.setSearchContext(context);
-        
-        int acceleratorKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
+
+        var acceleratorKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
         findItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, acceleratorKey));
         findItem.addActionListener((e) -> {
             if (replaceDialog.isVisible()) {
@@ -262,14 +261,14 @@ public class MainFrame extends JFrame implements SearchListener {
 
         editorScrollPane.setViewportView(editorPane);
     }
-    
+
     // -- Extra search/replace functionality
-    
+
     @Override
     public String getSelectedText() {
         return editorPane.getSelectedText();
     }
-    
+
     /**
      * Listens for events from our search dialogs and actually does the dirty
      * work.
@@ -277,8 +276,8 @@ public class MainFrame extends JFrame implements SearchListener {
     @Override
     public void searchEvent(SearchEvent e) {
 
-        SearchEvent.Type type = e.getType();
-        SearchContext context = e.getSearchContext();
+        var type = e.getType();
+        var context = e.getSearchContext();
         SearchResult result = null;
 
         switch (type) {
@@ -306,11 +305,11 @@ public class MainFrame extends JFrame implements SearchListener {
                 statusBar.setText("Unknown search event");
                 break;
         }
-        
+
         if(result == null){
             return;
         }
-        
+
         String text;
         if (result.wasFound()) {
             text = "Text found; occurrences marked: " + result.getMarkedCount();
@@ -326,7 +325,7 @@ public class MainFrame extends JFrame implements SearchListener {
         statusBar.setText(text);
 
     }
-    
+
     // --- Rendering/Control Logic ---
     /**
      * Implements the debounce mechanism.
