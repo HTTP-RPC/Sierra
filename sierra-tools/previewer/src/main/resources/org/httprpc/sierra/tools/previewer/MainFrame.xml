@@ -13,9 +13,9 @@
             <menu-item name="exitItem" text="Exit"/>
         </menu>
         <menu text="Search">
-            <menu-item name="findItem" text="Find"/>
-            <menu-item name="replaceItem" text="Replace"/>
-            <menu-item name="gotoLineItem" text="Go To Line"/>
+            <menu-item name="findItem" text="Find" accelerator="VK_F"/>
+            <menu-item name="replaceItem" text="Replace" accelerator="VK_R"/>
+            <menu-item name="gotoLineItem" text="Go To Line" accelerator="VK_G"/>
         </menu>
         <menu text="About">
             <menu-item name="aboutItem" text="About Previewer"/>

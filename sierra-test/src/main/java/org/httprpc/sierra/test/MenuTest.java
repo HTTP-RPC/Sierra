@@ -15,12 +15,19 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
+import java.awt.event.ActionListener;
 
 public class MenuTest extends JFrame implements Runnable {
+    private @Outlet JMenuItem oneMenuItem = null;
+    private @Outlet JMenuItem twoMenuItem = null;
+    private @Outlet JMenuItem threeMenuItem = null;
+
     private MenuTest() {
         super("Menu Test");
 
@@ -30,6 +37,12 @@ public class MenuTest extends JFrame implements Runnable {
     @Override
     public void run() {
         setContentPane(UILoader.load(this, "MenuTest.xml"));
+
+        ActionListener actionListener = event -> System.out.println(((JMenuItem)event.getSource()).getName());
+
+        oneMenuItem.addActionListener(actionListener);
+        twoMenuItem.addActionListener(actionListener);
+        threeMenuItem.addActionListener(actionListener);
 
         setSize(640, 480);
         setVisible(true);

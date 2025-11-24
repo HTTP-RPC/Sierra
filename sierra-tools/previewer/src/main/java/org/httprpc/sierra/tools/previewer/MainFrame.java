@@ -13,6 +13,7 @@
  */
 package org.httprpc.sierra.tools.previewer;
 
+import org.fife.rsta.ui.GoToDialog;
 import org.fife.rsta.ui.search.FindDialog;
 import org.fife.rsta.ui.search.ReplaceDialog;
 import org.fife.rsta.ui.search.SearchEvent;
@@ -20,8 +21,8 @@ import org.fife.rsta.ui.search.SearchListener;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.CompletionProvider;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rtextarea.RTextScrollPane;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 import org.fife.ui.rtextarea.SearchEngine;
 import org.fife.ui.rtextarea.SearchResult;
 import org.httprpc.sierra.Outlet;
@@ -40,16 +41,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.BadLocationException;
 import java.awt.BorderLayout;
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -57,8 +56,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
-import javax.swing.text.BadLocationException;
-import org.fife.rsta.ui.GoToDialog;
 
 /**
  * The main application window for the Sierra UI Previewer. UI is defined in
@@ -102,7 +99,7 @@ public class MainFrame extends JFrame implements SearchListener {
 
     public MainFrame() {
         super("Sierra UI Previewer");
-        
+
         renderingEngine = new RenderingEngine();
         recentFilesManager = new RecentFilesManager(MainFrame.class);
 
@@ -231,8 +228,6 @@ public class MainFrame extends JFrame implements SearchListener {
         var context = findDialog.getSearchContext();
         replaceDialog.setSearchContext(context);
 
-        var acceleratorKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
-        findItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, acceleratorKey));
         findItem.addActionListener((e) -> {
             if (replaceDialog.isVisible()) {
                 replaceDialog.setVisible(false);
@@ -245,9 +240,6 @@ public class MainFrame extends JFrame implements SearchListener {
             }
             replaceDialog.setVisible(true);
         });
-        replaceItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, acceleratorKey));
-        
-        gotoLineItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, acceleratorKey));
         gotoLineItem.addActionListener((e)->{
             if (findDialog.isVisible()) {
                 findDialog.setVisible(false);
@@ -267,7 +259,6 @@ public class MainFrame extends JFrame implements SearchListener {
                 }
             }
         });
-
         editorPane = new RSyntaxTextArea(25, 80);
         editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
         editorPane.setCodeFoldingEnabled(true);

@@ -51,6 +51,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
@@ -65,11 +66,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -415,8 +419,9 @@ public class UILoader {
     private static final Map<String, Supplier<? extends JComponent>> suppliers = new HashMap<>();
 
     private static final Map<String, Color> colors = new HashMap<>();
-
     private static final Map<String, Font> fonts = new HashMap<>();
+
+    private static final Map<String, Integer> keyCodes = new HashMap<>();
 
     static {
         bind("label", JLabel.class, JLabel::new);
@@ -617,6 +622,30 @@ public class UILoader {
         define("gainsboro", new Color(0xdcdcdc));
     }
 
+    static {
+        var fields = KeyEvent.class.getDeclaredFields();
+
+        for (var i = 0; i < fields.length; i++) {
+            var field = fields[i];
+
+            var modifiers = field.getModifiers();
+
+            if (Modifier.isPublic(modifiers)
+                && Modifier.isStatic(modifiers)
+                && Modifier.isFinal(modifiers)) {
+                var name = field.getName();
+
+                if (name.startsWith("VK_") && field.getType() == Integer.TYPE) {
+                    try {
+                        keyCodes.put(name, (Integer)field.get(null));
+                    } catch (IllegalAccessException exception) {
+                        throw new RuntimeException(exception);
+                    }
+                }
+            }
+        }
+    }
+
     private UILoader(Object owner, String name, ResourceBundle resourceBundle) {
         this.owner = owner;
         this.name = name;
@@ -812,6 +841,20 @@ public class UILoader {
                     argument = getIcon(value);
                 } else if (propertyType == Image.class) {
                     argument = getImage(value);
+                } else if (propertyType == KeyStroke.class) {
+                    var modifiers = 0;
+
+                    if (component instanceof JMenuItem) {
+                        modifiers |= Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
+                    }
+
+                    var keyCode = keyCodes.get(value);
+
+                    if (keyCode == null) {
+                        throw new IllegalArgumentException("Invalid key code.");
+                    }
+
+                    argument = KeyStroke.getKeyStroke(keyCode, modifiers);
                 } else {
                     if (Enum.class.isAssignableFrom(propertyType)) {
                         value = value.toUpperCase().replace('-', '_');

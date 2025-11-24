@@ -65,7 +65,7 @@
 <!ENTITY % javax.swing.JButton "%javax.swing.AbstractButton; defaultCapable (true|false) ">
 <!ELEMENT button EMPTY>
 <!ATTLIST button %javax.swing.JButton;>
-<!ENTITY % javax.swing.JMenuItem "%javax.swing.AbstractButton; armed (true|false) enabled (true|false) ">
+<!ENTITY % javax.swing.JMenuItem "%javax.swing.AbstractButton; accelerator CDATA armed (true|false) enabled (true|false) ">
 <!ELEMENT menu-item EMPTY>
 <!ATTLIST menu-item %javax.swing.JMenuItem;>
 <!ENTITY % javax.swing.JPopupMenu.Separator "%javax.swing.JSeparator; ">
@@ -93,7 +93,7 @@
 <!ENTITY % javax.swing.JFormattedTextField "%javax.swing.JTextField; focusLostBehavior (commit|commit-or-revert|revert|persist) ">
 <!ELEMENT formatted-text-field EMPTY>
 <!ATTLIST formatted-text-field %javax.swing.JFormattedTextField;>
-<!ENTITY % javax.swing.JMenu "%javax.swing.JMenuItem; delay CDATA popupMenuVisible (true|false) selected (true|false) ">
+<!ENTITY % javax.swing.JMenu "%javax.swing.JMenuItem; accelerator CDATA delay CDATA popupMenuVisible (true|false) selected (true|false) ">
 <!ELEMENT menu (ANY)>
 <!ATTLIST menu %javax.swing.JMenu;>
 <!ENTITY % javax.swing.JPasswordField "%javax.swing.JTextField; echoChar CDATA text CDATA ">

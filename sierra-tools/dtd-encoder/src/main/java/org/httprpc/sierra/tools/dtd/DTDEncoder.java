@@ -31,6 +31,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -144,7 +145,8 @@ public class DTDEncoder extends Encoder<Void> {
                     || propertyType == Color.class
                     || propertyType == Font.class
                     || propertyType == Icon.class
-                    || propertyType == Image.class) {
+                    || propertyType == Image.class
+                    || propertyType == KeyStroke.class) {
                     attributeType = CDATA;
                 } else {
                     attributeType = null;
