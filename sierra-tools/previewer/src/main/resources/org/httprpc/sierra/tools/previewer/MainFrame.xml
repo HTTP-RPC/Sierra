@@ -15,6 +15,7 @@
         <menu text="Search">
             <menu-item name="findItem" text="Find"/>
             <menu-item name="replaceItem" text="Replace"/>
+            <menu-item name="gotoLineItem" text="Go To Line"/>
         </menu>
         <menu text="About">
             <menu-item name="aboutItem" text="About Previewer"/>

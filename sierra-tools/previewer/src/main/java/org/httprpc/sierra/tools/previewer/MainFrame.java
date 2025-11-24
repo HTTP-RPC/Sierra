@@ -57,6 +57,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
+import javax.swing.text.BadLocationException;
+import org.fife.rsta.ui.GoToDialog;
 
 /**
  * The main application window for the Sierra UI Previewer. UI is defined in
@@ -81,6 +83,7 @@ public class MainFrame extends JFrame implements SearchListener {
     private @Outlet JMenuItem saveItem = null;
     private @Outlet JMenuItem findItem = null;
     private @Outlet JMenuItem replaceItem = null;
+    private @Outlet JMenuItem gotoLineItem = null;
     private @Outlet JMenu recentMenu = null;
     private @Outlet JMenuItem exitItem = null;
     private @Outlet JMenuItem aboutItem = null;
@@ -243,6 +246,28 @@ public class MainFrame extends JFrame implements SearchListener {
             replaceDialog.setVisible(true);
         });
         replaceItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, acceleratorKey));
+        
+        gotoLineItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, acceleratorKey));
+        gotoLineItem.addActionListener((e)->{
+            if (findDialog.isVisible()) {
+                findDialog.setVisible(false);
+            }
+            if (replaceDialog.isVisible()) {
+                replaceDialog.setVisible(false);
+            }
+            var dialog = new GoToDialog(this);
+            dialog.setMaxLineNumberAllowed(editorPane.getLineCount());
+            dialog.setVisible(true);
+            var line = dialog.getLineNumber();
+            if (line > 0) {
+                try {
+                    editorPane.setCaretPosition(editorPane.getLineStartOffset(line - 1));
+                } catch (BadLocationException ble) { // Never happens
+                    UIManager.getLookAndFeel().provideErrorFeedback(editorPane);
+                }
+            }
+        });
+
         editorPane = new RSyntaxTextArea(25, 80);
         editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
         editorPane.setCodeFoldingEnabled(true);
