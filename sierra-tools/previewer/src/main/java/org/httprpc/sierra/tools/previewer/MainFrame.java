@@ -94,7 +94,6 @@ public class MainFrame extends JFrame implements SearchListener {
     private FindDialog findDialog = null;
     private ReplaceDialog replaceDialog = null;
     private RSyntaxTextArea editorPane = null;
-    private RTextScrollPane editorScrollPane = null;
 
 
     public MainFrame() {
@@ -275,7 +274,7 @@ public class MainFrame extends JFrame implements SearchListener {
         if (provider != null) {
             ac.install(editorPane);
         }
-        editorScrollPane = new RTextScrollPane(editorPane);
+        var editorScrollPane = new RTextScrollPane(editorPane);
         editorScrollPane.setLineNumbersEnabled(true);
         editorScrollPane.setFoldIndicatorEnabled(true);
         splitPane.setLeftComponent(editorScrollPane);
