@@ -23,6 +23,7 @@ import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 import java.awt.Color;
@@ -117,7 +118,8 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
                     || propertyType == Color.class
                     || propertyType == Font.class
                     || propertyType == Icon.class
-                    || propertyType == Image.class) {
+                    || propertyType == Image.class
+                    || propertyType == KeyStroke.class) {
                 attributes.put(entry.getKey(), propertyType.getSimpleName());
             }
         }
