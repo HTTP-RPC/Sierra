@@ -842,16 +842,16 @@ public class UILoader {
                 } else if (propertyType == Image.class) {
                     argument = getImage(value);
                 } else if (propertyType == KeyStroke.class) {
-                    var modifiers = 0;
-
-                    if (component instanceof JMenuItem) {
-                        modifiers |= Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
-                    }
-
                     var keyCode = keyCodes.get(value);
 
                     if (keyCode == null) {
                         throw new IllegalArgumentException("Invalid key code.");
+                    }
+
+                    var modifiers = 0;
+
+                    if (component instanceof JMenuItem) {
+                        modifiers |= Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
                     }
 
                     argument = KeyStroke.getKeyStroke(keyCode, modifiers);
