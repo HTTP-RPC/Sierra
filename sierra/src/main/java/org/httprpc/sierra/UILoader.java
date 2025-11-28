@@ -704,8 +704,12 @@ public class UILoader {
     private InputStream open() throws IOException {
         if (owner != null) {
             return owner.getClass().getResourceAsStream(name);
-        } else {
+        } else if (owner == null && path == null) {
+            return ClassLoader.getSystemResourceAsStream(name);
+        } else if (path != null) {
             return path.toUri().toURL().openStream();
+        } else {
+            throw new AssertionError("should never reach here!");
         }
     }
 
