@@ -970,6 +970,19 @@ public class UILoader {
     /**
      * Deserializes a component hierarchy from a markup document.
      *
+     * @param name
+     * The name of the document, relative to the owner's type.
+     *
+     * @return
+     * The deserialized component hierarchy.
+     */
+    public static JComponent load(String name) {
+        return load(null, name, null);
+    }
+
+    /**
+     * Deserializes a component hierarchy from a markup document.
+     *
      * @param owner
      * The document's owner.
      *
@@ -999,7 +1012,7 @@ public class UILoader {
      * The deserialized component hierarchy.
      */
     public static JComponent load(Object owner, String name, ResourceBundle resourceBundle) {
-        if (owner == null || name == null) {
+        if (name == null) {
             throw new IllegalArgumentException();
         }
 
