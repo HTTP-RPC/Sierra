@@ -956,6 +956,8 @@ public class UILoader {
     private URL getURL(String name) {
         if (owner != null) {
             return owner.getClass().getResource(name);
+        } else if (owner == null && path == null) {
+            return ClassLoader.getSystemResource(name);
         } else {
             var uri = path.resolveSibling(name).toUri();
 
