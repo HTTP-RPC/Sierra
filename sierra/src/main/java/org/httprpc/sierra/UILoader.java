@@ -746,25 +746,15 @@ public class UILoader {
             if (name.equals(Attribute.NAME.getName())) {
                 component.setName(value);
 
-                if (owner != null) {
-                    var field = fields.get(value);
-
-                    if (field == null) {
-                        throw new UnsupportedOperationException(String.format("Invalid field name (%s).", value));
-                    }
-
+                perform(fields.get(value), field -> {
                     field.setAccessible(true);
 
                     try {
-                        if (field.get(owner) != null) {
-                            throw new UnsupportedOperationException(String.format("Field is already assigned (%s).", value));
-                        }
-
                         field.set(owner, component);
                     } catch (IllegalAccessException exception) {
                         throw new UnsupportedOperationException(exception);
                     }
-                }
+                });
             } else if (name.equals(Attribute.GROUP.getName())) {
                 if (!(component instanceof AbstractButton button)) {
                     throw new UnsupportedOperationException("Component is not a button.");
