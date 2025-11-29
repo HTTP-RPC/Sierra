@@ -13,4 +13,4 @@ Outlets and resource keys are ignored.
 $ previewer
 ```
 
-<img src="README/previewer.png" width="904px"/>
+<img src="README/previewer.png" width="925px"/>
