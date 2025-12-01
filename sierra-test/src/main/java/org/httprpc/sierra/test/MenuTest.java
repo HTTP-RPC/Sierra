@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.test;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
@@ -22,6 +23,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
+
+import static org.httprpc.kilo.util.Optionals.*;
 
 public class MenuTest extends JFrame implements Runnable {
     private @Outlet JMenuItem oneMenuItem = null;
@@ -49,7 +52,13 @@ public class MenuTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        FlatLightLaf.setup();
+        var dark = coalesce(map(System.getProperty("dark"), Boolean::valueOf), () -> false);
+
+        if (dark) {
+            FlatDarkLaf.setup();
+        } else {
+            FlatLightLaf.setup();
+        }
 
         SwingUtilities.invokeLater(new MenuTest());
     }

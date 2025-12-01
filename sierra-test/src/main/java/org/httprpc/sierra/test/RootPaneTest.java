@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.test;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TaskExecutor;
@@ -25,6 +26,8 @@ import javax.swing.JList;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import java.util.concurrent.Executors;
+
+import static org.httprpc.kilo.util.Optionals.*;
 
 public class RootPaneTest extends JFrame implements Runnable {
     private static final TaskExecutor taskExecutor = new TaskExecutor(Executors.newCachedThreadPool(runnable -> {
@@ -64,7 +67,13 @@ public class RootPaneTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        FlatLightLaf.setup();
+        var dark = coalesce(map(System.getProperty("dark"), Boolean::valueOf), () -> false);
+
+        if (dark) {
+            FlatDarkLaf.setup();
+        } else {
+            FlatLightLaf.setup();
+        }
 
         SwingUtilities.invokeLater(new RootPaneTest());
     }
