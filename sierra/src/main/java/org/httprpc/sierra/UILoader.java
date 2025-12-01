@@ -85,6 +85,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static org.httprpc.kilo.util.Optionals.*;
@@ -363,6 +364,78 @@ public class UILoader {
         @Override
         public int getValue() {
             return value;
+        }
+    }
+
+    private static class LabelColorMapper implements Function<Color, Color> {
+        @Override
+        public Color apply(Color color) {
+            return (Color)UIManager.get("Label.foreground");
+        }
+    }
+
+    private static class ButtonColorMapper implements Function<Color, Color> {
+        JButton button;
+
+        ButtonColorMapper(JButton button) {
+            this.button = button;
+        }
+
+        @Override
+        public Color apply(Color color) {
+            if (button.isSelected()) {
+                return (Color)UIManager.get("Button.selectedForeground");
+            } else {
+                return (Color)UIManager.get("Button.foreground");
+            }
+        }
+    }
+
+    private static class ToggleButtonColorMapper implements Function<Color, Color> {
+        JToggleButton toggleButton;
+
+        ToggleButtonColorMapper(JToggleButton toggleButton) {
+            this.toggleButton = toggleButton;
+        }
+
+        @Override
+        public Color apply(Color color) {
+            if (toggleButton.isSelected()) {
+                return (Color)UIManager.get("ToggleButton.selectedForeground");
+            } else {
+                return (Color)UIManager.get("ToggleButton.foreground");
+            }
+        }
+    }
+
+    private static class MenuItemColorMapper implements Function<Color, Color> {
+        JMenuItem menuItem;
+
+        MenuItemColorMapper(JMenuItem menuItem) {
+            this.menuItem = menuItem;
+        }
+
+        @Override
+        public Color apply(Color color) {
+            if (menuItem.isSelected() || menuItem.getModel().isArmed()) {
+                return (Color)UIManager.get("MenuItem.selectionForeground");
+            } else {
+                return (Color)UIManager.get("MenuItem.foreground");
+            }
+        }
+    }
+
+    private static class TextFieldColorMapper implements Function<Color, Color> {
+        @Override
+        public Color apply(Color color) {
+            return (Color)UIManager.get("TextField.placeholderForeground");
+        }
+    }
+
+    private static class TabbedPaneColorMapper implements Function<Color, Color> {
+        @Override
+        public Color apply(Color color) {
+            return (Color)UIManager.get("TabbedPane.foreground");
         }
     }
 
@@ -779,6 +852,10 @@ public class UILoader {
                 tabTitle = getText(value);
             } else if (name.equals(Attribute.TAB_ICON.getName())) {
                 tabIcon = getIcon(value);
+
+                if (tabIcon instanceof FlatSVGIcon flatSVGIcon) {
+                    flatSVGIcon.setColorFilter(new FlatSVGIcon.ColorFilter(new TabbedPaneColorMapper()));
+                }
             } else if (name.equals(Attribute.STYLE.getName()) || name.equals(Attribute.STYLE_CLASS.getName())) {
                 component.putClientProperty(String.format("FlatLaf.%s", name), value);
             } else if (name.equals(Attribute.PLACEHOLDER_TEXT.getName())) {
@@ -786,7 +863,13 @@ public class UILoader {
             } else if (name.equals(Attribute.SHOW_CLEAR_BUTTON.getName())) {
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), Boolean.valueOf(value));
             } else if (name.equals(Attribute.LEADING_ICON.getName()) || name.equals(Attribute.TRAILING_ICON.getName())) {
-                component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), getIcon(value));
+                var icon = getIcon(value);
+
+                if (icon instanceof FlatSVGIcon flatSVGIcon) {
+                    flatSVGIcon.setColorFilter(new FlatSVGIcon.ColorFilter(new TextFieldColorMapper()));
+                }
+
+                component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), icon);
             } else {
                 var mutator = map(properties.get(name), BeanAdapter.Property::getMutator);
 
@@ -828,7 +911,28 @@ public class UILoader {
                 } else if (propertyType == Font.class) {
                     argument = parseFont(value);
                 } else if (propertyType == Icon.class) {
-                    argument = getIcon(value);
+                    var icon = getIcon(value);
+
+                    if (icon instanceof FlatSVGIcon flatSVGIcon) {
+                        Function<Color, Color> mapper;
+                        if (component instanceof JLabel) {
+                            mapper = new LabelColorMapper();
+                        } else if (component instanceof JButton button) {
+                            mapper = new ButtonColorMapper(button);
+                        } else if (component instanceof JToggleButton toggleButton) {
+                            mapper = new ToggleButtonColorMapper(toggleButton);
+                        } else if (component instanceof JMenuItem menuItem) {
+                            mapper = new MenuItemColorMapper(menuItem);
+                        } else {
+                            mapper = null;
+                        }
+
+                        if (mapper != null) {
+                            flatSVGIcon.setColorFilter(new FlatSVGIcon.ColorFilter(mapper));
+                        }
+                    }
+
+                    argument = icon;
                 } else if (propertyType == Image.class) {
                     argument = getImage(value);
                 } else if (propertyType == KeyStroke.class) {

@@ -5,9 +5,9 @@
 <column-panel>
     <menu-bar>
         <menu text="Menu">
-            <menu-item name="oneMenuItem" text="One" accelerator="VK_1"/>
-            <menu-item name="twoMenuItem" text="Two" accelerator="VK_2"/>
-            <menu-item name="threeMenuItem" text="Three" accelerator="VK_3"/>
+            <menu-item name="oneMenuItem" text="One" icon="icons/home_24dp.svg; 18" accelerator="VK_1"/>
+            <menu-item name="twoMenuItem" text="Two" icon="icons/people_24dp.svg; 18" accelerator="VK_2"/>
+            <menu-item name="threeMenuItem" text="Three" icon="icons/search_24dp.svg; 18" accelerator="VK_3"/>
             <popup-menu-separator/>
             <check-box-menu-item text="Selection A" selected="true"/>
             <check-box-menu-item text="Selection B"/>
