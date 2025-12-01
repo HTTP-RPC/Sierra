@@ -76,12 +76,12 @@ public class MenuButton extends JButton {
         popupMenu.addPopupMenuListener(new PopupMenuListener() {
             @Override
             public void popupMenuWillBecomeVisible(PopupMenuEvent event) {
-                // No-op
+                repaint();
             }
 
             @Override
             public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
-                // No-op
+                repaint();
             }
 
             @Override
@@ -93,6 +93,11 @@ public class MenuButton extends JButton {
         setComponentPopupMenu(popupMenu);
 
         setModel(new DefaultButtonModel() {
+            @Override
+            public boolean isSelected() {
+                return popupMenu.isVisible();
+            }
+
             @Override
             public void setPressed(boolean pressed) {
                 super.setPressed(pressed);
