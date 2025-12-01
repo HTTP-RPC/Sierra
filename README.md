@@ -145,6 +145,10 @@ Icon support is currently limited to SVG documents and requires the [FlatLaf Ext
 
 <img src="README/button-group.png" width="432px"/>
 
+Icons automatically adapt to the current theme:
+
+<img src="README/button-group-dark.png" width="432px"/>
+
 Custom dimensions can be specified either as _path; size_ or _path; width, height_:
 
 ```xml

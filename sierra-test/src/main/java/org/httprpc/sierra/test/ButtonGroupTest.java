@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.test;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
@@ -23,6 +24,8 @@ import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
+
+import static org.httprpc.kilo.util.Optionals.*;
 
 public class ButtonGroupTest extends JFrame implements Runnable {
     private @Outlet JToggleButton alignLeftButton = null;
@@ -75,7 +78,13 @@ public class ButtonGroupTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        FlatLightLaf.setup();
+        var dark = coalesce(map(System.getProperty("dark"), Boolean::valueOf), () -> false);
+
+        if (dark) {
+            FlatDarkLaf.setup();
+        } else {
+            FlatLightLaf.setup();
+        }
 
         SwingUtilities.invokeLater(new ButtonGroupTest());
     }
