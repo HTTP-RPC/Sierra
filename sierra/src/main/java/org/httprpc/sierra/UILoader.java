@@ -370,7 +370,7 @@ public class UILoader {
     private static class LabelColorMapper implements Function<Color, Color> {
         @Override
         public Color apply(Color color) {
-            return (Color)UIManager.get("Label.foreground");
+            return UIManager.getColor("Label.foreground");
         }
     }
 
@@ -384,9 +384,9 @@ public class UILoader {
         @Override
         public Color apply(Color color) {
             if (button.isSelected()) {
-                return (Color)UIManager.get("Button.selectedForeground");
+                return UIManager.getColor("Button.selectedForeground");
             } else {
-                return (Color)UIManager.get("Button.foreground");
+                return UIManager.getColor("Button.foreground");
             }
         }
     }
@@ -401,9 +401,9 @@ public class UILoader {
         @Override
         public Color apply(Color color) {
             if (toggleButton.isSelected()) {
-                return (Color)UIManager.get("ToggleButton.selectedForeground");
+                return UIManager.getColor("ToggleButton.selectedForeground");
             } else {
-                return (Color)UIManager.get("ToggleButton.foreground");
+                return UIManager.getColor("ToggleButton.foreground");
             }
         }
     }
@@ -418,9 +418,9 @@ public class UILoader {
         @Override
         public Color apply(Color color) {
             if (menuItem.isSelected() || menuItem.getModel().isArmed()) {
-                return (Color)UIManager.get("MenuItem.selectionForeground");
+                return UIManager.getColor("MenuItem.selectionForeground");
             } else {
-                return (Color)UIManager.get("MenuItem.foreground");
+                return UIManager.getColor("MenuItem.foreground");
             }
         }
     }
@@ -428,14 +428,14 @@ public class UILoader {
     private static class TextFieldColorMapper implements Function<Color, Color> {
         @Override
         public Color apply(Color color) {
-            return (Color)UIManager.get("TextField.placeholderForeground");
+            return UIManager.getColor("TextField.placeholderForeground");
         }
     }
 
     private static class TabbedPaneColorMapper implements Function<Color, Color> {
         @Override
         public Color apply(Color color) {
-            return (Color)UIManager.get("TabbedPane.foreground");
+            return UIManager.getColor("TabbedPane.foreground");
         }
     }
 
