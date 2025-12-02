@@ -322,8 +322,6 @@ public class ActionTest extends JFrame implements Runnable {
 
 <img src="README/action.png" width="352px"/>
 
-See [ActionTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActionTest.java) for more information.
-
 ### Resource Bundles
 An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, values of text properties are considered resource keys and are used to look up the associated strings in the bundle. For example:
 
@@ -359,8 +357,6 @@ streetAddress = Street Address
 ```
 
 <img src="README/form.png" width="592px"/>
-
-See [FormTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java) for more information.
 
 ## Cell Alignment
 When grid alignment is enabled in a `ColumnPanel`, the sub-components of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each sub-column is the maximum preferred width of the "cells" in that column (i.e. the components having the same index in each row).
