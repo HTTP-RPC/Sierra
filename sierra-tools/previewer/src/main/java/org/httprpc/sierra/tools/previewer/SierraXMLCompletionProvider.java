@@ -62,6 +62,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
                     entry(GROUP.getName(), GROUP.getType().getSimpleName()),
                     entry(BORDER.getName(), BORDER.getType().getSimpleName()),
                     entry(PADDING.getName(), PADDING.getType().getSimpleName()),
+                    entry(TITLE.getName(), TITLE.getType().getSimpleName()),
                     entry(WEIGHT.getName(), WEIGHT.getType().getSimpleName()),
                     entry(SIZE.getName(), SIZE.getType().getSimpleName()),
                     entry(TAB_ICON.getName(), TAB_ICON.getType().getSimpleName()),

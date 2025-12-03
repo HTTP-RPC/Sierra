@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE stack-panel SYSTEM "sierra.dtd">
+
+<stack-panel padding="8" opaque="true">
+    <column-panel title="Options">
+        <radio-button text="One" group="options" selected="true"/>
+        <radio-button text="Two" group="options"/>
+        <radio-button text="Three" group="options"/>
+    </column-panel>
+</stack-panel>

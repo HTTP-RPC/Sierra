@@ -57,6 +57,7 @@ import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -117,6 +118,11 @@ public class UILoader {
          * Padding attribute.
          */
         PADDING("padding", String.class),
+
+        /**
+         * Title attribute.
+         */
+        TITLE("title", String.class),
 
         /**
          * Weight attribute.
@@ -808,6 +814,8 @@ public class UILoader {
         LineBorder lineBorder = null;
         EmptyBorder emptyBorder = null;
 
+        String title = null;
+
         Object constraints = null;
 
         String tabTitle = null;
@@ -839,6 +847,8 @@ public class UILoader {
                 lineBorder = parseBorder(value);
             } else if (name.equals(Attribute.PADDING.getName())) {
                 emptyBorder = parsePadding(value);
+            } else if (name.equals(Attribute.TITLE.getName())) {
+                title = getText(value);
             } else if (name.equals(Attribute.WEIGHT.getName())) {
                 var weight = Double.parseDouble(value);
 
@@ -968,6 +978,10 @@ public class UILoader {
 
         if (lineBorder != null || emptyBorder != null) {
             component.setBorder(new CompoundBorder(lineBorder, emptyBorder));
+        }
+
+        if (title != null) {
+            component.setBorder(new TitledBorder(title));
         }
 
         var parent = components.peek();
