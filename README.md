@@ -127,6 +127,34 @@ Colors and fonts can also be specified by name. The name can refer to either a v
 
 Sierra supports the complete set of [extended web colors](https://en.wikipedia.org/wiki/Web_colors#Extended_colors) by default. Additional named colors and fonts can be added via the `define()` methods of the `UILoader` class.
 
+### Image and Icon Values
+Image and icon properties can be specified via a path to an image document on the application's classpath. The path is relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:
+
+```xml
+<image-pane image="world.png" scaleMode="fill-width"/>
+```
+
+Icon support is currently limited to SVG documents and requires the [FlatLaf Extras](https://github.com/JFormDesigner/FlatLaf/tree/main/flatlaf-extras) library:
+
+```xml
+<toggle-button name="alignLeftButton"
+    icon="icons/format_align_left_24dp.svg"
+    style="buttonType: toolBarButton"
+    group="alignment"/>
+```
+
+<img src="README/button-group.png" width="432px"/>
+
+Icons automatically adapt to the current theme:
+
+<img src="README/button-group-dark.png" width="432px"/>
+
+Custom dimensions can be specified either as _path; size_ or _path; width, height_:
+
+```xml
+icon="icons/home_24dp.svg; 18"
+```
+
 ### Border and Padding Values
 The "border" and "padding" attributes can be used to create a solid border and reserve space around a component, respectively. For example, this markup creates a label with a light gray border and four pixels of padding on each side:
 
@@ -145,8 +173,6 @@ Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _
 ```xml
 padding="8, 8, 8, 8"
 ```
-
-Dimensions can also be specified by name. The name can refer to either a value provided by Swing's UI defaults or a value defined by `UILoader`.
 
 ### Title Values
 As an alternative to "border" and "padding", the "title" attribute can be used to establish a titled border around a component:
@@ -198,38 +224,6 @@ Size values for multiple dimensions can be specified in _width_, _height_ order:
 ```xml
 size="20, 20"
 ```
-
-As with border and padding values, dimensions can also be specified by name.
-
-### Image and Icon Values
-Image and icon properties can be specified via a path to an image document on the application's classpath. The path is relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:
-
-```xml
-<image-pane image="world.png" scaleMode="fill-width"/>
-```
-
-Icon support is currently limited to SVG documents and requires the [FlatLaf Extras](https://github.com/JFormDesigner/FlatLaf/tree/main/flatlaf-extras) library:
-
-```xml
-<toggle-button name="alignLeftButton"
-    icon="icons/format_align_left_24dp.svg"
-    style="buttonType: toolBarButton"
-    group="alignment"/>
-```
-
-<img src="README/button-group.png" width="432px"/>
-
-Icons automatically adapt to the current theme:
-
-<img src="README/button-group-dark.png" width="432px"/>
-
-Custom dimensions can be specified either as _path; size_ or _path; width, height_:
-
-```xml
-icon="icons/home_24dp.svg; 18"
-```
-
-Dimensions may be specified by name.
 
 ### FlatLaf Client Properties
 FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "style" and "styleClass" attributes, respectively. For example, this markup applies the "h4" style class to a `JLabel` instance used by a list cell renderer:
