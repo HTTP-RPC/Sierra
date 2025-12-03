@@ -423,7 +423,7 @@ public class UILoader {
 
         @Override
         public Color apply(Color color) {
-            if (menuItem.isSelected() || menuItem.getModel().isArmed()) {
+            if (menuItem.isSelected() || menuItem.isArmed()) {
                 return UIManager.getColor("MenuItem.selectionForeground");
             } else {
                 return UIManager.getColor("MenuItem.foreground");
