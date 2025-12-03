@@ -41,6 +41,9 @@ public class BaselineTest extends JFrame implements Runnable {
         UILoader.define("medium", new Font("Arial", Font.PLAIN, 24));
         UILoader.define("large", new Font("Arial", Font.BOLD, 48));
 
+        UILoader.define("thin", 1);
+        UILoader.define("thick", 4);
+
         FlatLightLaf.setup();
 
         SwingUtilities.invokeLater(new BaselineTest());

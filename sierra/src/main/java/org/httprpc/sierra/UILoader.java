@@ -493,6 +493,7 @@ public class UILoader {
 
     private static final Map<String, Color> colors = new HashMap<>();
     private static final Map<String, Font> fonts = new HashMap<>();
+    private static final Map<String, Integer> dimensions = new HashMap<>();
 
     private static final Map<String, Integer> keyCodes = new HashMap<>();
 
@@ -1250,7 +1251,7 @@ public class UILoader {
     }
 
     /**
-     * Associates a font with a color.
+     * Associates a name with a font.
      *
      * @param name
      * The font name.
@@ -1266,6 +1267,36 @@ public class UILoader {
         fonts.put(name, font);
     }
 
+    /**
+     * Retrieves a named dimension.
+     *
+     * @param name
+     * The dimension name.
+     *
+     * @return
+     * The named dimension, or 0 if the dimension is not defined.
+     */
+    public static int getDimension(String name) {
+        return coalesce(dimensions.get(name), () -> 0);
+    }
+
+    /**
+     * Associates a name with a dimension.
+     *
+     * @param name
+     * The dimension name.
+     *
+     * @param dimension
+     * The dimension value.
+     */
+    public static void define(String name, int dimension) {
+        if (name == null) {
+            throw new IllegalArgumentException();
+        }
+
+        dimensions.put(name, dimension);
+    }
+
     private static LineBorder parseBorder(String value) {
         var components = value.split(",");
 
@@ -1274,7 +1305,7 @@ public class UILoader {
         if (components.length == 1) {
             return new LineBorder(color);
         } else {
-            var thickness = Integer.parseInt(components[1].trim());
+            var thickness = parseDimension(components[1].trim());
 
             if (components.length == 2) {
                 return new LineBorder(color, thickness);
@@ -1288,14 +1319,14 @@ public class UILoader {
         var components = value.split(",");
 
         if (components.length == 1) {
-            var padding = Integer.parseInt(components[0].trim());
+            var padding = parseDimension(components[0].trim());
 
             return new EmptyBorder(padding, padding, padding, padding);
         } else if (components.length == 4) {
-            var top = Integer.parseInt(components[0].trim());
-            var left = Integer.parseInt(components[1].trim());
-            var bottom = Integer.parseInt(components[2].trim());
-            var right = Integer.parseInt(components[3].trim());
+            var top = parseDimension(components[0].trim());
+            var left = parseDimension(components[1].trim());
+            var bottom = parseDimension(components[2].trim());
+            var right = parseDimension(components[3].trim());
 
             return new EmptyBorder(top, left, bottom, right);
         } else {
@@ -1307,12 +1338,12 @@ public class UILoader {
         var components = value.split(",");
 
         if (components.length == 1) {
-            var size = Integer.parseInt(components[0].trim());
+            var size = parseDimension(components[0].trim());
 
             return new Dimension(size, size);
         } else if (components.length == 2) {
-            var width = Integer.parseInt(components[0].trim());
-            var height = Integer.parseInt(components[1].trim());
+            var width = parseDimension(components[0].trim());
+            var height = parseDimension(components[1].trim());
 
             return new Dimension(width, height);
         } else {
@@ -1326,5 +1357,9 @@ public class UILoader {
 
     private static Font parseFont(String value) {
         return coalesce(fonts.get(value), () -> coalesce(UIManager.getFont(value), () -> Font.decode(value)));
+    }
+
+    private static int parseDimension(String value) {
+        return coalesce(dimensions.get(value), () -> coalesce(cast(UIManager.get(value), Integer.class), () -> Integer.parseInt(value)));
     }
 }

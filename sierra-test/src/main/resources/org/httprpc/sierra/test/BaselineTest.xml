@@ -4,11 +4,11 @@
 
 <column-panel padding="8" opaque="true">
     <row-panel spacing="4" alignToBaseline="true">
-        <label text="abcdefg" font="small" border="silver"/>
-        <label text="hijk" font="large" border="silver"/>
+        <label text="abcdefg" font="small" border="silver, thin"/>
+        <label text="hijk" font="large" border="silver, thin"/>
 
-        <spacer size="20, 20" border="silver"/>
+        <spacer size="20, 20" border="dark-gray, thick"/>
 
-        <label text="lmnop" font="medium" border="silver"/>
+        <label text="lmnop" font="medium" border="silver, thin"/>
     </row-panel>
 </column-panel>

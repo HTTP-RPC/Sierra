@@ -174,6 +174,8 @@ Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _
 padding="8, 8, 8, 8"
 ```
 
+Dimensions can also be specified by name. The name can refer to either a value provided by Swing's UI defaults or a value defined by `UILoader`.
+
 ### Weight and Size Values
 The "weight" attribute specifies the amount of excess space in a container that should be allocated to a component, relative to other weighted components in the container. When applied to a `Spacer` instance, it creates a "glue" component that automatically shrinks or stretches depending on the size of its container. However, weights are not limited to spacers and can be applied to any component type:
 
@@ -211,6 +213,8 @@ Size values for multiple dimensions can be specified in _width_, _height_ order:
 ```xml
 size="20, 20"
 ```
+
+As with border and padding values, dimensions can also be specified by name.
 
 ### FlatLaf Client Properties
 FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "style" and "styleClass" attributes, respectively. For example, this markup applies the "h4" style class to a `JLabel` instance used by a list cell renderer:
