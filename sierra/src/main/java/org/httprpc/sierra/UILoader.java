@@ -52,6 +52,7 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
@@ -190,6 +191,16 @@ public class UILoader {
         ORIENTATION("orientation", Orientation.class),
 
         /**
+         * Horizontal scroll bar policy attribute.
+         */
+        HORIZONTAL_SCROLL_BAR_POLICY("horizontalScrollBarPolicy", HorizontalScrollBarPolicy.class),
+
+        /**
+         * Vertical scroll bar policy attribute.
+         */
+        VERTICAL_SCROLL_BAR_POLICY("verticalScrollBarPolicy", VerticalScrollBarPolicy.class),
+
+        /**
          * Focus lost behavior attribute.
          */
         FOCUS_LOST_BEHAVIOR("focusLostBehavior", FocusLostBehavior.class),
@@ -239,6 +250,82 @@ public class UILoader {
         private final int value;
 
         Orientation(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Horizontal scroll bar policy options.
+     */
+    public enum HorizontalScrollBarPolicy implements ConstantAdapter {
+        /**
+         * As needed.
+         */
+        AS_NEEDED("as-needed", ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED),
+
+        /**
+         * Never.
+         */
+        NEVER("never", ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER),
+
+        /**
+         * Always.
+         */
+        ALWAYS("always", ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        private final String key;
+        private final int value;
+
+        HorizontalScrollBarPolicy(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Vertical scroll bar policy options.
+     */
+    public enum VerticalScrollBarPolicy implements ConstantAdapter {
+        /**
+         * As needed.
+         */
+        AS_NEEDED("as-needed", ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED),
+
+        /**
+         * Never.
+         */
+        NEVER("never", ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER),
+
+        /**
+         * Always.
+         */
+        ALWAYS("always", ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        private final String key;
+        private final int value;
+
+        VerticalScrollBarPolicy(String key, int value) {
             this.key = key;
             this.value = value;
         }
@@ -905,6 +992,10 @@ public class UILoader {
                                 default -> throw new UnsupportedOperationException();
                             };
                         }
+                    } else if (name.equals(Attribute.HORIZONTAL_SCROLL_BAR_POLICY.getName())) {
+                        argument = getValue(value, HorizontalScrollBarPolicy.values());
+                    } else if (name.equals(Attribute.VERTICAL_SCROLL_BAR_POLICY.getName())) {
+                        argument = getValue(value, VerticalScrollBarPolicy.values());
                     } else if (name.equals(Attribute.FOCUS_LOST_BEHAVIOR.getName())) {
                         argument = getValue(value, FocusLostBehavior.values());
                     } else if (name.equals(Attribute.TAB_PLACEMENT.getName())) {

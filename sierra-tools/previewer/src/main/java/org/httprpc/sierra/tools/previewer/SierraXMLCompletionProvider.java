@@ -70,6 +70,8 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
                     entry(HORIZONTAL_ALIGNMENT.getName(), HORIZONTAL_ALIGNMENT.getType().getSimpleName()),
                     entry(VERTICAL_ALIGNMENT.getName(), VERTICAL_ALIGNMENT.getType().getSimpleName()),
                     entry(ORIENTATION.getName(), ORIENTATION.getType().getSimpleName()),
+                    entry(HORIZONTAL_SCROLL_BAR_POLICY.getName(), HORIZONTAL_SCROLL_BAR_POLICY.getType().getSimpleName()),
+                    entry(VERTICAL_SCROLL_BAR_POLICY.getName(), VERTICAL_SCROLL_BAR_POLICY.getType().getSimpleName()),
                     entry(FOCUS_LOST_BEHAVIOR.getName(), FOCUS_LOST_BEHAVIOR.getType().getSimpleName())
             )),
             entry(JTabbedPane.class, mapOf(

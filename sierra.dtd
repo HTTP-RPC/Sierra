@@ -22,7 +22,7 @@
 <!ENTITY % javax.swing.JProgressBar "%javax.swing.JComponent; borderPainted (true|false) indeterminate (true|false) maximum CDATA minimum CDATA orientation (horizontal|vertical) string CDATA stringPainted (true|false) value CDATA ">
 <!ELEMENT progress-bar EMPTY>
 <!ATTLIST progress-bar %javax.swing.JProgressBar;>
-<!ENTITY % javax.swing.JScrollPane "%javax.swing.JComponent; horizontalScrollBarPolicy CDATA verticalScrollBarPolicy CDATA wheelScrollingEnabled (true|false) ">
+<!ENTITY % javax.swing.JScrollPane "%javax.swing.JComponent; horizontalScrollBarPolicy (as-needed|never|always) verticalScrollBarPolicy (as-needed|never|always) wheelScrollingEnabled (true|false) ">
 <!ELEMENT scroll-pane (ANY)>
 <!ATTLIST scroll-pane %javax.swing.JScrollPane;>
 <!ENTITY % javax.swing.JSeparator "%javax.swing.JComponent; orientation (horizontal|vertical) ">
