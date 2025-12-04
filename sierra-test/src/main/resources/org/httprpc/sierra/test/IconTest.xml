@@ -2,4 +2,9 @@
 
 <!DOCTYPE label SYSTEM "sierra.dtd">
 
-<label icon="icons/home_24dp.svg; 48" horizontalAlignment="center" verticalAlignment="center"/>
+<label text="Home" icon="icons/home_24dp.svg; 48"
+    horizontalAlignment="center"
+    horizontalTextPosition="center"
+    verticalAlignment="center"
+    verticalTextPosition="bottom"
+    iconTextGap="0"/>

@@ -186,6 +186,16 @@ public class UILoader {
         VERTICAL_ALIGNMENT("verticalAlignment", VerticalAlignment.class),
 
         /**
+         * Horizontal alignment attribute.
+         */
+        HORIZONTAL_TEXT_POSITION("horizontalTextPosition", HorizontalAlignment.class),
+
+        /**
+         * Vertical alignment attribute.
+         */
+        VERTICAL_TEXT_POSITION("verticalTextPosition", VerticalAlignment.class),
+
+        /**
          * Orientation attribute.
          */
         ORIENTATION("orientation", Orientation.class),
@@ -978,9 +988,11 @@ public class UILoader {
 
                 Object argument;
                 if (propertyType == Integer.TYPE || propertyType == Integer.class) {
-                    if (name.equals(Attribute.HORIZONTAL_ALIGNMENT.getName())) {
+                    if (name.equals(Attribute.HORIZONTAL_ALIGNMENT.getName())
+                        || name.equals(Attribute.HORIZONTAL_TEXT_POSITION.getName())) {
                         argument = getValue(value, HorizontalAlignment.values());
-                    } else if (name.equals(Attribute.VERTICAL_ALIGNMENT.getName())) {
+                    } else if (name.equals(Attribute.VERTICAL_ALIGNMENT.getName())
+                        || name.equals(Attribute.VERTICAL_TEXT_POSITION.getName())) {
                         argument = getValue(value, VerticalAlignment.values());
                     } else if (name.equals(Attribute.ORIENTATION.getName())) {
                         argument = getValue(value, Orientation.values());

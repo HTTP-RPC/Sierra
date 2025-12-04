@@ -95,9 +95,11 @@ public class DTDEncoder extends Encoder<Void> {
 
                 String attributeType;
                 if (propertyType == Integer.TYPE || propertyType == Integer.class) {
-                    if (attributeName.equals(UILoader.Attribute.HORIZONTAL_ALIGNMENT.getName())) {
+                    if (attributeName.equals(UILoader.Attribute.HORIZONTAL_ALIGNMENT.getName())
+                        || attributeName.equals(UILoader.Attribute.HORIZONTAL_TEXT_POSITION.getName())) {
                         attributeType = getAttributeType(HorizontalAlignment.values());
-                    } else if (attributeName.equals(UILoader.Attribute.VERTICAL_ALIGNMENT.getName())) {
+                    } else if (attributeName.equals(UILoader.Attribute.VERTICAL_ALIGNMENT.getName())
+                        || attributeName.equals(UILoader.Attribute.VERTICAL_TEXT_POSITION.getName())) {
                         attributeType = getAttributeType(VerticalAlignment.values());
                     } else if (attributeName.equals(UILoader.Attribute.ORIENTATION.getName())) {
                         attributeType = getAttributeType(UILoader.Orientation.values());

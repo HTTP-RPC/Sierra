@@ -70,6 +70,8 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
                     entry(TAB_TITLE.getName(), TAB_TITLE.getType().getSimpleName()),
                     entry(HORIZONTAL_ALIGNMENT.getName(), HORIZONTAL_ALIGNMENT.getType().getSimpleName()),
                     entry(VERTICAL_ALIGNMENT.getName(), VERTICAL_ALIGNMENT.getType().getSimpleName()),
+                    entry(HORIZONTAL_TEXT_POSITION.getName(), HORIZONTAL_TEXT_POSITION.getType().getSimpleName()),
+                    entry(VERTICAL_TEXT_POSITION.getName(), VERTICAL_TEXT_POSITION.getType().getSimpleName()),
                     entry(ORIENTATION.getName(), ORIENTATION.getType().getSimpleName()),
                     entry(FOCUS_LOST_BEHAVIOR.getName(), FOCUS_LOST_BEHAVIOR.getType().getSimpleName())
             )),
