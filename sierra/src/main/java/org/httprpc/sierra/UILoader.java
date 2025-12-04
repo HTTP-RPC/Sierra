@@ -187,12 +187,12 @@ public class UILoader {
         VERTICAL_ALIGNMENT("verticalAlignment", VerticalAlignment.class),
 
         /**
-         * Horizontal alignment attribute.
+         * Horizontal text position attribute.
          */
         HORIZONTAL_TEXT_POSITION("horizontalTextPosition", HorizontalAlignment.class),
 
         /**
-         * Vertical alignment attribute.
+         * Vertical text position attribute.
          */
         VERTICAL_TEXT_POSITION("verticalTextPosition", VerticalAlignment.class),
 
