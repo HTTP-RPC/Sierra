@@ -70,7 +70,12 @@ public class ImagePane extends JComponent {
             var imageWidth = image.getWidth(null);
             var imageHeight = image.getHeight(null);
 
-            var scale = getScale(width, height, imageWidth, imageHeight);
+            double scale;
+            if (width > 0 && height > 0) {
+                scale = getScale(width, height, imageWidth, imageHeight);
+            } else {
+                scale = 1.0;
+            }
 
             var preferredWidth = scale * imageWidth + (insets.left + insets.right);
             var preferredHeight = scale * imageHeight + (insets.top + insets.bottom);
