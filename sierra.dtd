@@ -12,7 +12,7 @@
 <!ENTITY % javax.swing.JLabel "%javax.swing.JComponent; disabledIcon CDATA displayedMnemonic CDATA displayedMnemonicIndex CDATA horizontalAlignment (left|right|center|leading|trailing) horizontalTextPosition (left|right|center|leading|trailing) icon CDATA iconTextGap CDATA text CDATA verticalAlignment (top|bottom|center) verticalTextPosition (top|bottom|center) ">
 <!ELEMENT label EMPTY>
 <!ATTLIST label %javax.swing.JLabel;>
-<!ENTITY % javax.swing.JList "%javax.swing.JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) fixedCellHeight CDATA fixedCellWidth CDATA layoutOrientation CDATA selectedIndex CDATA selectionBackground CDATA selectionForeground CDATA selectionMode CDATA valueIsAdjusting (true|false) visibleRowCount CDATA ">
+<!ENTITY % javax.swing.JList "%javax.swing.JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) fixedCellHeight CDATA fixedCellWidth CDATA layoutOrientation (vertical|vertical-wrap|horizontal-wrap) selectedIndex CDATA selectionBackground CDATA selectionForeground CDATA selectionMode (single-selection|single-interval-selection|multiple-interval-selection) valueIsAdjusting (true|false) visibleRowCount CDATA ">
 <!ELEMENT list EMPTY>
 <!ATTLIST list %javax.swing.JList;>
 <!ENTITY % javax.swing.JMenuBar "%javax.swing.JComponent; borderPainted (true|false) ">
@@ -40,7 +40,7 @@
 <!ENTITY % javax.swing.JTabbedPane "%javax.swing.JComponent; selectedIndex CDATA tabLayoutPolicy (wrap-tab-layout|scroll-tab-layout) tabPlacement (top|left|bottom|right) ">
 <!ELEMENT tabbed-pane (ANY)>
 <!ATTLIST tabbed-pane %javax.swing.JTabbedPane;>
-<!ENTITY % javax.swing.JTable "%javax.swing.JComponent; autoCreateColumnsFromModel (true|false) autoCreateRowSorter (true|false) autoResizeMode CDATA cellSelectionEnabled (true|false) columnSelectionAllowed (true|false) dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editingColumn CDATA editingRow CDATA fillsViewportHeight (true|false) gridColor CDATA rowHeight CDATA rowMargin CDATA rowSelectionAllowed (true|false) selectionBackground CDATA selectionForeground CDATA showHorizontalLines (true|false) showVerticalLines (true|false) surrendersFocusOnKeystroke (true|false) updateSelectionOnSort (true|false) ">
+<!ENTITY % javax.swing.JTable "%javax.swing.JComponent; autoCreateColumnsFromModel (true|false) autoCreateRowSorter (true|false) autoResizeMode (off|next-column|subsequent-columns|last-column|all-columns) cellSelectionEnabled (true|false) columnSelectionAllowed (true|false) dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editingColumn CDATA editingRow CDATA fillsViewportHeight (true|false) gridColor CDATA rowHeight CDATA rowMargin CDATA rowSelectionAllowed (true|false) selectionBackground CDATA selectionForeground CDATA showHorizontalLines (true|false) showVerticalLines (true|false) surrendersFocusOnKeystroke (true|false) updateSelectionOnSort (true|false) ">
 <!ELEMENT table EMPTY>
 <!ATTLIST table %javax.swing.JTable;>
 <!ENTITY % javax.swing.JToolBar "%javax.swing.JComponent; borderPainted (true|false) floatable (true|false) orientation (horizontal|vertical) rollover (true|false) ">

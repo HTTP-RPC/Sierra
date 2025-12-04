@@ -21,8 +21,10 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
+import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.text.BadLocationException;
@@ -78,6 +80,13 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
             entry(JScrollPane.class, mapOf(
                     entry(HORIZONTAL_SCROLL_BAR_POLICY.getName(), HORIZONTAL_SCROLL_BAR_POLICY.getType().getSimpleName()),
                     entry(VERTICAL_SCROLL_BAR_POLICY.getName(), VERTICAL_SCROLL_BAR_POLICY.getType().getSimpleName())
+            )),
+            entry(JList.class, mapOf(
+                    entry(LAYOUT_ORIENTATION.getName(), LAYOUT_ORIENTATION.getType().getSimpleName()),
+                    entry(SELECTION_MODE.getName(), SELECTION_MODE.getType().getSimpleName())
+            )),
+            entry(JTable.class, mapOf(
+                    entry(AUTO_RESIZE_MODE.getName(), AUTO_RESIZE_MODE.getType().getSimpleName())
             )),
             entry(JTabbedPane.class, mapOf(
                     entry(TAB_LAYOUT_POLICY.getName(), TAB_LAYOUT_POLICY.getType().getSimpleName()),

@@ -52,6 +52,7 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -214,6 +215,21 @@ public class UILoader {
          * Vertical scroll bar policy attribute.
          */
         VERTICAL_SCROLL_BAR_POLICY("verticalScrollBarPolicy", VerticalScrollBarPolicy.class),
+
+        /**
+         * Layout orientation attribute.
+         */
+        LAYOUT_ORIENTATION("layoutOrientation", LayoutOrientation.class),
+
+        /**
+         * Selection mode attribute.
+         */
+        SELECTION_MODE("selectionMode", SelectionMode.class),
+
+        /**
+         * Auto-resize mode attribute.
+         */
+        AUTO_RESIZE_MODE("autoResizeMode", AutoResizeMode.class),
 
         /**
          * Tab placement attribute.
@@ -379,6 +395,130 @@ public class UILoader {
         private final int value;
 
         VerticalScrollBarPolicy(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Layout orientation options.
+     */
+    public enum LayoutOrientation implements ConstantAdapter {
+        /**
+         * Vertical orientation.
+         */
+        VERTICAL("vertical", JList.VERTICAL),
+
+        /**
+         * Vertical wrap orientation.
+         */
+        VERTICAL_WRAP("vertical-wrap", JList.VERTICAL_WRAP),
+
+        /**
+         * Horizontal wrap orientation.
+         */
+        HORIZONTAL_WRAP("horizontal-wrap", JList.HORIZONTAL_WRAP);
+
+        private final String key;
+        private final int value;
+
+        LayoutOrientation(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Selection mode options.
+     */
+    public enum SelectionMode implements ConstantAdapter {
+        /**
+         * Single selection mode.
+         */
+        SINGLE_SELECTION("single-selection", ListSelectionModel.SINGLE_SELECTION),
+
+        /**
+         * Single interval selection mode.
+         */
+        SINGLE_INTERVAL_SELECTION("single-interval-selection", ListSelectionModel.SINGLE_INTERVAL_SELECTION),
+
+        /**
+         * Multiple interval selection mode.
+         */
+        MULTIPLE_INTERVAL_SELECTION("multiple-interval-selection", ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+        private final String key;
+        private final int value;
+
+        SelectionMode(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Auto-resize mode options.
+     */
+    public enum AutoResizeMode implements ConstantAdapter {
+        /**
+         * Auto-resize off.
+         */
+        OFF("off", JTable.AUTO_RESIZE_OFF),
+
+        /**
+         * Auto-resize next column.
+         */
+        NEXT_COLUMN("next-column", JTable.AUTO_RESIZE_NEXT_COLUMN),
+
+        /**
+         * Auto-resize subsequent columns.
+         */
+        SUBSEQUENT_COLUMNS("subsequent-columns", JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS),
+
+        /**
+         * Auto-resize last column.
+         */
+        LAST_COLUMN("last-column", JTable.AUTO_RESIZE_LAST_COLUMN),
+
+        /**
+         * Auto-resize all columns.
+         */
+        ALL_COLUMNS("all-columns", JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+        private final String key;
+        private final int value;
+
+        AutoResizeMode(String key, int value) {
             this.key = key;
             this.value = value;
         }
@@ -1004,12 +1144,18 @@ public class UILoader {
                                 default -> throw new UnsupportedOperationException();
                             };
                         }
+                    } else if (name.equals(Attribute.FOCUS_LOST_BEHAVIOR.getName())) {
+                        argument = getValue(value, FocusLostBehavior.values());
                     } else if (name.equals(Attribute.HORIZONTAL_SCROLL_BAR_POLICY.getName())) {
                         argument = getValue(value, HorizontalScrollBarPolicy.values());
                     } else if (name.equals(Attribute.VERTICAL_SCROLL_BAR_POLICY.getName())) {
                         argument = getValue(value, VerticalScrollBarPolicy.values());
-                    } else if (name.equals(Attribute.FOCUS_LOST_BEHAVIOR.getName())) {
-                        argument = getValue(value, FocusLostBehavior.values());
+                    } else if (name.equals(Attribute.LAYOUT_ORIENTATION.getName())) {
+                        argument = getValue(value, LayoutOrientation.values());
+                    } else if (name.equals(Attribute.SELECTION_MODE.getName())) {
+                        argument = getValue(value, SelectionMode.values());
+                    } else if (name.equals(Attribute.AUTO_RESIZE_MODE.getName())) {
+                        argument = getValue(value, AutoResizeMode.values());
                     } else if (name.equals(Attribute.TAB_PLACEMENT.getName())) {
                         argument = getValue(value, TabPlacement.values());
                     } else if (name.equals(Attribute.TAB_LAYOUT_POLICY.getName())) {
