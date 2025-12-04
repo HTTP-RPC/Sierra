@@ -4,7 +4,7 @@
 
 <split-pane orientation="horizontal" dividerLocation="120">
     <scroll-pane>
-        <list name="list"/>
+        <list name="list" selectionMode="single-selection"/>
     </scroll-pane>
 
     <tabbed-pane name="tabbedPane" tabPlacement="top" tabLayoutPolicy="scroll-tab-layout">
