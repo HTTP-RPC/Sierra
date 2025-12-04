@@ -296,22 +296,22 @@ public class UILoader {
      */
     public enum FocusLostBehavior implements ConstantAdapter {
         /**
-         * Commit behavior.
+         * Commit.
          */
         COMMIT("commit", JFormattedTextField.COMMIT),
 
         /**
-         * Commit or revert behavior.
+         * Commit or revert.
          */
         COMMIT_OR_REVERT("commit-or-revert", JFormattedTextField.COMMIT_OR_REVERT),
 
         /**
-         * Revert behavior.
+         * Revert.
          */
         REVERT("revert", JFormattedTextField.REVERT),
 
         /**
-         * Persist behavior.
+         * Persist.
          */
         PERSIST("persist", JFormattedTextField.PERSIST);
 
@@ -415,17 +415,17 @@ public class UILoader {
      */
     public enum LayoutOrientation implements ConstantAdapter {
         /**
-         * Vertical orientation.
+         * Vertical.
          */
         VERTICAL("vertical", JList.VERTICAL),
 
         /**
-         * Vertical wrap orientation.
+         * Vertical wrap.
          */
         VERTICAL_WRAP("vertical-wrap", JList.VERTICAL_WRAP),
 
         /**
-         * Horizontal wrap orientation.
+         * Horizontal wrap.
          */
         HORIZONTAL_WRAP("horizontal-wrap", JList.HORIZONTAL_WRAP);
 
@@ -453,17 +453,17 @@ public class UILoader {
      */
     public enum SelectionMode implements ConstantAdapter {
         /**
-         * Single selection mode.
+         * Single selection.
          */
         SINGLE_SELECTION("single-selection", ListSelectionModel.SINGLE_SELECTION),
 
         /**
-         * Single interval selection mode.
+         * Single interval selection.
          */
         SINGLE_INTERVAL_SELECTION("single-interval-selection", ListSelectionModel.SINGLE_INTERVAL_SELECTION),
 
         /**
-         * Multiple interval selection mode.
+         * Multiple interval selection.
          */
         MULTIPLE_INTERVAL_SELECTION("multiple-interval-selection", ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
