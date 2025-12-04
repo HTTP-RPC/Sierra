@@ -186,11 +186,6 @@ public class UILoader {
         VERTICAL_ALIGNMENT("verticalAlignment", VerticalAlignment.class),
 
         /**
-         * Orientation attribute.
-         */
-        ORIENTATION("orientation", Orientation.class),
-
-        /**
          * Horizontal scroll bar policy attribute.
          */
         HORIZONTAL_SCROLL_BAR_POLICY("horizontalScrollBarPolicy", HorizontalScrollBarPolicy.class),
@@ -199,6 +194,11 @@ public class UILoader {
          * Vertical scroll bar policy attribute.
          */
         VERTICAL_SCROLL_BAR_POLICY("verticalScrollBarPolicy", VerticalScrollBarPolicy.class),
+
+        /**
+         * Orientation attribute.
+         */
+        ORIENTATION("orientation", Orientation.class),
 
         /**
          * Focus lost behavior attribute.
