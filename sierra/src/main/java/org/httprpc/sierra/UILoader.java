@@ -1286,9 +1286,7 @@ public class UILoader {
         var color = parseColor(components[0].trim());
 
         if (components.length == 1) {
-            var thickness = coalesce(cast(UIManager.get("Component.borderWidth"), Integer.class), () -> 1);
-
-            return new LineBorder(color, thickness);
+            return new LineBorder(color);
         } else {
             var thickness = Integer.parseInt(components[1].trim());
 
