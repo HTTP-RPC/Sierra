@@ -99,14 +99,14 @@ public class DTDEncoder extends Encoder<Void> {
                         attributeType = getAttributeType(HorizontalAlignment.values());
                     } else if (attributeName.equals(UILoader.Attribute.VERTICAL_ALIGNMENT.getName())) {
                         attributeType = getAttributeType(VerticalAlignment.values());
-                    } else if (attributeName.equals(UILoader.Attribute.HORIZONTAL_SCROLL_BAR_POLICY.getName())) {
-                        attributeType = getAttributeType(UILoader.HorizontalScrollBarPolicy.values());
-                    } else if (attributeName.equals(UILoader.Attribute.VERTICAL_SCROLL_BAR_POLICY.getName())) {
-                        attributeType = getAttributeType(UILoader.VerticalScrollBarPolicy.values());
                     } else if (attributeName.equals(UILoader.Attribute.ORIENTATION.getName())) {
                         attributeType = getAttributeType(UILoader.Orientation.values());
                     } else if (attributeName.equals(UILoader.Attribute.FOCUS_LOST_BEHAVIOR.getName())) {
                         attributeType = getAttributeType(UILoader.FocusLostBehavior.values());
+                    } else if (attributeName.equals(UILoader.Attribute.HORIZONTAL_SCROLL_BAR_POLICY.getName())) {
+                        attributeType = getAttributeType(UILoader.HorizontalScrollBarPolicy.values());
+                    } else if (attributeName.equals(UILoader.Attribute.VERTICAL_SCROLL_BAR_POLICY.getName())) {
+                        attributeType = getAttributeType(UILoader.VerticalScrollBarPolicy.values());
                     } else if (attributeName.equals(UILoader.Attribute.TAB_PLACEMENT.getName())) {
                         attributeType = getAttributeType(UILoader.TabPlacement.values());
                     } else if (attributeName.equals(UILoader.Attribute.TAB_LAYOUT_POLICY.getName())) {

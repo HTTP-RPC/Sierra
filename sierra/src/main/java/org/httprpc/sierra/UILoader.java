@@ -186,16 +186,6 @@ public class UILoader {
         VERTICAL_ALIGNMENT("verticalAlignment", VerticalAlignment.class),
 
         /**
-         * Horizontal scroll bar policy attribute.
-         */
-        HORIZONTAL_SCROLL_BAR_POLICY("horizontalScrollBarPolicy", HorizontalScrollBarPolicy.class),
-
-        /**
-         * Vertical scroll bar policy attribute.
-         */
-        VERTICAL_SCROLL_BAR_POLICY("verticalScrollBarPolicy", VerticalScrollBarPolicy.class),
-
-        /**
          * Orientation attribute.
          */
         ORIENTATION("orientation", Orientation.class),
@@ -204,6 +194,16 @@ public class UILoader {
          * Focus lost behavior attribute.
          */
         FOCUS_LOST_BEHAVIOR("focusLostBehavior", FocusLostBehavior.class),
+
+        /**
+         * Horizontal scroll bar policy attribute.
+         */
+        HORIZONTAL_SCROLL_BAR_POLICY("horizontalScrollBarPolicy", HorizontalScrollBarPolicy.class),
+
+        /**
+         * Vertical scroll bar policy attribute.
+         */
+        VERTICAL_SCROLL_BAR_POLICY("verticalScrollBarPolicy", VerticalScrollBarPolicy.class),
 
         /**
          * Tab placement attribute.
@@ -250,6 +250,49 @@ public class UILoader {
         private final int value;
 
         Orientation(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Focus lost behavior options.
+     */
+    public enum FocusLostBehavior implements ConstantAdapter {
+        /**
+         * Commit behavior.
+         */
+        COMMIT("commit", JFormattedTextField.COMMIT),
+
+        /**
+         * Commit or revert behavior.
+         */
+        COMMIT_OR_REVERT("commit-or-revert", JFormattedTextField.COMMIT_OR_REVERT),
+
+        /**
+         * Revert behavior.
+         */
+        REVERT("revert", JFormattedTextField.REVERT),
+
+        /**
+         * Persist behavior.
+         */
+        PERSIST("persist", JFormattedTextField.PERSIST);
+
+        private final String key;
+        private final int value;
+
+        FocusLostBehavior(String key, int value) {
             this.key = key;
             this.value = value;
         }
@@ -326,49 +369,6 @@ public class UILoader {
         private final int value;
 
         VerticalScrollBarPolicy(String key, int value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public String getKey() {
-            return key;
-        }
-
-        @Override
-        public int getValue() {
-            return value;
-        }
-    }
-
-    /**
-     * Focus lost behavior options.
-     */
-    public enum FocusLostBehavior implements ConstantAdapter {
-        /**
-         * Commit behavior.
-         */
-        COMMIT("commit", JFormattedTextField.COMMIT),
-
-        /**
-         * Commit or revert behavior.
-         */
-        COMMIT_OR_REVERT("commit-or-revert", JFormattedTextField.COMMIT_OR_REVERT),
-
-        /**
-         * Revert behavior.
-         */
-        REVERT("revert", JFormattedTextField.REVERT),
-
-        /**
-         * Persist behavior.
-         */
-        PERSIST("persist", JFormattedTextField.PERSIST);
-
-        private final String key;
-        private final int value;
-
-        FocusLostBehavior(String key, int value) {
             this.key = key;
             this.value = value;
         }
