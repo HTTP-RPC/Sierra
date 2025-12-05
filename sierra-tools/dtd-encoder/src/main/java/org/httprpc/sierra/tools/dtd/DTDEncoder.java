@@ -109,10 +109,10 @@ public class DTDEncoder extends Encoder<Void> {
                         attributeType = getAttributeType(UILoader.HorizontalScrollBarPolicy.values());
                     } else if (attributeName.equals(UILoader.Attribute.VERTICAL_SCROLL_BAR_POLICY.getName())) {
                         attributeType = getAttributeType(UILoader.VerticalScrollBarPolicy.values());
-                    } else if (attributeName.equals(UILoader.Attribute.LAYOUT_ORIENTATION.getName())) {
-                        attributeType = getAttributeType(UILoader.LayoutOrientation.values());
                     } else if (attributeName.equals(UILoader.Attribute.SELECTION_MODE.getName())) {
                         attributeType = getAttributeType(UILoader.SelectionMode.values());
+                    } else if (attributeName.equals(UILoader.Attribute.LAYOUT_ORIENTATION.getName())) {
+                        attributeType = getAttributeType(UILoader.LayoutOrientation.values());
                     } else if (attributeName.equals(UILoader.Attribute.AUTO_RESIZE_MODE.getName())) {
                         attributeType = getAttributeType(UILoader.AutoResizeMode.values());
                     } else if (attributeName.equals(UILoader.Attribute.TAB_PLACEMENT.getName())) {

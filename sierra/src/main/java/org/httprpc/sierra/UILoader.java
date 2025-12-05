@@ -218,14 +218,14 @@ public class UILoader {
         VERTICAL_SCROLL_BAR_POLICY("verticalScrollBarPolicy", VerticalScrollBarPolicy.class),
 
         /**
-         * Layout orientation attribute.
-         */
-        LAYOUT_ORIENTATION("layoutOrientation", LayoutOrientation.class),
-
-        /**
          * Selection mode attribute.
          */
         SELECTION_MODE("selectionMode", SelectionMode.class),
+
+        /**
+         * Layout orientation attribute.
+         */
+        LAYOUT_ORIENTATION("layoutOrientation", LayoutOrientation.class),
 
         /**
          * Auto-resize mode attribute.
@@ -412,44 +412,6 @@ public class UILoader {
     }
 
     /**
-     * Layout orientation options.
-     */
-    public enum LayoutOrientation implements ConstantAdapter {
-        /**
-         * Vertical.
-         */
-        VERTICAL("vertical", JList.VERTICAL),
-
-        /**
-         * Vertical wrap.
-         */
-        VERTICAL_WRAP("vertical-wrap", JList.VERTICAL_WRAP),
-
-        /**
-         * Horizontal wrap.
-         */
-        HORIZONTAL_WRAP("horizontal-wrap", JList.HORIZONTAL_WRAP);
-
-        private final String key;
-        private final int value;
-
-        LayoutOrientation(String key, int value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public String getKey() {
-            return key;
-        }
-
-        @Override
-        public int getValue() {
-            return value;
-        }
-    }
-
-    /**
      * Selection mode options.
      */
     public enum SelectionMode implements ConstantAdapter {
@@ -472,6 +434,44 @@ public class UILoader {
         private final int value;
 
         SelectionMode(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Layout orientation options.
+     */
+    public enum LayoutOrientation implements ConstantAdapter {
+        /**
+         * Vertical.
+         */
+        VERTICAL("vertical", JList.VERTICAL),
+
+        /**
+         * Vertical wrap.
+         */
+        VERTICAL_WRAP("vertical-wrap", JList.VERTICAL_WRAP),
+
+        /**
+         * Horizontal wrap.
+         */
+        HORIZONTAL_WRAP("horizontal-wrap", JList.HORIZONTAL_WRAP);
+
+        private final String key;
+        private final int value;
+
+        LayoutOrientation(String key, int value) {
             this.key = key;
             this.value = value;
         }

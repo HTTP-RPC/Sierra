@@ -82,10 +82,11 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
                     entry(VERTICAL_SCROLL_BAR_POLICY.getName(), VERTICAL_SCROLL_BAR_POLICY.getType().getSimpleName())
             )),
             entry(JList.class, mapOf(
-                    entry(LAYOUT_ORIENTATION.getName(), LAYOUT_ORIENTATION.getType().getSimpleName()),
-                    entry(SELECTION_MODE.getName(), SELECTION_MODE.getType().getSimpleName())
+                    entry(SELECTION_MODE.getName(), SELECTION_MODE.getType().getSimpleName()),
+                    entry(LAYOUT_ORIENTATION.getName(), LAYOUT_ORIENTATION.getType().getSimpleName())
             )),
             entry(JTable.class, mapOf(
+                    entry(SELECTION_MODE.getName(), SELECTION_MODE.getType().getSimpleName()),
                     entry(AUTO_RESIZE_MODE.getName(), AUTO_RESIZE_MODE.getType().getSimpleName())
             )),
             entry(JTabbedPane.class, mapOf(
