@@ -860,13 +860,10 @@ public class UILoader {
         bind("spinner", JSpinner.class, JSpinner::new);
         bind("slider", JSlider.class, JSlider::new);
         bind("progress-bar", JProgressBar.class, JProgressBar::new);
-        bind("color-chooser", JColorChooser.class, JColorChooser::new);
         bind("separator", JSeparator.class, JSeparator::new);
         bind("scroll-pane", JScrollPane.class, JScrollPane::new);
         bind("list", JList.class, JList::new);
         bind("text-area", JTextArea.class, JTextArea::new);
-        bind("split-pane", JSplitPane.class, JSplitPane::new);
-        bind("tabbed-pane", JTabbedPane.class, JTabbedPane::new);
         bind("tool-bar", JToolBar.class, JToolBar::new);
         bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
         bind("menu-bar", JMenuBar.class, JMenuBar::new);
@@ -875,6 +872,9 @@ public class UILoader {
         bind("check-box-menu-item", JCheckBoxMenuItem.class, JCheckBoxMenuItem::new);
         bind("radio-button-menu-item", JRadioButtonMenuItem.class, JRadioButtonMenuItem::new);
         bind("popup-menu-separator", JPopupMenu.Separator.class, JPopupMenu.Separator::new);
+        bind("color-chooser", JColorChooser.class, JColorChooser::new);
+        bind("split-pane", JSplitPane.class, JSplitPane::new);
+        bind("tabbed-pane", JTabbedPane.class, JTabbedPane::new);
 
         bind("table", JxTable.class, JxTable::new);
         bind("tree", JxTree.class, JxTree::new);
