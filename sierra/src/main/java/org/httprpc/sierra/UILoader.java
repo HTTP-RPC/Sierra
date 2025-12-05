@@ -1259,10 +1259,10 @@ public class UILoader {
                         argument = getValue(value, HorizontalScrollBarPolicy.values());
                     } else if (name.equals(Attribute.VERTICAL_SCROLL_BAR_POLICY.getName())) {
                         argument = getValue(value, VerticalScrollBarPolicy.values());
-                    } else if (name.equals(Attribute.LAYOUT_ORIENTATION.getName())) {
-                        argument = getValue(value, LayoutOrientation.values());
                     } else if (name.equals(Attribute.SELECTION_MODE.getName())) {
                         argument = getValue(value, SelectionMode.values());
+                    } else if (name.equals(Attribute.LAYOUT_ORIENTATION.getName())) {
+                        argument = getValue(value, LayoutOrientation.values());
                     } else if (name.equals(Attribute.AUTO_RESIZE_MODE.getName())) {
                         argument = getValue(value, AutoResizeMode.values());
                     } else if (name.equals(Attribute.TAB_PLACEMENT.getName())) {
