@@ -616,24 +616,53 @@ public class UILoader {
      */
     public static class JxTable extends JTable {
         /**
-         * Returns the selection mode.
+         * Returns the row selection mode.
          *
          * @return
-         * The selection mode.
+         * The row selection mode.
          */
-        public int getSelectionMode() {
-            return getSelectionModel().getSelectionMode();
+        public SelectionMode getRowSelectionMode() {
+            return getValue(getSelectionModel().getSelectionMode(), SelectionMode.values());
         }
 
         /**
-         * Sets the selection mode.
+         * Sets the row selection mode.
          *
-         * @param selectionMode
-         * The selection mode.
+         * @param rowSelectionMode
+         * The row selection mode.
          */
-        @Override
-        public void setSelectionMode(int selectionMode) {
-            super.setSelectionMode(selectionMode);
+        @SuppressWarnings("MagicConstant")
+        public void setRowSelectionMode(SelectionMode rowSelectionMode) {
+            if (rowSelectionMode == null) {
+                throw new IllegalArgumentException();
+            }
+
+            getSelectionModel().setSelectionMode(rowSelectionMode.getValue());
+        }
+
+        /**
+         * Returns the column selection mode.
+         *
+         * @return
+         * The column selection mode.
+         */
+        public SelectionMode getColumnSelectionMode() {
+            return getValue(getColumnModel().getSelectionModel().getSelectionMode(), SelectionMode.values());
+        }
+
+        /**
+         * Sets the column selection mode.
+         *
+         * @param columnSelectionMode
+         * The column selection mode.
+         */
+        @SuppressWarnings("MagicConstant")
+        public void setColumnSelectionMode(SelectionMode columnSelectionMode) {
+            if (columnSelectionMode == null) {
+                throw new IllegalArgumentException();
+            }
+
+            getColumnModel().getSelectionModel().setSelectionMode(columnSelectionMode.getValue());
         }
     }
 
@@ -685,21 +714,8 @@ public class UILoader {
          * @return
          * The selection mode.
          */
-        @SuppressWarnings("MagicConstant")
         public SelectionMode getSelectionMode() {
-            var selectionMode = getSelectionModel().getSelectionMode();
-
-            var values = SelectionMode.values();
-
-            for (var i = 0; i < values.length; i++) {
-                var value = values[i];
-
-                if (selectionMode == value.getValue()) {
-                    return value;
-                }
-            }
-
-            throw new UnsupportedOperationException();
+            return getValue(getSelectionModel().getSelectionMode(), SelectionMode.values());
         }
 
         /**
@@ -1371,18 +1387,6 @@ public class UILoader {
         components.push(component);
     }
 
-    private int getValue(String key, ConstantAdapter[] values) {
-        for (var i = 0; i < values.length; i++) {
-            var value = values[i];
-
-            if (key.equals(value.getKey())) {
-                return value.getValue();
-            }
-        }
-
-        throw new IllegalArgumentException("Invalid key.");
-    }
-
     private String getText(String value) {
         if (resourceBundle == null) {
             return value;
@@ -1698,5 +1702,30 @@ public class UILoader {
 
     private static Font parseFont(String value) {
         return coalesce(fonts.get(value), () -> coalesce(UIManager.getFont(value), () -> Font.decode(value)));
+    }
+
+    private static int getValue(String key, ConstantAdapter[] values) {
+        for (var i = 0; i < values.length; i++) {
+            var value = values[i];
+
+            if (key.equals(value.getKey())) {
+                return value.getValue();
+            }
+        }
+
+        throw new IllegalArgumentException("Invalid key.");
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <E extends Enum<?> & ConstantAdapter> E getValue(int constant, ConstantAdapter[] values) {
+        for (var i = 0; i < values.length; i++) {
+            var value = values[i];
+
+            if (constant == value.getValue()) {
+                return (E)value;
+            }
+        }
+
+        throw new IllegalArgumentException("Invalid constant.");
     }
 }

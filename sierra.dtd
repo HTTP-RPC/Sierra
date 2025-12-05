@@ -80,7 +80,7 @@
 <!ELEMENT tool-bar-separator EMPTY>
 <!ATTLIST tool-bar-separator %javax.swing.JToolBar.Separator;>
 <!ENTITY % org.httprpc.sierra.LayoutPanel "%javax.swing.JPanel; scrollableTracksViewportHeight (true|false) scrollableTracksViewportWidth (true|false) ">
-<!ENTITY % org.httprpc.sierra.UILoader.JxTable "%javax.swing.JTable; selectionMode (single-selection|single-interval-selection|multiple-interval-selection) ">
+<!ENTITY % org.httprpc.sierra.UILoader.JxTable "%javax.swing.JTable; columnSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) rowSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) ">
 <!ELEMENT table EMPTY>
 <!ATTLIST table %org.httprpc.sierra.UILoader.JxTable;>
 <!ENTITY % org.httprpc.sierra.UILoader.JxTree "%javax.swing.JTree; selectionMode (single-tree-selection|contiguous-tree-selection|discontiguous-tree-selection) ">

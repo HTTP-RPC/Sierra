@@ -86,7 +86,6 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
                     entry(LAYOUT_ORIENTATION.getName(), LAYOUT_ORIENTATION.getType().getSimpleName())
             )),
             entry(JTable.class, mapOf(
-                    entry(SELECTION_MODE.getName(), SELECTION_MODE.getType().getSimpleName()),
                     entry(AUTO_RESIZE_MODE.getName(), AUTO_RESIZE_MODE.getType().getSimpleName())
             )),
             entry(JTabbedPane.class, mapOf(
