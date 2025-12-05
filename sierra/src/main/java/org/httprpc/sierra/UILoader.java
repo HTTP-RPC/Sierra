@@ -220,7 +220,7 @@ public class UILoader {
         /**
          * Selection mode attribute.
          */
-        SELECTION_MODE("selectionMode", SelectionMode.class),
+        SELECTION_MODE("selectionMode", ListSelectionMode.class),
 
         /**
          * Layout orientation attribute.
@@ -412,9 +412,9 @@ public class UILoader {
     }
 
     /**
-     * Selection mode options.
+     * List selection mode options.
      */
-    public enum SelectionMode implements ConstantAdapter {
+    public enum ListSelectionMode implements ConstantAdapter {
         /**
          * Single selection.
          */
@@ -433,7 +433,7 @@ public class UILoader {
         private final String key;
         private final int value;
 
-        SelectionMode(String key, int value) {
+        ListSelectionMode(String key, int value) {
             this.key = key;
             this.value = value;
         }
@@ -536,6 +536,44 @@ public class UILoader {
     }
 
     /**
+     * Tree selection mode options.
+     */
+    public enum TreeSelectionMode implements ConstantAdapter {
+        /**
+         * Single tree selection.
+         */
+        SINGLE_TREE_SELECTION("single-tree-selection", TreeSelectionModel.SINGLE_TREE_SELECTION),
+
+        /**
+         * Contiguous tree selection.
+         */
+        CONTIGUOUS_TREE_SELECTION("contiguous-tree-selection", TreeSelectionModel.CONTIGUOUS_TREE_SELECTION),
+
+        /**
+         * Discontiguous tree selection.
+         */
+        DISCONTIGUOUS_TREE_SELECTION("discontiguous-tree-selection", TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+
+        private final String key;
+        private final int value;
+
+        TreeSelectionMode(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
      * Tab placement options.
      */
     public enum TabPlacement implements ConstantAdapter {
@@ -621,8 +659,8 @@ public class UILoader {
          * @return
          * The row selection mode.
          */
-        public SelectionMode getRowSelectionMode() {
-            return getValue(getSelectionModel().getSelectionMode(), SelectionMode.values());
+        public ListSelectionMode getRowSelectionMode() {
+            return getValue(getSelectionModel().getSelectionMode(), ListSelectionMode.values());
         }
 
         /**
@@ -632,7 +670,7 @@ public class UILoader {
          * The row selection mode.
          */
         @SuppressWarnings("MagicConstant")
-        public void setRowSelectionMode(SelectionMode rowSelectionMode) {
+        public void setRowSelectionMode(ListSelectionMode rowSelectionMode) {
             if (rowSelectionMode == null) {
                 throw new IllegalArgumentException();
             }
@@ -646,8 +684,8 @@ public class UILoader {
          * @return
          * The column selection mode.
          */
-        public SelectionMode getColumnSelectionMode() {
-            return getValue(getColumnModel().getSelectionModel().getSelectionMode(), SelectionMode.values());
+        public ListSelectionMode getColumnSelectionMode() {
+            return getValue(getColumnModel().getSelectionModel().getSelectionMode(), ListSelectionMode.values());
         }
 
         /**
@@ -657,7 +695,7 @@ public class UILoader {
          * The column selection mode.
          */
         @SuppressWarnings("MagicConstant")
-        public void setColumnSelectionMode(SelectionMode columnSelectionMode) {
+        public void setColumnSelectionMode(ListSelectionMode columnSelectionMode) {
             if (columnSelectionMode == null) {
                 throw new IllegalArgumentException();
             }
@@ -671,51 +709,13 @@ public class UILoader {
      */
     public static class JxTree extends JTree {
         /**
-         * Selection mode options.
-         */
-        public enum SelectionMode implements ConstantAdapter {
-            /**
-             * Single tree selection.
-             */
-            SINGLE_TREE_SELECTION("single-tree-selection", TreeSelectionModel.SINGLE_TREE_SELECTION),
-
-            /**
-             * Contiguous tree selection.
-             */
-            CONTIGUOUS_TREE_SELECTION("contiguous-tree-selection", TreeSelectionModel.CONTIGUOUS_TREE_SELECTION),
-
-            /**
-             * Discontiguous tree selection.
-             */
-            DISCONTIGUOUS_TREE_SELECTION("discontiguous-tree-selection", TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-
-            private final String key;
-            private final int value;
-
-            SelectionMode(String key, int value) {
-                this.key = key;
-                this.value = value;
-            }
-
-            @Override
-            public String getKey() {
-                return key;
-            }
-
-            @Override
-            public int getValue() {
-                return value;
-            }
-        }
-
-        /**
          * Returns the selection mode.
          *
          * @return
          * The selection mode.
          */
-        public SelectionMode getSelectionMode() {
-            return getValue(getSelectionModel().getSelectionMode(), SelectionMode.values());
+        public TreeSelectionMode getSelectionMode() {
+            return getValue(getSelectionModel().getSelectionMode(), TreeSelectionMode.values());
         }
 
         /**
@@ -725,7 +725,7 @@ public class UILoader {
          * The selection mode.
          */
         @SuppressWarnings("MagicConstant")
-        public void setSelectionMode(SelectionMode selectionMode) {
+        public void setSelectionMode(TreeSelectionMode selectionMode) {
             if (selectionMode == null) {
                 throw new IllegalArgumentException();
             }
@@ -1276,7 +1276,7 @@ public class UILoader {
                     } else if (name.equals(Attribute.VERTICAL_SCROLL_BAR_POLICY.getName())) {
                         argument = getValue(value, VerticalScrollBarPolicy.values());
                     } else if (name.equals(Attribute.SELECTION_MODE.getName())) {
-                        argument = getValue(value, SelectionMode.values());
+                        argument = getValue(value, ListSelectionMode.values());
                     } else if (name.equals(Attribute.LAYOUT_ORIENTATION.getName())) {
                         argument = getValue(value, LayoutOrientation.values());
                     } else if (name.equals(Attribute.AUTO_RESIZE_MODE.getName())) {
