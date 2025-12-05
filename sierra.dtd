@@ -41,14 +41,10 @@
 <!ELEMENT tabbed-pane (ANY)>
 <!ATTLIST tabbed-pane %javax.swing.JTabbedPane;>
 <!ENTITY % javax.swing.JTable "%javax.swing.JComponent; autoCreateColumnsFromModel (true|false) autoCreateRowSorter (true|false) autoResizeMode (off|next-column|subsequent-columns|last-column|all-columns) cellSelectionEnabled (true|false) columnSelectionAllowed (true|false) dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editingColumn CDATA editingRow CDATA fillsViewportHeight (true|false) gridColor CDATA rowHeight CDATA rowMargin CDATA rowSelectionAllowed (true|false) selectionBackground CDATA selectionForeground CDATA showHorizontalLines (true|false) showVerticalLines (true|false) surrendersFocusOnKeystroke (true|false) updateSelectionOnSort (true|false) ">
-<!ELEMENT table EMPTY>
-<!ATTLIST table %javax.swing.JTable;>
 <!ENTITY % javax.swing.JToolBar "%javax.swing.JComponent; borderPainted (true|false) floatable (true|false) orientation (horizontal|vertical) rollover (true|false) ">
 <!ELEMENT tool-bar (ANY)>
 <!ATTLIST tool-bar %javax.swing.JToolBar;>
 <!ENTITY % javax.swing.JTree "%javax.swing.JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) expandsSelectedPaths (true|false) invokesStopCellEditing (true|false) largeModel (true|false) rootVisible (true|false) rowHeight CDATA scrollsOnExpand (true|false) showsRootHandles (true|false) toggleClickCount CDATA visibleRowCount CDATA ">
-<!ELEMENT tree EMPTY>
-<!ATTLIST tree %javax.swing.JTree;>
 <!ENTITY % javax.swing.text.JTextComponent "%javax.swing.JComponent; caretColor CDATA caretPosition CDATA disabledTextColor CDATA dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) focusAccelerator CDATA selectedTextColor CDATA selectionColor CDATA selectionEnd CDATA selectionStart CDATA text CDATA ">
 <!ENTITY % org.httprpc.sierra.ActivityIndicator "%javax.swing.JComponent; indicatorSize CDATA ">
 <!ELEMENT activity-indicator EMPTY>
@@ -84,6 +80,12 @@
 <!ELEMENT tool-bar-separator EMPTY>
 <!ATTLIST tool-bar-separator %javax.swing.JToolBar.Separator;>
 <!ENTITY % org.httprpc.sierra.LayoutPanel "%javax.swing.JPanel; scrollableTracksViewportHeight (true|false) scrollableTracksViewportWidth (true|false) ">
+<!ENTITY % org.httprpc.sierra.UILoader.JxTable "%javax.swing.JTable; selectionMode (single-selection|single-interval-selection|multiple-interval-selection) ">
+<!ELEMENT table EMPTY>
+<!ATTLIST table %org.httprpc.sierra.UILoader.JxTable;>
+<!ENTITY % org.httprpc.sierra.UILoader.JxTree "%javax.swing.JTree; selectionMode (single-tree-selection|contiguous-tree-selection|discontiguous-tree-selection) ">
+<!ELEMENT tree EMPTY>
+<!ATTLIST tree %org.httprpc.sierra.UILoader.JxTree;>
 <!ENTITY % javax.swing.JCheckBox "%javax.swing.JToggleButton; borderPaintedFlat (true|false) ">
 <!ELEMENT check-box EMPTY>
 <!ATTLIST check-box %javax.swing.JCheckBox;>

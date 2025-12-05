@@ -31,7 +31,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -309,8 +308,6 @@ public class TiingoTest extends JFrame implements Runnable {
         columnModel.getColumn(4).setCellRenderer(priceRenderer);
 
         columnModel.getColumn(5).setCellRenderer(new VolumeCellRenderer());
-
-        historicalPricingTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     public static void main(String[] args) {

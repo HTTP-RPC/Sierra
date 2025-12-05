@@ -24,7 +24,6 @@ import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreeSelectionModel;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -280,8 +279,6 @@ public class ColorChooserTest extends JFrame implements Runnable {
         setContentPane(UILoader.load(this, "ColorChooserTest.xml"));
 
         colorTree.setModel(new DefaultTreeModel(rootNode));
-
-        colorTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
         colorTree.addTreeSelectionListener(event -> {
             var selectionPath = colorTree.getSelectionPath();

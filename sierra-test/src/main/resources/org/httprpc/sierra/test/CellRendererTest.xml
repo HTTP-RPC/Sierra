@@ -4,6 +4,6 @@
 
 <column-panel opaque="true">
     <scroll-pane name="scrollPane" weight="1">
-        <list name="flagList"/>
+        <list name="flagList" selectionMode="single-selection"/>
     </scroll-pane>
 </column-panel>

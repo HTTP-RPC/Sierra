@@ -60,6 +60,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.tree.TreeSelectionModel;
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -610,6 +611,113 @@ public class UILoader {
         }
     }
 
+    /**
+     * Internal extension of {@link JTable}.
+     */
+    public static class JxTable extends JTable {
+        /**
+         * Returns the selection mode.
+         *
+         * @return
+         * The selection mode.
+         */
+        public int getSelectionMode() {
+            return getSelectionModel().getSelectionMode();
+        }
+
+        /**
+         * Sets the selection mode.
+         *
+         * @param selectionMode
+         * The selection mode.
+         */
+        @Override
+        public void setSelectionMode(int selectionMode) {
+            super.setSelectionMode(selectionMode);
+        }
+    }
+
+    /**
+     * Internal extension of {@link JTree}.
+     */
+    public static class JxTree extends JTree {
+        /**
+         * Selection mode options.
+         */
+        public enum SelectionMode implements ConstantAdapter {
+            /**
+             * Single tree selection.
+             */
+            SINGLE_TREE_SELECTION("single-tree-selection", TreeSelectionModel.SINGLE_TREE_SELECTION),
+
+            /**
+             * Contiguous tree selection.
+             */
+            CONTIGUOUS_TREE_SELECTION("contiguous-tree-selection", TreeSelectionModel.CONTIGUOUS_TREE_SELECTION),
+
+            /**
+             * Discontiguous tree selection.
+             */
+            DISCONTIGUOUS_TREE_SELECTION("discontiguous-tree-selection", TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+
+            private final String key;
+            private final int value;
+
+            SelectionMode(String key, int value) {
+                this.key = key;
+                this.value = value;
+            }
+
+            @Override
+            public String getKey() {
+                return key;
+            }
+
+            @Override
+            public int getValue() {
+                return value;
+            }
+        }
+
+        /**
+         * Returns the selection mode.
+         *
+         * @return
+         * The selection mode.
+         */
+        @SuppressWarnings("MagicConstant")
+        public SelectionMode getSelectionMode() {
+            var selectionMode = getSelectionModel().getSelectionMode();
+
+            var values = SelectionMode.values();
+
+            for (var i = 0; i < values.length; i++) {
+                var value = values[i];
+
+                if (selectionMode == value.getValue()) {
+                    return value;
+                }
+            }
+
+            throw new UnsupportedOperationException();
+        }
+
+        /**
+         * Sets the selection mode.
+         *
+         * @param selectionMode
+         * The selection mode.
+         */
+        @SuppressWarnings("MagicConstant")
+        public void setSelectionMode(SelectionMode selectionMode) {
+            if (selectionMode == null) {
+                throw new IllegalArgumentException();
+            }
+
+            getSelectionModel().setSelectionMode(selectionMode.getValue());
+        }
+    }
+
     private static class LabelColorMapper implements Function<Color, Color> {
         @Override
         public Color apply(Color color) {
@@ -757,8 +865,6 @@ public class UILoader {
         bind("scroll-pane", JScrollPane.class, JScrollPane::new);
         bind("list", JList.class, JList::new);
         bind("text-area", JTextArea.class, JTextArea::new);
-        bind("table", JTable.class, JTable::new);
-        bind("tree", JTree.class, JTree::new);
         bind("split-pane", JSplitPane.class, JSplitPane::new);
         bind("tabbed-pane", JTabbedPane.class, JTabbedPane::new);
         bind("tool-bar", JToolBar.class, JToolBar::new);
@@ -769,6 +875,9 @@ public class UILoader {
         bind("check-box-menu-item", JCheckBoxMenuItem.class, JCheckBoxMenuItem::new);
         bind("radio-button-menu-item", JRadioButtonMenuItem.class, JRadioButtonMenuItem::new);
         bind("popup-menu-separator", JPopupMenu.Separator.class, JPopupMenu.Separator::new);
+
+        bind("table", JxTable.class, JxTable::new);
+        bind("tree", JxTree.class, JxTree::new);
 
         bind("row-panel", RowPanel.class, RowPanel::new);
         bind("column-panel", ColumnPanel.class, ColumnPanel::new);
