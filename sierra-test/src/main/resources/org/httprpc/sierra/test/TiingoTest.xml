@@ -62,7 +62,7 @@
         <separator orientation="vertical"/>
 
         <scroll-pane weight="1">
-            <table name="historicalPricingTable" rowSelectionMode="single-selection" columnSelectionMode="single-selection"/>
+            <table name="historicalPricingTable" rowSelectionMode="single-selection"/>
         </scroll-pane>
     </row-panel>
 </column-panel>
