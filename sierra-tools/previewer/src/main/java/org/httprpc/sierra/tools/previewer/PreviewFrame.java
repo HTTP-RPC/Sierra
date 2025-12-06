@@ -101,11 +101,7 @@ public class PreviewFrame extends JFrame {
 
             columnPanel.add(new Spacer(), 1.0);
 
-            var errorLabel = new JLabel(UIManager.getIcon("OptionPane.errorIcon"));
-
-            errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
-            columnPanel.add(errorLabel);
+            columnPanel.add(new JLabel(UIManager.getIcon("OptionPane.errorIcon"), SwingConstants.CENTER));
 
             var messageTextPane = new TextPane(exception.getMessage());
 

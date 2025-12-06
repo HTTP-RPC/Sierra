@@ -1155,13 +1155,24 @@ public class UILoader {
 
         var type = types.get(tag);
 
+        JComponent component;
         if (type == null) {
-            throw new UnsupportedOperationException(String.format("Invalid tag (%s).", tag));
+            if (path == null) {
+                throw new UnsupportedOperationException(String.format("Invalid tag (%s).", tag));
+            }
+
+            var placeholderLabel = new JLabel(UIManager.getIcon("OptionPane.warningIcon"), SwingConstants.CENTER);
+
+            placeholderLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+            placeholderLabel.setVerticalTextPosition(SwingConstants.BOTTOM);
+            placeholderLabel.setIconTextGap(0);
+
+            placeholderLabel.setText(tag);
+
+            component = placeholderLabel;
+        } else {
+            component = suppliers.get(tag).get();
         }
-
-        var properties = BeanAdapter.getProperties(type);
-
-        var component = suppliers.get(tag).get();
 
         if (component == null) {
             return;
@@ -1182,6 +1193,8 @@ public class UILoader {
         String tabTitle = null;
         Icon tabIcon = null;
 
+        var properties = map(type, BeanAdapter::getProperties);
+
         for (int i = 0, n = xmlStreamReader.getAttributeCount(); i < n; i++) {
             var name = xmlStreamReader.getAttributeLocalName(i);
             var value = xmlStreamReader.getAttributeValue(i);
@@ -1199,6 +1212,10 @@ public class UILoader {
                     }
                 });
             } else if (name.equals(Attribute.GROUP.getName())) {
+                if (type == null) {
+                    continue;
+                }
+
                 if (!(component instanceof AbstractButton button)) {
                     throw new UnsupportedOperationException("Component is not a button.");
                 }
@@ -1243,6 +1260,10 @@ public class UILoader {
 
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), icon);
             } else {
+                if (type == null) {
+                    continue;
+                }
+
                 var mutator = map(properties.get(name), BeanAdapter.Property::getMutator);
 
                 if (mutator == null) {
