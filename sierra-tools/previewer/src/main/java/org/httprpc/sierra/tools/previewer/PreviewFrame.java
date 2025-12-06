@@ -16,7 +16,9 @@ package org.httprpc.sierra.tools.previewer;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.ColumnPanel;
 import org.httprpc.sierra.HorizontalAlignment;
+import org.httprpc.sierra.Spacer;
 import org.httprpc.sierra.TextPane;
 import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.VerticalAlignment;
@@ -24,7 +26,10 @@ import org.httprpc.sierra.VerticalAlignment;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -89,15 +94,30 @@ public class PreviewFrame extends JFrame {
         try {
             component = UILoader.load(path);
         } catch (Exception exception) {
-            var textPane = new TextPane(exception.getMessage());
+            var columnPanel = new ColumnPanel();
 
-            textPane.setWrapText(true);
-            textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
-            textPane.setVerticalAlignment(VerticalAlignment.CENTER);
+            columnPanel.setSpacing(8);
+            columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
 
-            textPane.setBorder(new EmptyBorder(8, 8, 8, 8));
+            columnPanel.add(new Spacer(), 1.0);
 
-            component = textPane;
+            var errorLabel = new JLabel(UIManager.getIcon("OptionPane.errorIcon"));
+
+            errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+            columnPanel.add(errorLabel);
+
+            var messageTextPane = new TextPane(exception.getMessage());
+
+            messageTextPane.setWrapText(true);
+            messageTextPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
+            messageTextPane.setVerticalAlignment(VerticalAlignment.CENTER);
+
+            columnPanel.add(messageTextPane);
+
+            columnPanel.add(new Spacer(), 1.0);
+
+            component = columnPanel;
         }
 
         setContentPane(component);
