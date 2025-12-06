@@ -15,6 +15,7 @@
 package org.httprpc.sierra.tools.previewer;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.ColumnPanel;
 import org.httprpc.sierra.HorizontalAlignment;
@@ -40,9 +41,7 @@ public class PreviewFrame extends JFrame {
     private Path path;
 
     private static final String REFRESH_ACTION_KEY = "refresh";
-
-    private static final String LIGHT_ACTION_KEY = "light";
-    private static final String DARK_ACTION_KEY = "dark";
+    private static final String TOGGLE_DARK_MODE_ACTION_KEY = "toggle-dark-mode";
 
     public PreviewFrame(Path path) {
         if (path == null) {
@@ -66,21 +65,15 @@ public class PreviewFrame extends JFrame {
             }
         });
 
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_L, shortcutModifier, false), LIGHT_ACTION_KEY);
-        actionMap.put(LIGHT_ACTION_KEY, new AbstractAction() {
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, shortcutModifier, false), TOGGLE_DARK_MODE_ACTION_KEY);
+        actionMap.put(TOGGLE_DARK_MODE_ACTION_KEY, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                FlatLightLaf.setup();
-
-                refresh();
-            }
-        });
-
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, shortcutModifier, false), DARK_ACTION_KEY);
-        actionMap.put(DARK_ACTION_KEY, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                FlatDarkLaf.setup();
+                if (FlatLaf.isLafDark()) {
+                    FlatLightLaf.setup();
+                } else {
+                    FlatDarkLaf.setup();
+                }
 
                 refresh();
             }
