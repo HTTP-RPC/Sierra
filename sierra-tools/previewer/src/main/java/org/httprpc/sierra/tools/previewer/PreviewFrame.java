@@ -85,10 +85,6 @@ public class PreviewFrame extends JFrame {
     }
 
     private void refresh() {
-        var contentPane = getContentPane();
-
-        contentPane.removeAll();
-
         JComponent component;
         try {
             component = UILoader.load(path);
@@ -104,7 +100,7 @@ public class PreviewFrame extends JFrame {
             component = textPane;
         }
 
-        contentPane.add(component);
+        setContentPane(component);
 
         revalidate();
     }
