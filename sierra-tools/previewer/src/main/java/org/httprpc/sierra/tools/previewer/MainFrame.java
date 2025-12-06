@@ -31,7 +31,6 @@ import org.httprpc.sierra.tools.previewer.engine.RenderingEngine;
 import org.httprpc.sierra.tools.previewer.model.RenderError;
 import org.httprpc.sierra.tools.previewer.model.RenderResult;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -134,10 +133,6 @@ public class MainFrame extends JFrame implements SearchListener {
                 // Style changes, not relevant for text
             }
         });
-
-        var iconURL = getClass().getResource("/sierra.png");
-        var icon = new ImageIcon(iconURL).getImage();
-        setIconImage(icon);
 
         triggerRender();
     }

@@ -15,8 +15,10 @@ package org.httprpc.sierra.tools.previewer;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import java.nio.file.Path;
 
 public class SierraPreviewerApp {
     public static void main(String[] args) {
@@ -24,7 +26,18 @@ public class SierraPreviewerApp {
 
         // Run all UI code on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
-            var frame = new MainFrame();
+            JFrame frame;
+            if (args.length == 0) {
+                frame = new MainFrame();
+            } else {
+                frame = new PreviewFrame(Path.of(System.getProperty("user.dir")).resolve(args[0]));
+            }
+
+            var iconURL = SierraPreviewerApp.class.getResource("/sierra.png");
+            var icon = new ImageIcon(iconURL).getImage();
+
+            frame.setIconImage(icon);
+
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(1200, 800);
             frame.setLocationRelativeTo(null); // Center on screen

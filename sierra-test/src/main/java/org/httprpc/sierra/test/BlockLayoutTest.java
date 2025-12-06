@@ -22,9 +22,7 @@ import org.httprpc.sierra.UILoader;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import java.awt.Color;
 import java.awt.KeyboardFocusManager;
 
 public class BlockLayoutTest extends JFrame implements Runnable {
@@ -38,12 +36,7 @@ public class BlockLayoutTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var scrollPane = new JScrollPane(UILoader.load(this, "BlockLayoutTest.xml"));
-
-        scrollPane.getViewport().setBackground(Color.WHITE);
-        scrollPane.setBorder(null);
-
-        setContentPane(scrollPane);
+        setContentPane(UILoader.load(this, "BlockLayoutTest.xml"));
 
         submitButton.addActionListener(event -> submitForm());
 

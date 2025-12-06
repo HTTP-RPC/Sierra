@@ -2,7 +2,7 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel>
+<column-panel opaque="true">
     <menu-bar>
         <menu text="Menu">
             <menu-item name="oneMenuItem" text="One" icon="icons/home_24dp.svg; 18" accelerator="VK_1"/>

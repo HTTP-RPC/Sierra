@@ -2,7 +2,7 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel spacing="4" padding="8" alignToGrid="true" scrollableTracksViewportWidth="true">
+<column-panel spacing="4" padding="8" alignToGrid="true" scrollableTracksViewportWidth="true" opaque="true">
     <row-panel alignToBaseline="true">
         <label text="firstName" alignmentX="1.0"/>
         <text-field columns="12" alignmentX="0.0"/>
