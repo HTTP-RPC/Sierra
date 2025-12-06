@@ -284,21 +284,13 @@ public class DTDEncoder extends Encoder<Void> {
                 }
             }
 
-            var path = workingPath.resolve(args[0]);
+            var bindings = new Properties();
 
-            if (Files.isDirectory(path)) {
-                workingPath = path;
-            } else {
-                var bindings = new Properties();
-
-                try (var inputStream = Files.newInputStream(path)) {
-                    bindings.load(inputStream);
-                }
-
-                UILoader.bind(bindings, classLoader);
-
-                workingPath = path.getParent();
+            try (var inputStream = Files.newInputStream(workingPath.resolve(args[0]))) {
+                bindings.load(inputStream);
             }
+
+            UILoader.bind(bindings, classLoader);
         }
 
         var typeSet = new HashSet<Class<?>>();
