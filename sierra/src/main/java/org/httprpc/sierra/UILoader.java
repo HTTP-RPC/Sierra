@@ -1161,21 +1161,17 @@ public class UILoader {
                 throw new UnsupportedOperationException(String.format("Invalid tag (%s).", tag));
             }
 
-            var placeholderLabel = new JLabel(UIManager.getIcon("OptionPane.warningIcon"), SwingConstants.CENTER);
+            var label = new JLabel(UIManager.getIcon("OptionPane.warningIcon"), SwingConstants.CENTER);
 
-            placeholderLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-            placeholderLabel.setVerticalTextPosition(SwingConstants.BOTTOM);
-            placeholderLabel.setIconTextGap(0);
+            label.setHorizontalTextPosition(SwingConstants.CENTER);
+            label.setVerticalTextPosition(SwingConstants.BOTTOM);
+            label.setIconTextGap(0);
 
-            placeholderLabel.setText(tag);
+            label.setText(tag);
 
-            component = placeholderLabel;
+            component = label;
         } else {
             component = suppliers.get(tag).get();
-        }
-
-        if (component == null) {
-            return;
         }
 
         if (component instanceof JSplitPane splitPane) {
