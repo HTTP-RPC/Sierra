@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.time.temporal.TemporalAccessor;
 
@@ -57,5 +58,11 @@ public class TimeSeriesChart<K extends TemporalAccessor, V extends Number> exten
     @Override
     public void draw(Graphics2D graphics) {
         // TODO
+        graphics.setColor(Color.MAGENTA);
+
+        var width = getWidth();
+        var height = getHeight();
+
+        graphics.drawRect(0, 0, width, height);
     }
 }

@@ -62,20 +62,20 @@ public class ChartsTest extends JFrame implements Runnable {
         one.setLabel("One");
         one.setColor(UILoader.getColor("light-green"));
 
-        var two = new DataPoint<>("one", 10.0);
+        var two = new DataPoint<>("two", 10.0);
 
-        one.setLabel("Two");
-        one.setColor(UILoader.getColor("light-yellow"));
+        two.setLabel("Two");
+        two.setColor(UILoader.getColor("light-yellow"));
 
         var three = new DataPoint<>("three", 30.0);
 
-        one.setLabel("Three");
-        one.setColor(UILoader.getColor("orange"));
+        three.setLabel("Three");
+        three.setColor(UILoader.getColor("orange"));
 
         var four = new DataPoint<>("four", 50.0);
 
-        one.setLabel("Four");
-        one.setColor(UILoader.getColor("light-blue"));
+        four.setLabel("Four");
+        four.setColor(UILoader.getColor("light-blue"));
 
         var dataSet = new DataSet<String, Double>("values", "Values");
 
@@ -93,8 +93,35 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private BarChart<String, Double> createBarChart() {
-        // TODO
-        return null;
+        var dataSetA = new DataSet<String, Double>("a", "A");
+
+        dataSetA.setDataPoints(listOf(
+            new DataPoint<>("one", 10.0),
+            new DataPoint<>("two", 10.0),
+            new DataPoint<>("three", 30.0),
+            new DataPoint<>("four", 50.0)
+        ));
+
+        dataSetA.setColor(UILoader.getColor("light-green"));
+
+        var dataSetB = new DataSet<String, Double>("b", "B");
+
+        dataSetA.setDataPoints(listOf(
+            new DataPoint<>("one", 20.0),
+            new DataPoint<>("two", 15.0),
+            new DataPoint<>("three", 40.0),
+            new DataPoint<>("four", 10.0)
+        ));
+
+        dataSetB.setColor(UILoader.getColor("light-blue"));
+
+        var barChart = new BarChart<String, Double>(false);
+
+        barChart.setSize(320, 240);
+
+        barChart.setDataSets(listOf(dataSetA, dataSetB));
+
+        return barChart;
     }
 
     private LineChart<Double, Double> createLineChart() {

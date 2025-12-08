@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 /**
@@ -27,5 +28,11 @@ public class LineChart<K extends Number, V extends Number> extends Chart<K, V> {
     @Override
     public void draw(Graphics2D graphics) {
         // TODO
+        graphics.setColor(Color.BLUE);
+
+        var width = getWidth();
+        var height = getHeight();
+
+        graphics.drawRect(0, 0, width, height);
     }
 }
