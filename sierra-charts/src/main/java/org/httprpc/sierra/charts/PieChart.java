@@ -19,7 +19,7 @@ import java.awt.Graphics2D;
 /**
  * Pie chart.
  */
-public class PieChart extends Chart<String, Number> {
+public class PieChart<K, V extends Number> extends Chart<K, V> {
     private int outerRadius;
 
     private int innerRadius = 0;

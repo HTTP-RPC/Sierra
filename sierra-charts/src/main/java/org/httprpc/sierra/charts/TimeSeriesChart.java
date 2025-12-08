@@ -23,7 +23,7 @@ import java.time.temporal.TemporalAccessor;
  * @param <K>
  * The key type.
  */
-public class TimeSeriesChart<K extends TemporalAccessor> extends Chart<K, Number> {
+public class TimeSeriesChart<K extends TemporalAccessor, V extends Number> extends Chart<K, V> {
     private Class<K> keyType;
 
     /**

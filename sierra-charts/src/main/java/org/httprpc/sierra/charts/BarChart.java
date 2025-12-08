@@ -19,7 +19,7 @@ import java.awt.Graphics2D;
 /**
  * Bar chart.
  */
-public class BarChart extends Chart<String, Number> {
+public class BarChart<K, V extends Number> extends Chart<K, V> {
     private boolean stacked;
 
     /**
