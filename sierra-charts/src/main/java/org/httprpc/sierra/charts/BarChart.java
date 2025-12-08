@@ -23,6 +23,8 @@ import java.awt.Graphics2D;
 public class BarChart<K, V extends Number> extends Chart<K, V> {
     private boolean stacked;
 
+    private Orientation orientation = Orientation.VERTICAL;
+
     /**
      * Constructs a new bar chart.
      *
@@ -41,6 +43,30 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
      */
     public boolean isStacked() {
         return stacked;
+    }
+
+    /**
+     * Returns the chart's orientation.
+     *
+     * @return
+     * The chart's orientation.
+     */
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
+    /**
+     * Sets the chart's orientation.
+     *
+     * @param orientation
+     * The chart's orientation.
+     */
+    public void setOrientation(Orientation orientation) {
+        if (orientation == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.orientation = orientation;
     }
 
     /**

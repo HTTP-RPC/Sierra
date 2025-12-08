@@ -24,6 +24,7 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
     private int outerRadius;
 
     private int innerRadius = 0;
+    private int columns = 1;
 
     /**
      * Constructs a new pie chart.
@@ -71,6 +72,30 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
         }
 
         this.innerRadius = innerRadius;
+    }
+
+    /**
+     * Returns the column count.
+     *
+     * @return
+     * The column count.
+     */
+    public int getColumns() {
+        return columns;
+    }
+
+    /**
+     * Sets the column count.
+     *
+     * @param columns
+     * The column count.
+     */
+    public void setColumns(int columns) {
+        if (columns < 1) {
+            throw new IllegalArgumentException();
+        }
+
+        this.columns = columns;
     }
 
     /**

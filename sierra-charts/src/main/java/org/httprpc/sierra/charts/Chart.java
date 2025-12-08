@@ -14,7 +14,9 @@
 
 package org.httprpc.sierra.charts;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -62,6 +64,12 @@ public abstract class Chart<K, V> {
     private int width = 0;
     private int height = 0;
 
+    private Color horizontalGridColor = null;
+    private Stroke horizontalGridStroke = null;
+
+    private Color verticalGridColor = null;
+    private Stroke verticalGridStroke = null;
+
     private List<DataSet<K, V>> dataSets = listOf();
 
     /**
@@ -100,6 +108,86 @@ public abstract class Chart<K, V> {
 
         this.width = width;
         this.height = height;
+    }
+
+    /**
+     * Returns the chart's horizontal grid color.
+     *
+     * @return
+     * The chart's horizontal grid color.
+     */
+    public Color getHorizontalGridColor() {
+        return horizontalGridColor;
+    }
+
+    /**
+     * Sets the chart's horizontal grid color.
+     *
+     * @param horizontalGridColor
+     * The chart's horizontal grid color.
+     */
+    public void setHorizontalGridColor(Color horizontalGridColor) {
+        this.horizontalGridColor = horizontalGridColor;
+    }
+
+    /**
+     * Returns the chart's horizontal grid stroke.
+     *
+     * @return
+     * The chart's horizontal grid stroke.
+     */
+    public Stroke getHorizontalGridStroke() {
+        return horizontalGridStroke;
+    }
+
+    /**
+     * Sets the chart's horizontal grid stroke.
+     *
+     * @param horizontalGridStroke
+     * The chart's horizontal grid stroke.
+     */
+    public void setHorizontalGridStroke(Stroke horizontalGridStroke) {
+        this.horizontalGridStroke = horizontalGridStroke;
+    }
+
+    /**
+     * Returns the chart's vertical grid color.
+     *
+     * @return
+     * The chart's vertical grid color.
+     */
+    public Color getVerticalGridColor() {
+        return verticalGridColor;
+    }
+
+    /**
+     * Sets the chart's vertical grid color.
+     *
+     * @param verticalGridColor
+     * The chart's vertical grid color.
+     */
+    public void setVerticalGridColor(Color verticalGridColor) {
+        this.verticalGridColor = verticalGridColor;
+    }
+
+    /**
+     * Returns the chart's vertical grid stroke.
+     *
+     * @return
+     * The chart's vertical grid stroke.
+     */
+    public Stroke getVerticalGridStroke() {
+        return verticalGridStroke;
+    }
+
+    /**
+     * Sets the chart's vertical grid stroke.
+     *
+     * @param verticalGridStroke
+     * The chart's vertical grid stroke.
+     */
+    public void setVerticalGridStroke(Stroke verticalGridStroke) {
+        this.verticalGridStroke = verticalGridStroke;
     }
 
     /**
