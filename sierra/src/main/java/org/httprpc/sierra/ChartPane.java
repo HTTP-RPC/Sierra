@@ -39,7 +39,7 @@ public class ChartPane extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            if (chart == null) {
+            if (chart == null || sizeToFit) {
                 return new Dimension(0, 0);
             }
 
@@ -69,11 +69,43 @@ public class ChartPane extends JComponent {
                 return;
             }
 
+            var insets = getInsets();
+
+            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+            var height = Math.max(getHeight() - (insets.top + insets.bottom), 0);
+
+            var chartWidth = (double)chart.getWidth();
+            var chartHeight = (double)chart.getHeight();
+
+            var x = switch (horizontalAlignment.getLocalizedValue(ChartPane.this)) {
+                case LEFT -> 0;
+                case RIGHT -> width - chartWidth;
+                case CENTER -> (width - chartWidth) / 2;
+                default -> throw new UnsupportedOperationException();
+            };
+
+            var y = switch (verticalAlignment) {
+                case TOP -> 0;
+                case BOTTOM -> height - chartHeight;
+                case CENTER -> (height - chartHeight) / 2;
+            };
+
+            graphics = (Graphics2D)graphics.create();
+
+            graphics.translate(x + insets.left, y + insets.top);
+
             chart.draw(graphics);
+
+            graphics.dispose();
         }
     }
 
     private Chart chart;
+
+    private boolean sizeToFit = false;
+
+    private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
+    private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
 
     /**
      * Constructs a new chart pane.
@@ -100,7 +132,7 @@ public class ChartPane extends JComponent {
      * @return
      * The chart displayed by the component.
      */
-    public Chart getImage() {
+    public Chart getChart() {
         return chart;
     }
 
@@ -114,5 +146,82 @@ public class ChartPane extends JComponent {
         this.chart = chart;
 
         revalidate();
+    }
+
+    /**
+     * Indicates that the chart will be sized to fit the available space.
+     *
+     * @return
+     * {@code true} if the chart will be sized to fit; {@code false},
+     * otherwise.
+     */
+    public boolean isSizeToFit() {
+        return sizeToFit;
+    }
+
+    /**
+     * Toggles chart resizing.
+     *
+     * @param sizeToFit
+     * {@code true} to enable chart resizing; {@code false} to disable it.
+     */
+    public void setSizeToFit(boolean sizeToFit) {
+        this.sizeToFit = sizeToFit;
+
+        revalidate();
+    }
+
+    /**
+     * Returns the horizontal alignment. The default value is
+     * {@link HorizontalAlignment#CENTER}.
+     *
+     * @return
+     * The horizontal alignment.
+     */
+    public HorizontalAlignment getHorizontalAlignment() {
+        return horizontalAlignment;
+    }
+
+    /**
+     * Sets the horizontal alignment.
+     *
+     * @param horizontalAlignment
+     * The horizontal alignment.
+     */
+    public void setHorizontalAlignment(HorizontalAlignment horizontalAlignment) {
+        if (horizontalAlignment == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.horizontalAlignment = horizontalAlignment;
+
+        repaint();
+    }
+
+    /**
+     * Returns the vertical alignment. The default value is
+     * {@link VerticalAlignment#CENTER}.
+     *
+     * @return
+     * The vertical alignment.
+     */
+    public VerticalAlignment getVerticalAlignment() {
+        return verticalAlignment;
+    }
+
+    /**
+     * Sets the vertical alignment.
+     *
+     * @param verticalAlignment
+     * The vertical alignment.
+     */
+    public void setVerticalAlignment(VerticalAlignment verticalAlignment) {
+        if (verticalAlignment == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.verticalAlignment = verticalAlignment;
+
+        repaint();
     }
 }
