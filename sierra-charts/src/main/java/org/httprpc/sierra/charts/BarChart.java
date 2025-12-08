@@ -42,6 +42,10 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
         return stacked;
     }
 
+    /**
+     * Draws the bar chart.
+     * {@inheritDoc}
+     */
     @Override
     public void draw(Graphics2D graphics) {
         // TODO

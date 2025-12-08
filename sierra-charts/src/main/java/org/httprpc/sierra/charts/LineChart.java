@@ -20,6 +20,10 @@ import java.awt.Graphics2D;
  * Line chart.
  */
 public class LineChart<K extends Number, V extends Number> extends Chart<K, V> {
+    /**
+     * Draws the line chart.
+     * {@inheritDoc}
+     */
     @Override
     public void draw(Graphics2D graphics) {
         // TODO

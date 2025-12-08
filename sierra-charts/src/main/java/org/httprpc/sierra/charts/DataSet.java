@@ -15,6 +15,7 @@
 package org.httprpc.sierra.charts;
 
 import java.awt.Color;
+import java.awt.Stroke;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -33,6 +34,7 @@ public class DataSet<K, V> {
     private String label;
 
     private Color color = null;
+    private Stroke stroke = null;
     private Chart.Axis axis = null;
 
     private List<DataPoint<K, V>> dataPoints = listOf();
@@ -93,6 +95,26 @@ public class DataSet<K, V> {
      */
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    /**
+     * Returns the data set's stroke.
+     *
+     * @return
+     * The data set's stroke.
+     */
+    public Stroke getStroke() {
+        return stroke;
+    }
+
+    /**
+     * Sets the data set's stroke.
+     *
+     * @param stroke
+     * The data set's stroke.
+     */
+    public void setStroke(Stroke stroke) {
+        this.stroke = stroke;
     }
 
     /**

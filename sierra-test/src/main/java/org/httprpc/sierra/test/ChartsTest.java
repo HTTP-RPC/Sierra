@@ -19,6 +19,8 @@ import org.httprpc.sierra.ChartPane;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.charts.BarChart;
+import org.httprpc.sierra.charts.DataPoint;
+import org.httprpc.sierra.charts.DataSet;
 import org.httprpc.sierra.charts.LineChart;
 import org.httprpc.sierra.charts.PieChart;
 import org.httprpc.sierra.charts.TimeSeriesChart;
@@ -26,6 +28,8 @@ import org.httprpc.sierra.charts.TimeSeriesChart;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.time.Instant;
+
+import static org.httprpc.kilo.util.Collections.*;
 
 public class ChartsTest extends JFrame implements Runnable {
     private @Outlet ChartPane<String, Double> pieChartPane = null;
@@ -53,8 +57,37 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private PieChart<String, Double> createPieChart() {
-        // TODO
-        return null;
+        var one = new DataPoint<>("one", 10.0);
+
+        one.setLabel("One");
+        one.setColor(UILoader.getColor("light-green"));
+
+        var two = new DataPoint<>("one", 10.0);
+
+        one.setLabel("Two");
+        one.setColor(UILoader.getColor("light-yellow"));
+
+        var three = new DataPoint<>("three", 30.0);
+
+        one.setLabel("Three");
+        one.setColor(UILoader.getColor("orange"));
+
+        var four = new DataPoint<>("four", 50.0);
+
+        one.setLabel("Four");
+        one.setColor(UILoader.getColor("light-blue"));
+
+        var dataSet = new DataSet<String, Double>("values", "Values");
+
+        dataSet.setDataPoints(listOf(one, two, three, four));
+
+        var pieChart = new PieChart<String, Double>(120);
+
+        pieChart.setInnerRadius(100);
+
+        pieChart.setDataSets(listOf(dataSet));
+
+        return pieChart;
     }
 
     private BarChart<String, Double> createBarChart() {

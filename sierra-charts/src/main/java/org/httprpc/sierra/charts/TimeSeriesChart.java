@@ -50,6 +50,10 @@ public class TimeSeriesChart<K extends TemporalAccessor, V extends Number> exten
         return keyType;
     }
 
+    /**
+     * Draws the time series chart.
+     * {@inheritDoc}
+     */
     @Override
     public void draw(Graphics2D graphics) {
         // TODO

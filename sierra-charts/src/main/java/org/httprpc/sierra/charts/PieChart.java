@@ -72,6 +72,10 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
         this.innerRadius = innerRadius;
     }
 
+    /**
+     * Draws the pie chart.
+     * {@inheritDoc}
+     */
     @Override
     public void draw(Graphics2D graphics) {
         // TODO
