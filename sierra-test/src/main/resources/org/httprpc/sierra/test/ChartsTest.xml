@@ -13,11 +13,6 @@
         sizeToFit="true"
         padding="8"/>
 
-    <chart-pane name="lineChartPane" opaque="true" background="white"
-        tabTitle="Line Chart"
-        sizeToFit="true"
-        padding="8"/>
-
     <chart-pane name="timeSeriesChartPane" opaque="true" background="white"
         tabTitle="Time Series Chart"
         sizeToFit="true"

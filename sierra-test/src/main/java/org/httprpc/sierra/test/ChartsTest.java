@@ -22,7 +22,6 @@ import org.httprpc.sierra.charts.BarChart;
 import org.httprpc.sierra.charts.Chart;
 import org.httprpc.sierra.charts.DataPoint;
 import org.httprpc.sierra.charts.DataSet;
-import org.httprpc.sierra.charts.LineChart;
 import org.httprpc.sierra.charts.PieChart;
 import org.httprpc.sierra.charts.TimeSeriesChart;
 
@@ -35,7 +34,6 @@ import static org.httprpc.kilo.util.Collections.*;
 public class ChartsTest extends JFrame implements Runnable {
     private @Outlet ChartPane<String, Double> pieChartPane = null;
     private @Outlet ChartPane<String, Double> barChartPane = null;
-    private @Outlet ChartPane<Double, Double> lineChartPane = null;
     private @Outlet ChartPane<LocalDate, Double> timeSeriesChartPane = null;
 
     private ChartsTest() {
@@ -50,7 +48,6 @@ public class ChartsTest extends JFrame implements Runnable {
 
         pieChartPane.setChart(createPieChart());
         barChartPane.setChart(createBarChart());
-        lineChartPane.setChart(createLineChart());
         timeSeriesChartPane.setChart(createTimeSeriesChart());
 
         setSize(640, 480);
@@ -119,38 +116,6 @@ public class ChartsTest extends JFrame implements Runnable {
         barChart.setDataSets(listOf(dataSetA, dataSetB));
 
         return barChart;
-    }
-
-    private LineChart<Double, Double> createLineChart() {
-        var dataSetA = new DataSet<Double, Double>("a", "A");
-
-        dataSetA.setAxis(Chart.Axis.LEADING);
-        dataSetA.setColor(UILoader.getColor("light-green"));
-
-        dataSetA.setDataPoints(listOf(
-            new DataPoint<>(1.0, 10.0),
-            new DataPoint<>(2.0, 10.0),
-            new DataPoint<>(3.0, 30.0),
-            new DataPoint<>(4.0, 50.0)
-        ));
-
-        var dataSetB = new DataSet<Double, Double>("b", "B");
-
-        dataSetB.setAxis(Chart.Axis.TRAILING);
-        dataSetB.setColor(UILoader.getColor("light-blue"));
-
-        dataSetB.setDataPoints(listOf(
-            new DataPoint<>(1.0, 200.0),
-            new DataPoint<>(2.0, 150.0),
-            new DataPoint<>(3.0, 400.0),
-            new DataPoint<>(4.0, 100.0)
-        ));
-
-        var lineChart = new LineChart<Double, Double>();
-
-        lineChart.setDataSets(listOf(dataSetA, dataSetB));
-
-        return lineChart;
     }
 
     private TimeSeriesChart<LocalDate, Double> createTimeSeriesChart() {

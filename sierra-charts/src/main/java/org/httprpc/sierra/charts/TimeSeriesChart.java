@@ -58,7 +58,7 @@ public class TimeSeriesChart<K extends TemporalAccessor, V extends Number> exten
     @Override
     public void draw(Graphics2D graphics) {
         // TODO
-        graphics.setColor(Color.MAGENTA);
+        graphics.setColor(Color.BLUE);
 
         var width = getWidth();
         var height = getHeight();
