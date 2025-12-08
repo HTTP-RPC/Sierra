@@ -19,6 +19,7 @@ import org.httprpc.sierra.ChartPane;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.charts.BarChart;
+import org.httprpc.sierra.charts.Chart;
 import org.httprpc.sierra.charts.DataPoint;
 import org.httprpc.sierra.charts.DataSet;
 import org.httprpc.sierra.charts.LineChart;
@@ -27,7 +28,7 @@ import org.httprpc.sierra.charts.TimeSeriesChart;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import java.time.Instant;
+import java.time.LocalDate;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -35,7 +36,7 @@ public class ChartsTest extends JFrame implements Runnable {
     private @Outlet ChartPane<String, Double> pieChartPane = null;
     private @Outlet ChartPane<String, Double> barChartPane = null;
     private @Outlet ChartPane<Double, Double> lineChartPane = null;
-    private @Outlet ChartPane<Instant, Double> timeSeriesChartPane = null;
+    private @Outlet ChartPane<LocalDate, Double> timeSeriesChartPane = null;
 
     private ChartsTest() {
         super("Charts Test");
@@ -83,8 +84,6 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var pieChart = new PieChart<String, Double>(120);
 
-        pieChart.setSize(320, 240);
-
         pieChart.setInnerRadius(100);
 
         pieChart.setDataSets(listOf(dataSet));
@@ -106,7 +105,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var dataSetB = new DataSet<String, Double>("b", "B");
 
-        dataSetA.setDataPoints(listOf(
+        dataSetB.setDataPoints(listOf(
             new DataPoint<>("one", 20.0),
             new DataPoint<>("two", 15.0),
             new DataPoint<>("three", 40.0),
@@ -117,21 +116,75 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var barChart = new BarChart<String, Double>(false);
 
-        barChart.setSize(320, 240);
-
         barChart.setDataSets(listOf(dataSetA, dataSetB));
 
         return barChart;
     }
 
     private LineChart<Double, Double> createLineChart() {
-        // TODO
-        return null;
+        var dataSetA = new DataSet<Double, Double>("a", "A");
+
+        dataSetA.setAxis(Chart.Axis.LEADING);
+        dataSetA.setColor(UILoader.getColor("light-green"));
+
+        dataSetA.setDataPoints(listOf(
+            new DataPoint<>(1.0, 10.0),
+            new DataPoint<>(2.0, 10.0),
+            new DataPoint<>(3.0, 30.0),
+            new DataPoint<>(4.0, 50.0)
+        ));
+
+        var dataSetB = new DataSet<Double, Double>("b", "B");
+
+        dataSetB.setAxis(Chart.Axis.TRAILING);
+        dataSetB.setColor(UILoader.getColor("light-blue"));
+
+        dataSetB.setDataPoints(listOf(
+            new DataPoint<>(1.0, 200.0),
+            new DataPoint<>(2.0, 150.0),
+            new DataPoint<>(3.0, 400.0),
+            new DataPoint<>(4.0, 100.0)
+        ));
+
+        var lineChart = new LineChart<Double, Double>();
+
+        lineChart.setDataSets(listOf(dataSetA, dataSetB));
+
+        return lineChart;
     }
 
-    private TimeSeriesChart<Instant, Double> createTimeSeriesChart() {
-        // TODO
-        return null;
+    private TimeSeriesChart<LocalDate, Double> createTimeSeriesChart() {
+        var today = LocalDate.now();
+
+        var dataSetA = new DataSet<LocalDate, Double>("a", "A");
+
+        dataSetA.setAxis(Chart.Axis.LEADING);
+        dataSetA.setColor(UILoader.getColor("light-green"));
+
+        dataSetA.setDataPoints(listOf(
+            new DataPoint<>(today.minusDays(10), 10.0),
+            new DataPoint<>(today.minusDays(5), 10.0),
+            new DataPoint<>(today.minusDays(1), 30.0),
+            new DataPoint<>(today, 50.0)
+        ));
+
+        var dataSetB = new DataSet<LocalDate, Double>("b", "B");
+
+        dataSetB.setAxis(Chart.Axis.TRAILING);
+        dataSetB.setColor(UILoader.getColor("light-blue"));
+
+        dataSetB.setDataPoints(listOf(
+            new DataPoint<>(today.minusDays(10), 200.0),
+            new DataPoint<>(today.minusDays(5), 150.0),
+            new DataPoint<>(today.minusDays(1), 400.0),
+            new DataPoint<>(today, 100.0)
+        ));
+
+        var timeSeriesChart = new TimeSeriesChart<LocalDate, Double>(LocalDate.class);
+
+        timeSeriesChart.setDataSets(listOf(dataSetA, dataSetB));
+
+        return timeSeriesChart;
     }
 
     public static void main(String[] args) {
