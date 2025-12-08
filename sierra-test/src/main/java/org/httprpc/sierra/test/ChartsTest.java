@@ -18,6 +18,10 @@ import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.ChartPane;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
+import org.httprpc.sierra.charts.BarChart;
+import org.httprpc.sierra.charts.LineChart;
+import org.httprpc.sierra.charts.PieChart;
+import org.httprpc.sierra.charts.TimeSeriesChart;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -39,13 +43,33 @@ public class ChartsTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "ChartsTest.xml"));
 
-        // TODO
-        lineChartPane.setChart(null);
-        barChartPane.setChart(null);
-        pieChartPane.setChart(null);
+        pieChartPane.setChart(createPieChart());
+        barChartPane.setChart(createBarChart());
+        lineChartPane.setChart(createLineChart());
+        timeSeriesChartPane.setChart(createTimeSeriesChart());
 
         setSize(640, 480);
         setVisible(true);
+    }
+
+    private PieChart<String, Double> createPieChart() {
+        // TODO
+        return null;
+    }
+
+    private BarChart<String, Double> createBarChart() {
+        // TODO
+        return null;
+    }
+
+    private LineChart<Double, Double> createLineChart() {
+        // TODO
+        return null;
+    }
+
+    private TimeSeriesChart<Instant, Double> createTimeSeriesChart() {
+        // TODO
+        return null;
     }
 
     public static void main(String[] args) {
