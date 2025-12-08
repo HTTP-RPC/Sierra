@@ -8,17 +8,17 @@
         sizeToFit="true"
         padding="8"/>
 
-    <chart-pane name="barChartPane"
+    <chart-pane name="barChartPane" opaque="true" background="white"
         tabTitle="Bar Chart"
         sizeToFit="true"
         padding="8"/>
 
-    <chart-pane name="lineChartPane"
+    <chart-pane name="lineChartPane" opaque="true" background="white"
         tabTitle="Line Chart"
         sizeToFit="true"
         padding="8"/>
 
-    <chart-pane name="timeSeriesChartPane"
+    <chart-pane name="timeSeriesChartPane" opaque="true" background="white"
         tabTitle="Time Series Chart"
         sizeToFit="true"
         padding="8"/>
