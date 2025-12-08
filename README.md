@@ -470,6 +470,13 @@ The `ActivityIndicator` component shows indeterminate progress:
 
 See [ActivityIndicatorTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActivityIndicatorTest.java) for more information.
 
+### Charts
+The `ChartPane` component displays a chart:
+
+<img src="README/charts.png" width="752px"/>
+
+[org.httprpc:sierra-charts](https://central.sonatype.com/artifact/org.httprpc/sierra-charts/versions) is required. See [ChartsTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ChartsTest.java) for more information.
+
 ## Focus Management
 The `ScrollingKeyboardFocusManager` class ensures that components are automatically scrolled into view when focused (something that Swing oddly does not do by default). It can be installed at application startup as follows:
 
