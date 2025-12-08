@@ -15,11 +15,20 @@
 package org.httprpc.sierra.charts;
 
 import java.awt.Graphics2D;
+import java.util.List;
+
+import static org.httprpc.kilo.util.Collections.*;
 
 /**
  * Abstract base class for charts.
+ *
+ * @param <K>
+ * The key type.
+ *
+ * @param <V>
+ * The value type.
  */
-public abstract class Chart {
+public abstract class Chart<K, V> {
     /**
      * Chart orientation options.
      */
@@ -50,8 +59,10 @@ public abstract class Chart {
         TRAILING
     }
 
-    private int width = 320;
-    private int height = 240;
+    private int width = 0;
+    private int height = 0;
+
+    private List<DataSet<K, V>> dataSets = listOf();
 
     /**
      * Returns the chart's width.
@@ -89,6 +100,30 @@ public abstract class Chart {
 
         this.width = width;
         this.height = height;
+    }
+
+    /**
+     * Returns the chart's data sets.
+     *
+     * @return
+     * The chart's data sets.
+     */
+    public List<DataSet<K, V>> getDataSets() {
+        return dataSets;
+    }
+
+    /**
+     * Sets the chart's data sets.
+     *
+     * @param dataSets
+     * The chart's data sets.
+     */
+    public void setDataSets(List<DataSet<K, V>> dataSets) {
+        if (dataSets == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.dataSets = dataSets;
     }
 
     /**

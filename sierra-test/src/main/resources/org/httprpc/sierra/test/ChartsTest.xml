@@ -3,7 +3,19 @@
 <!DOCTYPE tabbed-pane SYSTEM "sierra.dtd">
 
 <tabbed-pane tabLayoutPolicy="scroll-tab-layout">
-    <chart-pane name="barChartPane" tabTitle="Bar Chart" sizeToFit="true"/>
-    <chart-pane name="lineChartPane" tabTitle="Line Chart" sizeToFit="true"/>
-    <chart-pane name="pieChartPane" tabTitle="Pie Chart" sizeToFit="true"/>
+    <chart-pane name="pieChartPane"
+        tabTitle="Pie Chart"
+        sizeToFit="true"/>
+
+    <chart-pane name="barChartPane"
+        tabTitle="Bar Chart"
+        sizeToFit="true"/>
+
+    <chart-pane name="lineChartPane"
+        tabTitle="Line Chart"
+        sizeToFit="true"/>
+
+    <chart-pane name="timeSeriesChartPane"
+        tabTitle="Time Series Chart"
+        sizeToFit="true"/>
 </tabbed-pane>

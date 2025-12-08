@@ -21,11 +21,13 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import java.time.Instant;
 
 public class ChartsTest extends JFrame implements Runnable {
-    private @Outlet ChartPane barChartPane = null;
-    private @Outlet ChartPane lineChartPane = null;
-    private @Outlet ChartPane pieChartPane = null;
+    private @Outlet ChartPane<String, Double> pieChartPane = null;
+    private @Outlet ChartPane<String, Double> barChartPane = null;
+    private @Outlet ChartPane<Double, Double> lineChartPane = null;
+    private @Outlet ChartPane<Instant, Double> timeSeriesChartPane = null;
 
     private ChartsTest() {
         super("Charts Test");
@@ -38,8 +40,8 @@ public class ChartsTest extends JFrame implements Runnable {
         setContentPane(UILoader.load(this, "ChartsTest.xml"));
 
         // TODO
-        barChartPane.setChart(null);
         lineChartPane.setChart(null);
+        barChartPane.setChart(null);
         pieChartPane.setChart(null);
 
         setSize(640, 480);
