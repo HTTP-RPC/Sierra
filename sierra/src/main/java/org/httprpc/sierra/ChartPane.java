@@ -45,7 +45,7 @@ public class ChartPane<K, V> extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            if (chart == null || sizeToFit) {
+            if (chart == null) {
                 return new Dimension(0, 0);
             }
 
@@ -229,5 +229,19 @@ public class ChartPane<K, V> extends JComponent {
         this.verticalAlignment = verticalAlignment;
 
         repaint();
+    }
+
+    @Override
+    public void setBounds(int x, int y, int width, int height) {
+        super.setBounds(x, y, width, height);
+
+        if (chart != null && sizeToFit) {
+            var insets = getInsets();
+
+            var chartWidth = width - (insets.left + insets.right);
+            var chartHeight = height - (insets.top + insets.bottom);
+
+            chart.setSize(chartWidth, chartHeight);
+        }
     }
 }

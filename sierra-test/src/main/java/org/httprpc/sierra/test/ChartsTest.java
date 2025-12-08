@@ -83,6 +83,8 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var pieChart = new PieChart<String, Double>(120);
 
+        pieChart.setSize(320, 240);
+
         pieChart.setInnerRadius(100);
 
         pieChart.setDataSets(listOf(dataSet));
