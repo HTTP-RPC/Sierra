@@ -18,6 +18,7 @@ plugins {
 
 dependencies {
     implementation project(':sierra')
+    implementation project(':sierra-charts')
 }
 
 application {

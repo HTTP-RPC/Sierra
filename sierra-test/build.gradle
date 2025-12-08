@@ -18,6 +18,7 @@ plugins {
 
 dependencies {
     implementation project(':sierra')
+    implementation project(':sierra-charts')
 
     implementation "com.formdev:flatlaf:${flatLafVersion}"
     implementation "com.formdev:flatlaf-extras:${flatLafVersion}"

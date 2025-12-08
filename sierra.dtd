@@ -49,6 +49,9 @@
 <!ENTITY % org.httprpc.sierra.ActivityIndicator "%javax.swing.JComponent; indicatorSize CDATA ">
 <!ELEMENT activity-indicator EMPTY>
 <!ATTLIST activity-indicator %org.httprpc.sierra.ActivityIndicator;>
+<!ENTITY % org.httprpc.sierra.ChartPane "%javax.swing.JComponent; ">
+<!ELEMENT chart-pane EMPTY>
+<!ATTLIST chart-pane %org.httprpc.sierra.ChartPane;>
 <!ENTITY % org.httprpc.sierra.ImagePane "%javax.swing.JComponent; horizontalAlignment (left|right|center|leading|trailing) image CDATA scaleMode (none|fill-width|fill-height) verticalAlignment (top|bottom|center) ">
 <!ELEMENT image-pane EMPTY>
 <!ATTLIST image-pane %org.httprpc.sierra.ImagePane;>

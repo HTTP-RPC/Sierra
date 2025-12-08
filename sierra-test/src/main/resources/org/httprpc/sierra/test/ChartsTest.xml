@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE tabbed-pane SYSTEM "sierra.dtd">
+
+<tabbed-pane tabLayoutPolicy="scroll-tab-layout">
+    <chart-pane name="barChartPane" tabTitle="Bar Chart"/>
+    <chart-pane name="lineChartPane" tabTitle="Line Chart"/>
+    <chart-pane name="pieChartPane" tabTitle="Pie Chart"/>
+</tabbed-pane>
