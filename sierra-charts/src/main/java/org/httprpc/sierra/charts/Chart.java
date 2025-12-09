@@ -17,7 +17,9 @@ package org.httprpc.sierra.charts;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Stroke;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -385,6 +387,24 @@ public abstract class Chart<K, V> {
         }
 
         this.dataSets = dataSets;
+    }
+
+    /**
+     * Generates an image from the chart.
+     *
+     * @return
+     * The generated image.
+     */
+    public Image toImage() {
+        var image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        var graphics = image.createGraphics();
+
+        draw(graphics);
+
+        graphics.dispose();
+
+        return image;
     }
 
     /**
