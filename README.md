@@ -475,7 +475,7 @@ The `ChartPane` component displays a chart:
 
 <img src="README/charts.png" width="752px"/>
 
-`ChartPane` requires [sierra-charts](sierra-charts). See [ChartsTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ChartsTest.java) for more information.
+See [ChartsTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ChartsTest.java) for more information.
 
 ## Focus Management
 The `ScrollingKeyboardFocusManager` class ensures that components are automatically scrolled into view when focused (something that Swing oddly does not do by default). It can be installed at application startup as follows:

@@ -1,2 +1,0 @@
-# Sierra Charts
-TODO
