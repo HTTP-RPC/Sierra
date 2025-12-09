@@ -91,7 +91,7 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
      * The column count.
      */
     public void setColumns(int columns) {
-        if (columns < 1) {
+        if (columns < 0) {
             throw new IllegalArgumentException();
         }
 

@@ -24,6 +24,8 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
     private Orientation orientation;
     private boolean stacked;
 
+    private int barThickness = 20;
+
     private String domainAxisLabel = null;
     private String rangeAxisLabel = null;
 
@@ -63,6 +65,30 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
      */
     public boolean isStacked() {
         return stacked;
+    }
+
+    /**
+     * Returns the bar thickness.
+     *
+     * @return
+     * The bar thickness.
+     */
+    public int getBarThickness() {
+        return barThickness;
+    }
+
+    /**
+     * Sets the bar thickness.
+     *
+     * @param barThickness
+     * The bar thickness.
+     */
+    public void setBarThickness(int barThickness) {
+        if (barThickness < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.barThickness = barThickness;
     }
 
     /**
