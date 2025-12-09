@@ -56,9 +56,33 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private PieChart<String, Double> createPieChart() {
-        var pieChart = new PieChart<String, Double>("value", 120, 100);
+        var dataSetA = new DataSet<String, Double>("A", UILoader.getColor("light-green"));
 
-        // TODO
+        dataSetA.setDataPoints(listOf(
+            new DataPoint<>("value", 10.0)
+        ));
+
+        var dataSetB = new DataSet<String, Double>("B", UILoader.getColor("light-yellow"));
+
+        dataSetB.setDataPoints(listOf(
+            new DataPoint<>("value", 10.0)
+        ));
+
+        var dataSetC = new DataSet<String, Double>("C", UILoader.getColor("orange"));
+
+        dataSetA.setDataPoints(listOf(
+            new DataPoint<>("value", 30.0)
+        ));
+
+        var dataSetD = new DataSet<String, Double>("D", UILoader.getColor("light-blue"));
+
+        dataSetB.setDataPoints(listOf(
+            new DataPoint<>("value", 50.0)
+        ));
+
+        var pieChart = new PieChart<String, Double>("value", 360, 320);
+
+        pieChart.setDataSets(listOf(dataSetA, dataSetB, dataSetC, dataSetD));
 
         return pieChart;
     }
@@ -73,7 +97,7 @@ public class ChartsTest extends JFrame implements Runnable {
             new DataPoint<>("four", 50.0)
         ));
 
-        var dataSetB = new DataSet<String, Double>("B", UILoader.getColor("light-blue"));
+        var dataSetB = new DataSet<String, Double>("B", UILoader.getColor("light-yellow"));
 
         dataSetB.setDataPoints(listOf(
             new DataPoint<>("one", 20.0),
@@ -101,13 +125,13 @@ public class ChartsTest extends JFrame implements Runnable {
             new DataPoint<>(today, 50.0)
         ));
 
-        var dataSetB = new DataSet<LocalDate, Double>("B", UILoader.getColor("light-blue"));
+        var dataSetB = new DataSet<LocalDate, Double>("B", UILoader.getColor("light-yellow"));
 
         dataSetB.setDataPoints(listOf(
-            new DataPoint<>(today.minusDays(10), 200.0),
-            new DataPoint<>(today.minusDays(5), 150.0),
-            new DataPoint<>(today.minusDays(1), 400.0),
-            new DataPoint<>(today, 100.0)
+            new DataPoint<>(today.minusDays(10), 20.0),
+            new DataPoint<>(today.minusDays(5), 5.0),
+            new DataPoint<>(today.minusDays(1), 40.0),
+            new DataPoint<>(today, 75.0)
         ));
 
         var timeSeriesChart = new TimeSeriesChart<LocalDate, Double>(LocalDate.class);
