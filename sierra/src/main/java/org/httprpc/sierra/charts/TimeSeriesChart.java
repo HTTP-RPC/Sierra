@@ -17,9 +17,6 @@ package org.httprpc.sierra.charts;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.time.temporal.TemporalAccessor;
-import java.util.List;
-
-import static org.httprpc.kilo.util.Collections.*;
 
 /**
  * Time series chart.
@@ -29,8 +26,6 @@ import static org.httprpc.kilo.util.Collections.*;
  */
 public class TimeSeriesChart<K extends TemporalAccessor, V extends Number> extends Chart<K, V> {
     private Class<K> keyType;
-
-    private List<DataPoint<K, V>> markers = listOf();
 
     /**
      * Constructs a new time series chart.
@@ -54,30 +49,6 @@ public class TimeSeriesChart<K extends TemporalAccessor, V extends Number> exten
      */
     public Class<K> getKeyType() {
         return keyType;
-    }
-
-    /**
-     * Returns the chart markers.
-     *
-     * @return
-     * The chart markers.
-     */
-    public List<DataPoint<K, V>> getMarkers() {
-        return markers;
-    }
-
-    /**
-     * Sets the chart markers.
-     *
-     * @param markers
-     * The chart markers.
-     */
-    public void setMarkers(List<DataPoint<K, V>> markers) {
-        if (markers == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.markers = markers;
     }
 
     /**

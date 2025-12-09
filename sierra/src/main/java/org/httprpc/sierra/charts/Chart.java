@@ -40,10 +40,12 @@ public abstract class Chart<K, V> {
     private int height = 0;
 
     private String domainHeading = null;
+    private int domainLabelCount = 2;
     private Function<K, String> domainLabelTransform = null;
     private Font domainAxisFont = null;
 
     private String rangeHeading = null;
+    private int rangeLabelCount = 2;
     private Function<V, String> rangeLabelTransform = null;
     private Font rangeAxisFont = null;
 
@@ -61,6 +63,8 @@ public abstract class Chart<K, V> {
     private Stroke verticalGridStroke = new BasicStroke();
 
     private List<DataSet<K, V>> dataSets = listOf();
+
+    private List<DataPoint<K, V>> markers = listOf();
 
     /**
      * Returns the chart's width.
@@ -121,6 +125,30 @@ public abstract class Chart<K, V> {
     }
 
     /**
+     * Returns the domain label count.
+     *
+     * @return
+     * The number of domain labels to display.
+     */
+    public int getDomainLabelCount() {
+        return domainLabelCount;
+    }
+
+    /**
+     * Sets the domain label count.
+     *
+     * @param domainLabelCount
+     * The number of domain labels to display.
+     */
+    public void setDomainLabelCount(int domainLabelCount) {
+        if (domainLabelCount < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.domainLabelCount = domainLabelCount;
+    }
+
+    /**
      * Returns the domain label transform.
      *
      * @return
@@ -178,6 +206,30 @@ public abstract class Chart<K, V> {
      */
     public void setRangeHeading(String rangeHeading) {
         this.rangeHeading = rangeHeading;
+    }
+
+    /**
+     * Returns the range label count.
+     *
+     * @return
+     * The number of range labels to display.
+     */
+    public int getRangeLabelCount() {
+        return rangeLabelCount;
+    }
+
+    /**
+     * Sets the range label count.
+     *
+     * @param rangeLabelCount
+     * The number of range labels to display.
+     */
+    public void setRangeLabelCount(int rangeLabelCount) {
+        if (rangeLabelCount < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.rangeLabelCount = rangeLabelCount;
     }
 
     /**
@@ -420,6 +472,30 @@ public abstract class Chart<K, V> {
         }
 
         this.dataSets = dataSets;
+    }
+
+    /**
+     * Returns the chart markers.
+     *
+     * @return
+     * The chart markers.
+     */
+    public List<DataPoint<K, V>> getMarkers() {
+        return markers;
+    }
+
+    /**
+     * Sets the chart markers.
+     *
+     * @param markers
+     * The chart markers.
+     */
+    public void setMarkers(List<DataPoint<K, V>> markers) {
+        if (markers == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.markers = markers;
     }
 
     /**
