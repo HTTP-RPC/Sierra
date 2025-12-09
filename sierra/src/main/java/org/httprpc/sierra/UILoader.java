@@ -1509,6 +1509,9 @@ public class UILoader {
     /**
      * Associates a markup tag with a component type.
      *
+     * @param <T>
+     * The component type.
+     *
      * @param tag
      * The markup tag.
      *
@@ -1518,7 +1521,7 @@ public class UILoader {
      * @param supplier
      * The component supplier.
      */
-    public static <C extends JComponent> void bind(String tag, Class<C> type, Supplier<C> supplier) {
+    public static <T extends JComponent> void bind(String tag, Class<T> type, Supplier<T> supplier) {
         if (tag == null || type == null || supplier == null) {
             throw new IllegalArgumentException();
         }

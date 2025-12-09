@@ -32,9 +32,9 @@ import java.time.LocalDate;
 import static org.httprpc.kilo.util.Collections.*;
 
 public class ChartsTest extends JFrame implements Runnable {
-    private @Outlet ChartPane<String, Double> pieChartPane = null;
-    private @Outlet ChartPane<String, Double> barChartPane = null;
-    private @Outlet ChartPane<LocalDate, Double> timeSeriesChartPane = null;
+    private @Outlet ChartPane<Chart<?, ?>> pieChartPane = null;
+    private @Outlet ChartPane<Chart<?, ?>> barChartPane = null;
+    private @Outlet ChartPane<Chart<?, ?>> timeSeriesChartPane = null;
 
     private ChartsTest() {
         super("Charts Test");

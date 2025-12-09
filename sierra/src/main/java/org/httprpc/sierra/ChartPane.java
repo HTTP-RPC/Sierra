@@ -25,13 +25,10 @@ import java.awt.Graphics2D;
 /**
  * Displays a chart.
  *
- * @param <K>
- * The chart's key type.
- *
- * @param <V>
- * The chart's value type.
+ * @param <C>
+ * The chart type.
  */
-public class ChartPane<K, V> extends JComponent {
+public class ChartPane<C extends Chart<?, ?>> extends JComponent {
     private class ChartPaneUI extends ComponentUI {
         @Override
         public Dimension getMinimumSize(JComponent component) {
@@ -106,7 +103,7 @@ public class ChartPane<K, V> extends JComponent {
         }
     }
 
-    private Chart<K, V> chart;
+    private C chart;
 
     private boolean sizeToFit = false;
 
@@ -126,7 +123,7 @@ public class ChartPane<K, V> extends JComponent {
      * @param chart
      * The chart to display, or {@code null} for no chart.
      */
-    public ChartPane(Chart<K, V> chart) {
+    public ChartPane(C chart) {
         this.chart = chart;
 
         setUI(new ChartPaneUI());
@@ -138,7 +135,7 @@ public class ChartPane<K, V> extends JComponent {
      * @return
      * The chart displayed by the component.
      */
-    public Chart<K, V> getChart() {
+    public C getChart() {
         return chart;
     }
 
@@ -148,7 +145,7 @@ public class ChartPane<K, V> extends JComponent {
      * @param chart
      * The chart to display, or {@code null} for no chart.
      */
-    public void setChart(Chart<K, V> chart) {
+    public void setChart(C chart) {
         this.chart = chart;
 
         revalidate();
