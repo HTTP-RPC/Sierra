@@ -35,7 +35,6 @@ public class DataSet<K, V> {
 
     private Color color = null;
     private Stroke stroke = null;
-    private Chart.RangeAxis rangeAxis = null;
 
     private List<DataPoint<K, V>> dataPoints = listOf();
 
@@ -118,26 +117,6 @@ public class DataSet<K, V> {
     }
 
     /**
-     * Returns the data set's axis.
-     *
-     * @return
-     * The data set's axis.
-     */
-    public Chart.RangeAxis getRangeAxis() {
-        return rangeAxis;
-    }
-
-    /**
-     * Sets the data set's axis.
-     *
-     * @param rangeAxis
-     * The data set's axis.
-     */
-    public void setRangeAxis(Chart.RangeAxis rangeAxis) {
-        this.rangeAxis = rangeAxis;
-    }
-
-    /**
      * Returns the data set's data points.
      *
      * @return
@@ -154,6 +133,10 @@ public class DataSet<K, V> {
      * The data set's data points.
      */
     public void setDataPoints(List<DataPoint<K, V>> dataPoints) {
+        if (dataPoints == null) {
+            throw new IllegalArgumentException();
+        }
+
         this.dataPoints = dataPoints;
     }
 }

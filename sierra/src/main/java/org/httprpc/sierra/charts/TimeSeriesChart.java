@@ -30,13 +30,6 @@ import static org.httprpc.kilo.util.Collections.*;
 public class TimeSeriesChart<K extends TemporalAccessor, V extends Number> extends Chart<K, V> {
     private Class<K> keyType;
 
-    private int horizontalTickCount = 10;
-    private int verticalTickCount = 10;
-
-    private String domainAxisLabel = null;
-    private String leadingRangeAxisLabel = null;
-    private String trailingRangeAxisLabel = null;
-
     private List<DataPoint<K, V>> markers = listOf();
 
     /**
@@ -85,114 +78,6 @@ public class TimeSeriesChart<K extends TemporalAccessor, V extends Number> exten
         }
 
         this.markers = markers;
-    }
-
-    /**
-     * Returns the horizontal tick count.
-     *
-     * @return
-     * The horizontal tick count.
-     */
-    public int getHorizontalTickCount() {
-        return horizontalTickCount;
-    }
-
-    /**
-     * Sets the horizontal tick count.
-     *
-     * @param horizontalTickCount
-     * The horizontal tick count.
-     */
-    public void setHorizontalTickCount(int horizontalTickCount) {
-        if (horizontalTickCount < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.horizontalTickCount = horizontalTickCount;
-    }
-
-    /**
-     * Returns the vertical tick count.
-     *
-     * @return
-     * The vertical tick count.
-     */
-    public int getVerticalTickCount() {
-        return verticalTickCount;
-    }
-
-    /**
-     * Sets the vertical tick count.
-     *
-     * @param verticalTickCount
-     * The vertical tick count.
-     */
-    public void setVerticalTickCount(int verticalTickCount) {
-        if (verticalTickCount < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.verticalTickCount = verticalTickCount;
-    }
-
-    /**
-     * Returns the domain axis label.
-     *
-     * @return
-     * The domain axis label.
-     */
-    public String getDomainAxisLabel() {
-        return domainAxisLabel;
-    }
-
-    /**
-     * Sets the domain axis label.
-     *
-     * @param domainAxisLabel
-     * The domain axis label.
-     */
-    public void setDomainAxisLabel(String domainAxisLabel) {
-        this.domainAxisLabel = domainAxisLabel;
-    }
-
-    /**
-     * Returns the leading range axis label.
-     *
-     * @return
-     * The leading range axis label.
-     */
-    public String getLeadingRangeAxisLabel() {
-        return leadingRangeAxisLabel;
-    }
-
-    /**
-     * Sets the leading range axis label.
-     *
-     * @param leadingRangeAxisLabel
-     * The leading range axis label.
-     */
-    public void setLeadingRangeAxisLabel(String leadingRangeAxisLabel) {
-        this.leadingRangeAxisLabel = leadingRangeAxisLabel;
-    }
-
-    /**
-     * Returns the trailing range axis label.
-     *
-     * @return
-     * The trailing range axis label.
-     */
-    public String getTrailingRangeAxisLabel() {
-        return trailingRangeAxisLabel;
-    }
-
-    /**
-     * Sets the trailing range axis label.
-     *
-     * @param trailingRangeAxisLabel
-     * The trailing range axis label.
-     */
-    public void setTrailingRangeAxisLabel(String trailingRangeAxisLabel) {
-        this.trailingRangeAxisLabel = trailingRangeAxisLabel;
     }
 
     /**

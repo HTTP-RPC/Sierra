@@ -16,6 +16,7 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.ChartPane;
+import org.httprpc.sierra.Orientation;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.charts.BarChart;
@@ -55,34 +56,9 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private PieChart<String, Double> createPieChart() {
-        var dataSet = new DataSet<String, Double>("values", "Values");
+        var pieChart = new PieChart<String, Double>("value", 120, 100);
 
-        dataSet.setDataPoints(listOf(
-            new DataPoint<>("one", 10.0),
-            new DataPoint<>("two", 10.0),
-            new DataPoint<>("three", 30.0),
-            new DataPoint<>("four", 50.0)
-        ));
-
-        var pieChart = new PieChart<String, Double>(120);
-
-        pieChart.setInnerRadius(100);
-
-        pieChart.setLabels(mapOf(
-            entry("one", "One"),
-            entry("two", "Two"),
-            entry("three", "Three"),
-            entry("four", "Four")
-        ));
-
-        pieChart.setColors(mapOf(
-            entry("one", UILoader.getColor("light-green")),
-            entry("two", UILoader.getColor("light-yellow")),
-            entry("three", UILoader.getColor("orange")),
-            entry("four", UILoader.getColor("light-blue"))
-        ));
-
-        pieChart.setDataSets(listOf(dataSet));
+        // TODO
 
         return pieChart;
     }
@@ -110,7 +86,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         dataSetB.setColor(UILoader.getColor("light-blue"));
 
-        var barChart = new BarChart<String, Double>(false);
+        var barChart = new BarChart<String, Double>(Orientation.VERTICAL, false);
 
         barChart.setDataSets(listOf(dataSetA, dataSetB));
 
@@ -122,7 +98,6 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var dataSetA = new DataSet<LocalDate, Double>("a", "A");
 
-        dataSetA.setRangeAxis(Chart.RangeAxis.LEADING);
         dataSetA.setColor(UILoader.getColor("light-green"));
 
         dataSetA.setDataPoints(listOf(
@@ -134,7 +109,6 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var dataSetB = new DataSet<LocalDate, Double>("b", "B");
 
-        dataSetB.setRangeAxis(Chart.RangeAxis.TRAILING);
         dataSetB.setColor(UILoader.getColor("light-blue"));
 
         dataSetB.setDataPoints(listOf(

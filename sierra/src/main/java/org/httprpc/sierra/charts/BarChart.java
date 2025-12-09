@@ -23,34 +23,28 @@ import java.awt.Graphics2D;
  * Bar chart.
  */
 public class BarChart<K, V extends Number> extends Chart<K, V> {
+    private Orientation orientation;
     private boolean stacked;
-
-    private Orientation orientation = Orientation.VERTICAL;
 
     private int barThickness = 20;
     private int barCornerRadius = 4;
 
-    private String domainAxisLabel = null;
-    private String rangeAxisLabel = null;
-
     /**
      * Constructs a new bar chart.
+     *
+     * @param orientation
+     * The chart's orientation.
      *
      * @param stacked
      * {@code true} to stack the chart's bars; {@code false}, otherwise.
      */
-    public BarChart(boolean stacked) {
-        this.stacked = stacked;
-    }
+    public BarChart(Orientation orientation, boolean stacked) {
+        if (orientation == null) {
+            throw new IllegalArgumentException();
+        }
 
-    /**
-     * Indicates that the chart's bars are stacked.
-     *
-     * @return
-     * {@code true} if the chart's bars are stacked; {@code false}, otherwise.
-     */
-    public boolean isStacked() {
-        return stacked;
+        this.orientation = orientation;
+        this.stacked = stacked;
     }
 
     /**
@@ -64,17 +58,13 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
     }
 
     /**
-     * Sets the chart's orientation.
+     * Indicates that the chart's bars are stacked.
      *
-     * @param orientation
-     * The chart's orientation.
+     * @return
+     * {@code true} if the chart's bars are stacked; {@code false}, otherwise.
      */
-    public void setOrientation(Orientation orientation) {
-        if (orientation == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.orientation = orientation;
+    public boolean isStacked() {
+        return stacked;
     }
 
     /**
@@ -123,46 +113,6 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
         }
 
         this.barCornerRadius = barCornerRadius;
-    }
-
-    /**
-     * Returns the domain axis label.
-     *
-     * @return
-     * The domain axis label.
-     */
-    public String getDomainAxisLabel() {
-        return domainAxisLabel;
-    }
-
-    /**
-     * Sets the domain axis label.
-     *
-     * @param domainAxisLabel
-     * The domain axis label.
-     */
-    public void setDomainAxisLabel(String domainAxisLabel) {
-        this.domainAxisLabel = domainAxisLabel;
-    }
-
-    /**
-     * Returns the range axis label.
-     *
-     * @return
-     * The range axis label.
-     */
-    public String getRangeAxisLabel() {
-        return rangeAxisLabel;
-    }
-
-    /**
-     * Sets the range axis label.
-     *
-     * @param rangeAxisLabel
-     * The range axis label.
-     */
-    public void setRangeAxisLabel(String rangeAxisLabel) {
-        this.rangeAxisLabel = rangeAxisLabel;
     }
 
     /**

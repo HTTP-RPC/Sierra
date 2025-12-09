@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -21,6 +22,7 @@ import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.function.Function;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -34,41 +36,29 @@ import static org.httprpc.kilo.util.Collections.*;
  * The value type.
  */
 public abstract class Chart<K, V> {
-    /**
-     * Range axis options.
-     */
-    public enum RangeAxis {
-        /**
-         * Leading axis.
-         */
-        LEADING,
-
-        /**
-         * Trailing axis.
-         */
-        TRAILING
-    }
-
     private int width = 0;
     private int height = 0;
 
-    private String heading = null;
-
-    private Color headingColor = null;
-    private Font headingFont = null;
-
-    private Color horizontalGridColor = null;
-    private Stroke horizontalGridStroke = null;
-
-    private Color verticalGridColor = null;
-    private Stroke verticalGridStroke = null;
-
+    private String domainHeading = null;
+    private Function<K, String> domainLabelTransform = null;
     private Font domainAxisFont = null;
+
+    private String rangeHeading = null;
+    private Function<V, String> rangeLabelTransform = null;
     private Font rangeAxisFont = null;
+
     private Font legendFont = null;
     private Font annotationFont = null;
 
-    private boolean showDomainLabels = true;
+    private boolean showHorizontalGridLines = true;
+
+    private Color horizontalGridColor = Color.GRAY;
+    private Stroke horizontalGridStroke = new BasicStroke();
+
+    private boolean showVerticalGridLines = true;
+
+    private Color verticalGridColor = Color.LIGHT_GRAY;
+    private Stroke verticalGridStroke = new BasicStroke();
 
     private List<DataSet<K, V>> dataSets = listOf();
 
@@ -111,143 +101,43 @@ public abstract class Chart<K, V> {
     }
 
     /**
-     * Returns the chart heading.
+     * Returns the domain heading.
      *
      * @return
-     * The chart heading.
+     * The domain heading.
      */
-    public String getHeading() {
-        return heading;
+    public String getDomainHeading() {
+        return domainHeading;
     }
 
     /**
-     * Sets the chart heading.
+     * Sets the domain heading.
      *
-     * @param heading
-     * The chart heading.
+     * @param domainHeading
+     * The domain heading.
      */
-    public void setHeading(String heading) {
-        this.heading = heading;
+    public void setDomainHeading(String domainHeading) {
+        this.domainHeading = domainHeading;
     }
 
     /**
-     * Returns the heading color.
-     *
-     * @return
-     * The heading color.
-     */
-    public Color getHeadingColor() {
-        return headingColor;
-    }
-
-    /**
-     * Sets the heading color.
-     *
-     * @param headingColor
-     * The heading color.
-     */
-    public void setHeadingColor(Color headingColor) {
-        this.headingColor = headingColor;
-    }
-
-    /**
-     * Returns the heading font.
+     * Returns the domain label transform.
      *
      * @return
-     * The heading font.
+     * The domain label transform.
      */
-    public Font getHeadingFont() {
-        return headingFont;
+    public Function<K, String> getDomainLabelTransform() {
+        return domainLabelTransform;
     }
 
     /**
-     * Sets the heading font.
+     * Sets the domain label transform.
      *
-     * @param headingFont
-     * The heading font.
+     * @param domainLabelTransform
+     * The domain label transform.
      */
-    public void setHeadingFont(Font headingFont) {
-        this.headingFont = headingFont;
-    }
-
-    /**
-     * Returns the horizontal grid color.
-     *
-     * @return
-     * The horizontal grid color.
-     */
-    public Color getHorizontalGridColor() {
-        return horizontalGridColor;
-    }
-
-    /**
-     * Sets the horizontal grid color.
-     *
-     * @param horizontalGridColor
-     * The horizontal grid color.
-     */
-    public void setHorizontalGridColor(Color horizontalGridColor) {
-        this.horizontalGridColor = horizontalGridColor;
-    }
-
-    /**
-     * Returns the horizontal grid stroke.
-     *
-     * @return
-     * The horizontal grid stroke.
-     */
-    public Stroke getHorizontalGridStroke() {
-        return horizontalGridStroke;
-    }
-
-    /**
-     * Sets the horizontal grid stroke.
-     *
-     * @param horizontalGridStroke
-     * The horizontal grid stroke.
-     */
-    public void setHorizontalGridStroke(Stroke horizontalGridStroke) {
-        this.horizontalGridStroke = horizontalGridStroke;
-    }
-
-    /**
-     * Returns the vertical grid color.
-     *
-     * @return
-     * The vertical grid color.
-     */
-    public Color getVerticalGridColor() {
-        return verticalGridColor;
-    }
-
-    /**
-     * Sets the vertical grid color.
-     *
-     * @param verticalGridColor
-     * The vertical grid color.
-     */
-    public void setVerticalGridColor(Color verticalGridColor) {
-        this.verticalGridColor = verticalGridColor;
-    }
-
-    /**
-     * Returns the vertical grid stroke.
-     *
-     * @return
-     * The vertical grid stroke.
-     */
-    public Stroke getVerticalGridStroke() {
-        return verticalGridStroke;
-    }
-
-    /**
-     * Sets the vertical grid stroke.
-     *
-     * @param verticalGridStroke
-     * The vertical grid stroke.
-     */
-    public void setVerticalGridStroke(Stroke verticalGridStroke) {
-        this.verticalGridStroke = verticalGridStroke;
+    public void setDomainLabelTransform(Function<K, String> domainLabelTransform) {
+        this.domainLabelTransform = domainLabelTransform;
     }
 
     /**
@@ -268,6 +158,46 @@ public abstract class Chart<K, V> {
      */
     public void setDomainAxisFont(Font domainAxisFont) {
         this.domainAxisFont = domainAxisFont;
+    }
+
+    /**
+     * Returns the range heading.
+     *
+     * @return
+     * The range heading.
+     */
+    public String getRangeHeading() {
+        return rangeHeading;
+    }
+
+    /**
+     * Sets the range heading.
+     *
+     * @param rangeHeading
+     * The range heading.
+     */
+    public void setRangeHeading(String rangeHeading) {
+        this.rangeHeading = rangeHeading;
+    }
+
+    /**
+     * Returns the range label transform.
+     *
+     * @return
+     * The range label transform.
+     */
+    public Function<V, String> getRangeLabelTransform() {
+        return rangeLabelTransform;
+    }
+
+    /**
+     * Sets the range label transform.
+     *
+     * @param rangeLabelTransform
+     * The range label transform.
+     */
+    public void setRangeLabelTransform(Function<V, String> rangeLabelTransform) {
+        this.rangeLabelTransform = rangeLabelTransform;
     }
 
     /**
@@ -331,23 +261,141 @@ public abstract class Chart<K, V> {
     }
 
     /**
-     * Indicates that domain labels will be shown.
+     * Indicates that horizontal grid lines will be shown.
      *
      * @return
-     * {@code true} if domain labels will be shown; {@code false}, otherwise.
+     * {@code true} if horizontal grid lines are enabled; {@code false},
+     * otherwise.
      */
-    public boolean getShowDomainLabels() {
-        return showDomainLabels;
+    public boolean getShowHorizontalGridLines() {
+        return showHorizontalGridLines;
     }
 
     /**
-     * Toggles domain label visibility.
+     * Toggles horizontal grid line visibility.
      *
-     * @param showDomainLabels
-     * {@code true} to show domain labels; {@code false} to hide them.
+     * @param showHorizontalGridLines
+     * {@code true} to show horizontal grid lines; {@code false} to hide them.
      */
-    public void setShowDomainLabels(boolean showDomainLabels) {
-        this.showDomainLabels = showDomainLabels;
+    public void setShowHorizontalGridLines(boolean showHorizontalGridLines) {
+        this.showHorizontalGridLines = showHorizontalGridLines;
+    }
+
+    /**
+     * Returns the horizontal grid color.
+     *
+     * @return
+     * The horizontal grid color.
+     */
+    public Color getHorizontalGridColor() {
+        return horizontalGridColor;
+    }
+
+    /**
+     * Sets the horizontal grid color.
+     *
+     * @param horizontalGridColor
+     * The horizontal grid color.
+     */
+    public void setHorizontalGridColor(Color horizontalGridColor) {
+        if (horizontalGridColor == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.horizontalGridColor = horizontalGridColor;
+    }
+
+    /**
+     * Returns the horizontal grid stroke.
+     *
+     * @return
+     * The horizontal grid stroke.
+     */
+    public Stroke getHorizontalGridStroke() {
+        return horizontalGridStroke;
+    }
+
+    /**
+     * Sets the horizontal grid stroke.
+     *
+     * @param horizontalGridStroke
+     * The horizontal grid stroke.
+     */
+    public void setHorizontalGridStroke(Stroke horizontalGridStroke) {
+        if (horizontalGridStroke == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.horizontalGridStroke = horizontalGridStroke;
+    }
+
+    /**
+     * Indicates that vertical grid lines will be shown.
+     *
+     * @return
+     * {@code true} if vertical grid lines are enabled; {@code false},
+     * otherwise.
+     */
+    public boolean getShowVerticalGridLines() {
+        return showVerticalGridLines;
+    }
+
+    /**
+     * Toggles vertical grid line visibility.
+     *
+     * @param showVerticalGridLines
+     * {@code true} to show vertical grid lines; {@code false} to hide them.
+     */
+    public void setShowVerticalGridLines(boolean showVerticalGridLines) {
+        this.showVerticalGridLines = showVerticalGridLines;
+    }
+
+    /**
+     * Returns the vertical grid color.
+     *
+     * @return
+     * The vertical grid color.
+     */
+    public Color getVerticalGridColor() {
+        return verticalGridColor;
+    }
+
+    /**
+     * Sets the vertical grid color.
+     *
+     * @param verticalGridColor
+     * The vertical grid color.
+     */
+    public void setVerticalGridColor(Color verticalGridColor) {
+        if (verticalGridColor == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.verticalGridColor = verticalGridColor;
+    }
+
+    /**
+     * Returns the vertical grid stroke.
+     *
+     * @return
+     * The vertical grid stroke.
+     */
+    public Stroke getVerticalGridStroke() {
+        return verticalGridStroke;
+    }
+
+    /**
+     * Sets the vertical grid stroke.
+     *
+     * @param verticalGridStroke
+     * The vertical grid stroke.
+     */
+    public void setVerticalGridStroke(Stroke verticalGridStroke) {
+        if (verticalGridStroke == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.verticalGridStroke = verticalGridStroke;
     }
 
     /**

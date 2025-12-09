@@ -16,34 +16,51 @@ package org.httprpc.sierra.charts;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.Map;
-
-import static org.httprpc.kilo.util.Collections.*;
 
 /**
  * Pie chart.
  */
 public class PieChart<K, V extends Number> extends Chart<K, V> {
+    private K key;
+
     private int outerRadius;
-
-    private int innerRadius = 0;
-    private int columns = 1;
-
-    private Map<String, String> labels = mapOf();
-    private Map<String, Color> colors = mapOf();
+    private int innerRadius;
 
     /**
      * Constructs a new pie chart.
      *
+     * @param key
+     * The chart key.
+     *
      * @param outerRadius
      * The chart's outer radius.
+     *
+     * @param innerRadius
+     * The chart's inner radius.
      */
-    public PieChart(int outerRadius) {
-        if (outerRadius < 0) {
+    public PieChart(K key, int outerRadius, int innerRadius) {
+        if (key == null) {
             throw new IllegalArgumentException();
         }
 
+        if (innerRadius < 0 || innerRadius > outerRadius) {
+            throw new IllegalArgumentException();
+        }
+
+        this.key = key;
+
         this.outerRadius = outerRadius;
+        this.innerRadius = innerRadius;
+    }
+
+    /**
+     * Returns the chart key.
+     *
+     * @return
+     * The chart key.
+     */
+    public K getKey() {
+        return key;
     }
 
     /**
@@ -64,92 +81,6 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
      */
     public int getInnerRadius() {
         return innerRadius;
-    }
-
-    /**
-     * Sets the chart's inner radius.
-     *
-     * @param innerRadius
-     * The chart's inner radius.
-     */
-    public void setInnerRadius(int innerRadius) {
-        if (innerRadius < 0 || innerRadius > outerRadius) {
-            throw new IllegalArgumentException();
-        }
-
-        this.innerRadius = innerRadius;
-    }
-
-    /**
-     * Returns the column count.
-     *
-     * @return
-     * The column count.
-     */
-    public int getColumns() {
-        return columns;
-    }
-
-    /**
-     * Sets the column count.
-     *
-     * @param columns
-     * The column count.
-     */
-    public void setColumns(int columns) {
-        if (columns < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.columns = columns;
-    }
-
-    /**
-     * Returns the chart labels.
-     *
-     * @return
-     * The chart labels.
-     */
-    public Map<String, String> getLabels() {
-        return labels;
-    }
-
-    /**
-     * Sets the chart labels.
-     *
-     * @param labels
-     * The chart labels.
-     */
-    public void setLabels(Map<String, String> labels) {
-        if (labels == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.labels = labels;
-    }
-
-    /**
-     * Returns the chart colors.
-     *
-     * @return
-     * The chart colors.
-     */
-    public Map<String, Color> getColors() {
-        return colors;
-    }
-
-    /**
-     * Sets the chart colors.
-     *
-     * @param colors
-     * The chart colors.
-     */
-    public void setColors(Map<String, Color> colors) {
-        if (colors == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.colors = colors;
     }
 
     /**
