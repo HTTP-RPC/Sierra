@@ -111,7 +111,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         dataSetB.setColor(UILoader.getColor("light-blue"));
 
-        var barChart = new BarChart<String, Double>(false);
+        var barChart = new BarChart<String, Double>(Chart.Orientation.HORIZONTAL, false);
 
         barChart.setDataSets(listOf(dataSetA, dataSetB));
 
@@ -123,7 +123,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var dataSetA = new DataSet<LocalDate, Double>("a", "A");
 
-        dataSetA.setAxis(Chart.Axis.LEADING);
+        dataSetA.setRangeAxis(Chart.RangeAxis.LEADING);
         dataSetA.setColor(UILoader.getColor("light-green"));
 
         dataSetA.setDataPoints(listOf(
@@ -135,7 +135,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var dataSetB = new DataSet<LocalDate, Double>("b", "B");
 
-        dataSetB.setAxis(Chart.Axis.TRAILING);
+        dataSetB.setRangeAxis(Chart.RangeAxis.TRAILING);
         dataSetB.setColor(UILoader.getColor("light-blue"));
 
         dataSetB.setDataPoints(listOf(
