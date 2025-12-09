@@ -30,10 +30,9 @@ import static org.httprpc.kilo.util.Collections.*;
  * The value type.
  */
 public class DataSet<K, V> {
-    private String name;
     private String label;
+    private Color color;
 
-    private Color color = null;
     private Stroke stroke = null;
 
     private List<DataPoint<K, V>> dataPoints = listOf();
@@ -41,29 +40,19 @@ public class DataSet<K, V> {
     /**
      * Constructs a new data set.
      *
-     * @param name
-     * The data set's name.
-     *
      * @param label
      * The data set's label.
+     *
+     * @param color
+     * The data set's color.
      */
-    public DataSet(String name, String label) {
-        if (name == null || label == null) {
+    public DataSet(String label, Color color) {
+        if (label == null || color == null) {
             throw new IllegalArgumentException();
         }
 
-        this.name = name;
         this.label = label;
-    }
-
-    /**
-     * Returns the data set's name.
-     *
-     * @return
-     * The data set's name.
-     */
-    public String getName() {
-        return name;
+        this.color = color;
     }
 
     /**
@@ -87,20 +76,10 @@ public class DataSet<K, V> {
     }
 
     /**
-     * Sets the data set's color.
-     *
-     * @param color
-     * The data set's color.
-     */
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    /**
      * Returns the data set's stroke.
      *
      * @return
-     * The data set's stroke.
+     * The data set's stroke, or {@code null} if no stroke is set.
      */
     public Stroke getStroke() {
         return stroke;
@@ -110,7 +89,7 @@ public class DataSet<K, V> {
      * Sets the data set's stroke.
      *
      * @param stroke
-     * The data set's stroke.
+     * The data set's stroke, or {@code null} for no stroke.
      */
     public void setStroke(Stroke stroke) {
         this.stroke = stroke;

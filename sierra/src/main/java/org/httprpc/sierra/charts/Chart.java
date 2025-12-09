@@ -108,7 +108,7 @@ public abstract class Chart<K, V> {
      * Returns the domain heading.
      *
      * @return
-     * The domain heading.
+     * The domain heading, or {@code null} if no heading is set.
      */
     public String getDomainHeading() {
         return domainHeading;
@@ -118,7 +118,7 @@ public abstract class Chart<K, V> {
      * Sets the domain heading.
      *
      * @param domainHeading
-     * The domain heading.
+     * The domain heading, or {@code null} for no heading.
      */
     public void setDomainHeading(String domainHeading) {
         this.domainHeading = domainHeading;
@@ -152,7 +152,7 @@ public abstract class Chart<K, V> {
      * Returns the domain label transform.
      *
      * @return
-     * The domain label transform.
+     * The domain label transform, or {@code null} if no transform is set.
      */
     public Function<K, String> getDomainLabelTransform() {
         return domainLabelTransform;
@@ -162,7 +162,7 @@ public abstract class Chart<K, V> {
      * Sets the domain label transform.
      *
      * @param domainLabelTransform
-     * The domain label transform.
+     * The domain label transform, or {@code null} for no transform.
      */
     public void setDomainLabelTransform(Function<K, String> domainLabelTransform) {
         this.domainLabelTransform = domainLabelTransform;
@@ -172,7 +172,7 @@ public abstract class Chart<K, V> {
      * Returns the domain axis font.
      *
      * @return
-     * The domain axis font.
+     * The domain axis font, or {@code null} if no font is set.
      */
     public Font getDomainAxisFont() {
         return domainAxisFont;
@@ -182,7 +182,7 @@ public abstract class Chart<K, V> {
      * Sets the domain axis font.
      *
      * @param domainAxisFont
-     * The domain axis font.
+     * The domain axis font, or {@code null} for the default font.
      */
     public void setDomainAxisFont(Font domainAxisFont) {
         this.domainAxisFont = domainAxisFont;
@@ -192,7 +192,7 @@ public abstract class Chart<K, V> {
      * Returns the range heading.
      *
      * @return
-     * The range heading.
+     * The range heading, or {@code null} if no heading is set.
      */
     public String getRangeHeading() {
         return rangeHeading;
@@ -202,7 +202,7 @@ public abstract class Chart<K, V> {
      * Sets the range heading.
      *
      * @param rangeHeading
-     * The range heading.
+     * The range heading, or {@code null} for no heading.
      */
     public void setRangeHeading(String rangeHeading) {
         this.rangeHeading = rangeHeading;
@@ -236,7 +236,7 @@ public abstract class Chart<K, V> {
      * Returns the range label transform.
      *
      * @return
-     * The range label transform.
+     * The range label transform, or {@code null} if no transform is set.
      */
     public Function<V, String> getRangeLabelTransform() {
         return rangeLabelTransform;
@@ -246,7 +246,7 @@ public abstract class Chart<K, V> {
      * Sets the range label transform.
      *
      * @param rangeLabelTransform
-     * The range label transform.
+     * The range label transform, or {@code null} for no transform.
      */
     public void setRangeLabelTransform(Function<V, String> rangeLabelTransform) {
         this.rangeLabelTransform = rangeLabelTransform;
@@ -256,7 +256,7 @@ public abstract class Chart<K, V> {
      * Returns the range axis font.
      *
      * @return
-     * The range axis font.
+     * The range axis font, or {@code null} if no font is set.
      */
     public Font getRangeAxisFont() {
         return rangeAxisFont;
@@ -266,7 +266,7 @@ public abstract class Chart<K, V> {
      * Sets the range axis font.
      *
      * @param rangeAxisFont
-     * The range axis font.
+     * The range axis font, or {@code null} for the default font.
      */
     public void setRangeAxisFont(Font rangeAxisFont) {
         this.rangeAxisFont = rangeAxisFont;
@@ -276,7 +276,7 @@ public abstract class Chart<K, V> {
      * Returns the legend font.
      *
      * @return
-     * The legend font.
+     * The legend font, or {@code null} if no font is set.
      */
     public Font getLegendFont() {
         return legendFont;
@@ -286,7 +286,7 @@ public abstract class Chart<K, V> {
      * Sets the legend font.
      *
      * @param legendFont
-     * The legend font.
+     * The legend font, or {@code null} for the default font.
      */
     public void setLegendFont(Font legendFont) {
         this.legendFont = legendFont;
@@ -296,7 +296,7 @@ public abstract class Chart<K, V> {
      * Returns the annotation font.
      *
      * @return
-     * The annotation font.
+     * The annotation font, or {@code null} if no font is set.
      */
     public Font getAnnotationFont() {
         return annotationFont;
@@ -306,7 +306,7 @@ public abstract class Chart<K, V> {
      * Sets the annotation font.
      *
      * @param annotationFont
-     * The annotation font.
+     * The annotation font, or {@code null} for the default font.
      */
     public void setAnnotationFont(Font annotationFont) {
         this.annotationFont = annotationFont;

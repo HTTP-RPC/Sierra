@@ -64,7 +64,7 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private BarChart<String, Double> createBarChart() {
-        var dataSetA = new DataSet<String, Double>("a", "A");
+        var dataSetA = new DataSet<String, Double>("A", UILoader.getColor("light-green"));
 
         dataSetA.setDataPoints(listOf(
             new DataPoint<>("one", 10.0),
@@ -73,9 +73,7 @@ public class ChartsTest extends JFrame implements Runnable {
             new DataPoint<>("four", 50.0)
         ));
 
-        dataSetA.setColor(UILoader.getColor("light-green"));
-
-        var dataSetB = new DataSet<String, Double>("b", "B");
+        var dataSetB = new DataSet<String, Double>("B", UILoader.getColor("light-blue"));
 
         dataSetB.setDataPoints(listOf(
             new DataPoint<>("one", 20.0),
@@ -83,8 +81,6 @@ public class ChartsTest extends JFrame implements Runnable {
             new DataPoint<>("three", 40.0),
             new DataPoint<>("four", 10.0)
         ));
-
-        dataSetB.setColor(UILoader.getColor("light-blue"));
 
         var barChart = new BarChart<String, Double>(Orientation.VERTICAL, false);
 
@@ -96,9 +92,7 @@ public class ChartsTest extends JFrame implements Runnable {
     private TimeSeriesChart<LocalDate, Double> createTimeSeriesChart() {
         var today = LocalDate.now();
 
-        var dataSetA = new DataSet<LocalDate, Double>("a", "A");
-
-        dataSetA.setColor(UILoader.getColor("light-green"));
+        var dataSetA = new DataSet<LocalDate, Double>("A", UILoader.getColor("light-green"));
 
         dataSetA.setDataPoints(listOf(
             new DataPoint<>(today.minusDays(10), 10.0),
@@ -107,9 +101,7 @@ public class ChartsTest extends JFrame implements Runnable {
             new DataPoint<>(today, 50.0)
         ));
 
-        var dataSetB = new DataSet<LocalDate, Double>("b", "B");
-
-        dataSetB.setColor(UILoader.getColor("light-blue"));
+        var dataSetB = new DataSet<LocalDate, Double>("B", UILoader.getColor("light-blue"));
 
         dataSetB.setDataPoints(listOf(
             new DataPoint<>(today.minusDays(10), 200.0),

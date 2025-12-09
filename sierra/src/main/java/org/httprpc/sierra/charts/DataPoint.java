@@ -74,7 +74,7 @@ public class DataPoint<K, V> {
      * Returns the data point's label.
      *
      * @return
-     * The data point's label.
+     * The data point's label, or {@code null} if no label is set.
      */
     public String getLabel() {
         return label;
@@ -84,7 +84,7 @@ public class DataPoint<K, V> {
      * Sets the data point's label.
      *
      * @param label
-     * The data point's label.
+     * The data point's label, or {@code null} for no label.
      */
     public void setLabel(String label) {
         this.label = label;
@@ -94,7 +94,7 @@ public class DataPoint<K, V> {
      * Returns the data point's icon.
      *
      * @return
-     * The data point's icon.
+     * The data point's icon, or {@code null} if no icon is set.
      */
     public Icon getIcon() {
         return icon;
@@ -104,7 +104,7 @@ public class DataPoint<K, V> {
      * Sets the data point's icon.
      *
      * @param icon
-     * The data point's icon.
+     * The data point's icon, or {@code null} for no icon.
      */
     public void setIcon(Icon icon) {
         this.icon = icon;
