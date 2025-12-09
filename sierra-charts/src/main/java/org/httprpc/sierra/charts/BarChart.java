@@ -21,10 +21,12 @@ import java.awt.Graphics2D;
  * Bar chart.
  */
 public class BarChart<K, V extends Number> extends Chart<K, V> {
-    private Orientation orientation;
     private boolean stacked;
 
+    private Orientation orientation = Orientation.VERTICAL;
+
     private int barThickness = 20;
+    private int barCornerRadius = 4;
 
     private String domainAxisLabel = null;
     private String rangeAxisLabel = null;
@@ -32,19 +34,21 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
     /**
      * Constructs a new bar chart.
      *
-     * @param orientation
-     * The chart's orientation.
-     *
      * @param stacked
-     * {@code true} to stack the bars; {@code false}, otherwise.
+     * {@code true} to stack the chart's bars; {@code false}, otherwise.
      */
-    public BarChart(Orientation orientation, boolean stacked) {
-        if (orientation == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.orientation = orientation;
+    public BarChart(boolean stacked) {
         this.stacked = stacked;
+    }
+
+    /**
+     * Indicates that the chart's bars are stacked.
+     *
+     * @return
+     * {@code true} if the chart's bars are stacked; {@code false}, otherwise.
+     */
+    public boolean isStacked() {
+        return stacked;
     }
 
     /**
@@ -58,13 +62,17 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
     }
 
     /**
-     * Indicates that the bars are stacked.
+     * Sets the chart's orientation.
      *
-     * @return
-     * {@code true} if the bars are stacked; {@code false}, otherwise.
+     * @param orientation
+     * The chart's orientation.
      */
-    public boolean isStacked() {
-        return stacked;
+    public void setOrientation(Orientation orientation) {
+        if (orientation == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.orientation = orientation;
     }
 
     /**
@@ -89,6 +97,30 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
         }
 
         this.barThickness = barThickness;
+    }
+
+    /**
+     * Returns the bar corner radius.
+     *
+     * @return
+     * The bar corner radius.
+     */
+    public int getBarCornerRadius() {
+        return barCornerRadius;
+    }
+
+    /**
+     * Sets the bar corner radius.
+     *
+     * @param barCornerRadius
+     * The bar corner radius.
+     */
+    public void setBarCornerRadius(int barCornerRadius) {
+        if (barCornerRadius < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.barCornerRadius = barCornerRadius;
     }
 
     /**

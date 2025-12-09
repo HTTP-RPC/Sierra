@@ -15,7 +15,6 @@
 package org.httprpc.sierra.charts;
 
 import javax.swing.Icon;
-import java.awt.Color;
 
 /**
  * Represents a data point.
@@ -32,7 +31,6 @@ public class DataPoint<K, V> {
 
     private String label = null;
     private Icon icon = null;
-    private Color color = null;
 
     /**
      * Constructs a new data point.
@@ -110,25 +108,5 @@ public class DataPoint<K, V> {
      */
     public void setIcon(Icon icon) {
         this.icon = icon;
-    }
-
-    /**
-     * Returns the data point's color.
-     *
-     * @return
-     * The data point's color.
-     */
-    public Color getColor() {
-        return color;
-    }
-
-    /**
-     * Sets the data point's color.
-     *
-     * @param color
-     * The data point's color.
-     */
-    public void setColor(Color color) {
-        this.color = color;
     }
 }

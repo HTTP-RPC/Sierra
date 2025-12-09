@@ -55,33 +55,32 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private PieChart<String, Double> createPieChart() {
-        var one = new DataPoint<>("one", 10.0);
-
-        one.setLabel("One");
-        one.setColor(UILoader.getColor("light-green"));
-
-        var two = new DataPoint<>("two", 10.0);
-
-        two.setLabel("Two");
-        two.setColor(UILoader.getColor("light-yellow"));
-
-        var three = new DataPoint<>("three", 30.0);
-
-        three.setLabel("Three");
-        three.setColor(UILoader.getColor("orange"));
-
-        var four = new DataPoint<>("four", 50.0);
-
-        four.setLabel("Four");
-        four.setColor(UILoader.getColor("light-blue"));
-
         var dataSet = new DataSet<String, Double>("values", "Values");
 
-        dataSet.setDataPoints(listOf(one, two, three, four));
+        dataSet.setDataPoints(listOf(
+            new DataPoint<>("one", 10.0),
+            new DataPoint<>("two", 10.0),
+            new DataPoint<>("three", 30.0),
+            new DataPoint<>("four", 50.0)
+        ));
 
         var pieChart = new PieChart<String, Double>(120);
 
         pieChart.setInnerRadius(100);
+
+        pieChart.setLabels(mapOf(
+            entry("one", "One"),
+            entry("two", "Two"),
+            entry("three", "Three"),
+            entry("four", "Four")
+        ));
+
+        pieChart.setColors(mapOf(
+            entry("one", UILoader.getColor("light-green")),
+            entry("two", UILoader.getColor("light-yellow")),
+            entry("three", UILoader.getColor("orange")),
+            entry("four", UILoader.getColor("light-blue"))
+        ));
 
         pieChart.setDataSets(listOf(dataSet));
 
@@ -111,7 +110,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         dataSetB.setColor(UILoader.getColor("light-blue"));
 
-        var barChart = new BarChart<String, Double>(Chart.Orientation.HORIZONTAL, false);
+        var barChart = new BarChart<String, Double>(false);
 
         barChart.setDataSets(listOf(dataSetA, dataSetB));
 

@@ -35,7 +35,7 @@ import static org.httprpc.kilo.util.Collections.*;
  */
 public abstract class Chart<K, V> {
     /**
-     * Chart orientation options.
+     * Orientation options.
      */
     public enum Orientation {
         /**
@@ -50,7 +50,7 @@ public abstract class Chart<K, V> {
     }
 
     /**
-     * Chart range axis options.
+     * Range axis options.
      */
     public enum RangeAxis {
         /**

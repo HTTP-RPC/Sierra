@@ -16,6 +16,9 @@ package org.httprpc.sierra.charts;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Map;
+
+import static org.httprpc.kilo.util.Collections.*;
 
 /**
  * Pie chart.
@@ -25,6 +28,9 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
 
     private int innerRadius = 0;
     private int columns = 1;
+
+    private Map<String, String> labels = mapOf();
+    private Map<String, Color> colors = mapOf();
 
     /**
      * Constructs a new pie chart.
@@ -96,6 +102,54 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
         }
 
         this.columns = columns;
+    }
+
+    /**
+     * Returns the chart labels.
+     *
+     * @return
+     * The chart labels.
+     */
+    public Map<String, String> getLabels() {
+        return labels;
+    }
+
+    /**
+     * Sets the chart labels.
+     *
+     * @param labels
+     * The chart labels.
+     */
+    public void setLabels(Map<String, String> labels) {
+        if (labels == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.labels = labels;
+    }
+
+    /**
+     * Returns the chart colors.
+     *
+     * @return
+     * The chart colors.
+     */
+    public Map<String, Color> getColors() {
+        return colors;
+    }
+
+    /**
+     * Sets the chart colors.
+     *
+     * @param colors
+     * The chart colors.
+     */
+    public void setColors(Map<String, Color> colors) {
+        if (colors == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.colors = colors;
     }
 
     /**
