@@ -14,6 +14,8 @@
 
 package org.httprpc.sierra.charts;
 
+import org.httprpc.sierra.Orientation;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 

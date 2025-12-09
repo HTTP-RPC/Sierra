@@ -19,6 +19,7 @@ import org.httprpc.kilo.io.Encoder;
 import org.httprpc.sierra.ConstantAdapter;
 import org.httprpc.sierra.HorizontalAlignment;
 import org.httprpc.sierra.MenuButton;
+import org.httprpc.sierra.Orientation;
 import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.VerticalAlignment;
 
@@ -102,7 +103,7 @@ public class DTDEncoder extends Encoder<Void> {
                         || attributeName.equals(UILoader.Attribute.VERTICAL_TEXT_POSITION.getName())) {
                         attributeType = getAttributeType(VerticalAlignment.values());
                     } else if (attributeName.equals(UILoader.Attribute.ORIENTATION.getName())) {
-                        attributeType = getAttributeType(UILoader.Orientation.values());
+                        attributeType = getAttributeType(Orientation.values());
                     } else if (attributeName.equals(UILoader.Attribute.FOCUS_LOST_BEHAVIOR.getName())) {
                         attributeType = getAttributeType(UILoader.FocusLostBehavior.values());
                     } else if (attributeName.equals(UILoader.Attribute.HORIZONTAL_SCROLL_BAR_POLICY.getName())) {

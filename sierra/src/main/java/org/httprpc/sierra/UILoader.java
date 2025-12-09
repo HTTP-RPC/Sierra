@@ -260,39 +260,6 @@ public class UILoader {
     }
 
     /**
-     * Orientation options.
-     */
-    public enum Orientation implements ConstantAdapter {
-        /**
-         * Horizontal orientation.
-         */
-        HORIZONTAL("horizontal", SwingConstants.HORIZONTAL),
-
-        /**
-         * Vertical orientation.
-         */
-        VERTICAL("vertical", SwingConstants.VERTICAL);
-
-        private final String key;
-        private final int value;
-
-        Orientation(String key, int value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public String getKey() {
-            return key;
-        }
-
-        @Override
-        public int getValue() {
-            return value;
-        }
-    }
-
-    /**
      * Focus lost behavior options.
      */
     public enum FocusLostBehavior implements ConstantAdapter {
