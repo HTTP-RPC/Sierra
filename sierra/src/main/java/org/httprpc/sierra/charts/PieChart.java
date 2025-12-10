@@ -88,13 +88,9 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
      * {@inheritDoc}
      */
     @Override
-    public void draw(Graphics2D graphics) {
+    public void draw(Graphics2D graphics, int width, int height) {
         // TODO
         graphics.setColor(Color.RED);
-
-        var width = getWidth();
-        var height = getHeight();
-
         graphics.drawRect(0, 0, width, height);
     }
 }

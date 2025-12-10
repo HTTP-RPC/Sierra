@@ -18,9 +18,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Stroke;
-import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.function.Function;
 
@@ -36,9 +34,6 @@ import static org.httprpc.kilo.util.Collections.*;
  * The value type.
  */
 public abstract class Chart<K, V> {
-    private int width = 0;
-    private int height = 0;
-
     private String domainHeading = null;
     private int domainLabelCount = 2;
     private Function<K, String> domainLabelTransform = null;
@@ -65,44 +60,6 @@ public abstract class Chart<K, V> {
     private List<DataSet<K, V>> dataSets = listOf();
 
     private List<DataPoint<K, V>> markers = listOf();
-
-    /**
-     * Returns the chart's width.
-     *
-     * @return
-     * The chart width.
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Returns the chart's height.
-     *
-     * @return
-     * The chart height.
-     */
-    public int getHeight() {
-        return height;
-    }
-
-    /**
-     * Sets the chart's size.
-     *
-     * @param width
-     * The chart width.
-     *
-     * @param height
-     * The chart height.
-     */
-    public void setSize(int width, int height) {
-        if (width < 0 || height < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.width = width;
-        this.height = height;
-    }
 
     /**
      * Returns the domain heading.
@@ -499,28 +456,16 @@ public abstract class Chart<K, V> {
     }
 
     /**
-     * Generates an image from the chart.
-     *
-     * @return
-     * The generated image.
-     */
-    public Image toImage() {
-        var image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
-        var graphics = image.createGraphics();
-
-        draw(graphics);
-
-        graphics.dispose();
-
-        return image;
-    }
-
-    /**
      * Draws the chart.
      *
      * @param graphics
      * The graphics context in which the chart will be drawn.
+     *
+     * @param width
+     * The chart width.
+     *
+     * @param height
+     * The chart height.
      */
-    public abstract void draw(Graphics2D graphics);
+    public abstract void draw(Graphics2D graphics, int width, int height);
 }
