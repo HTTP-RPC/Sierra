@@ -47,10 +47,14 @@ public abstract class Chart<K, V> {
 
     private boolean showHorizontalGridLines = true;
 
+    private int horizontalGridSpacing = 120;
+
     private Color horizontalGridColor = Color.GRAY;
     private Stroke horizontalGridStroke = new BasicStroke();
 
     private boolean showVerticalGridLines = true;
+
+    private int verticalGridSpacing = 80;
 
     private Color verticalGridColor = Color.LIGHT_GRAY;
     private Stroke verticalGridStroke = new BasicStroke();
@@ -241,6 +245,30 @@ public abstract class Chart<K, V> {
     }
 
     /**
+     * Returns the horizontal grid spacing.
+     *
+     * @return
+     * The horizontal grid spacing.
+     */
+    public int getHorizontalGridSpacing() {
+        return horizontalGridSpacing;
+    }
+
+    /**
+     * Sets the horizontal grid spacing.
+     *
+     * @param horizontalGridSpacing
+     * The horizontal grid spacing.
+     */
+    public void setHorizontalGridSpacing(int horizontalGridSpacing) {
+        if (horizontalGridSpacing < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.horizontalGridSpacing = horizontalGridSpacing;
+    }
+
+    /**
      * Returns the horizontal grid color.
      *
      * @return
@@ -307,6 +335,30 @@ public abstract class Chart<K, V> {
      */
     public void setShowVerticalGridLines(boolean showVerticalGridLines) {
         this.showVerticalGridLines = showVerticalGridLines;
+    }
+
+    /**
+     * Returns the vertical grid spacing.
+     *
+     * @return
+     * The vertical grid spacing.
+     */
+    public int getVerticalGridSpacing() {
+        return verticalGridSpacing;
+    }
+
+    /**
+     * Sets the vertical grid spacing.
+     *
+     * @param verticalGridSpacing
+     * The vertical grid spacing.
+     */
+    public void setVerticalGridSpacing(int verticalGridSpacing) {
+        if (verticalGridSpacing < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.verticalGridSpacing = verticalGridSpacing;
     }
 
     /**
