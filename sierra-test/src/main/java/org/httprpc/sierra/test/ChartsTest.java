@@ -27,6 +27,9 @@ import org.httprpc.sierra.charts.TimeSeriesChart;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -53,90 +56,86 @@ public class ChartsTest extends JFrame implements Runnable {
         setVisible(true);
     }
 
-    private PieChart<String, Double> createPieChart() {
-        var dataSetA = new DataSet<String, Double>("A", UILoader.getColor("light-green"));
+    private PieChart<Month, Double> createPieChart() {
+        var pieChart = new PieChart<Month, Double>();
 
-        dataSetA.setDataPoints(listOf(
-            new DataPoint<>("value", 10.0)
-        ));
-
-        var dataSetB = new DataSet<String, Double>("B", UILoader.getColor("light-yellow"));
-
-        dataSetB.setDataPoints(listOf(
-            new DataPoint<>("value", 10.0)
-        ));
-
-        var dataSetC = new DataSet<String, Double>("C", UILoader.getColor("orange"));
-
-        dataSetA.setDataPoints(listOf(
-            new DataPoint<>("value", 30.0)
-        ));
-
-        var dataSetD = new DataSet<String, Double>("D", UILoader.getColor("light-blue"));
-
-        dataSetB.setDataPoints(listOf(
-            new DataPoint<>("value", 50.0)
-        ));
-
-        var pieChart = new PieChart<String, Double>();
-
-        pieChart.setDataSets(listOf(dataSetA, dataSetB, dataSetC, dataSetD));
+        pieChart.setDataSets(createCategoryDataSets());
 
         return pieChart;
     }
 
-    private BarChart<String, Double> createBarChart() {
-        var dataSetA = new DataSet<String, Double>("A", UILoader.getColor("light-green"));
+    private BarChart<Month, Double> createBarChart() {
+        var barChart = new BarChart<Month, Double>();
 
-        dataSetA.setDataPoints(listOf(
-            new DataPoint<>("one", 10.0),
-            new DataPoint<>("two", 10.0),
-            new DataPoint<>("three", 30.0),
-            new DataPoint<>("four", 50.0)
-        ));
-
-        var dataSetB = new DataSet<String, Double>("B", UILoader.getColor("light-yellow"));
-
-        dataSetB.setDataPoints(listOf(
-            new DataPoint<>("one", 20.0),
-            new DataPoint<>("two", 15.0),
-            new DataPoint<>("three", 40.0),
-            new DataPoint<>("four", 10.0)
-        ));
-
-        var barChart = new BarChart<String, Double>();
-
-        barChart.setDataSets(listOf(dataSetA, dataSetB));
+        barChart.setDataSets(createCategoryDataSets());
 
         return barChart;
     }
 
+    private List<DataSet<Month, Double>> createCategoryDataSets() {
+        var eastDataSet = new DataSet<Month, Double>("East", UILoader.getColor("light-green"));
+
+        eastDataSet.setDataPoints(listOf(
+            new DataPoint<>(Month.JANUARY, 150.0),
+            new DataPoint<>(Month.FEBRUARY, 10.0),
+            new DataPoint<>(Month.MARCH, 325.0)
+        ));
+
+        var centralDataSet = new DataSet<Month, Double>("Central", UILoader.getColor("light-yellow"));
+
+        centralDataSet.setDataPoints(listOf(
+            new DataPoint<>(Month.JANUARY, 60.0),
+            new DataPoint<>(Month.FEBRUARY, 25.0),
+            new DataPoint<>(Month.MARCH, 90.0)
+        ));
+
+        var westDataSet = new DataSet<Month, Double>("West", UILoader.getColor("light-blue"));
+
+        westDataSet.setDataPoints(listOf(
+            new DataPoint<>(Month.JANUARY, 220.0),
+            new DataPoint<>(Month.FEBRUARY, 35.0),
+            new DataPoint<>(Month.MARCH, 140.0)
+        ));
+
+        return listOf(eastDataSet, centralDataSet, westDataSet);
+    }
+
     private TimeSeriesChart<Integer, Double> createTimeSeriesChart() {
-        var dataSetA = new DataSet<Integer, Double>("A", UILoader.getColor("light-green"));
-
-        dataSetA.setDataPoints(listOf(
-            new DataPoint<>(1, 10.0),
-            new DataPoint<>(2, 10.0),
-            new DataPoint<>(3, 30.0),
-            new DataPoint<>(4, 50.0),
-            new DataPoint<>(4, 25.0)
-        ));
-
-        var dataSetB = new DataSet<Integer, Double>("B", UILoader.getColor("light-yellow"));
-
-        dataSetB.setDataPoints(listOf(
-            new DataPoint<>(1, 20.0),
-            new DataPoint<>(2, 5.0),
-            new DataPoint<>(3, 40.0),
-            new DataPoint<>(4, 75.0),
-            new DataPoint<>(4, 10.0)
-        ));
-
         var timeSeriesChart = new TimeSeriesChart<Integer, Double>();
 
-        timeSeriesChart.setDataSets(listOf(dataSetA, dataSetB));
+        timeSeriesChart.setDataSets(createTimeSeriesDataSets());
 
         return timeSeriesChart;
+    }
+
+    private List<DataSet<Integer, Double>> createTimeSeriesDataSets() {
+        var colors = immutableListOf(
+            UILoader.getColor("light-green"),
+            UILoader.getColor("light-yellow"),
+            UILoader.getColor("light-blue")
+        );
+
+        var m = colors.size();
+
+        var n = 25;
+
+        var dataSets = new ArrayList<DataSet<Integer, Double>>(m);
+
+        for (var i = 0; i < m; i++) {
+            var dataSet = new DataSet<Integer, Double>(String.format("Data Set %d", m), colors.get(i));
+
+            var dataPoints = new ArrayList<DataPoint<Integer, Double>>(n);
+
+            for (var j = 0; j < n; j++) {
+                dataPoints.add(new DataPoint<>(j, Math.random() * 100.0));
+            }
+
+            dataSet.setDataPoints(dataPoints);
+
+            dataSets.add(dataSet);
+        }
+
+        return dataSets;
     }
 
     public static void main(String[] args) {
