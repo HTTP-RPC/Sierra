@@ -66,6 +66,11 @@ public abstract class Chart<K, V> {
 
     private List<DataPoint<K, V>> markers = listOf();
 
+    private int width = 0;
+    private int height = 0;
+
+    private boolean leftToRight = true;
+
     /**
      * Returns the domain heading.
      *
@@ -511,6 +516,60 @@ public abstract class Chart<K, V> {
      *
      * @param height
      * The chart height.
+     *
+     * @param leftToRight
+     * {@code true} if chart elements should be laid out in left-to-right
+     * order; {@code false} for right-to-left order.
      */
-    public abstract void draw(Graphics2D graphics, int width, int height);
+    public void draw(Graphics2D graphics, int width, int height, boolean leftToRight) {
+        if (width < 0 || height < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.width = width;
+        this.height = height;
+
+        this.leftToRight = leftToRight;
+
+        draw(graphics);
+    }
+
+    /**
+     * Returns the chart width.
+     *
+     * @return
+     * The chart width.
+     */
+    protected int getWidth() {
+        return width;
+    }
+
+    /**
+     * Returns the chart height.
+     *
+     * @return
+     * The chart height.
+     */
+    protected int getHeight() {
+        return height;
+    }
+
+    /**
+     * Indicates that chart elements should be laid out in left-to-right order.
+     *
+     * @return
+     * {@code true} if chart elements should be laid out in left-to-right
+     * order; {@code false} for right-to-left order.
+     */
+    protected boolean isLeftToRight() {
+        return leftToRight;
+    }
+
+    /**
+     * Draws the chart.
+     *
+     * @param graphics
+     * The graphics context in which the chart will be drawn.
+     */
+    protected abstract void draw(Graphics2D graphics);
 }

@@ -69,7 +69,7 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
 
             graphics.translate(insets.left, insets.top);
 
-            chart.draw(graphics, width, height);
+            chart.draw(graphics, width, height, getComponentOrientation().isLeftToRight());
 
             graphics.dispose();
         }

@@ -82,9 +82,9 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
     }
 
     @Override
-    public void draw(Graphics2D graphics, int width, int height) {
+    protected void draw(Graphics2D graphics) {
         // TODO
         graphics.setColor(Color.GREEN);
-        graphics.drawRect(0, 0, width, height);
+        graphics.drawRect(0, 0, getWidth(), getHeight());
     }
 }
