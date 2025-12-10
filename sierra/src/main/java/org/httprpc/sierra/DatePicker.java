@@ -236,10 +236,6 @@ public class DatePicker extends TemporalPicker {
         });
     }
 
-    /**
-     * Applies the currently selected date value.
-     * {@inheritDoc}
-     */
     @Override
     protected void applyValue() {
         setText(dateFormatter.format(DatePicker.this.date));
@@ -340,19 +336,11 @@ public class DatePicker extends TemporalPicker {
         this.maximumDate = maximumDate;
     }
 
-    /**
-     * Returns {@code true}.
-     * {@inheritDoc}
-     */
     @Override
     protected boolean isPopupEnabled() {
         return true;
     }
 
-    /**
-     * Returns a date picker popup component.
-     * {@inheritDoc}
-     */
     @Override
     protected JComponent getPopupComponent() {
         return new CalendarPanel();

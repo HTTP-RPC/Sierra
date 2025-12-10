@@ -64,10 +64,6 @@ public abstract class BoxPanel extends LayoutPanel {
         revalidate();
     }
 
-    /**
-     * Calculates the box panel's baseline.
-     * {@inheritDoc}
-     */
     @Override
     public int getBaseline(int width, int height) {
         setSize(width, height);

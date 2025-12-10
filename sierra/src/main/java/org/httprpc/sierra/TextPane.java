@@ -320,10 +320,6 @@ public class TextPane extends JComponent {
         repaint();
     }
 
-    /**
-     * Lays out the text pane.
-     * {@inheritDoc}
-     */
     @Override
     public void doLayout() {
         glyphVectors.clear();

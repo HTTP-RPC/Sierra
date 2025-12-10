@@ -159,10 +159,6 @@ public class TimePicker extends TemporalPicker {
         });
     }
 
-    /**
-     * Applies the currently selected time value.
-     * {@inheritDoc}
-     */
     @Override
     protected void applyValue() {
         setText(timeFormatter.format(TimePicker.this.time));
@@ -327,20 +323,11 @@ public class TimePicker extends TemporalPicker {
         this.maximumTime = truncate(maximumTime);
     }
 
-    /**
-     * Returns {@code true} if the minute interval is greater than 1;
-     * {@code false}, otherwise.
-     * {@inheritDoc}
-     */
     @Override
     protected boolean isPopupEnabled() {
         return minuteInterval > 1;
     }
 
-    /**
-     * Returns a time picker popup component.
-     * {@inheritDoc}
-     */
     @Override
     protected JComponent getPopupComponent() {
         var list = new JList<LocalTime>();

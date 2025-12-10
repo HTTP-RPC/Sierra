@@ -89,10 +89,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         return constraints.get(index);
     }
 
-    /**
-     * Adds a component to the panel.
-     * {@inheritDoc}
-     */
     @Override
     protected void addImpl(Component component, Object constraints, int index) {
         super.addImpl(component, constraints, index);
@@ -103,10 +99,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         repaint();
     }
 
-    /**
-     * Removes a component from the panel.
-     * {@inheritDoc}
-     */
     @Override
     public void remove(int index) {
         super.remove(index);
@@ -117,10 +109,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         repaint();
     }
 
-    /**
-     * Removes all components from the panel.
-     * {@inheritDoc}
-     */
     @Override
     public void removeAll() {
         super.removeAll();
@@ -131,29 +119,16 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         repaint();
     }
 
-    /**
-     * Returns the panel's preferred size.
-     * {@inheritDoc}
-     */
     @Override
     public Dimension getPreferredScrollableViewportSize() {
         return getPreferredSize();
     }
 
-    /**
-     * Returns 25% of the scrollable block increment.
-     * {@inheritDoc}
-     */
     @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
         return getScrollableBlockIncrement(visibleRect, orientation, direction) / 4;
     }
 
-    /**
-     * Returns 10% of the panel's height for vertical orientations and 10% of
-     * the panel's width for horizontal orientations.
-     * {@inheritDoc}
-     */
     @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
         var size = getSize();
@@ -165,10 +140,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         };
     }
 
-    /**
-     * Indicates that the panel tracks viewport width.
-     * {@inheritDoc}
-     */
     @Override
     public boolean getScrollableTracksViewportWidth() {
         return scrollableTracksViewportWidth;
@@ -187,10 +158,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         revalidate();
     }
 
-    /**
-     * Indicates that the panel tracks viewport height.
-     * {@inheritDoc}
-     */
     @Override
     public boolean getScrollableTracksViewportHeight() {
         return scrollableTracksViewportHeight;

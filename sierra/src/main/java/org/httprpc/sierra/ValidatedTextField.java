@@ -138,10 +138,6 @@ public class ValidatedTextField extends JTextField {
         this.pattern = Pattern.compile(pattern, Pattern.UNICODE_CHARACTER_CLASS);
     }
 
-    /**
-     * Verifies the contents of the text field.
-     * {@inheritDoc}
-     */
     @Override
     protected void fireActionPerformed() {
         if (inputVerifier.shouldYieldFocus(this, null)) {

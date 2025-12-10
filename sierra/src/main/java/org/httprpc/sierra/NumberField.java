@@ -135,10 +135,6 @@ public class NumberField extends JTextField {
         this.format = format;
     }
 
-    /**
-     * Verifies the contents of the text field.
-     * {@inheritDoc}
-     */
     @Override
     protected void fireActionPerformed() {
         if (inputVerifier.shouldYieldFocus(this, null)) {
@@ -146,10 +142,6 @@ public class NumberField extends JTextField {
         }
     }
 
-    /**
-     * Processes a key event.
-     * {@inheritDoc}
-     */
     @Override
     protected void processKeyEvent(KeyEvent event) {
         if (event.getID() == KeyEvent.KEY_TYPED) {

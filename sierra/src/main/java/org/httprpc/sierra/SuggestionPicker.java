@@ -54,12 +54,6 @@ public class SuggestionPicker extends Picker {
     private int maximumRowCount = 8;
 
     /**
-     * Constructs a new suggestion picker.
-     */
-    public SuggestionPicker() {
-    }
-
-    /**
      * Returns the suggestion list.
      *
      * @return
@@ -107,20 +101,11 @@ public class SuggestionPicker extends Picker {
         this.maximumRowCount = maximumRowCount;
     }
 
-    /**
-     * Returns {@code true} if the suggestion list is not empty;
-     * {@code false}, otherwise.
-     * {@inheritDoc}
-     */
     @Override
     protected boolean isPopupEnabled() {
         return !suggestions.isEmpty();
     }
 
-    /**
-     * Returns a suggestion picker popup component.
-     * {@inheritDoc}
-     */
     @Override
     protected JComponent getPopupComponent() {
         var list = new JList<String>();

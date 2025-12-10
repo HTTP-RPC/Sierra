@@ -335,10 +335,6 @@ public class RowPanel extends BoxPanel {
         revalidate();
     }
 
-    /**
-     * Calculates the row panel's baseline.
-     * {@inheritDoc}
-     */
     @Override
     public int getBaseline(int width, int height) {
         return alignToBaseline ? super.getBaseline(width, height) : -1;

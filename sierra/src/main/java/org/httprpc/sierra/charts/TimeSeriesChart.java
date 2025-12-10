@@ -24,10 +24,6 @@ import java.awt.Graphics2D;
  * The key type.
  */
 public class TimeSeriesChart<K, V extends Number> extends Chart<K, V> {
-    /**
-     * Draws the time series chart.
-     * {@inheritDoc}
-     */
     @Override
     public void draw(Graphics2D graphics, int width, int height) {
         // TODO

@@ -27,16 +27,6 @@ import java.awt.event.FocusEvent;
  * view.
  */
 public class ScrollingKeyboardFocusManager extends DefaultKeyboardFocusManager {
-    /**
-     * Constructs a new scrolling keyboard focus manager.
-     */
-    public ScrollingKeyboardFocusManager() {
-    }
-
-    /**
-     * Dispatches an event.
-     * {@inheritDoc}
-     */
     @Override
     public boolean dispatchEvent(AWTEvent event) {
         var dispatched = super.dispatchEvent(event);

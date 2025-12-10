@@ -215,10 +215,6 @@ public class MenuButton extends JButton {
         getComponentPopupMenu().remove(component);
     }
 
-    /**
-     * Processes a focus event.
-     * {@inheritDoc}
-     */
     @Override
     protected void processFocusEvent(FocusEvent event) {
         super.processFocusEvent(event);

@@ -21,10 +21,6 @@ import java.awt.Graphics2D;
  * Pie chart.
  */
 public class PieChart<K, V extends Number> extends Chart<K, V> {
-    /**
-     * Draws the pie chart.
-     * {@inheritDoc}
-     */
     @Override
     public void draw(Graphics2D graphics, int width, int height) {
         // TODO

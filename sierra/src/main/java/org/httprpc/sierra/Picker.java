@@ -146,10 +146,6 @@ public abstract class Picker extends JTextField {
         }
     }
 
-    /**
-     * Processes a focus event.
-     * {@inheritDoc}
-     */
     @Override
     protected void processFocusEvent(FocusEvent event) {
         super.processFocusEvent(event);
@@ -160,10 +156,6 @@ public abstract class Picker extends JTextField {
         }
     }
 
-    /**
-     * Processes a key event.
-     * {@inheritDoc}
-     */
     @Override
     protected void processKeyEvent(KeyEvent event) {
         if (event.getID() == KeyEvent.KEY_PRESSED) {

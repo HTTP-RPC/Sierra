@@ -37,10 +37,6 @@ public abstract class TemporalPicker extends Picker {
      */
     protected abstract void applyValue();
 
-    /**
-     * Verifies the contents of the text field.
-     * {@inheritDoc}
-     */
     @Override
     protected void fireActionPerformed() {
         if (getInputVerifier().shouldYieldFocus(this, null)) {
@@ -48,10 +44,6 @@ public abstract class TemporalPicker extends Picker {
         }
     }
 
-    /**
-     * Processes a key event.
-     * {@inheritDoc}
-     */
     @Override
     protected void processKeyEvent(KeyEvent event) {
         switch (event.getID()) {
