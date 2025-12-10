@@ -109,7 +109,7 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private List<DataSet<Integer, Double>> createTimeSeriesDataSets() {
-        var colors = immutableListOf(
+        var colors = listOf(
             UILoader.getColor("light-green"),
             UILoader.getColor("light-yellow"),
             UILoader.getColor("light-blue")

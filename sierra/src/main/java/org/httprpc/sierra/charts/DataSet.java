@@ -34,7 +34,7 @@ public class DataSet<K, V> {
     private String label;
     private Color color;
 
-    private Stroke stroke = new BasicStroke();
+    private Stroke stroke = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
     private List<DataPoint<K, V>> dataPoints = listOf();
 
