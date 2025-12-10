@@ -18,7 +18,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.util.List;
 import java.util.function.Function;
 
@@ -54,14 +53,14 @@ public abstract class Chart<K, V> {
     private int horizontalGridSpacing = 120;
 
     private Color horizontalGridColor = Color.GRAY;
-    private Stroke horizontalGridStroke = new BasicStroke();
+    private BasicStroke horizontalGridStroke = new BasicStroke();
 
     private boolean showVerticalGridLines = true;
 
     private int verticalGridSpacing = 80;
 
     private Color verticalGridColor = Color.LIGHT_GRAY;
-    private Stroke verticalGridStroke = new BasicStroke();
+    private BasicStroke verticalGridStroke = new BasicStroke();
 
     private List<DataSet<K, V>> dataSets = listOf();
 
@@ -342,7 +341,7 @@ public abstract class Chart<K, V> {
      * @return
      * The horizontal grid stroke.
      */
-    public Stroke getHorizontalGridStroke() {
+    public BasicStroke getHorizontalGridStroke() {
         return horizontalGridStroke;
     }
 
@@ -352,7 +351,7 @@ public abstract class Chart<K, V> {
      * @param horizontalGridStroke
      * The horizontal grid stroke.
      */
-    public void setHorizontalGridStroke(Stroke horizontalGridStroke) {
+    public void setHorizontalGridStroke(BasicStroke horizontalGridStroke) {
         if (horizontalGridStroke == null) {
             throw new IllegalArgumentException();
         }
@@ -435,7 +434,7 @@ public abstract class Chart<K, V> {
      * @return
      * The vertical grid stroke.
      */
-    public Stroke getVerticalGridStroke() {
+    public BasicStroke getVerticalGridStroke() {
         return verticalGridStroke;
     }
 
@@ -445,7 +444,7 @@ public abstract class Chart<K, V> {
      * @param verticalGridStroke
      * The vertical grid stroke.
      */
-    public void setVerticalGridStroke(Stroke verticalGridStroke) {
+    public void setVerticalGridStroke(BasicStroke verticalGridStroke) {
         if (verticalGridStroke == null) {
             throw new IllegalArgumentException();
         }

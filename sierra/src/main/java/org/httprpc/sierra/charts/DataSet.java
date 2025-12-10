@@ -16,7 +16,6 @@ package org.httprpc.sierra.charts;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Stroke;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -34,7 +33,7 @@ public class DataSet<K, V> {
     private String label;
     private Color color;
 
-    private Stroke stroke = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+    private BasicStroke stroke = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
     private List<DataPoint<K, V>> dataPoints = listOf();
 
@@ -82,7 +81,7 @@ public class DataSet<K, V> {
      * @return
      * The data set's stroke.
      */
-    public Stroke getStroke() {
+    public BasicStroke getStroke() {
         return stroke;
     }
 
@@ -92,7 +91,7 @@ public class DataSet<K, V> {
      * @param stroke
      * The data set's stroke.
      */
-    public void setStroke(Stroke stroke) {
+    public void setStroke(BasicStroke stroke) {
         if (stroke == null) {
             throw new IllegalArgumentException();
         }
