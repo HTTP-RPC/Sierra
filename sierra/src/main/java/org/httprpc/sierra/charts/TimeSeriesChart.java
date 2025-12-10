@@ -19,9 +19,6 @@ import java.awt.Graphics2D;
 
 /**
  * Time series chart.
- *
- * @param <K>
- * The key type.
  */
 public class TimeSeriesChart<K, V extends Number> extends Chart<K, V> {
     @Override
