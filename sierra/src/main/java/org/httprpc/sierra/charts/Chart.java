@@ -35,12 +35,10 @@ import static org.httprpc.kilo.util.Collections.*;
  */
 public abstract class Chart<K, V> {
     private String domainHeading = null;
-    private int domainLabelCount = 2;
     private Function<K, String> domainLabelTransform = null;
     private Font domainAxisFont = null;
 
     private String rangeHeading = null;
-    private int rangeLabelCount = 2;
     private Function<V, String> rangeLabelTransform = null;
     private Font rangeAxisFont = null;
 
@@ -79,30 +77,6 @@ public abstract class Chart<K, V> {
      */
     public void setDomainHeading(String domainHeading) {
         this.domainHeading = domainHeading;
-    }
-
-    /**
-     * Returns the domain label count.
-     *
-     * @return
-     * The number of domain labels to display.
-     */
-    public int getDomainLabelCount() {
-        return domainLabelCount;
-    }
-
-    /**
-     * Sets the domain label count.
-     *
-     * @param domainLabelCount
-     * The number of domain labels to display.
-     */
-    public void setDomainLabelCount(int domainLabelCount) {
-        if (domainLabelCount < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.domainLabelCount = domainLabelCount;
     }
 
     /**
@@ -163,30 +137,6 @@ public abstract class Chart<K, V> {
      */
     public void setRangeHeading(String rangeHeading) {
         this.rangeHeading = rangeHeading;
-    }
-
-    /**
-     * Returns the range label count.
-     *
-     * @return
-     * The number of range labels to display.
-     */
-    public int getRangeLabelCount() {
-        return rangeLabelCount;
-    }
-
-    /**
-     * Sets the range label count.
-     *
-     * @param rangeLabelCount
-     * The number of range labels to display.
-     */
-    public void setRangeLabelCount(int rangeLabelCount) {
-        if (rangeLabelCount < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.rangeLabelCount = rangeLabelCount;
     }
 
     /**
