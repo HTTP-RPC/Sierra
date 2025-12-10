@@ -35,10 +35,14 @@ import static org.httprpc.kilo.util.Collections.*;
  */
 public abstract class Chart<K, V> {
     private String domainHeading = null;
+    private Font domainHeadingFont = null;
+
     private Function<K, String> domainLabelTransform = null;
     private Font domainAxisFont = null;
 
     private String rangeHeading = null;
+    private Font rangeHeadingFont = null;
+
     private Function<V, String> rangeLabelTransform = null;
     private Font rangeAxisFont = null;
 
@@ -81,6 +85,26 @@ public abstract class Chart<K, V> {
      */
     public void setDomainHeading(String domainHeading) {
         this.domainHeading = domainHeading;
+    }
+
+    /**
+     * Returns the domain heading font.
+     *
+     * @return
+     * The domain heading font, or {@code null} if no font is set.
+     */
+    public Font getDomainHeadingFont() {
+        return domainHeadingFont;
+    }
+
+    /**
+     * Sets the domain heading font.
+     *
+     * @param domainHeadingFont
+     * The domain heading font, or {@code null} for the default font.
+     */
+    public void setDomainHeadingFont(Font domainHeadingFont) {
+        this.domainHeadingFont = domainHeadingFont;
     }
 
     /**
@@ -141,6 +165,26 @@ public abstract class Chart<K, V> {
      */
     public void setRangeHeading(String rangeHeading) {
         this.rangeHeading = rangeHeading;
+    }
+
+    /**
+     * Returns the range heading font.
+     *
+     * @return
+     * The range heading font, or {@code null} if no font is set.
+     */
+    public Font getRangeHeadingFont() {
+        return rangeHeadingFont;
+    }
+
+    /**
+     * Sets the range heading font.
+     *
+     * @param rangeHeadingFont
+     * The range heading font, or {@code null} for the default font.
+     */
+    public void setRangeHeadingFont(Font rangeHeadingFont) {
+        this.rangeHeadingFont = rangeHeadingFont;
     }
 
     /**
