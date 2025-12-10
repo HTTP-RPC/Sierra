@@ -16,7 +16,6 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.ChartPane;
-import org.httprpc.sierra.Orientation;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.charts.BarChart;
@@ -28,7 +27,6 @@ import org.httprpc.sierra.charts.TimeSeriesChart;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import java.time.LocalDate;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -106,35 +104,35 @@ public class ChartsTest extends JFrame implements Runnable {
             new DataPoint<>("four", 10.0)
         ));
 
-        var barChart = new BarChart<String, Double>(Orientation.VERTICAL, false);
+        var barChart = new BarChart<String, Double>();
 
         barChart.setDataSets(listOf(dataSetA, dataSetB));
 
         return barChart;
     }
 
-    private TimeSeriesChart<LocalDate, Double> createTimeSeriesChart() {
-        var today = LocalDate.now();
-
-        var dataSetA = new DataSet<LocalDate, Double>("A", UILoader.getColor("light-green"));
+    private TimeSeriesChart<Integer, Double> createTimeSeriesChart() {
+        var dataSetA = new DataSet<Integer, Double>("A", UILoader.getColor("light-green"));
 
         dataSetA.setDataPoints(listOf(
-            new DataPoint<>(today.minusDays(10), 10.0),
-            new DataPoint<>(today.minusDays(5), 10.0),
-            new DataPoint<>(today.minusDays(1), 30.0),
-            new DataPoint<>(today, 50.0)
+            new DataPoint<>(1, 10.0),
+            new DataPoint<>(2, 10.0),
+            new DataPoint<>(3, 30.0),
+            new DataPoint<>(4, 50.0),
+            new DataPoint<>(4, 25.0)
         ));
 
-        var dataSetB = new DataSet<LocalDate, Double>("B", UILoader.getColor("light-yellow"));
+        var dataSetB = new DataSet<Integer, Double>("B", UILoader.getColor("light-yellow"));
 
         dataSetB.setDataPoints(listOf(
-            new DataPoint<>(today.minusDays(10), 20.0),
-            new DataPoint<>(today.minusDays(5), 5.0),
-            new DataPoint<>(today.minusDays(1), 40.0),
-            new DataPoint<>(today, 75.0)
+            new DataPoint<>(1, 20.0),
+            new DataPoint<>(2, 5.0),
+            new DataPoint<>(3, 40.0),
+            new DataPoint<>(4, 75.0),
+            new DataPoint<>(4, 10.0)
         ));
 
-        var timeSeriesChart = new TimeSeriesChart<LocalDate, Double>();
+        var timeSeriesChart = new TimeSeriesChart<Integer, Double>();
 
         timeSeriesChart.setDataSets(listOf(dataSetA, dataSetB));
 
