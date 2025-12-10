@@ -80,7 +80,7 @@ public class ChartsTest extends JFrame implements Runnable {
             new DataPoint<>("value", 50.0)
         ));
 
-        var pieChart = new PieChart<String, Double>("value", 360, 320);
+        var pieChart = new PieChart<String, Double>();
 
         pieChart.setDataSets(listOf(dataSetA, dataSetB, dataSetC, dataSetD));
 
@@ -134,7 +134,7 @@ public class ChartsTest extends JFrame implements Runnable {
             new DataPoint<>(today, 75.0)
         ));
 
-        var timeSeriesChart = new TimeSeriesChart<LocalDate, Double>(LocalDate.class);
+        var timeSeriesChart = new TimeSeriesChart<LocalDate, Double>();
 
         timeSeriesChart.setDataSets(listOf(dataSetA, dataSetB));
 

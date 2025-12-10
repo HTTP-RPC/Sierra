@@ -21,68 +21,6 @@ import java.awt.Graphics2D;
  * Pie chart.
  */
 public class PieChart<K, V extends Number> extends Chart<K, V> {
-    private K key;
-
-    private int outerRadius;
-    private int innerRadius;
-
-    /**
-     * Constructs a new pie chart.
-     *
-     * @param key
-     * The chart key.
-     *
-     * @param outerRadius
-     * The chart's outer radius.
-     *
-     * @param innerRadius
-     * The chart's inner radius.
-     */
-    public PieChart(K key, int outerRadius, int innerRadius) {
-        if (key == null) {
-            throw new IllegalArgumentException();
-        }
-
-        if (innerRadius < 0 || innerRadius > outerRadius) {
-            throw new IllegalArgumentException();
-        }
-
-        this.key = key;
-
-        this.outerRadius = outerRadius;
-        this.innerRadius = innerRadius;
-    }
-
-    /**
-     * Returns the chart key.
-     *
-     * @return
-     * The chart key.
-     */
-    public K getKey() {
-        return key;
-    }
-
-    /**
-     * Returns the chart's outer radius.
-     *
-     * @return
-     * The chart's outer radius.
-     */
-    public int getOuterRadius() {
-        return outerRadius;
-    }
-
-    /**
-     * Returns the chart's inner radius.
-     *
-     * @return
-     * The chart's inner radius.
-     */
-    public int getInnerRadius() {
-        return innerRadius;
-    }
-
     /**
      * Draws the pie chart.
      * {@inheritDoc}

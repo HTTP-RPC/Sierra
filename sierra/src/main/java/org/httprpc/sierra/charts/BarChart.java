@@ -26,8 +26,22 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
     private Orientation orientation;
     private boolean stacked;
 
-    private int barThickness = 20;
-    private int barCornerRadius = 4;
+    /**
+     * Constructs a new bar chart.
+     */
+    public BarChart() {
+        this(Orientation.VERTICAL);
+    }
+
+    /**
+     * Constructs a new bar chart.
+     *
+     * @param orientation
+     * The chart's orientation.
+     */
+    public BarChart(Orientation orientation) {
+        this(orientation, false);
+    }
 
     /**
      * Constructs a new bar chart.
@@ -65,54 +79,6 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
      */
     public boolean isStacked() {
         return stacked;
-    }
-
-    /**
-     * Returns the bar thickness.
-     *
-     * @return
-     * The bar thickness.
-     */
-    public int getBarThickness() {
-        return barThickness;
-    }
-
-    /**
-     * Sets the bar thickness.
-     *
-     * @param barThickness
-     * The bar thickness.
-     */
-    public void setBarThickness(int barThickness) {
-        if (barThickness < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.barThickness = barThickness;
-    }
-
-    /**
-     * Returns the bar corner radius.
-     *
-     * @return
-     * The bar corner radius.
-     */
-    public int getBarCornerRadius() {
-        return barCornerRadius;
-    }
-
-    /**
-     * Sets the bar corner radius.
-     *
-     * @param barCornerRadius
-     * The bar corner radius.
-     */
-    public void setBarCornerRadius(int barCornerRadius) {
-        if (barCornerRadius < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.barCornerRadius = barCornerRadius;
     }
 
     /**

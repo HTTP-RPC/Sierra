@@ -16,7 +16,6 @@ package org.httprpc.sierra.charts;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.time.temporal.TemporalAccessor;
 
 /**
  * Time series chart.
@@ -24,33 +23,7 @@ import java.time.temporal.TemporalAccessor;
  * @param <K>
  * The key type.
  */
-public class TimeSeriesChart<K extends TemporalAccessor, V extends Number> extends Chart<K, V> {
-    private Class<K> keyType;
-
-    /**
-     * Constructs a new time series chart.
-     *
-     * @param keyType
-     * The key type.
-     */
-    public TimeSeriesChart(Class<K> keyType) {
-        if (keyType == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.keyType = keyType;
-    }
-
-    /**
-     * Returns the key type.
-     *
-     * @return
-     * The key type.
-     */
-    public Class<K> getKeyType() {
-        return keyType;
-    }
-
+public class TimeSeriesChart<K, V extends Number> extends Chart<K, V> {
     /**
      * Draws the time series chart.
      * {@inheritDoc}
