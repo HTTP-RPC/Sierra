@@ -497,7 +497,7 @@ public abstract class Chart<K, V> {
             throw new IllegalArgumentException();
         }
 
-        valid |= (width == this.width && height == this.height && leftToRight == this.leftToRight);
+        valid &= (width == this.width && height == this.height && leftToRight == this.leftToRight);
 
         this.width = width;
         this.height = height;
