@@ -81,7 +81,7 @@ public class ChartsTest extends JFrame implements Runnable {
             new DataPoint<>(Month.MARCH, 325.0)
         ));
 
-        var centralDataSet = new DataSet<Month, Double>("Central", UILoader.getColor("light-yellow"));
+        var centralDataSet = new DataSet<Month, Double>("Central", UILoader.getColor("orange"));
 
         centralDataSet.setDataPoints(listOf(
             new DataPoint<>(Month.JANUARY, 60.0),
@@ -111,7 +111,7 @@ public class ChartsTest extends JFrame implements Runnable {
     private List<DataSet<Integer, Double>> createTimeSeriesDataSets() {
         var colors = listOf(
             UILoader.getColor("light-green"),
-            UILoader.getColor("light-yellow"),
+            UILoader.getColor("orange"),
             UILoader.getColor("light-blue")
         );
 

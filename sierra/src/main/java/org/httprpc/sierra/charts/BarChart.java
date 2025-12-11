@@ -14,7 +14,6 @@
 
 package org.httprpc.sierra.charts;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 /**
@@ -29,7 +28,5 @@ public class BarChart<K, V extends Number> extends Chart<K, V> {
     @Override
     protected void draw(Graphics2D graphics) {
         // TODO
-        graphics.setColor(Color.GREEN);
-        graphics.drawRect(0, 0, getWidth(), getHeight());
     }
 }
