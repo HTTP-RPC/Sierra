@@ -127,7 +127,14 @@ public class ChartsTest extends JFrame implements Runnable {
             var dataPoints = new ArrayList<DataPoint<Integer, Double>>(n);
 
             for (var j = 0; j < n; j++) {
-                dataPoints.add(new DataPoint<>(j, Math.random() * 100.0));
+                double value;
+                if (j == 0) {
+                    value = Math.random() * 100.0;
+                } else {
+                    value = dataPoints.get(j - 1).getValue() + (1.0 - Math.random() * 2.0) * 50.0;
+                }
+
+                dataPoints.add(new DataPoint<>(j, value));
             }
 
             dataSet.setDataPoints(dataPoints);
