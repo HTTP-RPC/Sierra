@@ -23,9 +23,13 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Area;
+import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
+
+import static org.httprpc.kilo.util.Collections.*;
 
 /**
  * Pie chart.
@@ -34,7 +38,7 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
     private static class LegendIcon implements Icon {
         Color color;
 
-        Ellipse2D.Float shape = new Ellipse2D.Float();
+        Ellipse2D.Double shape = new Ellipse2D.Double();
 
         static final int DIAMETER = 12;
 
@@ -65,13 +69,13 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
         }
     }
 
-    private Area pieShape = new Area();
+    private List<Arc2D.Double> sliceArcs = listOf();
 
     private RowPanel legendPanel = new RowPanel();
 
     @Override
     protected void validate() {
-        pieShape.reset();
+        sliceArcs.clear();
 
         legendPanel.removeAll();
 
@@ -113,16 +117,45 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
 
         legendPanel.doLayout();
 
-        for (var i = 0; i < n; i++) {
-            var percentage = dataSetValues.get(i) / total;
+        var pieDiameter = Math.max(height - (legendSize.height + 16), 0);
 
-            // TODO
+        var pieBounds = new Rectangle2D.Double(width / 2.0 - pieDiameter / 2.0, 0.0, pieDiameter, pieDiameter);
+
+        var start = 0.0;
+
+        for (var i = 0; i < n; i++) {
+            var extent = 360.0 * (dataSetValues.get(i) / total);
+
+            sliceArcs.add(new Arc2D.Double(pieBounds, start, extent, Arc2D.PIE));
+
+            start = extent;
         }
     }
 
     @Override
     protected void draw(Graphics2D graphics) {
-        drawShape(graphics, pieShape);
+        var dataSets = getDataSets();
+
+        var n = dataSets.size();
+
+        var pieGraphics = (Graphics2D)graphics.create();
+
+        for (var i = 0; i < n; i++) {
+            var dataSet = dataSets.get(i);
+
+            var sliceColor = dataSet.getColor();
+
+            var sliceArc = sliceArcs.get(i);
+
+            pieGraphics.setColor(sliceColor);
+            pieGraphics.fill(sliceArc);
+
+            pieGraphics.setColor(sliceColor.brighter());
+            pieGraphics.setStroke(dataSet.getStroke());
+            pieGraphics.draw(sliceArc);
+        }
+
+        pieGraphics.dispose();
 
         paintComponent(graphics, legendPanel);
     }
