@@ -23,6 +23,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
@@ -64,66 +65,65 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
         }
     }
 
+    private Area pieShape = new Area();
+
     private RowPanel legendPanel = new RowPanel();
 
     @Override
     protected void validate() {
+        pieShape.reset();
+
+        legendPanel.removeAll();
+
         var dataSets = getDataSets();
 
         var n = dataSets.size();
 
         var total = 0.0;
 
-        var dataSetTotals = new ArrayList<Double>(n);
-
-        for (var i = 0; i < n; i++) {
-            dataSetTotals.add(0.0);
-
-            for (var dataPoint : dataSets.get(i).getDataPoints()) {
-                var value = dataPoint.getValue().doubleValue();
-
-                total += value;
-
-                dataSetTotals.set(i, dataSetTotals.get(i) + value);
-            }
-        }
-
-        legendPanel.removeAll();
-
-        legendPanel.setSpacing(16);
+        var dataSetValues = new ArrayList<Double>(n);
 
         for (var i = 0; i < n; i++) {
             var dataSet = dataSets.get(i);
 
-            var percentage = dataSetTotals.get(i) / total;
+            dataSetValues.add(0.0);
 
-            // TODO
-            System.out.printf("%s %,.1f%%\n", dataSet.getLabel(), percentage * 100.0);
+            for (var dataPoint : dataSet.getDataPoints()) {
+                var value = dataPoint.getValue().doubleValue();
+
+                total += value;
+
+                dataSetValues.set(i, dataSetValues.get(i) + value);
+            }
 
             legendPanel.add(new JLabel(dataSet.getLabel(), new LegendIcon(dataSet.getColor()), SwingConstants.CENTER));
         }
 
-        legendPanel.setSize(legendPanel.getPreferredSize());
+        var width = getWidth();
+        var height = getHeight();
+
+        var legendSize = legendPanel.getPreferredSize();
+
+        legendPanel.setLocation(width / 2 - legendSize.width / 2, height - legendSize.height);
+        legendPanel.setSize(legendSize);
+
+        legendPanel.setSpacing(16);
+
         legendPanel.setComponentOrientation(getComponentOrientation());
 
         legendPanel.doLayout();
+
+        for (var i = 0; i < n; i++) {
+            var percentage = dataSetValues.get(i) / total;
+
+            // TODO
+        }
     }
 
     @Override
     protected void draw(Graphics2D graphics) {
-        drawLegend(graphics);
-    }
+        drawShape(graphics, pieShape);
 
-    protected void drawLegend(Graphics2D graphics) {
-        var width = getWidth();
-        var height = getHeight();
-
-        var legendSize = legendPanel.getSize();
-
-        graphics = (Graphics2D)graphics.create();
-
-        graphics.translate(width / 2 - legendSize.width / 2, height - legendSize.height);
-
-        legendPanel.paint(graphics);
+        paintComponent(graphics, legendPanel);
     }
 }

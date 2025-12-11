@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
+import javax.swing.JComponent;
 import javax.swing.UIManager;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -21,6 +22,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.util.List;
 import java.util.function.Function;
 
@@ -572,4 +574,51 @@ public abstract class Chart<K, V> {
      * The graphics context in which the chart will be drawn.
      */
     protected abstract void draw(Graphics2D graphics);
+
+    /**
+     * Draws a shape.
+     *
+     * @param graphics
+     * The graphics context in which the shape will be drawn.
+     *
+     * @param shape
+     * The shape to draw.
+     */
+    protected void drawShape(Graphics2D graphics, Shape shape) {
+        if (graphics == null || shape == null) {
+            throw new IllegalArgumentException();
+        }
+
+        graphics = (Graphics2D)graphics.create();
+
+        var location = shape.getBounds().getLocation();
+
+        graphics.translate(location.x, location.y);
+        graphics.draw(shape);
+
+        graphics.dispose();
+    }
+
+    /**
+     * Paints a component.
+     *
+     * @param graphics
+     * The graphics context in which the component will be painted.
+     *
+     * @param component
+     * The component to paint.
+     */
+    protected void paintComponent(Graphics2D graphics, JComponent component) {
+        if (graphics == null || component == null) {
+            throw new IllegalArgumentException();
+        }
+
+        graphics = (Graphics2D)graphics.create();
+
+        graphics.translate(component.getX(), component.getY());
+
+        component.paint(graphics);
+
+        graphics.dispose();
+    }
 }
