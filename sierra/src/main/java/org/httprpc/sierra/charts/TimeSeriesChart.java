@@ -19,7 +19,7 @@ import java.awt.Graphics2D;
 /**
  * Time series chart.
  */
-public class TimeSeriesChart<K, V extends Number> extends Chart<K, V> {
+public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends Chart<K, V> {
     @Override
     protected void validate() {
         // TODO

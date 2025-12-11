@@ -50,6 +50,11 @@ public class DataPoint<K, V> {
         this.value = value;
     }
 
+    private DataPoint() {
+        key = null;
+        value = null;
+    }
+
     /**
      * Returns the data point's key.
      *
@@ -108,5 +113,45 @@ public class DataPoint<K, V> {
      */
     public void setIcon(Icon icon) {
         this.icon = icon;
+    }
+
+    /**
+     * Creates a domain marker.
+     *
+     * @param <K>
+     * The key type.
+     *
+     * @param key
+     * The data point key.
+     *
+     * @return
+     * A new domain marker.
+     */
+    public static <K> DataPoint<K, Void> domainMarker(K key) {
+        var domainMarker = new DataPoint<K, Void>();
+
+        domainMarker.key = key;
+
+        return domainMarker;
+    }
+
+    /**
+     * Creates a new range marker.
+     *
+     * @param <V>
+     * The value type.
+     *
+     * @param value
+     * The data point value.
+     *
+     * @return
+     * A new range marker.
+     */
+    public static <V> DataPoint<Void, V> rangeMarker(V value) {
+        var rangeMarker = new DataPoint<Void, V>();
+
+        rangeMarker.value = value;
+
+        return rangeMarker;
     }
 }

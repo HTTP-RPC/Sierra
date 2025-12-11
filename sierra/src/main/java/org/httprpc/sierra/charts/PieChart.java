@@ -34,7 +34,7 @@ import static org.httprpc.kilo.util.Collections.*;
 /**
  * Pie chart.
  */
-public class PieChart<K, V extends Number> extends Chart<K, V> {
+public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K, V> {
     private static class LegendIcon implements Icon {
         Color color;
 

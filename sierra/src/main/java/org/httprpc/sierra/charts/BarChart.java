@@ -19,7 +19,7 @@ import java.awt.Graphics2D;
 /**
  * Bar chart.
  */
-public class BarChart<K, V extends Number> extends Chart<K, V> {
+public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K, V> {
     @Override
     protected void validate() {
         // TODO
