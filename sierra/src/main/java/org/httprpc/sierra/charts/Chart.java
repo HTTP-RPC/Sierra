@@ -19,6 +19,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.List;
 import java.util.function.Function;
 
@@ -458,6 +459,12 @@ public abstract class Chart<K, V> {
         this.height = height;
 
         this.leftToRight = leftToRight;
+
+        graphics.setRenderingHints(new RenderingHints(mapOf(
+            entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
+            entry(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT),
+            entry(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT)
+        )));
 
         draw(graphics);
     }

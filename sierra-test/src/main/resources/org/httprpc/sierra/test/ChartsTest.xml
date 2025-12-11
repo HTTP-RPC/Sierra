@@ -5,13 +5,13 @@
 <tabbed-pane tabLayoutPolicy="scroll-tab-layout">
     <chart-pane name="pieChartPane" opaque="true" background="white"
         tabTitle="Pie Chart"
-        padding="8"/>
+        padding="16"/>
 
     <chart-pane name="barChartPane" opaque="true" background="white"
         tabTitle="Bar Chart"
-        padding="8"/>
+        padding="16"/>
 
     <chart-pane name="timeSeriesChartPane" opaque="true" background="white"
         tabTitle="Time Series Chart"
-        padding="8"/>
+        padding="16"/>
 </tabbed-pane>

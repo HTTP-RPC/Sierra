@@ -97,6 +97,8 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
         this.chart = chart;
 
         setUI(new ChartPaneUI());
+
+        setDoubleBuffered(true);
     }
 
     /**

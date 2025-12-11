@@ -23,8 +23,15 @@ import java.awt.Graphics2D;
 public class PieChart<K, V extends Number> extends Chart<K, V> {
     @Override
     protected void draw(Graphics2D graphics) {
-        // TODO
+        var width = getWidth();
+        var height = getHeight();
+
+        graphics.translate(0, height);
+        graphics.scale(1.0, -1.0);
+
         graphics.setColor(Color.RED);
-        graphics.drawRect(0, 0, getWidth(), getHeight());
+
+        graphics.drawLine(0, 0, width / 2, height);
+        graphics.drawLine(width / 2, height, width, 0);
     }
 }
