@@ -97,6 +97,10 @@ public abstract class Chart<K, V> {
      * The domain axis font.
      */
     public void setDomainAxisFont(Font domainAxisFont) {
+        if (domainAxisFont == null) {
+            throw new IllegalArgumentException();
+        }
+
         this.domainAxisFont = domainAxisFont;
     }
 
@@ -117,6 +121,10 @@ public abstract class Chart<K, V> {
      * The range axis font.
      */
     public void setRangeAxisFont(Font rangeAxisFont) {
+        if (rangeAxisFont == null) {
+            throw new IllegalArgumentException();
+        }
+
         this.rangeAxisFont = rangeAxisFont;
     }
 
@@ -137,6 +145,10 @@ public abstract class Chart<K, V> {
      * The legend font.
      */
     public void setLegendFont(Font legendFont) {
+        if (legendFont == null) {
+            throw new IllegalArgumentException();
+        }
+
         this.legendFont = legendFont;
     }
 
@@ -157,6 +169,10 @@ public abstract class Chart<K, V> {
      * The annotation font.
      */
     public void setAnnotationFont(Font annotationFont) {
+        if (annotationFont == null) {
+            throw new IllegalArgumentException();
+        }
+
         this.annotationFont = annotationFont;
     }
 
