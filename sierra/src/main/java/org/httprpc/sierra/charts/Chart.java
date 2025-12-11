@@ -74,9 +74,9 @@ public abstract class Chart<K, V> {
         var size = font.getSize2D();
 
         domainAxisFont = font.deriveFont(size - 2);
-        rangeAxisFont = font.deriveFont(size - 2);
+        rangeAxisFont = font.deriveFont(size - 1);
         legendFont = font;
-        annotationFont = font.deriveFont(size - 4);
+        annotationFont = font.deriveFont(size - 3);
     }
 
     /**

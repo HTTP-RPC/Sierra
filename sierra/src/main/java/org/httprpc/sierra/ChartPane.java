@@ -17,10 +17,13 @@ package org.httprpc.sierra;
 import org.httprpc.sierra.charts.Chart;
 
 import javax.swing.JComponent;
+import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Displays a chart.
@@ -42,7 +45,7 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            return new Dimension(0, 0);
+            return new Dimension(320, 240);
         }
 
         @Override
@@ -114,6 +117,13 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
      */
     public void setChart(C chart) {
         this.chart = chart;
+
+        if (chart != null) {
+            perform(UIManager.getFont("small.font"), chart::setDomainAxisFont);
+            perform(UIManager.getFont("medium.font"), chart::setRangeAxisFont);
+            perform(UIManager.getFont("default.font"), chart::setLegendFont);
+            perform(UIManager.getFont("mini.font"), chart::setAnnotationFont);
+        }
 
         repaint();
     }

@@ -21,36 +21,6 @@ import java.awt.Graphics2D;
  * Pie chart.
  */
 public class PieChart<K, V extends Number> extends Chart<K, V> {
-    private boolean ring;
-
-    /**
-     * Constructs a new pie chart.
-     */
-    public PieChart() {
-        this(false);
-    }
-
-    /**
-     * Constructs a new pie chart.
-     *
-     * @param ring
-     * Indicates that the chart will be displayed as a ring.
-     */
-    public PieChart(boolean ring) {
-        this.ring = ring;
-    }
-
-    /**
-     * Indicates that the chart will be displayed as a ring.
-     *
-     * @return
-     * {@code true} if the chart's will be displayed as a ring; {@code false},
-     * otherwise.
-     */
-    public boolean isRing() {
-        return ring;
-    }
-
     @Override
     protected void draw(Graphics2D graphics) {
         // TODO
