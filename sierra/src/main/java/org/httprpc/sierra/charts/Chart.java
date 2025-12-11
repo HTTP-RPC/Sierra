@@ -66,6 +66,8 @@ public abstract class Chart<K, V> {
 
     private boolean leftToRight = true;
 
+    private boolean valid = false;
+
     /**
      * Constructs a new chart.
      */
@@ -102,6 +104,8 @@ public abstract class Chart<K, V> {
         }
 
         this.domainAxisFont = domainAxisFont;
+
+        valid = false;
     }
 
     /**
@@ -126,6 +130,8 @@ public abstract class Chart<K, V> {
         }
 
         this.rangeAxisFont = rangeAxisFont;
+
+        valid = false;
     }
 
     /**
@@ -150,6 +156,8 @@ public abstract class Chart<K, V> {
         }
 
         this.legendFont = legendFont;
+
+        valid = false;
     }
 
     /**
@@ -174,6 +182,8 @@ public abstract class Chart<K, V> {
         }
 
         this.annotationFont = annotationFont;
+
+        valid = false;
     }
 
     /**
@@ -194,6 +204,8 @@ public abstract class Chart<K, V> {
      */
     public void setDomainLabelTransform(Function<K, String> domainLabelTransform) {
         this.domainLabelTransform = domainLabelTransform;
+
+        valid = false;
     }
 
     /**
@@ -214,6 +226,8 @@ public abstract class Chart<K, V> {
      */
     public void setRangeLabelTransform(Function<V, String> rangeLabelTransform) {
         this.rangeLabelTransform = rangeLabelTransform;
+
+        valid = false;
     }
 
     /**
@@ -259,6 +273,8 @@ public abstract class Chart<K, V> {
         }
 
         this.horizontalGridSpacing = horizontalGridSpacing;
+
+        valid = false;
     }
 
     /**
@@ -307,6 +323,8 @@ public abstract class Chart<K, V> {
         }
 
         this.horizontalGridStroke = horizontalGridStroke;
+
+        valid = false;
     }
 
     /**
@@ -352,6 +370,8 @@ public abstract class Chart<K, V> {
         }
 
         this.verticalGridSpacing = verticalGridSpacing;
+
+        valid = false;
     }
 
     /**
@@ -400,6 +420,8 @@ public abstract class Chart<K, V> {
         }
 
         this.verticalGridStroke = verticalGridStroke;
+
+        valid = false;
     }
 
     /**
@@ -424,6 +446,8 @@ public abstract class Chart<K, V> {
         }
 
         this.dataSets = dataSets;
+
+        valid = false;
     }
 
     /**
@@ -448,6 +472,8 @@ public abstract class Chart<K, V> {
         }
 
         this.markers = markers;
+
+        valid = false;
     }
 
     /**
@@ -471,10 +497,18 @@ public abstract class Chart<K, V> {
             throw new IllegalArgumentException();
         }
 
+        valid |= (width == this.width && height == this.height && leftToRight == this.leftToRight);
+
         this.width = width;
         this.height = height;
 
         this.leftToRight = leftToRight;
+
+        if (!valid) {
+            validate();
+        }
+
+        valid = true;
 
         graphics.setRenderingHints(new RenderingHints(mapOf(
             entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
@@ -515,6 +549,11 @@ public abstract class Chart<K, V> {
     protected boolean isLeftToRight() {
         return leftToRight;
     }
+
+    /**
+     * Validates the chart contents.
+     */
+    protected abstract void validate();
 
     /**
      * Draws the chart.

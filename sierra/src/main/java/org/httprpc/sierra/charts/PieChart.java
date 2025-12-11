@@ -22,6 +22,11 @@ import java.awt.Graphics2D;
  */
 public class PieChart<K, V extends Number> extends Chart<K, V> {
     @Override
+    protected void validate() {
+        // TODO
+    }
+
+    @Override
     protected void draw(Graphics2D graphics) {
         var width = getWidth();
         var height = getHeight();
