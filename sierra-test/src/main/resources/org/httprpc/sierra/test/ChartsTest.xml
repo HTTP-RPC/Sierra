@@ -3,15 +3,18 @@
 <!DOCTYPE tabbed-pane SYSTEM "sierra.dtd">
 
 <tabbed-pane tabLayoutPolicy="scroll-tab-layout">
-    <chart-pane name="pieChartPane" opaque="true" background="white"
-        tabTitle="Pie Chart"
-        padding="16"/>
+    <column-panel tabTitle="Pie Chart" opaque="true" background="white" spacing="16" padding="16">
+        <label font="h1.font" text="Sales by Region" horizontalAlignment="center"/>
+        <chart-pane name="pieChartPane" weight="1"/>
+    </column-panel>
 
-    <chart-pane name="barChartPane" opaque="true" background="white"
-        tabTitle="Bar Chart"
-        padding="16"/>
+    <column-panel tabTitle="Bar Chart" opaque="true" background="white" padding="16">
+        <label font="h1.font" text="Sales by Region" horizontalAlignment="center"/>
+        <chart-pane name="barChartPane" weight="1"/>
+    </column-panel>
 
-    <chart-pane name="timeSeriesChartPane" opaque="true" background="white"
-        tabTitle="Time Series Chart"
-        padding="16"/>
+    <column-panel tabTitle="Time Series Chart" opaque="true" background="white" padding="16">
+        <label font="h1.font" text="Historical Trends" horizontalAlignment="center"/>
+        <chart-pane name="timeSeriesChartPane" weight="1"/>
+    </column-panel>
 </tabbed-pane>
