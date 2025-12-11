@@ -24,6 +24,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 /**
  * Pie chart.
@@ -67,12 +68,37 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
 
     @Override
     protected void validate() {
+        var dataSets = getDataSets();
+
+        var n = dataSets.size();
+
+        var total = 0.0;
+
+        var dataSetTotals = new ArrayList<Double>(n);
+
+        for (var i = 0; i < n; i++) {
+            dataSetTotals.add(0.0);
+
+            for (var dataPoint : dataSets.get(i).getDataPoints()) {
+                var value = dataPoint.getValue().doubleValue();
+
+                total += value;
+
+                dataSetTotals.set(i, dataSetTotals.get(i) + value);
+            }
+        }
+
         legendPanel.removeAll();
 
         legendPanel.setSpacing(16);
 
-        for (var dataSet : getDataSets()) {
-            // TODO Each wedge is the total of all values in the data set
+        for (var i = 0; i < n; i++) {
+            var dataSet = dataSets.get(i);
+
+            var percentage = dataSetTotals.get(i) / total;
+
+            // TODO
+            System.out.printf("%s %,.1f%%\n", dataSet.getLabel(), percentage * 100.0);
 
             legendPanel.add(new JLabel(dataSet.getLabel(), new LegendIcon(dataSet.getColor()), SwingConstants.CENTER));
         }
