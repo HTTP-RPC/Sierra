@@ -104,6 +104,8 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
         }
 
         legendPanel.setSize(legendPanel.getPreferredSize());
+        legendPanel.setComponentOrientation(getComponentOrientation());
+
         legendPanel.doLayout();
     }
 

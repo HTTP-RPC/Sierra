@@ -17,6 +17,7 @@ package org.httprpc.sierra.charts;
 import javax.swing.UIManager;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -61,10 +62,10 @@ public abstract class Chart<K, V> {
 
     private List<DataPoint<K, V>> markers = listOf();
 
+    private ComponentOrientation componentOrientation = ComponentOrientation.LEFT_TO_RIGHT;
+
     private int width = 0;
     private int height = 0;
-
-    private boolean leftToRight = true;
 
     private boolean valid = false;
 
@@ -477,6 +478,32 @@ public abstract class Chart<K, V> {
     }
 
     /**
+     * Returns the chart's component orientation.
+     *
+     * @return
+     * The chart's component orientation.
+     */
+    public ComponentOrientation getComponentOrientation() {
+        return componentOrientation;
+    }
+
+    /**
+     * Sets the chart's component orientation.
+     *
+     * @param componentOrientation
+     * The chart's component orientation.
+     */
+    public void setComponentOrientation(ComponentOrientation componentOrientation) {
+        if (componentOrientation == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.componentOrientation = componentOrientation;
+
+        valid = false;
+    }
+
+    /**
      * Draws the chart.
      *
      * @param graphics
@@ -487,22 +514,16 @@ public abstract class Chart<K, V> {
      *
      * @param height
      * The chart height.
-     *
-     * @param leftToRight
-     * {@code true} if chart elements should be laid out in left-to-right
-     * order; {@code false} for right-to-left order.
      */
-    public void draw(Graphics2D graphics, int width, int height, boolean leftToRight) {
+    public void draw(Graphics2D graphics, int width, int height) {
         if (width < 0 || height < 0) {
             throw new IllegalArgumentException();
         }
 
-        valid &= (width == this.width && height == this.height && leftToRight == this.leftToRight);
+        valid &= (width == this.width && height == this.height);
 
         this.width = width;
         this.height = height;
-
-        this.leftToRight = leftToRight;
 
         if (!valid) {
             validate();
@@ -537,17 +558,6 @@ public abstract class Chart<K, V> {
      */
     protected int getHeight() {
         return height;
-    }
-
-    /**
-     * Indicates that chart elements should be laid out in left-to-right order.
-     *
-     * @return
-     * {@code true} if chart elements should be laid out in left-to-right
-     * order; {@code false} for right-to-left order.
-     */
-    protected boolean isLeftToRight() {
-        return leftToRight;
     }
 
     /**

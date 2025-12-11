@@ -72,7 +72,7 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
 
             graphics.translate(insets.left, insets.top);
 
-            chart.draw(graphics, width, height, getComponentOrientation().isLeftToRight());
+            chart.draw(graphics, width, height);
 
             graphics.dispose();
         }
@@ -125,6 +125,8 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
             perform(UIManager.getFont("medium.font"), chart::setRangeAxisFont);
             perform(UIManager.getFont("default.font"), chart::setLegendFont);
             perform(UIManager.getFont("mini.font"), chart::setAnnotationFont);
+
+            chart.setComponentOrientation(getComponentOrientation());
         }
 
         repaint();
