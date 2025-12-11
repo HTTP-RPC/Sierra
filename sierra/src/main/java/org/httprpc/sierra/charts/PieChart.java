@@ -121,14 +121,14 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
 
         var pieBounds = new Rectangle2D.Double(width / 2.0 - pieDiameter / 2.0, 0.0, pieDiameter, pieDiameter);
 
-        var start = 0.0;
+        var start = 90.0;
 
         for (var i = 0; i < n; i++) {
-            var extent = 360.0 * (dataSetValues.get(i) / total);
+            var extent = -360.0 * (dataSetValues.get(i) / total);
 
             sliceArcs.add(new Arc2D.Double(pieBounds, start, extent, Arc2D.PIE));
 
-            start = extent;
+            start += extent;
         }
     }
 
@@ -143,16 +143,10 @@ public class PieChart<K, V extends Number> extends Chart<K, V> {
         for (var i = 0; i < n; i++) {
             var dataSet = dataSets.get(i);
 
-            var sliceColor = dataSet.getColor();
-
             var sliceArc = sliceArcs.get(i);
 
-            pieGraphics.setColor(sliceColor);
+            pieGraphics.setColor(dataSet.getColor());
             pieGraphics.fill(sliceArc);
-
-            pieGraphics.setColor(sliceColor.brighter());
-            pieGraphics.setStroke(dataSet.getStroke());
-            pieGraphics.draw(sliceArc);
         }
 
         pieGraphics.dispose();

@@ -78,21 +78,21 @@ public class ChartsTest extends JFrame implements Runnable {
         eastDataSet.setDataPoints(listOf(
             new DataPoint<>(Month.JANUARY, 150.0),
             new DataPoint<>(Month.FEBRUARY, 10.0),
-            new DataPoint<>(Month.MARCH, 325.0)
+            new DataPoint<>(Month.MARCH, 125.0)
         ));
 
         var centralDataSet = new DataSet<Month, Double>("Central", UILoader.getColor("orange"));
 
         centralDataSet.setDataPoints(listOf(
             new DataPoint<>(Month.JANUARY, 60.0),
-            new DataPoint<>(Month.FEBRUARY, 25.0),
+            new DataPoint<>(Month.FEBRUARY, 45.0),
             new DataPoint<>(Month.MARCH, 90.0)
         ));
 
         var westDataSet = new DataSet<Month, Double>("West", UILoader.getColor("light-blue"));
 
         westDataSet.setDataPoints(listOf(
-            new DataPoint<>(Month.JANUARY, 220.0),
+            new DataPoint<>(Month.JANUARY, 85.0),
             new DataPoint<>(Month.FEBRUARY, 35.0),
             new DataPoint<>(Month.MARCH, 140.0)
         ));
