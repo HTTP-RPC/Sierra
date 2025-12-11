@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
+import javax.swing.UIManager;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -33,20 +34,13 @@ import static org.httprpc.kilo.util.Collections.*;
  * The value type.
  */
 public abstract class Chart<K, V> {
-    private String domainHeading = null;
-    private Font domainHeadingFont = null;
+    private Font domainAxisFont;
+    private Font rangeAxisFont;
+    private Font legendFont;
+    private Font annotationFont;
 
     private Function<K, String> domainLabelTransform = null;
-    private Font domainAxisFont = null;
-
-    private String rangeHeading = null;
-    private Font rangeHeadingFont = null;
-
     private Function<V, String> rangeLabelTransform = null;
-    private Font rangeAxisFont = null;
-
-    private Font legendFont = null;
-    private Font annotationFont = null;
 
     private boolean showHorizontalGridLines = true;
 
@@ -72,43 +66,97 @@ public abstract class Chart<K, V> {
     private boolean leftToRight = true;
 
     /**
-     * Returns the domain heading.
+     * Constructs a new chart.
+     */
+    protected Chart() {
+        var font = UIManager.getFont("Label.font");
+
+        var size = font.getSize2D();
+
+        domainAxisFont = font.deriveFont(size - 2);
+        rangeAxisFont = font.deriveFont(size - 2);
+        legendFont = font;
+        annotationFont = font.deriveFont(size - 4);
+    }
+
+    /**
+     * Returns the domain axis font.
      *
      * @return
-     * The domain heading, or {@code null} if no heading is set.
+     * The domain axis font.
      */
-    public String getDomainHeading() {
-        return domainHeading;
+    public Font getDomainAxisFont() {
+        return domainAxisFont;
     }
 
     /**
-     * Sets the domain heading.
+     * Sets the domain axis font.
      *
-     * @param domainHeading
-     * The domain heading, or {@code null} for no heading.
+     * @param domainAxisFont
+     * The domain axis font.
      */
-    public void setDomainHeading(String domainHeading) {
-        this.domainHeading = domainHeading;
+    public void setDomainAxisFont(Font domainAxisFont) {
+        this.domainAxisFont = domainAxisFont;
     }
 
     /**
-     * Returns the domain heading font.
+     * Returns the range axis font.
      *
      * @return
-     * The domain heading font, or {@code null} if no font is set.
+     * The range axis font.
      */
-    public Font getDomainHeadingFont() {
-        return domainHeadingFont;
+    public Font getRangeAxisFont() {
+        return rangeAxisFont;
     }
 
     /**
-     * Sets the domain heading font.
+     * Sets the range axis font.
      *
-     * @param domainHeadingFont
-     * The domain heading font, or {@code null} for the default font.
+     * @param rangeAxisFont
+     * The range axis font.
      */
-    public void setDomainHeadingFont(Font domainHeadingFont) {
-        this.domainHeadingFont = domainHeadingFont;
+    public void setRangeAxisFont(Font rangeAxisFont) {
+        this.rangeAxisFont = rangeAxisFont;
+    }
+
+    /**
+     * Returns the legend font.
+     *
+     * @return
+     * The legend font.
+     */
+    public Font getLegendFont() {
+        return legendFont;
+    }
+
+    /**
+     * Sets the legend font.
+     *
+     * @param legendFont
+     * The legend font.
+     */
+    public void setLegendFont(Font legendFont) {
+        this.legendFont = legendFont;
+    }
+
+    /**
+     * Returns the annotation font.
+     *
+     * @return
+     * The annotation font.
+     */
+    public Font getAnnotationFont() {
+        return annotationFont;
+    }
+
+    /**
+     * Sets the annotation font.
+     *
+     * @param annotationFont
+     * The annotation font.
+     */
+    public void setAnnotationFont(Font annotationFont) {
+        this.annotationFont = annotationFont;
     }
 
     /**
@@ -132,66 +180,6 @@ public abstract class Chart<K, V> {
     }
 
     /**
-     * Returns the domain axis font.
-     *
-     * @return
-     * The domain axis font, or {@code null} if no font is set.
-     */
-    public Font getDomainAxisFont() {
-        return domainAxisFont;
-    }
-
-    /**
-     * Sets the domain axis font.
-     *
-     * @param domainAxisFont
-     * The domain axis font, or {@code null} for the default font.
-     */
-    public void setDomainAxisFont(Font domainAxisFont) {
-        this.domainAxisFont = domainAxisFont;
-    }
-
-    /**
-     * Returns the range heading.
-     *
-     * @return
-     * The range heading, or {@code null} if no heading is set.
-     */
-    public String getRangeHeading() {
-        return rangeHeading;
-    }
-
-    /**
-     * Sets the range heading.
-     *
-     * @param rangeHeading
-     * The range heading, or {@code null} for no heading.
-     */
-    public void setRangeHeading(String rangeHeading) {
-        this.rangeHeading = rangeHeading;
-    }
-
-    /**
-     * Returns the range heading font.
-     *
-     * @return
-     * The range heading font, or {@code null} if no font is set.
-     */
-    public Font getRangeHeadingFont() {
-        return rangeHeadingFont;
-    }
-
-    /**
-     * Sets the range heading font.
-     *
-     * @param rangeHeadingFont
-     * The range heading font, or {@code null} for the default font.
-     */
-    public void setRangeHeadingFont(Font rangeHeadingFont) {
-        this.rangeHeadingFont = rangeHeadingFont;
-    }
-
-    /**
      * Returns the range label transform.
      *
      * @return
@@ -209,66 +197,6 @@ public abstract class Chart<K, V> {
      */
     public void setRangeLabelTransform(Function<V, String> rangeLabelTransform) {
         this.rangeLabelTransform = rangeLabelTransform;
-    }
-
-    /**
-     * Returns the range axis font.
-     *
-     * @return
-     * The range axis font, or {@code null} if no font is set.
-     */
-    public Font getRangeAxisFont() {
-        return rangeAxisFont;
-    }
-
-    /**
-     * Sets the range axis font.
-     *
-     * @param rangeAxisFont
-     * The range axis font, or {@code null} for the default font.
-     */
-    public void setRangeAxisFont(Font rangeAxisFont) {
-        this.rangeAxisFont = rangeAxisFont;
-    }
-
-    /**
-     * Returns the legend font.
-     *
-     * @return
-     * The legend font, or {@code null} if no font is set.
-     */
-    public Font getLegendFont() {
-        return legendFont;
-    }
-
-    /**
-     * Sets the legend font.
-     *
-     * @param legendFont
-     * The legend font, or {@code null} for the default font.
-     */
-    public void setLegendFont(Font legendFont) {
-        this.legendFont = legendFont;
-    }
-
-    /**
-     * Returns the annotation font.
-     *
-     * @return
-     * The annotation font, or {@code null} if no font is set.
-     */
-    public Font getAnnotationFont() {
-        return annotationFont;
-    }
-
-    /**
-     * Sets the annotation font.
-     *
-     * @param annotationFont
-     * The annotation font, or {@code null} for the default font.
-     */
-    public void setAnnotationFont(Font annotationFont) {
-        this.annotationFont = annotationFont;
     }
 
     /**
