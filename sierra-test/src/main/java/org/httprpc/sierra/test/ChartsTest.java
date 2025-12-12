@@ -122,7 +122,7 @@ public class ChartsTest extends JFrame implements Runnable {
         var dataSets = new ArrayList<DataSet<Integer, Double>>(m);
 
         for (var i = 0; i < m; i++) {
-            var dataSet = new DataSet<Integer, Double>(String.format("Data Set %d", m), colors.get(i));
+            var dataSet = new DataSet<Integer, Double>(String.format("Data Set %d", i + 1), colors.get(i));
 
             var dataPoints = new ArrayList<DataPoint<Integer, Double>>(n);
 
