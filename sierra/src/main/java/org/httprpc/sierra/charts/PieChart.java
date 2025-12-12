@@ -87,6 +87,8 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var dataSetValues = new ArrayList<Double>(n);
 
+        var legendFont = getLegendFont();
+
         for (var i = 0; i < n; i++) {
             var dataSet = dataSets.get(i);
 
@@ -100,7 +102,11 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
                 dataSetValues.set(i, dataSetValues.get(i) + value);
             }
 
-            legendPanel.add(new JLabel(dataSet.getLabel(), new LegendIcon(dataSet.getColor()), SwingConstants.CENTER));
+            var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet.getColor()), SwingConstants.CENTER);
+
+            legendLabel.setFont(legendFont);
+
+            legendPanel.add(legendLabel);
         }
 
         var width = getWidth();
