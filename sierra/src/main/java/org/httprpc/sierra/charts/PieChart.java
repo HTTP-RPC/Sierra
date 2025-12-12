@@ -85,9 +85,8 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var n = dataSets.size();
 
-        var total = 0.0;
-
         var dataSetValues = new ArrayList<Double>(n);
+        var total = 0.0;
 
         var legendFont = getLegendFont();
 
@@ -99,9 +98,13 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
             for (var dataPoint : dataSet.getDataPoints()) {
                 var value = dataPoint.getValue().doubleValue();
 
-                total += value;
+                if (value < 0.0) {
+                    throw new UnsupportedOperationException("Negative value in data set.");
+                }
 
                 dataSetValues.set(i, dataSetValues.get(i) + value);
+
+                total += value;
             }
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);

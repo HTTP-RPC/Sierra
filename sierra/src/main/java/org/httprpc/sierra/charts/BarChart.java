@@ -98,6 +98,9 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         var keys = new TreeSet<K>();
         var dataSetValueMaps = new ArrayList<Map<K, Double>>(n);
 
+        var maximum = 0.0;
+        var minimum = 0.0;
+
         var legendFont = getLegendFont();
 
         for (var i = 0; i < n; i++) {
@@ -110,7 +113,12 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
                 keys.add(key);
 
-                values.put(key, coalesce(map(dataPoint.getValue(), Number::doubleValue), () -> 0.0));
+                var value = coalesce(map(dataPoint.getValue(), Number::doubleValue), () -> 0.0);
+
+                values.put(key, value);
+
+                maximum = Math.max(maximum, value);
+                minimum = Math.min(minimum, value);
             }
 
             dataSetValueMaps.add(values);
@@ -173,16 +181,32 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var barX = (double)verticalGridLineStrokeWidth;
 
+        var range = maximum - minimum;
+
+        if (range == 0.0) {
+            return;
+        }
+
+        var scale = chartHeight / range;
+
+        var zeroY = maximum * scale;
+
         for (var key : keys) {
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>();
 
             for (var dataSetValueMap : dataSetValueMaps) {
                 barX += barSpacing;
 
-                // TODO
                 var value = dataSetValueMap.get(key);
 
-                dataSetBarRectangles.add(new Rectangle2D.Double(barX, 0.0, barWidth, 50.0));
+                var barY = zeroY;
+                var barHeight = Math.abs(value) * scale;
+
+                if (value > 0.0) {
+                    barY -= barHeight;
+                }
+
+                dataSetBarRectangles.add(new Rectangle2D.Double(barX, barY, barWidth, barHeight));
 
                 barX += barWidth;
             }

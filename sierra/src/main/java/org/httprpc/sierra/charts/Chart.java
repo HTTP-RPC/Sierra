@@ -51,12 +51,12 @@ public abstract class Chart<K, V> {
     private boolean showHorizontalGridLines = true;
 
     private Color horizontalGridLineColor = Color.LIGHT_GRAY;
-    private BasicStroke horizontalGridLineStroke = new BasicStroke();
+    private BasicStroke horizontalGridLineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 
     private boolean showVerticalGridLines = true;
 
     private Color verticalGridLineColor = Color.LIGHT_GRAY;
-    private BasicStroke verticalGridLineStroke = new BasicStroke();
+    private BasicStroke verticalGridLineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 
     private List<DataSet<K, V>> dataSets = listOf();
 
