@@ -49,7 +49,7 @@ public abstract class Chart<K, V> {
 
     private int horizontalGridSpacing = 120;
 
-    private Color horizontalGridColor = Color.GRAY;
+    private Color horizontalGridColor = Color.LIGHT_GRAY;
     private BasicStroke horizontalGridStroke = new BasicStroke();
 
     private boolean showVerticalGridLines = true;
