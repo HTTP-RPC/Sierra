@@ -219,6 +219,21 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
     @Override
     protected void draw(Graphics2D graphics) {
+        var dataSets = getDataSets();
+
+        for (var dataSetBarRectangles : barRectangles) {
+            var i = 0;
+
+            for (var barRectangle : dataSetBarRectangles) {
+                var dataSet = dataSets.get(i++);
+
+                graphics.setColor(dataSet.getColor());
+                graphics.setStroke(dataSet.getStroke());
+
+                graphics.fill(barRectangle);
+            }
+        }
+
         var showHorizontalGridLines = getShowHorizontalGridLines();
 
         graphics.setColor(getHorizontalGridLineColor());
@@ -243,21 +258,6 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             }
 
             // TODO Draw label
-        }
-
-        var dataSets = getDataSets();
-
-        for (var dataSetBarRectangles : barRectangles) {
-            var i = 0;
-
-            for (var barRectangle : dataSetBarRectangles) {
-                var dataSet = dataSets.get(i++);
-
-                graphics.setColor(dataSet.getColor());
-                graphics.setStroke(dataSet.getStroke());
-
-                graphics.fill(barRectangle);
-            }
         }
 
         paintComponent(graphics, legendPanel);
