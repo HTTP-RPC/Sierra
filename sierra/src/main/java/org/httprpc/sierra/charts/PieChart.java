@@ -19,7 +19,6 @@ import org.httprpc.sierra.RowPanel;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -36,14 +35,14 @@ import static org.httprpc.kilo.util.Collections.*;
  */
 public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K, V> {
     private static class LegendIcon implements Icon {
-        Color color;
+        DataSet<?, ?> dataSet;
 
         Ellipse2D.Double shape = new Ellipse2D.Double();
 
-        static final int DIAMETER = 12;
+        static final int SIZE = 12;
 
-        LegendIcon(Color color) {
-            this.color = color;
+        LegendIcon(DataSet<?, ?> dataSet) {
+            this.dataSet = dataSet;
         }
 
         @Override
@@ -52,20 +51,20 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
         }
 
         void paintIcon(Graphics2D graphics, int x, int y) {
-            shape.setFrame(x, y, DIAMETER, DIAMETER);
+            shape.setFrame(x, y, SIZE, SIZE);
 
-            graphics.setColor(color);
+            graphics.setColor(dataSet.getColor());
             graphics.fill(shape);
         }
 
         @Override
         public int getIconWidth() {
-            return DIAMETER;
+            return SIZE;
         }
 
         @Override
         public int getIconHeight() {
-            return DIAMETER;
+            return SIZE;
         }
     }
 
@@ -102,7 +101,7 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
                 dataSetValues.set(i, dataSetValues.get(i) + value);
             }
 
-            var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet.getColor()), SwingConstants.CENTER);
+            var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
 
             legendLabel.setFont(legendFont);
 
