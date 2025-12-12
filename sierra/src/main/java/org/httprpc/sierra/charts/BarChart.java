@@ -123,13 +123,17 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             horizontalGridLines.add(new Line2D.Double(0.0, y, chartWidth, y));
         }
 
-        var verticalGridLineSpacing = chartWidth / domainLabelCount;
+        var verticalGridLineStrokeWidth = getVerticalGridLineStroke().getLineWidth();
+
+        var verticalGridLineSpacing = (chartWidth - verticalGridLineStrokeWidth) / domainLabelCount;
         var verticalGridLineCount = domainLabelCount + 1;
 
-        for (var i = 0; i < verticalGridLineCount; i++) {
-            var x = verticalGridLineSpacing * i;
+        var x = verticalGridLineStrokeWidth / 2.0;
 
+        for (var i = 0; i < verticalGridLineCount; i++) {
             verticalGridLines.add(new Line2D.Double(x, 0.0, x, chartHeight));
+
+            x += verticalGridLineSpacing;
         }
     }
 

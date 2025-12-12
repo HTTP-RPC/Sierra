@@ -53,7 +53,7 @@ public abstract class Chart<K, V> {
     private boolean showVerticalGridLines = true;
 
     private Color verticalGridLineColor = Color.LIGHT_GRAY;
-    private BasicStroke verticalGridLineStroke = new BasicStroke(8);
+    private BasicStroke verticalGridLineStroke = new BasicStroke();
 
     private List<DataSet<K, V>> dataSets = listOf();
 
