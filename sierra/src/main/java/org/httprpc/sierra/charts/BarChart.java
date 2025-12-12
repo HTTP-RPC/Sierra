@@ -127,7 +127,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         var chartHeight = (double)Math.max(height - (legendSize.height + 16), 0);
         var chartWidth = (double)width;
 
-        var rangeLabelCount = 5; // TODO
+        var rangeLabelCount = getRangeLabelCount();
 
         var horizontalGridStrokeWidth = getHorizontalGridLineStroke().getLineWidth();
 

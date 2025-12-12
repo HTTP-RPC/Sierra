@@ -42,7 +42,10 @@ public abstract class Chart<K, V> {
     private Font legendFont;
     private Font annotationFont;
 
+    private int domainLabelCount = 2;
     private Function<K, String> domainLabelTransform = null;
+
+    private int rangeLabelCount = 2;
     private Function<V, String> rangeLabelTransform = null;
 
     private boolean showHorizontalGridLines = true;
@@ -180,6 +183,54 @@ public abstract class Chart<K, V> {
         this.annotationFont = annotationFont;
 
         valid = false;
+    }
+
+    /**
+     * Returns the domain label count.
+     *
+     * @return
+     * The domain label count.
+     */
+    public int getDomainLabelCount() {
+        return domainLabelCount;
+    }
+
+    /**
+     * Sets the domain label count.
+     *
+     * @param domainLabelCount
+     * The domain label count.
+     */
+    public void setDomainLabelCount(int domainLabelCount) {
+        if (domainLabelCount < 2) {
+            throw new IllegalArgumentException();
+        }
+
+        this.domainLabelCount = domainLabelCount;
+    }
+
+    /**
+     * Returns the range label count.
+     *
+     * @return
+     * The range label count.
+     */
+    public int getRangeLabelCount() {
+        return rangeLabelCount;
+    }
+
+    /**
+     * Sets the range label count.
+     *
+     * @param rangeLabelCount
+     * The range label count.
+     */
+    public void setRangeLabelCount(int rangeLabelCount) {
+        if (rangeLabelCount < 2) {
+            throw new IllegalArgumentException();
+        }
+
+        this.rangeLabelCount = rangeLabelCount;
     }
 
     /**
