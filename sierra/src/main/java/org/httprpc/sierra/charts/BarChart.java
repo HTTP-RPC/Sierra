@@ -176,16 +176,16 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             gridX += verticalGridLineSpacing;
         }
 
-        var barSpacing = verticalGridLineSpacing * 0.05;
-        var barWidth = (verticalGridLineSpacing - (verticalGridLineStrokeWidth + barSpacing * (keyCount + 1))) / keyCount;
-
-        var barX = (double)verticalGridLineStrokeWidth;
-
         var range = maximum - minimum;
 
         if (range == 0.0) {
             return;
         }
+
+        var barSpacing = verticalGridLineSpacing * 0.05;
+        var barWidth = (verticalGridLineSpacing - (verticalGridLineStrokeWidth + barSpacing * (keyCount + 1))) / keyCount;
+
+        var barX = (double)verticalGridLineStrokeWidth;
 
         var scale = chartHeight / range;
 
