@@ -84,6 +84,8 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
+        barRectangles.clear();
+
         legendPanel.removeAll();
 
         legendPanel.setSpacing(16);
