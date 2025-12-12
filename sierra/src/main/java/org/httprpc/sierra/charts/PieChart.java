@@ -111,6 +111,10 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
             legendPanel.add(legendLabel);
         }
 
+        if (total == 0.0) {
+            return;
+        }
+
         var width = getWidth();
         var height = getHeight();
 

@@ -24,7 +24,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
+import java.util.TreeSet;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -69,6 +71,9 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
     private List<Line2D.Double> horizontalGridLines = listOf();
     private List<Line2D.Double> verticalGridLines = listOf();
 
+    // TODO
+    private List<Rectangle2D.Double> barRectangles = null;
+
     private RowPanel legendPanel = new RowPanel();
 
     @Override
@@ -85,20 +90,28 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var n = dataSets.size();
 
-        var domainLabelCount = 0;
+        var keys = new TreeSet<K>();
 
         var legendFont = getLegendFont();
 
         for (var i = 0; i < n; i++) {
             var dataSet = dataSets.get(i);
 
-            domainLabelCount = Math.max(domainLabelCount, dataSet.getDataPoints().size());
+            for (var dataPoint : dataSet.getDataPoints()) {
+                keys.add(dataPoint.getKey());
+            }
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
 
             legendLabel.setFont(legendFont);
 
             legendPanel.add(legendLabel);
+        }
+
+        var keyCount = keys.size();
+
+        if (keyCount == 0) {
+            return;
         }
 
         var width = getWidth();
@@ -114,19 +127,24 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         var chartHeight = (double)Math.max(height - (legendSize.height + 16), 0);
         var chartWidth = (double)width;
 
-        var horizontalGridLineSpacing = 80.0; // TODO
-        var horizontalGridLineCount = (int)Math.floor(chartHeight / horizontalGridLineSpacing) + 1;
+        var rangeLabelCount = 5; // TODO
 
-        for (var i = 0; i < horizontalGridLineCount; i++) {
-            var y = chartHeight - horizontalGridLineSpacing * i;
+        var horizontalGridStrokeWidth = getHorizontalGridLineStroke().getLineWidth();
 
+        var horizontalGridLineSpacing = (chartHeight - horizontalGridStrokeWidth) / (rangeLabelCount - 1);
+
+        var y = horizontalGridStrokeWidth / 2.0;
+
+        for (var i = 0; i < rangeLabelCount; i++) {
             horizontalGridLines.add(new Line2D.Double(0.0, y, chartWidth, y));
+
+            y += horizontalGridLineSpacing;
         }
 
         var verticalGridLineStrokeWidth = getVerticalGridLineStroke().getLineWidth();
 
-        var verticalGridLineSpacing = (chartWidth - verticalGridLineStrokeWidth) / domainLabelCount;
-        var verticalGridLineCount = domainLabelCount + 1;
+        var verticalGridLineSpacing = (chartWidth - verticalGridLineStrokeWidth) / keyCount;
+        var verticalGridLineCount = keyCount + 1;
 
         var x = verticalGridLineStrokeWidth / 2.0;
 
@@ -135,6 +153,8 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             x += verticalGridLineSpacing;
         }
+
+        // TODO Lay out bars
     }
 
     @Override

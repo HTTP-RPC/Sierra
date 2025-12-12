@@ -48,7 +48,7 @@ public abstract class Chart<K, V> {
     private boolean showHorizontalGridLines = true;
 
     private Color horizontalGridLineColor = Color.LIGHT_GRAY;
-    private BasicStroke horizontalGridLineStroke = new BasicStroke();
+    private BasicStroke horizontalGridLineStroke = new BasicStroke(1);
 
     private boolean showVerticalGridLines = true;
 
