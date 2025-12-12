@@ -70,6 +70,9 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
     protected void validate() {
         legendPanel.removeAll();
 
+        legendPanel.setSpacing(16);
+        legendPanel.setComponentOrientation(getComponentOrientation());
+
         var dataSets = getDataSets();
 
         var n = dataSets.size();
@@ -96,10 +99,6 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         legendPanel.setLocation(width / 2 - legendSize.width / 2, height - legendSize.height);
         legendPanel.setSize(legendSize);
-
-        legendPanel.setSpacing(16);
-
-        legendPanel.setComponentOrientation(getComponentOrientation());
 
         legendPanel.doLayout();
     }

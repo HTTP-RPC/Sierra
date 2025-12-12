@@ -78,14 +78,21 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         legendPanel.removeAll();
 
+        legendPanel.setSpacing(16);
+        legendPanel.setComponentOrientation(getComponentOrientation());
+
         var dataSets = getDataSets();
 
         var n = dataSets.size();
+
+        var domainLabelCount = 0;
 
         var legendFont = getLegendFont();
 
         for (var i = 0; i < n; i++) {
             var dataSet = dataSets.get(i);
+
+            domainLabelCount = Math.max(domainLabelCount, dataSet.getDataPoints().size());
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
 
@@ -102,17 +109,12 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         legendPanel.setLocation(width / 2 - legendSize.width / 2, height - legendSize.height);
         legendPanel.setSize(legendSize);
 
-        legendPanel.setSpacing(16);
-
-        legendPanel.setComponentOrientation(getComponentOrientation());
-
         legendPanel.doLayout();
 
         var chartHeight = (double)Math.max(height - (legendSize.height + 16), 0);
         var chartWidth = (double)width;
 
-        var horizontalGridLineSpacing = (double)getHorizontalGridLineSpacing();
-
+        var horizontalGridLineSpacing = 80.0; // TODO
         var horizontalGridLineCount = (int)Math.floor(chartHeight / horizontalGridLineSpacing) + 1;
 
         for (var i = 0; i < horizontalGridLineCount; i++) {
@@ -121,14 +123,13 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             horizontalGridLines.add(new Line2D.Double(0.0, y, chartWidth, y));
         }
 
-        var verticalGridLineSpacing = (double)getVerticalGridLineSpacing();
-
-        var verticalGridLineCount = (int)Math.floor(chartWidth / verticalGridLineSpacing) + 1;
+        var verticalGridLineSpacing = chartWidth / domainLabelCount;
+        var verticalGridLineCount = domainLabelCount + 1;
 
         for (var i = 0; i < verticalGridLineCount; i++) {
             var x = verticalGridLineSpacing * i;
 
-            horizontalGridLines.add(new Line2D.Double(x, 0.0, x, chartHeight));
+            verticalGridLines.add(new Line2D.Double(x, 0.0, x, chartHeight));
         }
     }
 

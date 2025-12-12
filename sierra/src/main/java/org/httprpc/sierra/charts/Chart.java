@@ -47,17 +47,13 @@ public abstract class Chart<K, V> {
 
     private boolean showHorizontalGridLines = true;
 
-    private int horizontalGridLineSpacing = 80;
-
     private Color horizontalGridLineColor = Color.LIGHT_GRAY;
     private BasicStroke horizontalGridLineStroke = new BasicStroke();
 
     private boolean showVerticalGridLines = true;
 
-    private int verticalGridLineSpacing = 120;
-
     private Color verticalGridLineColor = Color.LIGHT_GRAY;
-    private BasicStroke verticalGridLineStroke = new BasicStroke();
+    private BasicStroke verticalGridLineStroke = new BasicStroke(8);
 
     private List<DataSet<K, V>> dataSets = listOf();
 
@@ -252,32 +248,6 @@ public abstract class Chart<K, V> {
     }
 
     /**
-     * Returns the horizontal grid line spacing.
-     *
-     * @return
-     * The horizontal grid line spacing.
-     */
-    public int getHorizontalGridLineSpacing() {
-        return horizontalGridLineSpacing;
-    }
-
-    /**
-     * Sets the horizontal grid line spacing.
-     *
-     * @param horizontalGridLineSpacing
-     * The horizontal grid line spacing.
-     */
-    public void setHorizontalGridLineSpacing(int horizontalGridLineSpacing) {
-        if (horizontalGridLineSpacing < 1) {
-            throw new IllegalArgumentException();
-        }
-
-        this.horizontalGridLineSpacing = horizontalGridLineSpacing;
-
-        valid = false;
-    }
-
-    /**
      * Returns the horizontal grid line color.
      *
      * @return
@@ -346,32 +316,6 @@ public abstract class Chart<K, V> {
      */
     public void setShowVerticalGridLines(boolean showVerticalGridLines) {
         this.showVerticalGridLines = showVerticalGridLines;
-    }
-
-    /**
-     * Returns the vertical grid line spacing.
-     *
-     * @return
-     * The vertical grid line spacing.
-     */
-    public int getVerticalGridLineSpacing() {
-        return verticalGridLineSpacing;
-    }
-
-    /**
-     * Sets the vertical grid line spacing.
-     *
-     * @param verticalGridLineSpacing
-     * The vertical grid line spacing.
-     */
-    public void setVerticalGridLineSpacing(int verticalGridLineSpacing) {
-        if (verticalGridLineSpacing < 1) {
-            throw new IllegalArgumentException();
-        }
-
-        this.verticalGridLineSpacing = verticalGridLineSpacing;
-
-        valid = false;
     }
 
     /**

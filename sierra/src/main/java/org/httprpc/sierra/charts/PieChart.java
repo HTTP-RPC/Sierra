@@ -78,6 +78,9 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         legendPanel.removeAll();
 
+        legendPanel.setSpacing(16);
+        legendPanel.setComponentOrientation(getComponentOrientation());
+
         var dataSets = getDataSets();
 
         var n = dataSets.size();
@@ -115,10 +118,6 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         legendPanel.setLocation(width / 2 - legendSize.width / 2, height - legendSize.height);
         legendPanel.setSize(legendSize);
-
-        legendPanel.setSpacing(16);
-
-        legendPanel.setComponentOrientation(getComponentOrientation());
 
         legendPanel.doLayout();
 
