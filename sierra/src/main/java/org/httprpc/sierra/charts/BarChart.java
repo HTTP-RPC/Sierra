@@ -25,10 +25,14 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import static org.httprpc.kilo.util.Collections.*;
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Bar chart.
@@ -71,8 +75,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
     private List<Line2D.Double> horizontalGridLines = listOf();
     private List<Line2D.Double> verticalGridLines = listOf();
 
-    // TODO
-    private List<Rectangle2D.Double> barRectangles = null;
+    private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
     private RowPanel legendPanel = new RowPanel();
 
@@ -91,15 +94,24 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         var n = dataSets.size();
 
         var keys = new TreeSet<K>();
+        var dataSetValueMaps = new ArrayList<Map<K, Double>>(n);
 
         var legendFont = getLegendFont();
 
         for (var i = 0; i < n; i++) {
             var dataSet = dataSets.get(i);
 
+            var values = new TreeMap<K, Double>();
+
             for (var dataPoint : dataSet.getDataPoints()) {
-                keys.add(dataPoint.getKey());
+                var key = dataPoint.getKey();
+
+                keys.add(key);
+
+                values.put(key, coalesce(map(dataPoint.getValue(), Number::doubleValue), () -> 0.0));
             }
+
+            dataSetValueMaps.add(values);
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
 
@@ -133,12 +145,12 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var horizontalGridLineSpacing = (chartHeight - horizontalGridStrokeWidth) / (rangeLabelCount - 1);
 
-        var y = horizontalGridStrokeWidth / 2.0;
+        var gridY = horizontalGridStrokeWidth / 2.0;
 
         for (var i = 0; i < rangeLabelCount; i++) {
-            horizontalGridLines.add(new Line2D.Double(0.0, y, chartWidth, y));
+            horizontalGridLines.add(new Line2D.Double(0.0, gridY, chartWidth, gridY));
 
-            y += horizontalGridLineSpacing;
+            gridY += horizontalGridLineSpacing;
         }
 
         var verticalGridLineStrokeWidth = getVerticalGridLineStroke().getLineWidth();
@@ -146,15 +158,37 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         var verticalGridLineSpacing = (chartWidth - verticalGridLineStrokeWidth) / keyCount;
         var verticalGridLineCount = keyCount + 1;
 
-        var x = verticalGridLineStrokeWidth / 2.0;
+        var gridX = verticalGridLineStrokeWidth / 2.0;
 
         for (var i = 0; i < verticalGridLineCount; i++) {
-            verticalGridLines.add(new Line2D.Double(x, 0.0, x, chartHeight));
+            verticalGridLines.add(new Line2D.Double(gridX, 0.0, gridX, chartHeight));
 
-            x += verticalGridLineSpacing;
+            gridX += verticalGridLineSpacing;
         }
 
-        // TODO Lay out bars
+        var barSpacing = verticalGridLineSpacing * 0.05;
+        var barWidth = (verticalGridLineSpacing - (verticalGridLineStrokeWidth + barSpacing * (keyCount + 1))) / keyCount;
+
+        var barX = (double)verticalGridLineStrokeWidth;
+
+        for (var key : keys) {
+            var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>();
+
+            for (var dataSetValueMap : dataSetValueMaps) {
+                barX += barSpacing;
+
+                // TODO
+                var value = dataSetValueMap.get(key);
+
+                dataSetBarRectangles.add(new Rectangle2D.Double(barX, 0.0, barWidth, 50.0));
+
+                barX += barWidth;
+            }
+
+            barRectangles.add(dataSetBarRectangles);
+
+            barX += barSpacing + verticalGridLineStrokeWidth;
+        }
     }
 
     @Override
@@ -183,6 +217,21 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             }
 
             // TODO Draw label
+        }
+
+        var dataSets = getDataSets();
+
+        for (var dataSetBarRectangles : barRectangles) {
+            var i = 0;
+
+            for (var barRectangle : dataSetBarRectangles) {
+                var dataSet = dataSets.get(i++);
+
+                graphics.setColor(dataSet.getColor());
+                graphics.setStroke(dataSet.getStroke());
+
+                graphics.fill(barRectangle);
+            }
         }
 
         paintComponent(graphics, legendPanel);
