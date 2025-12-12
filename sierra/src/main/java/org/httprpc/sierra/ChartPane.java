@@ -126,11 +126,6 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
             perform(UIManager.getFont("default.font"), chart::setLegendFont);
             perform(UIManager.getFont("mini.font"), chart::setAnnotationFont);
 
-            var gridColor = UIManager.getColor("Label.disabledForeground");
-
-            chart.setHorizontalGridColor(gridColor);
-            chart.setVerticalGridColor(gridColor);
-
             chart.setComponentOrientation(getComponentOrientation());
         }
 

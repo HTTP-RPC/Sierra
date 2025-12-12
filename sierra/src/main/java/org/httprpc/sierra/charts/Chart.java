@@ -47,17 +47,17 @@ public abstract class Chart<K, V> {
 
     private boolean showHorizontalGridLines = true;
 
-    private int horizontalGridSpacing = 120;
+    private int horizontalGridLineSpacing = 80;
 
-    private Color horizontalGridColor = Color.LIGHT_GRAY;
-    private BasicStroke horizontalGridStroke = new BasicStroke();
+    private Color horizontalGridLineColor = Color.LIGHT_GRAY;
+    private BasicStroke horizontalGridLineStroke = new BasicStroke();
 
     private boolean showVerticalGridLines = true;
 
-    private int verticalGridSpacing = 80;
+    private int verticalGridLineSpacing = 120;
 
-    private Color verticalGridColor = Color.LIGHT_GRAY;
-    private BasicStroke verticalGridStroke = new BasicStroke();
+    private Color verticalGridLineColor = Color.LIGHT_GRAY;
+    private BasicStroke verticalGridLineStroke = new BasicStroke();
 
     private List<DataSet<K, V>> dataSets = listOf();
 
@@ -71,10 +71,7 @@ public abstract class Chart<K, V> {
 
     private boolean valid = false;
 
-    /**
-     * Constructs a new chart.
-     */
-    protected Chart() {
+    Chart() {
         var font = UIManager.getFont("Label.font");
 
         var size = font.getSize2D();
@@ -255,77 +252,77 @@ public abstract class Chart<K, V> {
     }
 
     /**
-     * Returns the horizontal grid spacing.
+     * Returns the horizontal grid line spacing.
      *
      * @return
-     * The horizontal grid spacing.
+     * The horizontal grid line spacing.
      */
-    public int getHorizontalGridSpacing() {
-        return horizontalGridSpacing;
+    public int getHorizontalGridLineSpacing() {
+        return horizontalGridLineSpacing;
     }
 
     /**
-     * Sets the horizontal grid spacing.
+     * Sets the horizontal grid line spacing.
      *
-     * @param horizontalGridSpacing
-     * The horizontal grid spacing.
+     * @param horizontalGridLineSpacing
+     * The horizontal grid line spacing.
      */
-    public void setHorizontalGridSpacing(int horizontalGridSpacing) {
-        if (horizontalGridSpacing < 0) {
+    public void setHorizontalGridLineSpacing(int horizontalGridLineSpacing) {
+        if (horizontalGridLineSpacing < 1) {
             throw new IllegalArgumentException();
         }
 
-        this.horizontalGridSpacing = horizontalGridSpacing;
+        this.horizontalGridLineSpacing = horizontalGridLineSpacing;
 
         valid = false;
     }
 
     /**
-     * Returns the horizontal grid color.
+     * Returns the horizontal grid line color.
      *
      * @return
-     * The horizontal grid color.
+     * The horizontal grid line color.
      */
-    public Color getHorizontalGridColor() {
-        return horizontalGridColor;
+    public Color getHorizontalGridLineColor() {
+        return horizontalGridLineColor;
     }
 
     /**
-     * Sets the horizontal grid color.
+     * Sets the horizontal grid line color.
      *
-     * @param horizontalGridColor
-     * The horizontal grid color.
+     * @param horizontalGridLineColor
+     * The horizontal grid line color.
      */
-    public void setHorizontalGridColor(Color horizontalGridColor) {
-        if (horizontalGridColor == null) {
+    public void setHorizontalGridLineColor(Color horizontalGridLineColor) {
+        if (horizontalGridLineColor == null) {
             throw new IllegalArgumentException();
         }
 
-        this.horizontalGridColor = horizontalGridColor;
+        this.horizontalGridLineColor = horizontalGridLineColor;
     }
 
     /**
-     * Returns the horizontal grid stroke.
+     * Returns the horizontal grid line stroke.
      *
      * @return
-     * The horizontal grid stroke.
+     * The horizontal grid line stroke.
      */
-    public BasicStroke getHorizontalGridStroke() {
-        return horizontalGridStroke;
+    public BasicStroke getHorizontalGridLineStroke() {
+        return horizontalGridLineStroke;
     }
 
     /**
-     * Sets the horizontal grid stroke.
+     * Sets the horizontal grid line stroke.
      *
-     * @param horizontalGridStroke
-     * The horizontal grid stroke.
+     * @param horizontalGridLineStroke
+     * The horizontal grid line stroke.
      */
-    public void setHorizontalGridStroke(BasicStroke horizontalGridStroke) {
-        if (horizontalGridStroke == null) {
+    public void setHorizontalGridLineStroke(BasicStroke horizontalGridLineStroke) {
+        if (horizontalGridLineStroke == null) {
             throw new IllegalArgumentException();
         }
 
-        this.horizontalGridStroke = horizontalGridStroke;
+        this.horizontalGridLineStroke = horizontalGridLineStroke;
 
         valid = false;
     }
@@ -352,77 +349,77 @@ public abstract class Chart<K, V> {
     }
 
     /**
-     * Returns the vertical grid spacing.
+     * Returns the vertical grid line spacing.
      *
      * @return
-     * The vertical grid spacing.
+     * The vertical grid line spacing.
      */
-    public int getVerticalGridSpacing() {
-        return verticalGridSpacing;
+    public int getVerticalGridLineSpacing() {
+        return verticalGridLineSpacing;
     }
 
     /**
-     * Sets the vertical grid spacing.
+     * Sets the vertical grid line spacing.
      *
-     * @param verticalGridSpacing
-     * The vertical grid spacing.
+     * @param verticalGridLineSpacing
+     * The vertical grid line spacing.
      */
-    public void setVerticalGridSpacing(int verticalGridSpacing) {
-        if (verticalGridSpacing < 0) {
+    public void setVerticalGridLineSpacing(int verticalGridLineSpacing) {
+        if (verticalGridLineSpacing < 1) {
             throw new IllegalArgumentException();
         }
 
-        this.verticalGridSpacing = verticalGridSpacing;
+        this.verticalGridLineSpacing = verticalGridLineSpacing;
 
         valid = false;
     }
 
     /**
-     * Returns the vertical grid color.
+     * Returns the vertical grid line color.
      *
      * @return
-     * The vertical grid color.
+     * The vertical grid line color.
      */
-    public Color getVerticalGridColor() {
-        return verticalGridColor;
+    public Color getVerticalGridLineColor() {
+        return verticalGridLineColor;
     }
 
     /**
-     * Sets the vertical grid color.
+     * Sets the vertical grid line color.
      *
-     * @param verticalGridColor
-     * The vertical grid color.
+     * @param verticalGridLineColor
+     * The vertical grid line color.
      */
-    public void setVerticalGridColor(Color verticalGridColor) {
-        if (verticalGridColor == null) {
+    public void setVerticalGridLineColor(Color verticalGridLineColor) {
+        if (verticalGridLineColor == null) {
             throw new IllegalArgumentException();
         }
 
-        this.verticalGridColor = verticalGridColor;
+        this.verticalGridLineColor = verticalGridLineColor;
     }
 
     /**
-     * Returns the vertical grid stroke.
+     * Returns the vertical grid line stroke.
      *
      * @return
-     * The vertical grid stroke.
+     * The vertical grid line stroke.
      */
-    public BasicStroke getVerticalGridStroke() {
-        return verticalGridStroke;
+    public BasicStroke getVerticalGridLineStroke() {
+        return verticalGridLineStroke;
     }
 
     /**
-     * Sets the vertical grid stroke.
+     * Sets the vertical grid line stroke.
      *
-     * @param verticalGridStroke
-     * The vertical grid stroke.
+     * @param verticalGridLineStroke
+     * The vertical grid line stroke.
      */
-    public void setVerticalGridStroke(BasicStroke verticalGridStroke) {
-        if (verticalGridStroke == null) {
+    public void setVerticalGridLineStroke(BasicStroke verticalGridLineStroke) {
+        if (verticalGridLineStroke == null) {
             throw new IllegalArgumentException();
         }
 
-        this.verticalGridStroke = verticalGridStroke;
+        this.verticalGridLineStroke = verticalGridLineStroke;
 
         valid = false;
     }

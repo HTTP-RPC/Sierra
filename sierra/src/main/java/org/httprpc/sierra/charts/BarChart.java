@@ -23,6 +23,10 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.util.List;
+
+import static org.httprpc.kilo.util.Collections.*;
 
 /**
  * Bar chart.
@@ -62,10 +66,16 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         }
     }
 
+    private List<Line2D.Double> horizontalGridLines = listOf();
+    private List<Line2D.Double> verticalGridLines = listOf();
+
     private RowPanel legendPanel = new RowPanel();
 
     @Override
     protected void validate() {
+        horizontalGridLines.clear();
+        verticalGridLines.clear();
+
         legendPanel.removeAll();
 
         var dataSets = getDataSets();
@@ -76,8 +86,6 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         for (var i = 0; i < n; i++) {
             var dataSet = dataSets.get(i);
-
-            // TODO
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
 
@@ -99,11 +107,58 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         legendPanel.setComponentOrientation(getComponentOrientation());
 
         legendPanel.doLayout();
+
+        var chartHeight = (double)Math.max(height - (legendSize.height + 16), 0);
+        var chartWidth = (double)width;
+
+        var horizontalGridLineSpacing = (double)getHorizontalGridLineSpacing();
+
+        var horizontalGridLineCount = (int)Math.floor(chartHeight / horizontalGridLineSpacing) + 1;
+
+        for (var i = 0; i < horizontalGridLineCount; i++) {
+            var y = chartHeight - horizontalGridLineSpacing * i;
+
+            horizontalGridLines.add(new Line2D.Double(0.0, y, chartWidth, y));
+        }
+
+        var verticalGridLineSpacing = (double)getVerticalGridLineSpacing();
+
+        var verticalGridLineCount = (int)Math.floor(chartWidth / verticalGridLineSpacing) + 1;
+
+        for (var i = 0; i < verticalGridLineCount; i++) {
+            var x = verticalGridLineSpacing * i;
+
+            horizontalGridLines.add(new Line2D.Double(x, 0.0, x, chartHeight));
+        }
     }
 
     @Override
     protected void draw(Graphics2D graphics) {
-        // TODO
+        var showHorizontalGridLines = getShowHorizontalGridLines();
+
+        graphics.setColor(getHorizontalGridLineColor());
+        graphics.setStroke(getHorizontalGridLineStroke());
+
+        for (var horizontalGridLine : horizontalGridLines) {
+            if (showHorizontalGridLines) {
+                graphics.draw(horizontalGridLine);
+            }
+
+            // TODO Draw label
+        }
+
+        var showVerticalGridLines = getShowVerticalGridLines();
+
+        graphics.setColor(getVerticalGridLineColor());
+        graphics.setStroke(getVerticalGridLineStroke());
+
+        for (var verticalGridLine : verticalGridLines) {
+            if (showVerticalGridLines) {
+                graphics.draw(verticalGridLine);
+            }
+
+            // TODO Draw label
+        }
 
         paintComponent(graphics, legendPanel);
     }
