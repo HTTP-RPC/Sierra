@@ -43,10 +43,10 @@ public abstract class Chart<K, V> {
     private Font annotationFont;
 
     private int domainLabelCount = 2;
-    private Function<K, String> domainLabelTransform = null;
+    private Function<K, String> domainLabelTransform = Object::toString;
 
     private int rangeLabelCount = 2;
-    private Function<V, String> rangeLabelTransform = null;
+    private Function<V, String> rangeLabelTransform = Object::toString;
 
     private boolean showHorizontalGridLines = true;
 
@@ -210,6 +210,32 @@ public abstract class Chart<K, V> {
     }
 
     /**
+     * Returns the domain label transform.
+     *
+     * @return
+     * The domain label transform.
+     */
+    public Function<K, String> getDomainLabelTransform() {
+        return domainLabelTransform;
+    }
+
+    /**
+     * Sets the domain label transform.
+     *
+     * @param domainLabelTransform
+     * The domain label transform.
+     */
+    public void setDomainLabelTransform(Function<K, String> domainLabelTransform) {
+        if (domainLabelTransform == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.domainLabelTransform = domainLabelTransform;
+
+        valid = false;
+    }
+
+    /**
      * Returns the range label count.
      *
      * @return
@@ -234,32 +260,10 @@ public abstract class Chart<K, V> {
     }
 
     /**
-     * Returns the domain label transform.
-     *
-     * @return
-     * The domain label transform, or {@code null} if no transform is set.
-     */
-    public Function<K, String> getDomainLabelTransform() {
-        return domainLabelTransform;
-    }
-
-    /**
-     * Sets the domain label transform.
-     *
-     * @param domainLabelTransform
-     * The domain label transform, or {@code null} for no transform.
-     */
-    public void setDomainLabelTransform(Function<K, String> domainLabelTransform) {
-        this.domainLabelTransform = domainLabelTransform;
-
-        valid = false;
-    }
-
-    /**
      * Returns the range label transform.
      *
      * @return
-     * The range label transform, or {@code null} if no transform is set.
+     * The range label transform.
      */
     public Function<V, String> getRangeLabelTransform() {
         return rangeLabelTransform;
@@ -269,9 +273,13 @@ public abstract class Chart<K, V> {
      * Sets the range label transform.
      *
      * @param rangeLabelTransform
-     * The range label transform, or {@code null} for no transform.
+     * The range label transform.
      */
     public void setRangeLabelTransform(Function<V, String> rangeLabelTransform) {
+        if (rangeLabelTransform == null) {
+            throw new IllegalArgumentException();
+        }
+
         this.rangeLabelTransform = rangeLabelTransform;
 
         valid = false;
