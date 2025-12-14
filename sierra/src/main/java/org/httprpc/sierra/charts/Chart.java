@@ -22,6 +22,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.function.Function;
 
@@ -46,7 +47,7 @@ public abstract class Chart<K, V> {
     private Function<K, String> domainLabelTransform = Object::toString;
 
     private int rangeLabelCount = 2;
-    private Function<V, String> rangeLabelTransform = Object::toString;
+    private Function<Number, String> rangeLabelTransform = numberFormat::format;
 
     private boolean showHorizontalGridLines = true;
 
@@ -69,6 +70,11 @@ public abstract class Chart<K, V> {
     private int height = 0;
 
     private boolean valid = false;
+
+    private static final NumberFormat numberFormat;
+    static {
+        numberFormat = NumberFormat.getNumberInstance();
+    }
 
     Chart() {
         var font = UIManager.getFont("Label.font");
@@ -265,7 +271,7 @@ public abstract class Chart<K, V> {
      * @return
      * The range label transform.
      */
-    public Function<V, String> getRangeLabelTransform() {
+    public Function<Number, String> getRangeLabelTransform() {
         return rangeLabelTransform;
     }
 
@@ -275,7 +281,7 @@ public abstract class Chart<K, V> {
      * @param rangeLabelTransform
      * The range label transform.
      */
-    public void setRangeLabelTransform(Function<V, String> rangeLabelTransform) {
+    public void setRangeLabelTransform(Function<Number, String> rangeLabelTransform) {
         if (rangeLabelTransform == null) {
             throw new IllegalArgumentException();
         }
