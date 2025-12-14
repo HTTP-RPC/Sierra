@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
+import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 import java.awt.BasicStroke;
@@ -38,6 +39,28 @@ import static org.httprpc.kilo.util.Collections.*;
  * The value type.
  */
 public abstract class Chart<K extends Comparable<K>, V> {
+    /**
+     * Represents a chart marker.
+     *
+     * @param key
+     * The marker key.
+     *
+     * @param value
+     * The marker value.
+     *
+     * @param label
+     * The marker label.
+     *
+     * @param icon
+     * The marker icon.
+     */
+    public record Marker<K, V>(
+        K key,
+        V value,
+        String label,
+        Icon icon) {
+    }
+
     private Font domainAxisFont;
     private Font rangeAxisFont;
     private Font legendFont;
@@ -60,6 +83,9 @@ public abstract class Chart<K extends Comparable<K>, V> {
     private BasicStroke verticalGridLineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 
     private List<DataSet<K, V>> dataSets = listOf();
+
+    private List<Marker<K, V>> domainMarkers = listOf();
+    private List<Marker<K, V>> rangeMarkers = listOf();
 
     private ComponentOrientation componentOrientation = ComponentOrientation.LEFT_TO_RIGHT;
 
@@ -454,6 +480,54 @@ public abstract class Chart<K extends Comparable<K>, V> {
         this.dataSets = dataSets;
 
         valid = false;
+    }
+
+    /**
+     * Returns the chart's domain markers.
+     *
+     * @return
+     * The chart's domain markers.
+     */
+    public List<Marker<K, V>> getDomainMarkers() {
+        return domainMarkers;
+    }
+
+    /**
+     * Sets the chart's domain markers.
+     *
+     * @param domainMarkers
+     * The chart's domain markers.
+     */
+    public void setDomainMarkers(List<Marker<K, V>> domainMarkers) {
+        if (domainMarkers == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.domainMarkers = domainMarkers;
+    }
+
+    /**
+     * Returns the chart's range markers.
+     *
+     * @return
+     * The chart's range markers.
+     */
+    public List<Marker<K, V>> getRangeMarkers() {
+        return rangeMarkers;
+    }
+
+    /**
+     * Sets the chart's range markers.
+     *
+     * @param rangeMarkers
+     * The chart's range markers.
+     */
+    public void setRangeMarkers(List<Marker<K, V>> rangeMarkers) {
+        if (rangeMarkers == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.rangeMarkers = rangeMarkers;
     }
 
     /**
