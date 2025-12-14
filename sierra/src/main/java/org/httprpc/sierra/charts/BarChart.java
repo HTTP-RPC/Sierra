@@ -27,8 +27,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -93,21 +91,14 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var dataSets = getDataSets();
 
-        var n = dataSets.size();
-
         var keys = new TreeSet<K>();
-        var dataSetValueMaps = new ArrayList<Map<K, Double>>(n);
 
         var maximum = 0.0;
         var minimum = 0.0;
 
         var legendFont = getLegendFont();
 
-        for (var i = 0; i < n; i++) {
-            var dataSet = dataSets.get(i);
-
-            var values = new TreeMap<K, Double>();
-
+        for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
                 var key = entry.getKey();
 
@@ -115,13 +106,9 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
                 var value = coalesce(map(entry.getValue(), Number::doubleValue), () -> 0.0);
 
-                values.put(key, value);
-
                 maximum = Math.max(maximum, value);
                 minimum = Math.min(minimum, value);
             }
-
-            dataSetValueMaps.add(values);
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
 
@@ -194,10 +181,10 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         for (var key : keys) {
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>();
 
-            for (var dataSetValueMap : dataSetValueMaps) {
+            for (var dataSet : dataSets) {
                 barX += barSpacing;
 
-                var value = dataSetValueMap.get(key);
+                var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
 
                 var barY = zeroY;
                 var barHeight = Math.abs(value) * scale;
