@@ -16,7 +16,7 @@ package org.httprpc.sierra.charts;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.util.List;
+import java.util.SortedMap;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -29,13 +29,13 @@ import static org.httprpc.kilo.util.Collections.*;
  * @param <V>
  * The value type.
  */
-public class DataSet<K, V> {
+public class DataSet<K extends Comparable<K>, V> {
     private String label;
     private Color color;
 
     private BasicStroke stroke = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
-    private List<DataPoint<K, V>> dataPoints = listOf();
+    private SortedMap<K, V> dataPoints = sortedMapOf();
 
     /**
      * Constructs a new data set.
@@ -105,7 +105,7 @@ public class DataSet<K, V> {
      * @return
      * The data set's data points.
      */
-    public List<DataPoint<K, V>> getDataPoints() {
+    public SortedMap<K, V> getDataPoints() {
         return dataPoints;
     }
 
@@ -115,7 +115,7 @@ public class DataSet<K, V> {
      * @param dataPoints
      * The data set's data points.
      */
-    public void setDataPoints(List<DataPoint<K, V>> dataPoints) {
+    public void setDataPoints(SortedMap<K, V> dataPoints) {
         if (dataPoints == null) {
             throw new IllegalArgumentException();
         }

@@ -108,12 +108,12 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             var values = new TreeMap<K, Double>();
 
-            for (var dataPoint : dataSet.getDataPoints()) {
-                var key = dataPoint.getKey();
+            for (var entry : dataSet.getDataPoints().entrySet()) {
+                var key = entry.getKey();
 
                 keys.add(key);
 
-                var value = coalesce(map(dataPoint.getValue(), Number::doubleValue), () -> 0.0);
+                var value = coalesce(map(entry.getValue(), Number::doubleValue), () -> 0.0);
 
                 values.put(key, value);
 

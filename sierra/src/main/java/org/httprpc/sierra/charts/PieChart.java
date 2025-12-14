@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Pie chart.
@@ -95,8 +96,8 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             dataSetValues.add(0.0);
 
-            for (var dataPoint : dataSet.getDataPoints()) {
-                var value = dataPoint.getValue().doubleValue();
+            for (var entry : dataSet.getDataPoints().entrySet()) {
+                var value = coalesce(map(entry.getValue(), Number::doubleValue), () -> 0.0);
 
                 if (value < 0.0) {
                     throw new UnsupportedOperationException("Negative value in data set.");

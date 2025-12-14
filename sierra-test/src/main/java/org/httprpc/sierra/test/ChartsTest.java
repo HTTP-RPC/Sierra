@@ -20,7 +20,6 @@ import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.charts.BarChart;
 import org.httprpc.sierra.charts.Chart;
-import org.httprpc.sierra.charts.DataPoint;
 import org.httprpc.sierra.charts.DataSet;
 import org.httprpc.sierra.charts.PieChart;
 import org.httprpc.sierra.charts.TimeSeriesChart;
@@ -30,6 +29,7 @@ import javax.swing.SwingUtilities;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -76,26 +76,26 @@ public class ChartsTest extends JFrame implements Runnable {
     private List<DataSet<Month, Double>> createCategoryDataSets() {
         var eastDataSet = new DataSet<Month, Double>("East", UILoader.getColor("light-green"));
 
-        eastDataSet.setDataPoints(listOf(
-            new DataPoint<>(Month.JANUARY, 150.0),
-            new DataPoint<>(Month.FEBRUARY, 10.0),
-            new DataPoint<>(Month.MARCH, 125.0)
+        eastDataSet.setDataPoints(sortedMapOf(
+            entry(Month.JANUARY, 150.0),
+            entry(Month.FEBRUARY, 10.0),
+            entry(Month.MARCH, 125.0)
         ));
 
         var centralDataSet = new DataSet<Month, Double>("Central", UILoader.getColor("orange"));
 
-        centralDataSet.setDataPoints(listOf(
-            new DataPoint<>(Month.JANUARY, 60.0),
-            new DataPoint<>(Month.FEBRUARY, 45.0),
-            new DataPoint<>(Month.MARCH, 90.0)
+        centralDataSet.setDataPoints(sortedMapOf(
+            entry(Month.JANUARY, 60.0),
+            entry(Month.FEBRUARY, 45.0),
+            entry(Month.MARCH, 90.0)
         ));
 
         var westDataSet = new DataSet<Month, Double>("West", UILoader.getColor("light-blue"));
 
-        westDataSet.setDataPoints(listOf(
-            new DataPoint<>(Month.JANUARY, 85.0),
-            new DataPoint<>(Month.FEBRUARY, 35.0),
-            new DataPoint<>(Month.MARCH, 140.0)
+        westDataSet.setDataPoints(sortedMapOf(
+            entry(Month.JANUARY, 85.0),
+            entry(Month.FEBRUARY, 35.0),
+            entry(Month.MARCH, 140.0)
         ));
 
         return listOf(eastDataSet, centralDataSet, westDataSet);
@@ -125,17 +125,16 @@ public class ChartsTest extends JFrame implements Runnable {
         for (var i = 0; i < m; i++) {
             var dataSet = new DataSet<Integer, Double>(String.format("Data Set %d", i + 1), colors.get(i));
 
-            var dataPoints = new ArrayList<DataPoint<Integer, Double>>(n);
+            var dataPoints = new TreeMap<Integer, Double>();
 
             for (var j = 0; j < n; j++) {
-                double value;
-                if (j == 0) {
-                    value = Math.random() * 100.0;
-                } else {
-                    value = dataPoints.get(j - 1).getValue() + (1.0 - Math.random() * 2.0) * 50.0;
-                }
-
-                dataPoints.add(new DataPoint<>(j, value));
+                dataPoints.compute(j, (key, value) -> {
+                    if (value == null) {
+                        return Math.random() * 100.0;
+                    } else {
+                        return value + (1.0 - Math.random() * 2.0) * 50.0;
+                    }
+                });
             }
 
             dataSet.setDataPoints(dataPoints);

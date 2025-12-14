@@ -37,7 +37,7 @@ import static org.httprpc.kilo.util.Collections.*;
  * @param <V>
  * The value type.
  */
-public abstract class Chart<K, V> {
+public abstract class Chart<K extends Comparable<K>, V> {
     private Font domainAxisFont;
     private Font rangeAxisFont;
     private Font legendFont;
@@ -60,9 +60,6 @@ public abstract class Chart<K, V> {
     private BasicStroke verticalGridLineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 
     private List<DataSet<K, V>> dataSets = listOf();
-
-    private List<DataPoint<K, Void>> domainMarkers = listOf();
-    private List<DataPoint<Void, V>> rangeMarkers = listOf();
 
     private ComponentOrientation componentOrientation = ComponentOrientation.LEFT_TO_RIGHT;
 
@@ -455,58 +452,6 @@ public abstract class Chart<K, V> {
         }
 
         this.dataSets = dataSets;
-
-        valid = false;
-    }
-
-    /**
-     * Returns the domain markers.
-     *
-     * @return
-     * The domain markers.
-     */
-    public List<DataPoint<K, Void>> getDomainMarkers() {
-        return domainMarkers;
-    }
-
-    /**
-     * Sets the domain markers.
-     *
-     * @param domainMarkers
-     * The domain markers.
-     */
-    public void setDomainMarkers(List<DataPoint<K, Void>> domainMarkers) {
-        if (domainMarkers == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.domainMarkers = domainMarkers;
-
-        valid = false;
-    }
-
-    /**
-     * Returns the range markers.
-     *
-     * @return
-     * The range markers.
-     */
-    public List<DataPoint<Void, V>> getRangeMarkers() {
-        return rangeMarkers;
-    }
-
-    /**
-     * Sets the range markers.
-     *
-     * @param rangeMarkers
-     * The range markers.
-     */
-    public void setRangeMarkers(List<DataPoint<Void, V>> rangeMarkers) {
-        if (rangeMarkers == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.rangeMarkers = rangeMarkers;
 
         valid = false;
     }
