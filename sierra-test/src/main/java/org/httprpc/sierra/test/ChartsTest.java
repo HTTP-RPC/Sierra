@@ -74,15 +74,31 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private List<DataSet<Month, Double>> createCategoryDataSets() {
-        var eastDataSet = new DataSet<Month, Double>("East", UILoader.getColor("light-green"));
+        var northDataSet = new DataSet<Month, Double>("North", UILoader.getColor("light-coral"));
 
-        eastDataSet.setDataPoints(sortedMapOf(
-            entry(Month.JANUARY, 150.0),
-            entry(Month.FEBRUARY, 10.0),
-            entry(Month.MARCH, 125.0)
+        northDataSet.setDataPoints(sortedMapOf(
+            entry(Month.JANUARY, 30.0),
+            entry(Month.FEBRUARY, 5.0),
+            entry(Month.MARCH, 20.0)
         ));
 
-        var centralDataSet = new DataSet<Month, Double>("Central", UILoader.getColor("orange"));
+        var southDataSet = new DataSet<Month, Double>("South", UILoader.getColor("orange"));
+
+        southDataSet.setDataPoints(sortedMapOf(
+            entry(Month.JANUARY, 40.0),
+            entry(Month.FEBRUARY, 10.0),
+            entry(Month.MARCH, 75.0)
+        ));
+
+        var eastDataSet = new DataSet<Month, Double>("East", UILoader.getColor("gold"));
+
+        eastDataSet.setDataPoints(sortedMapOf(
+            entry(Month.JANUARY, 60.0),
+            entry(Month.FEBRUARY, 5.0),
+            entry(Month.MARCH, 80.0)
+        ));
+
+        var centralDataSet = new DataSet<Month, Double>("Central", UILoader.getColor("light-green"));
 
         centralDataSet.setDataPoints(sortedMapOf(
             entry(Month.JANUARY, 60.0),
@@ -98,7 +114,7 @@ public class ChartsTest extends JFrame implements Runnable {
             entry(Month.MARCH, 140.0)
         ));
 
-        return listOf(eastDataSet, centralDataSet, westDataSet);
+        return listOf(northDataSet, southDataSet, eastDataSet, centralDataSet, westDataSet);
     }
 
     private TimeSeriesChart<Integer, Double> createTimeSeriesChart() {
@@ -111,8 +127,8 @@ public class ChartsTest extends JFrame implements Runnable {
 
     private List<DataSet<Integer, Double>> createTimeSeriesDataSets() {
         var colors = listOf(
+            UILoader.getColor("light-coral"),
             UILoader.getColor("light-green"),
-            UILoader.getColor("orange"),
             UILoader.getColor("light-blue")
         );
 

@@ -171,8 +171,10 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             return;
         }
 
+        var n = dataSets.size();
+
         var barSpacing = verticalGridLineSpacing * 0.05;
-        var barWidth = (verticalGridLineSpacing - (verticalGridLineStrokeWidth + barSpacing * (keyCount + 1))) / keyCount;
+        var barWidth = (verticalGridLineSpacing - (verticalGridLineStrokeWidth + barSpacing * (n + 1))) / n;
 
         var barX = (double)verticalGridLineStrokeWidth;
 
