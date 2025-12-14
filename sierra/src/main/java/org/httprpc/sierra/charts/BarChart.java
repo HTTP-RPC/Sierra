@@ -96,6 +96,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         var maximum = 0.0;
         var minimum = 0.0;
 
+        var legendColor = getLegendColor();
         var legendFont = getLegendFont();
 
         for (var dataSet : dataSets) {
@@ -112,6 +113,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
 
+            legendLabel.setForeground(legendColor);
             legendLabel.setFont(legendFont);
 
             legendPanel.add(legendLabel);

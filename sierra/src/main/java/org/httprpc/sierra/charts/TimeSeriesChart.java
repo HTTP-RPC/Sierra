@@ -77,6 +77,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         var n = dataSets.size();
 
+        var legendColor = getLegendColor();
         var legendFont = getLegendFont();
 
         for (var i = 0; i < n; i++) {
@@ -86,8 +87,10 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
 
-            legendLabel.setIconTextGap(8);
+            legendLabel.setForeground(legendColor);
             legendLabel.setFont(legendFont);
+
+            legendLabel.setIconTextGap(8);
 
             legendPanel.add(legendLabel);
         }

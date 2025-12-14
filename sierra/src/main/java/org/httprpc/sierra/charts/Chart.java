@@ -23,7 +23,6 @@ import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.text.NumberFormat;
 import java.util.List;
 import java.util.function.Function;
 
@@ -58,19 +57,26 @@ public abstract class Chart<K extends Comparable<K>, V> {
         K key,
         V value,
         String label,
-        Icon icon) {
+        Icon icon
+    ) {
     }
-
-    private Font domainAxisFont;
-    private Font rangeAxisFont;
-    private Font legendFont;
-    private Font annotationFont;
 
     private int domainLabelCount = 2;
     private Function<K, String> domainLabelTransform = Object::toString;
+    private Color domainLabelColor = Color.GRAY;
+    private Font domainLabelFont = defaultDomainLabelFont;
 
     private int rangeLabelCount = 2;
-    private Function<Number, String> rangeLabelTransform = numberFormat::format;
+    private Function<Number, String> rangeLabelTransform = Object::toString;
+    private Color rangeLabelColor = Color.GRAY;
+    private Font rangeLabelFont = defaultRangeLabelFont;
+
+    private Color markerColor = Color.BLACK;
+    private BasicStroke markerStroke = new BasicStroke();
+    private Font markerFont = defaultMarkerFont;
+
+    private Color legendColor = Color.BLACK;
+    private Font legendFont = defaultLegendFont;
 
     private boolean showHorizontalGridLines = true;
 
@@ -92,126 +98,19 @@ public abstract class Chart<K extends Comparable<K>, V> {
     private int width = 0;
     private int height = 0;
 
-    private boolean valid = false;
-
-    private static final NumberFormat numberFormat;
+    private static final Font defaultDomainLabelFont;
+    private static final Font defaultRangeLabelFont;
+    private static final Font defaultMarkerFont;
+    private static final Font defaultLegendFont;
     static {
-        numberFormat = NumberFormat.getNumberInstance();
-    }
-
-    Chart() {
         var font = UIManager.getFont("Label.font");
 
         var size = font.getSize2D();
 
-        domainAxisFont = font.deriveFont(size - 2);
-        rangeAxisFont = font.deriveFont(size - 1);
-        legendFont = font;
-        annotationFont = font.deriveFont(size - 3);
-    }
-
-    /**
-     * Returns the domain axis font.
-     *
-     * @return
-     * The domain axis font.
-     */
-    public Font getDomainAxisFont() {
-        return domainAxisFont;
-    }
-
-    /**
-     * Sets the domain axis font.
-     *
-     * @param domainAxisFont
-     * The domain axis font.
-     */
-    public void setDomainAxisFont(Font domainAxisFont) {
-        if (domainAxisFont == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.domainAxisFont = domainAxisFont;
-
-        valid = false;
-    }
-
-    /**
-     * Returns the range axis font.
-     *
-     * @return
-     * The range axis font.
-     */
-    public Font getRangeAxisFont() {
-        return rangeAxisFont;
-    }
-
-    /**
-     * Sets the range axis font.
-     *
-     * @param rangeAxisFont
-     * The range axis font.
-     */
-    public void setRangeAxisFont(Font rangeAxisFont) {
-        if (rangeAxisFont == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.rangeAxisFont = rangeAxisFont;
-
-        valid = false;
-    }
-
-    /**
-     * Returns the legend font.
-     *
-     * @return
-     * The legend font.
-     */
-    public Font getLegendFont() {
-        return legendFont;
-    }
-
-    /**
-     * Sets the legend font.
-     *
-     * @param legendFont
-     * The legend font.
-     */
-    public void setLegendFont(Font legendFont) {
-        if (legendFont == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.legendFont = legendFont;
-
-        valid = false;
-    }
-
-    /**
-     * Returns the annotation font.
-     *
-     * @return
-     * The annotation font.
-     */
-    public Font getAnnotationFont() {
-        return annotationFont;
-    }
-
-    /**
-     * Sets the annotation font.
-     *
-     * @param annotationFont
-     * The annotation font.
-     */
-    public void setAnnotationFont(Font annotationFont) {
-        if (annotationFont == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.annotationFont = annotationFont;
-
-        valid = false;
+        defaultDomainLabelFont = font.deriveFont(size - 1);
+        defaultRangeLabelFont = font.deriveFont(size - 2);
+        defaultMarkerFont = font.deriveFont(size - 3);
+        defaultLegendFont = font;
     }
 
     /**
@@ -260,8 +159,54 @@ public abstract class Chart<K extends Comparable<K>, V> {
         }
 
         this.domainLabelTransform = domainLabelTransform;
+    }
 
-        valid = false;
+    /**
+     * Returns the domain label color.
+     *
+     * @return
+     * The domain label color.
+     */
+    public Color getDomainLabelColor() {
+        return domainLabelColor;
+    }
+
+    /**
+     * Sets the domain label color.
+     *
+     * @param domainLabelColor
+     * The domain label color.
+     */
+    public void setDomainLabelColor(Color domainLabelColor) {
+        if (domainLabelColor == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.domainLabelColor = domainLabelColor;
+    }
+
+    /**
+     * Returns the domain label font.
+     *
+     * @return
+     * The domain label font.
+     */
+    public Font getDomainLabelFont() {
+        return domainLabelFont;
+    }
+
+    /**
+     * Sets the domain label font.
+     *
+     * @param domainLabelFont
+     * The domain label font.
+     */
+    public void setDomainLabelFont(Font domainLabelFont) {
+        if (domainLabelFont == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.domainLabelFont = domainLabelFont;
     }
 
     /**
@@ -310,8 +255,174 @@ public abstract class Chart<K extends Comparable<K>, V> {
         }
 
         this.rangeLabelTransform = rangeLabelTransform;
+    }
 
-        valid = false;
+    /**
+     * Returns the range label color.
+     *
+     * @return
+     * The range label color.
+     */
+    public Color getRangeLabelColor() {
+        return rangeLabelColor;
+    }
+
+    /**
+     * Sets the range label color.
+     *
+     * @param rangeLabelColor
+     * The range label color.
+     */
+    public void setRangeLabelColor(Color rangeLabelColor) {
+        if (rangeLabelColor == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.rangeLabelColor = rangeLabelColor;
+    }
+
+    /**
+     * Returns the range label font.
+     *
+     * @return
+     * The range label font.
+     */
+    public Font getRangeLabelFont() {
+        return rangeLabelFont;
+    }
+
+    /**
+     * Sets the range label font.
+     *
+     * @param rangeLabelFont
+     * The range label font.
+     */
+    public void setRangeLabelFont(Font rangeLabelFont) {
+        if (rangeLabelFont == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.rangeLabelFont = rangeLabelFont;
+    }
+
+    /**
+     * Returns the marker color.
+     *
+     * @return
+     * The marker color.
+     */
+    public Color getMarkerColor() {
+        return markerColor;
+    }
+
+    /**
+     * Sets the marker color.
+     *
+     * @param markerColor
+     * The marker color.
+     */
+    public void setMarkerColor(Color markerColor) {
+        if (markerColor == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.markerColor = markerColor;
+    }
+
+    /**
+     * Returns the marker stroke.
+     *
+     * @return
+     * The marker stroke.
+     */
+    public BasicStroke getMarkerStroke() {
+        return markerStroke;
+    }
+
+    /**
+     * Sets the marker stroke.
+     *
+     * @param markerStroke
+     * The marker stroke.
+     */
+    public void setMarkerStroke(BasicStroke markerStroke) {
+        if (markerStroke == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.markerStroke = markerStroke;
+    }
+
+    /**
+     * Returns the marker font.
+     *
+     * @return
+     * The marker font.
+     */
+    public Font getMarkerFont() {
+        return markerFont;
+    }
+
+    /**
+     * Sets the marker font.
+     *
+     * @param markerFont
+     * The marker font.
+     */
+    public void setMarkerFont(Font markerFont) {
+        if (markerFont == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.markerFont = markerFont;
+    }
+
+    /**
+     * Returns the legend color.
+     *
+     * @return
+     * The legend color.
+     */
+    public Color getLegendColor() {
+        return legendColor;
+    }
+
+    /**
+     * Sets the legend color.
+     *
+     * @param legendColor
+     * The legend color.
+     */
+    public void setLegendColor(Color legendColor) {
+        if (legendColor == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.legendColor = legendColor;
+    }
+
+    /**
+     * Returns the legend font.
+     *
+     * @return
+     * The legend font.
+     */
+    public Font getLegendFont() {
+        return legendFont;
+    }
+
+    /**
+     * Sets the legend font.
+     *
+     * @param legendFont
+     * The legend font.
+     */
+    public void setLegendFont(Font legendFont) {
+        if (legendFont == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.legendFont = legendFont;
     }
 
     /**
@@ -381,8 +492,6 @@ public abstract class Chart<K extends Comparable<K>, V> {
         }
 
         this.horizontalGridLineStroke = horizontalGridLineStroke;
-
-        valid = false;
     }
 
     /**
@@ -452,8 +561,6 @@ public abstract class Chart<K extends Comparable<K>, V> {
         }
 
         this.verticalGridLineStroke = verticalGridLineStroke;
-
-        valid = false;
     }
 
     /**
@@ -478,8 +585,6 @@ public abstract class Chart<K extends Comparable<K>, V> {
         }
 
         this.dataSets = dataSets;
-
-        valid = false;
     }
 
     /**
@@ -552,8 +657,6 @@ public abstract class Chart<K extends Comparable<K>, V> {
         }
 
         this.componentOrientation = componentOrientation;
-
-        valid = false;
     }
 
     /**
@@ -573,7 +676,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
             throw new IllegalArgumentException();
         }
 
-        valid &= (width == this.width && height == this.height);
+        var valid = (width == this.width && height == this.height);
 
         this.width = width;
         this.height = height;
@@ -581,8 +684,6 @@ public abstract class Chart<K extends Comparable<K>, V> {
         if (!valid) {
             validate();
         }
-
-        valid = true;
 
         graphics.setRenderingHints(new RenderingHints(mapOf(
             entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
