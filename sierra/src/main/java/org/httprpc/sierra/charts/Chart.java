@@ -102,7 +102,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
     private Color domainLabelColor = Color.GRAY;
     private Font domainLabelFont = defaultDomainLabelFont;
 
-    private int rangeLabelCount = 2;
+    private int rangeLabelCount = 5;
 
     private Function<Number, String> rangeLabelTransform = numberFormat::format;
 
@@ -771,6 +771,30 @@ public abstract class Chart<K extends Comparable<K>, V> {
      * Validates the chart contents.
      */
     protected abstract void validate();
+
+    /**
+     * Calculates the step value for a given range.
+     *
+     * @param maximum
+     * The maximum range value.
+     *
+     * @param minimum
+     * The minimum range value.
+     *
+     * @return
+     * The range step value.
+     */
+    protected double calculateRangeStep(double maximum, double minimum) {
+        if (minimum > maximum) {
+            throw new IllegalArgumentException();
+        }
+
+        var step = Math.abs(maximum - minimum) / (rangeLabelCount - 1);
+
+        var f = Math.pow(10, (int)Math.log10(step));
+
+        return Math.ceil(step / f) * f;
+    }
 
     /**
      * Draws the chart.

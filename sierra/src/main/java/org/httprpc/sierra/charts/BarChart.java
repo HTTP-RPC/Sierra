@@ -165,11 +165,14 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             gridX += verticalGridLineSpacing;
         }
 
-        var range = maximum - minimum;
-
-        if (range == 0.0) {
+        if (maximum == 0.0 && minimum == 0.0) {
             return;
         }
+
+        var rangeStep = calculateRangeStep(maximum, minimum);
+
+        maximum = Math.ceil(maximum / rangeStep) * rangeStep;
+        minimum = Math.floor(minimum / rangeStep) * rangeStep;
 
         var n = dataSets.size();
 
@@ -178,7 +181,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var barX = (double)verticalGridLineStrokeWidth;
 
-        var scale = chartHeight / range;
+        var scale = chartHeight / (maximum - minimum);
 
         var zeroY = maximum * scale;
 
