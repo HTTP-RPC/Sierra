@@ -33,6 +33,7 @@ dependencies {
     compileOnly "com.formdev:flatlaf-extras:${flatLafVersion}"
 
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+    testImplementation 'org.apache.xmlgraphics:batik-all:1.19'
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
