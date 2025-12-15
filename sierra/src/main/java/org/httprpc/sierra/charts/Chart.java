@@ -75,6 +75,8 @@ public abstract class Chart<K extends Comparable<K>, V> {
     ) {
     }
 
+    private int domainLabelCount = 2;
+
     private Function<K, String> domainLabelTransform = key -> {
         if (key instanceof Number number) {
             return numberFormat.format(number);
@@ -99,6 +101,8 @@ public abstract class Chart<K extends Comparable<K>, V> {
 
     private Color domainLabelColor = Color.GRAY;
     private Font domainLabelFont = defaultDomainLabelFont;
+
+    private int rangeLabelCount = 2;
 
     private Function<Number, String> rangeLabelTransform = numberFormat::format;
 
@@ -160,6 +164,30 @@ public abstract class Chart<K extends Comparable<K>, V> {
         defaultRangeLabelFont = font.deriveFont(size - 2);
         defaultMarkerFont = font.deriveFont(size - 3);
         defaultLegendFont = font;
+    }
+
+    /**
+     * Returns the domain label count.
+     *
+     * @return
+     * The domain label count.
+     */
+    public int getDomainLabelCount() {
+        return domainLabelCount;
+    }
+
+    /**
+     * Sets the domain label count.
+     *
+     * @param domainLabelCount
+     * The domain label count.
+     */
+    public void setDomainLabelCount(int domainLabelCount) {
+        if (domainLabelCount < 2) {
+            throw new IllegalArgumentException();
+        }
+
+        this.domainLabelCount = domainLabelCount;
     }
 
     /**
@@ -232,6 +260,30 @@ public abstract class Chart<K extends Comparable<K>, V> {
         }
 
         this.domainLabelFont = domainLabelFont;
+    }
+
+    /**
+     * Returns the range label count.
+     *
+     * @return
+     * The range label count.
+     */
+    public int getRangeLabelCount() {
+        return rangeLabelCount;
+    }
+
+    /**
+     * Sets the range label count.
+     *
+     * @param rangeLabelCount
+     * The range label count.
+     */
+    public void setRangeLabelCount(int rangeLabelCount) {
+        if (rangeLabelCount < 2) {
+            throw new IllegalArgumentException();
+        }
+
+        this.rangeLabelCount = rangeLabelCount;
     }
 
     /**

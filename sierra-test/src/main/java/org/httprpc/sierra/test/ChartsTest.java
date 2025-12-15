@@ -67,6 +67,7 @@ public class ChartsTest extends JFrame implements Runnable {
     private BarChart<Month, Double> createBarChart() {
         var barChart = new BarChart<Month, Double>();
 
+        barChart.setRangeLabelCount(5);
         barChart.setDataSets(createCategoryDataSets());
 
         return barChart;
