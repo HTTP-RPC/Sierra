@@ -14,21 +14,12 @@
 
 package org.httprpc.sierra.charts;
 
-import org.apache.batik.dom.GenericDOMImplementation;
-import org.apache.batik.svggen.SVGGraphics2D;
-import org.httprpc.kilo.io.TextDecoder;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import static org.httprpc.kilo.util.Collections.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class BarChartTest {
     @Test
@@ -47,7 +38,7 @@ public class BarChartTest {
 
         barChart.setDataSets(listOf(dataSet));
 
-        compare("bar-chart-positive-values.svg", barChart);
+        ChartTest.compare("bar-chart-positive-values.svg", barChart);
     }
 
     @Test
@@ -66,7 +57,7 @@ public class BarChartTest {
 
         barChart.setDataSets(listOf(dataSet));
 
-        compare("bar-chart-negative-values.svg", barChart);
+        ChartTest.compare("bar-chart-negative-values.svg", barChart);
     }
 
     @Test
@@ -85,46 +76,6 @@ public class BarChartTest {
 
         barChart.setDataSets(listOf(dataSet));
 
-        compare("bar-chart-mixed-values.svg", barChart);
-    }
-
-    private void compare(String name, BarChart<?, ?> barChart) throws IOException {
-        var textDecoder = new TextDecoder();
-
-        String expected;
-        try (var inputStream = getClass().getResourceAsStream(name)) {
-            expected = textDecoder.read(new InputStreamReader(inputStream));
-        }
-
-        var path = writeSVG(name, barChart);
-
-        String actual;
-        try {
-            try (var inputStream = Files.newInputStream(path)) {
-                actual = textDecoder.read(new InputStreamReader(inputStream));
-            }
-        } finally {
-            Files.deleteIfExists(path);
-        }
-
-        assertEquals(expected, actual);
-    }
-
-    private Path writeSVG(String name, BarChart<?, ?> barChart) throws IOException {
-        var domImplementation = GenericDOMImplementation.getDOMImplementation();
-
-        var document = domImplementation.createDocument("http://www.w3.org/2000/svg", "svg", null);
-
-        var svgGraphics = new SVGGraphics2D(document);
-
-        barChart.draw(svgGraphics, 320, 240);
-
-        var path = Path.of(System.getProperty("user.dir"), name);
-
-        try (var outputStream = Files.newOutputStream(path)) {
-            svgGraphics.stream(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), false);
-        }
-
-        return path;
+        ChartTest.compare("bar-chart-mixed-values.svg", barChart);
     }
 }
