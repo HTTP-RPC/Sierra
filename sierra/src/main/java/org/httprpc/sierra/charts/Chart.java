@@ -23,7 +23,21 @@ import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.format.TextStyle;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Function;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -61,13 +75,33 @@ public abstract class Chart<K extends Comparable<K>, V> {
     ) {
     }
 
-    private int domainLabelCount = 2;
-    private Function<K, String> domainLabelTransform = Object::toString;
+    private Function<K, String> domainLabelTransform = key -> {
+        if (key instanceof Number number) {
+            return numberFormat.format(number);
+        } else if (key instanceof Date date) {
+            return dateFormat.format(date);
+        } else if (key instanceof LocalDate localDate) {
+            return localDateFormatter.format(localDate);
+        } else if (key instanceof LocalTime localTime) {
+            return localTimeFormatter.format(localTime);
+        } else if (key instanceof LocalDateTime localDateTime) {
+            return localDateTimeFormatter.format(localDateTime);
+        } else if (key instanceof Instant instant) {
+            return instantFormatter.format(instant);
+        } else if (key instanceof Month month) {
+            return month.getDisplayName(TextStyle.SHORT, Locale.getDefault());
+        } else if (key instanceof DayOfWeek dayOfWeek) {
+            return dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault());
+        } else {
+            return key.toString();
+        }
+    };
+
     private Color domainLabelColor = Color.GRAY;
     private Font domainLabelFont = defaultDomainLabelFont;
 
-    private int rangeLabelCount = 2;
-    private Function<Number, String> rangeLabelTransform = Object::toString;
+    private Function<Number, String> rangeLabelTransform = numberFormat::format;
+
     private Color rangeLabelColor = Color.GRAY;
     private Font rangeLabelFont = defaultRangeLabelFont;
 
@@ -98,6 +132,21 @@ public abstract class Chart<K extends Comparable<K>, V> {
     private int width = 0;
     private int height = 0;
 
+    private static final NumberFormat numberFormat;
+    private static final DateFormat dateFormat;
+    private static final DateTimeFormatter localDateFormatter;
+    private static final DateTimeFormatter localTimeFormatter;
+    private static final DateTimeFormatter localDateTimeFormatter;
+    private static final DateTimeFormatter instantFormatter;
+    static {
+        numberFormat = NumberFormat.getCompactNumberInstance();
+        dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+        localDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+        localTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+        localDateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+        instantFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withZone(ZoneId.systemDefault());
+    }
+
     private static final Font defaultDomainLabelFont;
     private static final Font defaultRangeLabelFont;
     private static final Font defaultMarkerFont;
@@ -111,30 +160,6 @@ public abstract class Chart<K extends Comparable<K>, V> {
         defaultRangeLabelFont = font.deriveFont(size - 2);
         defaultMarkerFont = font.deriveFont(size - 3);
         defaultLegendFont = font;
-    }
-
-    /**
-     * Returns the domain label count.
-     *
-     * @return
-     * The domain label count.
-     */
-    public int getDomainLabelCount() {
-        return domainLabelCount;
-    }
-
-    /**
-     * Sets the domain label count.
-     *
-     * @param domainLabelCount
-     * The domain label count.
-     */
-    public void setDomainLabelCount(int domainLabelCount) {
-        if (domainLabelCount < 2) {
-            throw new IllegalArgumentException();
-        }
-
-        this.domainLabelCount = domainLabelCount;
     }
 
     /**
@@ -207,30 +232,6 @@ public abstract class Chart<K extends Comparable<K>, V> {
         }
 
         this.domainLabelFont = domainLabelFont;
-    }
-
-    /**
-     * Returns the range label count.
-     *
-     * @return
-     * The range label count.
-     */
-    public int getRangeLabelCount() {
-        return rangeLabelCount;
-    }
-
-    /**
-     * Sets the range label count.
-     *
-     * @param rangeLabelCount
-     * The range label count.
-     */
-    public void setRangeLabelCount(int rangeLabelCount) {
-        if (rangeLabelCount < 2) {
-            throw new IllegalArgumentException();
-        }
-
-        this.rangeLabelCount = rangeLabelCount;
     }
 
     /**
