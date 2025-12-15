@@ -75,6 +75,9 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
     private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
+    private List<String> domainLabels = listOf();
+    private List<String> rangeLabels = listOf();
+
     private RowPanel legendPanel = new RowPanel();
 
     @Override
@@ -83,6 +86,9 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         verticalGridLines.clear();
 
         barRectangles.clear();
+
+        domainLabels.clear();
+        rangeLabels.clear();
 
         legendPanel.removeAll();
 
@@ -209,6 +215,18 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             barX += barSpacing + verticalGridLineStrokeWidth;
         }
+
+        var domainLabelTransform = getDomainLabelTransform();
+
+        domainLabels = keys.stream().map(domainLabelTransform).toList();
+
+        var rangeLabelTransform = getRangeLabelTransform();
+
+        rangeLabels = new ArrayList<>(rangeLabelCount);
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            rangeLabels.add(rangeLabelTransform.apply(minimum + rangeStep * i));
+        }
     }
 
     @Override
@@ -222,8 +240,6 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             if (showHorizontalGridLines) {
                 graphics.draw(horizontalGridLine);
             }
-
-            // TODO Draw label
         }
 
         var showVerticalGridLines = getShowVerticalGridLines();
@@ -235,8 +251,6 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             if (showVerticalGridLines) {
                 graphics.draw(verticalGridLine);
             }
-
-            // TODO Draw label
         }
 
         var dataSets = getDataSets();
