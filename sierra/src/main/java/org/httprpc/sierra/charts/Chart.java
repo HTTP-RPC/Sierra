@@ -775,25 +775,33 @@ public abstract class Chart<K extends Comparable<K>, V> {
     /**
      * Calculates the step value for a given range.
      *
-     * @param maximum
-     * The maximum range value.
-     *
      * @param minimum
      * The minimum range value.
+     *
+     * @param maximum
+     * The maximum range value.
      *
      * @return
      * The range step value.
      */
-    protected double calculateRangeStep(double maximum, double minimum) {
+    protected double calculateRangeStep(double minimum, double maximum) {
         if (minimum > maximum) {
             throw new IllegalArgumentException();
         }
 
         var step = Math.abs(maximum - minimum) / (rangeLabelCount - 1);
 
-        var f = Math.pow(10, (int)Math.log10(step));
+        var p = (int)Math.log10(step);
 
-        return Math.ceil(step / f) * f;
+        if (p > 0) {
+            var f = Math.pow(10, p);
+
+            return Math.ceil(step / f) * f;
+        } else {
+            var f = Math.pow(10, -p + 1);
+
+            return Math.ceil(step * f) / f;
+        }
     }
 
     /**

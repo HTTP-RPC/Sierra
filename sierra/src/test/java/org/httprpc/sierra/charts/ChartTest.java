@@ -1,0 +1,66 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.httprpc.sierra.charts;
+
+import org.junit.jupiter.api.Test;
+
+import java.awt.Graphics2D;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class ChartTest {
+    public static class TestChart extends Chart<String, Integer> {
+        @Override
+        protected void validate() {
+            // No-op
+        }
+
+        @Override
+        protected void draw(Graphics2D graphics) {
+            // No-op
+        }
+    }
+
+    @Test
+    public void testRangeStep() {
+        var testChart = new TestChart();
+
+        assertEquals(30.0, testChart.calculateRangeStep(0.0, 100.0));
+        assertEquals(300.0, testChart.calculateRangeStep(0.0, 1000.0));
+        assertEquals(3000.0, testChart.calculateRangeStep(0.0, 10000.0));
+
+        assertEquals(30.0, testChart.calculateRangeStep(-100.0, 0.0));
+        assertEquals(300.0, testChart.calculateRangeStep(-1000.0, 0.0));
+        assertEquals(3000.0, testChart.calculateRangeStep(-10000.0, 0.0));
+
+        assertEquals(40.0, testChart.calculateRangeStep(-50.0, 100.0));
+        assertEquals(40.0, testChart.calculateRangeStep(-100.0, 50.0));
+
+        assertEquals(5.0, testChart.calculateRangeStep(80.0, 100.0));
+        assertEquals(5.0, testChart.calculateRangeStep(-100.0, -80.0));
+
+        assertEquals(0.3, testChart.calculateRangeStep(0.0, 1.0));
+        assertEquals(0.03, testChart.calculateRangeStep(0.0, 0.1));
+        assertEquals(0.003, testChart.calculateRangeStep(0.0, 0.01));
+
+        assertEquals(0.3, testChart.calculateRangeStep(-1.0, 0.0));
+        assertEquals(0.03, testChart.calculateRangeStep(-0.1, 0.0));
+        assertEquals(0.003, testChart.calculateRangeStep(-0.01, 0.0));
+
+        assertEquals(0.5, testChart.calculateRangeStep(-1.0, 1.0));
+        assertEquals(0.05, testChart.calculateRangeStep(-0.1, 0.1));
+        assertEquals(0.005, testChart.calculateRangeStep(-0.01, 0.01));
+    }
+}

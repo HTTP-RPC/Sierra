@@ -99,8 +99,8 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var keys = new TreeSet<K>();
 
-        var maximum = 0.0;
         var minimum = 0.0;
+        var maximum = 0.0;
 
         var legendColor = getLegendColor();
         var legendFont = getLegendFont();
@@ -113,8 +113,8 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
                 var value = coalesce(map(entry.getValue(), Number::doubleValue), () -> 0.0);
 
-                maximum = Math.max(maximum, value);
                 minimum = Math.min(minimum, value);
+                maximum = Math.max(maximum, value);
             }
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
@@ -171,14 +171,14 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             gridX += verticalGridLineSpacing;
         }
 
-        if (maximum == 0.0 && minimum == 0.0) {
+        if (minimum == 0.0 && maximum == 0.0) {
             return;
         }
 
-        var rangeStep = calculateRangeStep(maximum, minimum);
+        var rangeStep = calculateRangeStep(minimum, maximum);
 
-        maximum = Math.ceil(maximum / rangeStep) * rangeStep;
         minimum = Math.floor(minimum / rangeStep) * rangeStep;
+        maximum = Math.ceil(maximum / rangeStep) * rangeStep;
 
         var n = dataSets.size();
 

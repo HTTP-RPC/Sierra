@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$/../../../sierra/src/test" dumb="true">
+      <sourceFolder url="file://$MODULE_DIR$/../../../sierra/src/test/java" isTestSource="true" />
+    </content>
+  </component>
   <component name="SonarLintModuleSettings">
     <option name="uniqueId" value="3d096874-6aef-45ba-af22-0206aaf019f3" />
   </component>
