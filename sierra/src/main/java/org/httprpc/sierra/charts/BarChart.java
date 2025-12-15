@@ -218,7 +218,11 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var domainLabelTransform = getDomainLabelTransform();
 
-        domainLabels = keys.stream().map(domainLabelTransform).toList();
+        domainLabels = new ArrayList<>(keys.size());
+
+        for (var key : keys) {
+            domainLabels.add(domainLabelTransform.apply(key));
+        }
 
         var rangeLabelTransform = getRangeLabelTransform();
 
