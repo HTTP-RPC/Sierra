@@ -47,7 +47,7 @@ public class BarChartTest {
 
         barChart.setDataSets(listOf(dataSet));
 
-        compare("positive-values.svg", barChart);
+        compare("bar-chart-positive-values.svg", barChart);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class BarChartTest {
 
         barChart.setDataSets(listOf(dataSet));
 
-        compare("negative-values.svg", barChart);
+        compare("bar-chart-negative-values.svg", barChart);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class BarChartTest {
 
         barChart.setDataSets(listOf(dataSet));
 
-        compare("mixed-values.svg", barChart);
+        compare("bar-chart-mixed-values.svg", barChart);
     }
 
     private void compare(String name, BarChart<?, ?> barChart) throws IOException {
