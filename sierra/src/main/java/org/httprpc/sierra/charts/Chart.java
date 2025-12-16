@@ -92,9 +92,9 @@ public abstract class Chart<K extends Comparable<K>, V> {
         } else if (key instanceof Instant instant) {
             return instantFormatter.format(instant);
         } else if (key instanceof Month month) {
-            return month.getDisplayName(TextStyle.SHORT, Locale.getDefault());
+            return month.getDisplayName(TextStyle.FULL, Locale.getDefault());
         } else if (key instanceof DayOfWeek dayOfWeek) {
-            return dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault());
+            return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault());
         } else {
             return key.toString();
         }

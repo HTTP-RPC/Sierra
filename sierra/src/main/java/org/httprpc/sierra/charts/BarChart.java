@@ -14,7 +14,9 @@
 
 package org.httprpc.sierra.charts;
 
+import org.httprpc.sierra.HorizontalAlignment;
 import org.httprpc.sierra.RowPanel;
+import org.httprpc.sierra.TextPane;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -73,10 +75,10 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
     private List<Line2D.Double> horizontalGridLines = listOf();
     private List<Line2D.Double> verticalGridLines = listOf();
 
-    private List<List<Rectangle2D.Double>> barRectangles = listOf();
+    private List<TextPane> domainLabelTextPanes = listOf();
+    private List<TextPane> rangeLabelTextPanes = listOf();
 
-    private List<String> domainLabels = listOf();
-    private List<String> rangeLabels = listOf();
+    private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
     private RowPanel legendPanel = new RowPanel();
 
@@ -85,10 +87,10 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
-        barRectangles.clear();
+        domainLabelTextPanes.clear();
+        rangeLabelTextPanes.clear();
 
-        domainLabels.clear();
-        rangeLabels.clear();
+        barRectangles.clear();
 
         legendPanel.removeAll();
 
@@ -127,7 +129,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var keyCount = keys.size();
 
-        if (keyCount == 0) {
+        if (keyCount == 0 || minimum == 0.0 && maximum == 0.0) {
             return;
         }
 
@@ -141,10 +143,52 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         legendPanel.doLayout();
 
-        var chartHeight = (double)Math.max(height - (legendSize.height + 16), 0);
-        var chartWidth = (double)width;
+        var rangeStep = calculateRangeStep(minimum, maximum);
+
+        minimum = Math.floor(minimum / rangeStep) * rangeStep;
+        maximum = Math.ceil(maximum / rangeStep) * rangeStep;
+
+        var domainLabelTransform = getDomainLabelTransform();
+        var domainLabelFont = getDomainLabelFont();
+
+        var domainLabelHeight = 0.0;
+
+        for (var key : keys) {
+            var label = domainLabelTransform.apply(key);
+
+            var textPane = new TextPane(label);
+
+            textPane.setFont(domainLabelFont);
+            textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
+            textPane.setSize(textPane.getPreferredSize());
+
+            domainLabelHeight = Math.max(domainLabelHeight, textPane.getHeight());
+
+            domainLabelTextPanes.add(textPane);
+        }
 
         var rangeLabelCount = getRangeLabelCount();
+        var rangeLabelTransform = getRangeLabelTransform();
+        var rangeLabelFont = getRangeLabelFont();
+
+        var rangeLabelWidth = 0.0;
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            var label = rangeLabelTransform.apply(minimum + rangeStep * i);
+
+            var textPane = new TextPane(label);
+
+            textPane.setFont(rangeLabelFont);
+            textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
+            textPane.setSize(textPane.getPreferredSize());
+
+            rangeLabelWidth = Math.max(rangeLabelWidth, textPane.getWidth());
+
+            rangeLabelTextPanes.add(textPane);
+        }
+
+        var chartWidth = (double)width - rangeLabelWidth;
+        var chartHeight = Math.max(height - (domainLabelHeight + 16 + legendSize.height), 0);
 
         var horizontalGridStrokeWidth = getHorizontalGridLineStroke().getLineWidth();
 
@@ -153,7 +197,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         var gridY = horizontalGridStrokeWidth / 2.0;
 
         for (var i = 0; i < rangeLabelCount; i++) {
-            horizontalGridLines.add(new Line2D.Double(0.0, gridY, chartWidth, gridY));
+            horizontalGridLines.add(new Line2D.Double(rangeLabelWidth, gridY, rangeLabelWidth + chartWidth, gridY));
 
             gridY += horizontalGridLineSpacing;
         }
@@ -163,7 +207,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         var verticalGridLineSpacing = (chartWidth - verticalGridLineStrokeWidth) / keyCount;
         var verticalGridLineCount = keyCount + 1;
 
-        var gridX = verticalGridLineStrokeWidth / 2.0;
+        var gridX = rangeLabelWidth + verticalGridLineStrokeWidth / 2.0;
 
         for (var i = 0; i < verticalGridLineCount; i++) {
             verticalGridLines.add(new Line2D.Double(gridX, 0.0, gridX, chartHeight));
@@ -171,21 +215,45 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             gridX += verticalGridLineSpacing;
         }
 
-        if (minimum == 0.0 && maximum == 0.0) {
-            return;
+        var domainLabelX = rangeLabelWidth;
+
+        for (var textPane : domainLabelTextPanes) {
+            var size = textPane.getSize();
+
+            textPane.setBounds((int)domainLabelX, (int)chartHeight, (int)verticalGridLineSpacing, size.height);
+            textPane.doLayout();
+
+            domainLabelX += verticalGridLineSpacing;
         }
 
-        var rangeStep = calculateRangeStep(minimum, maximum);
+        var rangeLabelY = chartHeight;
 
-        minimum = Math.floor(minimum / rangeStep) * rangeStep;
-        maximum = Math.ceil(maximum / rangeStep) * rangeStep;
+        for (var i = 0; i < rangeLabelCount; i++) {
+            var textPane = rangeLabelTextPanes.get(i);
+
+            var size = textPane.getSize();
+
+            int y;
+            if (i == 0) {
+                y = (int)rangeLabelY - size.height;
+            } else if (i < rangeLabelCount - 1) {
+                y = (int)rangeLabelY - size.height / 2;
+            } else {
+                y = (int)rangeLabelY;
+            }
+
+            textPane.setBounds(0, y, (int)rangeLabelWidth, size.height);
+            textPane.doLayout();
+
+            rangeLabelY -= horizontalGridLineSpacing;
+        }
 
         var n = dataSets.size();
 
         var barSpacing = verticalGridLineSpacing * 0.05;
         var barWidth = (verticalGridLineSpacing - (verticalGridLineStrokeWidth + barSpacing * (n + 1))) / n;
 
-        var barX = (double)verticalGridLineStrokeWidth;
+        var barX = rangeLabelWidth + verticalGridLineStrokeWidth;
 
         var scale = chartHeight / (maximum - minimum);
 
@@ -217,22 +285,6 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             barX += barSpacing + verticalGridLineStrokeWidth;
         }
-
-        var domainLabelTransform = getDomainLabelTransform();
-
-        domainLabels = new ArrayList<>(keys.size());
-
-        for (var key : keys) {
-            domainLabels.add(domainLabelTransform.apply(key));
-        }
-
-        var rangeLabelTransform = getRangeLabelTransform();
-
-        rangeLabels = new ArrayList<>(rangeLabelCount);
-
-        for (var i = 0; i < rangeLabelCount; i++) {
-            rangeLabels.add(rangeLabelTransform.apply(minimum + rangeStep * i));
-        }
     }
 
     @Override
@@ -253,6 +305,18 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             for (var verticalGridLine : verticalGridLines) {
                 graphics.draw(verticalGridLine);
             }
+        }
+
+        graphics.setColor(getDomainLabelColor());
+
+        for (var textPane : domainLabelTextPanes) {
+            paintComponent(graphics, textPane);
+        }
+
+        graphics.setColor(getRangeLabelColor());
+
+        for (var textPane : rangeLabelTextPanes) {
+            paintComponent(graphics, textPane);
         }
 
         var dataSets = getDataSets();

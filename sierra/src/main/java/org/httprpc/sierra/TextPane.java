@@ -15,6 +15,7 @@
 package org.httprpc.sierra;
 
 import javax.swing.JComponent;
+import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -216,6 +217,8 @@ public class TextPane extends JComponent {
      */
     public TextPane(String text) {
         this.text = text;
+
+        setFont(UIManager.getFont("Label.font"));
 
         setUI(new TextPaneUI());
     }
