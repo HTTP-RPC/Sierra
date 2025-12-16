@@ -239,7 +239,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             domainLabelX += verticalGridLineSpacing;
         }
 
-        var rangeLabelY = chartHeight;
+        var rangeLabelY = chartHeight - horizontalGridStrokeWidth / 2.0;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             var textPane = rangeLabelTextPanes.get(i);

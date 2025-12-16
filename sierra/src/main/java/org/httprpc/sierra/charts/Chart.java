@@ -166,7 +166,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
     private static final DateTimeFormatter localDateTimeFormatter;
     private static final DateTimeFormatter instantFormatter;
     static {
-        numberFormat = NumberFormat.getCompactNumberInstance();
+        numberFormat = NumberFormat.getNumberInstance();
         dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
         localDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
         localTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
