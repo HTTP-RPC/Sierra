@@ -78,21 +78,31 @@ public class ChartTest {
 
         String expected;
         try (var inputStream = ChartTest.class.getResourceAsStream(name)) {
-            expected = textDecoder.read(new InputStreamReader(inputStream));
+            if (inputStream != null) {
+                expected = textDecoder.read(new InputStreamReader(inputStream));
+            } else {
+                expected = "";
+            }
         }
 
         var path = writeSVG(name, barChart);
 
-        String actual;
+        var result = false;
+
         try {
+            String actual;
             try (var inputStream = Files.newInputStream(path)) {
                 actual = textDecoder.read(new InputStreamReader(inputStream));
             }
+
+            result = expected.equals(actual);
         } finally {
-            Files.deleteIfExists(path);
+            if (result) {
+                Files.deleteIfExists(path);
+            }
         }
 
-        assertEquals(expected, actual);
+        assertTrue(result);
     }
 
     public static Path writeSVG(String name, BarChart<?, ?> barChart) throws IOException {
@@ -104,12 +114,16 @@ public class ChartTest {
 
         barChart.draw(svgGraphics, 320, 240);
 
-        var path = Path.of(System.getProperty("user.dir"), name);
+        var directory = Path.of(System.getProperty("user.dir"), "charts");
 
-        try (var outputStream = Files.newOutputStream(path)) {
+        Files.createDirectories(directory);
+
+        var file = directory.resolve(name);
+
+        try (var outputStream = Files.newOutputStream(file)) {
             svgGraphics.stream(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), false);
         }
 
-        return path;
+        return file;
     }
 }

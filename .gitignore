@@ -1,4 +1,5 @@
 .gradle
+sierra/charts
 **/build
 **/out
 **/.DS_Store
