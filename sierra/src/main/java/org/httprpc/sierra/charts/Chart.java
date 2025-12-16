@@ -32,6 +32,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
@@ -96,6 +97,28 @@ public abstract class Chart<K extends Comparable<K>, V> {
             return dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault());
         } else {
             return key.toString();
+        }
+    };
+
+    private Function<K, Number> domainValueTransform = key -> {
+        if (key instanceof Number number) {
+            return number;
+        } else if (key instanceof Date date) {
+            return date.getTime();
+        } else if (key instanceof LocalDate localDate) {
+            return localDate.toEpochSecond(LocalTime.MIDNIGHT, ZoneOffset.UTC);
+        } else if (key instanceof LocalTime localTime) {
+            return localTime.toEpochSecond(LocalDate.EPOCH, ZoneOffset.UTC);
+        } else if (key instanceof LocalDateTime localDateTime) {
+            return localDateTime.toEpochSecond(ZoneOffset.UTC);
+        } else if (key instanceof Instant instant) {
+            return instant.toEpochMilli();
+        } else if (key instanceof Month month) {
+            return month.getValue();
+        } else if (key instanceof DayOfWeek dayOfWeek) {
+            return dayOfWeek.getValue();
+        } else {
+            throw new UnsupportedOperationException();
         }
     };
 
@@ -212,6 +235,30 @@ public abstract class Chart<K extends Comparable<K>, V> {
         }
 
         this.domainLabelTransform = domainLabelTransform;
+    }
+
+    /**
+     * Returns the domain value transform.
+     *
+     * @return
+     * The domain value transform.
+     */
+    public Function<K, Number> getDomainValueTransform() {
+        return domainValueTransform;
+    }
+
+    /**
+     * Sets the domain value transform.
+     *
+     * @param domainValueTransform
+     * The domain value transform.
+     */
+    public void setDomainValueTransform(Function<K, Number> domainValueTransform) {
+        if (domainValueTransform == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.domainValueTransform = domainValueTransform;
     }
 
     /**
