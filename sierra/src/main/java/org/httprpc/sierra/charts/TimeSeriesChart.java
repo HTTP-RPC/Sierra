@@ -14,7 +14,9 @@
 
 package org.httprpc.sierra.charts;
 
+import org.httprpc.sierra.HorizontalAlignment;
 import org.httprpc.sierra.RowPanel;
+import org.httprpc.sierra.TextPane;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -23,6 +25,10 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.util.List;
+
+import static org.httprpc.kilo.util.Collections.*;
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Time series chart.
@@ -64,10 +70,29 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         }
     }
 
+    private List<Line2D.Double> horizontalGridLines = listOf();
+    private List<Line2D.Double> verticalGridLines = listOf();
+
+    private List<TextPane> domainLabelTextPanes = listOf();
+    private List<TextPane> rangeLabelTextPanes = listOf();
+
     private RowPanel legendPanel = new RowPanel();
+
+    private static final int DOMAIN_LABEL_SPACING = 4;
+    private static final int RANGE_LABEL_SPACING = 4;
+
+    private static final int LEGEND_SPACING = 16;
 
     @Override
     protected void validate() {
+        horizontalGridLines.clear();
+        verticalGridLines.clear();
+
+        domainLabelTextPanes.clear();
+        rangeLabelTextPanes.clear();
+
+        // TODO
+
         legendPanel.removeAll();
 
         legendPanel.setSpacing(16);
@@ -75,24 +100,36 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         var dataSets = getDataSets();
 
-        var n = dataSets.size();
+        var minimum = 0.0;
+        var maximum = 0.0;
 
         var legendColor = getLegendColor();
         var legendFont = getLegendFont();
 
-        for (var i = 0; i < n; i++) {
-            var dataSet = dataSets.get(i);
+        for (var dataSet : dataSets) {
+            for (var entry : dataSet.getDataPoints().entrySet()) {
+                var value = map(entry.getValue(), Number::doubleValue);
 
-            // TODO
+                if (value == null) {
+                    continue;
+                }
+
+                // TODO
+
+                minimum = Math.min(minimum, value);
+                maximum = Math.max(maximum, value);
+            }
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
 
             legendLabel.setForeground(legendColor);
             legendLabel.setFont(legendFont);
 
-            legendLabel.setIconTextGap(8);
-
             legendPanel.add(legendLabel);
+        }
+
+        if (minimum == 0.0 && maximum == 0.0) {
+            return;
         }
 
         var width = getWidth();
@@ -104,10 +141,133 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         legendPanel.setSize(legendSize);
 
         legendPanel.doLayout();
+
+        var domainLabelCount = getDomainLabelCount();
+
+        var domainLabelHeight = 0.0;
+
+        // TODO Domain labels
+
+        var rangeLabelCount = getRangeLabelCount();
+
+        var rangeStep = Math.abs(maximum - minimum) / (rangeLabelCount - 1);
+
+        var rangeLabelTransform = getRangeLabelTransform();
+        var rangeLabelFont = getRangeLabelFont();
+
+        var rangeLabelWidth = 0.0;
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            var label = rangeLabelTransform.apply(minimum + rangeStep * i);
+
+            var textPane = new TextPane(label);
+
+            textPane.setFont(rangeLabelFont);
+            textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
+            textPane.setSize(textPane.getPreferredSize());
+
+            rangeLabelWidth = Math.max(rangeLabelWidth, textPane.getWidth());
+
+            rangeLabelTextPanes.add(textPane);
+        }
+
+        var rangeLabelOffset = rangeLabelWidth + RANGE_LABEL_SPACING;
+
+        var chartWidth = (double)width - rangeLabelOffset;
+        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + legendSize.height + LEGEND_SPACING), 0);
+
+        var horizontalGridStrokeWidth = getHorizontalGridLineStroke().getLineWidth();
+
+        var horizontalGridLineSpacing = (chartHeight - horizontalGridStrokeWidth) / (rangeLabelCount - 1);
+
+        var gridY = horizontalGridStrokeWidth / 2.0;
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            horizontalGridLines.add(new Line2D.Double(rangeLabelOffset, gridY, rangeLabelOffset + chartWidth, gridY));
+
+            gridY += horizontalGridLineSpacing;
+        }
+
+        var verticalGridLineStrokeWidth = getVerticalGridLineStroke().getLineWidth();
+
+        var verticalGridLineSpacing = (chartWidth - verticalGridLineStrokeWidth) / (domainLabelCount - 1);
+
+        var gridX = rangeLabelOffset + verticalGridLineStrokeWidth / 2.0;
+
+        for (var i = 0; i < domainLabelCount; i++) {
+            verticalGridLines.add(new Line2D.Double(gridX, 0.0, gridX, chartHeight));
+
+            gridX += verticalGridLineSpacing;
+        }
+
+        var domainLabelX = rangeLabelOffset;
+
+        for (var textPane : domainLabelTextPanes) {
+            var size = textPane.getSize();
+
+            textPane.setBounds((int)domainLabelX, (int)chartHeight + DOMAIN_LABEL_SPACING, (int)verticalGridLineSpacing, size.height);
+            textPane.doLayout();
+
+            domainLabelX += verticalGridLineSpacing;
+        }
+
+        var rangeLabelY = chartHeight - horizontalGridStrokeWidth / 2.0;
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            var textPane = rangeLabelTextPanes.get(i);
+
+            var size = textPane.getSize();
+
+            int y;
+            if (i == 0) {
+                y = (int)rangeLabelY - size.height;
+            } else if (i < rangeLabelCount - 1) {
+                y = (int)rangeLabelY - size.height / 2;
+            } else {
+                y = (int)rangeLabelY;
+            }
+
+            textPane.setBounds(0, y, (int)rangeLabelWidth, size.height);
+            textPane.doLayout();
+
+            rangeLabelY -= horizontalGridLineSpacing;
+        }
+
+        // TODO
     }
 
     @Override
     protected void draw(Graphics2D graphics) {
+        if (getShowHorizontalGridLines()) {
+            graphics.setColor(getHorizontalGridLineColor());
+            graphics.setStroke(getHorizontalGridLineStroke());
+
+            for (var horizontalGridLine : horizontalGridLines) {
+                graphics.draw(horizontalGridLine);
+            }
+        }
+
+        if (getShowVerticalGridLines()) {
+            graphics.setColor(getVerticalGridLineColor());
+            graphics.setStroke(getVerticalGridLineStroke());
+
+            for (var verticalGridLine : verticalGridLines) {
+                graphics.draw(verticalGridLine);
+            }
+        }
+
+        graphics.setColor(getDomainLabelColor());
+
+        for (var textPane : domainLabelTextPanes) {
+            paintComponent(graphics, textPane);
+        }
+
+        graphics.setColor(getRangeLabelColor());
+
+        for (var textPane : rangeLabelTextPanes) {
+            paintComponent(graphics, textPane);
+        }
+
         // TODO
 
         paintComponent(graphics, legendPanel);

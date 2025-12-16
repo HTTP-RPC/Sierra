@@ -157,10 +157,6 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         legendPanel.doLayout();
 
-        var rangeLabelCount = getRangeLabelCount();
-
-        var rangeStep = Math.abs(maximum - minimum) / (rangeLabelCount - 1);
-
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
 
@@ -179,6 +175,10 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             domainLabelTextPanes.add(textPane);
         }
+
+        var rangeLabelCount = getRangeLabelCount();
+
+        var rangeStep = Math.abs(maximum - minimum) / (rangeLabelCount - 1);
 
         var rangeLabelTransform = getRangeLabelTransform();
         var rangeLabelFont = getRangeLabelFont();
