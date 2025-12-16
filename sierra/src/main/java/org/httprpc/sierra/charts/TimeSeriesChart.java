@@ -100,24 +100,31 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         var dataSets = getDataSets();
 
-        var minimum = 0.0;
-        var maximum = 0.0;
+        var domainMinimum = 0.0;
+        var domainMaximum = 0.0;
+
+        var rangeMinimum = 0.0;
+        var rangeMaximum = 0.0;
 
         var legendColor = getLegendColor();
         var legendFont = getLegendFont();
 
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
-                var value = map(entry.getValue(), Number::doubleValue);
+                // TODO Get value from key
+                var domainValue = 0.0;
 
-                if (value == null) {
+                domainMinimum = Math.min(domainMinimum, domainValue);
+                domainMaximum = Math.max(domainMaximum, domainValue);
+
+                var rangeValue = map(entry.getValue(), Number::doubleValue);
+
+                if (rangeValue == null) {
                     continue;
                 }
 
-                // TODO
-
-                minimum = Math.min(minimum, value);
-                maximum = Math.max(maximum, value);
+                rangeMinimum = Math.min(rangeMinimum, rangeValue);
+                rangeMaximum = Math.max(rangeMaximum, rangeValue);
             }
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
@@ -126,10 +133,6 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             legendLabel.setFont(legendFont);
 
             legendPanel.add(legendLabel);
-        }
-
-        if (minimum == 0.0 && maximum == 0.0) {
-            return;
         }
 
         var width = getWidth();
@@ -144,13 +147,15 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         var domainLabelCount = getDomainLabelCount();
 
+        var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
+
         var domainLabelHeight = 0.0;
 
         // TODO Domain labels
 
         var rangeLabelCount = getRangeLabelCount();
 
-        var rangeStep = Math.abs(maximum - minimum) / (rangeLabelCount - 1);
+        var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
 
         var rangeLabelTransform = getRangeLabelTransform();
         var rangeLabelFont = getRangeLabelFont();
@@ -158,7 +163,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         var rangeLabelWidth = 0.0;
 
         for (var i = 0; i < rangeLabelCount; i++) {
-            var label = rangeLabelTransform.apply(minimum + rangeStep * i);
+            var label = rangeLabelTransform.apply(rangeMinimum + rangeStep * i);
 
             var textPane = new TextPane(label);
 
