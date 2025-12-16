@@ -20,7 +20,7 @@ import java.awt.Color;
 
 import static org.httprpc.kilo.util.Collections.*;
 
-public class BarChartTest {
+public class BarChartTest extends ChartTest {
     @Test
     public void testPositiveValues() throws Exception {
         var barChart = new BarChart<Integer, Integer>();
@@ -38,7 +38,7 @@ public class BarChartTest {
         barChart.setDataSets(listOf(dataSet));
         barChart.setRangeMarkers(listOf(new Chart.Marker<>(null, 20.0, null, null)));
 
-        ChartTest.compare("bar-chart-positive-values.svg", barChart);
+        compare("bar-chart-positive-values.svg", barChart);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class BarChartTest {
         barChart.setDataSets(listOf(dataSet));
         barChart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, null, null)));
 
-        ChartTest.compare("bar-chart-negative-values.svg", barChart);
+        compare("bar-chart-negative-values.svg", barChart);
     }
 
     @Test
@@ -68,19 +68,19 @@ public class BarChartTest {
         var dataSet = new DataSet<Integer, Integer>("Mixed Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
-            entry(1, -5),
-            entry(2, -10),
-            entry(3, 15),
-            entry(4, 20),
-            entry(5, 25)
+            entry(1, 5),
+            entry(2, 10),
+            entry(3, -15),
+            entry(4, -20),
+            entry(5, -25)
         ));
 
         barChart.setDataSets(listOf(dataSet));
         barChart.setRangeMarkers(listOf(
             new Chart.Marker<>(null, 0.0, null, null),
-            new Chart.Marker<>(null, 20.0, null, null)
+            new Chart.Marker<>(null, -20.0, null, null)
         ));
 
-        ChartTest.compare("bar-chart-mixed-values.svg", barChart);
+        compare("bar-chart-mixed-values.svg", barChart);
     }
 }

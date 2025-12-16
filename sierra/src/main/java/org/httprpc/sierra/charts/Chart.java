@@ -820,38 +820,6 @@ public abstract class Chart<K extends Comparable<K>, V> {
     protected abstract void validate();
 
     /**
-     * Calculates the step value for a given range.
-     *
-     * @param minimum
-     * The minimum range value.
-     *
-     * @param maximum
-     * The maximum range value.
-     *
-     * @return
-     * The range step value.
-     */
-    protected double calculateRangeStep(double minimum, double maximum) {
-        if (minimum > maximum) {
-            throw new IllegalArgumentException();
-        }
-
-        var step = Math.max(Math.abs(minimum), Math.abs(maximum)) / (rangeLabelCount - 1);
-
-        var p = (int)Math.log10(step);
-
-        if (p > 0) {
-            var f = Math.pow(10, p);
-
-            return Math.ceil(step / f) * f;
-        } else {
-            var f = Math.pow(10, -p + 1);
-
-            return Math.ceil(step * f) / f;
-        }
-    }
-
-    /**
      * Draws the chart.
      *
      * @param graphics

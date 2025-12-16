@@ -17,10 +17,8 @@ package org.httprpc.sierra.charts;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.httprpc.kilo.xml.ElementAdapter;
-import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
-import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
@@ -29,51 +27,8 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ChartTest {
-    public static class TestChart extends Chart<String, Integer> {
-        @Override
-        protected void validate() {
-            // No-op
-        }
-
-        @Override
-        protected void draw(Graphics2D graphics) {
-            // No-op
-        }
-    }
-
-    @Test
-    public void testRangeStep() {
-        var testChart = new TestChart();
-
-        assertEquals(30.0, testChart.calculateRangeStep(0.0, 100.0));
-        assertEquals(300.0, testChart.calculateRangeStep(0.0, 1000.0));
-        assertEquals(3000.0, testChart.calculateRangeStep(0.0, 10000.0));
-
-        assertEquals(30.0, testChart.calculateRangeStep(-100.0, 0.0));
-        assertEquals(300.0, testChart.calculateRangeStep(-1000.0, 0.0));
-        assertEquals(3000.0, testChart.calculateRangeStep(-10000.0, 0.0));
-
-        assertEquals(40.0, testChart.calculateRangeStep(-50.0, 100.0));
-        assertEquals(40.0, testChart.calculateRangeStep(-100.0, 50.0));
-
-        assertEquals(5.0, testChart.calculateRangeStep(80.0, 100.0));
-        assertEquals(5.0, testChart.calculateRangeStep(-100.0, -80.0));
-
-        assertEquals(0.3, testChart.calculateRangeStep(0.0, 1.0));
-        assertEquals(0.03, testChart.calculateRangeStep(0.0, 0.1));
-        assertEquals(0.003, testChart.calculateRangeStep(0.0, 0.01));
-
-        assertEquals(0.3, testChart.calculateRangeStep(-1.0, 0.0));
-        assertEquals(0.03, testChart.calculateRangeStep(-0.1, 0.0));
-        assertEquals(0.003, testChart.calculateRangeStep(-0.01, 0.0));
-
-        assertEquals(0.5, testChart.calculateRangeStep(-1.0, 1.0));
-        assertEquals(0.05, testChart.calculateRangeStep(-0.1, 0.1));
-        assertEquals(0.005, testChart.calculateRangeStep(-0.01, 0.01));
-    }
-
-    public static void compare(String name, BarChart<?, ?> barChart) throws Exception {
+public abstract class ChartTest {
+    public void compare(String name, BarChart<?, ?> barChart) throws Exception {
         var documentBuilder = ElementAdapter.newDocumentBuilder();
 
         Document expected;
@@ -105,7 +60,7 @@ public class ChartTest {
         assertTrue(result);
     }
 
-    public static Path writeSVG(String name, BarChart<?, ?> barChart) throws IOException {
+    public Path writeSVG(String name, BarChart<?, ?> barChart) throws IOException {
         var domImplementation = GenericDOMImplementation.getDOMImplementation();
 
         var document = domImplementation.createDocument("http://www.w3.org/2000/svg", "svg", null);
