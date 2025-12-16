@@ -68,9 +68,9 @@ public abstract class Chart<K extends Comparable<K>, V> {
      * @param icon
      * The marker icon.
      */
-    public record Marker<K, V>(
+    public record Marker<K>(
         K key,
-        V value,
+        Number value,
         String label,
         Icon icon
     ) {
@@ -133,7 +133,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
     private Font rangeLabelFont = defaultRangeLabelFont;
 
     private Color markerColor = Color.BLACK;
-    private BasicStroke markerStroke = new BasicStroke();
+    private BasicStroke markerStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
     private Font markerFont = defaultMarkerFont;
 
     private Color legendColor = Color.BLACK;
@@ -151,8 +151,8 @@ public abstract class Chart<K extends Comparable<K>, V> {
 
     private List<DataSet<K, V>> dataSets = listOf();
 
-    private List<Marker<K, V>> domainMarkers = listOf();
-    private List<Marker<K, V>> rangeMarkers = listOf();
+    private List<Marker<K>> domainMarkers = listOf();
+    private List<Marker<K>> rangeMarkers = listOf();
 
     private ComponentOrientation componentOrientation = ComponentOrientation.LEFT_TO_RIGHT;
 
@@ -693,7 +693,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
      * @return
      * The chart's domain markers.
      */
-    public List<Marker<K, V>> getDomainMarkers() {
+    public List<Marker<K>> getDomainMarkers() {
         return domainMarkers;
     }
 
@@ -703,7 +703,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
      * @param domainMarkers
      * The chart's domain markers.
      */
-    public void setDomainMarkers(List<Marker<K, V>> domainMarkers) {
+    public void setDomainMarkers(List<Marker<K>> domainMarkers) {
         if (domainMarkers == null) {
             throw new IllegalArgumentException();
         }
@@ -717,7 +717,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
      * @return
      * The chart's range markers.
      */
-    public List<Marker<K, V>> getRangeMarkers() {
+    public List<Marker<K>> getRangeMarkers() {
         return rangeMarkers;
     }
 
@@ -727,7 +727,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
      * @param rangeMarkers
      * The chart's range markers.
      */
-    public void setRangeMarkers(List<Marker<K, V>> rangeMarkers) {
+    public void setRangeMarkers(List<Marker<K>> rangeMarkers) {
         if (rangeMarkers == null) {
             throw new IllegalArgumentException();
         }
