@@ -308,7 +308,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
                 throw new UnsupportedOperationException("Marker value is not defined.");
             }
 
-            var y = zeroY - value;
+            var y = zeroY - value * scale;
 
             rangeMarkerLines.add(new Line2D.Double(rangeLabelOffset, y, rangeLabelOffset + chartWidth, y));
 
