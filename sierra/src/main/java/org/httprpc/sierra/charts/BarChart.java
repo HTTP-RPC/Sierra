@@ -24,9 +24,12 @@ import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -78,7 +81,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
     private List<TextPane> domainLabelTextPanes = listOf();
     private List<TextPane> rangeLabelTextPanes = listOf();
 
-    private List<List<Rectangle2D.Double>> barRectangles = listOf();
+    private List<List<Shape>> barShapes = listOf();
 
     private List<Line2D.Double> rangeMarkerLines = listOf();
     private List<TextPane> rangeMarkerTextPanes = listOf();
@@ -98,7 +101,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         domainLabelTextPanes.clear();
         rangeLabelTextPanes.clear();
 
-        barRectangles.clear();
+        barShapes.clear();
 
         rangeMarkerLines.clear();
         rangeMarkerTextPanes.clear();
@@ -271,7 +274,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         var zeroY = maximum * scale;
 
         for (var key : keys) {
-            var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>();
+            var dataSetBarShapes = new ArrayList<Shape>();
 
             for (var dataSet : dataSets) {
                 barX += barSpacing;
@@ -287,12 +290,24 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
                     barY += horizontalGridStrokeWidth / 2;
                 }
 
-                dataSetBarRectangles.add(new Rectangle2D.Double(barX, barY, barWidth, barHeight));
+                var arc = barWidth * 0.3;
+
+                var barRectangle = new RoundRectangle2D.Double(barX, barY, barWidth, barHeight, arc, arc);
+
+                var baseHeight = arc / 2;
+                var baseRectangle = new Rectangle2D.Double(barX, barY + barHeight - baseHeight, barWidth, baseHeight);
+
+                var barArea = new Area();
+
+                barArea.add(new Area(barRectangle));
+                barArea.add(new Area(baseRectangle));
+
+                dataSetBarShapes.add(barArea);
 
                 barX += barWidth;
             }
 
-            barRectangles.add(dataSetBarRectangles);
+            barShapes.add(dataSetBarShapes);
 
             barX += barSpacing + verticalGridLineStrokeWidth;
         }
@@ -358,16 +373,16 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var dataSets = getDataSets();
 
-        for (var dataSetBarRectangles : barRectangles) {
+        for (var dataSetBarShapes : barShapes) {
             var i = 0;
 
-            for (var barRectangle : dataSetBarRectangles) {
+            for (var barShape : dataSetBarShapes) {
                 var dataSet = dataSets.get(i++);
 
                 graphics.setColor(dataSet.getColor());
                 graphics.setStroke(dataSet.getStroke());
 
-                graphics.fill(barRectangle);
+                graphics.fill(barShape);
             }
         }
 
