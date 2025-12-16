@@ -473,7 +473,8 @@ See [ActivityIndicatorTest.java](sierra-test/src/main/java/org/httprpc/sierra/te
 ### Charts
 The `ChartPane` component displays a chart:
 
-<img src="README/charts.png" width="422px"/>
+<img src="README/charts-1.png" width="626px"/>
+<img src="README/charts-2.png" width="626px"/>
 
 `ChartPane` is localized. See [ChartsTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ChartsTest.java) for more information.
 
