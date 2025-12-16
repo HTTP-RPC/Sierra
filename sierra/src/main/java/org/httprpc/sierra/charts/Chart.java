@@ -836,7 +836,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
             throw new IllegalArgumentException();
         }
 
-        var step = Math.abs(maximum - minimum) / (rangeLabelCount - 1);
+        var step = Math.max(Math.abs(minimum), Math.abs(maximum)) / (rangeLabelCount - 1);
 
         var p = (int)Math.log10(step);
 
