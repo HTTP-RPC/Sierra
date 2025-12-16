@@ -27,8 +27,10 @@ import org.httprpc.sierra.charts.TimeSeriesChart;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.TreeMap;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -67,6 +69,7 @@ public class ChartsTest extends JFrame implements Runnable {
     private BarChart<Month, Double> createBarChart() {
         var barChart = new BarChart<Month, Double>();
 
+        barChart.setDomainLabelTransform(month -> month.getDisplayName(TextStyle.FULL, Locale.getDefault()));
         barChart.setDataSets(createCategoryDataSets());
 
         return barChart;

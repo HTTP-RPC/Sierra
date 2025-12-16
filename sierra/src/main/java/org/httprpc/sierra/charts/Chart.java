@@ -23,21 +23,8 @@ import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.time.DayOfWeek;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.time.format.TextStyle;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Function;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -77,34 +64,14 @@ public abstract class Chart<K extends Comparable<K>, V> {
 
     private int domainLabelCount = 10;
 
-    private Function<K, String> domainLabelTransform = key -> {
-        if (key instanceof Number number) {
-            return numberFormat.format(number);
-        } else if (key instanceof Date date) {
-            return dateFormat.format(date);
-        } else if (key instanceof LocalDate localDate) {
-            return localDateFormatter.format(localDate);
-        } else if (key instanceof LocalTime localTime) {
-            return localTimeFormatter.format(localTime);
-        } else if (key instanceof LocalDateTime localDateTime) {
-            return localDateTimeFormatter.format(localDateTime);
-        } else if (key instanceof Instant instant) {
-            return instantFormatter.format(instant);
-        } else if (key instanceof Month month) {
-            return month.getDisplayName(TextStyle.FULL, Locale.getDefault());
-        } else if (key instanceof DayOfWeek dayOfWeek) {
-            return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault());
-        } else {
-            return key.toString();
-        }
-    };
+    private Function<K, String> domainLabelTransform = Object::toString;
 
     private Color domainLabelColor = Color.GRAY;
     private Font domainLabelFont = defaultDomainLabelFont;
 
     private int rangeLabelCount = 5;
 
-    private Function<Number, String> rangeLabelTransform = numberFormat::format;
+    private Function<Number, String> rangeLabelTransform = value -> NumberFormat.getNumberInstance().format(value);
 
     private Color rangeLabelColor = Color.GRAY;
     private Font rangeLabelFont = defaultRangeLabelFont;
@@ -135,21 +102,6 @@ public abstract class Chart<K extends Comparable<K>, V> {
 
     private int width = 0;
     private int height = 0;
-
-    private static final NumberFormat numberFormat;
-    private static final DateFormat dateFormat;
-    private static final DateTimeFormatter localDateFormatter;
-    private static final DateTimeFormatter localTimeFormatter;
-    private static final DateTimeFormatter localDateTimeFormatter;
-    private static final DateTimeFormatter instantFormatter;
-    static {
-        numberFormat = NumberFormat.getNumberInstance();
-        dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-        localDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
-        localTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
-        localDateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
-        instantFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withZone(ZoneId.systemDefault());
-    }
 
     private static final Font defaultDomainLabelFont;
     private static final Font defaultRangeLabelFont;
