@@ -264,7 +264,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var n = dataSets.size();
 
-        var barSpacing = verticalGridLineSpacing * 0.05;
+        var barSpacing = verticalGridLineSpacing * 0.04;
         var barWidth = (verticalGridLineSpacing - (verticalGridLineStrokeWidth + barSpacing * (n + 1))) / n;
 
         var barX = rangeLabelOffset + verticalGridLineStrokeWidth;
