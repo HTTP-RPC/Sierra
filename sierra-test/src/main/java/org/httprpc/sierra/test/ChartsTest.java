@@ -120,7 +120,7 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private TimeSeriesChart<Integer, Double> createTimeSeriesChart() {
-        var timeSeriesChart = new TimeSeriesChart<Integer, Double>(Number::intValue);
+        var timeSeriesChart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
 
         timeSeriesChart.setDataSets(createTimeSeriesDataSets());
 

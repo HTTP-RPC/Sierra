@@ -34,7 +34,7 @@ import static org.httprpc.kilo.util.Optionals.*;
 /**
  * Time series chart.
  */
-public class TimeSeriesChart<K extends Number & Comparable<K>, V extends Number> extends Chart<K, V> {
+public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends Chart<K, V> {
     private static class LegendIcon implements Icon {
         DataSet<?, ?> dataSet;
 
@@ -71,6 +71,7 @@ public class TimeSeriesChart<K extends Number & Comparable<K>, V extends Number>
         }
     }
 
+    private Function<K, Number> valueTransform;
     private Function<Number, K> keyTransform;
 
     private List<Line2D.Double> horizontalGridLines = listOf();
@@ -86,8 +87,21 @@ public class TimeSeriesChart<K extends Number & Comparable<K>, V extends Number>
 
     private static final int LEGEND_SPACING = 16;
 
-    public TimeSeriesChart(Function<Number, K> keyTransform) {
-        // TODO
+    /**
+     * Constructs a new time series chart.
+     *
+     * @param valueTransform
+     * The value transform.
+     *
+     * @param keyTransform
+     * The key transform.
+     */
+    public TimeSeriesChart(Function<K, Number> valueTransform, Function<Number, K> keyTransform) {
+        if (valueTransform == null || keyTransform == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.valueTransform = valueTransform;
         this.keyTransform = keyTransform;
     }
 
@@ -119,7 +133,7 @@ public class TimeSeriesChart<K extends Number & Comparable<K>, V extends Number>
 
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
-                var domainValue = map(entry.getKey(), Number::doubleValue);
+                var domainValue = map(entry.getKey(), valueTransform).doubleValue();
 
                 domainMinimum = Math.min(domainMinimum, domainValue);
                 domainMaximum = Math.max(domainMaximum, domainValue);
