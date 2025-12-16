@@ -235,24 +235,20 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
     @Override
     protected void draw(Graphics2D graphics) {
-        var showHorizontalGridLines = getShowHorizontalGridLines();
+        if (getShowHorizontalGridLines()) {
+            graphics.setColor(getHorizontalGridLineColor());
+            graphics.setStroke(getHorizontalGridLineStroke());
 
-        graphics.setColor(getHorizontalGridLineColor());
-        graphics.setStroke(getHorizontalGridLineStroke());
-
-        for (var horizontalGridLine : horizontalGridLines) {
-            if (showHorizontalGridLines) {
+            for (var horizontalGridLine : horizontalGridLines) {
                 graphics.draw(horizontalGridLine);
             }
         }
 
-        var showVerticalGridLines = getShowVerticalGridLines();
+        if (getShowVerticalGridLines()) {
+            graphics.setColor(getVerticalGridLineColor());
+            graphics.setStroke(getVerticalGridLineStroke());
 
-        graphics.setColor(getVerticalGridLineColor());
-        graphics.setStroke(getVerticalGridLineStroke());
-
-        for (var verticalGridLine : verticalGridLines) {
-            if (showVerticalGridLines) {
+            for (var verticalGridLine : verticalGridLines) {
                 graphics.draw(verticalGridLine);
             }
         }
