@@ -200,10 +200,12 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
                 var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
 
                 var barY = zeroY;
-                var barHeight = Math.abs(value) * scale;
+                var barHeight = Math.abs(value) * scale - horizontalGridStrokeWidth;
 
                 if (value > 0.0) {
-                    barY -= barHeight;
+                    barY -= barHeight + horizontalGridStrokeWidth / 2;
+                } else {
+                    barY += horizontalGridStrokeWidth / 2;
                 }
 
                 dataSetBarRectangles.add(new Rectangle2D.Double(barX, barY, barWidth, barHeight));
