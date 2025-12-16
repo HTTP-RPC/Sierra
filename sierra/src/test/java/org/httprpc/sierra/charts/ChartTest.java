@@ -16,12 +16,12 @@ package org.httprpc.sierra.charts;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
-import org.httprpc.kilo.io.TextDecoder;
+import org.httprpc.kilo.xml.ElementAdapter;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
 
 import java.awt.Graphics2D;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -73,15 +73,15 @@ public class ChartTest {
         assertEquals(0.005, testChart.calculateRangeStep(-0.01, 0.01));
     }
 
-    public static void compare(String name, BarChart<?, ?> barChart) throws IOException {
-        var textDecoder = new TextDecoder();
+    public static void compare(String name, BarChart<?, ?> barChart) throws Exception {
+        var documentBuilder = ElementAdapter.newDocumentBuilder();
 
-        String expected;
+        Document expected;
         try (var inputStream = ChartTest.class.getResourceAsStream(name)) {
             if (inputStream != null) {
-                expected = textDecoder.read(new InputStreamReader(inputStream));
+                expected = documentBuilder.parse(inputStream);
             } else {
-                expected = "";
+                expected = documentBuilder.newDocument();
             }
         }
 
@@ -89,13 +89,13 @@ public class ChartTest {
 
         var result = false;
 
+        Document actual;
         try {
-            String actual;
             try (var inputStream = Files.newInputStream(path)) {
-                actual = textDecoder.read(new InputStreamReader(inputStream));
+                actual = documentBuilder.parse(inputStream);
             }
 
-            result = expected.equals(actual);
+            result = expected.isEqualNode(actual);
         } finally {
             if (result) {
                 Files.deleteIfExists(path);

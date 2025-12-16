@@ -17,13 +17,12 @@ package org.httprpc.sierra.charts;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
-import java.io.IOException;
 
 import static org.httprpc.kilo.util.Collections.*;
 
 public class BarChartTest {
     @Test
-    public void testPositiveValues() throws IOException {
+    public void testPositiveValues() throws Exception {
         var barChart = new BarChart<Integer, Integer>();
 
         var dataSet = new DataSet<Integer, Integer>("Positive Values", Color.RED);
@@ -42,7 +41,7 @@ public class BarChartTest {
     }
 
     @Test
-    public void testNegativeValues() throws IOException {
+    public void testNegativeValues() throws Exception {
         var barChart = new BarChart<Integer, Integer>();
 
         var dataSet = new DataSet<Integer, Integer>("Negative Values", Color.RED);
@@ -61,7 +60,7 @@ public class BarChartTest {
     }
 
     @Test
-    public void testMixedValues() throws IOException {
+    public void testMixedValues() throws Exception {
         var barChart = new BarChart<Integer, Integer>();
 
         var dataSet = new DataSet<Integer, Integer>("Mixed Values", Color.RED);
