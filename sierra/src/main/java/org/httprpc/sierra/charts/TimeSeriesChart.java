@@ -25,6 +25,14 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -111,8 +119,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
-                // TODO Get value from key
-                var domainValue = 0.0;
+                var domainValue = getValue(entry.getKey());
 
                 domainMinimum = Math.min(domainMinimum, domainValue);
                 domainMaximum = Math.max(domainMaximum, domainValue);
@@ -155,12 +162,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         var domainLabelHeight = 0.0;
 
         for (var i = 0; i < domainLabelCount; i++) {
-            var value = domainMinimum + domainStep * i;
-
-            // TODO Get key from value
-            K key = null;
-
-            var label = domainLabelTransform.apply(key);
+            var label = domainLabelTransform.apply((K)getKey(domainMinimum + domainStep * i));
 
             var textPane = new TextPane(label);
 
@@ -261,6 +263,33 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         }
 
         // TODO
+    }
+
+    private double getValue(K key) {
+        if (key instanceof Number number) {
+            return number.doubleValue();
+        } else if (key instanceof Date date) {
+            return date.getTime();
+        } else if (key instanceof LocalDate localDate) {
+            return localDate.toEpochSecond(LocalTime.MIDNIGHT, ZoneOffset.UTC);
+        } else if (key instanceof LocalTime localTime) {
+            return localTime.toEpochSecond(LocalDate.EPOCH, ZoneOffset.UTC);
+        } else if (key instanceof LocalDateTime localDateTime) {
+            return localDateTime.toEpochSecond(ZoneOffset.UTC);
+        } else if (key instanceof Instant instant) {
+            return instant.toEpochMilli();
+        } else if (key instanceof Month month) {
+            return month.getValue();
+        } else if (key instanceof DayOfWeek dayOfWeek) {
+            return dayOfWeek.getValue();
+        } else {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    private Object getKey(double value) {
+        // TODO
+        return value;
     }
 
     @Override
