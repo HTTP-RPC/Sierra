@@ -149,9 +149,31 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
 
+        var domainLabelTransform = getDomainLabelTransform();
+        var domainLabelFont = getDomainLabelFont();
+
         var domainLabelHeight = 0.0;
 
-        // TODO Domain labels
+        for (var i = 0; i < domainLabelCount; i++) {
+            var value = domainMinimum + domainStep * i;
+
+            // TODO Get key from value
+            K key = null;
+
+            var label = domainLabelTransform.apply(key);
+
+            var textPane = new TextPane(label);
+
+            textPane.setFont(domainLabelFont);
+
+            // TODO Set alignment based on position (LEADING, CENTER, TRAILING)
+
+            textPane.setSize(textPane.getPreferredSize());
+
+            domainLabelHeight = Math.max(domainLabelHeight, textPane.getHeight());
+
+            domainLabelTextPanes.add(textPane);
+        }
 
         var rangeLabelCount = getRangeLabelCount();
 
