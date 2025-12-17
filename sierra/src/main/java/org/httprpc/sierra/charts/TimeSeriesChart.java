@@ -335,7 +335,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
                 throw new UnsupportedOperationException("Marker key is not defined.");
             }
 
-            var value = map(key, domainValueTransform).doubleValue();
+            var value = map(key, domainValueTransform).doubleValue() - domainMinimum;
 
             var label = new JLabel(domainMarker.label(), domainMarker.icon(), SwingConstants.CENTER);
 
@@ -350,7 +350,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             var size = label.getPreferredSize();
 
             var x = (int)Math.round((rangeLabelOffset + (value * domainScale - (double)size.width / 2)));
-            var y = (int)Math.ceil(chartHeight - (size.height + 4));
+            var y = (int)Math.ceil(chartHeight - (size.height + DOMAIN_LABEL_SPACING));
 
             label.setBounds(x, y, size.width, size.height);
 
