@@ -73,13 +73,15 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
     private RowPanel legendPanel = new RowPanel();
 
+    private static final int LEGEND_SPACING = 16;
+
     @Override
     protected void validate() {
         sliceArcs.clear();
 
         legendPanel.removeAll();
 
-        legendPanel.setSpacing(16);
+        legendPanel.setSpacing(LEGEND_SPACING);
         legendPanel.setComponentOrientation(getComponentOrientation());
 
         var dataSets = getDataSets();
@@ -131,7 +133,7 @@ public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         legendPanel.doLayout();
 
-        var pieDiameter = Math.max(height - (legendSize.height + 16), 0);
+        var pieDiameter = Math.max(height - (legendSize.height + LEGEND_SPACING), 0);
 
         var pieBounds = new Rectangle2D.Double(width / 2.0 - pieDiameter / 2.0, 0.0, pieDiameter, pieDiameter);
 

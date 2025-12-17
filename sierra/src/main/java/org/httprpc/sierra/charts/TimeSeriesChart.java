@@ -83,6 +83,8 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
     private List<Path2D.Double> paths = listOf();
 
+    private List<JLabel> domainMarkerLabels = listOf();
+
     private RowPanel legendPanel = new RowPanel();
 
     private static final int DOMAIN_LABEL_SPACING = 4;
@@ -118,9 +120,11 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         paths.clear();
 
+        domainMarkerLabels.clear();
+
         legendPanel.removeAll();
 
-        legendPanel.setSpacing(16);
+        legendPanel.setSpacing(LEGEND_SPACING);
         legendPanel.setComponentOrientation(getComponentOrientation());
 
         var dataSets = getDataSets();
@@ -320,6 +324,38 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
             paths.add(path);
         }
+
+        var markerColor = getMarkerColor();
+        var markerFont = getMarkerFont();
+
+        for (var domainMarker : getDomainMarkers()) {
+            var key = domainMarker.key();
+
+            if (key == null) {
+                throw new UnsupportedOperationException("Marker key is not defined.");
+            }
+
+            var value = (int)map(key, domainValueTransform);
+
+            var label = new JLabel(domainMarker.label(), domainMarker.icon(), SwingConstants.CENTER);
+
+            label.setHorizontalTextPosition(SwingConstants.CENTER);
+            label.setVerticalAlignment(SwingConstants.CENTER);
+            label.setVerticalTextPosition(SwingConstants.BOTTOM);
+            label.setIconTextGap(0);
+
+            label.setForeground(markerColor);
+            label.setFont(markerFont);
+
+            var size = label.getPreferredSize();
+
+            var x = (int)Math.round((rangeLabelOffset + (value * domainScale - (double)size.width / 2)));
+            var y = (int)Math.ceil(chartHeight - (size.height + 4));
+
+            label.setBounds(x, y, size.width, size.height);
+
+            domainMarkerLabels.add(label);
+        }
     }
 
     @Override
@@ -365,6 +401,10 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             graphics.setStroke(dataSet.getStroke());
 
             graphics.draw(path);
+        }
+
+        for (var domainMarkerLabel : domainMarkerLabels) {
+            paintComponent(graphics, domainMarkerLabel);
         }
 
         paintComponent(graphics, legendPanel);

@@ -108,7 +108,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         legendPanel.removeAll();
 
-        legendPanel.setSpacing(16);
+        legendPanel.setSpacing(LEGEND_SPACING);
         legendPanel.setComponentOrientation(getComponentOrientation());
 
         var dataSets = getDataSets();

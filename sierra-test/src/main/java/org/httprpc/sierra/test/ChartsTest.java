@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.sierra.ChartPane;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
@@ -26,6 +27,7 @@ import org.httprpc.sierra.charts.TimeSeriesChart;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import java.text.NumberFormat;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -122,12 +124,28 @@ public class ChartsTest extends JFrame implements Runnable {
     private TimeSeriesChart<Integer, Double> createTimeSeriesChart() {
         var timeSeriesChart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
 
-        timeSeriesChart.setDataSets(createTimeSeriesDataSets());
+        var n = 250;
+
+        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+
+        icon = icon.derive(18, 18);
+
+        var rangeLabelFormat = NumberFormat.getNumberInstance();
+
+        rangeLabelFormat.setMaximumFractionDigits(1);
+
+        timeSeriesChart.setRangeLabelTransform(rangeLabelFormat::format);
+
+        timeSeriesChart.setDataSets(createTimeSeriesDataSets(n));
+        timeSeriesChart.setDomainMarkers(listOf(
+            new Chart.Marker<>((int)(Math.random() * n), null, "Marker 1", icon),
+            new Chart.Marker<>((int)(Math.random() * n), null, "Marker 2", icon)
+        ));
 
         return timeSeriesChart;
     }
 
-    private List<DataSet<Integer, Double>> createTimeSeriesDataSets() {
+    private List<DataSet<Integer, Double>> createTimeSeriesDataSets(int n) {
         var colors = listOf(
             UILoader.getColor("light-coral"),
             UILoader.getColor("light-green"),
@@ -135,8 +153,6 @@ public class ChartsTest extends JFrame implements Runnable {
         );
 
         var m = colors.size();
-
-        var n = 250;
 
         var dataSets = new ArrayList<DataSet<Integer, Double>>(m);
 
