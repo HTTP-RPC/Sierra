@@ -19,8 +19,12 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.httprpc.kilo.xml.ElementAdapter;
 import org.w3c.dom.Document;
 
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -60,7 +64,7 @@ public abstract class ChartTest {
         assertTrue(result);
     }
 
-    public Path writeSVG(String name, Chart<?, ?> chart) throws IOException {
+    public Path writeSVG(String name, Chart<?, ?> chart) throws Exception {
         var domImplementation = GenericDOMImplementation.getDOMImplementation();
 
         var document = domImplementation.createDocument("http://www.w3.org/2000/svg", "svg", null);
@@ -69,6 +73,14 @@ public abstract class ChartTest {
 
         chart.draw(svgGraphics, 320, 240);
 
+        var writer = new StringWriter();
+
+        svgGraphics.stream(writer, false);
+
+        var documentBuilder = ElementAdapter.newDocumentBuilder();
+
+        document = documentBuilder.parse(new ByteArrayInputStream(writer.toString().getBytes(StandardCharsets.UTF_8)));
+
         var directory = Path.of(System.getProperty("user.dir"), "charts");
 
         Files.createDirectories(directory);
@@ -76,7 +88,11 @@ public abstract class ChartTest {
         var file = directory.resolve(name);
 
         try (var outputStream = Files.newOutputStream(file)) {
-            svgGraphics.stream(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), false);
+            var transformer = ElementAdapter.newTransformer();
+
+            transformer.transform(new DOMSource(document), new StreamResult(outputStream));
+        } catch (TransformerException exception) {
+            throw new IOException(exception);
         }
 
         return file;
