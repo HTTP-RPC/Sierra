@@ -295,7 +295,14 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
                 var barRectangle = new RoundRectangle2D.Double(barX, barY, barWidth, barHeight, arc, arc);
 
                 var baseHeight = arc / 2;
-                var baseRectangle = new Rectangle2D.Double(barX, barY + barHeight - baseHeight, barWidth, baseHeight);
+
+                var baseY = barY;
+
+                if (value > 0.0) {
+                    baseY += barHeight - baseHeight;
+                }
+
+                var baseRectangle = new Rectangle2D.Double(barX, baseY, barWidth, baseHeight);
 
                 var barArea = new Area();
 
