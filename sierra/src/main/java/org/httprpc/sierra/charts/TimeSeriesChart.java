@@ -129,11 +129,11 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         var dataSets = getDataSets();
 
-        var domainMinimum = 0.0;
-        var domainMaximum = 0.0;
+        var domainMinimum = Double.POSITIVE_INFINITY;
+        var domainMaximum = Double.NEGATIVE_INFINITY;
 
-        var rangeMinimum = 0.0;
-        var rangeMaximum = 0.0;
+        var rangeMinimum = Double.POSITIVE_INFINITY;
+        var rangeMaximum = Double.NEGATIVE_INFINITY;
 
         var domainLabelCount = getDomainLabelCount();
 
@@ -149,11 +149,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
                 domainMinimum = Math.min(domainMinimum, domainValue);
                 domainMaximum = Math.max(domainMaximum, domainValue);
 
-                var rangeValue = map(entry.getValue(), Number::doubleValue);
-
-                if (rangeValue == null) {
-                    continue;
-                }
+                var rangeValue = entry.getValue().doubleValue();
 
                 rangeMinimum = Math.min(rangeMinimum, rangeValue);
                 rangeMaximum = Math.max(rangeMaximum, rangeValue);
@@ -308,11 +304,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
             for (var entry : dataSet.getDataPoints().entrySet()) {
                 var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
-                var rangeValue = map(entry.getValue(), Number::doubleValue);
-
-                if (rangeValue == null) {
-                    continue;
-                }
+                var rangeValue = entry.getValue().doubleValue();
 
                 var x = rangeLabelOffset + domainValue * domainScale;
                 var y = zeroY - rangeValue * rangeScale;
