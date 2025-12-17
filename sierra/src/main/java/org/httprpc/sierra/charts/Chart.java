@@ -62,7 +62,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
     ) {
     }
 
-    private int domainLabelCount = 10;
+    private int domainLabelCount = 5;
 
     private Function<K, String> domainLabelTransform = Object::toString;
 

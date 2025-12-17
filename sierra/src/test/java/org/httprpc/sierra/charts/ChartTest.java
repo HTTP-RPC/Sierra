@@ -32,6 +32,9 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class ChartTest {
+    private static final int WIDTH = 640;
+    private static final int HEIGHT = 480;
+
     public void compare(String name, Chart<?, ?> chart) throws Exception {
         var documentBuilder = ElementAdapter.newDocumentBuilder();
 
@@ -71,15 +74,11 @@ public abstract class ChartTest {
 
         var svgGraphics = new SVGGraphics2D(document);
 
-        chart.draw(svgGraphics, 320, 240);
+        chart.draw(svgGraphics, WIDTH, HEIGHT);
 
         var writer = new StringWriter();
 
         svgGraphics.stream(writer, false);
-
-        var documentBuilder = ElementAdapter.newDocumentBuilder();
-
-        document = documentBuilder.parse(new ByteArrayInputStream(writer.toString().getBytes(StandardCharsets.UTF_8)));
 
         var directory = Path.of(System.getProperty("user.dir"), "charts");
 
@@ -90,11 +89,25 @@ public abstract class ChartTest {
         try (var outputStream = Files.newOutputStream(file)) {
             var transformer = ElementAdapter.newTransformer();
 
-            transformer.transform(new DOMSource(document), new StreamResult(outputStream));
+            transformer.transform(new DOMSource(getDocument(writer.toString())), new StreamResult(outputStream));
         } catch (TransformerException exception) {
             throw new IOException(exception);
         }
 
         return file;
+    }
+
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private Document getDocument(String content) throws Exception {
+        var documentBuilder = ElementAdapter.newDocumentBuilder();
+
+        var document = documentBuilder.parse(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
+
+        var documentAdapter = new ElementAdapter(document.getDocumentElement());
+
+        documentAdapter.put("@width", WIDTH);
+        documentAdapter.put("@height", HEIGHT);
+
+        return document;
     }
 }
