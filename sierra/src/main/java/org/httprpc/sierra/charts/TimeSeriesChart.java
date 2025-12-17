@@ -169,9 +169,9 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             return;
         }
 
-        if (rangeMinimum == 0.0 && rangeMaximum == 0.0) {
-            rangeMinimum = -1.0;
-            rangeMaximum = 1.0;
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
         }
 
         var width = getWidth();

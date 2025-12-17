@@ -144,9 +144,9 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             return;
         }
 
-        if (minimum == 0.0 && maximum == 0.0) {
-            minimum = -1.0;
-            maximum = 1.0;
+        if (minimum == maximum) {
+            minimum -= 1.0;
+            maximum += 1.0;
         }
 
         var width = getWidth();
