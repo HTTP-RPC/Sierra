@@ -181,9 +181,6 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             var textPane = new TextPane(label);
 
             textPane.setFont(domainLabelFont);
-
-            // TODO Set alignment based on position (LEADING, CENTER, TRAILING)
-
             textPane.setSize(textPane.getPreferredSize());
 
             domainLabelHeight = Math.max(domainLabelHeight, textPane.getHeight());
@@ -245,10 +242,21 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         var domainLabelX = rangeLabelOffset;
 
-        for (var textPane : domainLabelTextPanes) {
+        for (var i = 0; i < domainLabelCount; i++) {
+            var textPane = domainLabelTextPanes.get(i);
+
             var size = textPane.getSize();
 
-            textPane.setBounds((int)domainLabelX, (int)chartHeight + DOMAIN_LABEL_SPACING, (int)verticalGridLineSpacing, size.height);
+            int x;
+            if (i == 0) {
+                x = (int)domainLabelX;
+            } else if (i < domainLabelCount - 1) {
+                x = (int)domainLabelX - size.width / 2;
+            } else {
+                x = (int)domainLabelX - size.width;
+            }
+
+            textPane.setBounds(x, (int)chartHeight + DOMAIN_LABEL_SPACING, (int)verticalGridLineSpacing, size.height);
             textPane.doLayout();
 
             domainLabelX += verticalGridLineSpacing;
