@@ -136,7 +136,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var m = colors.size();
 
-        var n = 25;
+        var n = 250;
 
         var dataSets = new ArrayList<DataSet<Integer, Double>>(m);
 
@@ -146,13 +146,14 @@ public class ChartsTest extends JFrame implements Runnable {
             var dataPoints = new TreeMap<Integer, Double>();
 
             for (var j = 0; j < n; j++) {
-                dataPoints.compute(j, (key, value) -> {
-                    if (value == null) {
-                        return Math.random() * 100.0;
-                    } else {
-                        return value + (1.0 - Math.random() * 2.0) * 50.0;
-                    }
-                });
+                double value;
+                if (j == 0) {
+                    value = 0;
+                } else {
+                    value = dataPoints.get(j - 1) + (1.0 - Math.random() * 2.0) * 25.0;
+                }
+
+                dataPoints.put(j, value);
             }
 
             dataSet.setDataPoints(dataPoints);

@@ -25,6 +25,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.util.List;
 import java.util.function.Function;
 
@@ -80,6 +81,8 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
     private List<TextPane> domainLabelTextPanes = listOf();
     private List<TextPane> rangeLabelTextPanes = listOf();
 
+    private List<Path2D.Double> paths = listOf();
+
     private RowPanel legendPanel = new RowPanel();
 
     private static final int DOMAIN_LABEL_SPACING = 4;
@@ -113,7 +116,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         domainLabelTextPanes.clear();
         rangeLabelTextPanes.clear();
 
-        // TODO
+        paths.clear();
 
         legendPanel.removeAll();
 
@@ -285,7 +288,38 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             rangeLabelY -= horizontalGridLineSpacing;
         }
 
-        // TODO
+        var domainScale = chartWidth / (domainMaximum - domainMinimum);
+        var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
+
+        var zeroY = rangeMaximum * rangeScale;
+
+        for (var dataSet : dataSets) {
+            var path = new Path2D.Double();
+
+            var i = 0;
+
+            for (var entry : dataSet.getDataPoints().entrySet()) {
+                var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
+                var rangeValue = map(entry.getValue(), Number::doubleValue);
+
+                if (rangeValue == null) {
+                    continue;
+                }
+
+                var x = rangeLabelOffset + domainValue * domainScale;
+                var y = zeroY - rangeValue * rangeScale;
+
+                if (i == 0) {
+                    path.moveTo(x, y);
+                } else {
+                    path.lineTo(x, y);
+                }
+
+                i++;
+            }
+
+            paths.add(path);
+        }
     }
 
     @Override
@@ -320,7 +354,18 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             paintComponent(graphics, textPane);
         }
 
-        // TODO
+        var dataSets = getDataSets();
+
+        var i = 0;
+
+        for (var path : paths) {
+            var dataSet = dataSets.get(i++);
+
+            graphics.setColor(dataSet.getColor());
+            graphics.setStroke(dataSet.getStroke());
+
+            graphics.draw(path);
+        }
 
         paintComponent(graphics, legendPanel);
     }
