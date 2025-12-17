@@ -22,7 +22,7 @@ dependencies {
     implementation "com.formdev:flatlaf:${flatLafVersion}"
     implementation "com.formdev:flatlaf-extras:${flatLafVersion}"
 
-    implementation 'org.pushing-pixels:radiance-theming:8.0.0'
+    implementation 'org.pushing-pixels:radiance-theming:8.5.0'
 }
 
 tasks.withType(JavaCompile) {
