@@ -71,8 +71,8 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         }
     }
 
-    private Function<K, Number> domainTransform;
-    private Function<Number, K> inverseDomainTransform;
+    private Function<K, Number> domainValueTransform;
+    private Function<Number, K> domainKeyTransform;
 
     private List<Line2D.Double> horizontalGridLines = listOf();
     private List<Line2D.Double> verticalGridLines = listOf();
@@ -90,19 +90,19 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
     /**
      * Constructs a new time series chart.
      *
-     * @param domainTransform
-     * The domain transform.
+     * @param domainValueTransform
+     * The domain value transform.
      *
-     * @param inverseDomainTransform
-     * The inverse domain transform.
+     * @param domainKeyTransform
+     * The domain key transform.
      */
-    public TimeSeriesChart(Function<K, Number> domainTransform, Function<Number, K> inverseDomainTransform) {
-        if (domainTransform == null || inverseDomainTransform == null) {
+    public TimeSeriesChart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
+        if (domainValueTransform == null || domainKeyTransform == null) {
             throw new IllegalArgumentException();
         }
 
-        this.domainTransform = domainTransform;
-        this.inverseDomainTransform = inverseDomainTransform;
+        this.domainValueTransform = domainValueTransform;
+        this.domainKeyTransform = domainKeyTransform;
     }
 
     @Override
@@ -133,7 +133,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
-                var domainValue = map(entry.getKey(), domainTransform).doubleValue();
+                var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
 
                 domainMinimum = Math.min(domainMinimum, domainValue);
                 domainMaximum = Math.max(domainMaximum, domainValue);
@@ -176,7 +176,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         var domainLabelHeight = 0.0;
 
         for (var i = 0; i < domainLabelCount; i++) {
-            var label = domainLabelTransform.apply(inverseDomainTransform.apply(domainMinimum + domainStep * i));
+            var label = domainLabelTransform.apply(domainKeyTransform.apply(domainMinimum + domainStep * i));
 
             var textPane = new TextPane(label);
 
