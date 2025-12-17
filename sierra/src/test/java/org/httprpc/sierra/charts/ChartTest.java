@@ -28,7 +28,7 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class ChartTest {
-    public void compare(String name, BarChart<?, ?> barChart) throws Exception {
+    public void compare(String name, Chart<?, ?> chart) throws Exception {
         var documentBuilder = ElementAdapter.newDocumentBuilder();
 
         Document expected;
@@ -40,7 +40,7 @@ public abstract class ChartTest {
             }
         }
 
-        var path = writeSVG(name, barChart);
+        var path = writeSVG(name, chart);
 
         var result = false;
 
@@ -60,14 +60,14 @@ public abstract class ChartTest {
         assertTrue(result);
     }
 
-    public Path writeSVG(String name, BarChart<?, ?> barChart) throws IOException {
+    public Path writeSVG(String name, Chart<?, ?> chart) throws IOException {
         var domImplementation = GenericDOMImplementation.getDOMImplementation();
 
         var document = domImplementation.createDocument("http://www.w3.org/2000/svg", "svg", null);
 
         var svgGraphics = new SVGGraphics2D(document);
 
-        barChart.draw(svgGraphics, 320, 240);
+        chart.draw(svgGraphics, 320, 240);
 
         var directory = Path.of(System.getProperty("user.dir"), "charts");
 

@@ -23,7 +23,7 @@ import static org.httprpc.kilo.util.Collections.*;
 public class BarChartTest extends ChartTest {
     @Test
     public void testPositiveValues() throws Exception {
-        var barChart = new BarChart<Integer, Integer>();
+        var chart = new BarChart<Integer, Integer>();
 
         var dataSet = new DataSet<Integer, Integer>("Positive Values", Color.RED);
 
@@ -35,15 +35,15 @@ public class BarChartTest extends ChartTest {
             entry(5, 25)
         ));
 
-        barChart.setDataSets(listOf(dataSet));
-        barChart.setRangeMarkers(listOf(new Chart.Marker<>(null, 20.0, null, null)));
+        chart.setDataSets(listOf(dataSet));
+        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, 20.0, null, null)));
 
-        compare("bar-chart-positive-values.svg", barChart);
+        compare("bar-chart-positive-values.svg", chart);
     }
 
     @Test
     public void testNegativeValues() throws Exception {
-        var barChart = new BarChart<Integer, Integer>();
+        var chart = new BarChart<Integer, Integer>();
 
         var dataSet = new DataSet<Integer, Integer>("Negative Values", Color.RED);
 
@@ -55,15 +55,15 @@ public class BarChartTest extends ChartTest {
             entry(5, -25)
         ));
 
-        barChart.setDataSets(listOf(dataSet));
-        barChart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, null, null)));
+        chart.setDataSets(listOf(dataSet));
+        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, null, null)));
 
-        compare("bar-chart-negative-values.svg", barChart);
+        compare("bar-chart-negative-values.svg", chart);
     }
 
     @Test
     public void testMixedValues() throws Exception {
-        var barChart = new BarChart<Integer, Integer>();
+        var chart = new BarChart<Integer, Integer>();
 
         var dataSet = new DataSet<Integer, Integer>("Mixed Values", Color.RED);
 
@@ -75,12 +75,12 @@ public class BarChartTest extends ChartTest {
             entry(5, -25)
         ));
 
-        barChart.setDataSets(listOf(dataSet));
-        barChart.setRangeMarkers(listOf(
+        chart.setDataSets(listOf(dataSet));
+        chart.setRangeMarkers(listOf(
             new Chart.Marker<>(null, 0.0, null, null),
             new Chart.Marker<>(null, -20.0, null, null)
         ));
 
-        compare("bar-chart-mixed-values.svg", barChart);
+        compare("bar-chart-mixed-values.svg", chart);
     }
 }
