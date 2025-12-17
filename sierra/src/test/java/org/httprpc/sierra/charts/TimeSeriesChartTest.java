@@ -28,11 +28,11 @@ public class TimeSeriesChartTest extends ChartTest {
         var dataSet = new DataSet<Integer, Double>("Positive Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
-            entry(1, 5.0),
-            entry(2, 10.0),
-            entry(3, 15.0),
-            entry(4, 20.0),
-            entry(5, 25.0)
+            entry(0, 0.0),
+            entry(1, 10.0),
+            entry(2, 20.0),
+            entry(3, 30.0),
+            entry(4, 40.0)
         ));
 
         chart.setDataSets(listOf(dataSet));
@@ -47,11 +47,11 @@ public class TimeSeriesChartTest extends ChartTest {
         var dataSet = new DataSet<Integer, Double>("Positive Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
-            entry(1, -5.0),
-            entry(2, -10.0),
-            entry(3, -15.0),
-            entry(4, -20.0),
-            entry(5, -25.0)
+            entry(0, 0.0),
+            entry(1, -10.0),
+            entry(2, -20.0),
+            entry(3, -30.0),
+            entry(4, -40.0)
         ));
 
         chart.setDataSets(listOf(dataSet));
@@ -66,11 +66,11 @@ public class TimeSeriesChartTest extends ChartTest {
         var dataSet = new DataSet<Integer, Double>("Positive Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
-            entry(1, 5.0),
-            entry(2, 10.0),
-            entry(3, -15.0),
-            entry(4, -20.0),
-            entry(5, -25.0)
+            entry(0, -20.0),
+            entry(1, -10.0),
+            entry(2, 0.0),
+            entry(3, 10.0),
+            entry(4, 20.0)
         ));
 
         chart.setDataSets(listOf(dataSet));

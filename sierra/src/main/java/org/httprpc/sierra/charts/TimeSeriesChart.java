@@ -135,11 +135,15 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         var rangeMinimum = 0.0;
         var rangeMaximum = 0.0;
 
+        var domainLabelCount = getDomainLabelCount();
+
         var legendColor = getLegendColor();
         var legendFont = getLegendFont();
 
         for (var dataSet : dataSets) {
-            for (var entry : dataSet.getDataPoints().entrySet()) {
+            var dataPoints = dataSet.getDataPoints();
+
+            for (var entry : dataPoints.entrySet()) {
                 var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
 
                 domainMinimum = Math.min(domainMinimum, domainValue);
@@ -154,6 +158,8 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
                 rangeMinimum = Math.min(rangeMinimum, rangeValue);
                 rangeMaximum = Math.max(rangeMaximum, rangeValue);
             }
+
+            domainLabelCount = Math.min(domainLabelCount, dataPoints.size());
 
             var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
 
@@ -172,8 +178,6 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         legendPanel.setSize(legendSize);
 
         legendPanel.doLayout();
-
-        var domainLabelCount = getDomainLabelCount();
 
         var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
 
