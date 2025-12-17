@@ -63,9 +63,9 @@ public class TimeSeriesChartTest extends ChartTest {
     public void testMixedValues() throws Exception {
         var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
 
-        var dataSet = new DataSet<Integer, Double>("Positive Values", Color.RED);
+        var dataSet1 = new DataSet<Integer, Double>("Mixed Values 1", Color.RED);
 
-        dataSet.setDataPoints(sortedMapOf(
+        dataSet1.setDataPoints(sortedMapOf(
             entry(-4, -40.0),
             entry(-3, -30.0),
             entry(-2, -20.0),
@@ -77,7 +77,17 @@ public class TimeSeriesChartTest extends ChartTest {
             entry(4, 40.0)
         ));
 
-        chart.setDataSets(listOf(dataSet));
+        var dataSet2 = new DataSet<Integer, Double>("Mixed Values 2", Color.RED);
+
+        dataSet2.setDataPoints(sortedMapOf(
+            entry(-2, 20.0),
+            entry(-1, 10.0),
+            entry(0, 0.0),
+            entry(1, -10.0),
+            entry(2, -20.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet1, dataSet2));
 
         compare("time-series-mixed-values.svg", chart);
     }

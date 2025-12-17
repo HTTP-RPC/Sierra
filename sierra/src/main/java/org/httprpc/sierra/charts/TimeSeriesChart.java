@@ -306,7 +306,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
                 var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
                 var rangeValue = entry.getValue().doubleValue();
 
-                var x = rangeLabelOffset + domainValue * domainScale;
+                var x = rangeLabelOffset + (domainValue - domainMinimum) * domainScale;
                 var y = zeroY - rangeValue * rangeScale;
 
                 if (i == 0) {
