@@ -692,6 +692,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
 
         graphics.setRenderingHints(new RenderingHints(mapOf(
             entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
+            entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY),
             entry(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT),
             entry(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT)
         )));
