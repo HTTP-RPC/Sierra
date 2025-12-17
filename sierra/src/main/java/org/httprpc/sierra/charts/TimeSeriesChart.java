@@ -241,6 +241,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         }
 
         var domainLabelX = rangeLabelOffset;
+        var domainLabelY = (int)chartHeight + DOMAIN_LABEL_SPACING;
 
         for (var i = 0; i < domainLabelCount; i++) {
             var textPane = domainLabelTextPanes.get(i);
@@ -256,7 +257,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
                 x = (int)domainLabelX - size.width;
             }
 
-            textPane.setBounds(x, (int)chartHeight + DOMAIN_LABEL_SPACING, (int)verticalGridLineSpacing, size.height);
+            textPane.setBounds(x, domainLabelY, (int)verticalGridLineSpacing, size.height);
             textPane.doLayout();
 
             domainLabelX += verticalGridLineSpacing;
