@@ -91,4 +91,32 @@ public class TimeSeriesChartTest extends ChartTest {
 
         compare("time-series-mixed-values.svg", chart);
     }
+
+    @Test
+    public void testZeroValues() throws Exception {
+        var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+
+        var dataSet = new DataSet<Integer, Double>("Zero Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0, 0.0),
+            entry(1, 0.0),
+            entry(2, 0.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("time-series-zero-values.svg", chart);
+    }
+
+    @Test
+    public void testNoValues() throws Exception {
+        var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+
+        var dataSet = new DataSet<Integer, Double>("No Values", Color.RED);
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("time-series-no-values.svg", chart);
+    }
 }

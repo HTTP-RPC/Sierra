@@ -109,16 +109,27 @@ public class BarChartTest extends ChartTest {
     }
 
     @Test
-    public void testNoValues() throws Exception {
+    public void testZeroValues() throws Exception {
         var chart = new BarChart<Integer, Integer>();
 
-        var dataSet = new DataSet<Integer, Integer>("No Values", Color.RED);
+        var dataSet = new DataSet<Integer, Integer>("Zero Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
             entry(1, 0),
             entry(2, 0),
             entry(3, null)
         ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("bar-chart-zero-values.svg", chart);
+    }
+
+    @Test
+    public void testNoValues() throws Exception {
+        var chart = new BarChart<Integer, Integer>();
+
+        var dataSet = new DataSet<Integer, Integer>("No Values", Color.RED);
 
         chart.setDataSets(listOf(dataSet));
 
