@@ -165,6 +165,10 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             legendPanel.add(legendLabel);
         }
 
+        if (domainMinimum > domainMaximum || (rangeMinimum == 0.0 && rangeMaximum == 0.0)) {
+            return;
+        }
+
         var width = getWidth();
         var height = getHeight();
 

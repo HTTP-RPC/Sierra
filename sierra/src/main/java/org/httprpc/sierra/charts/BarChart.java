@@ -140,7 +140,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var keyCount = keys.size();
 
-        if (keyCount == 0 || minimum == 0.0 && maximum == 0.0) {
+        if (keyCount == 0 || (minimum == 0.0 && maximum == 0.0)) {
             return;
         }
 
