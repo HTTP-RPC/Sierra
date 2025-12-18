@@ -33,7 +33,7 @@ public class DataSet<K extends Comparable<K>, V> {
     private String label;
     private Color color;
 
-    private BasicStroke stroke = new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+    private BasicStroke stroke = new BasicStroke(1.25f);
 
     private SortedMap<K, V> dataPoints = sortedMapOf();
 

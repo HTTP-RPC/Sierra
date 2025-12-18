@@ -44,7 +44,7 @@ public class TimeSeriesChartTest extends ChartTest {
     public void testNegativeValues() throws Exception {
         var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
 
-        var dataSet = new DataSet<Integer, Double>("Positive Values", Color.RED);
+        var dataSet = new DataSet<Integer, Double>("Negative Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
             entry(0, 0.0),
