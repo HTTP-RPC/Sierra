@@ -137,14 +137,14 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
             perform(UIManager.getFont("mini.font"), chart::setMarkerFont);
             perform(UIManager.getFont("default.font"), chart::setLegendFont);
 
-            perform(UIManager.getColor("Component.borderColor"), borderColor -> {
-                chart.setHorizontalGridLineColor(borderColor);
-                chart.setVerticalGridLineColor(borderColor);
+            perform(UIManager.getColor("Component.borderColor"), color -> {
+                chart.setHorizontalGridLineColor(color);
+                chart.setVerticalGridLineColor(color);
             });
 
-            perform(map((Number)UIManager.get("Component.borderWidth"), Number::floatValue), borderWidth -> {
-                chart.setHorizontalGridLineStroke(new BasicStroke(borderWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-                chart.setVerticalGridLineStroke(new BasicStroke(borderWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+            perform(map((Number)UIManager.get("Component.borderWidth"), Number::floatValue), width -> {
+                chart.setHorizontalGridLineStroke(new BasicStroke(width, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+                chart.setVerticalGridLineStroke(new BasicStroke(width, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
             });
 
             chart.setComponentOrientation(getComponentOrientation());

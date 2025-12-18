@@ -80,6 +80,8 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
     private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
+    private Line2D.Double zeroLine = null;
+
     private List<Line2D.Double> rangeMarkerLines = listOf();
     private List<TextPane> rangeMarkerTextPanes = listOf();
 
@@ -99,6 +101,8 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         rangeLabelTextPanes.clear();
 
         barRectangles.clear();
+
+        zeroLine = null;
 
         rangeMarkerLines.clear();
         rangeMarkerTextPanes.clear();
@@ -306,6 +310,10 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             barX += barSpacing + verticalGridLineStrokeWidth;
         }
 
+        if (maximum > 0.0 && minimum < 0.0) {
+            zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
+        }
+
         var markerFont = getMarkerFont();
 
         for (var rangeMarker : getRangeMarkers()) {
@@ -378,6 +386,13 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
                 graphics.fill(barShape);
             }
+        }
+
+        if (zeroLine != null) {
+            graphics.setColor(getHorizontalGridLineColor());
+            graphics.setStroke(getHorizontalGridLineStroke());
+
+            graphics.draw(zeroLine);
         }
 
         graphics.setColor(getMarkerColor());
