@@ -169,11 +169,6 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             return;
         }
 
-        var domainMargin = Math.abs(domainMaximum - domainMinimum) * 0.01;
-
-        domainMinimum -= domainMargin;
-        domainMaximum += domainMargin;
-
         if (rangeMinimum == rangeMaximum) {
             rangeMinimum -= 1.0;
             rangeMaximum += 1.0;

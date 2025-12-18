@@ -56,7 +56,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet));
 
-        compare("time-series-negative-values.svg", chart);
+        compare("time-series-chart-negative-values.svg", chart);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet1, dataSet2));
 
-        compare("time-series-mixed-values.svg", chart);
+        compare("time-series-chart-mixed-values.svg", chart);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet));
 
-        compare("time-series-zero-values.svg", chart);
+        compare("time-series-chart-zero-values.svg", chart);
     }
 
     @Test
@@ -117,6 +117,6 @@ public class TimeSeriesChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet));
 
-        compare("time-series-no-values.svg", chart);
+        compare("time-series-chart-no-values.svg", chart);
     }
 }

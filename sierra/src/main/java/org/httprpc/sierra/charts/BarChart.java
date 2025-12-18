@@ -152,7 +152,15 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             minimum -= 1.0;
             maximum += 1.0;
         } else {
-            maximum += Math.abs(maximum - minimum) * 0.02;
+            var margin = Math.abs(maximum - minimum) * 0.02;
+
+            if (minimum < 0.0) {
+                minimum -= margin;
+            }
+
+            if (maximum > 0.0) {
+                maximum += margin;
+            }
         }
 
         var width = getWidth();
