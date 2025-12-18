@@ -97,16 +97,15 @@ public abstract class ChartTest {
         return file;
     }
 
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private Document getDocument(String content) throws Exception {
         var documentBuilder = ElementAdapter.newDocumentBuilder();
 
         var document = documentBuilder.parse(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
 
-        var documentAdapter = new ElementAdapter(document.getDocumentElement());
+        var documentElement = document.getDocumentElement();
 
-        documentAdapter.put("@width", WIDTH);
-        documentAdapter.put("@height", HEIGHT);
+        documentElement.setAttribute("width", String.valueOf(WIDTH));
+        documentElement.setAttribute("height", String.valueOf(HEIGHT));
 
         return document;
     }
