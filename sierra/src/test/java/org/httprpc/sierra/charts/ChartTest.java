@@ -86,9 +86,9 @@ public abstract class ChartTest {
 
         var file = directory.resolve(name);
 
-        try (var outputStream = Files.newOutputStream(file)) {
-            var transformer = ElementAdapter.newTransformer();
+        var transformer = ElementAdapter.newTransformer();
 
+        try (var outputStream = Files.newOutputStream(file)) {
             transformer.transform(new DOMSource(getDocument(writer.toString())), new StreamResult(outputStream));
         } catch (TransformerException exception) {
             throw new IOException(exception);
