@@ -36,7 +36,7 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, 20.0, null, null)));
+        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, 20.0, "20", null)));
 
         compare("bar-chart-positive-values.svg", chart);
     }
@@ -56,7 +56,7 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, null, null)));
+        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, "-20", null)));
 
         compare("bar-chart-negative-values.svg", chart);
     }
@@ -76,7 +76,7 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, null, null)));
+        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, "-20", null)));
 
         compare("bar-chart-mixed-values.svg", chart);
     }

@@ -335,7 +335,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             rangeMarkerLines.add(new Line2D.Double(rangeLabelOffset, y, rangeLabelOffset + chartWidth, y));
 
-            var textPane = new TextPane(rangeLabelTransform.apply(value));
+            var textPane = new TextPane(rangeMarker.label());
 
             textPane.setFont(markerFont);
             textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
