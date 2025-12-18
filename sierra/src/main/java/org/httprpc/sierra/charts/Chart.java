@@ -71,7 +71,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
 
     private int rangeLabelCount = 5;
 
-    private Function<Number, String> rangeLabelTransform = value -> NumberFormat.getNumberInstance().format(value);
+    private Function<Number, String> rangeLabelTransform = numberFormat::format;
 
     private Color rangeLabelColor = Color.GRAY;
     private Font rangeLabelFont = defaultRangeLabelFont;
@@ -117,6 +117,8 @@ public abstract class Chart<K extends Comparable<K>, V> {
         defaultMarkerFont = font.deriveFont(size - 3);
         defaultLegendFont = font;
     }
+
+    private static final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
     /**
      * Returns the domain label count.

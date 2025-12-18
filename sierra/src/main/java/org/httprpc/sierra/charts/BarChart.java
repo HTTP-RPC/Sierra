@@ -147,6 +147,8 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         if (minimum == maximum) {
             minimum -= 1.0;
             maximum += 1.0;
+        } else {
+            maximum += Math.abs(maximum - minimum) * 0.02;
         }
 
         var width = getWidth();
