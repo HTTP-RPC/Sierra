@@ -140,13 +140,13 @@ public class BarChartTest extends ChartTest {
 
         var chart = new BarChart<LocalDate, Integer>();
 
-        var dataSet1 = new DataSet<LocalDate, Integer>("Local Dates", Color.RED);
+        var dataSet1 = new DataSet<LocalDate, Integer>("Local Dates 1", Color.RED);
 
         dataSet1.setDataPoints(sortedMapOf(
             entry(localDate, 10)
         ));
 
-        var dataSet2 = new DataSet<LocalDate, Integer>("Local Dates", Color.GREEN);
+        var dataSet2 = new DataSet<LocalDate, Integer>("Local Dates 2", Color.GREEN);
 
         dataSet2.setDataPoints(sortedMapOf(
             entry(localDate, 20)
