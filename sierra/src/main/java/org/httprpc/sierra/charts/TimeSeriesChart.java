@@ -442,7 +442,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
                 var diameter = getMarkerStroke().getLineWidth() * 5;
                 var shape = new Ellipse2D.Double(valueX - diameter / 2, lineY - diameter / 2, diameter, diameter);
 
-                domainMarkerShapes.add(shape);
+                rangeMarkerShapes.add(shape);
             }
         }
     }
