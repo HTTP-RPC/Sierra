@@ -82,8 +82,8 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
     private Line2D.Double zeroLine = null;
 
+    private List<JLabel> rangeMarkerLabels = listOf();
     private List<Line2D.Double> rangeMarkerLines = listOf();
-    private List<TextPane> rangeMarkerTextPanes = listOf();
 
     private RowPanel legendPanel = new RowPanel();
 
@@ -104,8 +104,8 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         zeroLine = null;
 
+        rangeMarkerLabels.clear();
         rangeMarkerLines.clear();
-        rangeMarkerTextPanes.clear();
 
         legendPanel.removeAll();
 
@@ -333,19 +333,19 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             var y = zeroY - value * scale;
 
-            rangeMarkerLines.add(new Line2D.Double(rangeLabelOffset, y, rangeLabelOffset + chartWidth, y));
+            var label = new JLabel(rangeMarker.label(), rangeMarker.icon(), SwingConstants.LEADING);
 
-            var textPane = new TextPane(rangeMarker.label());
+            label.setFont(markerFont);
 
-            textPane.setFont(markerFont);
-            textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
+            var size = label.getPreferredSize();
 
-            var size = textPane.getPreferredSize();
+            label.setBounds((int)rangeLabelOffset + RANGE_LABEL_SPACING, (int)y - size.height / 2, size.width, size.height);
 
-            textPane.setBounds(0, (int)y - size.height / 2, (int)rangeLabelWidth, size.height);
-            textPane.doLayout();
+            rangeMarkerLabels.add(label);
 
-            rangeMarkerTextPanes.add(textPane);
+            var x = rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2;
+
+            rangeMarkerLines.add(new Line2D.Double(x, y, width, y));
         }
     }
 
@@ -406,12 +406,12 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         graphics.setColor(getMarkerColor());
         graphics.setStroke(getMarkerStroke());
 
-        for (var rangeMarkerLine : rangeMarkerLines) {
-            graphics.draw(rangeMarkerLine);
+        for (var label : rangeMarkerLabels) {
+            paintComponent(graphics, label);
         }
 
-        for (var textPane : rangeMarkerTextPanes) {
-            paintComponent(graphics, textPane);
+        for (var rangeMarkerLine : rangeMarkerLines) {
+            graphics.draw(rangeMarkerLine);
         }
 
         paintComponent(graphics, legendPanel);
