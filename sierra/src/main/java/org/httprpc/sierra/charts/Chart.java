@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static org.httprpc.kilo.util.Collections.*;
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Abstract base class for charts.
@@ -77,7 +78,7 @@ public abstract class Chart<K extends Comparable<K>, V> {
     private Font rangeLabelFont = defaultRangeLabelFont;
 
     private Color markerColor = Color.BLACK;
-    private BasicStroke markerStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+    private BasicStroke markerStroke = defaultMarkerStroke;
     private Font markerFont = defaultMarkerFont;
 
     private Color legendColor = Color.BLACK;
@@ -86,12 +87,12 @@ public abstract class Chart<K extends Comparable<K>, V> {
     private boolean showHorizontalGridLines = true;
 
     private Color horizontalGridLineColor = Color.LIGHT_GRAY;
-    private BasicStroke horizontalGridLineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+    private BasicStroke horizontalGridLineStroke = defaultGridLineStroke;
 
     private boolean showVerticalGridLines = true;
 
     private Color verticalGridLineColor = Color.LIGHT_GRAY;
-    private BasicStroke verticalGridLineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+    private BasicStroke verticalGridLineStroke = defaultGridLineStroke;
 
     private List<DataSet<K, V>> dataSets = listOf();
 
@@ -118,7 +119,39 @@ public abstract class Chart<K extends Comparable<K>, V> {
         defaultLegendFont = font;
     }
 
+    private static final BasicStroke defaultMarkerStroke;
+    private static final BasicStroke defaultGridLineStroke;
+    static {
+        defaultMarkerStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+        defaultGridLineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+    }
+
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance();
+
+    /**
+     * Constructs a new chart.
+     */
+    protected Chart() {
+        perform(UIManager.getColor("Label.disabledForeground"), color -> {
+            domainLabelColor = color;
+            rangeLabelColor = color;
+        });
+
+        perform(UIManager.getColor("Label.foreground"), color -> {
+            markerColor = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0xaa);
+            legendColor = color;
+        });
+
+        perform(UIManager.getFont("medium.font"), font -> domainLabelFont = font);
+        perform(UIManager.getFont("small.font"), font -> rangeLabelFont = font);
+        perform(UIManager.getFont("mini.font"), font -> markerFont = font);
+        perform(UIManager.getFont("default.font"), font -> legendFont = font);
+
+        perform(UIManager.getColor("Component.borderColor"), color -> {
+            horizontalGridLineColor = color;
+            verticalGridLineColor = color;
+        });
+    }
 
     /**
      * Returns the domain label count.

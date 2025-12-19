@@ -17,14 +17,10 @@ package org.httprpc.sierra;
 import org.httprpc.sierra.charts.Chart;
 
 import javax.swing.JComponent;
-import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
-import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
-import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Displays a chart.
@@ -122,31 +118,6 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
         this.chart = chart;
 
         if (chart != null) {
-            perform(UIManager.getColor("Label.disabledForeground"), color -> {
-                chart.setDomainLabelColor(color);
-                chart.setRangeLabelColor(color);
-            });
-
-            perform(UIManager.getColor("Label.foreground"), color -> {
-                chart.setMarkerColor(color);
-                chart.setLegendColor(color);
-            });
-
-            perform(UIManager.getFont("medium.font"), chart::setDomainLabelFont);
-            perform(UIManager.getFont("small.font"), chart::setRangeLabelFont);
-            perform(UIManager.getFont("mini.font"), chart::setMarkerFont);
-            perform(UIManager.getFont("default.font"), chart::setLegendFont);
-
-            perform(UIManager.getColor("Component.borderColor"), color -> {
-                chart.setHorizontalGridLineColor(color);
-                chart.setVerticalGridLineColor(color);
-            });
-
-            perform(map((Number)UIManager.get("Component.borderWidth"), Number::floatValue), width -> {
-                chart.setHorizontalGridLineStroke(new BasicStroke(width, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-                chart.setVerticalGridLineStroke(new BasicStroke(width, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-            });
-
             chart.setComponentOrientation(getComponentOrientation());
         }
 
