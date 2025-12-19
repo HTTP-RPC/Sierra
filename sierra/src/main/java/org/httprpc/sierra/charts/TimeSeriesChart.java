@@ -440,6 +440,10 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
     @Override
     protected void draw(Graphics2D graphics) {
+        if (horizontalGridLines.isEmpty() || verticalGridLines.isEmpty()) {
+            return;
+        }
+
         if (getShowHorizontalGridLines()) {
             graphics.setColor(getHorizontalGridLineColor());
             graphics.setStroke(getHorizontalGridLineStroke());
@@ -483,33 +487,49 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             graphics.draw(path);
         }
 
-        graphics.setColor(getMarkerColor());
-        graphics.setStroke(getMarkerStroke());
+        var markerGraphics = (Graphics2D)graphics.create();
+
+        clipToChartBounds(markerGraphics);
+
+        markerGraphics.setColor(getMarkerColor());
+        markerGraphics.setStroke(getMarkerStroke());
 
         for (var domainMarkerLabel : domainMarkerLabels) {
-            paintComponent(graphics, domainMarkerLabel);
+            paintComponent(markerGraphics, domainMarkerLabel);
         }
 
         for (var domainMarkerLine : domainMarkerLines) {
-            graphics.draw(domainMarkerLine);
+            markerGraphics.draw(domainMarkerLine);
         }
 
         for (var domainMarkerShape : domainMarkerShapes) {
-            graphics.fill(domainMarkerShape);
+            markerGraphics.fill(domainMarkerShape);
         }
 
         for (var label : rangeMarkerLabels) {
-            paintComponent(graphics, label);
+            paintComponent(markerGraphics, label);
         }
 
         for (var rangeMarkerLine : rangeMarkerLines) {
-            graphics.draw(rangeMarkerLine);
+            markerGraphics.draw(rangeMarkerLine);
         }
 
         for (var rangeMarkerShape : rangeMarkerShapes) {
-            graphics.fill(rangeMarkerShape);
+            markerGraphics.fill(rangeMarkerShape);
         }
 
+        markerGraphics.dispose();
+
         paintComponent(graphics, legendPanel);
+    }
+
+    private void clipToChartBounds(Graphics2D graphics) {
+        var x = (int)Math.ceil(verticalGridLines.getFirst().getX1());
+        var y = (int)Math.ceil(horizontalGridLines.getFirst().getY1());
+
+        var width = (int)Math.floor(verticalGridLines.getLast().getX1()) - x;
+        var height = (int)Math.floor(horizontalGridLines.getLast().getY1()) - y;
+
+        graphics.setClip(x, y, width, height);
     }
 }

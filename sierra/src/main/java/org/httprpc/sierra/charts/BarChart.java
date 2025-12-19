@@ -353,6 +353,10 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
     @Override
     protected void draw(Graphics2D graphics) {
+        if (horizontalGridLines.isEmpty() || verticalGridLines.isEmpty()) {
+            return;
+        }
+
         if (getShowHorizontalGridLines()) {
             graphics.setColor(getHorizontalGridLineColor());
             graphics.setStroke(getHorizontalGridLineStroke());
@@ -405,17 +409,33 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             graphics.draw(zeroLine);
         }
 
-        graphics.setColor(getMarkerColor());
-        graphics.setStroke(getMarkerStroke());
+        var markerGraphics = (Graphics2D)graphics.create();
+
+        clipToChartBounds(markerGraphics);
+
+        markerGraphics.setColor(getMarkerColor());
+        markerGraphics.setStroke(getMarkerStroke());
 
         for (var label : rangeMarkerLabels) {
-            paintComponent(graphics, label);
+            paintComponent(markerGraphics, label);
         }
 
         for (var rangeMarkerLine : rangeMarkerLines) {
-            graphics.draw(rangeMarkerLine);
+            markerGraphics.draw(rangeMarkerLine);
         }
 
+        markerGraphics.dispose();
+
         paintComponent(graphics, legendPanel);
+    }
+
+    private void clipToChartBounds(Graphics2D graphics) {
+        var x = (int)Math.ceil(verticalGridLines.getFirst().getX1());
+        var y = (int)Math.ceil(horizontalGridLines.getFirst().getY1());
+
+        var width = (int)Math.floor(verticalGridLines.getLast().getX1()) - x;
+        var height = (int)Math.floor(horizontalGridLines.getLast().getY1()) - y;
+
+        graphics.setClip(x, y, width, height);
     }
 }
