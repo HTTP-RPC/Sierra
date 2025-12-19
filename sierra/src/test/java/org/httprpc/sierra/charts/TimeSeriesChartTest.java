@@ -130,4 +130,27 @@ public class TimeSeriesChartTest extends ChartTest {
 
         compare("time-series-chart-one-value.svg", chart);
     }
+
+    @Test
+    public void testMarkers() throws Exception {
+        var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+
+        var dataSet = new DataSet<Integer, Double>("Positive Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0, 0.0),
+            entry(1, 10.0),
+            entry(2, 20.0),
+            entry(3, 30.0),
+            entry(4, 40.0),
+            entry(5, 50.0),
+            entry(6, 60.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+        chart.setDomainMarkers(listOf(new Chart.Marker<>(5, 50.0, null, null)));
+        chart.setRangeMarkers(listOf(new Chart.Marker<>(2, 20.0, null, null)));
+
+        compare("time-series-chart-markers.svg", chart);
+    }
 }

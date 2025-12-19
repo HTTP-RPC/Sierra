@@ -91,8 +91,6 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
     private RowPanel legendPanel = new RowPanel();
 
-    private static final int INDICATOR_SIZE = 8;
-
     private static final int DOMAIN_LABEL_SPACING = 4;
     private static final int RANGE_LABEL_SPACING = 4;
 
@@ -415,7 +413,11 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             var key = rangeMarker.key();
 
             if (key != null) {
-                var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, width, lineY);
+                var domainValue = domainValueTransform.apply(key).doubleValue();
+
+                var valueX = rangeLabelOffset + domainValue * domainScale;
+
+                var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, valueX, lineY);
 
                 rangeMarkerLines.add(line);
             }
