@@ -431,7 +431,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             var key = rangeMarker.key();
 
             if (key != null) {
-                var domainValue = domainValueTransform.apply(key).doubleValue();
+                var domainValue = domainValueTransform.apply(key).doubleValue() - domainMinimum;
 
                 var valueX = rangeLabelOffset + domainValue * domainScale;
 
