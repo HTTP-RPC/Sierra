@@ -24,6 +24,8 @@ import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.util.List;
@@ -85,9 +87,11 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
     private List<JLabel> domainMarkerLabels = listOf();
     private List<Line2D.Double> domainMarkerLines = listOf();
+    private List<Shape> domainMarkerShapes = listOf();
 
     private List<JLabel> rangeMarkerLabels = listOf();
     private List<Line2D.Double> rangeMarkerLines = listOf();
+    private List<Shape> rangeMarkerShapes = listOf();
 
     private RowPanel legendPanel = new RowPanel();
 
@@ -386,6 +390,11 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
                 var line = new Line2D.Double(lineX, labelY - DOMAIN_LABEL_SPACING, lineX, valueY);
 
                 domainMarkerLines.add(line);
+
+                var diameter = getMarkerStroke().getLineWidth() * 5;
+                var shape = new Ellipse2D.Double(lineX - diameter / 2, valueY - diameter / 2, diameter, diameter);
+
+                domainMarkerShapes.add(shape);
             }
         }
 
@@ -420,6 +429,11 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
                 var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, valueX, lineY);
 
                 rangeMarkerLines.add(line);
+
+                var diameter = getMarkerStroke().getLineWidth() * 5;
+                var shape = new Ellipse2D.Double(valueX - diameter / 2, lineY - diameter / 2, diameter, diameter);
+
+                domainMarkerShapes.add(shape);
             }
         }
     }
@@ -480,12 +494,20 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             graphics.draw(domainMarkerLine);
         }
 
+        for (var domainMarkerShape : domainMarkerShapes) {
+            graphics.fill(domainMarkerShape);
+        }
+
         for (var label : rangeMarkerLabels) {
             paintComponent(graphics, label);
         }
 
         for (var rangeMarkerLine : rangeMarkerLines) {
             graphics.draw(rangeMarkerLine);
+        }
+
+        for (var rangeMarkerShape : rangeMarkerShapes) {
+            graphics.fill(rangeMarkerShape);
         }
 
         paintComponent(graphics, legendPanel);
