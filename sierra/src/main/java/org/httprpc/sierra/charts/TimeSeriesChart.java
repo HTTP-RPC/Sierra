@@ -91,6 +91,8 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
     private RowPanel legendPanel = new RowPanel();
 
+    private static final int INDICATOR_SIZE = 8;
+
     private static final int DOMAIN_LABEL_SPACING = 4;
     private static final int RANGE_LABEL_SPACING = 4;
 
@@ -353,11 +355,13 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
                 throw new UnsupportedOperationException("Marker key is not defined.");
             }
 
-            var value = map(key, domainValueTransform).doubleValue() - domainMinimum;
+            var domainValue = map(key, domainValueTransform).doubleValue() - domainMinimum;
 
-            var lineX = rangeLabelOffset + value * domainScale;
+            var lineX = rangeLabelOffset + domainValue * domainScale;
 
-            var label = new JLabel(domainMarker.label(), domainMarker.icon(), SwingConstants.CENTER);
+            var text = coalesce(domainMarker.label(), () -> domainLabelTransform.apply(key));
+
+            var label = new JLabel(text, domainMarker.icon(), SwingConstants.CENTER);
 
             label.setHorizontalTextPosition(SwingConstants.CENTER);
             label.setVerticalAlignment(SwingConstants.CENTER);
@@ -376,9 +380,15 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
             domainMarkerLabels.add(label);
 
-            var line = new Line2D.Double(lineX, labelY - DOMAIN_LABEL_SPACING, lineX, 0.0);
+            var value = map(domainMarker.value(), Number::doubleValue);
 
-            domainMarkerLines.add(line);
+            if (value != null) {
+                var valueY = zeroY - value * rangeScale;
+
+                var line = new Line2D.Double(lineX, labelY - DOMAIN_LABEL_SPACING, lineX, valueY);
+
+                domainMarkerLines.add(line);
+            }
         }
 
         for (var rangeMarker : getRangeMarkers()) {
@@ -390,7 +400,9 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
             var lineY = zeroY - value * rangeScale;
 
-            var label = new JLabel(rangeMarker.label(), rangeMarker.icon(), SwingConstants.LEADING);
+            var text = coalesce(rangeMarker.label(), () -> rangeLabelTransform.apply(value));
+
+            var label = new JLabel(text, rangeMarker.icon(), SwingConstants.LEADING);
 
             label.setFont(markerFont);
 
@@ -400,9 +412,13 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
             rangeMarkerLabels.add(label);
 
-            var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, width, lineY);
+            var key = rangeMarker.key();
 
-            rangeMarkerLines.add(line);
+            if (key != null) {
+                var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, width, lineY);
+
+                rangeMarkerLines.add(line);
+            }
         }
     }
 

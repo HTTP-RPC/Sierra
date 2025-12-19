@@ -333,7 +333,9 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             var lineY = zeroY - value * scale;
 
-            var label = new JLabel(rangeMarker.label(), rangeMarker.icon(), SwingConstants.LEADING);
+            var text = coalesce(rangeMarker.label(), () -> rangeLabelTransform.apply(value));
+
+            var label = new JLabel(text, rangeMarker.icon(), SwingConstants.LEADING);
 
             label.setFont(markerFont);
 
