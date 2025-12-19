@@ -94,7 +94,7 @@ public class BarChartTest extends ChartTest {
             entry(3, 30)
         ));
 
-        var dataSet2 = new DataSet<Integer, Integer>("Data Set 2", Color.RED);
+        var dataSet2 = new DataSet<Integer, Integer>("Data Set 2", Color.GREEN);
 
         dataSet2.setDataPoints(sortedMapOf(
             entry(1, 5),
@@ -140,13 +140,13 @@ public class BarChartTest extends ChartTest {
 
         var chart = new BarChart<LocalDate, Integer>();
 
-        var dataSet1 = new DataSet<LocalDate, Integer>("Local Dates 1", Color.RED);
+        var dataSet1 = new DataSet<LocalDate, Integer>("Data Set 1", Color.RED);
 
         dataSet1.setDataPoints(sortedMapOf(
             entry(localDate, 10)
         ));
 
-        var dataSet2 = new DataSet<LocalDate, Integer>("Local Dates 2", Color.GREEN);
+        var dataSet2 = new DataSet<LocalDate, Integer>("Data Set 2", Color.GREEN);
 
         dataSet2.setDataPoints(sortedMapOf(
             entry(localDate, 20)
