@@ -490,17 +490,15 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             graphics.draw(zeroLine);
         }
 
-        var dataSets = getDataSets();
-
         var i = 0;
 
-        for (var path : paths) {
-            var dataSet = dataSets.get(i++);
-
+        for (var dataSet : getDataSets()) {
             graphics.setColor(dataSet.getColor());
             graphics.setStroke(dataSet.getStroke());
 
-            graphics.draw(path);
+            graphics.draw(paths.get(i));
+
+            i++;
         }
 
         var markerGraphics = (Graphics2D)graphics.create();

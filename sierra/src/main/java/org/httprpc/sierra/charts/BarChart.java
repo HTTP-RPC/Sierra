@@ -391,10 +391,10 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
         var dataSets = getDataSets();
 
-        for (var dataSetBarShapes : barRectangles) {
+        for (var dataSetBarRectangles : barRectangles) {
             var i = 0;
 
-            for (var barShape : dataSetBarShapes) {
+            for (var barShape : dataSetBarRectangles) {
                 var dataSet = dataSets.get(i++);
 
                 graphics.setColor(dataSet.getColor());
