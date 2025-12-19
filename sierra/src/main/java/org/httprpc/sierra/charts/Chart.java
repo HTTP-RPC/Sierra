@@ -793,16 +793,16 @@ public abstract class Chart<K extends Comparable<K>, V> {
     }
 
     /**
-     * Applies an alpha value to a color.
+     * Applies an alpha component to a color.
      *
      * @param color
      * The color.
      *
      * @param alpha
-     * The alpha value.
+     * The alpha component.
      *
      * @return
-     * The color with the alpha value applied.
+     * The color with the alpha component applied.
      */
     protected static Color colorWithAlpha(Color color, int alpha) {
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
