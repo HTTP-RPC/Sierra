@@ -331,7 +331,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
                 throw new UnsupportedOperationException("Marker value is not defined.");
             }
 
-            var y = zeroY - value * scale;
+            var lineY = zeroY - value * scale;
 
             var label = new JLabel(rangeMarker.label(), rangeMarker.icon(), SwingConstants.LEADING);
 
@@ -339,13 +339,13 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             var size = label.getPreferredSize();
 
-            label.setBounds((int)rangeLabelOffset + RANGE_LABEL_SPACING, (int)y - size.height / 2, size.width, size.height);
+            label.setBounds((int)rangeLabelOffset + RANGE_LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
 
             rangeMarkerLabels.add(label);
 
-            var x = rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2;
+            var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, width, lineY);
 
-            rangeMarkerLines.add(new Line2D.Double(x, y, width, y));
+            rangeMarkerLines.add(line);
         }
     }
 

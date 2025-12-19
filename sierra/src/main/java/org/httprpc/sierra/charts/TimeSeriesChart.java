@@ -84,6 +84,10 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
     private List<Path2D.Double> paths = listOf();
 
     private List<JLabel> domainMarkerLabels = listOf();
+    private List<Line2D.Double> domainMarkerLines = listOf();
+
+    private List<JLabel> rangeMarkerLabels = listOf();
+    private List<Line2D.Double> rangeMarkerLines = listOf();
 
     private RowPanel legendPanel = new RowPanel();
 
@@ -121,6 +125,10 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
         paths.clear();
 
         domainMarkerLabels.clear();
+        domainMarkerLines.clear();
+
+        rangeMarkerLabels.clear();
+        rangeMarkerLines.clear();
 
         legendPanel.removeAll();
 
@@ -347,6 +355,8 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
             var value = map(key, domainValueTransform).doubleValue() - domainMinimum;
 
+            var lineX = rangeLabelOffset + value * domainScale;
+
             var label = new JLabel(domainMarker.label(), domainMarker.icon(), SwingConstants.CENTER);
 
             label.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -359,12 +369,40 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
             var size = label.getPreferredSize();
 
-            var x = (int)Math.round((rangeLabelOffset + (value * domainScale - (double)size.width / 2)));
-            var y = (int)Math.ceil(chartHeight - (size.height + DOMAIN_LABEL_SPACING));
+            var labelX = (int)Math.round(lineX - (double)size.width / 2);
+            var labelY = (int)Math.ceil(chartHeight - (size.height + DOMAIN_LABEL_SPACING));
 
-            label.setBounds(x, y, size.width, size.height);
+            label.setBounds(labelX, labelY, size.width, size.height);
 
             domainMarkerLabels.add(label);
+
+            var line = new Line2D.Double(lineX, labelY - DOMAIN_LABEL_SPACING, lineX, 0.0);
+
+            domainMarkerLines.add(line);
+        }
+
+        for (var rangeMarker : getRangeMarkers()) {
+            var value = map(rangeMarker.value(), Number::doubleValue);
+
+            if (value == null) {
+                throw new UnsupportedOperationException("Marker value is not defined.");
+            }
+
+            var lineY = zeroY - value * rangeScale;
+
+            var label = new JLabel(rangeMarker.label(), rangeMarker.icon(), SwingConstants.LEADING);
+
+            label.setFont(markerFont);
+
+            var size = label.getPreferredSize();
+
+            label.setBounds((int)rangeLabelOffset + RANGE_LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
+
+            rangeMarkerLabels.add(label);
+
+            var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, width, lineY);
+
+            rangeMarkerLines.add(line);
         }
     }
 
@@ -413,8 +451,23 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             graphics.draw(path);
         }
 
+        graphics.setColor(getMarkerColor());
+        graphics.setStroke(getMarkerStroke());
+
         for (var domainMarkerLabel : domainMarkerLabels) {
             paintComponent(graphics, domainMarkerLabel);
+        }
+
+        for (var domainMarkerLine : domainMarkerLines) {
+            graphics.draw(domainMarkerLine);
+        }
+
+        for (var label : rangeMarkerLabels) {
+            paintComponent(graphics, label);
+        }
+
+        for (var rangeMarkerLine : rangeMarkerLines) {
+            graphics.draw(rangeMarkerLine);
         }
 
         paintComponent(graphics, legendPanel);
