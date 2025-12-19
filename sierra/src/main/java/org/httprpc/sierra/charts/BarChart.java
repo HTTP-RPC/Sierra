@@ -322,6 +322,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
             zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
         }
 
+        var markerColor = getMarkerColor();
         var markerFont = getMarkerFont();
 
         for (var rangeMarker : getRangeMarkers()) {
@@ -337,6 +338,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
 
             var label = new JLabel(text, rangeMarker.icon(), SwingConstants.LEADING);
 
+            label.setForeground(markerColor);
             label.setFont(markerFont);
 
             var size = label.getPreferredSize();
@@ -403,7 +405,7 @@ public class BarChart<K extends Comparable<K>, V extends Number> extends Chart<K
         }
 
         if (zeroLine != null) {
-            graphics.setColor(getHorizontalGridLineColor());
+            graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
             graphics.setStroke(getHorizontalGridLineStroke());
 
             graphics.draw(zeroLine);

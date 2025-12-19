@@ -83,6 +83,8 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
     private List<TextPane> domainLabelTextPanes = listOf();
     private List<TextPane> rangeLabelTextPanes = listOf();
 
+    private Line2D.Double zeroLine = null;
+
     private List<Path2D.Double> paths = listOf();
 
     private List<JLabel> domainMarkerLabels = listOf();
@@ -125,6 +127,8 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         domainLabelTextPanes.clear();
         rangeLabelTextPanes.clear();
+
+        zeroLine = null;
 
         paths.clear();
 
@@ -347,6 +351,10 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
             paths.add(path);
         }
 
+        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
+            zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
+        }
+
         var markerColor = getMarkerColor();
         var markerFont = getMarkerFont();
 
@@ -411,6 +419,7 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
             var label = new JLabel(text, rangeMarker.icon(), SwingConstants.LEADING);
 
+            label.setForeground(markerColor);
             label.setFont(markerFont);
 
             var size = label.getPreferredSize();
@@ -472,6 +481,13 @@ public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends 
 
         for (var textPane : rangeLabelTextPanes) {
             paintComponent(graphics, textPane);
+        }
+
+        if (zeroLine != null) {
+            graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x40));
+            graphics.setStroke(getHorizontalGridLineStroke());
+
+            graphics.draw(zeroLine);
         }
 
         var dataSets = getDataSets();
