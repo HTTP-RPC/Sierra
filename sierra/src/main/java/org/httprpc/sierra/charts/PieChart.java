@@ -34,7 +34,7 @@ import static org.httprpc.kilo.util.Optionals.*;
 /**
  * Pie chart.
  */
-public class PieChart<K extends Comparable<K>, V extends Number> extends Chart<K, V> {
+public class PieChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> {
     private static class LegendIcon implements Icon {
         DataSet<?, ?> dataSet;
 

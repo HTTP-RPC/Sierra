@@ -29,7 +29,7 @@ import static org.httprpc.kilo.util.Collections.*;
  * @param <V>
  * The value type.
  */
-public class DataSet<K extends Comparable<K>, V> {
+public class DataSet<K extends Comparable<? super K>, V> {
     private String label;
     private Color color;
 

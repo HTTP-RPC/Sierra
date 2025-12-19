@@ -17,6 +17,7 @@ package org.httprpc.sierra.charts;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
+import java.time.LocalDate;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -131,5 +132,28 @@ public class BarChartTest extends ChartTest {
         chart.setDataSets(listOf(dataSet));
 
         compare("bar-chart-no-values.svg", chart);
+    }
+
+    @Test
+    public void testLocalDates() throws Exception {
+        var localDate = LocalDate.of(2025, 12, 19);
+
+        var chart = new BarChart<LocalDate, Integer>();
+
+        var dataSet1 = new DataSet<LocalDate, Integer>("Local Dates", Color.RED);
+
+        dataSet1.setDataPoints(sortedMapOf(
+            entry(localDate, 10)
+        ));
+
+        var dataSet2 = new DataSet<LocalDate, Integer>("Local Dates", Color.GREEN);
+
+        dataSet2.setDataPoints(sortedMapOf(
+            entry(localDate, 20)
+        ));
+
+        chart.setDataSets(listOf(dataSet1, dataSet2));
+
+        compare("bar-chart-local-dates.svg", chart);
     }
 }

@@ -39,7 +39,7 @@ import static org.httprpc.kilo.util.Optionals.*;
  * @param <V>
  * The value type.
  */
-public abstract class Chart<K extends Comparable<K>, V> {
+public abstract class Chart<K extends Comparable<? super K>, V> {
     /**
      * Represents a chart marker.
      *

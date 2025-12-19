@@ -37,7 +37,7 @@ import static org.httprpc.kilo.util.Optionals.*;
 /**
  * Time series chart.
  */
-public class TimeSeriesChart<K extends Comparable<K>, V extends Number> extends Chart<K, V> {
+public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> {
     private static class LegendIcon implements Icon {
         DataSet<?, ?> dataSet;
 
