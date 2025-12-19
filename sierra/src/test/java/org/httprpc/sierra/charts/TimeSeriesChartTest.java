@@ -119,4 +119,15 @@ public class TimeSeriesChartTest extends ChartTest {
 
         compare("time-series-chart-no-values.svg", chart);
     }
+
+    @Test
+    public void testOneValue() throws Exception {
+        var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+
+        var dataSet = new DataSet<Integer, Double>("One Value", Color.RED);
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("time-series-chart-one-value.svg", chart);
+    }
 }
