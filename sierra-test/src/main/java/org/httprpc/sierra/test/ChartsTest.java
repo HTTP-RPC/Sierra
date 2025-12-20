@@ -164,7 +164,7 @@ public class ChartsTest extends JFrame implements Runnable {
             for (var j = 0; j < n; j++) {
                 double value;
                 if (j == 0) {
-                    value = 0;
+                    value = 100 - i * 100;
                 } else {
                     value = dataPoints.get(j - 1) + (1.0 - Math.random() * 2.0) * 25.0;
                 }
