@@ -24,16 +24,16 @@ import static org.httprpc.kilo.util.Collections.*;
 public class TimeSeriesChartTest extends ChartTest {
     @Test
     public void testPositiveValues() throws Exception {
-        var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
-        var dataSet = new DataSet<Integer, Double>("Positive Values", Color.RED);
+        var dataSet = new DataSet<Double, Double>("Positive Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
-            entry(0, 0.0),
-            entry(1, 10.0),
-            entry(2, 20.0),
-            entry(3, 30.0),
-            entry(4, 40.0)
+            entry(0.0, 0.0),
+            entry(1.0, 10.0),
+            entry(2.0, 20.0),
+            entry(3.0, 30.0),
+            entry(4.0, 40.0)
         ));
 
         chart.setDataSets(listOf(dataSet));
@@ -43,16 +43,16 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testNegativeValues() throws Exception {
-        var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
-        var dataSet = new DataSet<Integer, Double>("Negative Values", Color.RED);
+        var dataSet = new DataSet<Double, Double>("Negative Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
-            entry(0, 0.0),
-            entry(1, -10.0),
-            entry(2, -20.0),
-            entry(3, -30.0),
-            entry(4, -40.0)
+            entry(0.0, 0.0),
+            entry(1.0, -10.0),
+            entry(2.0, -20.0),
+            entry(3.0, -30.0),
+            entry(4.0, -40.0)
         ));
 
         chart.setDataSets(listOf(dataSet));
@@ -62,30 +62,30 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testMixedValues() throws Exception {
-        var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
-        var dataSet1 = new DataSet<Integer, Double>("Mixed Values 1", Color.RED);
+        var dataSet1 = new DataSet<Double, Double>("Mixed Values 1", Color.RED);
 
         dataSet1.setDataPoints(sortedMapOf(
-            entry(-4, -40.0),
-            entry(-3, -30.0),
-            entry(-2, -20.0),
-            entry(-1, -10.0),
-            entry(0, 0.0),
-            entry(1, 10.0),
-            entry(2, 20.0),
-            entry(3, 30.0),
-            entry(4, 40.0)
+            entry(-4.0, -40.0),
+            entry(-3.0, -30.0),
+            entry(-2.0, -20.0),
+            entry(-1.0, -10.0),
+            entry(0.0, 0.0),
+            entry(1.0, 10.0),
+            entry(2.0, 20.0),
+            entry(3.0, 30.0),
+            entry(4.0, 40.0)
         ));
 
-        var dataSet2 = new DataSet<Integer, Double>("Mixed Values 2", Color.RED);
+        var dataSet2 = new DataSet<Double, Double>("Mixed Values 2", Color.GREEN);
 
         dataSet2.setDataPoints(sortedMapOf(
-            entry(-2, 20.0),
-            entry(-1, 10.0),
-            entry(0, 0.0),
-            entry(1, -10.0),
-            entry(2, -20.0)
+            entry(-2.0, 20.0),
+            entry(-1.0, 10.0),
+            entry(0.0, 0.0),
+            entry(1.0, -10.0),
+            entry(2.0, -20.0)
         ));
 
         chart.setDataSets(listOf(dataSet1, dataSet2));
@@ -95,14 +95,14 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testZeroValues() throws Exception {
-        var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
-        var dataSet = new DataSet<Integer, Double>("Zero Values", Color.RED);
+        var dataSet = new DataSet<Double, Double>("Zero Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
-            entry(0, 0.0),
-            entry(1, 0.0),
-            entry(2, 0.0)
+            entry(0.0, 0.0),
+            entry(1.0, 0.0),
+            entry(2.0, 0.0)
         ));
 
         chart.setDataSets(listOf(dataSet));
@@ -112,9 +112,9 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testNoValues() throws Exception {
-        var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
-        var dataSet = new DataSet<Integer, Double>("No Values", Color.RED);
+        var dataSet = new DataSet<Double, Double>("No Values", Color.RED);
 
         chart.setDataSets(listOf(dataSet));
 
