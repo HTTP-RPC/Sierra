@@ -346,7 +346,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
                 x = (int)domainLabelX - size.width;
             }
 
-            textPane.setBounds(x, domainLabelY, (int)verticalGridLineSpacing, domainLabelHeight);
+            textPane.setBounds(x, domainLabelY, size.width, domainLabelHeight);
             textPane.doLayout();
 
             domainLabelX += verticalGridLineSpacing;
