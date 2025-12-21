@@ -236,16 +236,14 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
 
-        // TODO Get from font
-        var domainLabelHeight = 0.0;
+        var domainLabelLineMetrics = domainLabelFont.getLineMetrics("", graphics.getFontRenderContext());
+
+        var domainLabelHeight = Math.ceil(domainLabelLineMetrics.getHeight());
 
         for (var i = 0; i < domainLabelCount; i++) {
-            var textPane = new TextPane(String.valueOf(0));
+            var textPane = new TextPane();
 
             textPane.setFont(domainLabelFont);
-            textPane.setSize(textPane.getPreferredSize());
-
-            domainLabelHeight = Math.max(domainLabelHeight, textPane.getHeight());
 
             domainLabelTextPanes.add(textPane);
         }
