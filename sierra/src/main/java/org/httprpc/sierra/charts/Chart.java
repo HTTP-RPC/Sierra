@@ -716,15 +716,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             throw new IllegalArgumentException();
         }
 
-        var valid = (width == this.width && height == this.height);
-
-        this.width = width;
-        this.height = height;
-
-        if (!valid) {
-            validate();
-        }
-
         graphics.setRenderingHints(new RenderingHints(mapOf(
             entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
             entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY),
@@ -732,6 +723,15 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             entry(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT),
             entry(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT)
         )));
+
+        var valid = (width == this.width && height == this.height);
+
+        this.width = width;
+        this.height = height;
+
+        if (!valid) {
+            validate(graphics);
+        }
 
         draw(graphics);
     }
@@ -759,7 +759,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     /**
      * Validates the chart contents.
      */
-    protected abstract void validate();
+    protected abstract void validate(Graphics2D graphics);
 
     /**
      * Draws the chart.

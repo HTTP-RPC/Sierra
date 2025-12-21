@@ -121,7 +121,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     }
 
     @Override
-    protected void validate() {
+    protected void validate(Graphics2D graphics) {
         horizontalGridLines.clear();
         verticalGridLines.clear();
 

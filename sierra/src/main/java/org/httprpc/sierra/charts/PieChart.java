@@ -76,7 +76,7 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
     private static final int LEGEND_SPACING = 16;
 
     @Override
-    protected void validate() {
+    protected void validate(Graphics2D graphics) {
         sliceArcs.clear();
 
         legendPanel.removeAll();

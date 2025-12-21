@@ -93,7 +93,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     private static final int LEGEND_SPACING = 16;
 
     @Override
-    protected void validate() {
+    protected void validate(Graphics2D graphics) {
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
@@ -148,21 +148,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             return;
         }
 
-        if (minimum == maximum) {
-            minimum -= 1.0;
-            maximum += 1.0;
-        } else {
-            var margin = Math.abs(maximum - minimum) * 0.02;
-
-            if (minimum < 0.0) {
-                minimum -= margin;
-            }
-
-            if (maximum > 0.0) {
-                maximum += margin;
-            }
-        }
-
         var width = getWidth();
         var height = getHeight();
 
@@ -192,6 +177,28 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             domainLabelTextPanes.add(textPane);
         }
 
+        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + legendSize.height + LEGEND_SPACING), 0);
+
+        var markerFont = getMarkerFont();
+
+        if (minimum == maximum) {
+            minimum -= 1.0;
+            maximum += 1.0;
+        } else {
+            var markerLineMetrics = markerFont.getLineMetrics("", graphics.getFontRenderContext());
+
+            var marginRatio = (markerLineMetrics.getHeight() / 2 + RANGE_LABEL_SPACING) / chartHeight;
+            var margin = Math.abs(maximum - minimum) * marginRatio;
+
+            if (minimum < 0.0) {
+                minimum -= margin;
+            }
+
+            if (maximum > 0.0) {
+                maximum += margin;
+            }
+        }
+
         var rangeLabelCount = getRangeLabelCount();
 
         var rangeStep = Math.abs(maximum - minimum) / (rangeLabelCount - 1);
@@ -218,7 +225,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var rangeLabelOffset = rangeLabelWidth + RANGE_LABEL_SPACING;
 
         var chartWidth = (double)width - rangeLabelOffset;
-        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + legendSize.height + LEGEND_SPACING), 0);
 
         var horizontalGridStrokeWidth = getHorizontalGridLineStroke().getLineWidth();
 
@@ -323,7 +329,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
 
         var markerColor = getMarkerColor();
-        var markerFont = getMarkerFont();
 
         for (var rangeMarker : getRangeMarkers()) {
             var value = map(rangeMarker.value(), Number::doubleValue);
