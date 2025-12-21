@@ -146,9 +146,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
 
-        var domainLabelLineMetrics = domainLabelFont.getLineMetrics("", graphics.getFontRenderContext());
-
-        var domainLabelHeight = Math.ceil(domainLabelLineMetrics.getHeight());
+        var domainLabelHeight = 0.0;
 
         for (var key : keys) {
             var label = domainLabelTransform.apply(key);
@@ -159,7 +157,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
             textPane.setSize(textPane.getPreferredSize());
 
-            domainLabelHeight = Math.max(domainLabelHeight, textPane.getHeight());
+            domainLabelHeight = Math.max(domainLabelHeight, textPane.getSize().getHeight());
 
             domainLabelTextPanes.add(textPane);
         }
