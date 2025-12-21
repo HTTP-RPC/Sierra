@@ -21,14 +21,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Displays a string of text.
@@ -51,11 +48,12 @@ public class TextPane extends JComponent {
                 return new Dimension(0, 0);
             }
 
-            var font = getFont();
-
             var insets = getInsets();
 
             var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+
+            var font = getFont();
+            var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
             double textWidth;
             double textHeight;
@@ -131,6 +129,7 @@ public class TextPane extends JComponent {
             var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
             var font = getFont();
+            var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
             var ascent = font.getLineMetrics("", fontRenderContext).getAscent();
 
@@ -179,28 +178,6 @@ public class TextPane extends JComponent {
 
     private List<GlyphVector> glyphVectors = new ArrayList<>();
     private double textHeight = 0.0;
-
-    private static final FontRenderContext fontRenderContext;
-    static {
-        var fontDesktopHints = (Map<?, ?>)Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
-
-        Object aaHint = null;
-        Object fmHint = null;
-        if (fontDesktopHints != null) {
-            aaHint = fontDesktopHints.get(RenderingHints.KEY_TEXT_ANTIALIASING);
-            fmHint = fontDesktopHints.get(RenderingHints.KEY_FRACTIONALMETRICS);
-        }
-
-        if (aaHint == null) {
-            aaHint = RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT;
-        }
-
-        if (fmHint == null) {
-            fmHint = RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT;
-        }
-
-        fontRenderContext = new FontRenderContext(null, aaHint, fmHint);
-    }
 
     /**
      * Constructs a new text pane.
@@ -335,6 +312,7 @@ public class TextPane extends JComponent {
             var width = Math.max(getWidth() - (insets.left + insets.right), 0);
 
             var font = getFont();
+            var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
             if (wrapText) {
                 var n = text.length();
@@ -354,7 +332,7 @@ public class TextPane extends JComponent {
                     lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
 
                     if (lineWidth > width && lastWhitespaceIndex != -1) {
-                        appendLine(font, start, lastWhitespaceIndex);
+                        appendLine(font, fontRenderContext, start, lastWhitespaceIndex);
 
                         i = lastWhitespaceIndex;
                         start = i + 1;
@@ -365,14 +343,14 @@ public class TextPane extends JComponent {
                     i++;
                 }
 
-                appendLine(font, start, i);
+                appendLine(font, fontRenderContext, start, i);
             } else {
-                appendLine(font, 0, text.length());
+                appendLine(font, fontRenderContext, 0, text.length());
             }
         }
     }
 
-    private void appendLine(Font font, int start, int end) {
+    private void appendLine(Font font, FontRenderContext fontRenderContext, int start, int end) {
         var glyphVector = font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, start, end, start));
 
         glyphVectors.add(glyphVector);
