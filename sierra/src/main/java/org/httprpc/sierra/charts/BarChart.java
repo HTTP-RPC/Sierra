@@ -37,14 +37,27 @@ import static org.httprpc.kilo.util.Optionals.*;
  * Bar chart.
  */
 public class BarChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> {
-    private static class LegendIcon implements Icon {
-        DataSet<?, ?> dataSet;
+    /**
+     * Bar chart legend icon.
+     */
+    public static class LegendIcon implements Icon {
+        private DataSet<?, ?> dataSet;
 
-        Ellipse2D.Double shape = new Ellipse2D.Double();
+        private Ellipse2D.Double shape = new Ellipse2D.Double();
 
-        static final int SIZE = 12;
+        private static final int SIZE = 12;
 
-        LegendIcon(DataSet<?, ?> dataSet) {
+        /**
+         * Constructs a new bar chart legend icon.
+         *
+         * @param dataSet
+         * The data set the icon is associated with.
+         */
+        public LegendIcon(DataSet<?, ?> dataSet) {
+            if (dataSet == null) {
+                throw new IllegalArgumentException();
+            }
+
             this.dataSet = dataSet;
         }
 
@@ -53,7 +66,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             paintIcon((Graphics2D)graphics, x, y);
         }
 
-        void paintIcon(Graphics2D graphics, int x, int y) {
+        private void paintIcon(Graphics2D graphics, int x, int y) {
             shape.setFrame(x, y, SIZE, SIZE);
 
             graphics.setColor(dataSet.getColor());

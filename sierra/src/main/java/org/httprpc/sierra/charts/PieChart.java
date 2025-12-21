@@ -19,7 +19,6 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Arc2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +30,27 @@ import static org.httprpc.kilo.util.Optionals.*;
  * Pie chart.
  */
 public class PieChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> {
-    private static class LegendIcon implements Icon {
-        DataSet<?, ?> dataSet;
+    /**
+     * Pie chart legend icon.
+     */
+    public static class LegendIcon implements Icon {
+        private DataSet<?, ?> dataSet;
 
-        Ellipse2D.Double shape = new Ellipse2D.Double();
+        private Rectangle2D.Double shape = new Rectangle2D.Double();
 
-        static final int SIZE = 12;
+        private static final int SIZE = 12;
 
-        LegendIcon(DataSet<?, ?> dataSet) {
+        /**
+         * Constructs a new pie chart legend icon.
+         *
+         * @param dataSet
+         * The data set the icon is associated with.
+         */
+        public LegendIcon(DataSet<?, ?> dataSet) {
+            if (dataSet == null) {
+                throw new IllegalArgumentException();
+            }
+
             this.dataSet = dataSet;
         }
 
@@ -47,7 +59,7 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
             paintIcon((Graphics2D)graphics, x, y);
         }
 
-        void paintIcon(Graphics2D graphics, int x, int y) {
+        private void paintIcon(Graphics2D graphics, int x, int y) {
             shape.setFrame(x, y, SIZE, SIZE);
 
             graphics.setColor(dataSet.getColor());
