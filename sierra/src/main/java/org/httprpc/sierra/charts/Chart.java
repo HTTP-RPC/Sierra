@@ -466,10 +466,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
-     * Indicates that horizontal grid lines will be shown.
+     * Indicates that horizontal grid lines will be shown. The default value is
+     * {@code true}.
      *
      * @return
-     * {@code true} if horizontal grid lines are enabled; {@code false},
+     * {@code true} if horizontal grid lines will be shown; {@code false},
      * otherwise.
      */
     public boolean getShowHorizontalGridLines() {
@@ -535,10 +536,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
-     * Indicates that vertical grid lines will be shown.
+     * Indicates that vertical grid lines will be shown. The default value is
+     * {@code true}.
      *
      * @return
-     * {@code true} if vertical grid lines are enabled; {@code false},
+     * {@code true} if vertical grid lines will be shown; {@code false},
      * otherwise.
      */
     public boolean getShowVerticalGridLines() {
