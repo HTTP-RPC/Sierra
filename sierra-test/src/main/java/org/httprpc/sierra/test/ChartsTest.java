@@ -26,7 +26,6 @@ import org.httprpc.sierra.charts.DataSet;
 import org.httprpc.sierra.charts.PieChart;
 import org.httprpc.sierra.charts.TimeSeriesChart;
 
-import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -38,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.TreeMap;
-import java.util.function.Function;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -63,13 +61,28 @@ public class ChartsTest extends JFrame implements Runnable {
         setContentPane(UILoader.load(this, "ChartsTest.xml"));
 
         pieChartPane.setChart(createPieChart());
-        populateLegend(pieChartPane, pieChartLegendPanel, PieChart.LegendIcon::new);
+
+        for (var dataSet : pieChartPane.getChart().getDataSets()) {
+            pieChartLegendPanel.add(new JLabel(dataSet.getLabel(),
+                new PieChart.LegendIcon(dataSet),
+                SwingConstants.LEADING));
+        }
 
         barChartPane.setChart(createBarChart());
-        populateLegend(barChartPane, barChartLegendPanel, BarChart.LegendIcon::new);
+
+        for (var dataSet : barChartPane.getChart().getDataSets()) {
+            barChartLegendPanel.add(new JLabel(dataSet.getLabel(),
+                new BarChart.LegendIcon(dataSet),
+                SwingConstants.LEADING));
+        }
 
         timeSeriesChartPane.setChart(createTimeSeriesChart());
-        populateLegend(timeSeriesChartPane, timeSeriesChartLegendPanel, TimeSeriesChart.LegendIcon::new);
+
+        for (var dataSet : timeSeriesChartPane.getChart().getDataSets()) {
+            timeSeriesChartLegendPanel.add(new JLabel(dataSet.getLabel(),
+                new TimeSeriesChart.LegendIcon(dataSet),
+                SwingConstants.LEADING));
+        }
 
         setSize(640, 480);
         setVisible(true);
@@ -200,12 +213,6 @@ public class ChartsTest extends JFrame implements Runnable {
         }
 
         return dataSets;
-    }
-
-    private void populateLegend(ChartPane<?> chartPane, RowPanel legendPanel, Function<DataSet<?, ?>, Icon> iconFactory) {
-        for (var dataSet : chartPane.getChart().getDataSets()) {
-            legendPanel.add(new JLabel(dataSet.getLabel(), iconFactory.apply(dataSet), SwingConstants.LEADING));
-        }
     }
 
     public static void main(String[] args) {
