@@ -27,6 +27,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -89,6 +90,8 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     private Function<K, Number> domainValueTransform;
     private Function<Number, K> domainKeyTransform;
 
+    private boolean showValueMarkers = false;
+
     private List<Line2D.Double> horizontalGridLines = listOf();
     private List<Line2D.Double> verticalGridLines = listOf();
 
@@ -98,6 +101,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     private Line2D.Double zeroLine = null;
 
     private List<Path2D.Double> paths = listOf();
+    private List<List<Shape>> valueMarkerShapes = listOf();
 
     private List<JLabel> domainMarkerLabels = listOf();
     private List<Line2D.Double> domainMarkerLines = listOf();
@@ -109,6 +113,8 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
     private static final int DOMAIN_LABEL_SPACING = 4;
     private static final int RANGE_LABEL_SPACING = 4;
+
+    private static final int MARKER_SCALE = 5;
 
     /**
      * Constructs a new time series chart.
@@ -148,6 +154,27 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         return domainKeyTransform;
     }
 
+    /**
+     * Indicates that value markers will be shown. The default value is
+     * {@code false}.
+     *
+     * @return
+     * {@code true} if value markers will be shown; {@code false}, otherwise.
+     */
+    public boolean getShowValueMarkers() {
+        return showValueMarkers;
+    }
+
+    /**
+     * Toggles value marker visibility.
+     *
+     * @param showValueMarkers
+     * {@code true} to show value markers; {@code false} to hide them.
+     */
+    public void setShowValueMarkers(boolean showValueMarkers) {
+        this.showValueMarkers = showValueMarkers;
+    }
+
     @Override
     protected void validate(Graphics2D graphics) {
         horizontalGridLines.clear();
@@ -159,6 +186,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         zeroLine = null;
 
         paths.clear();
+        valueMarkerShapes.clear();
 
         domainMarkerLabels.clear();
         domainMarkerLines.clear();
@@ -174,6 +202,8 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         var rangeMinimum = Double.POSITIVE_INFINITY;
         var rangeMaximum = Double.NEGATIVE_INFINITY;
 
+        var maximumValueMarkerDiameter = 0.0;
+
         for (var dataSet : dataSets) {
             var dataPoints = dataSet.getDataPoints();
 
@@ -187,6 +217,10 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
                 rangeMinimum = Math.min(rangeMinimum, rangeValue);
                 rangeMaximum = Math.max(rangeMaximum, rangeValue);
+            }
+
+            if (showValueMarkers) {
+                maximumValueMarkerDiameter = Math.max(maximumValueMarkerDiameter, dataSet.getStroke().getLineWidth() * MARKER_SCALE);
             }
         }
 
@@ -262,6 +296,15 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         var rangeLabelOffset = rangeLabelWidth + RANGE_LABEL_SPACING;
 
         var chartWidth = (double)width - rangeLabelOffset;
+
+        if (showValueMarkers) {
+            var domainMarginRatio = maximumValueMarkerDiameter / chartWidth;
+
+            var domainMargin = Math.abs(domainMaximum - domainMinimum) * domainMarginRatio;
+
+            domainMinimum -= domainMargin;
+            domainMaximum += domainMargin;
+        }
 
         var horizontalGridStrokeWidth = getHorizontalGridLineStroke().getLineWidth();
 
@@ -339,6 +382,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         for (var dataSet : dataSets) {
             var path = new Path2D.Double();
+            var dataSetValueMarkerShapes = new ArrayList<Shape>(dataSet.getDataPoints().size());
 
             var i = 0;
 
@@ -355,10 +399,19 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
                     path.lineTo(x, y);
                 }
 
+                if (showValueMarkers) {
+                    var diameter = dataSet.getStroke().getLineWidth() * MARKER_SCALE;
+
+                    var shape = new Ellipse2D.Double(x - diameter / 2, y - diameter / 2, diameter, diameter);
+
+                    dataSetValueMarkerShapes.add(shape);
+                }
+
                 i++;
             }
 
             paths.add(path);
+            valueMarkerShapes.add(dataSetValueMarkerShapes);
         }
 
         if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
@@ -366,7 +419,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         }
 
         var markerColor = getMarkerColor();
-        var markerShapeDiameter = getMarkerStroke().getLineWidth() * 5;
 
         for (var domainMarker : getDomainMarkers()) {
             var key = domainMarker.key();
@@ -405,12 +457,13 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             if (value != null) {
                 var valueY = zeroY - value * rangeScale;
 
-                if (valueY < label.getY() - markerShapeDiameter) {
+                var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
+
+                if (valueY < label.getY() - diameter) {
                     var line = new Line2D.Double(lineX, labelY - DOMAIN_LABEL_SPACING, lineX, valueY);
 
                     domainMarkerLines.add(line);
 
-                    var diameter = getMarkerStroke().getLineWidth() * 5;
                     var shape = new Ellipse2D.Double(lineX - diameter / 2, valueY - diameter / 2, diameter, diameter);
 
                     domainMarkerShapes.add(shape);
@@ -448,12 +501,14 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
                 var valueX = rangeLabelOffset + domainValue * domainScale;
 
-                if (valueX > label.getX() + label.getWidth() + markerShapeDiameter) {
+                var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
+
+                if (valueX > label.getX() + label.getWidth() + diameter) {
                     var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, valueX, lineY);
 
                     rangeMarkerLines.add(line);
 
-                    var shape = new Ellipse2D.Double(valueX - markerShapeDiameter / 2, lineY - markerShapeDiameter / 2, markerShapeDiameter, markerShapeDiameter);
+                    var shape = new Ellipse2D.Double(valueX - diameter / 2, lineY - diameter / 2, diameter, diameter);
 
                     rangeMarkerShapes.add(shape);
                 }
@@ -511,6 +566,12 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             graphics.setStroke(dataSet.getStroke());
 
             graphics.draw(paths.get(i));
+
+            if (showValueMarkers) {
+                for (var valueMarkerShape : valueMarkerShapes.get(i)) {
+                    graphics.fill(valueMarkerShape);
+                }
+            }
 
             i++;
         }

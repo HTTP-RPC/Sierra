@@ -133,32 +133,6 @@ public class TimeSeriesChartTest extends ChartTest {
     }
 
     @Test
-    public void testMarkers() throws Exception {
-        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
-
-        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
-
-        dataSet.setDataPoints(sortedMapOf(
-            entry(0.0, 0.0),
-            entry(1.0, 10.0),
-            entry(2.0, 20.0),
-            entry(3.0, 30.0)
-        ));
-
-        chart.setDataSets(listOf(dataSet));
-
-        chart.setDomainMarkers(listOf(
-            new Chart.Marker<>(1.5, 15.0, null, null)
-        ));
-
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(1.5, 15.0, null, null)
-        ));
-
-        compare("time-series-chart-markers.svg", chart);
-    }
-
-    @Test
     public void testDomainMarkers() throws Exception {
         var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
@@ -216,5 +190,46 @@ public class TimeSeriesChartTest extends ChartTest {
         ));
 
         compare("time-series-chart-range-markers.svg", chart);
+    }
+
+    @Test
+    public void testValueMarkers() throws Exception {
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
+
+        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0.0, 0.0),
+            entry(1.0, 10.0),
+            entry(1.5, 15.0),
+            entry(2.0, 20.0),
+            entry(3.0, 30.0),
+            entry(4.0, 40.0),
+            entry(4.5, 45.0),
+            entry(5.0, 50.0),
+            entry(6.0, 60.0)
+        ));
+
+        chart.setShowValueMarkers(true);
+        chart.setDomainLabelCount(9);
+        chart.setDataSets(listOf(dataSet));
+
+        chart.setDomainMarkers(listOf(
+            new Chart.Marker<>(1.0, 10.0, null, null),
+            new Chart.Marker<>(1.5, 15.0, null, null),
+            new Chart.Marker<>(2.0, 20.0, null, null),
+            new Chart.Marker<>(3.0, 30.0, null, null),
+            new Chart.Marker<>(4.0, 40.0, null, null),
+            new Chart.Marker<>(4.5, 45.0, null, null),
+            new Chart.Marker<>(5.0, 50.0, null, null)
+        ));
+
+        chart.setRangeMarkers(listOf(
+            new Chart.Marker<>(2.0, 20.0, null, null),
+            new Chart.Marker<>(3.0, 30.0, null, null),
+            new Chart.Marker<>(4.0, 40.0, null, null)
+        ));
+
+        compare("time-series-chart-value-markers.svg", chart);
     }
 }
