@@ -83,7 +83,7 @@ public class SierraXMLCompletionProviderTest {
                 .map(Completion::getInputText)
                 .collect(Collectors.toSet());
 
-        final var EXPECTED_ELEMENT_COUNT = 42;
+        final var EXPECTED_ELEMENT_COUNT = 43;
         assertEquals(EXPECTED_ELEMENT_COUNT, suggestions.size(),
                 "Should have parsed exactly " + EXPECTED_ELEMENT_COUNT + " elements based on the DTD content.");
 
