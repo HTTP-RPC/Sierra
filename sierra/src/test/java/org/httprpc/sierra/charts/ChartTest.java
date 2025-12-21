@@ -14,9 +14,11 @@
 
 package org.httprpc.sierra.charts;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.httprpc.kilo.xml.ElementAdapter;
+import org.junit.jupiter.api.BeforeAll;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.TransformerException;
@@ -34,6 +36,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public abstract class ChartTest {
     private static final int WIDTH = 640;
     private static final int HEIGHT = 480;
+
+    @BeforeAll
+    public static void setUp() {
+        FlatLightLaf.setup();
+    }
 
     public void compare(String name, Chart<?, ?> chart) throws Exception {
         var documentBuilder = ElementAdapter.newDocumentBuilder();

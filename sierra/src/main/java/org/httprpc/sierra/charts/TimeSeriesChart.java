@@ -120,6 +120,26 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         this.domainKeyTransform = domainKeyTransform;
     }
 
+    /**
+     * Returns the domain value transform.
+     *
+     * @return
+     * The domain value transform.
+     */
+    public Function<K, Number> getDomainValueTransform() {
+        return domainValueTransform;
+    }
+
+    /**
+     * Returns the domain key transform.
+     *
+     * @return
+     * The domain key transform.
+     */
+    public Function<Number, K> getDomainKeyTransform() {
+        return domainKeyTransform;
+    }
+
     @Override
     protected void validate(Graphics2D graphics) {
         horizontalGridLines.clear();
@@ -362,6 +382,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         }
 
         var markerColor = getMarkerColor();
+        var markerShapeDiameter = getMarkerStroke().getLineWidth() * 5;
 
         for (var domainMarker : getDomainMarkers()) {
             var key = domainMarker.key();
@@ -381,7 +402,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             label.setHorizontalTextPosition(SwingConstants.CENTER);
             label.setVerticalAlignment(SwingConstants.CENTER);
             label.setVerticalTextPosition(SwingConstants.BOTTOM);
-            label.setIconTextGap(0);
+            label.setIconTextGap(2);
 
             label.setForeground(markerColor);
             label.setFont(markerFont);
@@ -400,14 +421,16 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             if (value != null) {
                 var valueY = zeroY - value * rangeScale;
 
-                var line = new Line2D.Double(lineX, labelY - DOMAIN_LABEL_SPACING, lineX, valueY);
+                if (valueY < label.getY() - markerShapeDiameter) {
+                    var line = new Line2D.Double(lineX, labelY - DOMAIN_LABEL_SPACING, lineX, valueY);
 
-                domainMarkerLines.add(line);
+                    domainMarkerLines.add(line);
 
-                var diameter = getMarkerStroke().getLineWidth() * 5;
-                var shape = new Ellipse2D.Double(lineX - diameter / 2, valueY - diameter / 2, diameter, diameter);
+                    var diameter = getMarkerStroke().getLineWidth() * 5;
+                    var shape = new Ellipse2D.Double(lineX - diameter / 2, valueY - diameter / 2, diameter, diameter);
 
-                domainMarkerShapes.add(shape);
+                    domainMarkerShapes.add(shape);
+                }
             }
         }
 
@@ -426,6 +449,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
             label.setForeground(markerColor);
             label.setFont(markerFont);
+            label.setIconTextGap(2);
 
             var size = label.getPreferredSize();
 
@@ -440,14 +464,15 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
                 var valueX = rangeLabelOffset + domainValue * domainScale;
 
-                var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, valueX, lineY);
+                if (valueX > label.getX() + label.getWidth() + markerShapeDiameter) {
+                    var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, valueX, lineY);
 
-                rangeMarkerLines.add(line);
+                    rangeMarkerLines.add(line);
 
-                var diameter = getMarkerStroke().getLineWidth() * 5;
-                var shape = new Ellipse2D.Double(valueX - diameter / 2, lineY - diameter / 2, diameter, diameter);
+                    var shape = new Ellipse2D.Double(valueX - markerShapeDiameter / 2, lineY - markerShapeDiameter / 2, markerShapeDiameter, markerShapeDiameter);
 
-                rangeMarkerShapes.add(shape);
+                    rangeMarkerShapes.add(shape);
+                }
             }
         }
     }

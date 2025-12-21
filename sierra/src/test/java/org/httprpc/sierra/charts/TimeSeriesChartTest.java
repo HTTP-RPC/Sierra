@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
@@ -133,24 +134,87 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testMarkers() throws Exception {
-        var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
-        var dataSet = new DataSet<Integer, Double>("Values", Color.RED);
+        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
-            entry(0, 0.0),
-            entry(1, 10.0),
-            entry(2, 20.0),
-            entry(3, 30.0),
-            entry(4, 40.0),
-            entry(5, 50.0),
-            entry(6, 60.0)
+            entry(0.0, 0.0),
+            entry(1.0, 10.0),
+            entry(2.0, 20.0),
+            entry(3.0, 30.0)
         ));
 
         chart.setDataSets(listOf(dataSet));
-        chart.setDomainMarkers(listOf(new Chart.Marker<>(5, 50.0, null, null)));
-        chart.setRangeMarkers(listOf(new Chart.Marker<>(2, 20.0, null, null)));
+
+        chart.setDomainMarkers(listOf(
+            new Chart.Marker<>(1.5, 15.0, null, null)
+        ));
+
+        chart.setRangeMarkers(listOf(
+            new Chart.Marker<>(1.5, 15.0, null, null)
+        ));
 
         compare("time-series-chart-markers.svg", chart);
+    }
+
+    @Test
+    public void testDomainMarkers() throws Exception {
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
+
+        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0.0, 0.0),
+            entry(1.0, 10.0),
+            entry(2.0, 20.0),
+            entry(3.0, 30.0),
+            entry(4.0, 40.0),
+            entry(5.0, 50.0),
+            entry(6.0, 60.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+
+        icon = icon.derive(18, 18);
+
+        chart.setDomainMarkers(listOf(
+            new Chart.Marker<>(0.25, 2.5, null, icon),
+            new Chart.Marker<>(5.0, 50.0, null, icon)
+        ));
+
+        compare("time-series-chart-domain-markers.svg", chart);
+    }
+
+    @Test
+    public void testRangeMarkers() throws Exception {
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
+
+        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0.0, 0.0),
+            entry(1.0, 10.0),
+            entry(2.0, 20.0),
+            entry(3.0, 30.0),
+            entry(4.0, 40.0),
+            entry(5.0, 50.0),
+            entry(6.0, 60.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+
+        icon = icon.derive(18, 18);
+
+        chart.setRangeMarkers(listOf(
+            new Chart.Marker<>(0.25, 2.5, "Marker 1", icon),
+            new Chart.Marker<>(2.0, 20.0, "Marker 2", icon)
+        ));
+
+        compare("time-series-chart-range-markers.svg", chart);
     }
 }
