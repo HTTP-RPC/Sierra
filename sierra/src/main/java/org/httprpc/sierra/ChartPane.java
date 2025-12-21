@@ -117,10 +117,6 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
     public void setChart(C chart) {
         this.chart = chart;
 
-        if (chart != null) {
-            chart.setComponentOrientation(getComponentOrientation());
-        }
-
         repaint();
     }
 }

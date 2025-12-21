@@ -18,6 +18,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.sierra.ChartPane;
 import org.httprpc.sierra.Outlet;
+import org.httprpc.sierra.RowPanel;
 import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.charts.BarChart;
 import org.httprpc.sierra.charts.Chart;
@@ -25,7 +26,10 @@ import org.httprpc.sierra.charts.DataSet;
 import org.httprpc.sierra.charts.PieChart;
 import org.httprpc.sierra.charts.TimeSeriesChart;
 
+import javax.swing.Icon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import java.text.NumberFormat;
 import java.time.Month;
@@ -34,13 +38,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.TreeMap;
+import java.util.function.Function;
 
 import static org.httprpc.kilo.util.Collections.*;
 
 public class ChartsTest extends JFrame implements Runnable {
     private @Outlet ChartPane<Chart<?, ?>> pieChartPane = null;
+    private @Outlet RowPanel pieChartLegendPanel = null;
+
     private @Outlet ChartPane<Chart<?, ?>> barChartPane = null;
+    private @Outlet RowPanel barChartLegendPanel = null;
+
     private @Outlet ChartPane<Chart<?, ?>> timeSeriesChartPane = null;
+    private @Outlet RowPanel timeSeriesChartLegendPanel = null;
 
     private ChartsTest() {
         super("Charts Test");
@@ -53,8 +63,13 @@ public class ChartsTest extends JFrame implements Runnable {
         setContentPane(UILoader.load(this, "ChartsTest.xml"));
 
         pieChartPane.setChart(createPieChart());
+        populateLegend(pieChartPane, pieChartLegendPanel, PieChart.LegendIcon::new);
+
         barChartPane.setChart(createBarChart());
+        populateLegend(barChartPane, barChartLegendPanel, BarChart.LegendIcon::new);
+
         timeSeriesChartPane.setChart(createTimeSeriesChart());
+        populateLegend(timeSeriesChartPane, timeSeriesChartLegendPanel, TimeSeriesChart.LegendIcon::new);
 
         setSize(640, 480);
         setVisible(true);
@@ -71,6 +86,12 @@ public class ChartsTest extends JFrame implements Runnable {
     private BarChart<Month, Double> createBarChart() {
         var barChart = new BarChart<Month, Double>();
 
+        var rangeLabelFormat = NumberFormat.getNumberInstance();
+
+        rangeLabelFormat.setMinimumFractionDigits(1);
+        rangeLabelFormat.setMaximumFractionDigits(1);
+
+        barChart.setRangeLabelTransform(rangeLabelFormat::format);
         barChart.setDomainLabelTransform(month -> month.getDisplayName(TextStyle.FULL, Locale.getDefault()));
         barChart.setDataSets(createCategoryDataSets());
 
@@ -132,6 +153,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var rangeLabelFormat = NumberFormat.getNumberInstance();
 
+        rangeLabelFormat.setMinimumFractionDigits(1);
         rangeLabelFormat.setMaximumFractionDigits(1);
 
         timeSeriesChart.setRangeLabelTransform(rangeLabelFormat::format);
@@ -178,6 +200,12 @@ public class ChartsTest extends JFrame implements Runnable {
         }
 
         return dataSets;
+    }
+
+    private void populateLegend(ChartPane<?> chartPane, RowPanel legendPanel, Function<DataSet<?, ?>, Icon> iconFactory) {
+        for (var dataSet : chartPane.getChart().getDataSets()) {
+            legendPanel.add(new JLabel(dataSet.getLabel(), iconFactory.apply(dataSet), SwingConstants.LEADING));
+        }
     }
 
     public static void main(String[] args) {

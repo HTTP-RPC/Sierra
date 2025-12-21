@@ -23,7 +23,6 @@ import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     public static class LegendIcon implements Icon {
         private DataSet<?, ?> dataSet;
 
-        private Ellipse2D.Double shape = new Ellipse2D.Double();
+        private Rectangle2D.Double shape = new Rectangle2D.Double();
 
         private static final int SIZE = 12;
 

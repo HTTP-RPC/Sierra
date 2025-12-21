@@ -19,7 +19,6 @@ import javax.swing.JComponent;
 import javax.swing.UIManager;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -95,8 +94,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private List<Marker<K>> domainMarkers = listOf();
     private List<Marker<K>> rangeMarkers = listOf();
-
-    private ComponentOrientation componentOrientation = ComponentOrientation.LEFT_TO_RIGHT;
 
     private int width = 0;
     private int height = 0;
@@ -618,30 +615,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.rangeMarkers = rangeMarkers;
-    }
-
-    /**
-     * Returns the chart's component orientation.
-     *
-     * @return
-     * The chart's component orientation.
-     */
-    public ComponentOrientation getComponentOrientation() {
-        return componentOrientation;
-    }
-
-    /**
-     * Sets the chart's component orientation.
-     *
-     * @param componentOrientation
-     * The chart's component orientation.
-     */
-    public void setComponentOrientation(ComponentOrientation componentOrientation) {
-        if (componentOrientation == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.componentOrientation = componentOrientation;
     }
 
     /**
