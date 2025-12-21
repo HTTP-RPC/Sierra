@@ -235,15 +235,13 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
-
-        var domainLabelHeight = 0.0;
+        var domainLabelLineMetrics = domainLabelFont.getLineMetrics("", graphics.getFontRenderContext());
+        var domainLabelHeight = (int)Math.ceil(domainLabelLineMetrics.getHeight());
 
         for (var i = 0; i < domainLabelCount; i++) {
-            var textPane = new TextPane(String.valueOf(0));
+            var textPane = new TextPane();
 
             textPane.setFont(domainLabelFont);
-
-            domainLabelHeight = Math.max(domainLabelHeight, textPane.getPreferredSize().getHeight());
 
             domainLabelTextPanes.add(textPane);
         }
@@ -326,7 +324,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         }
 
         var domainLabelX = rangeLabelOffset;
-        var domainLabelY = (int)chartHeight + DOMAIN_LABEL_SPACING;
+        var domainLabelY = chartHeight + DOMAIN_LABEL_SPACING;
 
         var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
 
@@ -336,9 +334,8 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             var label = domainLabelTransform.apply(domainKeyTransform.apply(domainMinimum + domainStep * i));
 
             textPane.setText(label);
-            textPane.setSize(textPane.getPreferredSize());
 
-            var size = textPane.getSize();
+            var size = textPane.getPreferredSize();
 
             int x;
             if (i == 0) {
@@ -349,7 +346,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
                 x = (int)domainLabelX - size.width;
             }
 
-            textPane.setBounds(x, domainLabelY, (int)verticalGridLineSpacing, size.height);
+            textPane.setBounds(x, domainLabelY, (int)verticalGridLineSpacing, domainLabelHeight);
             textPane.doLayout();
 
             domainLabelX += verticalGridLineSpacing;
@@ -448,7 +445,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             var size = label.getPreferredSize();
 
             var labelX = (int)Math.round(lineX - (double)size.width / 2);
-            var labelY = (int)Math.ceil(chartHeight - (size.height + DOMAIN_LABEL_SPACING));
+            var labelY = chartHeight - (size.height + DOMAIN_LABEL_SPACING);
 
             label.setBounds(labelX, labelY, size.width, size.height);
 

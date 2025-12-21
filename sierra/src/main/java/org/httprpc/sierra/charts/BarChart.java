@@ -145,8 +145,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
-
-        var domainLabelHeight = 0.0;
+        var domainLabelLineMetrics = domainLabelFont.getLineMetrics("", graphics.getFontRenderContext());
+        var domainLabelHeight = (int)Math.ceil(domainLabelLineMetrics.getHeight());
 
         for (var key : keys) {
             var label = domainLabelTransform.apply(key);
@@ -155,9 +155,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
             textPane.setFont(domainLabelFont);
             textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
-            textPane.setSize(textPane.getPreferredSize());
-
-            domainLabelHeight = Math.max(domainLabelHeight, textPane.getSize().getHeight());
 
             domainLabelTextPanes.add(textPane);
         }
@@ -239,9 +236,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var domainLabelX = rangeLabelOffset;
 
         for (var textPane : domainLabelTextPanes) {
-            var size = textPane.getSize();
-
-            textPane.setBounds((int)domainLabelX, (int)chartHeight + DOMAIN_LABEL_SPACING, (int)verticalGridLineSpacing, size.height);
+            textPane.setBounds((int)domainLabelX, chartHeight + DOMAIN_LABEL_SPACING, (int)verticalGridLineSpacing, domainLabelHeight);
             textPane.doLayout();
 
             domainLabelX += verticalGridLineSpacing;
