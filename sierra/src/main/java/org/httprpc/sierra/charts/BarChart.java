@@ -15,7 +15,6 @@
 package org.httprpc.sierra.charts;
 
 import org.httprpc.sierra.HorizontalAlignment;
-import org.httprpc.sierra.RowPanel;
 import org.httprpc.sierra.TextPane;
 
 import javax.swing.Icon;
@@ -85,12 +84,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     private List<JLabel> rangeMarkerLabels = listOf();
     private List<Line2D.Double> rangeMarkerLines = listOf();
 
-    private RowPanel legendPanel = new RowPanel();
-
     private static final int DOMAIN_LABEL_SPACING = 4;
     private static final int RANGE_LABEL_SPACING = 4;
-
-    private static final int LEGEND_SPACING = 16;
 
     @Override
     protected void validate(Graphics2D graphics) {
@@ -107,20 +102,12 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         rangeMarkerLabels.clear();
         rangeMarkerLines.clear();
 
-        legendPanel.removeAll();
-
-        legendPanel.setSpacing(LEGEND_SPACING);
-        legendPanel.setComponentOrientation(getComponentOrientation());
-
         var dataSets = getDataSets();
 
         var keys = new TreeSet<K>();
 
         var minimum = 0.0;
         var maximum = 0.0;
-
-        var legendColor = getLegendColor();
-        var legendFont = getLegendFont();
 
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
@@ -133,13 +120,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 minimum = Math.min(minimum, value);
                 maximum = Math.max(maximum, value);
             }
-
-            var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
-
-            legendLabel.setForeground(legendColor);
-            legendLabel.setFont(legendFont);
-
-            legendPanel.add(legendLabel);
         }
 
         var keyCount = keys.size();
@@ -150,13 +130,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var width = getWidth();
         var height = getHeight();
-
-        var legendSize = legendPanel.getPreferredSize();
-
-        legendPanel.setLocation(width / 2 - legendSize.width / 2, height - legendSize.height);
-        legendPanel.setSize(legendSize);
-
-        legendPanel.doLayout();
 
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
@@ -177,7 +150,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             domainLabelTextPanes.add(textPane);
         }
 
-        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + legendSize.height + LEGEND_SPACING), 0);
+        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING), 0);
 
         var markerFont = getMarkerFont();
 
@@ -432,8 +405,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
 
         markerGraphics.dispose();
-
-        paintComponent(graphics, legendPanel);
     }
 
     private void clipToChartBounds(Graphics2D graphics) {

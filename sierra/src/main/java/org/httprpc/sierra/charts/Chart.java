@@ -81,9 +81,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private BasicStroke markerStroke = defaultMarkerStroke;
     private Font markerFont = defaultMarkerFont;
 
-    private Color legendColor = Color.BLACK;
-    private Font legendFont = defaultLegendFont;
-
     private boolean showHorizontalGridLines = true;
 
     private Color horizontalGridLineColor = Color.LIGHT_GRAY;
@@ -107,7 +104,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private static final Font defaultDomainLabelFont;
     private static final Font defaultRangeLabelFont;
     private static final Font defaultMarkerFont;
-    private static final Font defaultLegendFont;
     static {
         var font = UIManager.getFont("Label.font");
 
@@ -116,7 +112,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         defaultDomainLabelFont = font.deriveFont(size - 1);
         defaultRangeLabelFont = font.deriveFont(size - 2);
         defaultMarkerFont = font.deriveFont(size - 3);
-        defaultLegendFont = font;
     }
 
     private static final BasicStroke defaultMarkerStroke;
@@ -137,15 +132,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             rangeLabelColor = color;
         });
 
-        perform(UIManager.getColor("Label.foreground"), color -> {
-            markerColor = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0xaa);
-            legendColor = color;
-        });
+        perform(UIManager.getColor("Label.foreground"), color -> colorWithAlpha(color, 0xaa));
 
         perform(UIManager.getFont("medium.font"), font -> domainLabelFont = font);
         perform(UIManager.getFont("small.font"), font -> rangeLabelFont = font);
         perform(UIManager.getFont("mini.font"), font -> markerFont = font);
-        perform(UIManager.getFont("default.font"), font -> legendFont = font);
 
         perform(UIManager.getColor("Component.borderColor"), color -> {
             horizontalGridLineColor = color;
@@ -415,54 +406,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.markerFont = markerFont;
-    }
-
-    /**
-     * Returns the legend color.
-     *
-     * @return
-     * The legend color.
-     */
-    public Color getLegendColor() {
-        return legendColor;
-    }
-
-    /**
-     * Sets the legend color.
-     *
-     * @param legendColor
-     * The legend color.
-     */
-    public void setLegendColor(Color legendColor) {
-        if (legendColor == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.legendColor = legendColor;
-    }
-
-    /**
-     * Returns the legend font.
-     *
-     * @return
-     * The legend font.
-     */
-    public Font getLegendFont() {
-        return legendFont;
-    }
-
-    /**
-     * Sets the legend font.
-     *
-     * @param legendFont
-     * The legend font.
-     */
-    public void setLegendFont(Font legendFont) {
-        if (legendFont == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.legendFont = legendFont;
     }
 
     /**

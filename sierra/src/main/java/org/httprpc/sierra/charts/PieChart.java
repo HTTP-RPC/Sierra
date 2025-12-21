@@ -14,11 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
-import org.httprpc.sierra.RowPanel;
-
 import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -71,28 +67,17 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
 
     private List<Arc2D.Double> sliceArcs = listOf();
 
-    private RowPanel legendPanel = new RowPanel();
-
-    private static final int LEGEND_SPACING = 16;
-
     @Override
     protected void validate(Graphics2D graphics) {
         sliceArcs.clear();
-
-        legendPanel.removeAll();
-
-        legendPanel.setSpacing(LEGEND_SPACING);
-        legendPanel.setComponentOrientation(getComponentOrientation());
 
         var dataSets = getDataSets();
 
         var n = dataSets.size();
 
         var dataSetValues = new ArrayList<Double>(n);
-        var total = 0.0;
 
-        var legendColor = getLegendColor();
-        var legendFont = getLegendFont();
+        var total = 0.0;
 
         for (var i = 0; i < n; i++) {
             var dataSet = dataSets.get(i);
@@ -110,13 +95,6 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
 
                 total += value;
             }
-
-            var legendLabel = new JLabel(dataSet.getLabel(), new LegendIcon(dataSet), SwingConstants.CENTER);
-
-            legendLabel.setForeground(legendColor);
-            legendLabel.setFont(legendFont);
-
-            legendPanel.add(legendLabel);
         }
 
         if (total == 0.0) {
@@ -126,16 +104,7 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
         var width = getWidth();
         var height = getHeight();
 
-        var legendSize = legendPanel.getPreferredSize();
-
-        legendPanel.setLocation(width / 2 - legendSize.width / 2, height - legendSize.height);
-        legendPanel.setSize(legendSize);
-
-        legendPanel.doLayout();
-
-        var pieDiameter = Math.max(height - (legendSize.height + LEGEND_SPACING), 0);
-
-        var pieBounds = new Rectangle2D.Double(width / 2.0 - pieDiameter / 2.0, 0.0, pieDiameter, pieDiameter);
+        var pieBounds = new Rectangle2D.Double(width / 2.0 - height / 2.0, 0.0, height, height);
 
         var start = 90.0;
 
@@ -150,23 +119,15 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
 
     @Override
     protected void draw(Graphics2D graphics) {
-        var dataSets = getDataSets();
+        var i = 0;
 
-        var n = dataSets.size();
-
-        var pieGraphics = (Graphics2D)graphics.create();
-
-        for (var i = 0; i < n; i++) {
-            var dataSet = dataSets.get(i);
-
+        for (var dataSet : getDataSets()) {
             var sliceArc = sliceArcs.get(i);
 
-            pieGraphics.setColor(dataSet.getColor());
-            pieGraphics.fill(sliceArc);
+            graphics.setColor(dataSet.getColor());
+            graphics.fill(sliceArc);
+
+            i++;
         }
-
-        pieGraphics.dispose();
-
-        paintComponent(graphics, legendPanel);
     }
 }
