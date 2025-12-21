@@ -146,6 +146,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
 
+        // TODO Get from font
         var domainLabelHeight = 0.0;
 
         for (var key : keys) {

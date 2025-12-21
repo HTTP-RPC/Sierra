@@ -18,6 +18,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
+import java.text.NumberFormat;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -211,7 +212,15 @@ public class TimeSeriesChartTest extends ChartTest {
         ));
 
         chart.setShowValueMarkers(true);
+
         chart.setDomainLabelCount(9);
+
+        var domainLabelFormat = NumberFormat.getNumberInstance();
+
+        domainLabelFormat.setMaximumFractionDigits(2);
+
+        chart.setDomainLabelTransform(domainLabelFormat::format);
+
         chart.setDataSets(listOf(dataSet));
 
         chart.setDomainMarkers(listOf(

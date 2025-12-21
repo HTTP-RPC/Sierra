@@ -233,17 +233,14 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         var domainLabelCount = getDomainLabelCount();
 
-        var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
-
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
 
+        // TODO Get from font
         var domainLabelHeight = 0.0;
 
         for (var i = 0; i < domainLabelCount; i++) {
-            var label = domainLabelTransform.apply(domainKeyTransform.apply(domainMinimum + domainStep * i));
-
-            var textPane = new TextPane(label);
+            var textPane = new TextPane(String.valueOf(0));
 
             textPane.setFont(domainLabelFont);
             textPane.setSize(textPane.getPreferredSize());
@@ -333,8 +330,15 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         var domainLabelX = rangeLabelOffset;
         var domainLabelY = (int)chartHeight + DOMAIN_LABEL_SPACING;
 
+        var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
+
         for (var i = 0; i < domainLabelCount; i++) {
             var textPane = domainLabelTextPanes.get(i);
+
+            var label = domainLabelTransform.apply(domainKeyTransform.apply(domainMinimum + domainStep * i));
+
+            textPane.setText(label);
+            textPane.setSize(textPane.getPreferredSize());
 
             var size = textPane.getSize();
 
