@@ -185,16 +185,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             return;
         }
 
-        if (rangeMinimum == rangeMaximum) {
-            rangeMinimum -= 1.0;
-            rangeMaximum += 1.0;
-        } else {
-            var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * 0.02;
-
-            rangeMinimum -= rangeMargin;
-            rangeMaximum += rangeMargin;
-        }
-
         var width = getWidth();
         var height = getHeight();
 
@@ -225,6 +215,23 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             domainLabelTextPanes.add(textPane);
         }
 
+        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + legendSize.height + LEGEND_SPACING), 0);
+
+        var markerFont = getMarkerFont();
+
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
+        } else {
+            var markerLineMetrics = markerFont.getLineMetrics("", graphics.getFontRenderContext());
+
+            var rangeMarginRatio = (markerLineMetrics.getHeight() / 2 + RANGE_LABEL_SPACING) / chartHeight;
+            var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * rangeMarginRatio;
+
+            rangeMinimum -= rangeMargin;
+            rangeMaximum += rangeMargin;
+        }
+
         var rangeLabelCount = getRangeLabelCount();
 
         var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
@@ -251,7 +258,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         var rangeLabelOffset = rangeLabelWidth + RANGE_LABEL_SPACING;
 
         var chartWidth = (double)width - rangeLabelOffset;
-        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + legendSize.height + LEGEND_SPACING), 0);
 
         var horizontalGridStrokeWidth = getHorizontalGridLineStroke().getLineWidth();
 
@@ -356,7 +362,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         }
 
         var markerColor = getMarkerColor();
-        var markerFont = getMarkerFont();
 
         for (var domainMarker : getDomainMarkers()) {
             var key = domainMarker.key();
