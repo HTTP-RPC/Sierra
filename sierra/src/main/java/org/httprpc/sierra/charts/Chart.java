@@ -688,29 +688,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected abstract void draw(Graphics2D graphics);
 
     /**
-     * Paints a component.
-     *
-     * @param graphics
-     * The graphics context in which the component will be painted.
-     *
-     * @param component
-     * The component to paint.
-     */
-    protected void paintComponent(Graphics2D graphics, JComponent component) {
-        if (graphics == null || component == null) {
-            throw new IllegalArgumentException();
-        }
-
-        graphics = (Graphics2D)graphics.create();
-
-        graphics.translate(component.getX(), component.getY());
-
-        component.paint(graphics);
-
-        graphics.dispose();
-    }
-
-    /**
      * Applies an alpha component to a color.
      *
      * @param color
@@ -724,5 +701,28 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     protected static Color colorWithAlpha(Color color, int alpha) {
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+    }
+
+    /**
+     * Paints a component.
+     *
+     * @param graphics
+     * The graphics context in which the component will be painted.
+     *
+     * @param component
+     * The component to paint.
+     */
+    protected static void paintComponent(Graphics2D graphics, JComponent component) {
+        if (graphics == null || component == null) {
+            throw new IllegalArgumentException();
+        }
+
+        graphics = (Graphics2D)graphics.create();
+
+        graphics.translate(component.getX(), component.getY());
+
+        component.paint(graphics);
+
+        graphics.dispose();
     }
 }
