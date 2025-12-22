@@ -74,7 +74,7 @@ public abstract class ChartTest {
         assertTrue(result);
     }
 
-    public Path writeSVG(String name, Chart<?, ?> chart) throws Exception {
+    private Path writeSVG(String name, Chart<?, ?> chart) throws Exception {
         var domImplementation = GenericDOMImplementation.getDOMImplementation();
 
         var document = domImplementation.createDocument("http://www.w3.org/2000/svg", "svg", null);
