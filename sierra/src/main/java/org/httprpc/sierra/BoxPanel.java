@@ -14,6 +14,8 @@
 
 package org.httprpc.sierra;
 
+import static org.httprpc.kilo.util.Optionals.*;
+
 /**
  * Abstract base class for box panels.
  */
@@ -24,17 +26,7 @@ public abstract class BoxPanel extends LayoutPanel {
     }
 
     double getWeight(int index) {
-        var constraints = getConstraints(index);
-
-        if (constraints instanceof Double weight) {
-            if (weight <= 0.0) {
-                throw new IllegalStateException();
-            }
-
-            return weight;
-        } else {
-            return Double.NaN;
-        }
+        return coalesce(map((Number)getConstraints(index), Number::doubleValue), () -> Double.NaN);
     }
 
     /**
