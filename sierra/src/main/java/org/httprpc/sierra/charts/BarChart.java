@@ -323,7 +323,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var n = dataSets.size();
 
-        var barSpacing = verticalGridLineSpacing * 0.04;
+        var barSpacing = verticalGridLineSpacing * 0.05;
         var barWidth = (verticalGridLineSpacing - (verticalGridLineStrokeWidth + barSpacing * (n + 1))) / n;
 
         var barX = rangeLabelOffset + verticalGridLineStrokeWidth;
@@ -361,9 +361,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             barX += barSpacing + verticalGridLineStrokeWidth;
         }
 
-        if (maximum > 0.0 && minimum < 0.0) {
-            zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
-        }
+        zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
 
         var markerColor = getMarkerColor();
 
@@ -445,18 +443,16 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 graphics.fill(barShape);
 
                 graphics.setColor(color);
-                graphics.setStroke(dataSet.getStroke());
+                graphics.setStroke(getHorizontalGridLineStroke());
 
                 graphics.draw(barShape);
             }
         }
 
-        if (zeroLine != null) {
-            graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
-            graphics.setStroke(getHorizontalGridLineStroke());
+        graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
+        graphics.setStroke(getHorizontalGridLineStroke());
 
-            graphics.draw(zeroLine);
-        }
+        graphics.draw(zeroLine);
 
         var markerGraphics = (Graphics2D)graphics.create();
 

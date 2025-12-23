@@ -413,9 +413,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             valueMarkerShapes.add(dataSetValueMarkerShapes);
         }
 
-        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
-            zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
-        }
+        zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
 
         var markerColor = getMarkerColor();
 
@@ -551,12 +549,10 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             paintComponent(graphics, textPane);
         }
 
-        if (zeroLine != null) {
-            graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x40));
-            graphics.setStroke(getHorizontalGridLineStroke());
+        graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x40));
+        graphics.setStroke(getHorizontalGridLineStroke());
 
-            graphics.draw(zeroLine);
-        }
+        graphics.draw(zeroLine);
 
         var i = 0;
 
