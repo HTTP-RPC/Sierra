@@ -477,6 +477,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var dataSets = getDataSets();
 
+        var outlineStroke = solidStroke(getHorizontalGridLineStroke());
+
         for (var dataSetBarRectangles : barRectangles) {
             var i = 0;
 
@@ -489,14 +491,14 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 graphics.fill(barShape);
 
                 graphics.setColor(color);
-                graphics.setStroke(getHorizontalGridLineStroke());
+                graphics.setStroke(outlineStroke);
 
                 graphics.draw(barShape);
             }
         }
 
         graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
-        graphics.setStroke(getHorizontalGridLineStroke());
+        graphics.setStroke(solidStroke(getHorizontalGridLineStroke()));
 
         graphics.draw(zeroLine);
 

@@ -110,7 +110,7 @@ public class ChartsTest extends JFrame implements Runnable {
         barChart.setRangeLabelTransform(rangeLabelFormat::format);
         barChart.setDomainLabelTransform(month -> month.getDisplayName(TextStyle.FULL, Locale.getDefault()));
 
-        barChart.setVerticalGridLineStroke(new BasicStroke(1.0f,
+        barChart.setHorizontalGridLineStroke(new BasicStroke(1.0f,
             BasicStroke.CAP_BUTT,
             BasicStroke.JOIN_BEVEL,
             1.0f, new float[] {3.0f}, 0.0f));
@@ -180,7 +180,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         timeSeriesChart.setRangeLabelTransform(rangeLabelFormat::format);
 
-        timeSeriesChart.setHorizontalGridLineStroke(new BasicStroke(1.0f,
+        timeSeriesChart.setVerticalGridLineStroke(new BasicStroke(1.0f,
             BasicStroke.CAP_BUTT,
             BasicStroke.JOIN_BEVEL,
             1.0f, new float[] {3.0f}, 0.0f));

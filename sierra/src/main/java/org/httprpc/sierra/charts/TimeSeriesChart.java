@@ -550,10 +550,10 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             paintComponent(graphics, textPane);
         }
 
-        graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x40));
-        graphics.setStroke(getHorizontalGridLineStroke());
-
         clipToGrid(graphics);
+
+        graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x40));
+        graphics.setStroke(solidStroke(getHorizontalGridLineStroke()));
 
         graphics.draw(zeroLine);
 

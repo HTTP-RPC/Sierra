@@ -704,6 +704,19 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
+     * Returns a solid equivalent of a stroke.
+     *
+     * @param stroke
+     * The stroke.
+     *
+     * @return
+     * The solid equivalent of the stroke.
+     */
+    protected static BasicStroke solidStroke(BasicStroke stroke) {
+        return new BasicStroke(stroke.getLineWidth(), stroke.getEndCap(), stroke.getLineJoin(), stroke.getMiterLimit());
+    }
+
+    /**
      * Paints a component.
      *
      * @param graphics
