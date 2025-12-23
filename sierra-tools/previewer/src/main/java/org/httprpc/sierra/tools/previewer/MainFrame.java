@@ -47,7 +47,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
-import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -369,7 +368,7 @@ public class MainFrame extends JFrame implements SearchListener {
         case RenderResult.Success success -> {
             previewPanel.removeAll();
             var component = success.component();
-            previewPanel.add(component, BorderLayout.CENTER);
+            previewPanel.add(component);
             previewPanel.revalidate();
             previewPanel.repaint();
 

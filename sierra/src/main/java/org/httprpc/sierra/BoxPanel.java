@@ -14,6 +14,8 @@
 
 package org.httprpc.sierra;
 
+import java.awt.Component;
+
 import static org.httprpc.kilo.util.Optionals.*;
 
 /**
@@ -54,6 +56,15 @@ public abstract class BoxPanel extends LayoutPanel {
         this.spacing = spacing;
 
         revalidate();
+    }
+
+    @Override
+    protected void addImpl(Component component, Object constraints, int index) {
+        if (constraints != null && !(constraints instanceof Number)) {
+            throw new IllegalArgumentException("Invalid constraints.");
+        }
+
+        super.addImpl(component, constraints, index);
     }
 
     @Override
