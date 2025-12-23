@@ -290,15 +290,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         var chartWidth = (double)width - rangeLabelOffset;
 
-        if (showValueMarkers) {
-            var domainMarginRatio = maximumValueMarkerDiameter / chartWidth;
-
-            var domainMargin = Math.abs(domainMaximum - domainMinimum) * domainMarginRatio;
-
-            domainMinimum -= domainMargin;
-            domainMaximum += domainMargin;
-        }
-
         var horizontalGridStrokeWidth = getHorizontalGridLineStroke().getLineWidth();
 
         var horizontalGridLineSpacing = (chartHeight - horizontalGridStrokeWidth) / (rangeLabelCount - 1);
@@ -552,6 +543,8 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x40));
         graphics.setStroke(getHorizontalGridLineStroke());
 
+        clipToGrid(graphics);
+
         graphics.draw(zeroLine);
 
         var i = 0;
@@ -571,38 +564,32 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             i++;
         }
 
-        var markerGraphics = (Graphics2D)graphics.create();
-
-        clipToGrid(markerGraphics);
-
-        markerGraphics.setColor(getMarkerColor());
-        markerGraphics.setStroke(getMarkerStroke());
+        graphics.setColor(getMarkerColor());
+        graphics.setStroke(getMarkerStroke());
 
         for (var domainMarkerLabel : domainMarkerLabels) {
-            paintComponent(markerGraphics, domainMarkerLabel);
+            paintComponent(graphics, domainMarkerLabel);
         }
 
         for (var domainMarkerLine : domainMarkerLines) {
-            markerGraphics.draw(domainMarkerLine);
+            graphics.draw(domainMarkerLine);
         }
 
         for (var domainMarkerShape : domainMarkerShapes) {
-            markerGraphics.fill(domainMarkerShape);
+            graphics.fill(domainMarkerShape);
         }
 
         for (var label : rangeMarkerLabels) {
-            paintComponent(markerGraphics, label);
+            paintComponent(graphics, label);
         }
 
         for (var rangeMarkerLine : rangeMarkerLines) {
-            markerGraphics.draw(rangeMarkerLine);
+            graphics.draw(rangeMarkerLine);
         }
 
         for (var rangeMarkerShape : rangeMarkerShapes) {
-            markerGraphics.fill(rangeMarkerShape);
+            graphics.fill(rangeMarkerShape);
         }
-
-        markerGraphics.dispose();
     }
 
     private void clipToGrid(Graphics2D graphics) {

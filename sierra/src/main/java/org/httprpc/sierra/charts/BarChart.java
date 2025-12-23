@@ -429,6 +429,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             paintComponent(graphics, textPane);
         }
 
+        clipToGrid(graphics);
+
         var dataSets = getDataSets();
 
         for (var dataSetBarRectangles : barRectangles) {
@@ -454,22 +456,16 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         graphics.draw(zeroLine);
 
-        var markerGraphics = (Graphics2D)graphics.create();
-
-        clipToGrid(markerGraphics);
-
-        markerGraphics.setColor(getMarkerColor());
-        markerGraphics.setStroke(getMarkerStroke());
+        graphics.setColor(getMarkerColor());
+        graphics.setStroke(getMarkerStroke());
 
         for (var label : rangeMarkerLabels) {
-            paintComponent(markerGraphics, label);
+            paintComponent(graphics, label);
         }
 
         for (var rangeMarkerLine : rangeMarkerLines) {
-            markerGraphics.draw(rangeMarkerLine);
+            graphics.draw(rangeMarkerLine);
         }
-
-        markerGraphics.dispose();
     }
 
     private void clipToGrid(Graphics2D graphics) {
