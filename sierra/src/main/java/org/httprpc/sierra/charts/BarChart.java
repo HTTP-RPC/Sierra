@@ -194,6 +194,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                 var value = coalesce(map(entry.getValue(), Number::doubleValue), () -> 0.0);
 
+                if (stacked && value < 0.0) {
+                    throw new UnsupportedOperationException("Negative value in data set.");
+                }
+
                 totals.put(key, coalesce(totals.get(key), () -> 0.0) + value);
 
                 if (!stacked) {
@@ -355,25 +359,45 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         for (var key : totals.keySet()) {
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>();
 
-            for (var dataSet : dataSets) {
+            if (stacked) {
                 barX += barSpacing;
 
-                var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
+                var barY = zeroY - horizontalGridStrokeWidth / 2;
 
-                var barY = zeroY;
-                var barHeight = Math.abs(value) * scale - horizontalGridStrokeWidth;
+                for (var dataSet : dataSets) {
+                    var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
 
-                if (value > 0.0) {
-                    barY -= barHeight + horizontalGridStrokeWidth / 2;
-                } else {
-                    barY += horizontalGridStrokeWidth / 2;
+                    var barHeight = value * scale;
+
+                    barY -= barHeight;
+
+                    var barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
+
+                    dataSetBarRectangles.add(barRectangle);
                 }
 
-                var barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
-
-                dataSetBarRectangles.add(barRectangle);
-
                 barX += barWidth;
+            } else {
+                for (var dataSet : dataSets) {
+                    barX += barSpacing;
+
+                    var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
+
+                    var barY = zeroY;
+                    var barHeight = Math.abs(value) * scale - horizontalGridStrokeWidth;
+
+                    if (value > 0.0) {
+                        barY -= barHeight + horizontalGridStrokeWidth / 2;
+                    } else {
+                        barY += horizontalGridStrokeWidth / 2;
+                    }
+
+                    var barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
+
+                    dataSetBarRectangles.add(barRectangle);
+
+                    barX += barWidth;
+                }
             }
 
             barRectangles.add(dataSetBarRectangles);

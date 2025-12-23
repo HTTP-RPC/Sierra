@@ -97,7 +97,7 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private BarChart<Month, Double> createBarChart() {
-        var barChart = new BarChart<Month, Double>(true);
+        var barChart = new BarChart<Month, Double>(false);
 
         barChart.setBarTransparency(0.6);
 
