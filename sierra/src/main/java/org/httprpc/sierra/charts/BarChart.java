@@ -398,7 +398,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var markerGraphics = (Graphics2D)graphics.create();
 
-        clipToChartBounds(markerGraphics);
+        clipToGrid(markerGraphics);
 
         markerGraphics.setColor(getMarkerColor());
         markerGraphics.setStroke(getMarkerStroke());
@@ -414,7 +414,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         markerGraphics.dispose();
     }
 
-    private void clipToChartBounds(Graphics2D graphics) {
+    private void clipToGrid(Graphics2D graphics) {
         var x = (int)Math.ceil(verticalGridLines.getFirst().getX1());
         var y = (int)Math.ceil(horizontalGridLines.getFirst().getY1());
 
