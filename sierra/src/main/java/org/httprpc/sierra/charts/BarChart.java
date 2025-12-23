@@ -28,7 +28,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 import static org.httprpc.kilo.util.Collections.*;
 import static org.httprpc.kilo.util.Optionals.*;
@@ -183,7 +183,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var dataSets = getDataSets();
 
-        var keys = new TreeSet<K>();
+        var totals = new TreeMap<K, Double>();
 
         var minimum = 0.0;
         var maximum = 0.0;
@@ -192,16 +192,16 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             for (var entry : dataSet.getDataPoints().entrySet()) {
                 var key = entry.getKey();
 
-                keys.add(key);
-
                 var value = coalesce(map(entry.getValue(), Number::doubleValue), () -> 0.0);
+
+                totals.put(key, coalesce(totals.get(key), () -> 0.0) + value);
 
                 minimum = Math.min(minimum, value);
                 maximum = Math.max(maximum, value);
             }
         }
 
-        var keyCount = keys.size();
+        var keyCount = totals.size();
 
         if (keyCount == 0) {
             return;
@@ -215,7 +215,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var domainLabelLineMetrics = domainLabelFont.getLineMetrics("", graphics.getFontRenderContext());
         var domainLabelHeight = (int)Math.ceil(domainLabelLineMetrics.getHeight());
 
-        for (var key : keys) {
+        for (var key : totals.keySet()) {
             var label = domainLabelTransform.apply(key);
 
             var textPane = new TextPane(label);
@@ -342,7 +342,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var zeroY = maximum * scale;
 
-        for (var key : keys) {
+        for (var key : totals.keySet()) {
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>();
 
             for (var dataSet : dataSets) {
