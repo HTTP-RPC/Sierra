@@ -114,8 +114,8 @@ public class ChartsTest extends JFrame implements Runnable {
 
         barChart.setHorizontalGridLineStroke(new BasicStroke(1.0f,
             BasicStroke.CAP_BUTT,
-            BasicStroke.JOIN_BEVEL,
-            1.0f, new float[] {3.0f}, 0.0f));
+            BasicStroke.JOIN_MITER,
+            1.0f, new float[] {2.0f}, 0.0f));
 
         barChart.setDataSets(createCategoryDataSets());
 
@@ -186,8 +186,8 @@ public class ChartsTest extends JFrame implements Runnable {
 
         timeSeriesChart.setVerticalGridLineStroke(new BasicStroke(1.0f,
             BasicStroke.CAP_BUTT,
-            BasicStroke.JOIN_BEVEL,
-            1.0f, new float[] {3.0f}, 0.0f));
+            BasicStroke.JOIN_MITER,
+            1.0f, new float[] {2.0f}, 0.0f));
 
         timeSeriesChart.setDataSets(createTimeSeriesDataSets(n));
         timeSeriesChart.setDomainMarkers(listOf(
