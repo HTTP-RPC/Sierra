@@ -196,8 +196,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                 totals.put(key, coalesce(totals.get(key), () -> 0.0) + value);
 
-                minimum = Math.min(minimum, value);
-                maximum = Math.max(maximum, value);
+                if (!stacked) {
+                    minimum = Math.min(minimum, value);
+                    maximum = Math.max(maximum, value);
+                }
             }
         }
 
@@ -205,6 +207,13 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         if (keyCount == 0) {
             return;
+        }
+
+        if (stacked) {
+            for (var value : totals.values()) {
+                minimum = Math.min(minimum, value);
+                maximum = Math.max(maximum, value);
+            }
         }
 
         var width = getWidth();
@@ -331,9 +340,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             rangeLabelY -= horizontalGridLineSpacing;
         }
 
-        var n = dataSets.size();
+        var n = stacked ? 1 : dataSets.size();
 
         var barSpacing = verticalGridLineSpacing * 0.05;
+
         var barWidth = (verticalGridLineSpacing - (verticalGridLineStrokeWidth + barSpacing * (n + 1))) / n;
 
         var barX = rangeLabelOffset + verticalGridLineStrokeWidth;
