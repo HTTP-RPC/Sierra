@@ -44,4 +44,31 @@ public class PieChartTest extends ChartTest {
 
         compare("pie-chart-missing-value.svg", chart);
     }
+
+    @Test
+    public void testDoughnut() throws Exception {
+        var chart = new PieChart<Integer, Integer>(true);
+
+        var dataSet1 = new DataSet<Integer, Integer>("Data Set 1", Color.RED);
+
+        dataSet1.setDataPoints(sortedMapOf(
+            entry(1, 20)
+        ));
+
+        var dataSet2 = new DataSet<Integer, Integer>("Data Set 2", Color.GREEN);
+
+        dataSet2.setDataPoints(sortedMapOf(
+            entry(1, 50)
+        ));
+
+        var dataSet3 = new DataSet<Integer, Integer>("Data Set 3", Color.BLUE);
+
+        dataSet3.setDataPoints(sortedMapOf(
+            entry(1, 30)
+        ));
+
+        chart.setDataSets(listOf(dataSet1, dataSet2, dataSet3));
+
+        compare("pie-chart-doughnut.svg", chart);
+    }
 }
