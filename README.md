@@ -473,7 +473,7 @@ See [ActivityIndicatorTest.java](sierra-test/src/main/java/org/httprpc/sierra/te
 ### Charts
 The `ChartPane` component displays a chart:
 
-<img src="README/charts.png" width="424px"/>
+<img src="README/charts.png" width="420px"/>
 
 See [ChartsTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ChartsTest.java) for more information.
 
