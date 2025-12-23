@@ -15,6 +15,7 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.sierra.ChartPane;
 import org.httprpc.sierra.Outlet;
@@ -40,6 +41,7 @@ import java.util.Locale;
 import java.util.TreeMap;
 
 import static org.httprpc.kilo.util.Collections.*;
+import static org.httprpc.kilo.util.Optionals.*;
 
 public class ChartsTest extends JFrame implements Runnable {
     private @Outlet ChartPane<Chart<?, ?>> pieChartPane = null;
@@ -173,6 +175,8 @@ public class ChartsTest extends JFrame implements Runnable {
 
         icon = icon.derive(18, 18);
 
+        icon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> timeSeriesChart.getMarkerColor()));
+
         var rangeLabelFormat = NumberFormat.getNumberInstance();
 
         rangeLabelFormat.setMinimumFractionDigits(1);
@@ -230,7 +234,13 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        FlatDarkLaf.setup();
+        var dark = coalesce(map(System.getProperty("dark"), Boolean::valueOf), () -> false);
+
+        if (dark) {
+            FlatDarkLaf.setup();
+        } else {
+            FlatLightLaf.setup();
+        }
 
         SwingUtilities.invokeLater(new ChartsTest());
     }
