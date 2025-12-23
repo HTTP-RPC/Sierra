@@ -15,6 +15,9 @@
 package org.httprpc.sierra.charts;
 
 import javax.swing.Icon;
+import javax.swing.UIManager;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -78,7 +81,89 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
         }
     }
 
+    private boolean doughnut;
+
+    private Color outlineColor = Color.WHITE;
+    private BasicStroke outlineStroke = new BasicStroke(1.0f);
+
     private List<Arc2D.Double> sliceArcs = listOf();
+
+    /**
+     * Constructs a new pie chart.
+     */
+    public PieChart() {
+        this(false);
+    }
+
+    /**
+     * Constructs a new pie chart.
+     *
+     * @param doughnut
+     * {@code true} for a doughnut chart; {@code false}, otherwise.
+     */
+    public PieChart(boolean doughnut) {
+        this.doughnut = doughnut;
+
+        perform(UIManager.getColor("TextArea.background"), color -> outlineColor = color);
+    }
+
+    /**
+     * Indicates that the chart is a doughnut chart.
+     *
+     * @return
+     * {@code true} if the chart is a doughnut chart; {@code false}, otherwise.
+     */
+    public boolean isDoughnut() {
+        return doughnut;
+    }
+
+    /**
+     * Returns the outline color.
+     *
+     * @return
+     * The outline color.
+     */
+    public Color getOutlineColor() {
+        return outlineColor;
+    }
+
+    /**
+     * Sets the outline color.
+     *
+     * @param outlineColor
+     * The outline color.
+     */
+    public void setOutlineColor(Color outlineColor) {
+        if (outlineColor == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.outlineColor = outlineColor;
+    }
+
+    /**
+     * Returns the outline stroke.
+     *
+     * @return
+     * The outline stroke.
+     */
+    public BasicStroke getOutlineStroke() {
+        return outlineStroke;
+    }
+
+    /**
+     * Sets the outline stroke.
+     *
+     * @param outlineStroke
+     * The outline stroke.
+     */
+    public void setOutlineStroke(BasicStroke outlineStroke) {
+        if (outlineStroke == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.outlineStroke = outlineStroke;
+    }
 
     @Override
     protected void validate(Graphics2D graphics) {
@@ -139,6 +224,10 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
 
             graphics.setColor(dataSet.getColor());
             graphics.fill(sliceArc);
+
+            graphics.setColor(outlineColor);
+            graphics.setStroke(outlineStroke);
+            graphics.draw(sliceArc);
 
             i++;
         }

@@ -83,6 +83,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
     }
 
+    private boolean stacked;
+
+    private double barTransparency = 1.0;
+
     private List<Line2D.Double> horizontalGridLines = listOf();
     private List<Line2D.Double> verticalGridLines = listOf();
 
@@ -98,6 +102,59 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     private static final int DOMAIN_LABEL_SPACING = 4;
     private static final int RANGE_LABEL_SPACING = 4;
+
+    /**
+     * Constructs a new bar chart.
+     */
+    public BarChart() {
+        this(false);
+    }
+
+    /**
+     * Constructs a new bar chart.
+     *
+     * @param stacked
+     * {@code true} for a stacked bar chart; {@code false}, otherwise.
+     */
+    public BarChart(boolean stacked) {
+        this.stacked = stacked;
+    }
+
+    /**
+     * Indicates that the chart is a stacked bar chart.
+     *
+     * @return
+     * {@code true} if the chart is a stacked bar chart; {@code false},
+     * otherwise.
+     */
+    public boolean isStacked() {
+        return stacked;
+    }
+
+    /**
+     * Returns the bar transparency.
+     *
+     * @return
+     * The bar transparency.
+     */
+    public double getBarTransparency() {
+        return barTransparency;
+    }
+
+    /**
+     * Sets the bar transparency.
+     *
+     * @param barTransparency
+     * The bar transparency, as a value from 0.0 to 1.0. The default value is
+     * 1.0.
+     */
+    public void setBarTransparency(double barTransparency) {
+        if (barTransparency < 0.0 || barTransparency > 1.0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.barTransparency = barTransparency;
+    }
 
     @Override
     protected void validate(Graphics2D graphics) {
@@ -382,10 +439,15 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             for (var barShape : dataSetBarRectangles) {
                 var dataSet = dataSets.get(i++);
 
-                graphics.setColor(dataSet.getColor());
+                var color = dataSet.getColor();
+
+                graphics.setColor(colorWithAlpha(color, (int)(barTransparency * 255)));
+                graphics.fill(barShape);
+
+                graphics.setColor(color);
                 graphics.setStroke(dataSet.getStroke());
 
-                graphics.fill(barShape);
+                graphics.draw(barShape);
             }
         }
 

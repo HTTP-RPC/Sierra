@@ -99,6 +99,8 @@ public class ChartsTest extends JFrame implements Runnable {
     private BarChart<Month, Double> createBarChart() {
         var barChart = new BarChart<Month, Double>();
 
+        barChart.setBarTransparency(0.5);
+
         var rangeLabelFormat = NumberFormat.getNumberInstance();
 
         rangeLabelFormat.setMinimumFractionDigits(1);
