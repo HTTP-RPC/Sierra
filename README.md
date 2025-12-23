@@ -475,6 +475,11 @@ The `ChartPane` component displays a chart:
 
 <img src="README/charts.png" width="420px"/>
 
+Charts automatically adapt to the current theme:
+
+<img src="README/charts-dark-1.png" width="628px"/>
+<img src="README/charts-dark-2.png" width="628px"/>
+
 See [ChartsTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ChartsTest.java) for more information.
 
 ## Focus Management
