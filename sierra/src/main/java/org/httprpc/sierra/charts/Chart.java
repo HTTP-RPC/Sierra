@@ -720,6 +720,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         graphics = (Graphics2D)graphics.create();
 
         graphics.translate(component.getX(), component.getY());
+        graphics.clipRect(0, 0, component.getWidth(), component.getHeight());
 
         component.paint(graphics);
 
