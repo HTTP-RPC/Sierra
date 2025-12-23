@@ -30,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import java.awt.BasicStroke;
 import java.text.NumberFormat;
 import java.time.Month;
 import java.time.format.TextStyle;
@@ -99,7 +100,7 @@ public class ChartsTest extends JFrame implements Runnable {
     private BarChart<Month, Double> createBarChart() {
         var barChart = new BarChart<Month, Double>(false);
 
-        barChart.setBarTransparency(0.6);
+        barChart.setBarTransparency(0.75);
 
         var rangeLabelFormat = NumberFormat.getNumberInstance();
 
@@ -108,6 +109,12 @@ public class ChartsTest extends JFrame implements Runnable {
 
         barChart.setRangeLabelTransform(rangeLabelFormat::format);
         barChart.setDomainLabelTransform(month -> month.getDisplayName(TextStyle.FULL, Locale.getDefault()));
+
+        barChart.setVerticalGridLineStroke(new BasicStroke(1.0f,
+            BasicStroke.CAP_BUTT,
+            BasicStroke.JOIN_BEVEL,
+            1.0f, new float[] {3.0f}, 0.0f));
+
         barChart.setDataSets(createCategoryDataSets());
 
         return barChart;
@@ -172,6 +179,11 @@ public class ChartsTest extends JFrame implements Runnable {
         rangeLabelFormat.setMaximumFractionDigits(1);
 
         timeSeriesChart.setRangeLabelTransform(rangeLabelFormat::format);
+
+        timeSeriesChart.setHorizontalGridLineStroke(new BasicStroke(1.0f,
+            BasicStroke.CAP_BUTT,
+            BasicStroke.JOIN_BEVEL,
+            1.0f, new float[] {3.0f}, 0.0f));
 
         timeSeriesChart.setDataSets(createTimeSeriesDataSets(n));
         timeSeriesChart.setDomainMarkers(listOf(
