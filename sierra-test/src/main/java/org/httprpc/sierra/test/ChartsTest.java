@@ -14,7 +14,7 @@
 
 package org.httprpc.sierra.test;
 
-import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.sierra.ChartPane;
 import org.httprpc.sierra.Outlet;
@@ -230,7 +230,7 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        FlatLightLaf.setup();
+        FlatDarkLaf.setup();
 
         SwingUtilities.invokeLater(new ChartsTest());
     }

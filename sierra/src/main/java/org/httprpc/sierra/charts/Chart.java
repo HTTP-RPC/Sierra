@@ -129,7 +129,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             rangeLabelColor = color;
         });
 
-        perform(UIManager.getColor("Label.foreground"), color -> colorWithAlpha(color, 0xaa));
+        perform(UIManager.getColor("Label.foreground"), color -> markerColor = colorWithAlpha(color, 0xaa));
 
         perform(UIManager.getFont("medium.font"), font -> domainLabelFont = font);
         perform(UIManager.getFont("small.font"), font -> rangeLabelFont = font);
