@@ -21,6 +21,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
@@ -60,7 +61,16 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
 
         @Override
         public void paintIcon(Component component, Graphics graphics, int x, int y) {
-            paintIcon((Graphics2D)graphics, x, y);
+            var iconGraphics = (Graphics2D)graphics.create();
+
+            iconGraphics.setRenderingHints(new RenderingHints(mapOf(
+                entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
+                entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+            )));
+
+            paintIcon(iconGraphics, x, y);
+
+            iconGraphics.dispose();
         }
 
         private void paintIcon(Graphics2D graphics, int x, int y) {
@@ -87,6 +97,8 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
     private BasicStroke outlineStroke = new BasicStroke(1.0f);
 
     private List<Arc2D.Double> sliceArcs = listOf();
+
+    private Ellipse2D.Double cutoutShape = null;
 
     /**
      * Constructs a new pie chart.
@@ -213,6 +225,15 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
 
             start += extent;
         }
+
+        if (doughnut) {
+            var cutoutSize = (double)height / 2;
+
+            var x = pieBounds.getX() + (pieBounds.getWidth() / 2 - cutoutSize / 2);
+            var y = (double)height / 2 - cutoutSize / 2;
+
+            cutoutShape = new Ellipse2D.Double(x, y, cutoutSize, cutoutSize);
+        }
     }
 
     @Override
@@ -230,6 +251,12 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
             graphics.draw(sliceArc);
 
             i++;
+        }
+
+        if (doughnut) {
+            graphics.setColor(outlineColor);
+
+            graphics.fill(cutoutShape);
         }
     }
 }

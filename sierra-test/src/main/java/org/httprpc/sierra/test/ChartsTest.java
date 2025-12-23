@@ -89,7 +89,7 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private PieChart<Month, Double> createPieChart() {
-        var pieChart = new PieChart<Month, Double>();
+        var pieChart = new PieChart<Month, Double>(true);
 
         pieChart.setDataSets(createCategoryDataSets());
 
@@ -99,7 +99,7 @@ public class ChartsTest extends JFrame implements Runnable {
     private BarChart<Month, Double> createBarChart() {
         var barChart = new BarChart<Month, Double>();
 
-        barChart.setBarTransparency(0.5);
+        barChart.setBarTransparency(0.6);
 
         var rangeLabelFormat = NumberFormat.getNumberInstance();
 

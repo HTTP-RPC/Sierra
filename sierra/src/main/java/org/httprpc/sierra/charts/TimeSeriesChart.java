@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -64,7 +65,16 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         @Override
         public void paintIcon(Component component, Graphics graphics, int x, int y) {
-            paintIcon((Graphics2D)graphics, x, y);
+            var iconGraphics = (Graphics2D)graphics.create();
+
+            iconGraphics.setRenderingHints(new RenderingHints(mapOf(
+                entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
+                entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+            )));
+
+            paintIcon(iconGraphics, x, y);
+
+            iconGraphics.dispose();
         }
 
         private void paintIcon(Graphics2D graphics, int x, int y) {
