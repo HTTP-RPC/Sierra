@@ -318,7 +318,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var domainLabelX = chartOffset;
 
         for (var textPane : domainLabelTextPanes) {
-            var y = chartHeight + DOMAIN_LABEL_SPACING + verticalGridLineWidth;
+            var y = chartHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth;
 
             textPane.setBounds((int)domainLabelX, (int)y, (int)columnWidth, domainLabelHeight);
             textPane.doLayout();
