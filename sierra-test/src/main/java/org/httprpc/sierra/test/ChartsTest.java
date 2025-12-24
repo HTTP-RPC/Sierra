@@ -29,7 +29,6 @@ import org.httprpc.sierra.charts.TimeSeriesChart;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import java.awt.BasicStroke;
@@ -45,8 +44,6 @@ import static org.httprpc.kilo.util.Collections.*;
 import static org.httprpc.kilo.util.Optionals.*;
 
 public class ChartsTest extends JFrame implements Runnable {
-    private @Outlet JTabbedPane tabbedPane = null;
-
     private @Outlet ChartPane<Chart<?, ?>> pieChartPane = null;
     private @Outlet RowPanel pieChartLegendPanel = null;
 
@@ -66,14 +63,13 @@ public class ChartsTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "ChartsTest.xml"));
 
-        // TODO
-//        pieChartPane.setChart(createPieChart());
-//
-//        for (var dataSet : pieChartPane.getChart().getDataSets()) {
-//            pieChartLegendPanel.add(new JLabel(dataSet.getLabel(),
-//                new PieChart.LegendIcon(dataSet),
-//                SwingConstants.LEADING));
-//        }
+        pieChartPane.setChart(createPieChart());
+
+        for (var dataSet : pieChartPane.getChart().getDataSets()) {
+            pieChartLegendPanel.add(new JLabel(dataSet.getLabel(),
+                new PieChart.LegendIcon(dataSet),
+                SwingConstants.LEADING));
+        }
 
         barChartPane.setChart(createBarChart());
 
@@ -91,11 +87,7 @@ public class ChartsTest extends JFrame implements Runnable {
                 SwingConstants.LEADING));
         }
 
-        // TODO
-        tabbedPane.setSelectedIndex(1);
-
-        setSize(1280, 800);
-        setLocationRelativeTo(null);
+        setSize(640, 480);
         setVisible(true);
     }
 
@@ -120,11 +112,10 @@ public class ChartsTest extends JFrame implements Runnable {
         barChart.setRangeLabelTransform(rangeLabelFormat::format);
         barChart.setDomainLabelTransform(month -> month.getDisplayName(TextStyle.FULL, Locale.getDefault()));
 
-        // TODO
-//        barChart.setHorizontalGridLineStroke(new BasicStroke(1.0f,
-//            BasicStroke.CAP_BUTT,
-//            BasicStroke.JOIN_MITER,
-//            1.0f, new float[] {2.0f}, 0.0f));
+        barChart.setHorizontalGridLineStroke(new BasicStroke(1.0f,
+            BasicStroke.CAP_SQUARE,
+            BasicStroke.JOIN_MITER,
+            1.0f, new float[] {2.0f}, 0.0f));
 
         barChart.setDataSets(createCategoryDataSets());
 
@@ -145,13 +136,13 @@ public class ChartsTest extends JFrame implements Runnable {
         southDataSet.setDataPoints(sortedMapOf(
             entry(Month.JANUARY, 40.0),
             entry(Month.FEBRUARY, 10.0),
-            entry(Month.MARCH, -75.0)
+            entry(Month.MARCH, 75.0)
         ));
 
         var eastDataSet = new DataSet<Month, Double>("East", UILoader.getColor("gold"));
 
         eastDataSet.setDataPoints(sortedMapOf(
-            entry(Month.JANUARY, -60.0),
+            entry(Month.JANUARY, 60.0),
             entry(Month.FEBRUARY, 5.0),
             entry(Month.MARCH, 80.0)
         ));
@@ -194,7 +185,7 @@ public class ChartsTest extends JFrame implements Runnable {
         timeSeriesChart.setRangeLabelTransform(rangeLabelFormat::format);
 
         timeSeriesChart.setVerticalGridLineStroke(new BasicStroke(1.0f,
-            BasicStroke.CAP_BUTT,
+            BasicStroke.CAP_SQUARE,
             BasicStroke.JOIN_MITER,
             1.0f, new float[] {2.0f}, 0.0f));
 

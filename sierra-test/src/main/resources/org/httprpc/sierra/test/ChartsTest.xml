@@ -2,7 +2,7 @@
 
 <!DOCTYPE tabbed-pane SYSTEM "sierra.dtd">
 
-<tabbed-pane name="tabbedPane" tabLayoutPolicy="scroll-tab-layout">
+<tabbed-pane tabLayoutPolicy="scroll-tab-layout">
     <column-panel tabTitle="Pie Chart" opaque="true" background="TextArea.background" spacing="16" padding="16">
         <label font="h1.font" text="Sales by Region" horizontalAlignment="center"/>
         <chart-pane name="pieChartPane" weight="1"/>
@@ -15,7 +15,7 @@
 
     <column-panel tabTitle="Bar Chart" opaque="true" background="TextArea.background" spacing="16" padding="16">
         <label font="h1.font" text="Sales by Region" horizontalAlignment="center"/>
-        <chart-pane name="barChartPane" opaque="true" background="red" weight="1"/>
+        <chart-pane name="barChartPane" weight="1"/>
         <row-panel>
             <spacer weight="1"/>
             <row-panel name="barChartLegendPanel" spacing="16"/>
