@@ -194,7 +194,7 @@ public class TimeSeriesChartTest extends ChartTest {
     }
 
     @Test
-    public void testValueMarkers() throws Exception {
+    public void testMixedMarkers() throws Exception {
         var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet = new DataSet<Double, Double>("Values", Color.RED);
@@ -210,8 +210,6 @@ public class TimeSeriesChartTest extends ChartTest {
             entry(5.0, 50.0),
             entry(6.0, 60.0)
         ));
-
-        chart.setShowValueMarkers(true);
 
         chart.setDomainLabelCount(9);
 
@@ -239,6 +237,6 @@ public class TimeSeriesChartTest extends ChartTest {
             new Chart.Marker<>(4.0, 40.0, null, null)
         ));
 
-        compare("time-series-chart-value-markers.svg", chart);
+        compare("time-series-chart-mixed-markers.svg", chart);
     }
 }

@@ -120,6 +120,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
+    private static final RenderingHints renderingHints = new RenderingHints(mapOf(
+        entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
+        entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY),
+        entry(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE),
+        entry(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT),
+        entry(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT)
+    ));
+
     /**
      * Constructs a new chart.
      */
@@ -634,13 +642,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             throw new IllegalArgumentException();
         }
 
-        graphics.setRenderingHints(new RenderingHints(mapOf(
-            entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
-            entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY),
-            entry(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE),
-            entry(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT),
-            entry(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT)
-        )));
+        graphics.setRenderingHints(renderingHints);
 
         var valid = (width == this.width && height == this.height);
 
@@ -688,6 +690,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected abstract void draw(Graphics2D graphics);
 
     /**
+     * Returns the rendering hints.
+     *
+     * @return
+     * The rendering hints.
+     */
+    protected static RenderingHints getRenderingHints() {
+        return renderingHints;
+    }
+
+    /**
      * Applies an alpha component to a color.
      *
      * @param color
@@ -701,19 +713,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     protected static Color colorWithAlpha(Color color, int alpha) {
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
-    }
-
-    /**
-     * Returns a solid equivalent of a stroke.
-     *
-     * @param stroke
-     * The stroke.
-     *
-     * @return
-     * The solid equivalent of the stroke.
-     */
-    protected static BasicStroke solidStroke(BasicStroke stroke) {
-        return new BasicStroke(stroke.getLineWidth(), stroke.getEndCap(), stroke.getLineJoin(), stroke.getMiterLimit());
     }
 
     /**

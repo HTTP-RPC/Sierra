@@ -20,10 +20,10 @@ import org.httprpc.sierra.TextPane;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -65,10 +65,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         public void paintIcon(Component component, Graphics graphics, int x, int y) {
             var iconGraphics = (Graphics2D)graphics.create();
 
-            iconGraphics.setRenderingHints(new RenderingHints(mapOf(
-                entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
-                entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
-            )));
+            iconGraphics.setRenderingHints(getRenderingHints());
 
             paintIcon(iconGraphics, x, y);
 
@@ -104,6 +101,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     private List<TextPane> rangeLabelTextPanes = listOf();
 
     private List<List<Rectangle2D.Double>> barRectangles = listOf();
+
+    private BasicStroke outlineStroke = null;
 
     private Line2D.Double zeroLine = null;
 
@@ -175,6 +174,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         rangeLabelTextPanes.clear();
 
         barRectangles.clear();
+
+        outlineStroke = null;
 
         zeroLine = null;
 
@@ -405,7 +406,16 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             barX += barSpacing + verticalGridLineStrokeWidth;
         }
 
-        zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
+        var horizontalGridLineStroke = getHorizontalGridLineStroke();
+
+        outlineStroke = new BasicStroke(horizontalGridLineStroke.getLineWidth(),
+            horizontalGridLineStroke.getEndCap(),
+            horizontalGridLineStroke.getLineJoin(),
+            horizontalGridLineStroke.getMiterLimit());
+
+        if (maximum > 0.0 && minimum < 0.0) {
+            zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
+        }
 
         var markerColor = getMarkerColor();
 
@@ -477,8 +487,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var dataSets = getDataSets();
 
-        var outlineStroke = solidStroke(getHorizontalGridLineStroke());
-
         for (var dataSetBarRectangles : barRectangles) {
             var i = 0;
 
@@ -498,9 +506,11 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
 
         graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
-        graphics.setStroke(solidStroke(getHorizontalGridLineStroke()));
+        graphics.setStroke(getHorizontalGridLineStroke());
 
-        graphics.draw(zeroLine);
+        if (zeroLine != null) {
+            graphics.draw(zeroLine);
+        }
 
         graphics.setColor(getMarkerColor());
         graphics.setStroke(getMarkerStroke());

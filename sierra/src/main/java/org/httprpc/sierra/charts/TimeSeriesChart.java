@@ -23,7 +23,6 @@ import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -67,10 +66,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         public void paintIcon(Component component, Graphics graphics, int x, int y) {
             var iconGraphics = (Graphics2D)graphics.create();
 
-            iconGraphics.setRenderingHints(new RenderingHints(mapOf(
-                entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
-                entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
-            )));
+            iconGraphics.setRenderingHints(getRenderingHints());
 
             paintIcon(iconGraphics, x, y);
 
@@ -414,7 +410,9 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             valueMarkerShapes.add(dataSetValueMarkerShapes);
         }
 
-        zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
+        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
+            zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
+        }
 
         var markerColor = getMarkerColor();
 
@@ -553,9 +551,11 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         clipToGrid(graphics);
 
         graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x40));
-        graphics.setStroke(solidStroke(getHorizontalGridLineStroke()));
+        graphics.setStroke(getHorizontalGridLineStroke());
 
-        graphics.draw(zeroLine);
+        if (zeroLine != null) {
+            graphics.draw(zeroLine);
+        }
 
         var i = 0;
 

@@ -21,7 +21,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
@@ -63,10 +62,7 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
         public void paintIcon(Component component, Graphics graphics, int x, int y) {
             var iconGraphics = (Graphics2D)graphics.create();
 
-            iconGraphics.setRenderingHints(new RenderingHints(mapOf(
-                entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
-                entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
-            )));
+            iconGraphics.setRenderingHints(getRenderingHints());
 
             paintIcon(iconGraphics, x, y);
 
