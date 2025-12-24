@@ -90,11 +90,16 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
     private boolean doughnut;
 
     private Color outlineColor = Color.WHITE;
-    private BasicStroke outlineStroke = new BasicStroke(1.5f);
+    private BasicStroke outlineStroke = defaultOutlineStroke;
 
     private List<Arc2D.Double> sliceArcs = listOf();
 
     private Ellipse2D.Double cutoutShape = null;
+
+    private static final BasicStroke defaultOutlineStroke;
+    static {
+        defaultOutlineStroke = new BasicStroke(1.25f);
+    }
 
     /**
      * Constructs a new pie chart.

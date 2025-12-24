@@ -93,6 +93,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     private boolean stacked;
 
     private double barTransparency = 1.0;
+    private BasicStroke barOutlineStroke = defaultBarOutlineStroke;
 
     private List<Line2D.Double> horizontalGridLines = listOf();
     private List<Line2D.Double> verticalGridLines = listOf();
@@ -102,8 +103,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
-    private BasicStroke outlineStroke = null;
-
     private Line2D.Double zeroLine = null;
 
     private List<JLabel> rangeMarkerLabels = listOf();
@@ -111,6 +110,11 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     private static final int DOMAIN_LABEL_SPACING = 4;
     private static final int RANGE_LABEL_SPACING = 4;
+
+    private static final BasicStroke defaultBarOutlineStroke;
+    static {
+        defaultBarOutlineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+    }
 
     /**
      * Constructs a new bar chart.
@@ -165,6 +169,30 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         this.barTransparency = barTransparency;
     }
 
+    /**
+     * Returns the outline stroke.
+     *
+     * @return
+     * The outline stroke.
+     */
+    public BasicStroke getBarOutlineStroke() {
+        return barOutlineStroke;
+    }
+
+    /**
+     * Sets the outline stroke.
+     *
+     * @param barOutlineStroke
+     * The outline stroke.
+     */
+    public void setBarOutlineStroke(BasicStroke barOutlineStroke) {
+        if (barOutlineStroke == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.barOutlineStroke = barOutlineStroke;
+    }
+
     @Override
     protected void validate(Graphics2D graphics) {
         horizontalGridLines.clear();
@@ -174,8 +202,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         rangeLabelTextPanes.clear();
 
         barRectangles.clear();
-
-        outlineStroke = null;
 
         zeroLine = null;
 
@@ -406,13 +432,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             barX += barSpacing + verticalGridLineWidth;
         }
 
-        var horizontalGridLineStroke = getHorizontalGridLineStroke();
-
-        outlineStroke = new BasicStroke(horizontalGridLineStroke.getLineWidth(),
-            horizontalGridLineStroke.getEndCap(),
-            horizontalGridLineStroke.getLineJoin(),
-            horizontalGridLineStroke.getMiterLimit());
-
         if (maximum > 0.0 && minimum < 0.0) {
             zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
         }
@@ -499,7 +518,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 graphics.fill(barShape);
 
                 graphics.setColor(color);
-                graphics.setStroke(outlineStroke);
+                graphics.setStroke(barOutlineStroke);
 
                 graphics.draw(barShape);
             }
