@@ -115,7 +115,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private static final BasicStroke defaultGridLineStroke;
     static {
         defaultMarkerStroke = new BasicStroke(1.0f);
-        defaultGridLineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+        defaultGridLineStroke = new BasicStroke(1.0f);
     }
 
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance();
