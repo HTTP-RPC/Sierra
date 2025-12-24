@@ -255,7 +255,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         var horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
         var verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
 
-        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING), 0);
+        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth), 0);
 
         var markerFont = getMarkerFont();
 
@@ -295,35 +295,32 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             rangeLabelTextPanes.add(textPane);
         }
 
-        // TODO Rename to chartOffset
-        var rangeLabelOffset = rangeLabelWidth + RANGE_LABEL_SPACING;
+        var chartOffset = rangeLabelWidth + RANGE_LABEL_SPACING + verticalGridLineWidth / 2;
 
-        var chartWidth = (double)width - rangeLabelOffset;
+        var chartWidth = (double)width - (chartOffset + verticalGridLineWidth / 2);
 
-        // TODO Rename to rowHeight
-        var horizontalGridLineSpacing = (chartHeight - horizontalGridLineWidth) / (rangeLabelCount - 1);
+        var rowHeight = chartHeight / (rangeLabelCount - 1);
 
         var gridY = horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
-            horizontalGridLines.add(new Line2D.Double(rangeLabelOffset, gridY, rangeLabelOffset + chartWidth, gridY));
+            horizontalGridLines.add(new Line2D.Double(chartOffset, gridY, chartOffset + chartWidth, gridY));
 
-            gridY += horizontalGridLineSpacing;
+            gridY += rowHeight;
         }
 
-        // TODO Rename to columnWidth
-        var verticalGridLineSpacing = (chartWidth - verticalGridLineWidth) / (domainLabelCount - 1);
+        var columnWidth = chartWidth / (domainLabelCount - 1);
 
-        var gridX = rangeLabelOffset + verticalGridLineWidth / 2;
+        var gridX = chartOffset;
 
         for (var i = 0; i < domainLabelCount; i++) {
-            verticalGridLines.add(new Line2D.Double(gridX, 0.0, gridX, chartHeight));
+            verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, chartHeight));
 
-            gridX += verticalGridLineSpacing;
+            gridX += columnWidth;
         }
 
-        var domainLabelX = rangeLabelOffset;
-        var domainLabelY = chartHeight + DOMAIN_LABEL_SPACING;
+        var domainLabelX = chartOffset;
+        var domainLabelY = chartHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth;
 
         var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
 
@@ -345,13 +342,13 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
                 x = (int)domainLabelX - size.width;
             }
 
-            textPane.setBounds(x, domainLabelY, size.width, domainLabelHeight);
+            textPane.setBounds(x, (int)domainLabelY, size.width, domainLabelHeight);
             textPane.doLayout();
 
-            domainLabelX += verticalGridLineSpacing;
+            domainLabelX += columnWidth;
         }
 
-        var rangeLabelY = chartHeight - horizontalGridLineWidth / 2;
+        var rangeLabelY = chartHeight + horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             var textPane = rangeLabelTextPanes.get(i);
@@ -370,13 +367,13 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             textPane.setBounds(0, y, (int)rangeLabelWidth, size.height);
             textPane.doLayout();
 
-            rangeLabelY -= horizontalGridLineSpacing;
+            rangeLabelY -= rowHeight;
         }
 
         var domainScale = chartWidth / (domainMaximum - domainMinimum);
         var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
 
-        var zeroY = rangeMaximum * rangeScale;
+        var zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
         for (var dataSet : dataSets) {
             var path = new Path2D.Double();
@@ -388,7 +385,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
                 var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
                 var rangeValue = entry.getValue().doubleValue();
 
-                var x = rangeLabelOffset + (domainValue - domainMinimum) * domainScale;
+                var x = chartOffset + (domainValue - domainMinimum) * domainScale;
                 var y = zeroY - rangeValue * rangeScale;
 
                 if (i == 0) {
@@ -413,7 +410,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         }
 
         if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
-            zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
+            zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
         }
 
         var markerColor = getMarkerColor();
@@ -427,7 +424,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
             var domainValue = map(key, domainValueTransform).doubleValue() - domainMinimum;
 
-            var lineX = rangeLabelOffset + domainValue * domainScale;
+            var lineX = chartOffset + domainValue * domainScale;
 
             var text = coalesce(domainMarker.label(), () -> domainLabelTransform.apply(key));
 
@@ -444,9 +441,9 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             var size = label.getPreferredSize();
 
             var labelX = (int)Math.round(lineX - (double)size.width / 2);
-            var labelY = chartHeight - (size.height + DOMAIN_LABEL_SPACING);
+            var labelY = chartHeight + horizontalGridLineWidth / 2 - (size.height + DOMAIN_LABEL_SPACING);
 
-            label.setBounds(labelX, labelY, size.width, size.height);
+            label.setBounds(labelX, (int)labelY, size.width, size.height);
 
             domainMarkerLabels.add(label);
 
@@ -488,7 +485,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
             var size = label.getPreferredSize();
 
-            label.setBounds((int)rangeLabelOffset + RANGE_LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
+            label.setBounds((int)chartOffset + RANGE_LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
 
             rangeMarkerLabels.add(label);
 
@@ -497,12 +494,12 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             if (key != null) {
                 var domainValue = domainValueTransform.apply(key).doubleValue() - domainMinimum;
 
-                var valueX = rangeLabelOffset + domainValue * domainScale;
+                var valueX = chartOffset + domainValue * domainScale;
 
                 var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
 
                 if (valueX > label.getX() + label.getWidth() + diameter) {
-                    var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, valueX, lineY);
+                    var line = new Line2D.Double(chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, valueX, lineY);
 
                     rangeMarkerLines.add(line);
 

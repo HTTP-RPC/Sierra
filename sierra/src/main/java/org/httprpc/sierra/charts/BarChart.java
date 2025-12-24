@@ -316,11 +316,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
 
         var domainLabelX = chartOffset;
+        var domainLabelY = chartHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth;
 
         for (var textPane : domainLabelTextPanes) {
-            var y = chartHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth;
-
-            textPane.setBounds((int)domainLabelX, (int)y, (int)columnWidth, domainLabelHeight);
+            textPane.setBounds((int)domainLabelX, (int)domainLabelY, (int)columnWidth, domainLabelHeight);
             textPane.doLayout();
 
             domainLabelX += columnWidth;
