@@ -93,7 +93,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     private boolean stacked;
 
     private double barTransparency = 1.0;
-    private BasicStroke barOutlineStroke = defaultBarOutlineStroke;
 
     private List<Line2D.Double> horizontalGridLines = listOf();
     private List<Line2D.Double> verticalGridLines = listOf();
@@ -111,9 +110,9 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     private static final int DOMAIN_LABEL_SPACING = 4;
     private static final int RANGE_LABEL_SPACING = 4;
 
-    private static final BasicStroke defaultBarOutlineStroke;
+    private static final BasicStroke outlineStroke;
     static {
-        defaultBarOutlineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+        outlineStroke = new BasicStroke(1.0f);
     }
 
     /**
@@ -167,30 +166,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
 
         this.barTransparency = barTransparency;
-    }
-
-    /**
-     * Returns the outline stroke.
-     *
-     * @return
-     * The outline stroke.
-     */
-    public BasicStroke getBarOutlineStroke() {
-        return barOutlineStroke;
-    }
-
-    /**
-     * Sets the outline stroke.
-     *
-     * @param barOutlineStroke
-     * The outline stroke.
-     */
-    public void setBarOutlineStroke(BasicStroke barOutlineStroke) {
-        if (barOutlineStroke == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.barOutlineStroke = barOutlineStroke;
     }
 
     @Override
@@ -266,7 +241,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             domainLabelTextPanes.add(textPane);
         }
 
-        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING), 0);
+        var horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
+        var verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
+
+        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth), 0);
 
         var markerFont = getMarkerFont();
 
@@ -311,45 +289,44 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             rangeLabelTextPanes.add(textPane);
         }
 
-        var rangeLabelOffset = rangeLabelWidth + RANGE_LABEL_SPACING;
+        var chartOffset = rangeLabelWidth + RANGE_LABEL_SPACING + verticalGridLineWidth / 2;
 
-        var chartWidth = (double)width - rangeLabelOffset;
+        var chartWidth = (double)width - (chartOffset + verticalGridLineWidth / 2);
 
-        var horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
+        var rowHeight = chartHeight / (rangeLabelCount - 1);
 
-        var horizontalGridLineSpacing = (chartHeight - horizontalGridLineWidth) / (rangeLabelCount - 1);
-
-        var gridY = horizontalGridLineWidth / 2.0;
+        var gridY = horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
-            horizontalGridLines.add(new Line2D.Double(rangeLabelOffset, gridY, rangeLabelOffset + chartWidth, gridY));
+            horizontalGridLines.add(new Line2D.Double(chartOffset, gridY, chartOffset + chartWidth, gridY));
 
-            gridY += horizontalGridLineSpacing;
+            gridY += rowHeight;
         }
 
-        var verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
+        var columnWidth = chartWidth / keyCount;
 
-        var verticalGridLineSpacing = (chartWidth - verticalGridLineWidth) / keyCount;
         var verticalGridLineCount = keyCount + 1;
 
-        var gridX = rangeLabelOffset + verticalGridLineWidth / 2.0;
+        var gridX = chartOffset;
 
         for (var i = 0; i < verticalGridLineCount; i++) {
-            verticalGridLines.add(new Line2D.Double(gridX, 0.0, gridX, chartHeight));
+            verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, chartHeight));
 
-            gridX += verticalGridLineSpacing;
+            gridX += columnWidth;
         }
 
-        var domainLabelX = rangeLabelOffset;
+        var domainLabelX = chartOffset;
 
         for (var textPane : domainLabelTextPanes) {
-            textPane.setBounds((int)domainLabelX, chartHeight + DOMAIN_LABEL_SPACING, (int)verticalGridLineSpacing, domainLabelHeight);
+            var y = chartHeight + DOMAIN_LABEL_SPACING + verticalGridLineWidth;
+
+            textPane.setBounds((int)domainLabelX, (int)y, (int)columnWidth, domainLabelHeight);
             textPane.doLayout();
 
-            domainLabelX += verticalGridLineSpacing;
+            domainLabelX += columnWidth;
         }
 
-        var rangeLabelY = chartHeight - horizontalGridLineWidth / 2.0;
+        var rangeLabelY = chartHeight + horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             var textPane = rangeLabelTextPanes.get(i);
@@ -368,28 +345,28 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             textPane.setBounds(0, y, (int)rangeLabelWidth, size.height);
             textPane.doLayout();
 
-            rangeLabelY -= horizontalGridLineSpacing;
+            rangeLabelY -= rowHeight;
         }
 
         var n = stacked ? 1 : dataSets.size();
 
-        var barSpacing = verticalGridLineSpacing * 0.05;
+        var spacing = columnWidth * 0.05;
 
-        var barWidth = (verticalGridLineSpacing - (verticalGridLineWidth + barSpacing * (n + 1))) / n;
+        var barWidth = (columnWidth - (verticalGridLineWidth + spacing * (n + 1))) / n;
 
-        var barX = rangeLabelOffset + verticalGridLineWidth;
+        var barX = chartOffset;
 
         var scale = chartHeight / (maximum - minimum);
 
-        var zeroY = maximum * scale;
+        var zeroY = maximum * scale + horizontalGridLineWidth / 2;
 
         for (var key : totalValues.keySet()) {
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>();
 
             if (stacked) {
-                barX += barSpacing;
+                barX += spacing;
 
-                var barY = zeroY - horizontalGridLineWidth / 2;
+                var barY = zeroY;
 
                 for (var dataSet : dataSets) {
                     var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
@@ -406,17 +383,16 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 barX += barWidth;
             } else {
                 for (var dataSet : dataSets) {
-                    barX += barSpacing;
+                    barX += spacing;
 
                     var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
 
                     var barY = zeroY;
-                    var barHeight = Math.abs(value) * scale - horizontalGridLineWidth;
+
+                    var barHeight = Math.abs(value) * scale;
 
                     if (value > 0.0) {
-                        barY -= barHeight + horizontalGridLineWidth / 2;
-                    } else {
-                        barY += horizontalGridLineWidth / 2;
+                        barY -= barHeight;
                     }
 
                     var barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
@@ -429,11 +405,11 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
             barRectangles.add(dataSetBarRectangles);
 
-            barX += barSpacing + verticalGridLineWidth;
+            barX += spacing;
         }
 
         if (maximum > 0.0 && minimum < 0.0) {
-            zeroLine = new Line2D.Double(rangeLabelOffset, zeroY, rangeLabelOffset + chartWidth, zeroY);
+            zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
         }
 
         var markerColor = getMarkerColor();
@@ -456,11 +432,11 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
             var size = label.getPreferredSize();
 
-            label.setBounds((int)rangeLabelOffset + RANGE_LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
+            label.setBounds((int)chartOffset + RANGE_LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
 
             rangeMarkerLabels.add(label);
 
-            var line = new Line2D.Double(rangeLabelOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, width, lineY);
+            var line = new Line2D.Double(chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, width, lineY);
 
             rangeMarkerLines.add(line);
         }
@@ -518,7 +494,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 graphics.fill(barShape);
 
                 graphics.setColor(color);
-                graphics.setStroke(barOutlineStroke);
+                graphics.setStroke(outlineStroke);
 
                 graphics.draw(barShape);
             }
