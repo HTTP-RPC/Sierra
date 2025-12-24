@@ -485,18 +485,22 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         for (var dataSetBarRectangles : barRectangles) {
             var i = 0;
 
-            for (var barShape : dataSetBarRectangles) {
+            for (var barRectangle : dataSetBarRectangles) {
+                if (barRectangle.getHeight() == 0.0) {
+                    continue;
+                }
+
                 var dataSet = dataSets.get(i++);
 
                 var color = dataSet.getColor();
 
                 graphics.setColor(colorWithAlpha(color, (int)(barTransparency * 255)));
-                graphics.fill(barShape);
+                graphics.fill(barRectangle);
 
                 graphics.setColor(color);
                 graphics.setStroke(outlineStroke);
 
-                graphics.draw(barShape);
+                graphics.draw(barRectangle);
             }
         }
 

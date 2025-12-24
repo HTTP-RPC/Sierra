@@ -252,6 +252,9 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             domainLabelTextPanes.add(textPane);
         }
 
+        var horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
+        var verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
+
         var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING), 0);
 
         var markerFont = getMarkerFont();
@@ -292,15 +295,15 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             rangeLabelTextPanes.add(textPane);
         }
 
+        // TODO Rename to chartOffset
         var rangeLabelOffset = rangeLabelWidth + RANGE_LABEL_SPACING;
 
         var chartWidth = (double)width - rangeLabelOffset;
 
-        var horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
-
+        // TODO Rename to rowHeight
         var horizontalGridLineSpacing = (chartHeight - horizontalGridLineWidth) / (rangeLabelCount - 1);
 
-        var gridY = horizontalGridLineWidth / 2.0;
+        var gridY = horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             horizontalGridLines.add(new Line2D.Double(rangeLabelOffset, gridY, rangeLabelOffset + chartWidth, gridY));
@@ -308,11 +311,10 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             gridY += horizontalGridLineSpacing;
         }
 
-        var verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
-
+        // TODO Rename to columnWidth
         var verticalGridLineSpacing = (chartWidth - verticalGridLineWidth) / (domainLabelCount - 1);
 
-        var gridX = rangeLabelOffset + verticalGridLineWidth / 2.0;
+        var gridX = rangeLabelOffset + verticalGridLineWidth / 2;
 
         for (var i = 0; i < domainLabelCount; i++) {
             verticalGridLines.add(new Line2D.Double(gridX, 0.0, gridX, chartHeight));
@@ -349,7 +351,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             domainLabelX += verticalGridLineSpacing;
         }
 
-        var rangeLabelY = chartHeight - horizontalGridLineWidth / 2.0;
+        var rangeLabelY = chartHeight - horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             var textPane = rangeLabelTextPanes.get(i);
