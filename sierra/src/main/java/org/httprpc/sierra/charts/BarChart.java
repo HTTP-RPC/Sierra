@@ -210,7 +210,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var dataSets = getDataSets();
 
-        var totals = new TreeMap<K, Double>();
+        var totalValues = new TreeMap<K, Double>();
 
         var minimum = 0.0;
         var maximum = 0.0;
@@ -225,7 +225,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                     throw new UnsupportedOperationException("Negative value in data set.");
                 }
 
-                totals.put(key, coalesce(totals.get(key), () -> 0.0) + value);
+                totalValues.put(key, coalesce(totalValues.get(key), () -> 0.0) + value);
 
                 if (!stacked) {
                     minimum = Math.min(minimum, value);
@@ -234,14 +234,14 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             }
         }
 
-        var keyCount = totals.size();
+        var keyCount = totalValues.size();
 
         if (keyCount == 0) {
             return;
         }
 
         if (stacked) {
-            for (var value : totals.values()) {
+            for (var value : totalValues.values()) {
                 minimum = Math.min(minimum, value);
                 maximum = Math.max(maximum, value);
             }
@@ -255,7 +255,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var domainLabelLineMetrics = domainLabelFont.getLineMetrics("", graphics.getFontRenderContext());
         var domainLabelHeight = (int)Math.ceil(domainLabelLineMetrics.getHeight());
 
-        for (var key : totals.keySet()) {
+        for (var key : totalValues.keySet()) {
             var label = domainLabelTransform.apply(key);
 
             var textPane = new TextPane(label);
@@ -383,7 +383,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var zeroY = maximum * scale;
 
-        for (var key : totals.keySet()) {
+        for (var key : totalValues.keySet()) {
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>();
 
             if (stacked) {
