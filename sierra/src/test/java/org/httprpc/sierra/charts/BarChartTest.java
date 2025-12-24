@@ -18,6 +18,8 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -151,6 +153,10 @@ public class BarChartTest extends ChartTest {
         dataSet2.setDataPoints(sortedMapOf(
             entry(localDate, 20)
         ));
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+
+        chart.setDomainLabelTransform(dateFormatter::format);
 
         chart.setDataSets(listOf(dataSet1, dataSet2));
 

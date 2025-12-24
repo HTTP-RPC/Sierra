@@ -217,10 +217,12 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
                 domainMinimum = Math.min(domainMinimum, domainValue);
                 domainMaximum = Math.max(domainMaximum, domainValue);
 
-                var rangeValue = entry.getValue().doubleValue();
+                var rangeValue = map(entry.getValue(), Number::doubleValue);
 
-                rangeMinimum = Math.min(rangeMinimum, rangeValue);
-                rangeMaximum = Math.max(rangeMaximum, rangeValue);
+                if (rangeValue != null) {
+                    rangeMinimum = Math.min(rangeMinimum, rangeValue);
+                    rangeMaximum = Math.max(rangeMaximum, rangeValue);
+                }
             }
         }
 
@@ -377,23 +379,26 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
             for (var entry : dataSet.getDataPoints().entrySet()) {
                 var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
-                var rangeValue = entry.getValue().doubleValue();
 
-                var x = chartOffset + (domainValue - domainMinimum) * domainScale;
-                var y = zeroY - rangeValue * rangeScale;
+                var rangeValue = map(entry.getValue(), Number::doubleValue);
 
-                if (i == 0) {
-                    path.moveTo(x, y);
-                } else {
-                    path.lineTo(x, y);
-                }
+                if (rangeValue != null) {
+                    var x = chartOffset + (domainValue - domainMinimum) * domainScale;
+                    var y = zeroY - rangeValue * rangeScale;
 
-                if (showValueMarkers) {
-                    var diameter = dataSet.getStroke().getLineWidth() * MARKER_SCALE;
+                    if (i == 0) {
+                        path.moveTo(x, y);
+                    } else {
+                        path.lineTo(x, y);
+                    }
 
-                    var shape = new Ellipse2D.Double(x - diameter / 2, y - diameter / 2, diameter, diameter);
+                    if (showValueMarkers) {
+                        var diameter = dataSet.getStroke().getLineWidth() * MARKER_SCALE;
 
-                    dataSetValueMarkerShapes.add(shape);
+                        var shape = new Ellipse2D.Double(x - diameter / 2, y - diameter / 2, diameter, diameter);
+
+                        dataSetValueMarkerShapes.add(shape);
+                    }
                 }
 
                 i++;

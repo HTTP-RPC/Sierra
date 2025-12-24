@@ -19,6 +19,11 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
+import java.util.function.Function;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -240,5 +245,46 @@ public class TimeSeriesChartTest extends ChartTest {
         ));
 
         compare("time-series-chart-value-markers.svg", chart);
+    }
+
+    @Test
+    public void testLocalDates() throws Exception {
+        var dataPoints = sortedMapOf(
+            entry(LocalDate.of(2019, 12, 17), 10.0),
+            entry(LocalDate.of(2019, 12, 20), 25.0),
+            entry(LocalDate.of(2019, 12, 21), null),
+            entry(LocalDate.of(2019, 12, 22), 35.0),
+            entry(LocalDate.of(2019, 12, 23), null),
+            entry(LocalDate.of(2019, 12, 24), 45.0)
+        );
+
+        var first = dataPoints.firstKey();
+        var last = dataPoints.lastKey();
+
+        Function<LocalDate, Number> domainValueTransform = localDate -> ChronoUnit.DAYS.between(first, localDate);
+        Function<Number, LocalDate> domainKeyTransform = value -> first.plusDays(value.intValue());
+
+        var chart = new TimeSeriesChart<LocalDate, Double>(domainValueTransform, domainKeyTransform);
+
+        chart.setShowValueMarkers(true);
+
+        var dataSet = new DataSet<LocalDate, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(dataPoints);
+
+        chart.setDomainLabelCount((int)ChronoUnit.DAYS.between(first, last) + 1);
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+
+        chart.setDomainLabelTransform(dateFormatter::format);
+
+        chart.setRangeMarkers(listOf(
+            new Chart.Marker<>(LocalDate.of(2019, 12, 20), 25.0, null, null),
+            new Chart.Marker<>(LocalDate.of(2019, 12, 22), 35.0, null, null)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("time-series-chart-local-dates.svg", chart);
     }
 }
