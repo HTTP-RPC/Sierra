@@ -352,7 +352,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var spacing = columnWidth * 0.05;
 
-        var barWidth = (columnWidth - (verticalGridLineWidth + spacing * (n + 1))) / n;
+        var barWidth = (columnWidth - spacing * (n + 1)) / n;
 
         var barX = chartOffset;
 
