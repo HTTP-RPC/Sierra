@@ -208,6 +208,8 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         var rangeMinimum = Double.POSITIVE_INFINITY;
         var rangeMaximum = Double.NEGATIVE_INFINITY;
 
+        var domainLabelCount = showValueMarkers ? 0 : getDomainLabelCount();
+
         for (var dataSet : dataSets) {
             var dataPoints = dataSet.getDataPoints();
 
@@ -222,6 +224,10 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
                 rangeMinimum = Math.min(rangeMinimum, rangeValue);
                 rangeMaximum = Math.max(rangeMaximum, rangeValue);
             }
+
+            if (showValueMarkers) {
+                domainLabelCount = Math.max(domainLabelCount, dataPoints.size());
+            }
         }
 
         if (domainMinimum > domainMaximum) {
@@ -230,8 +236,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         var width = getWidth();
         var height = getHeight();
-
-        var domainLabelCount = getDomainLabelCount();
 
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
