@@ -289,11 +289,11 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var chartWidth = (double)width - rangeLabelOffset;
 
-        var horizontalGridStrokeWidth = getHorizontalGridLineStroke().getLineWidth();
+        var horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
 
-        var horizontalGridLineSpacing = (chartHeight - horizontalGridStrokeWidth) / (rangeLabelCount - 1);
+        var horizontalGridLineSpacing = (chartHeight - horizontalGridLineWidth) / (rangeLabelCount - 1);
 
-        var gridY = horizontalGridStrokeWidth / 2.0;
+        var gridY = horizontalGridLineWidth / 2.0;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             horizontalGridLines.add(new Line2D.Double(rangeLabelOffset, gridY, rangeLabelOffset + chartWidth, gridY));
@@ -301,12 +301,12 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             gridY += horizontalGridLineSpacing;
         }
 
-        var verticalGridLineStrokeWidth = getVerticalGridLineStroke().getLineWidth();
+        var verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
 
-        var verticalGridLineSpacing = (chartWidth - verticalGridLineStrokeWidth) / keyCount;
+        var verticalGridLineSpacing = (chartWidth - verticalGridLineWidth) / keyCount;
         var verticalGridLineCount = keyCount + 1;
 
-        var gridX = rangeLabelOffset + verticalGridLineStrokeWidth / 2.0;
+        var gridX = rangeLabelOffset + verticalGridLineWidth / 2.0;
 
         for (var i = 0; i < verticalGridLineCount; i++) {
             verticalGridLines.add(new Line2D.Double(gridX, 0.0, gridX, chartHeight));
@@ -323,7 +323,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             domainLabelX += verticalGridLineSpacing;
         }
 
-        var rangeLabelY = chartHeight - horizontalGridStrokeWidth / 2.0;
+        var rangeLabelY = chartHeight - horizontalGridLineWidth / 2.0;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             var textPane = rangeLabelTextPanes.get(i);
@@ -349,9 +349,9 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var barSpacing = verticalGridLineSpacing * 0.05;
 
-        var barWidth = (verticalGridLineSpacing - (verticalGridLineStrokeWidth + barSpacing * (n + 1))) / n;
+        var barWidth = (verticalGridLineSpacing - (verticalGridLineWidth + barSpacing * (n + 1))) / n;
 
-        var barX = rangeLabelOffset + verticalGridLineStrokeWidth;
+        var barX = rangeLabelOffset + verticalGridLineWidth;
 
         var scale = chartHeight / (maximum - minimum);
 
@@ -363,7 +363,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             if (stacked) {
                 barX += barSpacing;
 
-                var barY = zeroY - horizontalGridStrokeWidth / 2;
+                var barY = zeroY - horizontalGridLineWidth / 2;
 
                 for (var dataSet : dataSets) {
                     var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
@@ -385,12 +385,12 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                     var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
 
                     var barY = zeroY;
-                    var barHeight = Math.abs(value) * scale - horizontalGridStrokeWidth;
+                    var barHeight = Math.abs(value) * scale - horizontalGridLineWidth;
 
                     if (value > 0.0) {
-                        barY -= barHeight + horizontalGridStrokeWidth / 2;
+                        barY -= barHeight + horizontalGridLineWidth / 2;
                     } else {
-                        barY += horizontalGridStrokeWidth / 2;
+                        barY += horizontalGridLineWidth / 2;
                     }
 
                     var barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
@@ -403,7 +403,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
             barRectangles.add(dataSetBarRectangles);
 
-            barX += barSpacing + verticalGridLineStrokeWidth;
+            barX += barSpacing + verticalGridLineWidth;
         }
 
         var horizontalGridLineStroke = getHorizontalGridLineStroke();

@@ -296,11 +296,11 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         var chartWidth = (double)width - rangeLabelOffset;
 
-        var horizontalGridStrokeWidth = getHorizontalGridLineStroke().getLineWidth();
+        var horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
 
-        var horizontalGridLineSpacing = (chartHeight - horizontalGridStrokeWidth) / (rangeLabelCount - 1);
+        var horizontalGridLineSpacing = (chartHeight - horizontalGridLineWidth) / (rangeLabelCount - 1);
 
-        var gridY = horizontalGridStrokeWidth / 2.0;
+        var gridY = horizontalGridLineWidth / 2.0;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             horizontalGridLines.add(new Line2D.Double(rangeLabelOffset, gridY, rangeLabelOffset + chartWidth, gridY));
@@ -308,11 +308,11 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             gridY += horizontalGridLineSpacing;
         }
 
-        var verticalGridLineStrokeWidth = getVerticalGridLineStroke().getLineWidth();
+        var verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
 
-        var verticalGridLineSpacing = (chartWidth - verticalGridLineStrokeWidth) / (domainLabelCount - 1);
+        var verticalGridLineSpacing = (chartWidth - verticalGridLineWidth) / (domainLabelCount - 1);
 
-        var gridX = rangeLabelOffset + verticalGridLineStrokeWidth / 2.0;
+        var gridX = rangeLabelOffset + verticalGridLineWidth / 2.0;
 
         for (var i = 0; i < domainLabelCount; i++) {
             verticalGridLines.add(new Line2D.Double(gridX, 0.0, gridX, chartHeight));
@@ -349,7 +349,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             domainLabelX += verticalGridLineSpacing;
         }
 
-        var rangeLabelY = chartHeight - horizontalGridStrokeWidth / 2.0;
+        var rangeLabelY = chartHeight - horizontalGridLineWidth / 2.0;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             var textPane = rangeLabelTextPanes.get(i);

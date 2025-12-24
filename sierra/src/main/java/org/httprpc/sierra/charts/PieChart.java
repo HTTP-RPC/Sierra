@@ -90,7 +90,7 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
     private boolean doughnut;
 
     private Color outlineColor = Color.WHITE;
-    private BasicStroke outlineStroke = new BasicStroke(1.0f);
+    private BasicStroke outlineStroke = new BasicStroke(1.5f);
 
     private List<Arc2D.Double> sliceArcs = listOf();
 
@@ -207,10 +207,12 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
             return;
         }
 
-        var width = getWidth();
-        var height = getHeight();
+        var outlineWidth = outlineStroke.getLineWidth();
 
-        var pieBounds = new Rectangle2D.Double(width / 2.0 - height / 2.0, 0.0, height, height);
+        var width = getWidth();
+        var height = getHeight() - outlineWidth;
+
+        var pieBounds = new Rectangle2D.Double((double)width / 2 - height / 2, outlineWidth / 2, height, height);
 
         var start = 90.0;
 
@@ -226,7 +228,7 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
             var cutoutSize = (double)height / 2;
 
             var x = pieBounds.getX() + (pieBounds.getWidth() / 2 - cutoutSize / 2);
-            var y = (double)height / 2 - cutoutSize / 2;
+            var y = pieBounds.y + (double)height / 2 - cutoutSize / 2;
 
             cutoutShape = new Ellipse2D.Double(x, y, cutoutSize, cutoutSize);
         }
