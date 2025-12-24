@@ -213,6 +213,8 @@ public class TimeSeriesChartTest extends ChartTest {
             entry(6.0, 60.0)
         ));
 
+        chart.setDomainLabelCount(9);
+
         var domainLabelFormat = NumberFormat.getNumberInstance();
 
         domainLabelFormat.setMaximumFractionDigits(2);
