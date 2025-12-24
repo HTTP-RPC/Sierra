@@ -208,8 +208,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         var rangeMinimum = Double.POSITIVE_INFINITY;
         var rangeMaximum = Double.NEGATIVE_INFINITY;
 
-        var maximumValueMarkerDiameter = 0.0;
-
         for (var dataSet : dataSets) {
             var dataPoints = dataSet.getDataPoints();
 
@@ -223,10 +221,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
                 rangeMinimum = Math.min(rangeMinimum, rangeValue);
                 rangeMaximum = Math.max(rangeMaximum, rangeValue);
-            }
-
-            if (showValueMarkers) {
-                maximumValueMarkerDiameter = Math.max(maximumValueMarkerDiameter, dataSet.getStroke().getLineWidth() * MARKER_SCALE);
             }
         }
 
