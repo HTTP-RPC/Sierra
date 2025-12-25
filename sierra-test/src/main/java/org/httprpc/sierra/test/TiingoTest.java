@@ -43,6 +43,7 @@ import javax.swing.UIManager;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
+import java.awt.BasicStroke;
 import java.net.URI;
 import java.text.NumberFormat;
 import java.time.Instant;
@@ -314,6 +315,11 @@ public class TiingoTest extends JFrame implements Runnable {
 
         chart.setDomainLabelTransform(dateFormatter::format);
         chart.setRangeLabelTransform(priceFormat::format);
+
+        chart.setVerticalGridLineStroke(new BasicStroke(1.0f,
+            BasicStroke.CAP_SQUARE,
+            BasicStroke.JOIN_MITER,
+            1.0f, new float[] {2.0f}, 0.0f));
 
         var dataSet = new DataSet<Instant, OHLC>("historical-pricing", UILoader.getColor("crimson"));
 

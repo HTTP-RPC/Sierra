@@ -134,7 +134,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
                 var value = entry.getValue();
 
-                // TODO
+                minimum = Math.min(minimum, value.low());
+                maximum = Math.max(maximum, value.high());
             }
         }
 
