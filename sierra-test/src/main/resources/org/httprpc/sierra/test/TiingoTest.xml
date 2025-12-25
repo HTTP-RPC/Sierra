@@ -67,8 +67,10 @@
             </scroll-pane>
 
             <scroll-pane tabTitle="chart">
-                <stack-panel scrollableTracksViewportWidth="true" scrollableTracksViewportHeight="true">
-                    <chart-pane name="historicalPricingChartPane"/>
+                <stack-panel padding="8" opaque="true" background="TextArea.background"
+                    scrollableTracksViewportWidth="true"
+                    scrollableTracksViewportHeight="true">
+                    <chart-pane name="historicalPricingChartPane" opaque="true"/>
                 </stack-panel>
             </scroll-pane>
         </tabbed-pane>

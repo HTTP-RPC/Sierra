@@ -329,6 +329,8 @@ public class TiingoTest extends JFrame implements Runnable {
         dataSet.setDataPoints(dataPoints);
 
         chart.setDataSets(listOf(dataSet));
+
+        historicalPricingChartPane.setChart(chart);
     }
 
     public static void main(String[] args) {

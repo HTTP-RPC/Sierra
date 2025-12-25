@@ -16,18 +16,6 @@ package org.httprpc.sierra.charts;
 
 /**
  * Represents OHLC (open, high, low, close) data.
- *
- * @param open
- * The opening value.
- *
- * @param high
- * The high value.
- *
- * @param low
- * The low value.
- *
- * @param close
- * The closing value.
  */
 public record OHLC(
     double open,
@@ -35,4 +23,28 @@ public record OHLC(
     double low,
     double close
 ) {
+    /**
+     * Constructs a new OHLC instance.
+     *
+     * @param open
+     * The opening value.
+     *
+     * @param high
+     * The high value.
+     *
+     * @param low
+     * The low value.
+     *
+     * @param close
+     * The closing value.
+     */
+    public OHLC {
+        if (open < 0.0 || high < 0.0 || low < 0.0 || close < 0.0) {
+            throw new IllegalArgumentException();
+        }
+
+        if (high < low) {
+            throw new IllegalArgumentException();
+        }
+    }
 }

@@ -41,18 +41,6 @@ import static org.httprpc.kilo.util.Optionals.*;
 public abstract class Chart<K extends Comparable<? super K>, V> {
     /**
      * Represents a chart marker.
-     *
-     * @param key
-     * The marker key.
-     *
-     * @param value
-     * The marker value.
-     *
-     * @param label
-     * The marker label.
-     *
-     * @param icon
-     * The marker icon.
      */
     public record Marker<K>(
         K key,
@@ -60,6 +48,23 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         String label,
         Icon icon
     ) {
+        /**
+         * Constructs a new marker instance.
+         *
+         * @param key
+         * The marker key.
+         *
+         * @param value
+         * The marker value.
+         *
+         * @param label
+         * The marker label.
+         *
+         * @param icon
+         * The marker icon.
+         */
+        public Marker {
+        }
     }
 
     private int domainLabelCount = 5;
