@@ -12,27 +12,21 @@
  * limitations under the License.
  */
 
-subprojects {
-    group = 'org.httprpc'
-    version = '3.6.3'
+package org.httprpc.sierra.charts;
 
-    repositories {
-        mavenCentral()
-        mavenLocal()
-    }
-}
+import java.awt.Graphics2D;
 
-configure(subprojects) {
-    tasks.withType(Jar) {
-        manifest {
-            attributes (
-                'Implementation-Title': project.name,
-                'Implementation-Version': project.version
-            )
-        }
+/**
+ * Candlestick chart.
+ */
+public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, OHLC> {
+    @Override
+    protected void validate(Graphics2D graphics) {
+        // TODO
     }
 
-    tasks.withType(Javadoc) {
-        (options as StandardJavadocDocletOptions).addBooleanOption("Xdoclint:none", true)
+    @Override
+    protected void draw(Graphics2D graphics) {
+        // TODO
     }
 }

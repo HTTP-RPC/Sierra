@@ -18,9 +18,14 @@ import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.kilo.WebServiceProxy;
 import org.httprpc.kilo.beans.BeanAdapter;
 import org.httprpc.sierra.ActivityIndicator;
+import org.httprpc.sierra.ChartPane;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TaskExecutor;
 import org.httprpc.sierra.UILoader;
+import org.httprpc.sierra.charts.CandlestickChart;
+import org.httprpc.sierra.charts.Chart;
+import org.httprpc.sierra.charts.DataSet;
+import org.httprpc.sierra.charts.OHLC;
 import org.pushingpixels.radiance.theming.api.skin.RadianceBusinessLookAndFeel;
 
 import javax.swing.JButton;
@@ -49,6 +54,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 import java.util.concurrent.Executors;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -111,11 +117,6 @@ public class TiingoTest extends JFrame implements Runnable {
     }
 
     private static class DateCellRenderer extends DefaultTableCellRenderer {
-        static final DateTimeFormatter dateFormatter;
-        static {
-            dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withZone(ZoneId.of("America/New_York"));
-        }
-
         @Override
         public void setValue(Object value) {
             setText(map((Instant)value, dateFormatter::format));
@@ -123,11 +124,6 @@ public class TiingoTest extends JFrame implements Runnable {
     }
 
     private static class PriceCellRenderer extends DefaultTableCellRenderer {
-        static final NumberFormat priceFormat;
-        static {
-            priceFormat = NumberFormat.getCurrencyInstance(Locale.US);
-        }
-
         PriceCellRenderer() {
             setHorizontalAlignment(SwingConstants.TRAILING);
         }
@@ -139,11 +135,6 @@ public class TiingoTest extends JFrame implements Runnable {
     }
 
     private static class VolumeCellRenderer extends DefaultTableCellRenderer {
-        static final NumberFormat volumeFormat;
-        static {
-            volumeFormat = NumberFormat.getNumberInstance();
-        }
-
         VolumeCellRenderer() {
             setHorizontalAlignment(SwingConstants.TRAILING);
         }
@@ -171,6 +162,16 @@ public class TiingoTest extends JFrame implements Runnable {
     private @Outlet JTextArea descriptionTextArea = null;
 
     private @Outlet JTable historicalPricingTable = null;
+    private @Outlet ChartPane<Chart<?, ?>> historicalPricingChartPane = null;
+
+    private static final DateTimeFormatter dateFormatter;
+    private static final NumberFormat priceFormat;
+    private static final NumberFormat volumeFormat;
+    static {
+        dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withZone(ZoneId.of("America/New_York"));
+        priceFormat = NumberFormat.getCurrencyInstance(Locale.US);
+        volumeFormat = NumberFormat.getNumberInstance();
+    }
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(TiingoTest.class.getName());
 
@@ -210,7 +211,7 @@ public class TiingoTest extends JFrame implements Runnable {
 
         rootPane.setDefaultButton(submitButton);
 
-        setSize(960, 540);
+        setSize(960, 600);
         setVisible(true);
     }
 
@@ -308,6 +309,26 @@ public class TiingoTest extends JFrame implements Runnable {
         columnModel.getColumn(4).setCellRenderer(priceRenderer);
 
         columnModel.getColumn(5).setCellRenderer(new VolumeCellRenderer());
+
+        var chart = new CandlestickChart<Instant>();
+
+        chart.setDomainLabelTransform(dateFormatter::format);
+        chart.setRangeLabelTransform(priceFormat::format);
+
+        var dataSet = new DataSet<Instant, OHLC>("historical-pricing", UILoader.getColor("crimson"));
+
+        var dataPoints = new TreeMap<Instant, OHLC>();
+
+        for (var row : historicalPricing) {
+            var date = row.getDate();
+            var ohlc = new OHLC(row.getOpen(), row.getHigh(), row.getLow(), row.getClose());
+
+            dataPoints.put(date, ohlc);
+        }
+
+        dataSet.setDataPoints(dataPoints);
+
+        chart.setDataSets(listOf(dataSet));
     }
 
     public static void main(String[] args) {

@@ -12,27 +12,27 @@
  * limitations under the License.
  */
 
-subprojects {
-    group = 'org.httprpc'
-    version = '3.6.3'
+package org.httprpc.sierra.charts;
 
-    repositories {
-        mavenCentral()
-        mavenLocal()
-    }
-}
-
-configure(subprojects) {
-    tasks.withType(Jar) {
-        manifest {
-            attributes (
-                'Implementation-Title': project.name,
-                'Implementation-Version': project.version
-            )
-        }
-    }
-
-    tasks.withType(Javadoc) {
-        (options as StandardJavadocDocletOptions).addBooleanOption("Xdoclint:none", true)
-    }
+/**
+ * Represents OHLC (open, high, low, close) data.
+ *
+ * @param open
+ * The opening value.
+ *
+ * @param high
+ * The high value.
+ *
+ * @param low
+ * The low value.
+ *
+ * @param close
+ * The closing value.
+ */
+public record OHLC(
+    double open,
+    double high,
+    double low,
+    double close
+) {
 }

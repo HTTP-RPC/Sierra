@@ -61,8 +61,16 @@
 
         <separator orientation="vertical"/>
 
-        <scroll-pane weight="1">
-            <table name="historicalPricingTable" rowSelectionMode="single-selection"/>
-        </scroll-pane>
+        <tabbed-pane style="showContentSeparator: false" weight="1">
+            <scroll-pane tabTitle="table">
+                <table name="historicalPricingTable" rowSelectionMode="single-selection"/>
+            </scroll-pane>
+
+            <scroll-pane tabTitle="chart">
+                <stack-panel scrollableTracksViewportWidth="true" scrollableTracksViewportHeight="true">
+                    <chart-pane name="historicalPricingChartPane"/>
+                </stack-panel>
+            </scroll-pane>
+        </tabbed-pane>
     </row-panel>
 </column-panel>
