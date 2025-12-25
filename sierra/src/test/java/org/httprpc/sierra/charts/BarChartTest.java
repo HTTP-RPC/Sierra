@@ -236,4 +236,33 @@ public class BarChartTest extends ChartTest {
 
         compare("bar-chart-transparency.svg", chart);
     }
+
+    @Test
+    public void testDomainLabelVisibility() throws Exception {
+        var chart = new BarChart<LocalDate, Double>();
+
+        var dataSet = new DataSet<LocalDate, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(LocalDate.of(2025, 12, 17), 0.0),
+            entry(LocalDate.of(2025, 12, 18), 5.0),
+            entry(LocalDate.of(2025, 12, 19), 10.0),
+            entry(LocalDate.of(2025, 12, 20), 15.0),
+            entry(LocalDate.of(2025, 12, 21), 20.0),
+            entry(LocalDate.of(2025, 12, 22), 25.0),
+            entry(LocalDate.of(2025, 12, 23), 30.0),
+            entry(LocalDate.of(2025, 12, 24), 35.0),
+            entry(LocalDate.of(2025, 12, 25), 40.0),
+            entry(LocalDate.of(2025, 12, 26), 45.0),
+            entry(LocalDate.of(2025, 12, 27), 50.0)
+        ));
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
+
+        chart.setDomainLabelTransform(dateFormatter::format);
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("bar-chart-domain-label-visibility.svg", chart);
+    }
 }

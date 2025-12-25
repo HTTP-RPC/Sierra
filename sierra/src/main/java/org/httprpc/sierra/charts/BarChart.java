@@ -230,13 +230,18 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var domainLabelLineMetrics = domainLabelFont.getLineMetrics("", graphics.getFontRenderContext());
         var domainLabelHeight = (int)Math.ceil(domainLabelLineMetrics.getHeight());
 
+        var maximumDomainLabelWidth = 0.0;
+
         for (var key : totalValues.keySet()) {
             var label = domainLabelTransform.apply(key);
 
             var textPane = new TextPane(label);
 
             textPane.setFont(domainLabelFont);
-            textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+            textPane.setSize(textPane.getPreferredSize());
+
+            maximumDomainLabelWidth = Math.max(maximumDomainLabelWidth, textPane.getWidth());
 
             domainLabelTextPanes.add(textPane);
         }
@@ -318,8 +323,27 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var domainLabelX = chartOffset;
         var domainLabelY = chartHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth;
 
-        for (var textPane : domainLabelTextPanes) {
-            textPane.setBounds((int)domainLabelX, (int)domainLabelY, (int)columnWidth, domainLabelHeight);
+        var showDomainLabels = maximumDomainLabelWidth < columnWidth * 0.85;
+
+        for (var i = 0; i < keyCount; i++) {
+            var textPane = domainLabelTextPanes.get(i);
+
+            var size = textPane.getSize();
+
+            int x;
+            if (showDomainLabels) {
+                x = (int)(domainLabelX + columnWidth / 2) - size.width / 2;
+            } else if (i == 0) {
+                x = (int)domainLabelX;
+            } else if (i < keyCount - 1) {
+                x = (int)(domainLabelX + columnWidth / 2) - size.width / 2;
+
+                textPane.setText(null);
+            } else {
+                x = (int)(domainLabelX + columnWidth) - size.width;
+            }
+
+            textPane.setLocation(x, (int)domainLabelY);
             textPane.doLayout();
 
             domainLabelX += columnWidth;

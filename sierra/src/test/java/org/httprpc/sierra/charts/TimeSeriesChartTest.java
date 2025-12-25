@@ -250,12 +250,12 @@ public class TimeSeriesChartTest extends ChartTest {
     @Test
     public void testLocalDates() throws Exception {
         var dataPoints = sortedMapOf(
-            entry(LocalDate.of(2019, 12, 17), 10.0),
-            entry(LocalDate.of(2019, 12, 20), 25.0),
-            entry(LocalDate.of(2019, 12, 21), null),
-            entry(LocalDate.of(2019, 12, 22), 35.0),
-            entry(LocalDate.of(2019, 12, 23), null),
-            entry(LocalDate.of(2019, 12, 24), 45.0)
+            entry(LocalDate.of(2025, 12, 17), 10.0),
+            entry(LocalDate.of(2025, 12, 20), 25.0),
+            entry(LocalDate.of(2025, 12, 21), null),
+            entry(LocalDate.of(2025, 12, 22), 35.0),
+            entry(LocalDate.of(2025, 12, 23), null),
+            entry(LocalDate.of(2025, 12, 24), 45.0)
         );
 
         var first = dataPoints.firstKey();
@@ -279,8 +279,8 @@ public class TimeSeriesChartTest extends ChartTest {
         chart.setDomainLabelTransform(dateFormatter::format);
 
         chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(LocalDate.of(2019, 12, 20), 25.0, null, null),
-            new Chart.Marker<>(LocalDate.of(2019, 12, 22), 35.0, null, null)
+            new Chart.Marker<>(LocalDate.of(2025, 12, 20), 25.0, null, null),
+            new Chart.Marker<>(LocalDate.of(2025, 12, 22), 35.0, null, null)
         ));
 
         chart.setDataSets(listOf(dataSet));
