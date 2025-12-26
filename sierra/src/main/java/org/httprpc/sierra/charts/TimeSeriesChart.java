@@ -111,9 +111,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     private List<Line2D.Double> rangeMarkerLines = listOf();
     private List<Shape> rangeMarkerShapes = listOf();
 
-    private static final int DOMAIN_LABEL_SPACING = 4;
-    private static final int RANGE_LABEL_SPACING = 4;
-
     private static final int MARKER_SCALE = 5;
 
     /**

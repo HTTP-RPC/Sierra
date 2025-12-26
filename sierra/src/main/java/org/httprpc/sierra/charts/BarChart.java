@@ -101,9 +101,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     private List<JLabel> rangeMarkerLabels = listOf();
     private List<Line2D.Double> rangeMarkerLines = listOf();
 
-    private static final int DOMAIN_LABEL_SPACING = 4;
-    private static final int RANGE_LABEL_SPACING = 4;
-
     private static final BasicStroke barOutlineStroke;
     static {
         barOutlineStroke = new BasicStroke(1.0f);
@@ -376,7 +373,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
 
         for (var key : totalValues.keySet()) {
-            var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>();
+            var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
 
             if (stacked) {
                 barX += spacing;

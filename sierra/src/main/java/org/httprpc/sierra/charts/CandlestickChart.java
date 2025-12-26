@@ -26,6 +26,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -101,9 +102,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
     private List<JLabel> rangeMarkerLabels = listOf();
     private List<Line2D.Double> rangeMarkerLines = listOf();
 
-    private static final int DOMAIN_LABEL_SPACING = 4;
-    private static final int RANGE_LABEL_SPACING = 4;
-
     private static final BasicStroke bodyOutlineStroke;
     private static final BasicStroke wickStroke;
     static {
@@ -150,8 +148,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
         var keys = new TreeSet<K>();
 
-        var minimum = 0.0;
-        var maximum = 0.0;
+        var minimum = Double.POSITIVE_INFINITY;
+        var maximum = Double.NEGATIVE_INFINITY;
 
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
@@ -319,12 +317,52 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             rangeLabelY -= rowHeight;
         }
 
+        var bodyWidth = columnWidth * 0.25;
+
         var scale = chartHeight / (maximum - minimum);
 
         var zeroY = maximum * scale + horizontalGridLineWidth / 2;
 
-        for (var key : keys) {
-            // TODO
+        for (var dataSet : dataSets) {
+            var dataSetBodyRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
+
+            var dataSetHighWickLines = new ArrayList<Line2D.Double>(keyCount);
+            var dataSetLowWickLines = new ArrayList<Line2D.Double>(keyCount);
+
+            var i = 0;
+
+            for (var value : dataSet.getDataPoints().values()) {
+                if (value == null) {
+                    throw new UnsupportedOperationException("Value is required.");
+                }
+
+                var open = value.open();
+                var high = value.high();
+                var low = value.low();
+                var close = value.close();
+
+                var lineX = chartOffset + (columnWidth * i + columnWidth / 2);
+
+                var top = zeroY - open * scale;
+                var bottom = zeroY - close * scale;
+
+                var bodyRectangle = new Rectangle2D.Double(lineX - bodyWidth / 2, top, bodyWidth, bottom - top);
+
+                dataSetBodyRectangles.add(bodyRectangle);
+
+                var highWickLine = new Line2D.Double(lineX, zeroY - high * scale, lineX, top);
+                var lowWickLine = new Line2D.Double(lineX, bottom, lineX, zeroY - low * scale);
+
+                dataSetHighWickLines.add(highWickLine);
+                dataSetLowWickLines.add(lowWickLine);
+
+                i++;
+            }
+
+            bodyRectangles.add(dataSetBodyRectangles);
+
+            highWickLines.add(dataSetHighWickLines);
+            lowWickLines.add(dataSetLowWickLines);
         }
 
         var markerColor = getMarkerColor();
@@ -373,8 +411,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             var dataSetHighWickLines = highWickLines.get(i);
             var dataSetLowWickLines = lowWickLines.get(i);
 
-            graphics.setStroke(bodyOutlineStroke);
-
             var j = 0;
 
             var color = dataSet.getColor();
@@ -392,7 +428,11 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
                 graphics.setColor(color);
 
+                graphics.setStroke(bodyOutlineStroke);
+
                 graphics.draw(bodyRectangle);
+
+                graphics.setStroke(wickStroke);
 
                 graphics.draw(dataSetHighWickLines.get(j));
                 graphics.draw(dataSetLowWickLines.get(j));
@@ -402,9 +442,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
             i++;
         }
-
-        graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
-        graphics.setStroke(getHorizontalGridLineStroke());
 
         graphics.setColor(getMarkerColor());
         graphics.setStroke(getMarkerStroke());

@@ -134,6 +134,9 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected final List<TextPane> domainLabelTextPanes = listOf();
     protected final List<TextPane> rangeLabelTextPanes = listOf();
 
+    protected static final int DOMAIN_LABEL_SPACING = 4;
+    protected static final int RANGE_LABEL_SPACING = 4;
+
     protected static final RenderingHints renderingHints = new RenderingHints(mapOf(
         entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
         entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY),
