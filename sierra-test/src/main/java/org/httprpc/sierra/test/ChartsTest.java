@@ -34,6 +34,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.Month;
@@ -250,21 +251,42 @@ public class ChartsTest extends JFrame implements Runnable {
     private CandlestickChart<LocalDate> createCandlestickChart() {
         var chart = new CandlestickChart<LocalDate>();
 
-        chart.setDataSets(createOHLCDataSets());
+        chart.setDataSets(listOf(
+            createOHLCDataSet("Stock 1", UILoader.getColor("light-coral")),
+            createOHLCDataSet("Stock 2", UILoader.getColor("light-green"))
+        ));
 
         return chart;
     }
 
-    private List<DataSet<LocalDate, OHLC>> createOHLCDataSets() {
-        var dataSet1 = new DataSet<LocalDate, OHLC>("Stock 1", UILoader.getColor("light-coral"));
+    private DataSet<LocalDate, OHLC> createOHLCDataSet(String label, Color color) {
+        var dataSet = new DataSet<LocalDate, OHLC>(label, color);
 
-        // TODO
+        var n = 15;
 
-        var dataSet2 = new DataSet<LocalDate, OHLC>("Stock 2", UILoader.getColor("light-green"));
+        var dataPoints = new TreeMap<LocalDate, OHLC>();
 
-        // TODO
+        var localDate = LocalDate.now();
 
-        return listOf(dataSet1, dataSet2);
+        for (var i = 0; i < n; i++) {
+            var maximum = 250.0;
+
+            var high = Math.random() * maximum;
+            var low = Math.random() * (high * 0.75);
+
+            var range = high - low;
+
+            var open = high - Math.random() * range;
+            var close = high - Math.random() * range;
+
+            dataPoints.put(localDate, new OHLC(open, high, low, close));
+
+            localDate = localDate.minusDays(1);
+        }
+
+        dataSet.setDataPoints(dataPoints);
+
+        return dataSet;
     }
 
     public static void main(String[] args) {
