@@ -323,7 +323,9 @@ public class TiingoTest extends JFrame implements Runnable {
             BasicStroke.JOIN_MITER,
             1.0f, new float[] {2.0f}, 0.0f));
 
-        var dataSet = new DataSet<Instant, OHLC>("historical-pricing", UIManager.getColor("TabbedPane.underlineColor"));
+        var color = coalesce(UIManager.getColor("TabbedPane.underlineColor"), () -> UILoader.getColor("light-slate-gray"));
+
+        var dataSet = new DataSet<Instant, OHLC>("historical-pricing", color);
 
         var dataPoints = new TreeMap<Instant, OHLC>();
 
