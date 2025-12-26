@@ -343,8 +343,15 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
                 var lineX = chartOffset + (columnWidth * i + columnWidth / 2);
 
-                var top = zeroY - open * scale;
-                var bottom = zeroY - close * scale;
+                double top;
+                double bottom;
+                if (open > close) {
+                    top = zeroY - open * scale;
+                    bottom = zeroY - close * scale;
+                } else {
+                    top = zeroY - close * scale;
+                    bottom = zeroY - open * scale;
+                }
 
                 var bodyRectangle = new Rectangle2D.Double(lineX - bodyWidth / 2, top, bodyWidth, bottom - top);
 
