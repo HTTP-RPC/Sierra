@@ -208,13 +208,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             var marginRatio = (markerLineMetrics.getHeight() / 2 + RANGE_LABEL_SPACING) / chartHeight;
             var margin = Math.abs(maximum - minimum) * marginRatio;
 
-            if (minimum < 0.0) {
-                minimum -= margin;
-            }
-
-            if (maximum > 0.0) {
-                maximum += margin;
-            }
+            minimum -= margin;
+            maximum += margin;
         }
 
         var rangeLabelCount = getRangeLabelCount();
@@ -396,7 +391,10 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
             rangeMarkerLabels.add(label);
 
-            var line = new Line2D.Double(chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, width, lineY);
+            var line = new Line2D.Double(chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2,
+                lineY,
+                width - RANGE_LABEL_SPACING - verticalGridLineWidth / 2,
+                lineY);
 
             rangeMarkerLines.add(line);
         }

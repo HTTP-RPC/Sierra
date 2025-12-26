@@ -327,16 +327,27 @@ public class TiingoTest extends JFrame implements Runnable {
 
         var dataPoints = new TreeMap<Instant, OHLC>();
 
+        var high = Double.NEGATIVE_INFINITY;
+        var low = Double.POSITIVE_INFINITY;
+
         for (var row : historicalPricing) {
             var date = row.getDate();
             var ohlc = new OHLC(row.getOpen(), row.getHigh(), row.getLow(), row.getClose());
 
             dataPoints.put(date, ohlc);
+
+            high = Math.max(high, ohlc.high());
+            low = Math.min(low, ohlc.low());
         }
 
         dataSet.setDataPoints(dataPoints);
 
         chart.setDataSets(listOf(dataSet));
+
+        chart.setRangeMarkers(listOf(
+            new Chart.Marker<>(null, high, priceFormat.format(high), null),
+            new Chart.Marker<>(null, low, priceFormat.format(low), null)
+        ));
 
         historicalPricingChartPane.setChart(chart);
     }

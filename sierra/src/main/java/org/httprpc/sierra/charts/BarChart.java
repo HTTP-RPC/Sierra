@@ -444,7 +444,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
             rangeMarkerLabels.add(label);
 
-            var line = new Line2D.Double(chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, width, lineY);
+            var line = new Line2D.Double(chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2,
+                lineY,
+                width - RANGE_LABEL_SPACING - verticalGridLineWidth / 2,
+                lineY);
 
             rangeMarkerLines.add(line);
         }
