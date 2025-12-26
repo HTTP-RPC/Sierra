@@ -64,7 +64,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
         public void paintIcon(Component component, Graphics graphics, int x, int y) {
             var iconGraphics = (Graphics2D)graphics.create();
 
-            iconGraphics.setRenderingHints(getRenderingHints());
+            iconGraphics.setRenderingHints(renderingHints);
 
             paintIcon(iconGraphics, x, y);
 

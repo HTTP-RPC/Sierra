@@ -103,15 +103,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private List<Marker<K>> domainMarkers = listOf();
     private List<Marker<K>> rangeMarkers = listOf();
 
-    private int width = 0;
-    private int height = 0;
-
-    protected final List<Line2D.Double> horizontalGridLines = listOf();
-    protected final List<Line2D.Double> verticalGridLines = listOf();
-
-    protected final List<TextPane> domainLabelTextPanes = listOf();
-    protected final List<TextPane> rangeLabelTextPanes = listOf();
-
     private static final Font defaultDomainLabelFont;
     private static final Font defaultRangeLabelFont;
     private static final Font defaultMarkerFont;
@@ -134,7 +125,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
-    private static final RenderingHints renderingHints = new RenderingHints(mapOf(
+    private int width = 0;
+    private int height = 0;
+
+    protected final List<Line2D.Double> horizontalGridLines = listOf();
+    protected final List<Line2D.Double> verticalGridLines = listOf();
+
+    protected final List<TextPane> domainLabelTextPanes = listOf();
+    protected final List<TextPane> rangeLabelTextPanes = listOf();
+
+    protected static final RenderingHints renderingHints = new RenderingHints(mapOf(
         entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
         entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY),
         entry(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE),
@@ -754,16 +754,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var height = (int)Math.floor(horizontalGridLines.getLast().getY1()) - y;
 
         graphics.setClip(x, y, width, height);
-    }
-
-    /**
-     * Returns the rendering hints.
-     *
-     * @return
-     * The rendering hints.
-     */
-    protected static RenderingHints getRenderingHints() {
-        return renderingHints;
     }
 
     /**
