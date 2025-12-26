@@ -28,7 +28,7 @@ public class CandlestickChartTest extends ChartTest {
     public void testPositive() throws Exception {
         var chart = new CandlestickChart<LocalDate>();
 
-        var dataSet = new DataSet<LocalDate, OHLC>("Values", Color.RED);
+        var dataSet = new DataSet<LocalDate, OHLC>("Positive", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
             entry(LocalDate.of(2025, 12, 17), new OHLC(10, 30, 0, 20))
@@ -47,7 +47,7 @@ public class CandlestickChartTest extends ChartTest {
     public void testNegative() throws Exception {
         var chart = new CandlestickChart<LocalDate>();
 
-        var dataSet = new DataSet<LocalDate, OHLC>("Values", Color.RED);
+        var dataSet = new DataSet<LocalDate, OHLC>("Negative", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
             entry(LocalDate.of(2025, 12, 17), new OHLC(20, 30, 0, 10))
@@ -112,5 +112,16 @@ public class CandlestickChartTest extends ChartTest {
         ));
 
         compare("candlestick-chart-multiple-data-sets.svg", chart);
+    }
+
+    @Test
+    public void testNoValues() throws Exception {
+        var chart = new CandlestickChart<LocalDate>();
+
+        var dataSet = new DataSet<LocalDate, OHLC>("No Values", Color.RED);
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("candlestick-chart-no-values.svg", chart);
     }
 }

@@ -22,8 +22,10 @@ import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.RowPanel;
 import org.httprpc.sierra.UILoader;
 import org.httprpc.sierra.charts.BarChart;
+import org.httprpc.sierra.charts.CandlestickChart;
 import org.httprpc.sierra.charts.Chart;
 import org.httprpc.sierra.charts.DataSet;
+import org.httprpc.sierra.charts.OHLC;
 import org.httprpc.sierra.charts.PieChart;
 import org.httprpc.sierra.charts.TimeSeriesChart;
 
@@ -33,6 +35,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import java.awt.BasicStroke;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -52,6 +55,9 @@ public class ChartsTest extends JFrame implements Runnable {
 
     private @Outlet ChartPane<Chart<?, ?>> timeSeriesChartPane = null;
     private @Outlet RowPanel timeSeriesChartLegendPanel = null;
+
+    private @Outlet ChartPane<Chart<?, ?>> candlestickChartPane = null;
+    private @Outlet RowPanel candlestickChartLegendPanel = null;
 
     private ChartsTest() {
         super("Charts Test");
@@ -84,6 +90,14 @@ public class ChartsTest extends JFrame implements Runnable {
         for (var dataSet : timeSeriesChartPane.getChart().getDataSets()) {
             timeSeriesChartLegendPanel.add(new JLabel(dataSet.getLabel(),
                 new TimeSeriesChart.LegendIcon(dataSet),
+                SwingConstants.LEADING));
+        }
+
+        candlestickChartPane.setChart(createCandlestickChart());
+
+        for (var dataSet : candlestickChartPane.getChart().getDataSets()) {
+            candlestickChartLegendPanel.add(new JLabel(dataSet.getLabel(),
+                new CandlestickChart.LegendIcon(dataSet),
                 SwingConstants.LEADING));
         }
 
@@ -231,6 +245,26 @@ public class ChartsTest extends JFrame implements Runnable {
         }
 
         return dataSets;
+    }
+
+    private CandlestickChart<LocalDate> createCandlestickChart() {
+        var chart = new CandlestickChart<LocalDate>();
+
+        chart.setDataSets(createOHLCDataSets());
+
+        return chart;
+    }
+
+    private List<DataSet<LocalDate, OHLC>> createOHLCDataSets() {
+        var dataSet1 = new DataSet<LocalDate, OHLC>("Stock 1", UILoader.getColor("light-coral"));
+
+        // TODO
+
+        var dataSet2 = new DataSet<LocalDate, OHLC>("Stock 2", UILoader.getColor("light-green"));
+
+        // TODO
+
+        return listOf(dataSet1, dataSet2);
     }
 
     public static void main(String[] args) {

@@ -32,4 +32,14 @@
             <spacer weight="1"/>
         </row-panel>
     </column-panel>
+
+    <column-panel tabTitle="Candlestick Chart" opaque="true" background="TextArea.background" spacing="16" padding="16">
+        <label font="h1.font" text="Pricing Trends" horizontalAlignment="center"/>
+        <chart-pane name="candlestickChartPane" weight="1"/>
+        <row-panel>
+            <spacer weight="1"/>
+            <row-panel name="candlestickChartLegendPanel" spacing="16"/>
+            <spacer weight="1"/>
+        </row-panel>
+    </column-panel>
 </tabbed-pane>

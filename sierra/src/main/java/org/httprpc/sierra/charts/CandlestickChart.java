@@ -43,7 +43,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
     public static class LegendIcon implements Icon {
         private DataSet<?, ?> dataSet;
 
-        private Line2D.Double shape = new Line2D.Double();
+        private Rectangle2D.Double shape = new Rectangle2D.Double();
 
         private static final int SIZE = 12;
 
@@ -73,7 +73,9 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
         }
 
         private void paintIcon(Graphics2D graphics, int x, int y) {
-            shape.setLine(x, y + (double)SIZE / 2, SIZE, y + (double)SIZE / 2);
+            var lineWidth = bodyOutlineStroke.getLineWidth();
+
+            shape.setFrame(x + lineWidth / 2, y + lineWidth / 2, SIZE - lineWidth, SIZE - lineWidth);
 
             graphics.setColor(dataSet.getColor());
             graphics.setStroke(bodyOutlineStroke);
