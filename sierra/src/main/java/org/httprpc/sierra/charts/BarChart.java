@@ -94,9 +94,9 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     private double barTransparency = 1.0;
 
-    private List<List<Rectangle2D.Double>> barRectangles = listOf();
-
     private Line2D.Double zeroLine = null;
+
+    private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
     private List<JLabel> rangeMarkerLabels = listOf();
     private List<Line2D.Double> rangeMarkerLines = listOf();
@@ -164,9 +164,9 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     @Override
     protected void validate(Graphics2D graphics) {
-        barRectangles.clear();
-
         zeroLine = null;
+
+        barRectangles.clear();
 
         rangeMarkerLabels.clear();
         rangeMarkerLines.clear();
@@ -371,6 +371,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var zeroY = maximum * scale + horizontalGridLineWidth / 2;
 
+        if (maximum > 0.0 && minimum < 0.0) {
+            zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
+        }
+
         for (var key : totalValues.keySet()) {
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>();
 
@@ -417,10 +421,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             barRectangles.add(dataSetBarRectangles);
 
             barX += spacing;
-        }
-
-        if (maximum > 0.0 && minimum < 0.0) {
-            zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
         }
 
         var markerColor = getMarkerColor();

@@ -359,6 +359,10 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         var zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
+        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
+            zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
+        }
+
         for (var dataSet : dataSets) {
             var path = new Path2D.Double();
             var dataSetValueMarkerShapes = new ArrayList<Shape>(dataSet.getDataPoints().size());
@@ -394,10 +398,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
             paths.add(path);
             valueMarkerShapes.add(dataSetValueMarkerShapes);
-        }
-
-        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
-            zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
         }
 
         var markerColor = getMarkerColor();
