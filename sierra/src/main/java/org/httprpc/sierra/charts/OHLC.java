@@ -46,5 +46,9 @@ public record OHLC(
         if (high < low) {
             throw new IllegalArgumentException();
         }
+
+        if (open > high || close > high || open < low || close < low) {
+            throw new IllegalArgumentException();
+        }
     }
 }
