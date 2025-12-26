@@ -42,12 +42,12 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
     public static class LegendIcon implements Icon {
         private DataSet<?, ?> dataSet;
 
-        private Rectangle2D.Double shape = new Rectangle2D.Double();
+        private Line2D.Double shape = new Line2D.Double();
 
         private static final int SIZE = 12;
 
         /**
-         * Constructs a new bar chart legend icon.
+         * Constructs a new candlestick chart legend icon.
          *
          * @param dataSet
          * The data set the icon is associated with.
@@ -72,10 +72,12 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
         }
 
         private void paintIcon(Graphics2D graphics, int x, int y) {
-            shape.setFrame(x, y, SIZE, SIZE);
+            shape.setLine(x, y + (double)SIZE / 2, SIZE, y + (double)SIZE / 2);
 
             graphics.setColor(dataSet.getColor());
-            graphics.fill(shape);
+            graphics.setStroke(bodyOutlineStroke);
+
+            graphics.draw(shape);
         }
 
         @Override
@@ -89,7 +91,12 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
         }
     }
 
-    // TODO
+    private double bodyTransparency = 1.0;
+
+    private List<List<Rectangle2D.Double>> bodyRectangles = listOf();
+
+    private List<List<Line2D.Double>> highWickLines = listOf();
+    private List<List<Line2D.Double>> lowWickLines = listOf();
 
     private List<JLabel> rangeMarkerLabels = listOf();
     private List<Line2D.Double> rangeMarkerLines = listOf();
@@ -97,14 +104,44 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
     private static final int DOMAIN_LABEL_SPACING = 4;
     private static final int RANGE_LABEL_SPACING = 4;
 
-    private static final BasicStroke outlineStroke;
+    private static final BasicStroke bodyOutlineStroke;
+    private static final BasicStroke wickStroke;
     static {
-        outlineStroke = new BasicStroke(1.0f);
+        bodyOutlineStroke = new BasicStroke(1.0f);
+        wickStroke = new BasicStroke(1.0f);
+    }
+
+    /**
+     * Returns the body transparency.
+     *
+     * @return
+     * The body transparency.
+     */
+    public double getBodyTransparency() {
+        return bodyTransparency;
+    }
+
+    /**
+     * Sets the body transparency.
+     *
+     * @param bodyTransparency
+     * The body transparency, as a value from 0.0 to 1.0. The default value is
+     * 1.0.
+     */
+    public void setBodyTransparency(double bodyTransparency) {
+        if (bodyTransparency < 0.0 || bodyTransparency > 1.0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.bodyTransparency = bodyTransparency;
     }
 
     @Override
     protected void validate(Graphics2D graphics) {
-        // TODO
+        bodyRectangles.clear();
+
+        highWickLines.clear();
+        lowWickLines.clear();
 
         rangeMarkerLabels.clear();
         rangeMarkerLines.clear();
@@ -324,9 +361,47 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
     protected void draw(Graphics2D graphics) {
         drawGrid(graphics);
 
-        var dataSets = getDataSets();
+        if (bodyRectangles.isEmpty()) {
+            return;
+        }
 
-        // TODO
+        var i = 0;
+
+        for (var dataSet : getDataSets()) {
+            var dataSetBodyRectangles = bodyRectangles.get(i);
+
+            var dataSetHighWickLines = highWickLines.get(i);
+            var dataSetLowWickLines = lowWickLines.get(i);
+
+            graphics.setStroke(bodyOutlineStroke);
+
+            var j = 0;
+
+            var color = dataSet.getColor();
+
+            var fillColor = colorWithAlpha(color, (int)(bodyTransparency * 255));
+
+            for (var value : dataSet.getDataPoints().values()) {
+                var bodyRectangle = dataSetBodyRectangles.get(j);
+
+                if (value.close() < value.open()) {
+                    graphics.setColor(fillColor);
+
+                    graphics.fill(bodyRectangle);
+                }
+
+                graphics.setColor(color);
+
+                graphics.draw(bodyRectangle);
+
+                graphics.draw(dataSetHighWickLines.get(j));
+                graphics.draw(dataSetLowWickLines.get(j));
+
+                j++;
+            }
+
+            i++;
+        }
 
         graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
         graphics.setStroke(getHorizontalGridLineStroke());

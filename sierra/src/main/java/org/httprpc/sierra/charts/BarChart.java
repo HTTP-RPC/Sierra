@@ -104,9 +104,9 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     private static final int DOMAIN_LABEL_SPACING = 4;
     private static final int RANGE_LABEL_SPACING = 4;
 
-    private static final BasicStroke outlineStroke;
+    private static final BasicStroke barOutlineStroke;
     static {
-        outlineStroke = new BasicStroke(1.0f);
+        barOutlineStroke = new BasicStroke(1.0f);
     }
 
     /**
@@ -483,7 +483,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                     graphics.fill(barRectangle);
 
                     graphics.setColor(color);
-                    graphics.setStroke(outlineStroke);
+                    graphics.setStroke(barOutlineStroke);
 
                     graphics.draw(barRectangle);
                 }
