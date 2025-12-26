@@ -94,12 +94,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     private double barTransparency = 1.0;
 
-    private List<Line2D.Double> horizontalGridLines = listOf();
-    private List<Line2D.Double> verticalGridLines = listOf();
-
-    private List<TextPane> domainLabelTextPanes = listOf();
-    private List<TextPane> rangeLabelTextPanes = listOf();
-
     private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
     private Line2D.Double zeroLine = null;
@@ -170,12 +164,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     @Override
     protected void validate(Graphics2D graphics) {
-        horizontalGridLines.clear();
-        verticalGridLines.clear();
-
-        domainLabelTextPanes.clear();
-        rangeLabelTextPanes.clear();
-
         barRectangles.clear();
 
         zeroLine = null;
@@ -467,41 +455,18 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     @Override
     protected void draw(Graphics2D graphics) {
-        if (horizontalGridLines.isEmpty() || verticalGridLines.isEmpty()) {
-            return;
-        }
+        drawGrid(graphics);
 
-        if (getShowHorizontalGridLines()) {
-            graphics.setColor(getHorizontalGridLineColor());
+        if (zeroLine != null) {
+            graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
             graphics.setStroke(getHorizontalGridLineStroke());
 
-            for (var horizontalGridLine : horizontalGridLines) {
-                graphics.draw(horizontalGridLine);
-            }
+            graphics.draw(zeroLine);
         }
 
-        if (getShowVerticalGridLines()) {
-            graphics.setColor(getVerticalGridLineColor());
-            graphics.setStroke(getVerticalGridLineStroke());
-
-            for (var verticalGridLine : verticalGridLines) {
-                graphics.draw(verticalGridLine);
-            }
+        if (barRectangles.isEmpty()) {
+            return;
         }
-
-        graphics.setColor(getDomainLabelColor());
-
-        for (var textPane : domainLabelTextPanes) {
-            paintComponent(graphics, textPane);
-        }
-
-        graphics.setColor(getRangeLabelColor());
-
-        for (var textPane : rangeLabelTextPanes) {
-            paintComponent(graphics, textPane);
-        }
-
-        clipToGrid(graphics);
 
         var dataSets = getDataSets();
 
@@ -525,13 +490,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             }
         }
 
-        graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
-        graphics.setStroke(getHorizontalGridLineStroke());
-
-        if (zeroLine != null) {
-            graphics.draw(zeroLine);
-        }
-
         graphics.setColor(getMarkerColor());
         graphics.setStroke(getMarkerStroke());
 
@@ -542,15 +500,5 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         for (var rangeMarkerLine : rangeMarkerLines) {
             graphics.draw(rangeMarkerLine);
         }
-    }
-
-    private void clipToGrid(Graphics2D graphics) {
-        var x = (int)Math.ceil(verticalGridLines.getFirst().getX1());
-        var y = (int)Math.ceil(horizontalGridLines.getFirst().getY1());
-
-        var width = (int)Math.floor(verticalGridLines.getLast().getX1()) - x;
-        var height = (int)Math.floor(horizontalGridLines.getLast().getY1()) - y;
-
-        graphics.setClip(x, y, width, height);
     }
 }

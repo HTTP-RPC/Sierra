@@ -14,6 +14,8 @@
 
 package org.httprpc.sierra.charts;
 
+import org.httprpc.sierra.TextPane;
+
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
@@ -22,6 +24,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.Line2D;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.function.Function;
@@ -103,6 +106,12 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private int width = 0;
     private int height = 0;
 
+    protected final List<Line2D.Double> horizontalGridLines = listOf();
+    protected final List<Line2D.Double> verticalGridLines = listOf();
+
+    protected final List<TextPane> domainLabelTextPanes = listOf();
+    protected final List<TextPane> rangeLabelTextPanes = listOf();
+
     private static final Font defaultDomainLabelFont;
     private static final Font defaultRangeLabelFont;
     private static final Font defaultMarkerFont;
@@ -133,10 +142,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         entry(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT)
     ));
 
-    /**
-     * Constructs a new chart.
-     */
-    protected Chart() {
+    Chart() {
         perform(UIManager.getColor("Label.disabledForeground"), color -> {
             domainLabelColor = color;
             rangeLabelColor = color;
@@ -655,6 +661,12 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         this.height = height;
 
         if (!valid) {
+            horizontalGridLines.clear();
+            verticalGridLines.clear();
+
+            domainLabelTextPanes.clear();
+            rangeLabelTextPanes.clear();
+
             validate(graphics);
         }
 
@@ -693,6 +705,56 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The graphics context in which the chart will be drawn.
      */
     protected abstract void draw(Graphics2D graphics);
+
+    /**
+     * Draws the grid.
+     *
+     * @param graphics
+     * The graphics context in which the grid will be drawn.
+     */
+    protected void drawGrid(Graphics2D graphics) {
+        if (horizontalGridLines.isEmpty() || verticalGridLines.isEmpty()) {
+            return;
+        }
+
+        if (getShowHorizontalGridLines()) {
+            graphics.setColor(getHorizontalGridLineColor());
+            graphics.setStroke(getHorizontalGridLineStroke());
+
+            for (var horizontalGridLine : horizontalGridLines) {
+                graphics.draw(horizontalGridLine);
+            }
+        }
+
+        if (getShowVerticalGridLines()) {
+            graphics.setColor(getVerticalGridLineColor());
+            graphics.setStroke(getVerticalGridLineStroke());
+
+            for (var verticalGridLine : verticalGridLines) {
+                graphics.draw(verticalGridLine);
+            }
+        }
+
+        graphics.setColor(getDomainLabelColor());
+
+        for (var textPane : domainLabelTextPanes) {
+            paintComponent(graphics, textPane);
+        }
+
+        graphics.setColor(getRangeLabelColor());
+
+        for (var textPane : rangeLabelTextPanes) {
+            paintComponent(graphics, textPane);
+        }
+
+        var x = (int)Math.ceil(verticalGridLines.getFirst().getX1());
+        var y = (int)Math.ceil(horizontalGridLines.getFirst().getY1());
+
+        var width = (int)Math.floor(verticalGridLines.getLast().getX1()) - x;
+        var height = (int)Math.floor(horizontalGridLines.getLast().getY1()) - y;
+
+        graphics.setClip(x, y, width, height);
+    }
 
     /**
      * Returns the rendering hints.
