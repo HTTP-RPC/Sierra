@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.test;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.kilo.WebServiceProxy;
 import org.httprpc.kilo.beans.BeanAdapter;
@@ -358,7 +359,13 @@ public class TiingoTest extends JFrame implements Runnable {
         var radiance = coalesce(map(System.getProperty("radiance"), Boolean::valueOf), () -> false);
 
         if (!radiance) {
-            FlatLightLaf.setup();
+            var dark = coalesce(map(System.getProperty("dark"), Boolean::valueOf), () -> false);
+
+            if (dark) {
+                FlatDarkLaf.setup();
+            } else {
+                FlatLightLaf.setup();
+            }
         }
 
         SwingUtilities.invokeLater(new TiingoTest(radiance));

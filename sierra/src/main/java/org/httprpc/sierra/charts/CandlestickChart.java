@@ -148,8 +148,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
         var keys = new TreeSet<K>();
 
-        var minimum = Double.POSITIVE_INFINITY;
-        var maximum = Double.NEGATIVE_INFINITY;
+        var rangeMinimum = Double.POSITIVE_INFINITY;
+        var rangeMaximum = Double.NEGATIVE_INFINITY;
 
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
@@ -157,8 +157,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
                 var value = entry.getValue();
 
-                minimum = Math.min(minimum, value.low());
-                maximum = Math.max(maximum, value.high());
+                rangeMinimum = Math.min(rangeMinimum, value.low());
+                rangeMaximum = Math.max(rangeMaximum, value.high());
             }
         }
 
@@ -199,22 +199,22 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
         var markerFont = getMarkerFont();
 
-        if (minimum == maximum) {
-            minimum -= 1.0;
-            maximum += 1.0;
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
         } else {
             var markerLineMetrics = markerFont.getLineMetrics("", graphics.getFontRenderContext());
 
-            var marginRatio = (markerLineMetrics.getHeight() / 2 + RANGE_LABEL_SPACING) / chartHeight;
-            var margin = Math.abs(maximum - minimum) * marginRatio;
+            var rangeMarginRatio = (markerLineMetrics.getHeight() / 2 + RANGE_LABEL_SPACING) / chartHeight;
+            var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * rangeMarginRatio;
 
-            minimum -= margin;
-            maximum += margin;
+            rangeMinimum -= rangeMargin;
+            rangeMaximum += rangeMargin;
         }
 
         var rangeLabelCount = getRangeLabelCount();
 
-        var rangeStep = Math.abs(maximum - minimum) / (rangeLabelCount - 1);
+        var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
 
         var rangeLabelTransform = getRangeLabelTransform();
         var rangeLabelFont = getRangeLabelFont();
@@ -222,7 +222,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
         var rangeLabelWidth = 0.0;
 
         for (var i = 0; i < rangeLabelCount; i++) {
-            var label = rangeLabelTransform.apply(minimum + rangeStep * i);
+            var label = rangeLabelTransform.apply(rangeMinimum + rangeStep * i);
 
             var textPane = new TextPane(label);
 
@@ -314,9 +314,9 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
         var bodyWidth = columnWidth * 0.25;
 
-        var scale = chartHeight / (maximum - minimum);
+        var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
 
-        var zeroY = maximum * scale + horizontalGridLineWidth / 2;
+        var zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
         for (var dataSet : dataSets) {
             var dataSetBodyRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
@@ -341,19 +341,19 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
                 double top;
                 double bottom;
                 if (open > close) {
-                    top = zeroY - open * scale;
-                    bottom = zeroY - close * scale;
+                    top = zeroY - open * rangeScale;
+                    bottom = zeroY - close * rangeScale;
                 } else {
-                    top = zeroY - close * scale;
-                    bottom = zeroY - open * scale;
+                    top = zeroY - close * rangeScale;
+                    bottom = zeroY - open * rangeScale;
                 }
 
                 var bodyRectangle = new Rectangle2D.Double(lineX - bodyWidth / 2, top, bodyWidth, bottom - top);
 
                 dataSetBodyRectangles.add(bodyRectangle);
 
-                var highWickLine = new Line2D.Double(lineX, zeroY - high * scale, lineX, top);
-                var lowWickLine = new Line2D.Double(lineX, bottom, lineX, zeroY - low * scale);
+                var highWickLine = new Line2D.Double(lineX, zeroY - high * rangeScale, lineX, top);
+                var lowWickLine = new Line2D.Double(lineX, bottom, lineX, zeroY - low * rangeScale);
 
                 dataSetHighWickLines.add(highWickLine);
                 dataSetLowWickLines.add(lowWickLine);
@@ -376,7 +376,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
                 throw new UnsupportedOperationException("Marker value is not defined.");
             }
 
-            var lineY = zeroY - value * scale;
+            var lineY = zeroY - value * rangeScale;
 
             var text = coalesce(rangeMarker.label(), () -> rangeLabelTransform.apply(value));
 

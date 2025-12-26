@@ -172,8 +172,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var totalValues = new TreeMap<K, Double>();
 
-        var minimum = 0.0;
-        var maximum = 0.0;
+        var rangeMinimum = 0.0;
+        var rangeMaximum = 0.0;
 
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
@@ -188,8 +188,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 totalValues.put(key, coalesce(totalValues.get(key), () -> 0.0) + value);
 
                 if (!stacked) {
-                    minimum = Math.min(minimum, value);
-                    maximum = Math.max(maximum, value);
+                    rangeMinimum = Math.min(rangeMinimum, value);
+                    rangeMaximum = Math.max(rangeMaximum, value);
                 }
             }
         }
@@ -202,8 +202,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         if (stacked) {
             for (var value : totalValues.values()) {
-                minimum = Math.min(minimum, value);
-                maximum = Math.max(maximum, value);
+                rangeMinimum = Math.min(rangeMinimum, value);
+                rangeMaximum = Math.max(rangeMaximum, value);
             }
         }
 
@@ -238,27 +238,27 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var markerFont = getMarkerFont();
 
-        if (minimum == maximum) {
-            minimum -= 1.0;
-            maximum += 1.0;
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
         } else {
             var markerLineMetrics = markerFont.getLineMetrics("", graphics.getFontRenderContext());
 
-            var marginRatio = (markerLineMetrics.getHeight() / 2 + RANGE_LABEL_SPACING) / chartHeight;
-            var margin = Math.abs(maximum - minimum) * marginRatio;
+            var rangeMarginRatio = (markerLineMetrics.getHeight() / 2 + RANGE_LABEL_SPACING) / chartHeight;
+            var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * rangeMarginRatio;
 
-            if (minimum < 0.0) {
-                minimum -= margin;
+            if (rangeMinimum < 0.0) {
+                rangeMinimum -= rangeMargin;
             }
 
-            if (maximum > 0.0) {
-                maximum += margin;
+            if (rangeMaximum > 0.0) {
+                rangeMaximum += rangeMargin;
             }
         }
 
         var rangeLabelCount = getRangeLabelCount();
 
-        var rangeStep = Math.abs(maximum - minimum) / (rangeLabelCount - 1);
+        var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
 
         var rangeLabelTransform = getRangeLabelTransform();
         var rangeLabelFont = getRangeLabelFont();
@@ -266,7 +266,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var rangeLabelWidth = 0.0;
 
         for (var i = 0; i < rangeLabelCount; i++) {
-            var label = rangeLabelTransform.apply(minimum + rangeStep * i);
+            var label = rangeLabelTransform.apply(rangeMinimum + rangeStep * i);
 
             var textPane = new TextPane(label);
 
@@ -364,11 +364,11 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var barX = chartOffset;
 
-        var scale = chartHeight / (maximum - minimum);
+        var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
 
-        var zeroY = maximum * scale + horizontalGridLineWidth / 2;
+        var zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
-        if (maximum > 0.0 && minimum < 0.0) {
+        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
             zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
         }
 
@@ -383,7 +383,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 for (var dataSet : dataSets) {
                     var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
 
-                    var barHeight = value * scale;
+                    var barHeight = value * rangeScale;
 
                     barY -= barHeight;
 
@@ -401,7 +401,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                     var barY = zeroY;
 
-                    var barHeight = Math.abs(value) * scale;
+                    var barHeight = Math.abs(value) * rangeScale;
 
                     if (value > 0.0) {
                         barY -= barHeight;
@@ -429,7 +429,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 throw new UnsupportedOperationException("Marker value is not defined.");
             }
 
-            var lineY = zeroY - value * scale;
+            var lineY = zeroY - value * rangeScale;
 
             var text = coalesce(rangeMarker.label(), () -> rangeLabelTransform.apply(value));
 
