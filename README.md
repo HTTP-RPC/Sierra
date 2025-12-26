@@ -519,6 +519,7 @@ Internally, tasks are submitted to an executor service provided to the `TaskExec
 The following is a complete example of an application built using Sierra. It uses the Tiingo [End-of-Day](https://www.tiingo.com/documentation/end-of-day) API to retrieve historical stock pricing information:
 
 <img src="README/tiingo.png" width="1072px"/>
+<img src="README/tiingo-dark.png" width="1072px"/>
 
 The application consists of the following source files:
 
