@@ -391,12 +391,14 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
             rangeMarkerLabels.add(label);
 
-            var line = new Line2D.Double(chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2,
-                lineY,
-                width - RANGE_LABEL_SPACING - verticalGridLineWidth / 2,
-                lineY);
+            var lineX1 = chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2;
+            var lineX2 = width - RANGE_LABEL_SPACING - verticalGridLineWidth / 2;
 
-            rangeMarkerLines.add(line);
+            if (lineX2 > lineX1) {
+                var line = new Line2D.Double(lineX1, lineY, lineX2, lineY);
+
+                rangeMarkerLines.add(line);
+            }
         }
     }
 
