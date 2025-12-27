@@ -358,9 +358,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var n = stacked ? 1 : dataSets.size();
 
-        var spacing = columnWidth * 0.05;
-
-        var barWidth = (columnWidth - spacing * (n + 1)) / n;
+        var barWidth = (columnWidth / n) * 0.75;
+        var barSpacing = (columnWidth - (barWidth * n)) / (n + 1);
 
         var barX = chartOffset;
 
@@ -376,7 +375,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
 
             if (stacked) {
-                barX += spacing;
+                barX += barSpacing;
 
                 var barY = zeroY;
 
@@ -395,7 +394,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 barX += barWidth;
             } else {
                 for (var dataSet : dataSets) {
-                    barX += spacing;
+                    barX += barSpacing;
 
                     var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
 
@@ -417,7 +416,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
             barRectangles.add(dataSetBarRectangles);
 
-            barX += spacing;
+            barX += barSpacing;
         }
 
         var markerColor = getMarkerColor();
