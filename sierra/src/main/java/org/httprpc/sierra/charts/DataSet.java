@@ -37,7 +37,7 @@ public class DataSet<K extends Comparable<? super K>, V> {
 
     private SortedMap<K, V> dataPoints = sortedMapOf();
 
-    private static final BasicStroke defaultStroke = new BasicStroke(1.25f);
+    private static final BasicStroke defaultStroke = new BasicStroke(1.25f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
     /**
      * Constructs a new data set.

@@ -110,6 +110,8 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     private List<Line2D.Double> rangeMarkerLines = listOf();
     private List<Shape> rangeMarkerShapes = listOf();
 
+    private static final double RANGE_MARGIN_RATIO = 0.01;
+
     private static final int MARKER_SCALE = 5;
 
     /**
@@ -212,6 +214,16 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         if (domainMinimum > domainMaximum) {
             return;
+        }
+
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
+        } else {
+            var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * RANGE_MARGIN_RATIO;
+
+            rangeMinimum -= rangeMargin;
+            rangeMaximum += rangeMargin;
         }
 
         var domainLabelCount = getDomainLabelCount();

@@ -700,7 +700,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected abstract void validate(Graphics2D graphics);
 
     /**
-     * Draws the grid.
+     * Validates the grid.
      *
      * @param graphics
      * The graphics context in which the grid will be drawn.
@@ -800,10 +800,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The graphics context in which the grid will be drawn.
      */
     protected void drawGrid(Graphics2D graphics) {
-        if (horizontalGridLines.isEmpty() || verticalGridLines.isEmpty()) {
-            return;
-        }
-
         if (getShowHorizontalGridLines()) {
             graphics.setColor(getHorizontalGridLineColor());
             graphics.setStroke(getHorizontalGridLineStroke());
