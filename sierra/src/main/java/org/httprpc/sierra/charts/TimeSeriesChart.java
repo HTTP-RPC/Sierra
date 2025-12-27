@@ -212,10 +212,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             }
         }
 
-        if (domainMinimum > domainMaximum) {
-            return;
-        }
-
         if (rangeMinimum == rangeMaximum) {
             rangeMinimum -= 1.0;
             rangeMaximum += 1.0;
@@ -229,6 +225,10 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         var domainLabelCount = getDomainLabelCount();
 
         validateGrid(graphics, domainLabelCount - 1);
+
+        if (domainMinimum > domainMaximum) {
+            return;
+        }
 
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();

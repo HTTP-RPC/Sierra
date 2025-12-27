@@ -165,11 +165,11 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
         var keyCount = keys.size();
 
+        validateGrid(graphics, keyCount);
+
         if (keyCount == 0) {
             return;
         }
-
-        validateGrid(graphics, keyCount);
 
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();

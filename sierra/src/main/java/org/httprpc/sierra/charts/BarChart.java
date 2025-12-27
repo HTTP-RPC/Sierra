@@ -202,11 +202,11 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var keyCount = totalValues.size();
 
+        validateGrid(graphics, keyCount);
+
         if (keyCount == 0) {
             return;
         }
-
-        validateGrid(graphics, keyCount);
 
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
