@@ -698,6 +698,9 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     /**
      * Validates the chart contents.
+     *
+     * @param graphics
+     * The graphics context in which the chart will be drawn.
      */
     protected abstract void validate(Graphics2D graphics);
 
