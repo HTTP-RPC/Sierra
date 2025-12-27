@@ -314,11 +314,16 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             rangeLabelY -= rowHeight;
         }
 
-        var bodyWidth = columnWidth * 0.25;
+        var n = dataSets.size();
+
+        var bodyWidth = columnWidth * 0.25 / Math.sqrt(n);
+        var bodySpacing = (columnWidth - (bodyWidth * n)) / (n + 1);
 
         var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
 
         var zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
+
+        var i = 0;
 
         for (var dataSet : dataSets) {
             var dataSetBodyRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
@@ -326,7 +331,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             var dataSetHighWickLines = new ArrayList<Line2D.Double>(keyCount);
             var dataSetLowWickLines = new ArrayList<Line2D.Double>(keyCount);
 
-            var i = 0;
+            var j = 0;
 
             for (var value : dataSet.getDataPoints().values()) {
                 if (value == null) {
@@ -338,7 +343,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
                 var low = value.low();
                 var close = value.close();
 
-                var lineX = chartOffset + (columnWidth * i + columnWidth / 2);
+                var lineX = chartOffset + columnWidth * j + bodySpacing * (i + 1) + bodyWidth * i + bodyWidth / 2;
 
                 double top;
                 double bottom;
@@ -360,13 +365,15 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
                 dataSetHighWickLines.add(highWickLine);
                 dataSetLowWickLines.add(lowWickLine);
 
-                i++;
+                j++;
             }
 
             bodyRectangles.add(dataSetBodyRectangles);
 
             highWickLines.add(dataSetHighWickLines);
             lowWickLines.add(dataSetLowWickLines);
+
+            i++;
         }
 
         var markerColor = getMarkerColor();

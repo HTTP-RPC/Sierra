@@ -253,7 +253,8 @@ public class ChartsTest extends JFrame implements Runnable {
 
         chart.setDataSets(listOf(
             createOHLCDataSet("Stock 1", UILoader.getColor("light-coral")),
-            createOHLCDataSet("Stock 2", UILoader.getColor("light-green"))
+            createOHLCDataSet("Stock 2", UILoader.getColor("light-green")),
+            createOHLCDataSet("Stock 3", UILoader.getColor("light-blue"))
         ));
 
         return chart;
