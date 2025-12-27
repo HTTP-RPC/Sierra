@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
+import org.httprpc.sierra.HorizontalAlignment;
 import org.httprpc.sierra.TextPane;
 
 import javax.swing.Icon;
@@ -125,14 +126,33 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
-    private int width = 0;
-    private int height = 0;
+    protected int width = 0;
+    protected int height = 0;
 
-    protected final List<Line2D.Double> horizontalGridLines = listOf();
-    protected final List<Line2D.Double> verticalGridLines = listOf();
+    protected double domainMinimum = 0.0;
+    protected double domainMaximum = 0.0;
 
-    protected final List<TextPane> domainLabelTextPanes = listOf();
-    protected final List<TextPane> rangeLabelTextPanes = listOf();
+    protected double rangeMinimum = 0.0;
+    protected double rangeMaximum = 0.0;
+
+    protected double domainLabelHeight = 0.0;
+    protected double rangeLabelWidth = 0.0;
+
+    protected double horizontalGridLineWidth = 0.0;
+    protected double verticalGridLineWidth = 0.0;
+
+    protected double chartOffset = 0.0;
+    protected double chartWidth = 0.0;
+    protected double chartHeight = 0.0;
+
+    protected double columnWidth = 0.0;
+    protected double rowHeight = 0.0;
+
+    protected List<Line2D.Double> horizontalGridLines = listOf();
+    protected List<Line2D.Double> verticalGridLines = listOf();
+
+    protected List<TextPane> domainLabelTextPanes = listOf();
+    protected List<TextPane> rangeLabelTextPanes = listOf();
 
     protected static final int DOMAIN_LABEL_SPACING = 4;
     protected static final int RANGE_LABEL_SPACING = 4;
@@ -664,36 +684,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         this.height = height;
 
         if (!valid) {
-            horizontalGridLines.clear();
-            verticalGridLines.clear();
-
-            domainLabelTextPanes.clear();
-            rangeLabelTextPanes.clear();
-
             validate(graphics);
         }
 
         draw(graphics);
-    }
-
-    /**
-     * Returns the chart width.
-     *
-     * @return
-     * The chart width.
-     */
-    protected int getWidth() {
-        return width;
-    }
-
-    /**
-     * Returns the chart height.
-     *
-     * @return
-     * The chart height.
-     */
-    protected int getHeight() {
-        return height;
     }
 
     /**
@@ -703,6 +697,92 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The graphics context in which the chart will be drawn.
      */
     protected abstract void validate(Graphics2D graphics);
+
+    /**
+     * Draws the grid.
+     *
+     * @param graphics
+     * The graphics context in which the grid will be drawn.
+     *
+     * @param columnCount
+     * The column count.
+     */
+    protected void validateGrid(Graphics2D graphics, int columnCount) {
+        horizontalGridLines.clear();
+        verticalGridLines.clear();
+
+        domainLabelTextPanes.clear();
+        rangeLabelTextPanes.clear();
+
+        domainLabelHeight = (int)Math.ceil(domainLabelFont.getLineMetrics("", graphics.getFontRenderContext()).getHeight());
+
+        var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            var label = rangeLabelTransform.apply(rangeMinimum + rangeStep * i);
+
+            var textPane = new TextPane(label);
+
+            textPane.setFont(rangeLabelFont);
+            textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
+            textPane.setSize(textPane.getPreferredSize());
+
+            rangeLabelWidth = Math.max(rangeLabelWidth, textPane.getWidth());
+
+            rangeLabelTextPanes.add(textPane);
+        }
+
+        horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
+        verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
+
+        chartOffset = rangeLabelWidth + RANGE_LABEL_SPACING + verticalGridLineWidth / 2;
+
+        chartWidth = (double)width - (chartOffset + verticalGridLineWidth / 2);
+        chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth), 0);
+
+        columnWidth = chartWidth / columnCount;
+        rowHeight = chartHeight / (rangeLabelCount - 1);
+
+        var gridY = horizontalGridLineWidth / 2;
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            horizontalGridLines.add(new Line2D.Double(chartOffset, gridY, chartOffset + chartWidth, gridY));
+
+            gridY += rowHeight;
+        }
+
+        var verticalGridLineCount = columnCount + 1;
+
+        var gridX = chartOffset;
+
+        for (var i = 0; i < verticalGridLineCount; i++) {
+            verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, chartHeight));
+
+            gridX += columnWidth;
+        }
+
+        var rangeLabelY = chartHeight + horizontalGridLineWidth / 2;
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            var textPane = rangeLabelTextPanes.get(i);
+
+            var size = textPane.getSize();
+
+            int y;
+            if (i == 0) {
+                y = (int)rangeLabelY - size.height;
+            } else if (i < rangeLabelCount - 1) {
+                y = (int)rangeLabelY - size.height / 2;
+            } else {
+                y = (int)rangeLabelY;
+            }
+
+            textPane.setBounds(0, y, (int)rangeLabelWidth, size.height);
+            textPane.doLayout();
+
+            rangeLabelY -= rowHeight;
+        }
+    }
 
     /**
      * Draws the chart.

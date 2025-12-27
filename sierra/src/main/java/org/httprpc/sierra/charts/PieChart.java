@@ -214,8 +214,7 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
 
         var outlineWidth = outlineStroke.getLineWidth();
 
-        var width = getWidth();
-        var height = getHeight() - outlineWidth;
+        var height = this.height - outlineWidth;
 
         var pieBounds = new Rectangle2D.Double((double)width / 2 - height / 2, outlineWidth / 2, height, height);
 

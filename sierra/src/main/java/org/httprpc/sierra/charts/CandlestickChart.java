@@ -14,7 +14,6 @@
 
 package org.httprpc.sierra.charts;
 
-import org.httprpc.sierra.HorizontalAlignment;
 import org.httprpc.sierra.TextPane;
 
 import javax.swing.Icon;
@@ -150,8 +149,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
         var keys = new TreeSet<K>();
 
-        var rangeMinimum = Double.POSITIVE_INFINITY;
-        var rangeMaximum = Double.NEGATIVE_INFINITY;
+        rangeMinimum = Double.POSITIVE_INFINITY;
+        rangeMaximum = Double.NEGATIVE_INFINITY;
 
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
@@ -170,13 +169,10 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             return;
         }
 
-        var width = getWidth();
-        var height = getHeight();
+        validateGrid(graphics, keyCount);
 
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
-        var domainLabelLineMetrics = domainLabelFont.getLineMetrics("", graphics.getFontRenderContext());
-        var domainLabelHeight = (int)Math.ceil(domainLabelLineMetrics.getHeight());
 
         var maximumDomainLabelWidth = 0.0;
 
@@ -186,81 +182,11 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             var textPane = new TextPane(label);
 
             textPane.setFont(domainLabelFont);
-
             textPane.setSize(textPane.getPreferredSize());
 
             maximumDomainLabelWidth = Math.max(maximumDomainLabelWidth, textPane.getWidth());
 
             domainLabelTextPanes.add(textPane);
-        }
-
-        var horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
-        var verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
-
-        var chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth), 0);
-
-        var markerFont = getMarkerFont();
-
-        if (rangeMinimum == rangeMaximum) {
-            rangeMinimum -= 1.0;
-            rangeMaximum += 1.0;
-        } else {
-            var markerLineMetrics = markerFont.getLineMetrics("", graphics.getFontRenderContext());
-
-            var rangeMarginRatio = (markerLineMetrics.getHeight() / 2 + RANGE_LABEL_SPACING) / chartHeight;
-            var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * rangeMarginRatio;
-
-            rangeMinimum -= rangeMargin;
-            rangeMaximum += rangeMargin;
-        }
-
-        var rangeLabelCount = getRangeLabelCount();
-
-        var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
-
-        var rangeLabelTransform = getRangeLabelTransform();
-        var rangeLabelFont = getRangeLabelFont();
-
-        var rangeLabelWidth = 0.0;
-
-        for (var i = 0; i < rangeLabelCount; i++) {
-            var label = rangeLabelTransform.apply(rangeMinimum + rangeStep * i);
-
-            var textPane = new TextPane(label);
-
-            textPane.setFont(rangeLabelFont);
-            textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
-            textPane.setSize(textPane.getPreferredSize());
-
-            rangeLabelWidth = Math.max(rangeLabelWidth, textPane.getWidth());
-
-            rangeLabelTextPanes.add(textPane);
-        }
-
-        var chartOffset = rangeLabelWidth + RANGE_LABEL_SPACING + verticalGridLineWidth / 2;
-
-        var chartWidth = (double)width - (chartOffset + verticalGridLineWidth / 2);
-
-        var rowHeight = chartHeight / (rangeLabelCount - 1);
-
-        var gridY = horizontalGridLineWidth / 2;
-
-        for (var i = 0; i < rangeLabelCount; i++) {
-            horizontalGridLines.add(new Line2D.Double(chartOffset, gridY, chartOffset + chartWidth, gridY));
-
-            gridY += rowHeight;
-        }
-
-        var columnWidth = chartWidth / keyCount;
-
-        var verticalGridLineCount = keyCount + 1;
-
-        var gridX = chartOffset;
-
-        for (var i = 0; i < verticalGridLineCount; i++) {
-            verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, chartHeight));
-
-            gridX += columnWidth;
         }
 
         var domainLabelX = chartOffset;
@@ -290,28 +216,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             textPane.doLayout();
 
             domainLabelX += columnWidth;
-        }
-
-        var rangeLabelY = chartHeight + horizontalGridLineWidth / 2;
-
-        for (var i = 0; i < rangeLabelCount; i++) {
-            var textPane = rangeLabelTextPanes.get(i);
-
-            var size = textPane.getSize();
-
-            int y;
-            if (i == 0) {
-                y = (int)rangeLabelY - size.height;
-            } else if (i < rangeLabelCount - 1) {
-                y = (int)rangeLabelY - size.height / 2;
-            } else {
-                y = (int)rangeLabelY;
-            }
-
-            textPane.setBounds(0, y, (int)rangeLabelWidth, size.height);
-            textPane.doLayout();
-
-            rangeLabelY -= rowHeight;
         }
 
         var n = dataSets.size();
@@ -378,7 +282,10 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             i++;
         }
 
+        var rangeLabelTransform = getRangeLabelTransform();
+
         var markerColor = getMarkerColor();
+        var markerFont = getMarkerFont();
 
         for (var rangeMarker : getRangeMarkers()) {
             var value = map(rangeMarker.value(), Number::doubleValue);
