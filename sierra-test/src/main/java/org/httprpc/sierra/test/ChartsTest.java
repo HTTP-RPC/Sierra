@@ -38,6 +38,8 @@ import java.awt.Color;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
@@ -251,6 +253,14 @@ public class ChartsTest extends JFrame implements Runnable {
     private CandlestickChart<LocalDate> createCandlestickChart() {
         var chart = new CandlestickChart<LocalDate>();
 
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+
+        chart.setDomainLabelTransform(dateFormatter::format);
+
+        var rangeLabelFormat = NumberFormat.getCurrencyInstance();
+
+        chart.setRangeLabelTransform(rangeLabelFormat::format);
+
         chart.setDataSets(listOf(
             createOHLCDataSet("Stock 1", UILoader.getColor("light-coral")),
             createOHLCDataSet("Stock 2", UILoader.getColor("light-green")),
@@ -264,25 +274,31 @@ public class ChartsTest extends JFrame implements Runnable {
         var dataSet = new DataSet<LocalDate, OHLC>(label, color);
 
         var n = 15;
+        var maximum = 250.0;
 
         var dataPoints = new TreeMap<LocalDate, OHLC>();
 
         var localDate = LocalDate.now();
+        var previousClose = Double.NaN;
 
         for (var i = 0; i < n; i++) {
-            var maximum = 250.0;
+            double open;
+            if (i == 0) {
+                open = Math.random() * maximum;
+            } else {
+                open = previousClose;
+            }
 
-            var high = Math.random() * maximum;
-            var low = Math.random() * (high * 0.75);
+            var high = open + Math.random() * (maximum - open) * 0.5;
+            var low = open - Math.random() * open * 0.5;
 
-            var range = high - low;
-
-            var open = high - Math.random() * range;
-            var close = high - Math.random() * range;
+            var close = low + Math.random() * (high - low);
 
             dataPoints.put(localDate, new OHLC(open, high, low, close));
 
             localDate = localDate.minusDays(1);
+
+            previousClose = close;
         }
 
         dataSet.setDataPoints(dataPoints);
