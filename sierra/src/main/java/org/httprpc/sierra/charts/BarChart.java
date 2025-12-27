@@ -361,8 +361,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var barWidth = (columnWidth / n) * 0.75;
         var barSpacing = (columnWidth - (barWidth * n)) / (n + 1);
 
-        var barX = chartOffset;
-
         var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
 
         var zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
@@ -371,52 +369,55 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
         }
 
-        for (var key : totalValues.keySet()) {
+        var i = 0;
+
+        for (var dataSet : dataSets) {
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
 
-            if (stacked) {
-                barX += barSpacing;
+            var dataPoints = dataSet.getDataPoints();
 
-                var barY = zeroY;
+            var j = 0;
 
-                for (var dataSet : dataSets) {
-                    var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
+            for (var key : totalValues.keySet()) {
+                var value = coalesce(map(dataPoints.get(key), Number::doubleValue), () -> 0.0);
+
+                Rectangle2D.Double barRectangle;
+                if (stacked) {
+                    var barX = chartOffset + columnWidth * j + barSpacing;
 
                     var barHeight = value * rangeScale;
 
-                    barY -= barHeight;
+                    double barY;
+                    if (i == 0) {
+                        barY = zeroY - barHeight;
+                    } else {
+                        barY = barRectangles.get(i - 1).get(j).getY() - barHeight;
+                    }
 
-                    var barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
-
-                    dataSetBarRectangles.add(barRectangle);
-                }
-
-                barX += barWidth;
-            } else {
-                for (var dataSet : dataSets) {
-                    barX += barSpacing;
-
-                    var value = coalesce(map(dataSet.getDataPoints().get(key), Number::doubleValue), () -> 0.0);
-
-                    var barY = zeroY;
+                    barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
+                } else {
+                    var barX = chartOffset + columnWidth * j + barSpacing * (i + 1) + barWidth * i;
 
                     var barHeight = Math.abs(value) * rangeScale;
 
+                    double barY;
                     if (value > 0.0) {
-                        barY -= barHeight;
+                        barY = zeroY - barHeight;
+                    } else {
+                        barY = zeroY;
                     }
 
-                    var barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
-
-                    dataSetBarRectangles.add(barRectangle);
-
-                    barX += barWidth;
+                    barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
                 }
+
+                dataSetBarRectangles.add(barRectangle);
+
+                j++;
             }
 
             barRectangles.add(dataSetBarRectangles);
 
-            barX += barSpacing;
+            i++;
         }
 
         var markerColor = getMarkerColor();
@@ -469,26 +470,27 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             return;
         }
 
-        var dataSets = getDataSets();
+        var i = 0;
 
-        for (var dataSetBarRectangles : barRectangles) {
-            var i = 0;
+        for (var dataSet : getDataSets()) {
+            var color = dataSet.getColor();
 
-            for (var barRectangle : dataSetBarRectangles) {
-                var dataSet = dataSets.get(i++);
+            var fillColor = colorWithAlpha(color, (int)(barTransparency * 255));
+
+            for (var barRectangle : barRectangles.get(i)) {
+                graphics.setColor(fillColor);
+
+                graphics.fill(barRectangle);
 
                 if (barRectangle.getHeight() > 0.0) {
-                    var color = dataSet.getColor();
-
-                    graphics.setColor(colorWithAlpha(color, (int)(barTransparency * 255)));
-                    graphics.fill(barRectangle);
-
                     graphics.setColor(color);
                     graphics.setStroke(barOutlineStroke);
 
                     graphics.draw(barRectangle);
                 }
             }
+
+            i++;
         }
 
         graphics.setColor(getMarkerColor());
