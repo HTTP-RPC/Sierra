@@ -121,13 +121,15 @@ public class ChartsTest extends JFrame implements Runnable {
 
         barChart.setBarTransparency(0.75);
 
+        barChart.setDomainLabelTransform(month -> month.getDisplayName(TextStyle.FULL, Locale.getDefault()));
+
         var rangeLabelFormat = NumberFormat.getNumberInstance();
 
         rangeLabelFormat.setMinimumFractionDigits(1);
         rangeLabelFormat.setMaximumFractionDigits(1);
 
         barChart.setRangeLabelTransform(rangeLabelFormat::format);
-        barChart.setDomainLabelTransform(month -> month.getDisplayName(TextStyle.FULL, Locale.getDefault()));
+        barChart.setRangeMarginRatio(0.04);
 
         barChart.setHorizontalGridLineStroke(new BasicStroke(1.0f,
             BasicStroke.CAP_SQUARE,
@@ -186,13 +188,7 @@ public class ChartsTest extends JFrame implements Runnable {
     private TimeSeriesChart<Integer, Double> createTimeSeriesChart() {
         var timeSeriesChart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
 
-        var n = 250;
-
-        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
-
-        icon = icon.derive(18, 18);
-
-        icon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> timeSeriesChart.getMarkerColor()));
+        timeSeriesChart.setDomainMarginRatio(0.01);
 
         var rangeLabelFormat = NumberFormat.getNumberInstance();
 
@@ -200,13 +196,23 @@ public class ChartsTest extends JFrame implements Runnable {
         rangeLabelFormat.setMaximumFractionDigits(1);
 
         timeSeriesChart.setRangeLabelTransform(rangeLabelFormat::format);
+        timeSeriesChart.setRangeMarginRatio(0.04);
 
         timeSeriesChart.setVerticalGridLineStroke(new BasicStroke(1.0f,
             BasicStroke.CAP_SQUARE,
             BasicStroke.JOIN_MITER,
             1.0f, new float[] {2.0f}, 0.0f));
 
+        var n = 250;
+
         timeSeriesChart.setDataSets(createTimeSeriesDataSets(n));
+
+        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+
+        icon = icon.derive(18, 18);
+
+        icon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> timeSeriesChart.getMarkerColor()));
+
         timeSeriesChart.setDomainMarkers(listOf(
             new Chart.Marker<>((int)(Math.random() * n), null, "Marker 1", icon),
             new Chart.Marker<>((int)(Math.random() * n), null, "Marker 2", icon)
@@ -251,23 +257,24 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private CandlestickChart<LocalDate> createCandlestickChart() {
-        var chart = new CandlestickChart<LocalDate>();
+        var candlestickChart = new CandlestickChart<LocalDate>();
 
         var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
 
-        chart.setDomainLabelTransform(dateFormatter::format);
+        candlestickChart.setDomainLabelTransform(dateFormatter::format);
 
         var rangeLabelFormat = NumberFormat.getCurrencyInstance();
 
-        chart.setRangeLabelTransform(rangeLabelFormat::format);
+        candlestickChart.setRangeLabelTransform(rangeLabelFormat::format);
+        candlestickChart.setRangeMarginRatio(0.04);
 
-        chart.setDataSets(listOf(
+        candlestickChart.setDataSets(listOf(
             createOHLCDataSet("Stock 1", UILoader.getColor("light-coral")),
             createOHLCDataSet("Stock 2", UILoader.getColor("light-green")),
             createOHLCDataSet("Stock 3", UILoader.getColor("light-blue"))
         ));
 
-        return chart;
+        return candlestickChart;
     }
 
     private DataSet<LocalDate, OHLC> createOHLCDataSet(String label, Color color) {
