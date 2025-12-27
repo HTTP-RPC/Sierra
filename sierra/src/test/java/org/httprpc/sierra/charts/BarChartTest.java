@@ -195,7 +195,6 @@ public class BarChartTest extends ChartTest {
 
         chart.setRangeMarkers(listOf(
             new Chart.Marker<>(null, 35, null, null),
-            new Chart.Marker<>(null, 60, null, null),
             new Chart.Marker<>(null, 55, null, null)
         ));
 

@@ -106,11 +106,6 @@ public class CandlestickChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet1, dataSet2));
 
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(null, 70.0, null, null),
-            new Chart.Marker<>(null, 0.0, null, null)
-        ));
-
         compare("candlestick-chart-multiple-data-sets.svg", chart);
     }
 
