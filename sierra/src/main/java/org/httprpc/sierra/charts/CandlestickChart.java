@@ -331,39 +331,41 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             var dataSetHighWickLines = new ArrayList<Line2D.Double>(keyCount);
             var dataSetLowWickLines = new ArrayList<Line2D.Double>(keyCount);
 
+            var dataPoints = dataSet.getDataPoints();
+
             var j = 0;
 
-            for (var value : dataSet.getDataPoints().values()) {
-                if (value == null) {
-                    throw new UnsupportedOperationException("Value is required.");
+            for (var key : keys) {
+                var value = dataPoints.get(key);
+
+                if (value != null) {
+                    var open = value.open();
+                    var high = value.high();
+                    var low = value.low();
+                    var close = value.close();
+
+                    var lineX = chartOffset + columnWidth * j + bodySpacing * (i + 1) + bodyWidth * i + bodyWidth / 2;
+
+                    double top;
+                    double bottom;
+                    if (open > close) {
+                        top = zeroY - open * rangeScale;
+                        bottom = zeroY - close * rangeScale;
+                    } else {
+                        top = zeroY - close * rangeScale;
+                        bottom = zeroY - open * rangeScale;
+                    }
+
+                    var bodyRectangle = new Rectangle2D.Double(lineX - bodyWidth / 2, top, bodyWidth, bottom - top);
+
+                    dataSetBodyRectangles.add(bodyRectangle);
+
+                    var highWickLine = new Line2D.Double(lineX, zeroY - high * rangeScale, lineX, top);
+                    var lowWickLine = new Line2D.Double(lineX, bottom, lineX, zeroY - low * rangeScale);
+
+                    dataSetHighWickLines.add(highWickLine);
+                    dataSetLowWickLines.add(lowWickLine);
                 }
-
-                var open = value.open();
-                var high = value.high();
-                var low = value.low();
-                var close = value.close();
-
-                var lineX = chartOffset + columnWidth * j + bodySpacing * (i + 1) + bodyWidth * i + bodyWidth / 2;
-
-                double top;
-                double bottom;
-                if (open > close) {
-                    top = zeroY - open * rangeScale;
-                    bottom = zeroY - close * rangeScale;
-                } else {
-                    top = zeroY - close * rangeScale;
-                    bottom = zeroY - open * rangeScale;
-                }
-
-                var bodyRectangle = new Rectangle2D.Double(lineX - bodyWidth / 2, top, bodyWidth, bottom - top);
-
-                dataSetBodyRectangles.add(bodyRectangle);
-
-                var highWickLine = new Line2D.Double(lineX, zeroY - high * rangeScale, lineX, top);
-                var lowWickLine = new Line2D.Double(lineX, bottom, lineX, zeroY - low * rangeScale);
-
-                dataSetHighWickLines.add(highWickLine);
-                dataSetLowWickLines.add(lowWickLine);
 
                 j++;
             }

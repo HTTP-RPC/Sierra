@@ -99,8 +99,8 @@ public class BarChartTest extends ChartTest {
         var dataSet2 = new DataSet<Integer, Integer>("Data Set 2", Color.GREEN);
 
         dataSet2.setDataPoints(sortedMapOf(
-            entry(1, 5),
-            entry(2, 10)
+            entry(2, 10),
+            entry(3, 15)
         ));
 
         chart.setDataSets(listOf(dataSet1, dataSet2));

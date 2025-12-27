@@ -90,14 +90,14 @@ public class CandlestickChartTest extends ChartTest {
 
         dataSet1.setDataPoints(sortedMapOf(
             entry(LocalDate.of(2025, 12, 17), new OHLC(20, 30, 0, 10)),
-            entry(LocalDate.of(2025, 12, 18), new OHLC(50, 70, 40, 60))
+            entry(LocalDate.of(2025, 12, 18), new OHLC(10, 30, 0, 20))
         ));
 
         var dataSet2 = new DataSet<LocalDate, OHLC>("Data Set 2", Color.GREEN);
 
         dataSet2.setDataPoints(sortedMapOf(
-            entry(LocalDate.of(2025, 12, 17), new OHLC(60, 70, 40, 50)),
-            entry(LocalDate.of(2025, 12, 18), new OHLC(10, 30, 0, 20))
+            entry(LocalDate.of(2025, 12, 17), new OHLC(50, 70, 40, 60)),
+            entry(LocalDate.of(2025, 12, 18), new OHLC(60, 70, 40, 50))
         ));
 
         var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
@@ -112,6 +112,32 @@ public class CandlestickChartTest extends ChartTest {
         ));
 
         compare("candlestick-chart-multiple-data-sets.svg", chart);
+    }
+
+    @Test
+    public void testMissingValue() throws Exception {
+        var chart = new CandlestickChart<LocalDate>();
+
+        var dataSet1 = new DataSet<LocalDate, OHLC>("Data Set 1", Color.RED);
+
+        dataSet1.setDataPoints(sortedMapOf(
+            entry(LocalDate.of(2025, 12, 17), new OHLC(20, 30, 0, 10)),
+            entry(LocalDate.of(2025, 12, 18), new OHLC(10, 30, 0, 20))
+        ));
+
+        var dataSet2 = new DataSet<LocalDate, OHLC>("Data Set 2", Color.GREEN);
+
+        dataSet2.setDataPoints(sortedMapOf(
+            entry(LocalDate.of(2025, 12, 18), new OHLC(60, 70, 40, 50))
+        ));
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+
+        chart.setDomainLabelTransform(dateFormatter::format);
+
+        chart.setDataSets(listOf(dataSet1, dataSet2));
+
+        compare("candlestick-chart-missing-value.svg", chart);
     }
 
     @Test
