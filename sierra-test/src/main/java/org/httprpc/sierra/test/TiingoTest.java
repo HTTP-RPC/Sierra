@@ -347,11 +347,6 @@ public class TiingoTest extends JFrame implements Runnable {
 
         chart.setDataSets(listOf(dataSet));
 
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(null, high, priceFormat.format(high), null),
-            new Chart.Marker<>(null, low, priceFormat.format(low), null)
-        ));
-
         historicalPricingChartPane.setChart(chart);
     }
 

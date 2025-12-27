@@ -142,6 +142,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected double verticalGridLineWidth = 0.0;
 
     protected double chartOffset = 0.0;
+
     protected double chartWidth = 0.0;
     protected double chartHeight = 0.0;
 
