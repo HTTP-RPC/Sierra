@@ -445,7 +445,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
                 }
 
                 graphics.setColor(color);
-
                 graphics.setStroke(bodyOutlineStroke);
 
                 graphics.draw(bodyRectangle);
