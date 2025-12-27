@@ -129,9 +129,13 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testOneValue() throws Exception {
-        var chart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
-        var dataSet = new DataSet<Integer, Double>("One Value", Color.RED);
+        var dataSet = new DataSet<Double, Double>("One Value", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0.0, 0.0)
+        ));
 
         chart.setDataSets(listOf(dataSet));
 

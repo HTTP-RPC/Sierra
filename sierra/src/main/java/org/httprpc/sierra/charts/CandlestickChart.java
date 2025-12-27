@@ -111,7 +111,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
     }
 
     /**
-     * Returns the body transparency.
+     * Returns the body transparency. The default value is 1.0.
      *
      * @return
      * The body transparency.
@@ -124,8 +124,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
      * Sets the body transparency.
      *
      * @param bodyTransparency
-     * The body transparency, as a value from 0.0 to 1.0. The default value is
-     * 1.0.
+     * The body transparency, as a value from 0.0 to 1.0.
      */
     public void setBodyTransparency(double bodyTransparency) {
         if (bodyTransparency < 0.0 || bodyTransparency > 1.0) {

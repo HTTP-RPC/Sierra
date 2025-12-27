@@ -134,7 +134,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     }
 
     /**
-     * Returns the bar transparency.
+     * Returns the bar transparency. The default value is 1.0.
      *
      * @return
      * The bar transparency.
@@ -147,8 +147,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
      * Sets the bar transparency.
      *
      * @param barTransparency
-     * The bar transparency, as a value from 0.0 to 1.0. The default value is
-     * 1.0.
+     * The bar transparency, as a value from 0.0 to 1.0.
      */
     public void setBarTransparency(double barTransparency) {
         if (barTransparency < 0.0 || barTransparency > 1.0) {

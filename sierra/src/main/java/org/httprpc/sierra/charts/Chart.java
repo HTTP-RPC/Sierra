@@ -78,12 +78,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private Color domainLabelColor = Color.GRAY;
     private Font domainLabelFont = defaultDomainLabelFont;
 
+    private double domainMarginRatio = 0.0;
+
     private int rangeLabelCount = 5;
 
     private Function<Number, String> rangeLabelTransform = numberFormat::format;
 
     private Color rangeLabelColor = Color.GRAY;
     private Font rangeLabelFont = defaultRangeLabelFont;
+
+    private double rangeMarginRatio = 0.00;
 
     private Color markerColor = Color.BLACK;
     private BasicStroke markerStroke = defaultMarkerStroke;
@@ -278,6 +282,54 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.domainLabelFont = domainLabelFont;
+    }
+
+    /**
+     * Returns the domain margin ratio. The default value is 0.0.
+     *
+     * @return
+     * The domain margin ratio.
+     */
+    public double getDomainMarginRatio() {
+        return domainMarginRatio;
+    }
+
+    /**
+     * Sets the domain margin ratio.
+     *
+     * @param domainMarginRatio
+     * The domain margin ratio, as a value from 0.0 to 1.0.
+     */
+    public void setDomainMarginRatio(double domainMarginRatio) {
+        if (domainMarginRatio < 0.0 || domainMarginRatio > 1.0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.domainMarginRatio = domainMarginRatio;
+    }
+
+    /**
+     * Returns the range margin ratio. The default value is 0.0.
+     *
+     * @return
+     * The range margin ratio.
+     */
+    public double getRangeMarginRatio() {
+        return rangeMarginRatio;
+    }
+
+    /**
+     * Returns the range margin ratio. The default value is 0.0.
+     *
+     * @param rangeMarginRatio
+     * The range margin ratio, as a value from 0.0 to 1.0.
+     */
+    public void setRangeMarginRatio(double rangeMarginRatio) {
+        if (rangeMarginRatio < 0.0 || rangeMarginRatio > 1.0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.rangeMarginRatio = rangeMarginRatio;
     }
 
     /**
@@ -713,6 +765,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             throw new IllegalArgumentException();
         }
 
+        if (domainMinimum > domainMaximum || rangeMinimum > rangeMaximum) {
+            throw new IllegalStateException();
+        }
+
         if (columnCount == 0) {
             columnCount++;
         }
@@ -723,12 +779,17 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         domainLabelTextPanes.clear();
         rangeLabelTextPanes.clear();
 
-        domainLabelHeight = (int)Math.ceil(domainLabelFont.getLineMetrics("", graphics.getFontRenderContext()).getHeight());
+        if (domainMinimum == domainMaximum) {
+            domainMinimum -= 1.0;
+            domainMaximum += 1.0;
+        }
 
         if (rangeMinimum == rangeMaximum) {
             rangeMinimum -= 1.0;
             rangeMaximum += 1.0;
         }
+
+        domainLabelHeight = (int)Math.ceil(domainLabelFont.getLineMetrics("", graphics.getFontRenderContext()).getHeight());
 
         var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
 
