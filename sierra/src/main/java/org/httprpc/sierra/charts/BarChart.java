@@ -200,6 +200,11 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             }
         }
 
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
+        }
+
         var keyCount = totalValues.size();
 
         validateGrid(graphics, keyCount);
