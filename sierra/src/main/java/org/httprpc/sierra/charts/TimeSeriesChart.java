@@ -255,6 +255,8 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             textPane.setLocation(x, (int)domainLabelY);
             textPane.doLayout();
 
+            domainLabelTextPanes.add(textPane);
+
             domainLabelX += columnWidth;
         }
 
