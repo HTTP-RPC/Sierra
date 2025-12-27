@@ -212,14 +212,9 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             }
         }
 
-        if (rangeMinimum == rangeMaximum) {
-            rangeMinimum -= 1.0;
-            rangeMaximum += 1.0;
-        } else {
-            var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * RANGE_MARGIN_RATIO;
-
-            rangeMinimum -= rangeMargin;
-            rangeMaximum += rangeMargin;
+        if (rangeMinimum > rangeMaximum) {
+            rangeMinimum = 0.0;
+            rangeMaximum = 0.0;
         }
 
         var domainLabelCount = getDomainLabelCount();

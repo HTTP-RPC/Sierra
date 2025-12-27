@@ -709,6 +709,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The column count.
      */
     protected void validateGrid(Graphics2D graphics, int columnCount) {
+        if (graphics == null || columnCount < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        if (columnCount == 0) {
+            columnCount++;
+        }
+
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
@@ -716,6 +724,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         rangeLabelTextPanes.clear();
 
         domainLabelHeight = (int)Math.ceil(domainLabelFont.getLineMetrics("", graphics.getFontRenderContext()).getHeight());
+
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
+        }
 
         var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
 

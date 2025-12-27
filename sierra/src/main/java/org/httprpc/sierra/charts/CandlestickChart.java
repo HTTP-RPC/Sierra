@@ -163,9 +163,9 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             }
         }
 
-        if (rangeMinimum == rangeMaximum) {
-            rangeMinimum -= 1.0;
-            rangeMaximum += 1.0;
+        if (rangeMinimum > rangeMaximum) {
+            rangeMinimum = 0.0;
+            rangeMaximum = 0.0;
         }
 
         var keyCount = keys.size();
