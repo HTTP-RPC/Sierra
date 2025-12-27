@@ -110,8 +110,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     private List<Line2D.Double> rangeMarkerLines = listOf();
     private List<Shape> rangeMarkerShapes = listOf();
 
-    private static final double RANGE_MARGIN_RATIO = 0.01;
-
     private static final int MARKER_SCALE = 5;
 
     /**
