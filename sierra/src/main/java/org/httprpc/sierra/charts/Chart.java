@@ -812,8 +812,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         chartOffset = rangeLabelWidth + RANGE_LABEL_SPACING + verticalGridLineWidth / 2;
 
-        chartWidth = (double)width - (chartOffset + verticalGridLineWidth / 2);
-        chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth), 0);
+        chartWidth = Math.max(width - (chartOffset + verticalGridLineWidth / 2), 0.0);
+        chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth), 0.0);
 
         columnWidth = chartWidth / columnCount;
         rowHeight = chartHeight / (rangeLabelCount - 1);
