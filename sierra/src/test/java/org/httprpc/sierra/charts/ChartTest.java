@@ -39,6 +39,8 @@ public abstract class ChartTest {
 
     @BeforeAll
     public static void setUp() {
+        System.setProperty("java.awt.headless", "true");
+
         FlatLightLaf.setup();
     }
 
