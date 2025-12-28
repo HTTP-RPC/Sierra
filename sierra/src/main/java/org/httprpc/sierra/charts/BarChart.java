@@ -170,8 +170,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var totalValues = new TreeMap<K, Double>();
 
-        rangeMinimum = 0.0;
-        rangeMaximum = 0.0;
+        var rangeMinimum = 0.0;
+        var rangeMaximum = 0.0;
 
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
@@ -197,6 +197,23 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 rangeMinimum = Math.min(rangeMinimum, value);
                 rangeMaximum = Math.max(rangeMaximum, value);
             }
+        }
+
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
+        }
+
+        if (Double.isNaN(this.rangeMinimum)) {
+            this.rangeMinimum = rangeMinimum;
+        } else {
+            rangeMinimum = this.rangeMinimum;
+        }
+
+        if (Double.isNaN(this.rangeMaximum)) {
+            this.rangeMaximum = rangeMaximum;
+        } else {
+            rangeMaximum = this.rangeMaximum;
         }
 
         var keyCount = totalValues.size();

@@ -129,14 +129,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected int width = 0;
     protected int height = 0;
 
-    protected double domainMinimum = 0.0;
-    protected double domainMaximum = 0.0;
+    protected double domainMinimum = Double.NaN;
+    protected double domainMaximum = Double.NaN;
 
-    protected double rangeMinimum = 0.0;
-    protected double rangeMaximum = 0.0;
+    protected double rangeMinimum = Double.NaN;
+    protected double rangeMaximum = Double.NaN;
 
-    protected double domainLabelHeight = 0.0;
-    protected double rangeLabelWidth = 0.0;
+    protected int domainLabelHeight = -1;
+    protected int rangeLabelWidth = -1;
 
     protected double horizontalGridLineWidth = 0.0;
     protected double verticalGridLineWidth = 0.0;
@@ -661,6 +661,82 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
+     * Returns the domain minimum.
+     *
+     * @return
+     * The domain minimum.
+     */
+    public double getDomainMinimum() {
+        return domainMinimum;
+    }
+
+    /**
+     * Returns the domain maximum.
+     *
+     * @return
+     * The domain maximum.
+     */
+    public double getDomainMaximum() {
+        return domainMaximum;
+    }
+
+    /**
+     * Sets the domain bounds.
+     *
+     * @param domainMinimum
+     * The domain minimum, or {@link Double#NaN} for the default value.
+     *
+     * @param domainMaximum
+     * The domain maximum, or {@link Double#NaN} for the default value.
+     */
+    public void setDomainBounds(double domainMinimum, double domainMaximum) {
+        if (domainMinimum > domainMaximum) {
+            throw new IllegalArgumentException();
+        }
+
+        this.domainMinimum = domainMinimum;
+        this.domainMaximum = domainMaximum;
+    }
+
+    /**
+     * Returns the range minimum.
+     *
+     * @return
+     * The range minimum.
+     */
+    public double getRangeMinimum() {
+        return rangeMinimum;
+    }
+
+    /**
+     * Returns the range maximum.
+     *
+     * @return
+     * The range maximum.
+     */
+    public double getRangeMaximum() {
+        return rangeMaximum;
+    }
+
+    /**
+     * Sets the range bounds.
+     *
+     * @param rangeMinimum
+     * The range minimum, or {@link Double#NaN} for the default value.
+     *
+     * @param rangeMaximum
+     * The range maximum, or {@link Double#NaN} for the default value.
+     */
+    public void setRangeBounds(double rangeMinimum, double rangeMaximum) {
+        if (rangeMinimum > rangeMaximum) {
+            throw new IllegalArgumentException();
+        }
+
+        this.rangeMinimum = rangeMinimum;
+        this.rangeMaximum = rangeMaximum;
+    }
+
+    /**
      * Draws the chart.
      *
      * @param graphics
@@ -713,8 +789,12 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             throw new IllegalArgumentException();
         }
 
-        if (domainMinimum > domainMaximum || rangeMinimum > rangeMaximum) {
-            throw new IllegalStateException();
+        if (domainMinimum > domainMaximum) {
+            throw new IllegalStateException("Invalid domain bounds.");
+        }
+
+        if (rangeMinimum > rangeMaximum) {
+            throw new IllegalStateException("Invalid range bounds.");
         }
 
         if (columnCount == 0) {
@@ -726,16 +806,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         domainLabelTextPanes.clear();
         rangeLabelTextPanes.clear();
-
-        if (domainMinimum == domainMaximum) {
-            domainMinimum -= 1.0;
-            domainMaximum += 1.0;
-        }
-
-        if (rangeMinimum == rangeMaximum) {
-            rangeMinimum -= 1.0;
-            rangeMaximum += 1.0;
-        }
 
         domainLabelHeight = (int)Math.ceil(domainLabelFont.getLineMetrics("", graphics.getFontRenderContext()).getHeight());
 
@@ -800,7 +870,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 y = (int)rangeLabelY;
             }
 
-            textPane.setBounds(0, y, (int)rangeLabelWidth, size.height);
+            textPane.setBounds(0, y, rangeLabelWidth, size.height);
             textPane.doLayout();
 
             rangeLabelY -= rowHeight;

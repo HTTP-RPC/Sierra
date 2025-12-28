@@ -148,8 +148,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
         var keys = new TreeSet<K>();
 
-        rangeMinimum = Double.POSITIVE_INFINITY;
-        rangeMaximum = Double.NEGATIVE_INFINITY;
+        var rangeMinimum = Double.POSITIVE_INFINITY;
+        var rangeMaximum = Double.NEGATIVE_INFINITY;
 
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
@@ -165,6 +165,23 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
         if (rangeMinimum > rangeMaximum) {
             rangeMinimum = 0.0;
             rangeMaximum = 0.0;
+        }
+
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
+        }
+
+        if (Double.isNaN(this.rangeMinimum)) {
+            this.rangeMinimum = rangeMinimum;
+        } else {
+            rangeMinimum = this.rangeMinimum;
+        }
+
+        if (Double.isNaN(this.rangeMaximum)) {
+            this.rangeMaximum = rangeMaximum;
+        } else {
+            rangeMaximum = this.rangeMaximum;
         }
 
         var keyCount = keys.size();

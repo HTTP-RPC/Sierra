@@ -186,11 +186,11 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         var dataSets = getDataSets();
 
-        domainMinimum = Double.POSITIVE_INFINITY;
-        domainMaximum = Double.NEGATIVE_INFINITY;
+        var domainMinimum = Double.POSITIVE_INFINITY;
+        var domainMaximum = Double.NEGATIVE_INFINITY;
 
-        rangeMinimum = Double.POSITIVE_INFINITY;
-        rangeMaximum = Double.NEGATIVE_INFINITY;
+        var rangeMinimum = Double.POSITIVE_INFINITY;
+        var rangeMaximum = Double.NEGATIVE_INFINITY;
 
         for (var dataSet : dataSets) {
             var dataPoints = dataSet.getDataPoints();
@@ -215,9 +215,43 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             domainMaximum = 0.0;
         }
 
+        if (domainMinimum == domainMaximum) {
+            domainMinimum -= 1.0;
+            domainMaximum += 1.0;
+        }
+
+        if (Double.isNaN(this.domainMinimum)) {
+            this.domainMinimum = domainMinimum;
+        } else {
+            domainMinimum = this.domainMinimum;
+        }
+
+        if (Double.isNaN(this.domainMaximum)) {
+            this.domainMaximum = domainMaximum;
+        } else {
+            domainMaximum = this.domainMaximum;
+        }
+
         if (rangeMinimum > rangeMaximum) {
             rangeMinimum = 0.0;
             rangeMaximum = 0.0;
+        }
+
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
+        }
+
+        if (Double.isNaN(this.rangeMinimum)) {
+            this.rangeMinimum = rangeMinimum;
+        } else {
+            rangeMinimum = this.rangeMinimum;
+        }
+
+        if (Double.isNaN(this.rangeMaximum)) {
+            this.rangeMaximum = rangeMaximum;
+        } else {
+            rangeMaximum = this.rangeMaximum;
         }
 
         var domainLabelCount = getDomainLabelCount();
