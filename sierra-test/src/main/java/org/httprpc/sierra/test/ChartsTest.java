@@ -134,7 +134,19 @@ public class ChartsTest extends JFrame implements Runnable {
             BasicStroke.JOIN_MITER,
             1.0f, new float[] {2.0f}, 0.0f));
 
-        barChart.setDataSets(createCategoryDataSets());
+        var dataSets = createCategoryDataSets();
+
+        var rangeMaximum = 0.0;
+
+        for (var dataSet : dataSets) {
+            for (var value : dataSet.getDataPoints().values()) {
+                rangeMaximum = Math.max(rangeMaximum, value);
+            }
+        }
+
+        barChart.setRangeBounds(0.0, rangeMaximum + rangeMaximum * 0.04);
+
+        barChart.setDataSets(dataSets);
 
         return barChart;
     }
@@ -184,39 +196,6 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private TimeSeriesChart<Integer, Double> createTimeSeriesChart() {
-        var timeSeriesChart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
-
-        var rangeLabelFormat = NumberFormat.getNumberInstance();
-
-        rangeLabelFormat.setMinimumFractionDigits(1);
-        rangeLabelFormat.setMaximumFractionDigits(1);
-
-        timeSeriesChart.setRangeLabelTransform(rangeLabelFormat::format);
-
-        timeSeriesChart.setVerticalGridLineStroke(new BasicStroke(1.0f,
-            BasicStroke.CAP_SQUARE,
-            BasicStroke.JOIN_MITER,
-            1.0f, new float[] {2.0f}, 0.0f));
-
-        var n = 250;
-
-        timeSeriesChart.setDataSets(createTimeSeriesDataSets(n));
-
-        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
-
-        icon = icon.derive(18, 18);
-
-        icon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> timeSeriesChart.getMarkerColor()));
-
-        timeSeriesChart.setDomainMarkers(listOf(
-            new Chart.Marker<>((int)(Math.random() * n), null, "Marker 1", icon),
-            new Chart.Marker<>((int)(Math.random() * n), null, "Marker 2", icon)
-        ));
-
-        return timeSeriesChart;
-    }
-
-    private List<DataSet<Integer, Double>> createTimeSeriesDataSets(int n) {
         var colors = listOf(
             UILoader.getColor("light-coral"),
             UILoader.getColor("light-green"),
@@ -226,6 +205,11 @@ public class ChartsTest extends JFrame implements Runnable {
         var m = colors.size();
 
         var dataSets = new ArrayList<DataSet<Integer, Double>>(m);
+
+        var n = 250;
+
+        var rangeMinimum = Double.POSITIVE_INFINITY;
+        var rangeMaximum = Double.NEGATIVE_INFINITY;
 
         for (var i = 0; i < m; i++) {
             var dataSet = new DataSet<Integer, Double>(String.format("Data Set %d", i + 1), colors.get(i));
@@ -241,6 +225,9 @@ public class ChartsTest extends JFrame implements Runnable {
                 }
 
                 dataPoints.put(j, value);
+
+                rangeMinimum = Math.min(rangeMaximum, value);
+                rangeMaximum = Math.max(rangeMaximum, value);
             }
 
             dataSet.setDataPoints(dataPoints);
@@ -248,28 +235,41 @@ public class ChartsTest extends JFrame implements Runnable {
             dataSets.add(dataSet);
         }
 
-        return dataSets;
+        var timeSeriesChart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+
+        var rangeLabelFormat = NumberFormat.getNumberInstance();
+
+        rangeLabelFormat.setMinimumFractionDigits(1);
+        rangeLabelFormat.setMaximumFractionDigits(1);
+
+        timeSeriesChart.setRangeLabelTransform(rangeLabelFormat::format);
+
+        timeSeriesChart.setVerticalGridLineStroke(new BasicStroke(1.0f,
+            BasicStroke.CAP_SQUARE,
+            BasicStroke.JOIN_MITER,
+            1.0f, new float[] {2.0f}, 0.0f));
+
+        var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * 0.02;
+
+        timeSeriesChart.setRangeBounds(rangeMinimum - rangeMargin, rangeMaximum + rangeMargin);
+
+        timeSeriesChart.setDataSets(dataSets);
+
+        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+
+        icon = icon.derive(18, 18);
+
+        icon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> timeSeriesChart.getMarkerColor()));
+
+        timeSeriesChart.setDomainMarkers(listOf(
+            new Chart.Marker<>((int)(Math.random() * n), null, "Marker 1", icon),
+            new Chart.Marker<>((int)(Math.random() * n), null, "Marker 2", icon)
+        ));
+
+        return timeSeriesChart;
     }
 
     private CandlestickChart<LocalDate> createCandlestickChart() {
-        var candlestickChart = new CandlestickChart<LocalDate>();
-
-        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
-
-        candlestickChart.setDomainLabelTransform(dateFormatter::format);
-
-        var rangeLabelFormat = NumberFormat.getCurrencyInstance();
-
-        candlestickChart.setRangeLabelTransform(rangeLabelFormat::format);
-
-        var n = 15;
-
-        candlestickChart.setDataSets(createOHLCDataSets(n));
-
-        return candlestickChart;
-    }
-
-    private List<DataSet<LocalDate, OHLC>> createOHLCDataSets(int n) {
         var colors = listOf(
             UILoader.getColor("light-coral"),
             UILoader.getColor("light-green"),
@@ -279,6 +279,8 @@ public class ChartsTest extends JFrame implements Runnable {
         var m = colors.size();
 
         var dataSets = new ArrayList<DataSet<LocalDate, OHLC>>(m);
+
+        var n = 15;
 
         for (var i = 0; i < m; i++) {
             var dataSet = new DataSet<LocalDate, OHLC>(String.format("Stock %d", i + 1), colors.get(i));
@@ -315,7 +317,19 @@ public class ChartsTest extends JFrame implements Runnable {
             dataSets.add(dataSet);
         }
 
-        return dataSets;
+        var candlestickChart = new CandlestickChart<LocalDate>();
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+
+        candlestickChart.setDomainLabelTransform(dateFormatter::format);
+
+        var rangeLabelFormat = NumberFormat.getCurrencyInstance();
+
+        candlestickChart.setRangeLabelTransform(rangeLabelFormat::format);
+
+        candlestickChart.setDataSets(dataSets);
+
+        return candlestickChart;
     }
 
     public static void main(String[] args) {
