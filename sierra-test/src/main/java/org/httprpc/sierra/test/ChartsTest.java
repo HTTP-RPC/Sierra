@@ -34,7 +34,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.Month;
@@ -263,49 +262,60 @@ public class ChartsTest extends JFrame implements Runnable {
 
         candlestickChart.setRangeLabelTransform(rangeLabelFormat::format);
 
-        candlestickChart.setDataSets(listOf(
-            createOHLCDataSet("Stock 1", UILoader.getColor("light-coral")),
-            createOHLCDataSet("Stock 2", UILoader.getColor("light-green")),
-            createOHLCDataSet("Stock 3", UILoader.getColor("light-blue"))
-        ));
+        var n = 15;
+
+        candlestickChart.setDataSets(createOHLCDataSets(n));
 
         return candlestickChart;
     }
 
-    private DataSet<LocalDate, OHLC> createOHLCDataSet(String label, Color color) {
-        var dataSet = new DataSet<LocalDate, OHLC>(label, color);
+    private List<DataSet<LocalDate, OHLC>> createOHLCDataSets(int n) {
+        var colors = listOf(
+            UILoader.getColor("light-coral"),
+            UILoader.getColor("light-green"),
+            UILoader.getColor("light-blue")
+        );
 
-        var n = 15;
-        var maximum = 250.0;
+        var m = colors.size();
 
-        var dataPoints = new TreeMap<LocalDate, OHLC>();
+        var dataSets = new ArrayList<DataSet<LocalDate, OHLC>>(m);
 
-        var localDate = LocalDate.now();
-        var previousClose = Double.NaN;
+        for (var i = 0; i < m; i++) {
+            var dataSet = new DataSet<LocalDate, OHLC>(String.format("Stock %d", i + 1), colors.get(i));
 
-        for (var i = 0; i < n; i++) {
-            double open;
-            if (i == 0) {
-                open = Math.random() * maximum;
-            } else {
-                open = previousClose;
+            var maximum = 250.0;
+
+            var dataPoints = new TreeMap<LocalDate, OHLC>();
+
+            var localDate = LocalDate.now();
+            var previousClose = Double.NaN;
+
+            for (var j = 0; j < n; j++) {
+                double open;
+                if (j == 0) {
+                    open = Math.random() * maximum;
+                } else {
+                    open = previousClose;
+                }
+
+                var high = open + Math.random() * (maximum - open) * 0.5;
+                var low = open - Math.random() * open * 0.5;
+
+                var close = low + Math.random() * (high - low);
+
+                dataPoints.put(localDate, new OHLC(open, high, low, close));
+
+                localDate = localDate.minusDays(1);
+
+                previousClose = close;
             }
 
-            var high = open + Math.random() * (maximum - open) * 0.5;
-            var low = open - Math.random() * open * 0.5;
+            dataSet.setDataPoints(dataPoints);
 
-            var close = low + Math.random() * (high - low);
-
-            dataPoints.put(localDate, new OHLC(open, high, low, close));
-
-            localDate = localDate.minusDays(1);
-
-            previousClose = close;
+            dataSets.add(dataSet);
         }
 
-        dataSet.setDataPoints(dataPoints);
-
-        return dataSet;
+        return dataSets;
     }
 
     public static void main(String[] args) {
