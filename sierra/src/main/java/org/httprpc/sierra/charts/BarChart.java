@@ -199,16 +199,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             }
         }
 
-        var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * getRangeMarginRatio();
-
-        if (rangeMinimum < 0.0) {
-            rangeMinimum -= rangeMargin;
-        }
-
-        if (rangeMaximum > 0.0) {
-            rangeMaximum += rangeMargin;
-        }
-
         var keyCount = totalValues.size();
 
         validateGrid(graphics, keyCount);

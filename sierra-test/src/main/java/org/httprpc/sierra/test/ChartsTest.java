@@ -129,7 +129,6 @@ public class ChartsTest extends JFrame implements Runnable {
         rangeLabelFormat.setMaximumFractionDigits(1);
 
         barChart.setRangeLabelTransform(rangeLabelFormat::format);
-        barChart.setRangeMarginRatio(0.04);
 
         barChart.setHorizontalGridLineStroke(new BasicStroke(1.0f,
             BasicStroke.CAP_SQUARE,
@@ -188,15 +187,12 @@ public class ChartsTest extends JFrame implements Runnable {
     private TimeSeriesChart<Integer, Double> createTimeSeriesChart() {
         var timeSeriesChart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
 
-        timeSeriesChart.setDomainMarginRatio(0.01);
-
         var rangeLabelFormat = NumberFormat.getNumberInstance();
 
         rangeLabelFormat.setMinimumFractionDigits(1);
         rangeLabelFormat.setMaximumFractionDigits(1);
 
         timeSeriesChart.setRangeLabelTransform(rangeLabelFormat::format);
-        timeSeriesChart.setRangeMarginRatio(0.04);
 
         timeSeriesChart.setVerticalGridLineStroke(new BasicStroke(1.0f,
             BasicStroke.CAP_SQUARE,
@@ -266,7 +262,6 @@ public class ChartsTest extends JFrame implements Runnable {
         var rangeLabelFormat = NumberFormat.getCurrencyInstance();
 
         candlestickChart.setRangeLabelTransform(rangeLabelFormat::format);
-        candlestickChart.setRangeMarginRatio(0.04);
 
         candlestickChart.setDataSets(listOf(
             createOHLCDataSet("Stock 1", UILoader.getColor("light-coral")),

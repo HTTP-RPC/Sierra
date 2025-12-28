@@ -213,21 +213,11 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         if (domainMinimum > domainMaximum) {
             domainMinimum = 0.0;
             domainMaximum = 0.0;
-        } else {
-            var domainMargin = Math.abs(domainMaximum - domainMinimum) * getDomainMarginRatio();
-
-            domainMinimum -= domainMargin;
-            domainMaximum += domainMargin;
         }
 
         if (rangeMinimum > rangeMaximum) {
             rangeMinimum = 0.0;
             rangeMaximum = 0.0;
-        } else {
-            var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * getRangeMarginRatio();
-
-            rangeMinimum -= rangeMargin;
-            rangeMaximum += rangeMargin;
         }
 
         var domainLabelCount = getDomainLabelCount();
