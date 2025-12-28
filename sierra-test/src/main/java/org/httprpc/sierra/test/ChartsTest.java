@@ -226,7 +226,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
                 dataPoints.put(j, value);
 
-                rangeMinimum = Math.min(rangeMaximum, value);
+                rangeMinimum = Math.min(rangeMinimum, value);
                 rangeMaximum = Math.max(rangeMaximum, value);
             }
 
