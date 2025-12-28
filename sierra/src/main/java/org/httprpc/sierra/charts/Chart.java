@@ -78,12 +78,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private Color domainLabelColor = Color.GRAY;
     private Font domainLabelFont = defaultDomainLabelFont;
 
+    private int domainMargin = -1;
+
     private int rangeLabelCount = 5;
 
     private Function<Number, String> rangeLabelTransform = numberFormat::format;
 
     private Color rangeLabelColor = Color.GRAY;
     private Font rangeLabelFont = defaultRangeLabelFont;
+
+    private int rangeMargin = -1;
 
     private Color markerColor = Color.BLACK;
     private BasicStroke markerStroke = defaultMarkerStroke;
@@ -134,9 +138,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     protected double rangeMinimum = Double.NaN;
     protected double rangeMaximum = Double.NaN;
-
-    protected int domainLabelHeight = -1;
-    protected int rangeLabelWidth = -1;
 
     protected double horizontalGridLineWidth = 0.0;
     protected double verticalGridLineWidth = 0.0;
@@ -281,6 +282,30 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
+     * Returns the domain margin.
+     *
+     * @return
+     * The domain margin.
+     */
+    public int getDomainMargin() {
+        return domainMargin;
+    }
+
+    /**
+     * Sets the domain margin.
+     *
+     * @param domainMargin
+     * The domain margin, or -1 for the default value.
+     */
+    public void setDomainMargin(int domainMargin) {
+        if (domainMargin < -1) {
+            throw new IllegalArgumentException();
+        }
+
+        this.domainMargin = domainMargin;
+    }
+
+    /**
      * Returns the range label count.
      *
      * @return
@@ -374,6 +399,30 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.rangeLabelFont = rangeLabelFont;
+    }
+
+    /**
+     * Returns the range margin.
+     *
+     * @return
+     * The range margin.
+     */
+    public int getRangeMargin() {
+        return rangeMargin;
+    }
+
+    /**
+     * Sets the range margin.
+     *
+     * @param rangeMargin
+     * The range margin, or -1 for the default value.
+     */
+    public void setRangeMargin(int rangeMargin) {
+        if (rangeMargin < -1) {
+            throw new IllegalArgumentException();
+        }
+
+        this.rangeMargin = rangeMargin;
     }
 
     /**
@@ -737,6 +786,34 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
+     * Returns the preferred domain margin.
+     *
+     * @param graphics
+     * The graphics context in which the chart will be drawn.
+     *
+     * @return
+     * The preferred domain margin.
+     */
+    public int getPreferredDomainMargin(Graphics2D graphics) {
+        // TODO
+        return 0;
+    }
+
+    /**
+     * Returns the preferred range margin.
+     *
+     * @param graphics
+     * The graphics context in which the chart will be drawn.
+     *
+     * @return
+     * The preferred range margin.
+     */
+    public int getPreferredRangeMargin(Graphics2D graphics) {
+        // TODO
+        return 0;
+    }
+
+    /**
      * Draws the chart.
      *
      * @param graphics
@@ -807,7 +884,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         domainLabelTextPanes.clear();
         rangeLabelTextPanes.clear();
 
-        domainLabelHeight = (int)Math.ceil(domainLabelFont.getLineMetrics("", graphics.getFontRenderContext()).getHeight());
+        domainMargin = (int)Math.ceil(domainLabelFont.getLineMetrics("", graphics.getFontRenderContext()).getHeight());
 
         var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
 
@@ -820,7 +897,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
             textPane.setSize(textPane.getPreferredSize());
 
-            rangeLabelWidth = Math.max(rangeLabelWidth, textPane.getWidth());
+            rangeMargin = Math.max(rangeMargin, textPane.getWidth());
 
             rangeLabelTextPanes.add(textPane);
         }
@@ -828,10 +905,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
         verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
 
-        chartOffset = rangeLabelWidth + RANGE_LABEL_SPACING + verticalGridLineWidth / 2;
+        chartOffset = rangeMargin + RANGE_LABEL_SPACING + verticalGridLineWidth / 2;
 
         chartWidth = Math.max(width - (chartOffset + verticalGridLineWidth / 2), 0.0);
-        chartHeight = Math.max(height - (domainLabelHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth), 0.0);
+        chartHeight = Math.max(height - (domainMargin + DOMAIN_LABEL_SPACING + horizontalGridLineWidth), 0.0);
 
         columnWidth = chartWidth / columnCount;
         rowHeight = chartHeight / (rangeLabelCount - 1);
@@ -870,7 +947,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 y = (int)rangeLabelY;
             }
 
-            textPane.setBounds(0, y, rangeLabelWidth, size.height);
+            textPane.setBounds(0, y, rangeMargin, size.height);
             textPane.doLayout();
 
             rangeLabelY -= rowHeight;
