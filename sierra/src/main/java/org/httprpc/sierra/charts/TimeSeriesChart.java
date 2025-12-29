@@ -14,8 +14,6 @@
 
 package org.httprpc.sierra.charts;
 
-import org.httprpc.sierra.TextPane;
-
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -254,44 +252,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             rangeMaximum = this.rangeMaximum;
         }
 
-        var domainLabelCount = getDomainLabelCount();
-
-        validateGrid(graphics, domainLabelCount - 1);
-
-        var domainLabelTransform = getDomainLabelTransform();
-        var domainLabelFont = getDomainLabelFont();
-
-        var domainLabelX = chartOffset;
-        var domainLabelY = chartHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth;
-
-        var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
-
-        for (var i = 0; i < domainLabelCount; i++) {
-            var label = domainLabelTransform.apply(domainKeyTransform.apply(domainMinimum + domainStep * i));
-
-            var textPane = new TextPane(label);
-
-            textPane.setFont(domainLabelFont);
-            textPane.setSize(textPane.getPreferredSize());
-
-            var size = textPane.getPreferredSize();
-
-            int x;
-            if (i == 0) {
-                x = (int)domainLabelX;
-            } else if (i < domainLabelCount - 1) {
-                x = (int)domainLabelX - size.width / 2;
-            } else {
-                x = (int)domainLabelX - size.width;
-            }
-
-            textPane.setLocation(x, (int)domainLabelY);
-            textPane.doLayout();
-
-            domainLabelTextPanes.add(textPane);
-
-            domainLabelX += columnWidth;
-        }
+        validateGrid(graphics, null, domainKeyTransform);
 
         var domainScale = chartWidth / (domainMaximum - domainMinimum);
         var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
@@ -339,6 +300,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             valueMarkerShapes.add(dataSetValueMarkerShapes);
         }
 
+        var domainLabelTransform = getDomainLabelTransform();
         var rangeLabelTransform = getRangeLabelTransform();
 
         var markerColor = getMarkerColor();

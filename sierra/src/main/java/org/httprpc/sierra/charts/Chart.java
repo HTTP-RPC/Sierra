@@ -27,6 +27,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.text.NumberFormat;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
@@ -153,8 +154,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected List<Line2D.Double> horizontalGridLines = listOf();
     protected List<Line2D.Double> verticalGridLines = listOf();
 
-    protected List<TextPane> domainLabelTextPanes = listOf();
-    protected List<TextPane> rangeLabelTextPanes = listOf();
+    private List<TextPane> domainLabelTextPanes = listOf();
+    private List<TextPane> rangeLabelTextPanes = listOf();
 
     protected static final int DOMAIN_LABEL_SPACING = 4;
     protected static final int RANGE_LABEL_SPACING = 4;
@@ -858,11 +859,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * @param graphics
      * The graphics context in which the grid will be drawn.
      *
-     * @param columnCount
-     * The column count.
+     * @param keys
+     * The category keys, or {@code null} to use the domain label transform.
+     *
+     * @param domainKeyTransform
+     * The domain label transform, or {@code null} to use the category keys.
      */
-    protected void validateGrid(Graphics2D graphics, int columnCount) {
-        if (graphics == null || columnCount < 0) {
+    protected void validateGrid(Graphics2D graphics, Collection<K> keys, Function<Number, K> domainKeyTransform) {
+        if (graphics == null) {
             throw new IllegalArgumentException();
         }
 
@@ -874,15 +878,18 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             throw new IllegalStateException("Invalid range bounds.");
         }
 
-        if (columnCount == 0) {
-            columnCount++;
-        }
-
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
         domainLabelTextPanes.clear();
         rangeLabelTextPanes.clear();
+
+        double columnCount;
+        if (keys == null) {
+            columnCount = domainLabelCount - 1;
+        } else {
+            columnCount = Math.max(keys.size(), 1);
+        }
 
         domainMargin = (int)Math.ceil(domainLabelFont.getLineMetrics("", graphics.getFontRenderContext()).getHeight());
 
@@ -912,6 +919,83 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         columnWidth = chartWidth / columnCount;
         rowHeight = chartHeight / (rangeLabelCount - 1);
+
+        var domainLabelX = chartOffset;
+        var domainLabelY = chartHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth;
+
+        if (keys == null) {
+            var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
+
+            for (var i = 0; i < domainLabelCount; i++) {
+                var label = domainLabelTransform.apply(domainKeyTransform.apply(domainMinimum + domainStep * i));
+
+                var textPane = new TextPane(label);
+
+                textPane.setFont(domainLabelFont);
+                textPane.setSize(textPane.getPreferredSize());
+
+                var size = textPane.getPreferredSize();
+
+                int x;
+                if (i == 0) {
+                    x = (int)domainLabelX;
+                } else if (i < domainLabelCount - 1) {
+                    x = (int)domainLabelX - size.width / 2;
+                } else {
+                    x = (int)domainLabelX - size.width;
+                }
+
+                textPane.setLocation(x, (int)domainLabelY);
+                textPane.doLayout();
+
+                domainLabelTextPanes.add(textPane);
+
+                domainLabelX += columnWidth;
+            }
+        } else {
+            var maximumDomainLabelWidth = 0.0;
+
+            for (var key : keys) {
+                var label = domainLabelTransform.apply(key);
+
+                var textPane = new TextPane(label);
+
+                textPane.setFont(domainLabelFont);
+                textPane.setSize(textPane.getPreferredSize());
+
+                maximumDomainLabelWidth = Math.max(maximumDomainLabelWidth, textPane.getWidth());
+
+                domainLabelTextPanes.add(textPane);
+            }
+
+            var showDomainLabels = maximumDomainLabelWidth < columnWidth * 0.85;
+
+            var keyCount = keys.size();
+
+            for (var i = 0; i < keyCount; i++) {
+                var textPane = domainLabelTextPanes.get(i);
+
+                var size = textPane.getSize();
+
+                int x;
+                if (showDomainLabels) {
+                    x = (int)(domainLabelX + columnWidth / 2) - size.width / 2;
+                } else if (i == 0) {
+                    x = (int)domainLabelX;
+                } else if (i < keyCount - 1) {
+                    x = (int)(domainLabelX + columnWidth / 2) - size.width / 2;
+
+                    textPane.setText(null);
+                } else {
+                    x = (int)(domainLabelX + columnWidth) - size.width;
+                }
+
+                textPane.setLocation(x, (int)domainLabelY);
+                textPane.doLayout();
+
+                domainLabelX += columnWidth;
+            }
+        }
 
         var gridY = horizontalGridLineWidth / 2;
 
