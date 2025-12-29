@@ -789,13 +789,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     /**
      * Returns the preferred domain margin.
      *
-     * @param graphics
-     * The graphics context in which the chart will be drawn.
-     *
      * @return
      * The preferred domain margin.
      */
-    public int getPreferredDomainMargin(Graphics2D graphics) {
+    public int getPreferredDomainMargin() {
         // TODO
         return 0;
     }
@@ -803,13 +800,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     /**
      * Returns the preferred range margin.
      *
-     * @param graphics
-     * The graphics context in which the chart will be drawn.
-     *
      * @return
      * The preferred range margin.
      */
-    public int getPreferredRangeMargin(Graphics2D graphics) {
+    public int getPreferredRangeMargin() {
         // TODO
         return 0;
     }
