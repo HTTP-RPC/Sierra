@@ -794,7 +794,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     public int getPreferredDomainMargin() {
         // TODO
-        return 0;
+        var textPane = new TextPane("");
+
+        textPane.setFont(domainLabelFont);
+
+        return textPane.getPreferredSize().height;
     }
 
     /**
@@ -833,7 +837,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         this.height = height;
 
         if (!valid) {
-            validate(graphics);
+            validate();
         }
 
         draw(graphics);
@@ -841,17 +845,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     /**
      * Validates the chart contents.
-     *
-     * @param graphics
-     * The graphics context in which the chart will be drawn.
      */
-    protected abstract void validate(Graphics2D graphics);
+    protected abstract void validate();
 
     /**
      * Validates the grid.
-     *
-     * @param graphics
-     * The graphics context in which the grid will be drawn.
      *
      * @param keys
      * The category keys, or {@code null} to use the domain label transform.
@@ -859,11 +857,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * @param domainKeyTransform
      * The domain label transform, or {@code null} to use the category keys.
      */
-    protected void validateGrid(Graphics2D graphics, Collection<K> keys, Function<Number, K> domainKeyTransform) {
-        if (graphics == null) {
-            throw new IllegalArgumentException();
-        }
-
+    protected void validateGrid(Collection<K> keys, Function<Number, K> domainKeyTransform) {
         if (domainMinimum > domainMaximum) {
             throw new IllegalStateException("Invalid domain bounds.");
         }
@@ -885,7 +879,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             columnCount = Math.max(keys.size(), 1);
         }
 
-        domainMargin = (int)Math.ceil(domainLabelFont.getLineMetrics("", graphics.getFontRenderContext()).getHeight());
+        domainMargin = getPreferredDomainMargin();
 
         var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
 

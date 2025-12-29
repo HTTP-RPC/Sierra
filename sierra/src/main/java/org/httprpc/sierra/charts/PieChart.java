@@ -179,7 +179,7 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
     }
 
     @Override
-    protected void validate(Graphics2D graphics) {
+    protected void validate() {
         sliceArcs.clear();
 
         var dataSets = getDataSets();

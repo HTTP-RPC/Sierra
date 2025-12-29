@@ -156,7 +156,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     }
 
     @Override
-    protected void validate(Graphics2D graphics) {
+    protected void validate() {
         zeroLine = null;
 
         barRectangles.clear();
@@ -214,7 +214,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             rangeMaximum = this.rangeMaximum;
         }
 
-        validateGrid(graphics, totalValues.keySet(), null);
+        validateGrid(totalValues.keySet(), null);
 
         var keyCount = totalValues.size();
 

@@ -170,7 +170,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     }
 
     @Override
-    protected void validate(Graphics2D graphics) {
+    protected void validate() {
         zeroLine = null;
 
         paths.clear();
@@ -252,7 +252,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             rangeMaximum = this.rangeMaximum;
         }
 
-        validateGrid(graphics, null, domainKeyTransform);
+        validateGrid(null, domainKeyTransform);
 
         var domainScale = chartWidth / (domainMaximum - domainMinimum);
         var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);

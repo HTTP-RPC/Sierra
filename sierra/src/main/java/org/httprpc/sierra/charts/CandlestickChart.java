@@ -133,7 +133,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
     }
 
     @Override
-    protected void validate(Graphics2D graphics) {
+    protected void validate() {
         bodyRectangles.clear();
 
         highWickLines.clear();
@@ -182,7 +182,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             rangeMaximum = this.rangeMaximum;
         }
 
-        validateGrid(graphics, keys, null);
+        validateGrid(keys, null);
 
         var keyCount = keys.size();
 
