@@ -934,7 +934,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 textPane.setFont(domainLabelFont);
                 textPane.setSize(textPane.getPreferredSize());
 
-                var size = textPane.getPreferredSize();
+                var size = textPane.getSize();
 
                 int x;
                 if (i == 0) {
