@@ -21,7 +21,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
@@ -32,7 +31,7 @@ import static org.httprpc.kilo.util.Optionals.*;
 /**
  * Scatter chart.
  */
-public class ScatterChart<K extends Comparable<? super K>, V extends Collection<? extends Number>> extends XYChart<K, V> {
+public class ScatterChart<K extends Comparable<? super K>, V extends Number> extends XYChart<K, V> {
     /**
      * Scatter chart legend icon.
      */
@@ -159,14 +158,11 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Collection<
                 domainMinimum = Math.min(domainMinimum, domainValue);
                 domainMaximum = Math.max(domainMaximum, domainValue);
 
-                for (var value : entry.getValue()) {
-                    var rangeValue = map(value, Number::doubleValue);
+                var rangeValue = map(entry.getValue(), Number::doubleValue);
 
-                    if (rangeValue != null) {
-                        rangeMinimum = Math.min(rangeMinimum, rangeValue);
-                        rangeMaximum = Math.max(rangeMaximum, rangeValue);
-                    }
-
+                if (rangeValue != null) {
+                    rangeMinimum = Math.min(rangeMinimum, rangeValue);
+                    rangeMaximum = Math.max(rangeMaximum, rangeValue);
                 }
             }
         }
@@ -228,17 +224,15 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Collection<
             for (var entry : dataSet.getDataPoints().entrySet()) {
                 var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
 
-                for (var value : entry.getValue()) {
-                    var rangeValue = map(value, Number::doubleValue);
+                var rangeValue = map(entry.getValue(), Number::doubleValue);
 
-                    if (rangeValue != null) {
-                        var x = chartOffset + (domainValue - domainMinimum) * domainScale - (double)VALUE_MARKER_SIZE / 2;
-                        var y = zeroY - rangeValue * rangeScale - (double)VALUE_MARKER_SIZE / 2;
+                if (rangeValue != null) {
+                    var x = chartOffset + (domainValue - domainMinimum) * domainScale - (double)VALUE_MARKER_SIZE / 2;
+                    var y = zeroY - rangeValue * rangeScale - (double)VALUE_MARKER_SIZE / 2;
 
-                        var shape = new Ellipse2D.Double(x, y, VALUE_MARKER_SIZE, VALUE_MARKER_SIZE);
+                    var shape = new Ellipse2D.Double(x, y, VALUE_MARKER_SIZE, VALUE_MARKER_SIZE);
 
-                        dataSetValueMarkerShapes.add(shape);
-                    }
+                    dataSetValueMarkerShapes.add(shape);
                 }
             }
 
