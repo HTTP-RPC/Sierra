@@ -293,6 +293,33 @@ public class TimeSeriesChartTest extends ChartTest {
     }
 
     @Test
+    public void testCustomAxisBounds() throws Exception {
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
+
+        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0.0, 0.0),
+            entry(1.0, 10.0),
+            entry(2.0, 20.0),
+            entry(3.0, 30.0),
+            entry(4.0, 40.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        chart.setDomainMarkers(listOf(
+            new Chart.Marker<>(0.0, 0.0, null, null),
+            new Chart.Marker<>(4.0, 40.0, null, null)
+        ));
+
+        chart.setDomainBounds(-1.0, 5.0);
+        chart.setRangeBounds(-10.0, 50.0);
+
+        compare("time-series-chart-custom-axis-bounds.svg", chart);
+    }
+
+    @Test
     public void testCustomAxisMargins() throws Exception {
         var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
