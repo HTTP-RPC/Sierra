@@ -32,7 +32,7 @@ import static org.httprpc.kilo.util.Optionals.*;
 /**
  * Scatter chart.
  */
-public class ScatterChart<K extends Comparable<? super K>, V extends Number> extends XYChart<K, Collection<V>> {
+public class ScatterChart<K extends Comparable<? super K>, V extends Collection<? extends Number>> extends XYChart<K, V> {
     /**
      * Scatter chart legend icon.
      */

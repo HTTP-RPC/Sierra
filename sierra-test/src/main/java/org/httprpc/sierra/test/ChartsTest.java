@@ -42,7 +42,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.TreeMap;
@@ -60,11 +59,11 @@ public class ChartsTest extends JFrame implements Runnable {
     private @Outlet ChartPane<Chart<?, ?>> timeSeriesChartPane = null;
     private @Outlet RowPanel timeSeriesChartLegendPanel = null;
 
-    private @Outlet ChartPane<Chart<?, ?>> scatterChartPane = null;
-    private @Outlet RowPanel scatterChartLegendPanel = null;
-
     private @Outlet ChartPane<Chart<?, ?>> candlestickChartPane = null;
     private @Outlet RowPanel candlestickChartLegendPanel = null;
+
+    private @Outlet ChartPane<Chart<?, ?>> scatterChartPane = null;
+    private @Outlet RowPanel scatterChartLegendPanel = null;
 
     private ChartsTest() {
         super("Charts Test");
@@ -282,51 +281,6 @@ public class ChartsTest extends JFrame implements Runnable {
         return timeSeriesChart;
     }
 
-    private ScatterChart<Integer, Integer> createScatterChart() {
-        var colors = listOf(
-            UILoader.getColor("light-coral"),
-            UILoader.getColor("light-green"),
-            UILoader.getColor("light-blue")
-        );
-
-        var m = colors.size();
-
-        var dataSets = new ArrayList<DataSet<Integer, Collection<Integer>>>(m);
-
-        var n = 15;
-
-        for (var i = 0; i < m; i++) {
-            var dataSet = new DataSet<Integer, Collection<Integer>>(String.format("Data Set %d", i + 1), colors.get(i));
-
-            var dataPoints = new TreeMap<Integer, Collection<Integer>>();
-
-            for (var j = 0; j < n; j++) {
-                var count = (int)Math.ceil(Math.random() * 3);
-
-                var values = new ArrayList<Integer>(count);
-
-                for (var k = 0; k < count; k++) {
-                    values.add((int)(Math.random() * 100));
-                }
-
-                dataPoints.put(j, values);
-            }
-
-            dataSet.setDataPoints(dataPoints);
-
-            dataSets.add(dataSet);
-        }
-
-        var scatterChart = new ScatterChart<Integer, Integer>(key -> key, Number::intValue);
-
-        scatterChart.setDomainLabelCount(n);
-        scatterChart.setValueMarkerTransparency(0.5);
-
-        scatterChart.setDataSets(dataSets);
-
-        return scatterChart;
-    }
-
     private CandlestickChart<LocalDate> createCandlestickChart() {
         var colors = listOf(
             UILoader.getColor("light-coral"),
@@ -388,6 +342,57 @@ public class ChartsTest extends JFrame implements Runnable {
         candlestickChart.setDataSets(dataSets);
 
         return candlestickChart;
+    }
+
+    private ScatterChart<Integer, List<Double>> createScatterChart() {
+        var colors = listOf(
+            UILoader.getColor("light-coral"),
+            UILoader.getColor("light-green"),
+            UILoader.getColor("light-blue")
+        );
+
+        var m = colors.size();
+
+        var dataSets = new ArrayList<DataSet<Integer, List<Double>>>(m);
+
+        var n = 15;
+
+        for (var i = 0; i < m; i++) {
+            var dataSet = new DataSet<Integer, List<Double>>(String.format("Group %d", i + 1), colors.get(i));
+
+            var dataPoints = new TreeMap<Integer, List<Double>>();
+
+            var previousValue = i * 25.0;
+
+            for (var j = 0; j < n; j++) {
+                var value = previousValue + Math.random() * (i + 1) * 25;
+
+                dataPoints.put(j + 1, listOf(value));
+
+                previousValue = value;
+            }
+
+            dataSet.setDataPoints(dataPoints);
+
+            dataSets.add(dataSet);
+        }
+
+        var scatterChart = new ScatterChart<Integer, List<Double>>(key -> key, Number::intValue);
+
+        scatterChart.setValueMarkerTransparency(0.5);
+
+        scatterChart.setDomainLabelCount(n);
+
+        var rangeLabelFormat = NumberFormat.getNumberInstance();
+
+        rangeLabelFormat.setMinimumFractionDigits(1);
+        rangeLabelFormat.setMaximumFractionDigits(1);
+
+        scatterChart.setRangeLabelTransform(rangeLabelFormat::format);
+
+        scatterChart.setDataSets(dataSets);
+
+        return scatterChart;
     }
 
     public static void main(String[] args) {
