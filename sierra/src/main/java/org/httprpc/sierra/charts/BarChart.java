@@ -25,6 +25,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -168,7 +169,12 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var dataSets = getDataSets();
 
-        var totalValues = new TreeMap<K, Double>();
+        SortedMap<K, Double> totalValues;
+        if (stacked) {
+            totalValues = new TreeMap<>();
+        } else {
+            totalValues = null;
+        }
 
         var rangeMinimum = 0.0;
         var rangeMaximum = 0.0;
@@ -179,13 +185,13 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                 var value = coalesce(map(entry.getValue(), Number::doubleValue), () -> 0.0);
 
-                if (stacked && value < 0.0) {
-                    throw new UnsupportedOperationException("Negative value in data set.");
-                }
+                if (stacked) {
+                    if (value < 0.0) {
+                        throw new UnsupportedOperationException("Negative value in data set.");
+                    }
 
-                totalValues.put(key, coalesce(totalValues.get(key), () -> 0.0) + value);
-
-                if (!stacked) {
+                    totalValues.put(key, coalesce(totalValues.get(key), () -> 0.0) + value);
+                } else {
                     rangeMinimum = Math.min(rangeMinimum, value);
                     rangeMaximum = Math.max(rangeMaximum, value);
                 }
@@ -216,12 +222,9 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             rangeMaximum = this.rangeMaximum;
         }
 
-        // TODO Remove
-        keys.addAll(totalValues.keySet());
-
         validateGrid();
 
-        var keyCount = totalValues.size();
+        var keyCount = keys.size();
 
         if (keyCount == 0) {
             return;
@@ -249,7 +252,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
             var j = 0;
 
-            for (var key : totalValues.keySet()) {
+            for (var key : keys) {
                 var value = coalesce(map(dataPoints.get(key), Number::doubleValue), () -> 0.0);
 
                 Rectangle2D.Double barRectangle;

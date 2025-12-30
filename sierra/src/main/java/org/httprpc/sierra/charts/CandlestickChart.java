@@ -25,7 +25,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 import static org.httprpc.kilo.util.Collections.*;
 import static org.httprpc.kilo.util.Optionals.*;
@@ -151,8 +150,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
 
         var dataSets = getDataSets();
 
-        var keys = new TreeSet<K>();
-
         var rangeMinimum = Double.POSITIVE_INFINITY;
         var rangeMaximum = Double.NEGATIVE_INFINITY;
 
@@ -188,9 +185,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
         } else {
             rangeMaximum = this.rangeMaximum;
         }
-
-        // TODO Remove
-        this.keys.addAll(keys);
 
         validateGrid();
 

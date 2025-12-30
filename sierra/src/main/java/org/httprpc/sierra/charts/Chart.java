@@ -695,6 +695,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.dataSets = dataSets;
+
+        if (keys != null) {
+            keys.clear();
+
+            for (var dataSet : dataSets) {
+                for (var entry : dataSet.getDataPoints().entrySet()) {
+                    keys.add(entry.getKey());
+                }
+            }
+        }
     }
 
     /**
