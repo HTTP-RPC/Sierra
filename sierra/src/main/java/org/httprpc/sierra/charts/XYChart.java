@@ -61,6 +61,11 @@ public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<
     }
 
     @Override
+    protected int getColumnCount() {
+        return getDomainLabelCount() - 1;
+    }
+
+    @Override
     protected void populateDomainLabels() {
         var domainLabelCount = getDomainLabelCount();
 
@@ -107,10 +112,5 @@ public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<
 
             domainLabelX += columnWidth;
         }
-    }
-
-    @Override
-    protected int getColumnCount() {
-        return getDomainLabelCount() - 1;
     }
 }

@@ -38,6 +38,11 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
     }
 
     @Override
+    protected int getColumnCount() {
+        return keys.isEmpty() ? 1 : keys.size();
+    }
+
+    @Override
     protected void populateDomainLabels() {
         maximumDomainLabelWidth = 0.0;
 
@@ -99,10 +104,5 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
             domainLabelX += columnWidth;
         }
-    }
-
-    @Override
-    protected int getColumnCount() {
-        return keys.isEmpty() ? 1 : keys.size();
     }
 }

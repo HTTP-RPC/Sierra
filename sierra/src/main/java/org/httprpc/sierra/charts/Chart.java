@@ -875,6 +875,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         domainLabelTextPanes.clear();
         rangeLabelTextPanes.clear();
 
+        var columnCount = getColumnCount();
+
         populateDomainLabels();
 
         domainMargin = getPreferredDomainMargin();
@@ -902,28 +904,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         chartWidth = Math.max(width - (chartOffset + verticalGridLineWidth / 2), 0.0);
         chartHeight = Math.max(height - (domainMargin + DOMAIN_LABEL_SPACING + horizontalGridLineWidth), 0.0);
 
-        var columnCount = getColumnCount();
-
         columnWidth = chartWidth / columnCount;
         rowHeight = chartHeight / (rangeLabelCount - 1);
-
-        var gridY = horizontalGridLineWidth / 2;
-
-        for (var i = 0; i < rangeLabelCount; i++) {
-            horizontalGridLines.add(new Line2D.Double(chartOffset, gridY, chartOffset + chartWidth, gridY));
-
-            gridY += rowHeight;
-        }
-
-        var verticalGridLineCount = columnCount + 1;
-
-        var gridX = chartOffset;
-
-        for (var i = 0; i < verticalGridLineCount; i++) {
-            verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, chartHeight));
-
-            gridX += columnWidth;
-        }
 
         validateDomainLabels();
 
@@ -948,7 +930,33 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
             rangeLabelY -= rowHeight;
         }
+
+        var gridY = horizontalGridLineWidth / 2;
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            horizontalGridLines.add(new Line2D.Double(chartOffset, gridY, chartOffset + chartWidth, gridY));
+
+            gridY += rowHeight;
+        }
+
+        var verticalGridLineCount = columnCount + 1;
+
+        var gridX = chartOffset;
+
+        for (var i = 0; i < verticalGridLineCount; i++) {
+            verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, chartHeight));
+
+            gridX += columnWidth;
+        }
     }
+
+    /**
+     * Returns the column count.
+     *
+     * @return
+     * The column count.
+     */
+    protected abstract int getColumnCount();
 
     /**
      * Populates the domain labels.
@@ -959,14 +967,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * Validates the domain labels.
      */
     protected abstract void validateDomainLabels();
-
-    /**
-     * Returns the column count.
-     *
-     * @return
-     * The column count.
-     */
-    protected abstract int getColumnCount();
 
     /**
      * Draws the chart.
