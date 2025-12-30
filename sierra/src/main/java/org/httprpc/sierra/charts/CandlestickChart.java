@@ -109,6 +109,13 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
     }
 
     /**
+     * Constructs a new candlestick chart.
+     */
+    public CandlestickChart() {
+        super(null, null);
+    }
+
+    /**
      * Returns the body transparency. The default value is 1.0.
      *
      * @return
@@ -182,7 +189,10 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
             rangeMaximum = this.rangeMaximum;
         }
 
-        validateGrid(keys, null);
+        // TODO Remove
+        this.keys.addAll(keys);
+
+        validateGrid();
 
         var keyCount = keys.size();
 

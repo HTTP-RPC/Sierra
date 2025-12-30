@@ -90,9 +90,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         }
     }
 
-    private Function<K, Number> domainValueTransform;
-    private Function<Number, K> domainKeyTransform;
-
     private boolean showValueMarkers = false;
 
     private Line2D.Double zeroLine = null;
@@ -120,32 +117,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
      * The domain key transform.
      */
     public TimeSeriesChart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
-        if (domainValueTransform == null || domainKeyTransform == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.domainValueTransform = domainValueTransform;
-        this.domainKeyTransform = domainKeyTransform;
-    }
-
-    /**
-     * Returns the domain value transform.
-     *
-     * @return
-     * The domain value transform.
-     */
-    public Function<K, Number> getDomainValueTransform() {
-        return domainValueTransform;
-    }
-
-    /**
-     * Returns the domain key transform.
-     *
-     * @return
-     * The domain key transform.
-     */
-    public Function<Number, K> getDomainKeyTransform() {
-        return domainKeyTransform;
+        super(domainValueTransform, domainKeyTransform);
     }
 
     /**
@@ -252,7 +224,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             rangeMaximum = this.rangeMaximum;
         }
 
-        validateGrid(null, domainKeyTransform);
+        validateGrid();
 
         var domainScale = chartWidth / (domainMaximum - domainMinimum);
         var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);

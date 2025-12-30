@@ -117,6 +117,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
      * {@code true} for a stacked bar chart; {@code false}, otherwise.
      */
     public BarChart(boolean stacked) {
+        super(null, null);
+
         this.stacked = stacked;
     }
 
@@ -214,7 +216,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             rangeMaximum = this.rangeMaximum;
         }
 
-        validateGrid(totalValues.keySet(), null);
+        // TODO Remove
+        keys.addAll(totalValues.keySet());
+
+        validateGrid();
 
         var keyCount = totalValues.size();
 

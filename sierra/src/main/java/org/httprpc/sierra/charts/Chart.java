@@ -27,8 +27,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.text.NumberFormat;
-import java.util.Collection;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.function.Function;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -71,6 +71,12 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         public Marker {
         }
     }
+
+    // TODO
+    protected Function<K, Number> domainValueTransform;
+    protected Function<Number, K> domainKeyTransform;
+
+    protected TreeSet<K> keys;
 
     private int domainLabelCount = 5;
 
@@ -168,7 +174,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         entry(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT)
     ));
 
-    Chart() {
+    Chart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
+        this.domainValueTransform = domainValueTransform;
+        this.domainKeyTransform = domainKeyTransform;
+
+        if (domainKeyTransform == null) {
+            keys = new TreeSet<>();
+        } else {
+            keys = null;
+        }
+
         perform(UIManager.getColor("Label.disabledForeground"), color -> {
             domainLabelColor = color;
             rangeLabelColor = color;
@@ -184,6 +199,26 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             horizontalGridLineColor = color;
             verticalGridLineColor = color;
         });
+    }
+
+    /**
+     * Returns the domain value transform.
+     *
+     * @return
+     * The domain value transform.
+     */
+    public Function<K, Number> getDomainValueTransform() {
+        return domainValueTransform;
+    }
+
+    /**
+     * Returns the domain key transform.
+     *
+     * @return
+     * The domain key transform.
+     */
+    public Function<Number, K> getDomainKeyTransform() {
+        return domainKeyTransform;
     }
 
     /**
@@ -850,14 +885,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     /**
      * Validates the grid.
-     *
-     * @param keys
-     * The category keys, or {@code null} to use the domain label transform.
-     *
-     * @param domainKeyTransform
-     * The domain label transform, or {@code null} to use the category keys.
      */
-    protected void validateGrid(Collection<K> keys, Function<Number, K> domainKeyTransform) {
+    protected void validateGrid() {
         if (domainMinimum > domainMaximum) {
             throw new IllegalStateException("Invalid domain bounds.");
         }

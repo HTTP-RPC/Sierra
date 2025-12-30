@@ -115,6 +115,8 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
      * {@code true} for a doughnut chart; {@code false}, otherwise.
      */
     public PieChart(boolean doughnut) {
+        super(null, null);
+
         this.doughnut = doughnut;
 
         perform(UIManager.getColor("TextArea.background"), color -> outlineColor = color);
