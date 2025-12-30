@@ -75,12 +75,11 @@ public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<
         var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
 
         for (var i = 0; i < domainLabelCount; i++) {
-            var label = domainLabelTransform.apply(domainKeyTransform.apply(domainMinimum + domainStep * i));
+            var key = domainKeyTransform.apply(domainMinimum + domainStep * i);
 
-            var textPane = new TextPane(label);
+            var textPane = new TextPane(domainLabelTransform.apply(key));
 
             textPane.setFont(domainLabelFont);
-            textPane.setSize(textPane.getPreferredSize());
 
             domainLabelTextPanes.add(textPane);
         }
@@ -95,6 +94,8 @@ public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<
 
         for (var i = 0; i < domainLabelCount; i++) {
             var textPane = domainLabelTextPanes.get(i);
+
+            textPane.setSize(textPane.getPreferredSize());
 
             var size = textPane.getSize();
 

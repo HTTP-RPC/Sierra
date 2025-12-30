@@ -32,8 +32,6 @@ import static org.httprpc.kilo.util.Collections.*;
 public abstract class CategoryChart<K extends Comparable<? super K>, V> extends Chart<K, V> {
     protected SortedSet<K> keys = sortedSetOf();
 
-    protected double maximumDomainLabelWidth = 0.0;
-
     CategoryChart() {
     }
 
@@ -44,8 +42,6 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
     @Override
     protected void populateDomainLabels() {
-        maximumDomainLabelWidth = 0.0;
-
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
 
@@ -53,19 +49,13 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
             var textPane = new TextPane("");
 
             textPane.setFont(domainLabelFont);
-            textPane.setSize(textPane.getPreferredSize());
 
             domainLabelTextPanes.add(textPane);
         } else {
             for (var key : keys) {
-                var label = domainLabelTransform.apply(key);
-
-                var textPane = new TextPane(label);
+                var textPane = new TextPane(domainLabelTransform.apply(key));
 
                 textPane.setFont(domainLabelFont);
-                textPane.setSize(textPane.getPreferredSize());
-
-                maximumDomainLabelWidth = Math.max(maximumDomainLabelWidth, textPane.getWidth());
 
                 domainLabelTextPanes.add(textPane);
             }
@@ -74,9 +64,21 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
     @Override
     protected void validateDomainLabels() {
-        var showDomainLabels = maximumDomainLabelWidth < columnWidth * 0.85;
-
         var keyCount = keys.size();
+
+        var maximumWidth = 0.0;
+
+        for (var i = 0; i < keyCount; i++) {
+            var textPane = domainLabelTextPanes.get(i);
+
+            textPane.setSize(textPane.getPreferredSize());
+
+            var size = textPane.getSize();
+
+            maximumWidth = Math.max(maximumWidth, size.width);
+        }
+
+        var showDomainLabels = maximumWidth < columnWidth * 0.85;
 
         var domainLabelX = chartOffset;
         var domainLabelY = chartHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth;
