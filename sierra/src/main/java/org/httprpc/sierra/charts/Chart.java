@@ -861,14 +861,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * Validates the grid.
      */
     protected void validateGrid() {
-        if (domainMinimum > domainMaximum) {
-            throw new IllegalStateException("Invalid domain bounds.");
-        }
-
-        if (rangeMinimum > rangeMaximum) {
-            throw new IllegalStateException("Invalid range bounds.");
-        }
-
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
@@ -1059,10 +1051,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The component to paint.
      */
     protected static void paintComponent(Graphics2D graphics, JComponent component) {
-        if (graphics == null || component == null) {
-            throw new IllegalArgumentException();
-        }
-
         graphics = (Graphics2D)graphics.create();
 
         graphics.translate(component.getX(), component.getY());

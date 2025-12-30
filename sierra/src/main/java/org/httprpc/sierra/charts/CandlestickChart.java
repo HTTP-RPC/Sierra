@@ -15,8 +15,6 @@
 package org.httprpc.sierra.charts;
 
 import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -27,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
-import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Candlestick chart.
@@ -97,9 +94,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
     private List<List<Line2D.Double>> highWickLines = listOf();
     private List<List<Line2D.Double>> lowWickLines = listOf();
 
-    private List<JLabel> rangeMarkerLabels = listOf();
-    private List<Line2D.Double> rangeMarkerLines = listOf();
-
     private static final BasicStroke bodyOutlineStroke;
     private static final BasicStroke wickStroke;
     static {
@@ -139,9 +133,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
 
         highWickLines.clear();
         lowWickLines.clear();
-
-        rangeMarkerLabels.clear();
-        rangeMarkerLines.clear();
 
         var dataSets = getDataSets();
 
@@ -196,7 +187,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
 
         var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
 
-        var zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
+        zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
         var i = 0;
 
@@ -253,42 +244,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
             i++;
         }
 
-        var rangeLabelTransform = getRangeLabelTransform();
-
-        var markerColor = getMarkerColor();
-        var markerFont = getMarkerFont();
-
-        for (var rangeMarker : getRangeMarkers()) {
-            var value = map(rangeMarker.value(), Number::doubleValue);
-
-            if (value == null) {
-                throw new UnsupportedOperationException("Marker value is not defined.");
-            }
-
-            var lineY = zeroY - value * rangeScale;
-
-            var text = coalesce(rangeMarker.label(), () -> rangeLabelTransform.apply(value));
-
-            var label = new JLabel(text, rangeMarker.icon(), SwingConstants.LEADING);
-
-            label.setForeground(markerColor);
-            label.setFont(markerFont);
-
-            var size = label.getPreferredSize();
-
-            label.setBounds((int)chartOffset + RANGE_LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
-
-            rangeMarkerLabels.add(label);
-
-            var lineX1 = chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2;
-            var lineX2 = width - RANGE_LABEL_SPACING - verticalGridLineWidth / 2;
-
-            if (lineX2 > lineX1) {
-                var line = new Line2D.Double(lineX1, lineY, lineX2, lineY);
-
-                rangeMarkerLines.add(line);
-            }
-        }
+        validateMarkers(rangeScale);
     }
 
     @Override
@@ -338,15 +294,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
             i++;
         }
 
-        graphics.setColor(getMarkerColor());
-        graphics.setStroke(getMarkerStroke());
-
-        for (var label : rangeMarkerLabels) {
-            paintComponent(graphics, label);
-        }
-
-        for (var rangeMarkerLine : rangeMarkerLines) {
-            graphics.draw(rangeMarkerLine);
-        }
+        drawMarkers(graphics);
     }
 }

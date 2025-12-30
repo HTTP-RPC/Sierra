@@ -15,8 +15,6 @@
 package org.httprpc.sierra.charts;
 
 import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -96,9 +94,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
-    private List<JLabel> rangeMarkerLabels = listOf();
-    private List<Line2D.Double> rangeMarkerLines = listOf();
-
     private static final BasicStroke barOutlineStroke;
     static {
         barOutlineStroke = new BasicStroke(1.0f);
@@ -163,9 +158,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         zeroLine = null;
 
         barRectangles.clear();
-
-        rangeMarkerLabels.clear();
-        rangeMarkerLines.clear();
 
         var dataSets = getDataSets();
 
@@ -239,7 +231,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
 
-        var zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
+        zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
         if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
             zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
@@ -296,42 +288,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             i++;
         }
 
-        var rangeLabelTransform = getRangeLabelTransform();
-
-        var markerColor = getMarkerColor();
-        var markerFont = getMarkerFont();
-
-        for (var rangeMarker : getRangeMarkers()) {
-            var value = map(rangeMarker.value(), Number::doubleValue);
-
-            if (value == null) {
-                throw new UnsupportedOperationException("Marker value is not defined.");
-            }
-
-            var lineY = zeroY - value * rangeScale;
-
-            var text = coalesce(rangeMarker.label(), () -> rangeLabelTransform.apply(value));
-
-            var label = new JLabel(text, rangeMarker.icon(), SwingConstants.LEADING);
-
-            label.setForeground(markerColor);
-            label.setFont(markerFont);
-
-            var size = label.getPreferredSize();
-
-            label.setBounds((int)chartOffset + RANGE_LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
-
-            rangeMarkerLabels.add(label);
-
-            var lineX1 = chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2;
-            var lineX2 = width - RANGE_LABEL_SPACING - verticalGridLineWidth / 2;
-
-            if (lineX2 > lineX1) {
-                var line = new Line2D.Double(lineX1, lineY, lineX2, lineY);
-
-                rangeMarkerLines.add(line);
-            }
-        }
+        validateMarkers(rangeScale);
     }
 
     @Override
@@ -372,15 +329,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             i++;
         }
 
-        graphics.setColor(getMarkerColor());
-        graphics.setStroke(getMarkerStroke());
-
-        for (var label : rangeMarkerLabels) {
-            paintComponent(graphics, label);
-        }
-
-        for (var rangeMarkerLine : rangeMarkerLines) {
-            graphics.draw(rangeMarkerLine);
-        }
+        drawMarkers(graphics);
     }
 }

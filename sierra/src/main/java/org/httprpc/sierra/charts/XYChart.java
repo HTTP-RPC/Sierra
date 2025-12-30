@@ -16,7 +16,17 @@ package org.httprpc.sierra.charts;
 
 import org.httprpc.sierra.TextPane;
 
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.util.List;
 import java.util.function.Function;
+
+import static org.httprpc.kilo.util.Collections.*;
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Abstract base class for XY charts.
@@ -31,11 +41,19 @@ public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<
     protected Function<Number, K> domainKeyTransform;
     protected Function<K, Number> domainValueTransform;
 
-    XYChart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
-        if (domainKeyTransform == null || domainValueTransform == null) {
-            throw new IllegalArgumentException();
-        }
+    protected double zeroY = 0.0;
 
+    protected List<JLabel> domainMarkerLabels = listOf();
+    protected List<Line2D.Double> domainMarkerLines = listOf();
+    protected List<Shape> domainMarkerShapes = listOf();
+
+    protected List<JLabel> rangeMarkerLabels = listOf();
+    protected List<Line2D.Double> rangeMarkerLines = listOf();
+    protected List<Shape> rangeMarkerShapes = listOf();
+
+    protected static final int MARKER_SCALE = 5;
+
+    XYChart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
         this.domainKeyTransform = domainKeyTransform;
         this.domainValueTransform = domainValueTransform;
     }
@@ -112,6 +130,142 @@ public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<
             textPane.doLayout();
 
             domainLabelX += columnWidth;
+        }
+    }
+
+    protected void validateMarkers(double domainScale, double rangeScale) {
+        var domainLabelTransform = getDomainLabelTransform();
+        var rangeLabelTransform = getRangeLabelTransform();
+
+        var markerColor = getMarkerColor();
+        var markerFont = getMarkerFont();
+
+        for (var domainMarker : getDomainMarkers()) {
+            var key = domainMarker.key();
+
+            if (key == null) {
+                throw new UnsupportedOperationException("Marker key is not defined.");
+            }
+
+            var domainValue = map(key, domainValueTransform).doubleValue() - domainMinimum;
+
+            var lineX = chartOffset + domainValue * domainScale;
+
+            var text = coalesce(domainMarker.label(), () -> domainLabelTransform.apply(key));
+
+            var label = new JLabel(text, domainMarker.icon(), SwingConstants.CENTER);
+
+            label.setHorizontalTextPosition(SwingConstants.CENTER);
+            label.setVerticalAlignment(SwingConstants.CENTER);
+            label.setVerticalTextPosition(SwingConstants.BOTTOM);
+            label.setIconTextGap(2);
+
+            label.setForeground(markerColor);
+            label.setFont(markerFont);
+
+            var size = label.getPreferredSize();
+
+            var labelX = (int)Math.round(lineX - (double)size.width / 2);
+            var labelY = chartHeight + horizontalGridLineWidth / 2 - (size.height + DOMAIN_LABEL_SPACING);
+
+            label.setBounds(labelX, (int)labelY, size.width, size.height);
+
+            domainMarkerLabels.add(label);
+
+            var value = domainMarker.value();
+
+            if (value != null) {
+                var rangeValue = value.doubleValue();
+
+                var valueY = zeroY - rangeValue * rangeScale;
+
+                var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
+
+                if (valueY < label.getY() - diameter) {
+                    var line = new Line2D.Double(lineX, labelY - DOMAIN_LABEL_SPACING, lineX, valueY);
+
+                    domainMarkerLines.add(line);
+
+                    var shape = new Ellipse2D.Double(lineX - diameter / 2, valueY - diameter / 2, diameter, diameter);
+
+                    domainMarkerShapes.add(shape);
+                }
+            }
+        }
+
+        for (var rangeMarker : getRangeMarkers()) {
+            var value = rangeMarker.value();
+
+            if (value == null) {
+                throw new UnsupportedOperationException("Marker value is not defined.");
+            }
+
+            var rangeValue = value.doubleValue();
+
+            var lineY = zeroY - rangeValue * rangeScale;
+
+            var text = coalesce(rangeMarker.label(), () -> rangeLabelTransform.apply(rangeValue));
+
+            var label = new JLabel(text, rangeMarker.icon(), SwingConstants.LEADING);
+
+            label.setForeground(markerColor);
+            label.setFont(markerFont);
+            label.setIconTextGap(2);
+
+            var size = label.getPreferredSize();
+
+            label.setBounds((int)chartOffset + RANGE_LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
+
+            rangeMarkerLabels.add(label);
+
+            var key = rangeMarker.key();
+
+            if (key != null) {
+                var domainValue = domainValueTransform.apply(key).doubleValue() - domainMinimum;
+
+                var valueX = chartOffset + domainValue * domainScale;
+
+                var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
+
+                if (valueX > label.getX() + label.getWidth() + diameter) {
+                    var line = new Line2D.Double(chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2, lineY, valueX, lineY);
+
+                    rangeMarkerLines.add(line);
+
+                    var shape = new Ellipse2D.Double(valueX - diameter / 2, lineY - diameter / 2, diameter, diameter);
+
+                    rangeMarkerShapes.add(shape);
+                }
+            }
+        }
+    }
+
+    protected void drawMarkers(Graphics2D graphics) {
+        graphics.setColor(getMarkerColor());
+        graphics.setStroke(getMarkerStroke());
+
+        for (var domainMarkerLabel : domainMarkerLabels) {
+            paintComponent(graphics, domainMarkerLabel);
+        }
+
+        for (var domainMarkerLine : domainMarkerLines) {
+            graphics.draw(domainMarkerLine);
+        }
+
+        for (var domainMarkerShape : domainMarkerShapes) {
+            graphics.fill(domainMarkerShape);
+        }
+
+        for (var label : rangeMarkerLabels) {
+            paintComponent(graphics, label);
+        }
+
+        for (var rangeMarkerLine : rangeMarkerLines) {
+            graphics.draw(rangeMarkerLine);
+        }
+
+        for (var rangeMarkerShape : rangeMarkerShapes) {
+            graphics.fill(rangeMarkerShape);
         }
     }
 }
