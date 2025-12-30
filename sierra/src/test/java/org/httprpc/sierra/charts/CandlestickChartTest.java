@@ -145,4 +145,25 @@ public class CandlestickChartTest extends ChartTest {
 
         compare("candlestick-chart-no-values.svg", chart);
     }
+
+    @Test
+    public void testTransparency() throws Exception {
+        var chart = new CandlestickChart<LocalDate>();
+
+        chart.setBodyTransparency(0.5);
+
+        var dataSet = new DataSet<LocalDate, OHLC>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(LocalDate.of(2025, 12, 17), new OHLC(20, 30, 0, 10))
+        ));
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+
+        chart.setDomainLabelTransform(dateFormatter::format);
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("candlestick-chart-transparency.svg", chart);
+    }
 }

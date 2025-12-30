@@ -291,4 +291,28 @@ public class TimeSeriesChartTest extends ChartTest {
 
         compare("time-series-chart-local-dates.svg", chart);
     }
+
+    @Test
+    public void testCustomAxisMargins() throws Exception {
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
+
+        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0.0, 0.0),
+            entry(1.0, 10.0),
+            entry(2.0, 20.0),
+            entry(3.0, 30.0),
+            entry(4.0, 40.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        chart.validate();
+
+        chart.setDomainMargin(chart.getDomainMargin() * 4);
+        chart.setRangeMargin(chart.getRangeMargin() * 4);
+
+        compare("time-series-chart-custom-axis-margins.svg", chart);
+    }
 }
