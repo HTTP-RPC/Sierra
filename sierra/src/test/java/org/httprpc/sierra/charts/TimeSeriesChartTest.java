@@ -30,7 +30,7 @@ import static org.httprpc.kilo.util.Collections.*;
 public class TimeSeriesChartTest extends ChartTest {
     @Test
     public void testPositiveValues() throws Exception {
-        var chart = new TimeSeriesChart<Double, Double>(Number::doubleValue, key -> key);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet = new DataSet<Double, Double>("Positive Values", Color.RED);
 
@@ -49,7 +49,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testNegativeValues() throws Exception {
-        var chart = new TimeSeriesChart<Double, Double>(Number::doubleValue, key -> key);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet = new DataSet<Double, Double>("Negative Values", Color.RED);
 
@@ -68,7 +68,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testMixedValues() throws Exception {
-        var chart = new TimeSeriesChart<Double, Double>(Number::doubleValue, key -> key);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet1 = new DataSet<Double, Double>("Mixed Values 1", Color.RED);
 
@@ -101,7 +101,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testZeroValues() throws Exception {
-        var chart = new TimeSeriesChart<Double, Double>(Number::doubleValue, key -> key);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet = new DataSet<Double, Double>("Zero Values", Color.RED);
 
@@ -118,7 +118,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testNoValues() throws Exception {
-        var chart = new TimeSeriesChart<Double, Double>(Number::doubleValue, key -> key);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet = new DataSet<Double, Double>("No Values", Color.RED);
 
@@ -129,7 +129,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testOneValue() throws Exception {
-        var chart = new TimeSeriesChart<Double, Double>(Number::doubleValue, key -> key);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet = new DataSet<Double, Double>("One Value", Color.RED);
 
@@ -144,7 +144,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testDomainMarkers() throws Exception {
-        var chart = new TimeSeriesChart<Double, Double>(Number::doubleValue, key -> key);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet = new DataSet<Double, Double>("Values", Color.RED);
 
@@ -174,7 +174,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testRangeMarkers() throws Exception {
-        var chart = new TimeSeriesChart<Double, Double>(Number::doubleValue, key -> key);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet = new DataSet<Double, Double>("Values", Color.RED);
 
@@ -204,7 +204,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
     @Test
     public void testValueMarkers() throws Exception {
-        var chart = new TimeSeriesChart<Double, Double>(Number::doubleValue, key -> key);
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         chart.setShowValueMarkers(true);
 
@@ -268,7 +268,7 @@ public class TimeSeriesChartTest extends ChartTest {
         Function<LocalDate, Number> domainValueTransform = localDate -> ChronoUnit.DAYS.between(first, localDate);
         Function<Number, LocalDate> domainKeyTransform = value -> first.plusDays(value.intValue());
 
-        var chart = new TimeSeriesChart<LocalDate, Double>(domainKeyTransform, domainValueTransform);
+        var chart = new TimeSeriesChart<LocalDate, Double>(domainValueTransform, domainKeyTransform);
 
         chart.setShowValueMarkers(true);
 

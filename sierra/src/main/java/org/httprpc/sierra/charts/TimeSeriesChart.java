@@ -34,7 +34,7 @@ import static org.httprpc.kilo.util.Optionals.*;
 /**
  * Time series chart.
  */
-public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> {
+public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> extends XYChart<K, V> {
     /**
      * Time series chart legend icon.
      */
@@ -110,14 +110,14 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     /**
      * Constructs a new time series chart.
      *
-     * @param domainKeyTransform
-     * The domain key transform.
-     *
      * @param domainValueTransform
      * The domain value transform.
+     *
+     * @param domainKeyTransform
+     * The domain key transform.
      */
-    public TimeSeriesChart(Function<Number, K> domainKeyTransform, Function<K, Number> domainValueTransform) {
-        super(domainKeyTransform, domainValueTransform);
+    public TimeSeriesChart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
+        super(domainValueTransform, domainKeyTransform);
     }
 
     /**
@@ -142,7 +142,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     }
 
     @Override
-    protected void validate() {
+    public void validate() {
         zeroLine = null;
 
         paths.clear();

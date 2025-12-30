@@ -32,7 +32,7 @@ import static org.httprpc.kilo.util.Optionals.*;
 /**
  * Candlestick chart.
  */
-public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, OHLC> {
+public class CandlestickChart<K extends Comparable<? super K>> extends CategoryChart<K, OHLC> {
     /**
      * Candlestick chart legend icon.
      */
@@ -108,13 +108,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
     }
 
     /**
-     * Constructs a new candlestick chart.
-     */
-    public CandlestickChart() {
-        super(null, null);
-    }
-
-    /**
      * Returns the body transparency. The default value is 1.0.
      *
      * @return
@@ -139,7 +132,9 @@ public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, 
     }
 
     @Override
-    protected void validate() {
+    public void validate() {
+        keys.clear();
+
         bodyRectangles.clear();
 
         highWickLines.clear();

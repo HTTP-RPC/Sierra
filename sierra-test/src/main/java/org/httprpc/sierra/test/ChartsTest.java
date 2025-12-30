@@ -235,7 +235,7 @@ public class ChartsTest extends JFrame implements Runnable {
             dataSets.add(dataSet);
         }
 
-        var timeSeriesChart = new TimeSeriesChart<Integer, Double>(Number::intValue, key -> key);
+        var timeSeriesChart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
 
         var rangeLabelFormat = NumberFormat.getNumberInstance();
 

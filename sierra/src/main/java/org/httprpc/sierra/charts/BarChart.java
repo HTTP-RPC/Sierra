@@ -34,7 +34,7 @@ import static org.httprpc.kilo.util.Optionals.*;
 /**
  * Bar chart.
  */
-public class BarChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> {
+public class BarChart<K extends Comparable<? super K>, V extends Number> extends CategoryChart<K, V> {
     /**
      * Bar chart legend icon.
      */
@@ -118,8 +118,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
      * {@code true} for a stacked bar chart; {@code false}, otherwise.
      */
     public BarChart(boolean stacked) {
-        super(null, null);
-
         this.stacked = stacked;
     }
 
@@ -159,7 +157,9 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     }
 
     @Override
-    protected void validate() {
+    public void validate() {
+        keys.clear();
+
         zeroLine = null;
 
         barRectangles.clear();
@@ -182,6 +182,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         for (var dataSet : dataSets) {
             for (var entry : dataSet.getDataPoints().entrySet()) {
                 var key = entry.getKey();
+
+                keys.add(key);
 
                 var value = coalesce(map(entry.getValue(), Number::doubleValue), () -> 0.0);
 
