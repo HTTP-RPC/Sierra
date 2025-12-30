@@ -95,6 +95,8 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     private List<Path2D.Double> paths = listOf();
     private List<List<Shape>> valueMarkerShapes = listOf();
 
+    private static final int VALUE_MARKER_SCALE = 5;
+
     /**
      * Constructs a new time series chart.
      *
@@ -245,7 +247,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
                     }
 
                     if (showValueMarkers) {
-                        var diameter = dataSet.getStroke().getLineWidth() * MARKER_SCALE;
+                        var diameter = dataSet.getStroke().getLineWidth() * VALUE_MARKER_SCALE;
 
                         var shape = new Ellipse2D.Double(x - diameter / 2, y - diameter / 2, diameter, diameter);
 

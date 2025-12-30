@@ -94,9 +94,9 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
-    private static final BasicStroke barOutlineStroke;
+    private static final BasicStroke outlineStroke;
     static {
-        barOutlineStroke = new BasicStroke(1.0f);
+        outlineStroke = new BasicStroke(1.0f);
     }
 
     /**
@@ -320,7 +320,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                 if (barRectangle.getHeight() > 0.0) {
                     graphics.setColor(color);
-                    graphics.setStroke(barOutlineStroke);
+                    graphics.setStroke(outlineStroke);
 
                     graphics.draw(barRectangle);
                 }

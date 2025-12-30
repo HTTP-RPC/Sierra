@@ -66,12 +66,12 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
         }
 
         private void paintIcon(Graphics2D graphics, int x, int y) {
-            var lineWidth = bodyOutlineStroke.getLineWidth();
+            var lineWidth = outlineStroke.getLineWidth();
 
             shape.setFrame(x + lineWidth / 2, y + lineWidth / 2, SIZE - lineWidth, SIZE - lineWidth);
 
             graphics.setColor(dataSet.getColor());
-            graphics.setStroke(bodyOutlineStroke);
+            graphics.setStroke(outlineStroke);
 
             graphics.draw(shape);
         }
@@ -94,10 +94,10 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
     private List<List<Line2D.Double>> highWickLines = listOf();
     private List<List<Line2D.Double>> lowWickLines = listOf();
 
-    private static final BasicStroke bodyOutlineStroke;
+    private static final BasicStroke outlineStroke;
     private static final BasicStroke wickStroke;
     static {
-        bodyOutlineStroke = new BasicStroke(1.0f);
+        outlineStroke = new BasicStroke(1.0f);
         wickStroke = new BasicStroke(1.0f);
     }
 
@@ -279,7 +279,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
                 }
 
                 graphics.setColor(color);
-                graphics.setStroke(bodyOutlineStroke);
+                graphics.setStroke(outlineStroke);
 
                 graphics.draw(bodyRectangle);
 

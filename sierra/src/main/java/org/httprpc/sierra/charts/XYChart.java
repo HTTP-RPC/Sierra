@@ -45,7 +45,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<
     protected List<Line2D.Double> rangeMarkerLines = listOf();
     protected List<Shape> rangeMarkerShapes = listOf();
 
-    protected static final int MARKER_SCALE = 5;
+    private static final int MARKER_SCALE = 5;
 
     XYChart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
         this.domainKeyTransform = domainKeyTransform;
