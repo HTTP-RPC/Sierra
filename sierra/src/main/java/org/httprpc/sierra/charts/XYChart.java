@@ -32,8 +32,8 @@ import static org.httprpc.kilo.util.Optionals.*;
  * Abstract base class for XY charts.
  */
 public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<K, V> {
-    protected Function<Number, K> domainKeyTransform;
     protected Function<K, Number> domainValueTransform;
+    protected Function<Number, K> domainKeyTransform;
 
     protected double zeroY = 0.0;
 
@@ -48,8 +48,8 @@ public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<
     private static final int MARKER_SCALE = 5;
 
     XYChart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
-        this.domainKeyTransform = domainKeyTransform;
         this.domainValueTransform = domainValueTransform;
+        this.domainKeyTransform = domainKeyTransform;
     }
 
     /**
