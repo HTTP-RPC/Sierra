@@ -310,10 +310,12 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
             domainMarkerLabels.add(label);
 
-            var value = map(domainMarker.value(), Number::doubleValue);
+            var value = domainMarker.value();
 
             if (value != null) {
-                var valueY = zeroY - value * rangeScale;
+                var rangeValue = value.doubleValue();
+
+                var valueY = zeroY - rangeValue * rangeScale;
 
                 var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
 
@@ -330,15 +332,17 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         }
 
         for (var rangeMarker : getRangeMarkers()) {
-            var value = map(rangeMarker.value(), Number::doubleValue);
+            var value = rangeMarker.value();
 
             if (value == null) {
                 throw new UnsupportedOperationException("Marker value is not defined.");
             }
 
-            var lineY = zeroY - value * rangeScale;
+            var rangeValue = value.doubleValue();
 
-            var text = coalesce(rangeMarker.label(), () -> rangeLabelTransform.apply(value));
+            var lineY = zeroY - rangeValue * rangeScale;
+
+            var text = coalesce(rangeMarker.label(), () -> rangeLabelTransform.apply(rangeValue));
 
             var label = new JLabel(text, rangeMarker.icon(), SwingConstants.LEADING);
 
