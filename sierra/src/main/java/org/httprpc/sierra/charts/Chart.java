@@ -881,18 +881,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         domainMargin = getPreferredDomainMargin();
 
-        var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
-
-        for (var i = 0; i < rangeLabelCount; i++) {
-            var label = rangeLabelTransform.apply(rangeMinimum + rangeStep * i);
-
-            var textPane = new TextPane(label);
-
-            textPane.setFont(rangeLabelFont);
-            textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
-
-            rangeLabelTextPanes.add(textPane);
-        }
+        populateRangeLabels();
 
         rangeMargin = getPreferredRangeMargin();
 
@@ -907,8 +896,62 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         columnWidth = chartWidth / columnCount;
         rowHeight = chartHeight / (rangeLabelCount - 1);
 
-        validateDomainLabels();
+        var gridY = horizontalGridLineWidth / 2;
 
+        for (var i = 0; i < rangeLabelCount; i++) {
+            horizontalGridLines.add(new Line2D.Double(chartOffset, gridY, chartOffset + chartWidth, gridY));
+
+            gridY += rowHeight;
+        }
+
+        var verticalGridLineCount = columnCount + 1;
+
+        var gridX = chartOffset;
+
+        for (var i = 0; i < verticalGridLineCount; i++) {
+            verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, chartHeight));
+
+            gridX += columnWidth;
+        }
+
+        validateDomainLabels();
+        validateRangeLabels();
+    }
+
+    /**
+     * Returns the column count.
+     *
+     * @return
+     * The column count.
+     */
+    protected abstract int getColumnCount();
+
+    /**
+     * Populates the domain labels.
+     */
+    protected abstract void populateDomainLabels();
+
+    /**
+     * Validates the domain labels.
+     */
+    protected abstract void validateDomainLabels();
+
+    private void populateRangeLabels() {
+        var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            var label = rangeLabelTransform.apply(rangeMinimum + rangeStep * i);
+
+            var textPane = new TextPane(label);
+
+            textPane.setFont(rangeLabelFont);
+            textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
+
+            rangeLabelTextPanes.add(textPane);
+        }
+    }
+
+    private void validateRangeLabels() {
         var rangeLabelY = chartHeight + horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
@@ -930,43 +973,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
             rangeLabelY -= rowHeight;
         }
-
-        var gridY = horizontalGridLineWidth / 2;
-
-        for (var i = 0; i < rangeLabelCount; i++) {
-            horizontalGridLines.add(new Line2D.Double(chartOffset, gridY, chartOffset + chartWidth, gridY));
-
-            gridY += rowHeight;
-        }
-
-        var verticalGridLineCount = columnCount + 1;
-
-        var gridX = chartOffset;
-
-        for (var i = 0; i < verticalGridLineCount; i++) {
-            verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, chartHeight));
-
-            gridX += columnWidth;
-        }
     }
-
-    /**
-     * Returns the column count.
-     *
-     * @return
-     * The column count.
-     */
-    protected abstract int getColumnCount();
-
-    /**
-     * Populates the domain labels.
-     */
-    protected abstract void populateDomainLabels();
-
-    /**
-     * Validates the domain labels.
-     */
-    protected abstract void validateDomainLabels();
 
     /**
      * Draws the chart.
