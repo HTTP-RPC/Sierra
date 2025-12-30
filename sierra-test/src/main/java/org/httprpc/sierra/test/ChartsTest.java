@@ -27,6 +27,7 @@ import org.httprpc.sierra.charts.Chart;
 import org.httprpc.sierra.charts.DataSet;
 import org.httprpc.sierra.charts.OHLC;
 import org.httprpc.sierra.charts.PieChart;
+import org.httprpc.sierra.charts.ScatterChart;
 import org.httprpc.sierra.charts.TimeSeriesChart;
 
 import javax.swing.JFrame;
@@ -41,6 +42,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.TreeMap;
@@ -57,6 +59,9 @@ public class ChartsTest extends JFrame implements Runnable {
 
     private @Outlet ChartPane<Chart<?, ?>> timeSeriesChartPane = null;
     private @Outlet RowPanel timeSeriesChartLegendPanel = null;
+
+    private @Outlet ChartPane<Chart<?, ?>> scatterChartPane = null;
+    private @Outlet RowPanel scatterChartLegendPanel = null;
 
     private @Outlet ChartPane<Chart<?, ?>> candlestickChartPane = null;
     private @Outlet RowPanel candlestickChartLegendPanel = null;
@@ -92,6 +97,14 @@ public class ChartsTest extends JFrame implements Runnable {
         for (var dataSet : timeSeriesChartPane.getChart().getDataSets()) {
             timeSeriesChartLegendPanel.add(new JLabel(dataSet.getLabel(),
                 new TimeSeriesChart.LegendIcon(dataSet),
+                SwingConstants.LEADING));
+        }
+
+        scatterChartPane.setChart(createScatterChart());
+
+        for (var dataSet : scatterChartPane.getChart().getDataSets()) {
+            scatterChartLegendPanel.add(new JLabel(dataSet.getLabel(),
+                new ScatterChart.LegendIcon(dataSet),
                 SwingConstants.LEADING));
         }
 
@@ -269,6 +282,51 @@ public class ChartsTest extends JFrame implements Runnable {
         return timeSeriesChart;
     }
 
+    private ScatterChart<Integer, Integer> createScatterChart() {
+        var colors = listOf(
+            UILoader.getColor("light-coral"),
+            UILoader.getColor("light-green"),
+            UILoader.getColor("light-blue")
+        );
+
+        var m = colors.size();
+
+        var dataSets = new ArrayList<DataSet<Integer, Collection<Integer>>>(m);
+
+        var n = 15;
+
+        for (var i = 0; i < m; i++) {
+            var dataSet = new DataSet<Integer, Collection<Integer>>(String.format("Data Set %d", i + 1), colors.get(i));
+
+            var dataPoints = new TreeMap<Integer, Collection<Integer>>();
+
+            for (var j = 0; j < n; j++) {
+                var count = (int)Math.ceil(Math.random() * 3);
+
+                var values = new ArrayList<Integer>(count);
+
+                for (var k = 0; k < count; k++) {
+                    values.add((int)(Math.random() * 100));
+                }
+
+                dataPoints.put(j, values);
+            }
+
+            dataSet.setDataPoints(dataPoints);
+
+            dataSets.add(dataSet);
+        }
+
+        var scatterChart = new ScatterChart<Integer, Integer>(key -> key, Number::intValue);
+
+        scatterChart.setDomainLabelCount(n);
+        scatterChart.setValueMarkerTransparency(0.5);
+
+        scatterChart.setDataSets(dataSets);
+
+        return scatterChart;
+    }
+
     private CandlestickChart<LocalDate> createCandlestickChart() {
         var colors = listOf(
             UILoader.getColor("light-coral"),
@@ -282,10 +340,10 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var n = 15;
 
+        var maximum = 250.0;
+
         for (var i = 0; i < m; i++) {
             var dataSet = new DataSet<LocalDate, OHLC>(String.format("Stock %d", i + 1), colors.get(i));
-
-            var maximum = 250.0;
 
             var dataPoints = new TreeMap<LocalDate, OHLC>();
 
