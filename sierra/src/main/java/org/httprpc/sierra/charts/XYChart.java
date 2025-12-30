@@ -128,6 +128,12 @@ public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<
     }
 
     protected void validateMarkers(double domainScale, double rangeScale) {
+        domainMarkerLabels.clear();
+        domainMarkerLines.clear();
+
+        rangeMarkerLabels.clear();
+        rangeMarkerLines.clear();
+
         var domainLabelTransform = getDomainLabelTransform();
         var rangeLabelTransform = getRangeLabelTransform();
 

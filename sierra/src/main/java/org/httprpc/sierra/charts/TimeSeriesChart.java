@@ -138,12 +138,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         paths.clear();
         valueMarkerShapes.clear();
 
-        domainMarkerLabels.clear();
-        domainMarkerLines.clear();
-
-        rangeMarkerLabels.clear();
-        rangeMarkerLines.clear();
-
         var dataSets = getDataSets();
 
         var domainMinimum = Double.POSITIVE_INFINITY;

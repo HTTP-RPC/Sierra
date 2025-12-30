@@ -21,12 +21,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 
 import static org.httprpc.kilo.util.Collections.*;
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Scatter chart.
@@ -91,11 +92,9 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
 
     private double valueMarkerTransparency = 1.0;
 
-    private Line2D.Double zeroLine = null;
-
     private List<List<Shape>> valueMarkerShapes = listOf();
 
-    private static int VALUE_MARKER_SIZE = 10;
+    private static final int VALUE_MARKER_SIZE = 10;
 
     private static final BasicStroke outlineStroke;
     static {
@@ -141,11 +140,143 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
 
     @Override
     public void validate() {
-        // TODO
+        valueMarkerShapes.clear();
+
+        var dataSets = getDataSets();
+
+        var domainMinimum = Double.POSITIVE_INFINITY;
+        var domainMaximum = Double.NEGATIVE_INFINITY;
+
+        var rangeMinimum = Double.POSITIVE_INFINITY;
+        var rangeMaximum = Double.NEGATIVE_INFINITY;
+
+        for (var dataSet : dataSets) {
+            var dataPoints = dataSet.getDataPoints();
+
+            for (var entry : dataPoints.entrySet()) {
+                var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
+
+                domainMinimum = Math.min(domainMinimum, domainValue);
+                domainMaximum = Math.max(domainMaximum, domainValue);
+
+                for (var value : entry.getValue()) {
+                    var rangeValue = map(value, Number::doubleValue);
+
+                    if (rangeValue != null) {
+                        rangeMinimum = Math.min(rangeMinimum, rangeValue);
+                        rangeMaximum = Math.max(rangeMaximum, rangeValue);
+                    }
+
+                }
+            }
+        }
+
+        if (domainMinimum > domainMaximum) {
+            domainMinimum = 0.0;
+            domainMaximum = 0.0;
+        }
+
+        if (domainMinimum == domainMaximum) {
+            domainMinimum -= 1.0;
+            domainMaximum += 1.0;
+        }
+
+        if (Double.isNaN(this.domainMinimum)) {
+            this.domainMinimum = domainMinimum;
+        } else {
+            domainMinimum = this.domainMinimum;
+        }
+
+        if (Double.isNaN(this.domainMaximum)) {
+            this.domainMaximum = domainMaximum;
+        } else {
+            domainMaximum = this.domainMaximum;
+        }
+
+        if (rangeMinimum > rangeMaximum) {
+            rangeMinimum = 0.0;
+            rangeMaximum = 0.0;
+        }
+
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
+        }
+
+        if (Double.isNaN(this.rangeMinimum)) {
+            this.rangeMinimum = rangeMinimum;
+        } else {
+            rangeMinimum = this.rangeMinimum;
+        }
+
+        if (Double.isNaN(this.rangeMaximum)) {
+            this.rangeMaximum = rangeMaximum;
+        } else {
+            rangeMaximum = this.rangeMaximum;
+        }
+
+        validateGrid();
+
+        var domainScale = chartWidth / (domainMaximum - domainMinimum);
+        var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
+
+        zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
+
+        for (var dataSet : dataSets) {
+            var dataSetValueMarkerShapes = new LinkedList<Shape>();
+
+            for (var entry : dataSet.getDataPoints().entrySet()) {
+                var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
+
+                for (var value : entry.getValue()) {
+                    var rangeValue = map(value, Number::doubleValue);
+
+                    if (rangeValue != null) {
+                        var x = chartOffset + (domainValue - domainMinimum) * domainScale - (double)VALUE_MARKER_SIZE / 2;
+                        var y = zeroY - rangeValue * rangeScale - (double)VALUE_MARKER_SIZE / 2;
+
+                        var shape = new Ellipse2D.Double(x, y, VALUE_MARKER_SIZE, VALUE_MARKER_SIZE);
+
+                        dataSetValueMarkerShapes.add(shape);
+                    }
+                }
+            }
+
+            valueMarkerShapes.add(dataSetValueMarkerShapes);
+        }
+
+        validateMarkers(domainScale, rangeScale);
     }
 
     @Override
     protected void draw(Graphics2D graphics) {
-        // TODO
+        drawGrid(graphics);
+
+        if (valueMarkerShapes.isEmpty()) {
+            return;
+        }
+
+        var i = 0;
+
+        for (var dataSet : getDataSets()) {
+            var color = dataSet.getColor();
+
+            var fillColor = colorWithAlpha(color, (int)(valueMarkerTransparency * 255));
+
+            for (var valueMarkerShape : valueMarkerShapes.get(i)) {
+                graphics.setColor(fillColor);
+
+                graphics.fill(valueMarkerShape);
+
+                graphics.setColor(color);
+                graphics.setStroke(outlineStroke);
+
+                graphics.draw(valueMarkerShape);
+            }
+
+            i++;
+        }
+
+        drawMarkers(graphics);
     }
 }
