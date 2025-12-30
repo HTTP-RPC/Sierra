@@ -30,12 +30,6 @@ import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Abstract base class for XY charts.
- *
- * @param <K>
- * The key type.
- *
- * @param <V>
- * The value type.
  */
 public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<K, V> {
     protected Function<Number, K> domainKeyTransform;

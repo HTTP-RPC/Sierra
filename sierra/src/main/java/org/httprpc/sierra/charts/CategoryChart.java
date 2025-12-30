@@ -28,12 +28,6 @@ import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Abstract base class for category charts.
- *
- * @param <K>
- * The key type.
- *
- * @param <V>
- * The value type.
  */
 public abstract class CategoryChart<K extends Comparable<? super K>, V> extends Chart<K, V> {
     protected SortedSet<K> keys = sortedSetOf();
