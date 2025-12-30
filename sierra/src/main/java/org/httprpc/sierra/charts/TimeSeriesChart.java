@@ -110,14 +110,14 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     /**
      * Constructs a new time series chart.
      *
-     * @param domainValueTransform
-     * The domain value transform.
-     *
      * @param domainKeyTransform
      * The domain key transform.
+     *
+     * @param domainValueTransform
+     * The domain value transform.
      */
-    public TimeSeriesChart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
-        super(domainValueTransform, domainKeyTransform);
+    public TimeSeriesChart(Function<Number, K> domainKeyTransform, Function<K, Number> domainValueTransform) {
+        super(domainKeyTransform, domainValueTransform);
     }
 
     /**

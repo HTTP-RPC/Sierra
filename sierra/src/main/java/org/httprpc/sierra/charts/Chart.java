@@ -73,8 +73,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     // TODO
-    protected Function<K, Number> domainValueTransform;
     protected Function<Number, K> domainKeyTransform;
+    protected Function<K, Number> domainValueTransform;
 
     protected TreeSet<K> keys;
 
@@ -174,9 +174,9 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         entry(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT)
     ));
 
-    Chart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
-        this.domainValueTransform = domainValueTransform;
+    Chart(Function<Number, K> domainKeyTransform, Function<K, Number> domainValueTransform) {
         this.domainKeyTransform = domainKeyTransform;
+        this.domainValueTransform = domainValueTransform;
 
         if (domainKeyTransform == null) {
             keys = new TreeSet<>();
@@ -696,6 +696,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         this.dataSets = dataSets;
 
+        // TODO Move to getPreferredDomainMargin()?
         if (keys != null) {
             keys.clear();
 
