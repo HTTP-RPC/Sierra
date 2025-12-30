@@ -879,11 +879,15 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         populateDomainLabels();
 
-        domainMargin = getPreferredDomainMargin();
+        if (domainMargin == -1) {
+            domainMargin = getPreferredDomainMargin();
+        }
 
         populateRangeLabels();
 
-        rangeMargin = getPreferredRangeMargin();
+        if (rangeMargin == -1) {
+            rangeMargin = getPreferredRangeMargin();
+        }
 
         horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
         verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
