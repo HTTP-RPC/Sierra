@@ -195,4 +195,35 @@ public class ScatterChartTest extends ChartTest {
 
         compare("scatter-chart-range-markers.svg", chart);
     }
+
+    @Test
+    public void testTrendLines() throws Exception {
+        var chart = new ScatterChart<Double, Double>(key -> key, Number::doubleValue);
+
+        chart.setShowTrendLines(true);
+
+        var dataSet1 = new DataSet<Double, Double>("Positive Values", Color.RED);
+
+        dataSet1.setDataPoints(sortedMapOf(
+            entry(0.0, 0.0),
+            entry(1.0, 10.0),
+            entry(2.0, 20.0),
+            entry(3.0, 30.0),
+            entry(4.0, 40.0)
+        ));
+
+        var dataSet2 = new DataSet<Double, Double>("Negative Values", Color.GREEN);
+
+        dataSet2.setDataPoints(sortedMapOf(
+            entry(0.0, 0.0),
+            entry(1.0, -10.0),
+            entry(2.0, -20.0),
+            entry(3.0, -30.0),
+            entry(4.0, -40.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet1, dataSet2));
+
+        compare("scatter-chart-trend-lines.svg", chart);
+    }
 }
