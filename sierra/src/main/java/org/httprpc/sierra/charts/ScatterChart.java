@@ -179,8 +179,6 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
 
         if (Double.isNaN(this.domainMinimum)) {
             this.domainMinimum = domainMinimum;
-        } else {
-            domainMinimum = this.domainMinimum;
         }
 
         if (Double.isNaN(this.domainMaximum)) {
@@ -216,7 +214,7 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
                 var rangeValue = map(entry.getValue(), Number::doubleValue);
 
                 if (rangeValue != null) {
-                    var x = chartOffset + (domainValue - domainMinimum) * domainScale - (double)VALUE_MARKER_SIZE / 2;
+                    var x = chartOffset + (domainValue - this.domainMinimum) * domainScale - (double)VALUE_MARKER_SIZE / 2;
                     var y = zeroY - rangeValue * rangeScale - (double)VALUE_MARKER_SIZE / 2;
 
                     var shape = new Ellipse2D.Double(x, y, VALUE_MARKER_SIZE, VALUE_MARKER_SIZE);
@@ -228,7 +226,7 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
             valueMarkerShapes.add(dataSetValueMarkerShapes);
         }
 
-        validateMarkers(domainScale, rangeScale);
+        validateMarkers();
     }
 
     @Override

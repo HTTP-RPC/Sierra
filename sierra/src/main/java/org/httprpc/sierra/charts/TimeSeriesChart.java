@@ -172,8 +172,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         if (Double.isNaN(this.domainMinimum)) {
             this.domainMinimum = domainMinimum;
-        } else {
-            domainMinimum = this.domainMinimum;
         }
 
         if (Double.isNaN(this.domainMaximum)) {
@@ -212,7 +210,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
                 var rangeValue = map(entry.getValue(), Number::doubleValue);
 
                 if (rangeValue != null) {
-                    var x = chartOffset + (domainValue - domainMinimum) * domainScale;
+                    var x = chartOffset + (domainValue - this.domainMinimum) * domainScale;
                     var y = zeroY - rangeValue * rangeScale;
 
                     if (i == 0) {
@@ -237,7 +235,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             valueMarkerShapes.add(dataSetValueMarkerShapes);
         }
 
-        validateMarkers(domainScale, rangeScale);
+        validateMarkers();
     }
 
     @Override

@@ -236,7 +236,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
             i++;
         }
 
-        validateMarkers(rangeScale);
+        validateMarkers();
     }
 
     @Override

@@ -271,7 +271,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             i++;
         }
 
-        validateMarkers(rangeScale);
+        validateMarkers();
     }
 
     @Override

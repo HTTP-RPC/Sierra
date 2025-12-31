@@ -111,7 +111,7 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
         }
     }
 
-    protected void validateMarkers(double rangeScale) {
+    protected void validateMarkers() {
         rangeMarkerLabels.clear();
         rangeMarkerLines.clear();
 

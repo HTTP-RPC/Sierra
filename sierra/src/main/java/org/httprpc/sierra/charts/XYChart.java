@@ -125,7 +125,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<
         }
     }
 
-    protected void validateMarkers(double domainScale, double rangeScale) {
+    protected void validateMarkers() {
         domainMarkerLabels.clear();
         domainMarkerLines.clear();
 
