@@ -141,61 +141,9 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
     public void validate() {
         valueMarkerShapes.clear();
 
-        var dataSets = getDataSets();
-
-        var domainMinimum = Double.POSITIVE_INFINITY;
-        var domainMaximum = Double.NEGATIVE_INFINITY;
-
-        var rangeMinimum = Double.POSITIVE_INFINITY;
-        var rangeMaximum = Double.NEGATIVE_INFINITY;
-
-        for (var dataSet : dataSets) {
-            var dataPoints = dataSet.getDataPoints();
-
-            for (var entry : dataPoints.entrySet()) {
-                var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
-
-                domainMinimum = Math.min(domainMinimum, domainValue);
-                domainMaximum = Math.max(domainMaximum, domainValue);
-
-                var rangeValue = map(entry.getValue(), Number::doubleValue);
-
-                if (rangeValue != null) {
-                    rangeMinimum = Math.min(rangeMinimum, rangeValue);
-                    rangeMaximum = Math.max(rangeMaximum, rangeValue);
-                }
-            }
-        }
-
-        if (domainMinimum > domainMaximum) {
-            domainMinimum = 0.0;
-            domainMaximum = 0.0;
-        }
-
-        if (Double.isNaN(this.domainMinimum)) {
-            this.domainMinimum = domainMinimum;
-        }
-
-        if (Double.isNaN(this.domainMaximum)) {
-            this.domainMaximum = domainMaximum;
-        }
-
-        if (rangeMinimum > rangeMaximum) {
-            rangeMinimum = 0.0;
-            rangeMaximum = 0.0;
-        }
-
-        if (Double.isNaN(this.rangeMinimum)) {
-            this.rangeMinimum = rangeMinimum;
-        }
-
-        if (Double.isNaN(this.rangeMaximum)) {
-            this.rangeMaximum = rangeMaximum;
-        }
-
         validateGrid();
 
-        for (var dataSet : dataSets) {
+        for (var dataSet : getDataSets()) {
             var dataSetValueMarkerShapes = new LinkedList<Shape>();
 
             for (var entry : dataSet.getDataPoints().entrySet()) {
