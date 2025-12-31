@@ -218,8 +218,19 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
                 if (!Double.isNaN(m)) {
                     var b = (totalY - m * totalX) / n;
 
-                    // TODO
-                    trendLine = new Line2D.Double();
+                    var x1 = domainMinimum;
+                    var y1 = m * x1 + b;
+
+                    var x2 = domainMaximum;
+                    var y2 = m * x2 + b;
+
+                    var lineX1 = chartOffset + (x1 - domainMinimum) * domainScale;
+                    var lineY1 = zeroY - y1 * rangeScale;
+
+                    var lineX2 = chartOffset + (x2 - domainMinimum) * domainScale;
+                    var lineY2 = zeroY - y2 * rangeScale;
+
+                    trendLine = new Line2D.Double(lineX1, lineY1, lineX2, lineY2);
                 } else {
                     trendLine = new Line2D.Double();
                 }
