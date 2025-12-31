@@ -148,7 +148,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
                 var rangeValue = map(entry.getValue(), Number::doubleValue);
 
                 if (rangeValue != null) {
-                    var x = chartOffset + (domainValue - this.domainMinimum) * domainScale;
+                    var x = chartOffset + (domainValue - domainMinimum) * domainScale;
                     var y = zeroY - rangeValue * rangeScale;
 
                     if (i == 0) {
