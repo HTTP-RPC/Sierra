@@ -968,7 +968,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     protected abstract void validateDomainLabels();
 
-    private void populateRangeLabels() {
+    /**
+     * Populates the range labels.
+     */
+    protected void populateRangeLabels() {
         var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
 
         for (var i = 0; i < rangeLabelCount; i++) {
@@ -983,7 +986,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
     }
 
-    private void validateRangeLabels() {
+    /**
+     * Validates the range labels.
+     */
+    protected void validateRangeLabels() {
         var rangeLabelY = chartHeight + horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {

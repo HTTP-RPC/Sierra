@@ -182,6 +182,9 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         }
     }
 
+    /**
+     * Validates the chart markers.
+     */
     protected void validateMarkers() {
         domainMarkerLabels.clear();
         domainMarkerLines.clear();
@@ -295,6 +298,9 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         }
     }
 
+    /**
+     * Draws the chart markers.
+     */
     protected void drawMarkers(Graphics2D graphics) {
         graphics.setColor(getMarkerColor());
         graphics.setStroke(getMarkerStroke());
