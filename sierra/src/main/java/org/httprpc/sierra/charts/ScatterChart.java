@@ -21,6 +21,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
@@ -89,9 +90,13 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
         }
     }
 
+    private boolean showTrendLines = false;
+
     private double valueMarkerTransparency = 1.0;
 
     private List<List<Shape>> valueMarkerShapes = listOf();
+
+    private List<Line2D.Double> trendLines = listOf();
 
     private static final int VALUE_MARKER_SIZE = 10;
 
@@ -111,6 +116,27 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
      */
     public ScatterChart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
         super(domainValueTransform, domainKeyTransform);
+    }
+
+    /**
+     * Indicates that trend lines will be shown. The default value is
+     * {@code false}.
+     *
+     * @return
+     * {@code true} if trend lines will be shown; {@code false}, otherwise.
+     */
+    public boolean getShowTrendLines() {
+        return showTrendLines;
+    }
+
+    /**
+     * Toggles trend line visibility.
+     *
+     * @param showTrendLines
+     * {@code true} to show trend lines; {@code false} to hide them.
+     */
+    public void setShowTrendLines(boolean showTrendLines) {
+        this.showTrendLines = showTrendLines;
     }
 
     /**
@@ -141,6 +167,8 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
     public void validate() {
         valueMarkerShapes.clear();
 
+        trendLines.clear();
+
         validateGrid();
 
         for (var dataSet : getDataSets()) {
@@ -162,9 +190,18 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
             }
 
             valueMarkerShapes.add(dataSetValueMarkerShapes);
+
+            if (showTrendLines) {
+                trendLines.add(calculateTrendLine(dataSet));
+            }
         }
 
         validateMarkers();
+    }
+
+    private Line2D.Double calculateTrendLine(DataSet<K, V> dataSet) {
+        // TODO
+        return new Line2D.Double();
     }
 
     @Override
@@ -191,6 +228,12 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
                 graphics.setStroke(outlineStroke);
 
                 graphics.draw(valueMarkerShape);
+            }
+
+            if (showTrendLines) {
+                graphics.setStroke(dataSet.getStroke());
+
+                graphics.draw(trendLines.get(i));
             }
 
             i++;

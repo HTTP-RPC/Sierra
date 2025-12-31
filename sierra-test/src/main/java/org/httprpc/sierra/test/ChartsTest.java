@@ -316,6 +316,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var scatterChart = new ScatterChart<Integer, Double>(key -> key, Number::intValue);
 
+        scatterChart.setShowTrendLines(true);
         scatterChart.setValueMarkerTransparency(0.5);
 
         scatterChart.setDomainLabelCount(n);
