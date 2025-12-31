@@ -90,8 +90,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
     private boolean showValueMarkers = false;
 
-    private Line2D.Double zeroLine = null;
-
     private List<Path2D.Double> paths = listOf();
     private List<List<Shape>> valueMarkerShapes = listOf();
 
@@ -133,8 +131,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
     @Override
     public void validate() {
-        zeroLine = null;
-
         paths.clear();
         valueMarkerShapes.clear();
 
@@ -182,8 +178,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         if (Double.isNaN(this.domainMaximum)) {
             this.domainMaximum = domainMaximum;
-        } else {
-            domainMaximum = this.domainMaximum;
         }
 
         if (rangeMinimum > rangeMaximum) {
@@ -198,26 +192,13 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         if (Double.isNaN(this.rangeMinimum)) {
             this.rangeMinimum = rangeMinimum;
-        } else {
-            rangeMinimum = this.rangeMinimum;
         }
 
         if (Double.isNaN(this.rangeMaximum)) {
             this.rangeMaximum = rangeMaximum;
-        } else {
-            rangeMaximum = this.rangeMaximum;
         }
 
         validateGrid();
-
-        var domainScale = chartWidth / (domainMaximum - domainMinimum);
-        var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
-
-        zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
-
-        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
-            zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
-        }
 
         for (var dataSet : dataSets) {
             var path = new Path2D.Double();
@@ -262,13 +243,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     @Override
     protected void draw(Graphics2D graphics) {
         drawGrid(graphics);
-
-        if (zeroLine != null) {
-            graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x40));
-            graphics.setStroke(getHorizontalGridLineStroke());
-
-            graphics.draw(zeroLine);
-        }
 
         if (paths.isEmpty()) {
             return;

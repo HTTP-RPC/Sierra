@@ -185,8 +185,6 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
 
         if (Double.isNaN(this.domainMaximum)) {
             this.domainMaximum = domainMaximum;
-        } else {
-            domainMaximum = this.domainMaximum;
         }
 
         if (rangeMinimum > rangeMaximum) {
@@ -201,22 +199,13 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
 
         if (Double.isNaN(this.rangeMinimum)) {
             this.rangeMinimum = rangeMinimum;
-        } else {
-            rangeMinimum = this.rangeMinimum;
         }
 
         if (Double.isNaN(this.rangeMaximum)) {
             this.rangeMaximum = rangeMaximum;
-        } else {
-            rangeMaximum = this.rangeMaximum;
         }
 
         validateGrid();
-
-        var domainScale = chartWidth / (domainMaximum - domainMinimum);
-        var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
-
-        zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
         for (var dataSet : dataSets) {
             var dataSetValueMarkerShapes = new LinkedList<Shape>();

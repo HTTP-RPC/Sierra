@@ -35,8 +35,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V> extends Chart<
     protected Function<K, Number> domainValueTransform;
     protected Function<Number, K> domainKeyTransform;
 
-    protected double zeroY = 0.0;
-
     protected List<JLabel> domainMarkerLabels = listOf();
     protected List<Line2D.Double> domainMarkerLines = listOf();
     protected List<Shape> domainMarkerShapes = listOf();

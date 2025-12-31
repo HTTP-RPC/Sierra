@@ -162,14 +162,10 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
 
         if (Double.isNaN(this.rangeMinimum)) {
             this.rangeMinimum = rangeMinimum;
-        } else {
-            rangeMinimum = this.rangeMinimum;
         }
 
         if (Double.isNaN(this.rangeMaximum)) {
             this.rangeMaximum = rangeMaximum;
-        } else {
-            rangeMaximum = this.rangeMaximum;
         }
 
         validateGrid();
@@ -184,10 +180,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
 
         var bodyWidth = columnWidth * 0.25 / Math.sqrt(n);
         var bodySpacing = (columnWidth - (bodyWidth * n)) / (n + 1);
-
-        var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
-
-        zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
         var i = 0;
 

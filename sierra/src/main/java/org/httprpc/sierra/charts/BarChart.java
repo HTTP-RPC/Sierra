@@ -19,7 +19,6 @@ import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,8 +89,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     private double barTransparency = 1.0;
 
-    private Line2D.Double zeroLine = null;
-
     private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
     private static final BasicStroke outlineStroke;
@@ -155,8 +152,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     public void validate() {
         keys.clear();
 
-        zeroLine = null;
-
         barRectangles.clear();
 
         var dataSets = getDataSets();
@@ -206,14 +201,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         if (Double.isNaN(this.rangeMinimum)) {
             this.rangeMinimum = rangeMinimum;
-        } else {
-            rangeMinimum = this.rangeMinimum;
         }
 
         if (Double.isNaN(this.rangeMaximum)) {
             this.rangeMaximum = rangeMaximum;
-        } else {
-            rangeMaximum = this.rangeMaximum;
         }
 
         validateGrid();
@@ -228,14 +219,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var barWidth = (columnWidth / n) * 0.75;
         var barSpacing = (columnWidth - (barWidth * n)) / (n + 1);
-
-        var rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
-
-        zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
-
-        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
-            zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
-        }
 
         var i = 0;
 
@@ -294,13 +277,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     @Override
     protected void draw(Graphics2D graphics) {
         drawGrid(graphics);
-
-        if (zeroLine != null) {
-            graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
-            graphics.setStroke(getHorizontalGridLineStroke());
-
-            graphics.draw(zeroLine);
-        }
 
         if (barRectangles.isEmpty()) {
             return;

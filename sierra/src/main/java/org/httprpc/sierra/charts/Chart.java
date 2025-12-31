@@ -150,6 +150,13 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected double columnWidth = 0.0;
     protected double rowHeight = 0.0;
 
+    protected double domainScale = Double.NaN;
+    protected double rangeScale = Double.NaN;
+
+    protected double zeroY = 0.0;
+
+    protected Line2D.Double zeroLine = null;
+
     protected List<Line2D.Double> horizontalGridLines = listOf();
     protected List<Line2D.Double> verticalGridLines = listOf();
 
@@ -869,6 +876,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             throw new IllegalStateException("Invalid range bounds.");
         }
 
+        zeroLine = null;
+
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
@@ -899,6 +908,15 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         columnWidth = chartWidth / columnCount;
         rowHeight = chartHeight / (rangeLabelCount - 1);
+
+        domainScale = chartWidth / (domainMaximum - domainMinimum);
+        rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
+
+        zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
+
+        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
+            zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
+        }
 
         var gridY = horizontalGridLineWidth / 2;
 
@@ -994,6 +1012,13 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The graphics context in which the grid will be drawn.
      */
     protected void drawGrid(Graphics2D graphics) {
+        if (zeroLine != null) {
+            graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
+            graphics.setStroke(getHorizontalGridLineStroke());
+
+            graphics.draw(zeroLine);
+        }
+
         if (getShowHorizontalGridLines()) {
             graphics.setColor(getHorizontalGridLineColor());
             graphics.setStroke(getHorizontalGridLineStroke());
