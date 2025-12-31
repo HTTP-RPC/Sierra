@@ -174,7 +174,18 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
         for (var dataSet : getDataSets()) {
             var dataSetValueMarkerShapes = new LinkedList<Shape>();
 
-            for (var entry : dataSet.getDataPoints().entrySet()) {
+            var dataPoints = dataSet.getDataPoints();
+
+            var n = dataPoints.size();
+
+            var totalXY = 0.0;
+
+            var totalX = 0.0;
+            var totalY = 0.0;
+
+            var totalXSquared = 0.0;
+
+            for (var entry : dataPoints.entrySet()) {
                 var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
 
                 var rangeValue = map(entry.getValue(), Number::doubleValue);
@@ -182,6 +193,15 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
                 if (rangeValue != null) {
                     var x = chartOffset + (domainValue - this.domainMinimum) * domainScale - (double)VALUE_MARKER_SIZE / 2;
                     var y = zeroY - rangeValue * rangeScale - (double)VALUE_MARKER_SIZE / 2;
+
+                    if (showTrendLines) {
+                        totalXY += x * y;
+
+                        totalX += x;
+                        totalY += y;
+
+                        totalXSquared += Math.pow(x, 2);
+                    }
 
                     var shape = new Ellipse2D.Double(x, y, VALUE_MARKER_SIZE, VALUE_MARKER_SIZE);
 
@@ -192,16 +212,28 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
             valueMarkerShapes.add(dataSetValueMarkerShapes);
 
             if (showTrendLines) {
-                trendLines.add(calculateTrendLine(dataSet));
+                var m = (totalXY - totalX * totalY) / (totalXSquared - Math.pow(totalX, 2));
+
+                Line2D.Double trendLine;
+                if (!Double.isNaN(m)) {
+                    var b = (totalY - m * totalX) / n;
+
+                    var x1 = chartOffset;
+                    var y1 = zeroY - b;
+
+                    var x2 = x1 + chartWidth;
+                    var y2 = y1 - m * chartWidth;
+
+                    trendLine = new Line2D.Double(x1, y1, x2, y2);
+                } else {
+                    trendLine = new Line2D.Double();
+                }
+
+                trendLines.add(trendLine);
             }
         }
 
         validateMarkers();
-    }
-
-    private Line2D.Double calculateTrendLine(DataSet<K, V> dataSet) {
-        // TODO
-        return new Line2D.Double();
     }
 
     @Override
