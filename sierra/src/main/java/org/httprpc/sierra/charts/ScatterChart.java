@@ -172,11 +172,6 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
             domainMaximum = 0.0;
         }
 
-        if (domainMinimum == domainMaximum) {
-            domainMinimum -= 1.0;
-            domainMaximum += 1.0;
-        }
-
         if (Double.isNaN(this.domainMinimum)) {
             this.domainMinimum = domainMinimum;
         }
@@ -188,11 +183,6 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
         if (rangeMinimum > rangeMaximum) {
             rangeMinimum = 0.0;
             rangeMaximum = 0.0;
-        }
-
-        if (rangeMinimum == rangeMaximum) {
-            rangeMinimum -= 1.0;
-            rangeMaximum += 1.0;
         }
 
         if (Double.isNaN(this.rangeMinimum)) {

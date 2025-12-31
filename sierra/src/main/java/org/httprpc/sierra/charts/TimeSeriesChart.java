@@ -165,11 +165,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             domainMaximum = 0.0;
         }
 
-        if (domainMinimum == domainMaximum) {
-            domainMinimum -= 1.0;
-            domainMaximum += 1.0;
-        }
-
         if (Double.isNaN(this.domainMinimum)) {
             this.domainMinimum = domainMinimum;
         }
@@ -181,11 +176,6 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
         if (rangeMinimum > rangeMaximum) {
             rangeMinimum = 0.0;
             rangeMaximum = 0.0;
-        }
-
-        if (rangeMinimum == rangeMaximum) {
-            rangeMinimum -= 1.0;
-            rangeMaximum += 1.0;
         }
 
         if (Double.isNaN(this.rangeMinimum)) {

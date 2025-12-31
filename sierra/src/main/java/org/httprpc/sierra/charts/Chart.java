@@ -876,6 +876,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             throw new IllegalStateException("Invalid range bounds.");
         }
 
+        if (domainMinimum == domainMaximum) {
+            domainMinimum -= 1.0;
+            domainMaximum += 1.0;
+        }
+
+        if (rangeMinimum == rangeMaximum) {
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
+        }
+
         zeroLine = null;
 
         horizontalGridLines.clear();

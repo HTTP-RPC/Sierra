@@ -194,11 +194,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             }
         }
 
-        if (rangeMinimum == rangeMaximum) {
-            rangeMinimum -= 1.0;
-            rangeMaximum += 1.0;
-        }
-
         if (Double.isNaN(this.rangeMinimum)) {
             this.rangeMinimum = rangeMinimum;
         }
