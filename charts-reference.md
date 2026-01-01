@@ -37,8 +37,6 @@ dataSet.setDataPoints(sortedMapOf(
     entry(3.0, 30.0),
     entry(4.0, 40.0)
 ));
-
-chart.setDataSets(listOf(dataSet));
 ```
 
 The resulting output is shown below:
@@ -73,49 +71,125 @@ for (var dataSet : pieChartPane.getChart().getDataSets()) {
 ```
 
 ## Pie Charts
-TODO
+The `PieChart` class represents a pie chart:
+
+```java
+public class PieChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> { ... }
+```
+
+The chart displays one slice per data set:
 
 <img src="README/charts/pie.png" width="630">
 
-### Doughnut Charts
-TODO 
+The size of each slice is determined by dividing the sum of its associated data point values by the total of all data point values across all data sets. Data point keys are ignored.
+
+Pie charts can also be presented as a doughnut: 
 
 <img src="README/charts/doughnut.png" width="630">
 
 ## Bar Charts
-TODO
+The `BarChart` class displays a bar chart:
+
+```java
+public class BarChart<K extends Comparable<? super K>, V extends Number> extends CategoryChart<K, V> { ... }
+```
 
 <img src="README/charts/bar.png" width="630">
 
-### Stacked Bar Charts
-TODO
+Data point keys represent chart categories. Individual bars represent the the value associated with a given key in the corresponding data set:
+
+```java
+var northDataSet = new DataSet<Month, Double>("North", UILoader.getColor("light-coral"));
+
+northDataSet.setDataPoints(sortedMapOf(
+    entry(Month.JANUARY, 30.0),
+    entry(Month.FEBRUARY, 5.0),
+    entry(Month.MARCH, 20.0)
+));
+
+var southDataSet = new DataSet<Month, Double>("South", UILoader.getColor("orange"));
+
+southDataSet.setDataPoints(sortedMapOf(
+    entry(Month.JANUARY, 40.0),
+    entry(Month.FEBRUARY, 10.0),
+    entry(Month.MARCH, 75.0)
+));
+
+...
+```
+
+Category labels are produced by the chart's domain label transform:
+
+```java
+barChart.setDomainLabelTransform(month -> month.getDisplayName(TextStyle.FULL, Locale.getDefault()));
+```
+
+Range labels are produced by the range label transform:
+
+```java
+var rangeLabelFormat = NumberFormat.getNumberInstance();
+
+rangeLabelFormat.setMinimumFractionDigits(1);
+rangeLabelFormat.setMaximumFractionDigits(1);
+
+barChart.setRangeLabelTransform(rangeLabelFormat::format);
+```
+
+Bars may optionally be stacked: 
 
 <img src="README/charts/stacked-bar.png" width="630">
 
 ## Time Series Charts
-TODO
+The `TimeSeriesChart` class displays a collection of values over a period of time: 
+
+```java
+public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> extends XYChart<K, V> { ... }
+```
+
+This example shows a series of `Double` values (plotted on the y-axis) collected at `Integer` intervals (plotted on the x-axis). It also demonstrates the use of domain markers, which can be used to highlight specific data points. Range markers are supported as well:
 
 <img src="README/charts/time-series.png" width="630">
 
-### Value Markers
-TODO
+Individual value markers may optionally be shown:
 
 <img src="README/charts/time-series-value-markers.png" width="630">
 
 ## Scatter Charts
-TODO
+The `ScatterChart` class displays the relationship between two variables:
+
+```java
+public class ScatterChart<K extends Comparable<? super K>, V extends Number> extends XYChart<K, V> { ... }
+```
 
 <img src="README/charts/scatter.png" width="630">
 
-### Trend Lines
-TODO
+Data point keys represent the "independent" variable, and values the "dependent" variable.
+
+Linear trend lines may optionally be shown to help draw a correlation between the values:
 
 <img src="README/charts/scatter-trend-lines.png" width="630">
 
 ## Candlestick Charts
-TODO
+The `CandlestickChart` class displays a collection of OHLC (open, high, low, close) values:
+
+```java
+public class CandlestickChart<K extends Comparable<? super K>> extends CategoryChart<K, OHLC> { ... }
+```
+
+Candlestick charts are typically used to present historical pricing information. The box (or "body") represents the opening and closing values. A hollow body indicates a positive trend (a value where the closing price is higher than the opening price). A solid body represents a negative trend (a value where the closing price is lower than the opening price). The "wick" lines above and below the body represent the high and low values, respectively:
 
 <img src="README/charts/candlestick.png" width="630">
+
+The `OHLC` type is defined as follows:
+
+```java
+public record OHLC(
+    double open,
+    double high,
+    double low,
+    double close
+) { ... }
+```
 
 # Headless Usage
 Charts can also be used in a headless environment. For example, the following code uses [Apache Batik](https://xmlgraphics.apache.org/batik/) to create an SVG representation of a chart:
