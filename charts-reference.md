@@ -1,5 +1,5 @@
 # Charts
-The `org.httprpc.sierra.charts` package contains classes for producing charts. Sierra supports the following chart types:
+The `org.httprpc.sierra.charts` package contains classes for producing charts. The following chart types are supported:
 
 * [Pie/Doughnut](#pie-charts)
 * [Bar/Stacked Bar](#bar-charts)
@@ -23,7 +23,7 @@ public class DataSet<K extends Comparable<? super K>, V> { ... }
 * "stroke" - the stroke associated with the data set, as an instance of `BasicStroke`
 * "dataPoints" - the data set's data points, as an instance of `SortedMap`
 
-Map keys typically represent the chart's domain, with their associated values representing the range. 
+Map keys generally represent the chart's domain, with their associated values representing the range.
 
 For example, the following code creates a simple data set for use by a time series chart:
 
@@ -146,7 +146,7 @@ The `TimeSeriesChart` class displays a collection of values over a period of tim
 public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> extends XYChart<K, V> { ... }
 ```
 
-This example shows a series of `Double` values (plotted on the y-axis) collected at `Integer` intervals (plotted on the x-axis). It also demonstrates the use of domain markers, which can be used to highlight specific data points. Range markers are supported as well:
+This example shows a series of `Double` values (plotted on the y-axis) collected at `Integer` intervals (plotted on the x-axis). It also demonstrates the use of domain markers, which can be used to highlight specific data points:
 
 <img src="README/charts/time-series.png" width="630">
 
