@@ -722,8 +722,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * @return
      * The domain minimum.
      */
-    public double getDomainMinimum() {
-        return domainMinimum;
+    public K getDomainMinimum() {
+        return null;
     }
 
     /**
@@ -732,26 +732,21 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * @return
      * The domain maximum.
      */
-    public double getDomainMaximum() {
-        return domainMaximum;
+    public K getDomainMaximum() {
+        return null;
     }
 
     /**
      * Sets the domain bounds.
      *
      * @param domainMinimum
-     * The domain minimum, or {@link Double#NaN} for the default value.
+     * The domain minimum, or {@code null} for the default value.
      *
      * @param domainMaximum
-     * The domain maximum, or {@link Double#NaN} for the default value.
+     * The domain maximum, or {@code null} for the default value.
      */
-    public void setDomainBounds(double domainMinimum, double domainMaximum) {
-        if (domainMinimum > domainMaximum) {
-            throw new IllegalArgumentException();
-        }
-
-        this.domainMinimum = domainMinimum;
-        this.domainMaximum = domainMaximum;
+    public void setDomainBounds(K domainMinimum, K domainMaximum) {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -760,7 +755,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * @return
      * The range minimum.
      */
-    public double getRangeMinimum() {
+    public Number getRangeMinimum() {
         return rangeMinimum;
     }
 
@@ -770,7 +765,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * @return
      * The range maximum.
      */
-    public double getRangeMaximum() {
+    public Number getRangeMaximum() {
         return rangeMaximum;
     }
 
@@ -778,18 +773,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * Sets the range bounds.
      *
      * @param rangeMinimum
-     * The range minimum, or {@link Double#NaN} for the default value.
+     * The range minimum, or {@code null} for the default value.
      *
      * @param rangeMaximum
-     * The range maximum, or {@link Double#NaN} for the default value.
+     * The range maximum, or {@code null} for the default value.
      */
-    public void setRangeBounds(double rangeMinimum, double rangeMaximum) {
-        if (rangeMinimum > rangeMaximum) {
-            throw new IllegalArgumentException();
-        }
-
-        this.rangeMinimum = rangeMinimum;
-        this.rangeMaximum = rangeMaximum;
+    public void setRangeBounds(Number rangeMinimum, Number rangeMaximum) {
+        this.rangeMinimum = coalesce(map(rangeMinimum, Number::doubleValue), () -> Double.NaN);
+        this.rangeMaximum = coalesce(map(rangeMaximum, Number::doubleValue), () -> Double.NaN);
     }
 
     /**
@@ -956,17 +947,23 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * @return
      * The column count.
      */
-    protected abstract int getColumnCount();
+    protected int getColumnCount() {
+        return 0;
+    }
 
     /**
      * Populates the domain labels.
      */
-    protected abstract void populateDomainLabels();
+    protected void populateDomainLabels() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Validates the domain labels.
      */
-    protected abstract void validateDomainLabels();
+    protected void validateDomainLabels() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Populates the range labels.

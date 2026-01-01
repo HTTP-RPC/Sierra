@@ -71,6 +71,31 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
     }
 
     @Override
+    public K getDomainMinimum() {
+        return domainKeyTransform.apply(domainMinimum);
+    }
+
+    @Override
+    public K getDomainMaximum() {
+        return domainKeyTransform.apply(domainMaximum);
+    }
+
+    @Override
+    public void setDomainBounds(K domainMinimum, K domainMaximum) {
+        if (domainMinimum != null) {
+            this.domainMinimum = domainValueTransform.apply(domainMinimum).doubleValue();
+        } else  {
+            this.domainMinimum = Double.NaN;
+        }
+
+        if (domainMaximum != null) {
+            this.domainMaximum = domainValueTransform.apply(domainMaximum).doubleValue();
+        } else  {
+            this.domainMaximum = Double.NaN;
+        }
+    }
+
+    @Override
     protected void validateGrid() {
         var dataSets = getDataSets();
 

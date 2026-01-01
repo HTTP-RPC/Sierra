@@ -239,21 +239,6 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
     }
 
     @Override
-    protected int getColumnCount() {
-        return 0;
-    }
-
-    @Override
-    protected void populateDomainLabels() {
-        // No-op
-    }
-
-    @Override
-    protected void validateDomainLabels() {
-        // No-op
-    }
-
-    @Override
     protected void draw(Graphics2D graphics) {
         var i = 0;
 
