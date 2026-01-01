@@ -152,17 +152,14 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var dataSets = createCategoryDataSets();
 
-        var rangeMaximum = 0.0;
-
-        for (var dataSet : dataSets) {
-            for (var value : dataSet.getDataPoints().values()) {
-                rangeMaximum = Math.max(rangeMaximum, value);
-            }
-        }
-
-        barChart.setRangeBounds(0.0, rangeMaximum + rangeMaximum * 0.04);
-
         barChart.setDataSets(dataSets);
+
+        barChart.validate();
+
+        var rangeMinimum = barChart.getRangeMinimum();
+        var rangeMaximum = barChart.getRangeMaximum().doubleValue();
+
+        barChart.setRangeBounds(rangeMinimum, rangeMaximum + rangeMaximum * 0.04);
 
         return barChart;
     }
@@ -212,6 +209,8 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private TimeSeriesChart<Integer, Double> createTimeSeriesChart() {
+        var showValueMarkers = coalesce(map(System.getProperty("showValueMarkers"), Boolean::valueOf), () -> false);
+
         var colors = listOf(
             UILoader.getColor("light-coral"),
             UILoader.getColor("light-green"),
@@ -222,10 +221,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var dataSets = new ArrayList<DataSet<Integer, Double>>(m);
 
-        var n = 250;
-
-        var rangeMinimum = Double.POSITIVE_INFINITY;
-        var rangeMaximum = Double.NEGATIVE_INFINITY;
+        var n = showValueMarkers ? 25 : 250;
 
         for (var i = 0; i < m; i++) {
             var dataSet = new DataSet<Integer, Double>(String.format("Data Set %d", i + 1), colors.get(i));
@@ -241,9 +237,6 @@ public class ChartsTest extends JFrame implements Runnable {
                 }
 
                 dataPoints.put(j, value);
-
-                rangeMinimum = Math.min(rangeMinimum, value);
-                rangeMaximum = Math.max(rangeMaximum, value);
             }
 
             dataSet.setDataPoints(dataPoints);
@@ -252,6 +245,8 @@ public class ChartsTest extends JFrame implements Runnable {
         }
 
         var timeSeriesChart = new TimeSeriesChart<Integer, Double>(key -> key, Number::intValue);
+
+        timeSeriesChart.setShowValueMarkers(showValueMarkers);
 
         var rangeLabelFormat = NumberFormat.getNumberInstance();
 
@@ -265,27 +260,36 @@ public class ChartsTest extends JFrame implements Runnable {
             BasicStroke.JOIN_MITER,
             1.0f, new float[] {2.0f}, 0.0f));
 
+        timeSeriesChart.setDataSets(dataSets);
+
+        timeSeriesChart.validate();
+
+        var rangeMinimum = timeSeriesChart.getRangeMinimum().doubleValue();
+        var rangeMaximum = timeSeriesChart.getRangeMaximum().doubleValue();
+
         var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * 0.02;
 
         timeSeriesChart.setRangeBounds(rangeMinimum - rangeMargin, rangeMaximum + rangeMargin);
 
-        timeSeriesChart.setDataSets(dataSets);
+        if (!showValueMarkers) {
+            var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
 
-        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+            icon = icon.derive(18, 18);
 
-        icon = icon.derive(18, 18);
+            icon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> timeSeriesChart.getMarkerColor()));
 
-        icon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> timeSeriesChart.getMarkerColor()));
-
-        timeSeriesChart.setDomainMarkers(listOf(
-            new Chart.Marker<>((int)(Math.random() * n), null, "Marker 1", icon),
-            new Chart.Marker<>((int)(Math.random() * n), null, "Marker 2", icon)
-        ));
+            timeSeriesChart.setDomainMarkers(listOf(
+                new Chart.Marker<>((int)(Math.random() * n), null, "Marker 1", icon),
+                new Chart.Marker<>((int)(Math.random() * n), null, "Marker 2", icon)
+            ));
+        }
 
         return timeSeriesChart;
     }
 
     private ScatterChart<Integer, Double> createScatterChart() {
+        var showTrendLines = coalesce(map(System.getProperty("showTrendLines"), Boolean::valueOf), () -> false);
+
         var colors = listOf(
             UILoader.getColor("light-coral"),
             UILoader.getColor("light-green"),
@@ -320,7 +324,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         var scatterChart = new ScatterChart<Integer, Double>(key -> key, Number::intValue);
 
-        scatterChart.setShowTrendLines(true);
+        scatterChart.setShowTrendLines(showTrendLines);
         scatterChart.setValueMarkerTransparency(0.5);
 
         scatterChart.setDomainLabelCount(n);

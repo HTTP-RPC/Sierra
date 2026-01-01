@@ -43,6 +43,8 @@ TODO
 ### Value Markers
 TODO
 
+<img src="README/charts/time-series-value-markers.png" width="630">
+
 ## Scatter Charts
 TODO
 
@@ -50,6 +52,8 @@ TODO
 
 ### Trend Lines
 TODO
+
+<img src="README/charts/scatter-trend-lines.png" width="630">
 
 ## Candlestick Charts
 TODO
