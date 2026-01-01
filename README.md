@@ -471,7 +471,7 @@ The `ActivityIndicator` component shows indeterminate progress:
 See [ActivityIndicatorTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActivityIndicatorTest.java) for more information.
 
 ### Charts
-The `ChartPane` component displays a chart:
+The `ChartPane` component displays a [chart](charts-reference.md):
 
 <img src="README/charts.png" width="630px"/>
 

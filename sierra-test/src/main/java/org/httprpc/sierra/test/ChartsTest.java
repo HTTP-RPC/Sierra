@@ -120,7 +120,9 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private PieChart<Month, Double> createPieChart() {
-        var pieChart = new PieChart<Month, Double>(true);
+        var doughnut = coalesce(map(System.getProperty("doughnut"), Boolean::valueOf), () -> false);
+
+        var pieChart = new PieChart<Month, Double>(doughnut);
 
         pieChart.setDataSets(createCategoryDataSets());
 
@@ -128,7 +130,9 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private BarChart<Month, Double> createBarChart() {
-        var barChart = new BarChart<Month, Double>();
+        var stacked = coalesce(map(System.getProperty("stacked"), Boolean::valueOf), () -> false);
+
+        var barChart = new BarChart<Month, Double>(stacked);
 
         barChart.setBarTransparency(0.75);
 
