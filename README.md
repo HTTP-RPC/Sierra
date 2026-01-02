@@ -17,7 +17,7 @@ A [DTD](sierra.dtd) is provided to assist with editing. It is not used for valid
 A custom DTD can be generated using the [DTD encoder](sierra-tools/dtd-encoder) tool. An interactive [previewer](sierra-tools/previewer) tool is also available. Both can be downloaded [here](https://github.com/HTTP-RPC/Sierra/releases).
 
 # Sierra Classes
-Sierra provides the `UILoader` class, which can be used in conjunction with the following types to to declaratively establish a hierarchy of user interface elements:
+Sierra provides the `UILoader` class, which can be used in conjunction with the following types to declaratively establish a hierarchy of user interface elements:
 
 * `RowPanel` - arranges sub-components in a horizontal line, optionally aligning to baseline
 * `ColumnPanel` - arranges sub-components in a vertical line, optionally aligning nested elements to a grid

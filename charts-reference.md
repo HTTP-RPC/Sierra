@@ -150,7 +150,9 @@ For example, this chart shows a series of `Double` values (plotted on the y-axis
 
 <img src="README/charts/time-series.png" width="630">
 
-It also demonstrates the use of domain markers, which can be used to highlight specific data points. Individual value markers may optionally be shown:
+It also demonstrates the use of domain markers, which can be used to highlight specific data points.
+
+Individual value markers may optionally be shown:
 
 <img src="README/charts/time-series-value-markers.png" width="630">
 
