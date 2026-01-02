@@ -146,7 +146,7 @@ The `TimeSeriesChart` class displays a collection of values over a period of tim
 public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> extends XYChart<K, V> { ... }
 ```
 
-The following example shows a series of `Double` values (plotted on the y-axis) collected at `Integer` intervals (plotted on the x-axis):
+For example, this chart shows a series of `Double` values (plotted on the y-axis) collected at `Integer` intervals (plotted on the x-axis):
 
 <img src="README/charts/time-series.png" width="630">
 
