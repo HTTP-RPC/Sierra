@@ -25,7 +25,7 @@ public class DataSet<K extends Comparable<? super K>, V> { ... }
 
 Map keys generally represent the chart's domain, with their associated values representing the range.
 
-For example, the following code creates a simple data set for use by a time series chart:
+For example, this code creates a simple data set for use by a time series chart:
 
 ```java
 var dataSet = new DataSet<Double, Double>("Positive Values", Color.RED);
@@ -146,11 +146,11 @@ The `TimeSeriesChart` class displays a collection of values over a period of tim
 public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> extends XYChart<K, V> { ... }
 ```
 
-This example shows a series of `Double` values (plotted on the y-axis) collected at `Integer` intervals (plotted on the x-axis). It also demonstrates the use of domain markers, which can be used to highlight specific data points:
+The following example shows a series of `Double` values (plotted on the y-axis) collected at `Integer` intervals (plotted on the x-axis):
 
 <img src="README/charts/time-series.png" width="630">
 
-Individual value markers may optionally be shown:
+It also demonstrates the use of domain markers, which can be used to highlight specific data points. Individual value markers may optionally be shown:
 
 <img src="README/charts/time-series-value-markers.png" width="630">
 
