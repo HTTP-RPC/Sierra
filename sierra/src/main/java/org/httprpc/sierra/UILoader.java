@@ -1668,7 +1668,7 @@ public class UILoader {
         }
     }
 
-    private Dimension parseSize(String value) {
+    private static Dimension parseSize(String value) {
         var components = value.split(",");
 
         if (components.length == 1) {
