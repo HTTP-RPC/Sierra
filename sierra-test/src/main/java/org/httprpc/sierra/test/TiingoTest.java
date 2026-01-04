@@ -64,17 +64,17 @@ import static org.httprpc.kilo.util.Optionals.*;
 
 public class TiingoTest extends JFrame implements Runnable {
     private static class HistoricalPricingTableModel implements TableModel {
-        List<BeanAdapter> values;
+        List<BeanAdapter> rows;
 
         List<String> columns = listOf("date", "open", "high", "low", "close", "volume");
 
         HistoricalPricingTableModel(List<AssetPricing> rows) {
-            values = rows.stream().map(BeanAdapter::new).toList();
+            this.rows = rows.stream().map(BeanAdapter::new).toList();
         }
 
         @Override
         public int getRowCount() {
-            return values.size();
+            return rows.size();
         }
 
         @Override
@@ -99,7 +99,7 @@ public class TiingoTest extends JFrame implements Runnable {
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            return values.get(rowIndex).get(columns.get(columnIndex));
+            return rows.get(rowIndex).get(columns.get(columnIndex));
         }
 
         @Override
