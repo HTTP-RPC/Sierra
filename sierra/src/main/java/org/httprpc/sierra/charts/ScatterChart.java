@@ -15,7 +15,6 @@
 package org.httprpc.sierra.charts;
 
 import javax.swing.Icon;
-import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -69,12 +68,14 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
         }
 
         private void paintIcon(Graphics2D graphics, int x, int y) {
-            var lineWidth = outlineStroke.getLineWidth();
+            var stroke = dataSet.getStroke();
+
+            var lineWidth = stroke.getLineWidth();
 
             shape.setFrame(x + lineWidth / 2, y + lineWidth / 2, SIZE - lineWidth, SIZE - lineWidth);
 
             graphics.setColor(dataSet.getColor());
-            graphics.setStroke(outlineStroke);
+            graphics.setStroke(stroke);
 
             graphics.draw(shape);
         }
@@ -99,11 +100,6 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
     private List<Line2D.Double> trendLines = listOf();
 
     private static final int VALUE_MARKER_SIZE = 10;
-
-    private static final BasicStroke outlineStroke;
-    static {
-        outlineStroke = new BasicStroke(1.0f);
-    }
 
     /**
      * Constructs a new scatter chart.
@@ -248,6 +244,7 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
 
         for (var dataSet : getDataSets()) {
             var color = dataSet.getColor();
+            var stroke = dataSet.getStroke();
 
             var fillColor = colorWithAlpha(color, (int)(valueMarkerTransparency * 255));
 
@@ -257,7 +254,7 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
                 graphics.fill(valueMarkerShape);
 
                 graphics.setColor(color);
-                graphics.setStroke(outlineStroke);
+                graphics.setStroke(stroke);
 
                 graphics.draw(valueMarkerShape);
             }

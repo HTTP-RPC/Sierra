@@ -305,6 +305,8 @@ public class ChartsTest extends JFrame implements Runnable {
         for (var i = 0; i < m; i++) {
             var dataSet = new DataSet<Integer, Double>(String.format("Group %d", i + 1), colors.get(i));
 
+            dataSet.setStroke(new BasicStroke(1.0f));
+
             var dataPoints = new TreeMap<Integer, Double>();
 
             var previousValue = i * 25.0;
