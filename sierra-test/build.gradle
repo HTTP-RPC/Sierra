@@ -18,10 +18,8 @@ plugins {
 
 dependencies {
     implementation project(':sierra')
-
     implementation "com.formdev:flatlaf:${flatLafVersion}"
     implementation "com.formdev:flatlaf-extras:${flatLafVersion}"
-
     implementation 'org.pushing-pixels:radiance-theming:8.5.0'
 }
 

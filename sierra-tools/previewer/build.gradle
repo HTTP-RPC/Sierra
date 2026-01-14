@@ -18,7 +18,6 @@ plugins {
 
 dependencies {
     implementation project(':sierra')
-
     implementation "com.formdev:flatlaf:${flatLafVersion}"
     implementation "com.formdev:flatlaf-extras:${flatLafVersion}"
     implementation 'com.fifesoft:rsyntaxtextarea:3.6.1'
