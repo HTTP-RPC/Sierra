@@ -46,6 +46,13 @@ public class PieChartTest extends ChartTest {
     }
 
     @Test
+    public void testNoValues() throws Exception {
+        var chart = new PieChart<Integer, Integer>();
+
+        compare("pie-chart-no-values.svg", chart);
+    }
+
+    @Test
     public void testDoughnut() throws Exception {
         var chart = new PieChart<Integer, Integer>(true);
 
@@ -70,5 +77,12 @@ public class PieChartTest extends ChartTest {
         chart.setDataSets(listOf(dataSet1, dataSet2, dataSet3));
 
         compare("pie-chart-doughnut.svg", chart);
+    }
+
+    @Test
+    public void testNoValuesDoughnut() throws Exception {
+        var chart = new PieChart<Integer, Integer>(true);
+
+        compare("pie-chart-no-values-doughnut.svg", chart);
     }
 }

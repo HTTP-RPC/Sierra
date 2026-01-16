@@ -182,6 +182,8 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
     public void validate() {
         sliceArcs.clear();
 
+        cutoutShape = null;
+
         var dataSets = getDataSets();
 
         var n = dataSets.size();
@@ -255,7 +257,7 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
             i++;
         }
 
-        if (doughnut) {
+        if (cutoutShape != null) {
             graphics.setColor(outlineColor);
 
             graphics.fill(cutoutShape);
