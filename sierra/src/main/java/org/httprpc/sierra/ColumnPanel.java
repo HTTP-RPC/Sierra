@@ -19,6 +19,8 @@ import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.httprpc.kilo.util.stream.Streams.*;
+
 /**
  * Arranges sub-components in a vertical line. The panel's preferred width is
  * the maximum preferred width of its sub-components plus horizontal insets.
@@ -62,7 +64,7 @@ public class ColumnPanel extends BoxPanel {
             var spacing = getSpacing();
 
             if (alignToGrid) {
-                preferredWidth = columnWidths.stream().reduce(0, Integer::sum) + (columnWidths.size() - 1) * spacing;
+                preferredWidth = streamOf(columnWidths).reduce(0, Integer::sum) + (columnWidths.size() - 1) * spacing;
 
                 for (var i = 0; i < n; i++) {
                     var component = getComponent(i);
