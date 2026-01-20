@@ -213,9 +213,11 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
     protected void validateMarkers() {
         domainMarkerLabels.clear();
         domainMarkerLines.clear();
+        domainMarkerShapes.clear();
 
         rangeMarkerLabels.clear();
         rangeMarkerLines.clear();
+        rangeMarkerShapes.clear();
 
         var domainLabelTransform = getDomainLabelTransform();
         var rangeLabelTransform = getRangeLabelTransform();
