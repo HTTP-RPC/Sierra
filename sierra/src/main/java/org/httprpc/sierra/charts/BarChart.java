@@ -22,7 +22,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -156,12 +155,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var dataSets = getDataSets();
 
-        SortedMap<K, Double> totalValues;
-        if (stacked) {
-            totalValues = new TreeMap<>();
-        } else {
-            totalValues = null;
-        }
+        var positiveTotals = new TreeMap<K, Double>();
+        var negativeTotals = new TreeMap<K, Double>();
 
         var rangeMinimum = 0.0;
         var rangeMaximum = 0.0;
@@ -175,11 +170,9 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 var value = coalesce(map(entry.getValue(), Number::doubleValue), () -> 0.0);
 
                 if (stacked) {
-                    if (value < 0.0) {
-                        throw new UnsupportedOperationException("Negative value in data set.");
-                    }
+                    var totals = (value > 0.0) ? positiveTotals : negativeTotals;
 
-                    totalValues.put(key, coalesce(totalValues.get(key), () -> 0.0) + value);
+                    totals.put(key, coalesce(totals.get(key), () -> 0.0) + value);
                 } else {
                     rangeMinimum = Math.min(rangeMinimum, value);
                     rangeMaximum = Math.max(rangeMaximum, value);
@@ -188,9 +181,12 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
 
         if (stacked) {
-            for (var value : totalValues.values()) {
-                rangeMinimum = Math.min(rangeMinimum, value);
+            for (var value : positiveTotals.values()) {
                 rangeMaximum = Math.max(rangeMaximum, value);
+            }
+
+            for (var value : negativeTotals.values()) {
+                rangeMinimum = Math.min(rangeMinimum, value);
             }
         }
 
@@ -217,6 +213,9 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var i = 0;
 
+        positiveTotals.clear();
+        negativeTotals.clear();
+
         for (var dataSet : dataSets) {
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
 
@@ -227,24 +226,38 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             for (var key : keys) {
                 var value = coalesce(map(dataPoints.get(key), Number::doubleValue), () -> 0.0);
 
+                var barHeight = Math.abs(value) * rangeScale;
+
                 Rectangle2D.Double barRectangle;
                 if (stacked) {
                     var barX = chartOffset + columnWidth * j + barSpacing;
 
-                    var barHeight = value * rangeScale;
-
                     double barY;
-                    if (i == 0) {
-                        barY = zeroY - barHeight;
+                    if (value > 0.0) {
+                        if (i == 0) {
+                            positiveTotals.put(key, 0.0);
+                        }
+
+                        var totalHeight = positiveTotals.get(key) + barHeight;
+
+                        barY = zeroY - totalHeight;
+
+                        positiveTotals.put(key, totalHeight);
                     } else {
-                        barY = barRectangles.get(i - 1).get(j).getY() - barHeight;
+                        if (i == 0) {
+                            negativeTotals.put(key, 0.0);
+                        }
+
+                        var totalHeight = negativeTotals.get(key);
+
+                        barY = zeroY + totalHeight;
+
+                        negativeTotals.put(key, totalHeight + barHeight);
                     }
 
                     barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
                 } else {
                     var barX = chartOffset + columnWidth * j + barSpacing * (i + 1) + barWidth * i;
-
-                    var barHeight = Math.abs(value) * rangeScale;
 
                     double barY;
                     if (value > 0.0) {
