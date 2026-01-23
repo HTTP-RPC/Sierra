@@ -234,21 +234,13 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                     double barY;
                     if (value > 0.0) {
-                        if (i == 0) {
-                            positiveTotals.put(key, 0.0);
-                        }
-
-                        var totalHeight = positiveTotals.get(key) + barHeight;
+                        var totalHeight = coalesce(positiveTotals.get(key), () -> 0.0) + barHeight;
 
                         barY = zeroY - totalHeight;
 
                         positiveTotals.put(key, totalHeight);
                     } else {
-                        if (i == 0) {
-                            negativeTotals.put(key, 0.0);
-                        }
-
-                        var totalHeight = negativeTotals.get(key);
+                        var totalHeight = coalesce(negativeTotals.get(key), () -> 0.0);
 
                         barY = zeroY + totalHeight;
 

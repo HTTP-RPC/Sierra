@@ -240,6 +240,44 @@ public class BarChartTest extends ChartTest {
     }
 
     @Test
+    public void testMixedValuesStacked() throws Exception {
+        var chart = new BarChart<Integer, Integer>(true);
+
+        var dataSet1 = new DataSet<Integer, Integer>("Data Set 1", Color.RED);
+
+        dataSet1.setDataPoints(sortedMapOf(
+            entry(1, 10),
+            entry(2, 20),
+            entry(3, 30)
+        ));
+
+        var dataSet2 = new DataSet<Integer, Integer>("Data Set 2", Color.GREEN);
+
+        dataSet2.setDataPoints(sortedMapOf(
+            entry(1, -5),
+            entry(2, -15),
+            entry(3, 10)
+        ));
+
+        var dataSet3 = new DataSet<Integer, Integer>("Data Set 3", Color.BLUE);
+
+        dataSet3.setDataPoints(sortedMapOf(
+            entry(1, -20),
+            entry(2, 25),
+            entry(3, -15)
+        ));
+
+        chart.setDataSets(listOf(dataSet1, dataSet2, dataSet3));
+
+        chart.setRangeMarkers(listOf(
+            new Chart.Marker<>(null, -15, null, null),
+            new Chart.Marker<>(null, 40, null, null)
+        ));
+
+        compare("bar-chart-mixed-values-stacked.svg", chart);
+    }
+
+    @Test
     public void testTransparency() throws Exception {
         var chart = new BarChart<Integer, Integer>();
 
