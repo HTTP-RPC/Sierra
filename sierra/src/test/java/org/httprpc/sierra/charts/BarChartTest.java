@@ -274,8 +274,6 @@ public class BarChartTest extends ChartTest {
             new Chart.Marker<>(null, 40, null, null)
         ));
 
-        chart.setRangeBounds(-50.0, 50.0);
-
         compare("bar-chart-mixed-values-stacked.svg", chart);
     }
 

@@ -1025,13 +1025,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The graphics context in which the grid will be drawn.
      */
     protected void drawGrid(Graphics2D graphics) {
-        if (zeroLine != null) {
-            graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
-            graphics.setStroke(getHorizontalGridLineStroke());
-
-            graphics.draw(zeroLine);
-        }
-
         if (getShowHorizontalGridLines()) {
             graphics.setColor(getHorizontalGridLineColor());
             graphics.setStroke(getHorizontalGridLineStroke());

@@ -305,6 +305,13 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             i++;
         }
 
+        if (zeroLine != null) {
+            graphics.setColor(getHorizontalGridLineColor());
+            graphics.setStroke(getHorizontalGridLineStroke());
+
+            graphics.draw(zeroLine);
+        }
+
         drawMarkers(graphics);
     }
 }

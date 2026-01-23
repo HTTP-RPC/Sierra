@@ -325,6 +325,18 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         }
     }
 
+    @Override
+    protected void drawGrid(Graphics2D graphics) {
+        if (zeroLine != null) {
+            graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
+            graphics.setStroke(getHorizontalGridLineStroke());
+
+            graphics.draw(zeroLine);
+        }
+
+        super.drawGrid(graphics);
+    }
+
     /**
      * Draws the chart markers.
      */
