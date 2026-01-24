@@ -121,10 +121,10 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
     }
 
     /**
-     * Indicates that the chart is a doughnut chart.
+     * Indicates that the chart is a doughnut.
      *
      * @return
-     * {@code true} if the chart is a doughnut chart; {@code false}, otherwise.
+     * {@code true} if the chart is a doughnut; {@code false}, otherwise.
      */
     public boolean isDoughnut() {
         return doughnut;

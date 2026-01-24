@@ -113,11 +113,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     }
 
     /**
-     * Indicates that the chart is a stacked bar chart.
+     * Indicates that the chart is stacked.
      *
      * @return
-     * {@code true} if the chart is a stacked bar chart; {@code false},
-     * otherwise.
+     * {@code true} if the chart is stacked; {@code false}, otherwise.
      */
     public boolean isStacked() {
         return stacked;
