@@ -307,7 +307,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         if (zeroLine != null) {
             graphics.setColor(getHorizontalGridLineColor());
-            graphics.setStroke(getHorizontalGridLineStroke());
+            graphics.setStroke(outlineStroke);
 
             graphics.draw(zeroLine);
         }
