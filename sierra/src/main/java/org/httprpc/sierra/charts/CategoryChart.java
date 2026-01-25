@@ -84,7 +84,7 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
         var showDomainLabels = maximumWidth < columnWidth * 0.85;
 
         var domainLabelX = chartX;
-        var domainLabelY = chartHeight + LABEL_SPACING + horizontalGridLineWidth;
+        var domainLabelY = chartHeight + SPACING + horizontalGridLineWidth;
 
         for (var i = 0; i < keyCount; i++) {
             var textPane = bottomAxisTextPanes.get(i);
@@ -141,12 +141,12 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
             var size = label.getPreferredSize();
 
-            label.setBounds((int)chartX + LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
+            label.setBounds((int)chartX + SPACING, (int)lineY - size.height / 2, size.width, size.height);
 
             rangeMarkerLabels.add(label);
 
-            var lineX1 = chartX + label.getWidth() + LABEL_SPACING * 2;
-            var lineX2 = width - LABEL_SPACING - verticalGridLineWidth / 2;
+            var lineX1 = chartX + label.getWidth() + SPACING * 2;
+            var lineX2 = width - SPACING - verticalGridLineWidth / 2;
 
             if (lineX2 > lineX1) {
                 var line = new Line2D.Double(lineX1, lineY, lineX2, lineY);

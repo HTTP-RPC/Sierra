@@ -147,11 +147,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected double chartWidth = 0.0;
     protected double chartHeight = 0.0;
 
-    protected double columnWidth = 0.0;
-    protected double rowHeight = 0.0;
-
     protected double domainScale = Double.NaN;
     protected double rangeScale = Double.NaN;
+
+    protected double columnWidth = 0.0;
+    protected double rowHeight = 0.0;
 
     protected double zeroY = 0.0;
 
@@ -161,11 +161,9 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected List<Line2D.Double> verticalGridLines = listOf();
 
     protected List<TextPane> leftAxisTextPanes = listOf();
-    protected List<TextPane> rightAxisTextPanes = listOf();
-
     protected List<TextPane> bottomAxisTextPanes = listOf();
 
-    protected static final int LABEL_SPACING = 4;
+    protected static final int SPACING = 4;
 
     protected static final RenderingHints renderingHints = new RenderingHints(mapOf(
         entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
@@ -820,8 +818,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         verticalGridLines.clear();
 
         leftAxisTextPanes.clear();
-        rightAxisTextPanes.clear();
-
         bottomAxisTextPanes.clear();
 
         var columnCount = getColumnCount();
@@ -838,14 +834,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 left = Math.max(left, preferredSize.width);
             }
 
-            var right = 0;
-
-            for (var textPane : rightAxisTextPanes) {
-                var preferredSize = textPane.getPreferredSize();
-
-                right = Math.max(right, preferredSize.width);
-            }
-
             var bottom = 0;
 
             for (var textPane : bottomAxisTextPanes) {
@@ -854,22 +842,23 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 bottom = Math.max(bottom, preferredSize.height);
             }
 
-            margins = new Insets(0, left, bottom , right);
+            margins = new Insets(0, left + SPACING, bottom + SPACING, 0);
         }
 
         horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
         verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
 
-        chartX = margins.left + LABEL_SPACING + verticalGridLineWidth / 2;
+        chartX = margins.left + verticalGridLineWidth / 2;
+        chartY = margins.top + horizontalGridLineWidth / 2;
 
-        chartWidth = Math.max(width - (chartX + verticalGridLineWidth / 2), 0.0);
-        chartHeight = Math.max(height - (margins.bottom + LABEL_SPACING + horizontalGridLineWidth), 0.0);
-
-        columnWidth = chartWidth / columnCount;
-        rowHeight = chartHeight / (rangeLabelCount - 1);
+        chartWidth = Math.max(width - (margins.left + margins.right + verticalGridLineWidth), 0.0);
+        chartHeight = Math.max(height - (margins.top + margins.bottom + horizontalGridLineWidth), 0.0);
 
         domainScale = chartWidth / (domainMaximum - domainMinimum);
         rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
+
+        columnWidth = chartWidth / columnCount;
+        rowHeight = chartHeight / (rangeLabelCount - 1);
 
         zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
@@ -971,7 +960,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 y = (int)rangeLabelY;
             }
 
-            textPane.setBounds(0, y, margins.left, size.height);
+            textPane.setBounds(0, y, margins.left - SPACING, size.height);
             textPane.doLayout();
 
             rangeLabelY -= rowHeight;

@@ -182,7 +182,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         var domainLabelCount = getDomainLabelCount();
 
         var domainLabelX = chartX;
-        var domainLabelY = chartHeight + LABEL_SPACING + horizontalGridLineWidth;
+        var domainLabelY = chartHeight + SPACING + horizontalGridLineWidth;
 
         for (var i = 0; i < domainLabelCount; i++) {
             var textPane = bottomAxisTextPanes.get(i);
@@ -251,7 +251,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             var size = label.getPreferredSize();
 
             var labelX = (int)Math.round(lineX - (double)size.width / 2);
-            var labelY = chartHeight + horizontalGridLineWidth / 2 - (size.height + LABEL_SPACING);
+            var labelY = chartHeight + horizontalGridLineWidth / 2 - (size.height + SPACING);
 
             label.setBounds(labelX, (int)labelY, size.width, size.height);
 
@@ -267,7 +267,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
                 var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
 
                 if (valueY < label.getY() - diameter) {
-                    var line = new Line2D.Double(lineX, labelY - LABEL_SPACING, lineX, valueY);
+                    var line = new Line2D.Double(lineX, labelY - SPACING, lineX, valueY);
 
                     domainMarkerLines.add(line);
 
@@ -299,7 +299,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
             var size = label.getPreferredSize();
 
-            label.setBounds((int)chartX + LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
+            label.setBounds((int)chartX + SPACING, (int)lineY - size.height / 2, size.width, size.height);
 
             rangeMarkerLabels.add(label);
 
@@ -313,7 +313,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
                 var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
 
                 if (valueX > label.getX() + label.getWidth() + diameter) {
-                    var line = new Line2D.Double(chartX + label.getWidth() + LABEL_SPACING * 2, lineY, valueX, lineY);
+                    var line = new Line2D.Double(chartX + label.getWidth() + SPACING * 2, lineY, valueX, lineY);
 
                     rangeMarkerLines.add(line);
 
