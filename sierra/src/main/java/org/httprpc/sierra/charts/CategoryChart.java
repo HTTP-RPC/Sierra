@@ -84,7 +84,7 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
         var showDomainLabels = maximumWidth < columnWidth * 0.85;
 
         var domainLabelX = chartX;
-        var domainLabelY = chartHeight + SPACING + horizontalGridLineWidth;
+        var domainLabelY = chartY + chartHeight + SPACING + horizontalGridLineWidth;
 
         for (var i = 0; i < keyCount; i++) {
             var textPane = bottomAxisTextPanes.get(i);

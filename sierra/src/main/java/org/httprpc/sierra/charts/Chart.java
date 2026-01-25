@@ -944,7 +944,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * Validates the range labels.
      */
     protected void validateRangeLabels() {
-        var rangeLabelY = chartHeight + horizontalGridLineWidth / 2;
+        var rangeLabelY = chartY + chartHeight;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             var textPane = leftAxisTextPanes.get(i);

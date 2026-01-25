@@ -182,7 +182,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         var domainLabelCount = getDomainLabelCount();
 
         var domainLabelX = chartX;
-        var domainLabelY = chartHeight + SPACING + horizontalGridLineWidth;
+        var domainLabelY = chartY + chartHeight + SPACING + horizontalGridLineWidth;
 
         for (var i = 0; i < domainLabelCount; i++) {
             var textPane = bottomAxisTextPanes.get(i);
@@ -251,7 +251,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             var size = label.getPreferredSize();
 
             var labelX = (int)Math.round(lineX - (double)size.width / 2);
-            var labelY = chartHeight + horizontalGridLineWidth / 2 - (size.height + SPACING);
+            var labelY = chartY + chartHeight - (size.height + SPACING);
 
             label.setBounds(labelX, (int)labelY, size.width, size.height);
 
