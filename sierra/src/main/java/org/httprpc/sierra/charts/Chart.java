@@ -161,8 +161,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected List<Line2D.Double> horizontalGridLines = listOf();
     protected List<Line2D.Double> verticalGridLines = listOf();
 
-    protected List<TextPane> bottomAxisTextPanes = listOf();
     protected List<TextPane> leftAxisTextPanes = listOf();
+    protected List<TextPane> rightAxisTextPanes = listOf();
+
+    protected List<TextPane> bottomAxisTextPanes = listOf();
 
     protected static final int LABEL_SPACING = 4;
 
@@ -882,8 +884,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
-        bottomAxisTextPanes.clear();
         leftAxisTextPanes.clear();
+        rightAxisTextPanes.clear();
+
+        bottomAxisTextPanes.clear();
 
         var columnCount = getColumnCount();
 
