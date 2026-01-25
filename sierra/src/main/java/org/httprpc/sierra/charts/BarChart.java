@@ -250,7 +250,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                 Rectangle2D.Double barRectangle;
                 if (stacked) {
-                    var barX = chartOffset + columnWidth * j + barSpacing;
+                    var barX = chartX + columnWidth * j + barSpacing;
 
                     double barY;
                     if (value > 0.0) {
@@ -269,7 +269,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                     barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
                 } else {
-                    var barX = chartOffset + columnWidth * j + barSpacing * (i + 1) + barWidth * i;
+                    var barX = chartX + columnWidth * j + barSpacing * (i + 1) + barWidth * i;
 
                     double barY;
                     if (value > 0.0) {

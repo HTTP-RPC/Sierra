@@ -142,7 +142,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected double horizontalGridLineWidth = 0.0;
     protected double verticalGridLineWidth = 0.0;
 
-    protected double chartOffset = 0.0;
+    protected double chartX = 0.0;
+    protected double chartY = 0.0;
 
     protected double chartWidth = 0.0;
     protected double chartHeight = 0.0;
@@ -160,11 +161,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected List<Line2D.Double> horizontalGridLines = listOf();
     protected List<Line2D.Double> verticalGridLines = listOf();
 
-    protected List<TextPane> domainLabelTextPanes = listOf();
-    protected List<TextPane> rangeLabelTextPanes = listOf();
+    protected List<TextPane> bottomAxisTextPanes = listOf();
+    protected List<TextPane> leftAxisTextPanes = listOf();
 
-    protected static final int DOMAIN_LABEL_SPACING = 4;
-    protected static final int RANGE_LABEL_SPACING = 4;
+    protected static final int LABEL_SPACING = 4;
 
     protected static final RenderingHints renderingHints = new RenderingHints(mapOf(
         entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
@@ -792,7 +792,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     public int getPreferredDomainMargin() {
         var margin = 0;
 
-        for (var textPane : domainLabelTextPanes) {
+        for (var textPane : bottomAxisTextPanes) {
             var preferredSize = textPane.getPreferredSize();
 
             margin = Math.max(margin, preferredSize.height);
@@ -810,7 +810,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     public int getPreferredRangeMargin() {
         var margin = 0;
 
-        for (var textPane : rangeLabelTextPanes) {
+        for (var textPane : leftAxisTextPanes) {
             var preferredSize = textPane.getPreferredSize();
 
             margin = Math.max(margin, preferredSize.width);
@@ -882,8 +882,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
-        domainLabelTextPanes.clear();
-        rangeLabelTextPanes.clear();
+        bottomAxisTextPanes.clear();
+        leftAxisTextPanes.clear();
 
         var columnCount = getColumnCount();
 
@@ -902,10 +902,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
         verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
 
-        chartOffset = rangeMargin + RANGE_LABEL_SPACING + verticalGridLineWidth / 2;
+        chartX = rangeMargin + LABEL_SPACING + verticalGridLineWidth / 2;
 
-        chartWidth = Math.max(width - (chartOffset + verticalGridLineWidth / 2), 0.0);
-        chartHeight = Math.max(height - (domainMargin + DOMAIN_LABEL_SPACING + horizontalGridLineWidth), 0.0);
+        chartWidth = Math.max(width - (chartX + verticalGridLineWidth / 2), 0.0);
+        chartHeight = Math.max(height - (domainMargin + LABEL_SPACING + horizontalGridLineWidth), 0.0);
 
         columnWidth = chartWidth / columnCount;
         rowHeight = chartHeight / (rangeLabelCount - 1);
@@ -916,20 +916,20 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
         if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
-            zeroLine = new Line2D.Double(chartOffset, zeroY, chartOffset + chartWidth, zeroY);
+            zeroLine = new Line2D.Double(chartX, zeroY, chartX + chartWidth, zeroY);
         }
 
         var gridY = horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
-            horizontalGridLines.add(new Line2D.Double(chartOffset, gridY, chartOffset + chartWidth, gridY));
+            horizontalGridLines.add(new Line2D.Double(chartX, gridY, chartX + chartWidth, gridY));
 
             gridY += rowHeight;
         }
 
         var verticalGridLineCount = columnCount + 1;
 
-        var gridX = chartOffset;
+        var gridX = chartX;
 
         for (var i = 0; i < verticalGridLineCount; i++) {
             verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, chartHeight));
@@ -979,7 +979,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             textPane.setFont(rangeLabelFont);
             textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
 
-            rangeLabelTextPanes.add(textPane);
+            leftAxisTextPanes.add(textPane);
         }
     }
 
@@ -990,7 +990,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var rangeLabelY = chartHeight + horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
-            var textPane = rangeLabelTextPanes.get(i);
+            var textPane = leftAxisTextPanes.get(i);
 
             var size = textPane.getPreferredSize();
 
@@ -1045,13 +1045,13 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         graphics.setColor(getDomainLabelColor());
 
-        for (var textPane : domainLabelTextPanes) {
+        for (var textPane : bottomAxisTextPanes) {
             paintComponent(graphics, textPane);
         }
 
         graphics.setColor(getRangeLabelColor());
 
-        for (var textPane : rangeLabelTextPanes) {
+        for (var textPane : leftAxisTextPanes) {
             paintComponent(graphics, textPane);
         }
 

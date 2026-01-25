@@ -187,7 +187,7 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
                 var rangeValue = map(entry.getValue(), Number::doubleValue);
 
                 if (rangeValue != null) {
-                    var x = chartOffset + (domainValue - domainMinimum) * domainScale - (double)VALUE_MARKER_SIZE / 2;
+                    var x = chartX + (domainValue - domainMinimum) * domainScale - (double)VALUE_MARKER_SIZE / 2;
                     var y = zeroY - rangeValue * rangeScale - (double)VALUE_MARKER_SIZE / 2;
 
                     if (showTrendLines) {
@@ -214,10 +214,10 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
                 if (!Double.isNaN(m)) {
                     var b = (totalY - m * totalX) / n;
 
-                    var lineX1 = chartOffset;
+                    var lineX1 = chartX;
                     var lineY1 = zeroY - (m * domainMinimum + b) * rangeScale;
 
-                    var lineX2 = chartOffset + (domainMaximum - domainMinimum) * domainScale;
+                    var lineX2 = chartX + (domainMaximum - domainMinimum) * domainScale;
                     var lineY2 = zeroY - (m * domainMaximum + b) * rangeScale;
 
                     trendLine = new Line2D.Double(lineX1, lineY1, lineX2, lineY2);

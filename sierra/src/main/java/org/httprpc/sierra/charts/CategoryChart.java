@@ -53,14 +53,14 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
             textPane.setFont(domainLabelFont);
 
-            domainLabelTextPanes.add(textPane);
+            bottomAxisTextPanes.add(textPane);
         } else {
             for (var key : keys) {
                 var textPane = new TextPane(domainLabelTransform.apply(key));
 
                 textPane.setFont(domainLabelFont);
 
-                domainLabelTextPanes.add(textPane);
+                bottomAxisTextPanes.add(textPane);
             }
         }
     }
@@ -72,7 +72,7 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
         var maximumWidth = 0.0;
 
         for (var i = 0; i < keyCount; i++) {
-            var textPane = domainLabelTextPanes.get(i);
+            var textPane = bottomAxisTextPanes.get(i);
 
             textPane.setSize(textPane.getPreferredSize());
 
@@ -83,11 +83,11 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
         var showDomainLabels = maximumWidth < columnWidth * 0.85;
 
-        var domainLabelX = chartOffset;
-        var domainLabelY = chartHeight + DOMAIN_LABEL_SPACING + horizontalGridLineWidth;
+        var domainLabelX = chartX;
+        var domainLabelY = chartHeight + LABEL_SPACING + horizontalGridLineWidth;
 
         for (var i = 0; i < keyCount; i++) {
-            var textPane = domainLabelTextPanes.get(i);
+            var textPane = bottomAxisTextPanes.get(i);
 
             var size = textPane.getSize();
 
@@ -141,12 +141,12 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
             var size = label.getPreferredSize();
 
-            label.setBounds((int)chartOffset + RANGE_LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
+            label.setBounds((int)chartX + LABEL_SPACING, (int)lineY - size.height / 2, size.width, size.height);
 
             rangeMarkerLabels.add(label);
 
-            var lineX1 = chartOffset + label.getWidth() + RANGE_LABEL_SPACING * 2;
-            var lineX2 = width - RANGE_LABEL_SPACING - verticalGridLineWidth / 2;
+            var lineX1 = chartX + label.getWidth() + LABEL_SPACING * 2;
+            var lineX2 = width - LABEL_SPACING - verticalGridLineWidth / 2;
 
             if (lineX2 > lineX1) {
                 var line = new Line2D.Double(lineX1, lineY, lineX2, lineY);
