@@ -100,8 +100,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private Color verticalGridLineColor = Color.LIGHT_GRAY;
     private BasicStroke verticalGridLineStroke = defaultGridLineStroke;
 
-    private Insets margins = null;
-
     private List<DataSet<K, V>> dataSets = listOf();
 
     private List<Marker<K>> domainMarkers = listOf();
@@ -129,14 +127,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
-    protected int width = 0;
-    protected int height = 0;
-
     protected double domainMinimum = Double.NaN;
     protected double domainMaximum = Double.NaN;
 
     protected double rangeMinimum = Double.NaN;
     protected double rangeMaximum = Double.NaN;
+
+    protected Insets margins = null;
+
+    protected int width = 0;
+    protected int height = 0;
 
     protected double horizontalGridLineWidth = 0.0;
     protected double verticalGridLineWidth = 0.0;
@@ -598,26 +598,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
-     * Returns the chart margins.
-     *
-     * @return
-     * The chart margins.
-     */
-    public Insets getMargins() {
-        return margins;
-    }
-
-    /**
-     * Sets the chart margins.
-     *
-     * @param margins
-     * The chart margins, or {@code null} for the default margins.
-     */
-    public void setMargins(Insets margins) {
-        this.margins = margins;
-    }
-
-    /**
      * Returns the chart's data sets.
      *
      * @return
@@ -757,6 +737,26 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
+     * Returns the chart margins.
+     *
+     * @return
+     * The chart margins.
+     */
+    public Insets getMargins() {
+        return margins;
+    }
+
+    /**
+     * Sets the chart margins.
+     *
+     * @param margins
+     * The chart margins, or {@code null} for the default margins.
+     */
+    public void setMargins(Insets margins) {
+        this.margins = margins;
+    }
+
+    /**
      * Draws the chart.
      *
      * @param graphics
@@ -838,6 +838,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 left = Math.max(left, preferredSize.width);
             }
 
+            var right = 0;
+
+            for (var textPane : rightAxisTextPanes) {
+                var preferredSize = textPane.getPreferredSize();
+
+                right = Math.max(right, preferredSize.width);
+            }
+
             var bottom = 0;
 
             for (var textPane : bottomAxisTextPanes) {
@@ -846,7 +854,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 bottom = Math.max(bottom, preferredSize.height);
             }
 
-            margins = new Insets(0, left, bottom , 0);
+            margins = new Insets(0, left, bottom , right);
         }
 
         horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
