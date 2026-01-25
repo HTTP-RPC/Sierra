@@ -18,6 +18,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
+import java.awt.Insets;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -337,8 +338,9 @@ public class TimeSeriesChartTest extends ChartTest {
 
         chart.validate();
 
-        chart.setDomainMargin(chart.getDomainMargin() * 4);
-        chart.setRangeMargin(chart.getRangeMargin() * 4);
+        var margins = chart.getMargins();
+
+        chart.setMargins(new Insets(margins.top, margins.left * 4, margins.bottom * 4, margins.right));
 
         compare("time-series-chart-custom-axis-margins.svg", chart);
     }

@@ -24,6 +24,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.text.NumberFormat;
@@ -78,16 +79,12 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private Color domainLabelColor = Color.GRAY;
     private Font domainLabelFont = defaultDomainLabelFont;
 
-    private int domainMargin = -1;
-
     private int rangeLabelCount = 5;
 
     private Function<Number, String> rangeLabelTransform = numberFormat::format;
 
     private Color rangeLabelColor = Color.GRAY;
     private Font rangeLabelFont = defaultRangeLabelFont;
-
-    private int rangeMargin = -1;
 
     private Color markerColor = Color.BLACK;
     private BasicStroke markerStroke = defaultMarkerStroke;
@@ -102,6 +99,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private Color verticalGridLineColor = Color.LIGHT_GRAY;
     private BasicStroke verticalGridLineStroke = defaultGridLineStroke;
+
+    private Insets margins = null;
 
     private List<DataSet<K, V>> dataSets = listOf();
 
@@ -291,30 +290,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
-     * Returns the domain margin.
-     *
-     * @return
-     * The domain margin.
-     */
-    public int getDomainMargin() {
-        return domainMargin;
-    }
-
-    /**
-     * Sets the domain margin.
-     *
-     * @param domainMargin
-     * The domain margin, or -1 for the default value.
-     */
-    public void setDomainMargin(int domainMargin) {
-        if (domainMargin < -1) {
-            throw new IllegalArgumentException();
-        }
-
-        this.domainMargin = domainMargin;
-    }
-
-    /**
      * Returns the range label count.
      *
      * @return
@@ -408,30 +383,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.rangeLabelFont = rangeLabelFont;
-    }
-
-    /**
-     * Returns the range margin.
-     *
-     * @return
-     * The range margin.
-     */
-    public int getRangeMargin() {
-        return rangeMargin;
-    }
-
-    /**
-     * Sets the range margin.
-     *
-     * @param rangeMargin
-     * The range margin, or -1 for the default value.
-     */
-    public void setRangeMargin(int rangeMargin) {
-        if (rangeMargin < -1) {
-            throw new IllegalArgumentException();
-        }
-
-        this.rangeMargin = rangeMargin;
     }
 
     /**
@@ -647,6 +598,26 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
+     * Returns the chart margins.
+     *
+     * @return
+     * The chart margins.
+     */
+    public Insets getMargins() {
+        return margins;
+    }
+
+    /**
+     * Sets the chart margins.
+     *
+     * @param margins
+     * The chart margins, or {@code null} for the default margins.
+     */
+    public void setMargins(Insets margins) {
+        this.margins = margins;
+    }
+
+    /**
      * Returns the chart's data sets.
      *
      * @return
@@ -786,42 +757,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
-     * Returns the preferred domain margin.
-     *
-     * @return
-     * The preferred domain margin.
-     */
-    public int getPreferredDomainMargin() {
-        var margin = 0;
-
-        for (var textPane : bottomAxisTextPanes) {
-            var preferredSize = textPane.getPreferredSize();
-
-            margin = Math.max(margin, preferredSize.height);
-        }
-
-        return margin;
-    }
-
-    /**
-     * Returns the preferred range margin.
-     *
-     * @return
-     * The preferred range margin.
-     */
-    public int getPreferredRangeMargin() {
-        var margin = 0;
-
-        for (var textPane : leftAxisTextPanes) {
-            var preferredSize = textPane.getPreferredSize();
-
-            margin = Math.max(margin, preferredSize.width);
-        }
-
-        return margin;
-    }
-
-    /**
      * Draws the chart.
      *
      * @param graphics
@@ -892,24 +827,35 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var columnCount = getColumnCount();
 
         populateDomainLabels();
-
-        if (domainMargin == -1) {
-            domainMargin = getPreferredDomainMargin();
-        }
-
         populateRangeLabels();
 
-        if (rangeMargin == -1) {
-            rangeMargin = getPreferredRangeMargin();
+        if (margins == null) {
+            var left = 0;
+
+            for (var textPane : leftAxisTextPanes) {
+                var preferredSize = textPane.getPreferredSize();
+
+                left = Math.max(left, preferredSize.width);
+            }
+
+            var bottom = 0;
+
+            for (var textPane : bottomAxisTextPanes) {
+                var preferredSize = textPane.getPreferredSize();
+
+                bottom = Math.max(bottom, preferredSize.height);
+            }
+
+            margins = new Insets(0, left, bottom , 0);
         }
 
         horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
         verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
 
-        chartX = rangeMargin + LABEL_SPACING + verticalGridLineWidth / 2;
+        chartX = margins.left + LABEL_SPACING + verticalGridLineWidth / 2;
 
         chartWidth = Math.max(width - (chartX + verticalGridLineWidth / 2), 0.0);
-        chartHeight = Math.max(height - (domainMargin + LABEL_SPACING + horizontalGridLineWidth), 0.0);
+        chartHeight = Math.max(height - (margins.bottom + LABEL_SPACING + horizontalGridLineWidth), 0.0);
 
         columnWidth = chartWidth / columnCount;
         rowHeight = chartHeight / (rangeLabelCount - 1);
@@ -1017,7 +963,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 y = (int)rangeLabelY;
             }
 
-            textPane.setBounds(0, y, rangeMargin, size.height);
+            textPane.setBounds(0, y, margins.left, size.height);
             textPane.doLayout();
 
             rangeLabelY -= rowHeight;
