@@ -946,6 +946,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
+     * Indicates that the chart is transposed.
+     *
+     * @return
+     * {@code true} if the chart is transposed; {@code false}, otherwise.
+     */
+    protected boolean isTransposed() {
+        return false;
+    }
+
+    /**
      * Returns the column count.
      *
      * @return

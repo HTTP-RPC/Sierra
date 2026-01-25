@@ -295,6 +295,11 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     }
 
     @Override
+    protected boolean isTransposed() {
+        return orientation == Orientation.HORIZONTAL;
+    }
+
+    @Override
     protected void draw(Graphics2D graphics) {
         drawGrid(graphics);
 
