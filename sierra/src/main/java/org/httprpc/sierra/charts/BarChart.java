@@ -14,6 +14,8 @@
 
 package org.httprpc.sierra.charts;
 
+import org.httprpc.sierra.Orientation;
+
 import javax.swing.Icon;
 import java.awt.BasicStroke;
 import java.awt.Component;
@@ -84,6 +86,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
     }
 
+    private Orientation orientation;
     private boolean stacked;
 
     private double barTransparency = 1.0;
@@ -99,17 +102,35 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
      * Constructs a new bar chart.
      */
     public BarChart() {
-        this(false);
+        this(Orientation.VERTICAL, false);
     }
 
     /**
      * Constructs a new bar chart.
      *
+     * @param orientation
+     * The chart's orientation.
+     *
      * @param stacked
      * {@code true} for a stacked bar chart; {@code false}, otherwise.
      */
-    public BarChart(boolean stacked) {
+    public BarChart(Orientation orientation, boolean stacked) {
+        if (orientation == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.orientation = orientation;
         this.stacked = stacked;
+    }
+
+    /**
+     * Returns the chart's orientation.
+     *
+     * @return
+     * The chart's orientation.
+     */
+    public Orientation getOrientation() {
+        return orientation;
     }
 
     /**

@@ -18,6 +18,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.sierra.ChartPane;
+import org.httprpc.sierra.Orientation;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.RowPanel;
 import org.httprpc.sierra.UILoader;
@@ -130,9 +131,10 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     private BarChart<Month, Double> createBarChart() {
+        var horizontal = coalesce(map(System.getProperty("horizontal"), Boolean::valueOf), () -> false);
         var stacked = coalesce(map(System.getProperty("stacked"), Boolean::valueOf), () -> false);
 
-        var barChart = new BarChart<Month, Double>(stacked);
+        var barChart = new BarChart<Month, Double>(horizontal ? Orientation.HORIZONTAL : Orientation.VERTICAL, stacked);
 
         barChart.setBarTransparency(0.75);
 
