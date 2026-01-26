@@ -72,6 +72,36 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
     }
 
+    /**
+     * Represents chart bounds.
+     *
+     * @param <T>
+     * The value type.
+     */
+    public record Bounds<T extends Comparable<? super T>>(
+        T minimum,
+        T maximum
+    ) {
+        /**
+         * Constructs a new bounds instance.
+         *
+         * @param minimum
+         * The minimum value.
+         *
+         * @param maximum
+         * The maximum value.
+         */
+        public Bounds {
+            if (minimum == null || maximum == null) {
+                throw new IllegalArgumentException();
+            }
+
+            if (minimum.compareTo(maximum) > 0) {
+                throw new IllegalArgumentException();
+            }
+        }
+    }
+
     private int domainLabelCount = 5;
 
     private Function<K, String> domainLabelTransform = Object::toString;
@@ -667,71 +697,79 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         this.rangeMarkers = rangeMarkers;
     }
 
-    /**
-     * Returns the domain minimum.
-     *
-     * @return
-     * The domain minimum.
-     */
+    @Deprecated
     public K getDomainMinimum() {
         return null;
     }
 
+    @Deprecated
+    public K getDomainMaximum() {
+        return null;
+    }
+
+    @Deprecated
+    public void setDomainBounds(K domainMinimum, K domainMaximum) {
+        throw new UnsupportedOperationException();
+    }
+
     /**
-     * Returns the domain maximum.
+     * Returns the domain bounds.
      *
      * @return
-     * The domain maximum.
+     * The domain bounds.
      */
-    public K getDomainMaximum() {
+    public Bounds<K> getDomainBounds() {
+        // TODO
         return null;
     }
 
     /**
      * Sets the domain bounds.
      *
-     * @param domainMinimum
-     * The domain minimum, or {@code null} for the default value.
-     *
-     * @param domainMaximum
-     * The domain maximum, or {@code null} for the default value.
+     * @param domainBounds
+     * The domain bounds, or {@code null} for the default bounds.
      */
-    public void setDomainBounds(K domainMinimum, K domainMaximum) {
+    public void setDomainBounds(Bounds<K> domainBounds) {
+        // TODO
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * Returns the range minimum.
-     *
-     * @return
-     * The range minimum.
-     */
+    @Deprecated
     public Number getRangeMinimum() {
         return rangeMinimum;
     }
 
-    /**
-     * Returns the range maximum.
-     *
-     * @return
-     * The range maximum.
-     */
+    @Deprecated
     public Number getRangeMaximum() {
         return rangeMaximum;
+    }
+
+    @Deprecated
+    public void setRangeBounds(Number rangeMinimum, Number rangeMaximum) {
+        this.rangeMinimum = coalesce(map(rangeMinimum, Number::doubleValue), () -> Double.NaN);
+        this.rangeMaximum = coalesce(map(rangeMaximum, Number::doubleValue), () -> Double.NaN);
+    }
+
+    /**
+     * Returns the range bounds.
+     *
+     * @return
+     * The range bounds.
+     */
+    public Bounds<Double> getRangeBounds() {
+        // TODO
+        return null;
     }
 
     /**
      * Sets the range bounds.
      *
-     * @param rangeMinimum
-     * The range minimum, or {@code null} for the default value.
-     *
-     * @param rangeMaximum
-     * The range maximum, or {@code null} for the default value.
+     * @param rangeBounds
+     * The range bounds, or {@code null} for the default bounds.
      */
-    public void setRangeBounds(Number rangeMinimum, Number rangeMaximum) {
-        this.rangeMinimum = coalesce(map(rangeMinimum, Number::doubleValue), () -> Double.NaN);
-        this.rangeMaximum = coalesce(map(rangeMaximum, Number::doubleValue), () -> Double.NaN);
+    public void setRangeBounds(Bounds<Double> rangeBounds) {
+        // TODO
+        throw new UnsupportedOperationException();
     }
 
     /**
