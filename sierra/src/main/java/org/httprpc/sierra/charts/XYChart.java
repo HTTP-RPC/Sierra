@@ -102,36 +102,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         super.validateGrid();
     }
 
-    @Override
-    protected void validateDomainLabels() {
-        var domainLabelCount = getDomainLabelCount();
-
-        var domainLabelX = chartX;
-        var domainLabelY = chartY + chartHeight + SPACING + horizontalGridLineWidth;
-
-        for (var i = 0; i < domainLabelCount; i++) {
-            var textPane = bottomAxisTextPanes.get(i);
-
-            textPane.setSize(textPane.getPreferredSize());
-
-            var size = textPane.getSize();
-
-            int x;
-            if (i == 0) {
-                x = (int)domainLabelX;
-            } else if (i < domainLabelCount - 1) {
-                x = (int)domainLabelX - size.width / 2;
-            } else {
-                x = (int)domainLabelX - size.width;
-            }
-
-            textPane.setLocation(x, (int)domainLabelY);
-            textPane.doLayout();
-
-            domainLabelX += columnWidth;
-        }
-    }
-
     /**
      * Validates the chart markers.
      */

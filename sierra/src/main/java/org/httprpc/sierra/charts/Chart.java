@@ -1006,7 +1006,79 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * Validates the domain labels.
      */
     protected void validateDomainLabels() {
-        throw new UnsupportedOperationException();
+        var keys = getKeys();
+
+        if (keys != null) {
+            var keyCount = keys.size();
+
+            var maximumWidth = 0.0;
+
+            for (var i = 0; i < keyCount; i++) {
+                var textPane = bottomAxisTextPanes.get(i);
+
+                textPane.setSize(textPane.getPreferredSize());
+
+                var size = textPane.getSize();
+
+                maximumWidth = Math.max(maximumWidth, size.width);
+            }
+
+            var showDomainLabels = maximumWidth < columnWidth * 0.85;
+
+            var domainLabelX = chartX;
+            var domainLabelY = chartY + chartHeight + SPACING + horizontalGridLineWidth;
+
+            for (var i = 0; i < keyCount; i++) {
+                var textPane = bottomAxisTextPanes.get(i);
+
+                var size = textPane.getSize();
+
+                int x;
+                if (showDomainLabels) {
+                    x = (int)(domainLabelX + columnWidth / 2) - size.width / 2;
+                } else if (i == 0) {
+                    x = (int)domainLabelX;
+                } else if (i < keyCount - 1) {
+                    x = (int)(domainLabelX + columnWidth / 2) - size.width / 2;
+
+                    textPane.setText(null);
+                } else {
+                    x = (int)(domainLabelX + columnWidth) - size.width;
+                }
+
+                textPane.setLocation(x, (int)domainLabelY);
+                textPane.doLayout();
+
+                domainLabelX += columnWidth;
+            }
+        } else {
+            var domainLabelCount = getDomainLabelCount();
+
+            var domainLabelX = chartX;
+            var domainLabelY = chartY + chartHeight + SPACING + horizontalGridLineWidth;
+
+            for (var i = 0; i < domainLabelCount; i++) {
+                var textPane = bottomAxisTextPanes.get(i);
+
+                textPane.setSize(textPane.getPreferredSize());
+
+                var size = textPane.getSize();
+
+                int x;
+                if (i == 0) {
+                    x = (int)domainLabelX;
+                } else if (i < domainLabelCount - 1) {
+                    x = (int)domainLabelX - size.width / 2;
+                } else {
+                    x = (int)domainLabelX - size.width;
+                }
+
+                textPane.setLocation(x, (int)domainLabelY);
+                textPane.doLayout();
+
+                domainLabelX += columnWidth;
+            }
+        }
     }
 
     /**
