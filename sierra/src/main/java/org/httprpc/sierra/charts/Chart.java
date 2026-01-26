@@ -958,7 +958,48 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * Populates the domain labels.
      */
     protected void populateDomainLabels() {
-        throw new UnsupportedOperationException();
+        var domainLabelTransform = getDomainLabelTransform();
+        var domainLabelFont = getDomainLabelFont();
+
+        var keys = getKeys();
+
+        if (keys != null) {
+            if (keys.isEmpty()) {
+                var textPane = new TextPane("");
+
+                textPane.setFont(domainLabelFont);
+
+                bottomAxisTextPanes.add(textPane);
+            } else {
+                for (var key : keys) {
+                    var textPane = new TextPane(domainLabelTransform.apply(key));
+
+                    textPane.setFont(domainLabelFont);
+
+                    bottomAxisTextPanes.add(textPane);
+                }
+            }
+        } else {
+            var domainValueTransform = getDomainValueTransform();
+            var domainKeyTransform = getDomainKeyTransform();
+
+            var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
+            var domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();
+
+            var domainLabelCount = getDomainLabelCount();
+
+            var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
+
+            for (var i = 0; i < domainLabelCount; i++) {
+                var key = domainKeyTransform.apply(domainMinimum + domainStep * i);
+
+                var textPane = new TextPane(domainLabelTransform.apply(key));
+
+                textPane.setFont(domainLabelFont);
+
+                bottomAxisTextPanes.add(textPane);
+            }
+        }
     }
 
     /**

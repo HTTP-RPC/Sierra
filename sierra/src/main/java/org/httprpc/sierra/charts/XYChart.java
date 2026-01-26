@@ -14,8 +14,6 @@
 
 package org.httprpc.sierra.charts;
 
-import org.httprpc.sierra.TextPane;
-
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Graphics2D;
@@ -102,29 +100,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         }
 
         super.validateGrid();
-    }
-
-    @Override
-    protected void populateDomainLabels() {
-        var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
-        var domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();
-
-        var domainLabelCount = getDomainLabelCount();
-
-        var domainLabelTransform = getDomainLabelTransform();
-        var domainLabelFont = getDomainLabelFont();
-
-        var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
-
-        for (var i = 0; i < domainLabelCount; i++) {
-            var key = domainKeyTransform.apply(domainMinimum + domainStep * i);
-
-            var textPane = new TextPane(domainLabelTransform.apply(key));
-
-            textPane.setFont(domainLabelFont);
-
-            bottomAxisTextPanes.add(textPane);
-        }
     }
 
     @Override

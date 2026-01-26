@@ -14,8 +14,6 @@
 
 package org.httprpc.sierra.charts;
 
-import org.httprpc.sierra.TextPane;
-
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Graphics2D;
@@ -41,28 +39,6 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
     @Override
     public SortedSet<K> getKeys() {
         return keys;
-    }
-
-    @Override
-    protected void populateDomainLabels() {
-        var domainLabelTransform = getDomainLabelTransform();
-        var domainLabelFont = getDomainLabelFont();
-
-        if (keys.isEmpty()) {
-            var textPane = new TextPane("");
-
-            textPane.setFont(domainLabelFont);
-
-            bottomAxisTextPanes.add(textPane);
-        } else {
-            for (var key : keys) {
-                var textPane = new TextPane(domainLabelTransform.apply(key));
-
-                textPane.setFont(domainLabelFont);
-
-                bottomAxisTextPanes.add(textPane);
-            }
-        }
     }
 
     @Override
