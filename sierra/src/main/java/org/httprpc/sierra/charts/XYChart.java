@@ -105,11 +105,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
     }
 
     @Override
-    protected int getColumnCount() {
-        return getDomainLabelCount() - 1;
-    }
-
-    @Override
     protected void populateDomainLabels() {
         var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
         var domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();

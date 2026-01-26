@@ -29,6 +29,7 @@ import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.SortedSet;
 import java.util.function.Function;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -794,6 +795,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * Validates the grid.
      */
     protected void validateGrid() {
+        var keys = getKeys();
+
         var domainValueTransform = getDomainValueTransform();
 
         var domainMinimum = 0.0;
@@ -838,8 +841,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         leftAxisTextPanes.clear();
         bottomAxisTextPanes.clear();
 
-        var columnCount = getColumnCount();
-
         populateDomainLabels();
         populateRangeLabels();
 
@@ -875,7 +876,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         domainScale = chartWidth / (domainMaximum - domainMinimum);
         rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
 
-        columnWidth = chartWidth / columnCount;
+        int n;
+        if (keys != null) {
+            n = keys.isEmpty() ? 1 : keys.size();
+        } else {
+            n = getDomainLabelCount() - 1;
+        }
+
+        columnWidth = chartWidth / n;
         rowHeight = chartHeight / (rangeLabelCount - 1);
 
         zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
@@ -892,7 +900,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             gridY += rowHeight;
         }
 
-        var verticalGridLineCount = columnCount + 1;
+        var verticalGridLineCount = n + 1;
 
         var gridX = chartX;
 
@@ -904,6 +912,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         validateDomainLabels();
         validateRangeLabels();
+    }
+
+    /**
+     * Returns the category keys.
+     *
+     * @return
+     * The category keys.
+     */
+    protected SortedSet<K> getKeys() {
+        return null;
     }
 
     /**
@@ -934,11 +952,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     protected boolean isTransposed() {
         return false;
-    }
-
-    @Deprecated
-    protected int getColumnCount() {
-        return 0;
     }
 
     /**

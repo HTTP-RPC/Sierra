@@ -39,8 +39,8 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
     }
 
     @Override
-    protected int getColumnCount() {
-        return keys.isEmpty() ? 1 : keys.size();
+    public SortedSet<K> getKeys() {
+        return keys;
     }
 
     @Override
