@@ -158,16 +158,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
-    protected Bounds<K> domainBounds = null;
-    protected Bounds<Double> rangeBounds = null;
+    private Bounds<K> domainBounds = null;
+    private Bounds<Double> rangeBounds = null;
 
-    protected Insets margins = null;
+    private Insets margins = null;
 
-    protected int width = 0;
-    protected int height = 0;
+    private int width = 0;
+    private int height = 0;
 
-    protected double horizontalGridLineWidth = 0.0;
-    protected double verticalGridLineWidth = 0.0;
+    private double horizontalGridLineWidth = 0.0;
+    private double verticalGridLineWidth = 0.0;
 
     protected double chartX = 0.0;
     protected double chartY = 0.0;
@@ -803,6 +803,26 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         draw(graphics);
+    }
+
+    /**
+     * Returns the chart width.
+     *
+     * @return
+     * The chart width.
+     */
+    protected int getWidth() {
+        return width;
+    }
+
+    /**
+     * Returns the chart height.
+     *
+     * @return
+     * The chart height.
+     */
+    protected int getHeight() {
+        return height;
     }
 
     /**

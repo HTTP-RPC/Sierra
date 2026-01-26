@@ -136,7 +136,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         validateGrid();
 
-        var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
+        var domainMinimum = domainValueTransform.apply(getDomainBounds().minimum()).doubleValue();
 
         for (var dataSet : getDataSets()) {
             var path = new Path2D.Double();

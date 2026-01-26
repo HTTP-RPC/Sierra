@@ -215,8 +215,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             }
         }
 
-        if (rangeBounds == null) {
-            rangeBounds = new Bounds<>(rangeMinimum, rangeMaximum);
+        if (getRangeBounds() == null) {
+            setRangeBounds(new Bounds<>(rangeMinimum, rangeMaximum));
         }
 
         validateGrid();

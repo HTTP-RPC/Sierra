@@ -95,12 +95,12 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             }
         }
 
-        if (domainBounds == null && domainMinimum != null && domainMaximum != null) {
-            domainBounds = new Bounds<>(domainMinimum, domainMaximum);
+        if (getDomainBounds() == null && domainMinimum != null && domainMaximum != null) {
+            setDomainBounds(new Bounds<>(domainMinimum, domainMaximum));
         }
 
-        if (rangeBounds == null && rangeMinimum <= rangeMaximum) {
-            rangeBounds = new Bounds<>(rangeMinimum, rangeMaximum);
+        if (getRangeBounds() == null && rangeMinimum <= rangeMaximum) {
+            setRangeBounds(new Bounds<>(rangeMinimum, rangeMaximum));
         }
 
         super.validateGrid();
@@ -128,7 +128,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         var markerColor = getMarkerColor();
         var markerFont = getMarkerFont();
 
-        var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
+        var domainMinimum = domainValueTransform.apply(getDomainBounds().minimum()).doubleValue();
 
         for (var domainMarker : getDomainMarkers()) {
             var key = domainMarker.key();

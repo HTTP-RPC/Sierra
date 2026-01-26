@@ -37,7 +37,7 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
     }
 
     @Override
-    public SortedSet<K> getKeys() {
+    protected SortedSet<K> getKeys() {
         return keys;
     }
 

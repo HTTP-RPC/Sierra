@@ -167,6 +167,8 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
 
         validateGrid();
 
+        var domainBounds = getDomainBounds();
+
         var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
         var domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();
 
