@@ -210,12 +210,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             }
         }
 
-        if (Double.isNaN(this.rangeMinimum)) {
-            this.rangeMinimum = rangeMinimum;
-        }
-
-        if (Double.isNaN(this.rangeMaximum)) {
-            this.rangeMaximum = rangeMaximum;
+        if (rangeBounds == null) {
+            rangeBounds = new Bounds<>(rangeMinimum, rangeMaximum);
         }
 
         validateGrid();

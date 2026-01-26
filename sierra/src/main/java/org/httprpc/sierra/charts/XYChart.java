@@ -141,12 +141,8 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             rangeMaximum = 0.0;
         }
 
-        if (Double.isNaN(this.rangeMinimum)) {
-            this.rangeMinimum = rangeMinimum;
-        }
-
-        if (Double.isNaN(this.rangeMaximum)) {
-            this.rangeMaximum = rangeMaximum;
+        if (rangeBounds == null) {
+            rangeBounds = new Bounds<>(rangeMinimum, rangeMaximum);
         }
 
         super.validateGrid();

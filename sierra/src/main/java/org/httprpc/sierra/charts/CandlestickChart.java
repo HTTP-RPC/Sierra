@@ -155,12 +155,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
             rangeMaximum = 0.0;
         }
 
-        if (Double.isNaN(this.rangeMinimum)) {
-            this.rangeMinimum = rangeMinimum;
-        }
-
-        if (Double.isNaN(this.rangeMaximum)) {
-            this.rangeMaximum = rangeMaximum;
+        if (rangeBounds == null) {
+            rangeBounds = new Bounds<>(rangeMinimum, rangeMaximum);
         }
 
         validateGrid();

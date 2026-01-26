@@ -160,8 +160,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected double domainMinimum = Double.NaN;
     protected double domainMaximum = Double.NaN;
 
-    protected double rangeMinimum = Double.NaN;
-    protected double rangeMaximum = Double.NaN;
+    protected Bounds<Double> rangeBounds = null;
 
     protected Insets margins = null;
 
@@ -725,8 +724,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The range bounds.
      */
     public Bounds<Double> getRangeBounds() {
-        // TODO
-        return new Bounds<>(rangeMinimum, rangeMaximum);
+        return rangeBounds;
     }
 
     /**
@@ -736,7 +734,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The range bounds, or {@code null} for the default bounds.
      */
     public void setRangeBounds(Bounds<Double> rangeBounds) {
-        // TODO
+        this.rangeBounds = rangeBounds;
     }
 
     /**
@@ -803,18 +801,20 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             throw new IllegalStateException("Invalid domain bounds.");
         }
 
-        if (rangeMinimum > rangeMaximum) {
-            throw new IllegalStateException("Invalid range bounds.");
-        }
-
         if (domainMinimum == domainMaximum) {
             domainMinimum -= 1.0;
             domainMaximum += 1.0;
         }
 
-        if (rangeMinimum == rangeMaximum) {
-            rangeMinimum -= 1.0;
-            rangeMaximum += 1.0;
+        var rangeMinimum = rangeBounds.minimum();
+        var rangeMaximum = rangeBounds.maximum();
+
+        if (rangeMinimum.equals(rangeMaximum)) {
+            rangeBounds = new Bounds<>(rangeMinimum - 1.0, rangeMaximum + 1.0);
+
+            // TODO
+            rangeMinimum = rangeBounds.minimum();
+            rangeMaximum = rangeBounds.maximum();
         }
 
         zeroLine = null;
@@ -931,6 +931,9 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * Populates the range labels.
      */
     protected void populateRangeLabels() {
+        var rangeMinimum = rangeBounds.minimum();
+        var rangeMaximum = rangeBounds.maximum();
+
         var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
 
         for (var i = 0; i < rangeLabelCount; i++) {

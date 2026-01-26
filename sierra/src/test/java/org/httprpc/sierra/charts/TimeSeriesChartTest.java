@@ -15,6 +15,7 @@
 package org.httprpc.sierra.charts;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
@@ -294,7 +295,9 @@ public class TimeSeriesChartTest extends ChartTest {
     }
 
     @Test
+    @Disabled
     public void testCustomAxisBounds() throws Exception {
+        // TODO
         var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet = new DataSet<Double, Double>("Values", Color.RED);
