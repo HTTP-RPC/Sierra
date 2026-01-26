@@ -163,23 +163,23 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private Insets margins = null;
 
-    private int width = 0;
-    private int height = 0;
+    int width = 0;
+    int height = 0;
 
-    protected double chartX = 0.0;
-    protected double chartY = 0.0;
+    double chartX = 0.0;
+    double chartY = 0.0;
 
-    protected double chartWidth = 0.0;
-    protected double chartHeight = 0.0;
+    double chartWidth = 0.0;
+    double chartHeight = 0.0;
 
-    protected double domainScale = 0.0;
-    protected double rangeScale = 0.0;
+    double domainScale = 0.0;
+    double rangeScale = 0.0;
 
-    protected double columnWidth = 0.0;
-    protected double rowHeight = 0.0;
+    double columnWidth = 0.0;
+    double rowHeight = 0.0;
 
-    protected double zeroX = 0.0;
-    protected double zeroY = 0.0;
+    double zeroX = 0.0;
+    double zeroY = 0.0;
 
     private List<TextPane> leftAxisTextPanes = listOf();
     private List<TextPane> bottomAxisTextPanes = listOf();
@@ -187,9 +187,9 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private List<Line2D.Double> horizontalGridLines = listOf();
     private List<Line2D.Double> verticalGridLines = listOf();
 
-    protected static final int SPACING = 4;
+    static final int SPACING = 4;
 
-    protected static final RenderingHints renderingHints = new RenderingHints(mapOf(
+    static final RenderingHints renderingHints = new RenderingHints(mapOf(
         entry(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON),
         entry(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY),
         entry(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE),
@@ -800,26 +800,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         draw(graphics);
-    }
-
-    /**
-     * Returns the chart width.
-     *
-     * @return
-     * The chart width.
-     */
-    protected int getWidth() {
-        return width;
-    }
-
-    /**
-     * Returns the chart height.
-     *
-     * @return
-     * The chart height.
-     */
-    protected int getHeight() {
-        return height;
     }
 
     /**

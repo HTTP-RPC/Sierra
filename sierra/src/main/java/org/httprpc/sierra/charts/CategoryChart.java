@@ -28,7 +28,7 @@ import static org.httprpc.kilo.util.Optionals.*;
  * Abstract base class for category charts.
  */
 public abstract class CategoryChart<K extends Comparable<? super K>, V> extends Chart<K, V> {
-    protected SortedSet<K> keys = sortedSetOf();
+    SortedSet<K> keys = sortedSetOf();
 
     private List<JLabel> rangeMarkerLabels = listOf();
     private List<Line2D.Double> rangeMarkerLines = listOf();

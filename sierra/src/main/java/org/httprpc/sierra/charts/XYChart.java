@@ -30,8 +30,8 @@ import static org.httprpc.kilo.util.Optionals.*;
  * Abstract base class for XY charts.
  */
 public abstract class XYChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> {
-    protected Function<K, Number> domainValueTransform;
-    protected Function<Number, K> domainKeyTransform;
+    Function<K, Number> domainValueTransform;
+    Function<Number, K> domainKeyTransform;
 
     private Line2D.Double zeroLine = null;
 
