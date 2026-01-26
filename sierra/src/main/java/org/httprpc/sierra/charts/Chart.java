@@ -815,8 +815,13 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             }
         }
 
-        var rangeMinimum = (double)rangeBounds.minimum();
-        var rangeMaximum = (double)rangeBounds.maximum();
+        var rangeMinimum = 0.0;
+        var rangeMaximum = 0.0;
+
+        if (rangeBounds != null) {
+            rangeMinimum = rangeBounds.minimum();
+            rangeMaximum = rangeBounds.maximum();
+        }
 
         if (rangeMinimum == rangeMaximum) {
             rangeMinimum -= 1.0;

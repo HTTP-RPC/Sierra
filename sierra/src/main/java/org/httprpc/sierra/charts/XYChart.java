@@ -97,13 +97,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             domainBounds = new Bounds<>(domainMinimum, domainMaximum);
         }
 
-        // TODO
-        if (rangeMinimum > rangeMaximum) {
-            rangeMinimum = 0.0;
-            rangeMaximum = 0.0;
-        }
-
-        if (rangeBounds == null) {
+        if (rangeBounds == null && rangeMinimum <= rangeMaximum) {
             rangeBounds = new Bounds<>(rangeMinimum, rangeMaximum);
         }
 
