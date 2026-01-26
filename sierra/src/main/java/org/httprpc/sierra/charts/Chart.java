@@ -220,6 +220,26 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
+     * Returns the domain value transform.
+     *
+     * @return
+     * The domain value transform.
+     */
+    protected Function<K, Number> getDomainValueTransform() {
+        return null;
+    }
+
+    /**
+     * Returns the domain key transform.
+     *
+     * @return
+     * The domain key transform.
+     */
+    protected Function<Number, K> getDomainKeyTransform() {
+        return null;
+    }
+
+    /**
      * Returns the domain label count.
      *
      * @return
@@ -921,26 +941,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The category keys.
      */
     protected SortedSet<K> getKeys() {
-        return null;
-    }
-
-    /**
-     * Returns the domain value transform.
-     *
-     * @return
-     * The domain value transform.
-     */
-    protected Function<K, Number> getDomainValueTransform() {
-        return null;
-    }
-
-    /**
-     * Returns the domain key transform.
-     *
-     * @return
-     * The domain key transform.
-     */
-    protected Function<Number, K> getDomainKeyTransform() {
         return null;
     }
 
