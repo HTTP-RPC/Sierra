@@ -300,7 +300,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     }
 
     @Override
-    protected boolean isTransposed() {
+    boolean isTransposed() {
         return orientation == Orientation.HORIZONTAL;
     }
 

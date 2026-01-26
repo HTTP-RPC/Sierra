@@ -50,11 +50,23 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         this.domainKeyTransform = domainKeyTransform;
     }
 
+    /**
+     * Returns the domain value transform.
+     *
+     * @return
+     * The domain value transform.
+     */
     @Override
     public Function<K, Number> getDomainValueTransform() {
         return domainValueTransform;
     }
 
+    /**
+     * Returns the domain key transform.
+     *
+     * @return
+     * The domain key transform.
+     */
     @Override
     public Function<Number, K> getDomainKeyTransform() {
         return domainKeyTransform;

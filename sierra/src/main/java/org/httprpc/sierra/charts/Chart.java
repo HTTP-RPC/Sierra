@@ -215,23 +215,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         });
     }
 
-    /**
-     * Returns the domain value transform.
-     *
-     * @return
-     * The domain value transform.
-     */
-    protected Function<K, Number> getDomainValueTransform() {
+    Function<K, Number> getDomainValueTransform() {
         return null;
     }
 
-    /**
-     * Returns the domain key transform.
-     *
-     * @return
-     * The domain key transform.
-     */
-    protected Function<Number, K> getDomainKeyTransform() {
+    Function<Number, K> getDomainKeyTransform() {
         return null;
     }
 
@@ -924,23 +912,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         validateHorizontalAxisLabels();
     }
 
-    /**
-     * Returns the category keys.
-     *
-     * @return
-     * The category keys.
-     */
-    protected SortedSet<K> getKeys() {
+    SortedSet<K> getKeys() {
         return null;
     }
 
-    /**
-     * Indicates that the chart is transposed.
-     *
-     * @return
-     * {@code true} if the chart is transposed; {@code false}, otherwise.
-     */
-    protected boolean isTransposed() {
+    boolean isTransposed() {
         return false;
     }
 
