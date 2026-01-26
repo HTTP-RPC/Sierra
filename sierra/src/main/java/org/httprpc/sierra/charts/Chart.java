@@ -954,10 +954,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         return false;
     }
 
-    /**
-     * Populates the domain labels.
-     */
-    protected void populateDomainLabels() {
+    private void populateDomainLabels() {
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
 
@@ -1002,10 +999,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
     }
 
-    /**
-     * Validates the domain labels.
-     */
-    protected void validateDomainLabels() {
+    private void validateDomainLabels() {
         var keys = getKeys();
 
         if (keys != null) {
@@ -1081,10 +1075,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
     }
 
-    /**
-     * Populates the range labels.
-     */
-    protected void populateRangeLabels() {
+    private void populateRangeLabels() {
         var rangeMinimum = rangeBounds.minimum();
         var rangeMaximum = rangeBounds.maximum();
 
@@ -1102,10 +1093,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
     }
 
-    /**
-     * Validates the range labels.
-     */
-    protected void validateRangeLabels() {
+    private void validateRangeLabels() {
         var rangeLabelY = chartY + chartHeight;
 
         for (var i = 0; i < rangeLabelCount; i++) {
