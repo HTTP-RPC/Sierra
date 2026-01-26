@@ -33,13 +33,15 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
     protected Function<K, Number> domainValueTransform;
     protected Function<Number, K> domainKeyTransform;
 
-    protected List<JLabel> domainMarkerLabels = listOf();
-    protected List<Line2D.Double> domainMarkerLines = listOf();
-    protected List<Shape> domainMarkerShapes = listOf();
+    private Line2D.Double zeroLine = null;
 
-    protected List<JLabel> rangeMarkerLabels = listOf();
-    protected List<Line2D.Double> rangeMarkerLines = listOf();
-    protected List<Shape> rangeMarkerShapes = listOf();
+    private List<JLabel> domainMarkerLabels = listOf();
+    private List<Line2D.Double> domainMarkerLines = listOf();
+    private List<Shape> domainMarkerShapes = listOf();
+
+    private List<JLabel> rangeMarkerLabels = listOf();
+    private List<Line2D.Double> rangeMarkerLines = listOf();
+    private List<Shape> rangeMarkerShapes = listOf();
 
     private static final int MARKER_SCALE = 5;
 
@@ -60,6 +62,8 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
     @Override
     protected void validateGrid() {
+        zeroLine = null;
+
         var dataSets = getDataSets();
 
         K domainMinimum = null;
@@ -100,6 +104,10 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         }
 
         super.validateGrid();
+
+        if (zeroY > chartY && zeroY < chartY + chartHeight) {
+            zeroLine = new Line2D.Double(chartX, zeroY, chartX + chartWidth, zeroY);
+        }
     }
 
     /**

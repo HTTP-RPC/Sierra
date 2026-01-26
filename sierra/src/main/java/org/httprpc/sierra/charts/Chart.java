@@ -184,13 +184,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected double zeroX = 0.0;
     protected double zeroY = 0.0;
 
-    protected List<TextPane> leftAxisTextPanes = listOf();
-    protected List<TextPane> bottomAxisTextPanes = listOf();
+    private List<TextPane> leftAxisTextPanes = listOf();
+    private List<TextPane> bottomAxisTextPanes = listOf();
 
-    protected List<Line2D.Double> horizontalGridLines = listOf();
-    protected List<Line2D.Double> verticalGridLines = listOf();
-
-    protected Line2D.Double zeroLine = null;
+    private List<Line2D.Double> horizontalGridLines = listOf();
+    private List<Line2D.Double> verticalGridLines = listOf();
 
     protected static final int SPACING = 4;
 
@@ -860,8 +858,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
-        zeroLine = null;
-
         populateDomainLabels();
         populateRangeLabels();
 
@@ -925,10 +921,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, chartHeight));
 
             gridX += columnWidth;
-        }
-
-        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
-            zeroLine = new Line2D.Double(chartX, zeroY, chartX + chartWidth, zeroY);
         }
 
         validateVerticalAxisLabels();

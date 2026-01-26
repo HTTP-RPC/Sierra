@@ -30,8 +30,8 @@ import static org.httprpc.kilo.util.Optionals.*;
 public abstract class CategoryChart<K extends Comparable<? super K>, V> extends Chart<K, V> {
     protected SortedSet<K> keys = sortedSetOf();
 
-    protected List<JLabel> rangeMarkerLabels = listOf();
-    protected List<Line2D.Double> rangeMarkerLines = listOf();
+    private List<JLabel> rangeMarkerLabels = listOf();
+    private List<Line2D.Double> rangeMarkerLines = listOf();
 
     CategoryChart() {
     }

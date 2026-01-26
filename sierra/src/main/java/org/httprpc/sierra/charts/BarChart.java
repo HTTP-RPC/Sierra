@@ -21,6 +21,7 @@ import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +93,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     private double barTransparency = 1.0;
 
     private List<List<Rectangle2D.Double>> barRectangles = listOf();
+
+    private Line2D.Double zeroLine = null;
 
     private static final BasicStroke outlineStroke;
     static {
@@ -172,6 +175,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         keys.clear();
 
         barRectangles.clear();
+
+        zeroLine = null;
 
         var dataSets = getDataSets();
 
@@ -285,6 +290,10 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             barRectangles.add(dataSetBarRectangles);
 
             i++;
+        }
+
+        if (zeroY > chartY && zeroY < chartY + chartHeight) {
+            zeroLine = new Line2D.Double(chartX, zeroY, chartX + chartWidth, zeroY);
         }
 
         validateMarkers();
