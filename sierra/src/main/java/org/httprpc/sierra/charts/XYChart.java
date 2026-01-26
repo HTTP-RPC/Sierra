@@ -50,57 +50,22 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         this.domainKeyTransform = domainKeyTransform;
     }
 
-    /**
-     * Returns the domain value transform.
-     *
-     * @return
-     * The domain value transform.
-     */
+    @Override
     public Function<K, Number> getDomainValueTransform() {
         return domainValueTransform;
     }
 
-    /**
-     * Returns the domain key transform.
-     *
-     * @return
-     * The domain key transform.
-     */
+    @Override
     public Function<Number, K> getDomainKeyTransform() {
         return domainKeyTransform;
-    }
-
-    @Deprecated
-    public K getDomainMinimum() {
-        return domainKeyTransform.apply(domainMinimum);
-    }
-
-    @Deprecated
-    public K getDomainMaximum() {
-        return domainKeyTransform.apply(domainMaximum);
-    }
-
-    @Deprecated
-    public void setDomainBounds(K domainMinimum, K domainMaximum) {
-        if (domainMinimum != null) {
-            this.domainMinimum = domainValueTransform.apply(domainMinimum).doubleValue();
-        } else  {
-            this.domainMinimum = Double.NaN;
-        }
-
-        if (domainMaximum != null) {
-            this.domainMaximum = domainValueTransform.apply(domainMaximum).doubleValue();
-        } else  {
-            this.domainMaximum = Double.NaN;
-        }
     }
 
     @Override
     protected void validateGrid() {
         var dataSets = getDataSets();
 
-        var domainMinimum = Double.POSITIVE_INFINITY;
-        var domainMaximum = Double.NEGATIVE_INFINITY;
+        K domainMinimum = null;
+        K domainMaximum = null;
 
         var rangeMinimum = Double.POSITIVE_INFINITY;
         var rangeMaximum = Double.NEGATIVE_INFINITY;
@@ -109,10 +74,15 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             var dataPoints = dataSet.getDataPoints();
 
             for (var entry : dataPoints.entrySet()) {
-                var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
+                var key = entry.getKey();
 
-                domainMinimum = Math.min(domainMinimum, domainValue);
-                domainMaximum = Math.max(domainMaximum, domainValue);
+                if (domainMinimum == null || key.compareTo(domainMinimum) < 0) {
+                    domainMinimum = key;
+                }
+
+                if (domainMaximum == null || key.compareTo(domainMaximum) > 0) {
+                    domainMaximum = key;
+                }
 
                 var rangeValue = map(entry.getValue(), Number::doubleValue);
 
@@ -123,19 +93,12 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             }
         }
 
-        if (domainMinimum > domainMaximum) {
-            domainMinimum = 0.0;
-            domainMaximum = 0.0;
+        // TODO
+        if (domainBounds == null) {
+            domainBounds = new Bounds<>(domainMinimum, domainMaximum);
         }
 
-        if (Double.isNaN(this.domainMinimum)) {
-            this.domainMinimum = domainMinimum;
-        }
-
-        if (Double.isNaN(this.domainMaximum)) {
-            this.domainMaximum = domainMaximum;
-        }
-
+        // TODO
         if (rangeMinimum > rangeMaximum) {
             rangeMinimum = 0.0;
             rangeMaximum = 0.0;
@@ -155,6 +118,9 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
     @Override
     protected void populateDomainLabels() {
+        var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
+        var domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();
+
         var domainLabelCount = getDomainLabelCount();
 
         var domainLabelTransform = getDomainLabelTransform();
@@ -220,6 +186,8 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
         var markerColor = getMarkerColor();
         var markerFont = getMarkerFont();
+
+        var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
 
         for (var domainMarker : getDomainMarkers()) {
             var key = domainMarker.key();

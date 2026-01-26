@@ -157,9 +157,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
-    protected double domainMinimum = Double.NaN;
-    protected double domainMaximum = Double.NaN;
-
+    protected Bounds<K> domainBounds = null;
     protected Bounds<Double> rangeBounds = null;
 
     protected Insets margins = null;
@@ -703,8 +701,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The domain bounds.
      */
     public Bounds<K> getDomainBounds() {
-        // TODO
-        return null;
+        return domainBounds;
     }
 
     /**
@@ -714,7 +711,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * The domain bounds, or {@code null} for the default bounds.
      */
     public void setDomainBounds(Bounds<K> domainBounds) {
-        // TODO
+        this.domainBounds = domainBounds;
     }
 
     /**
@@ -797,24 +794,26 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * Validates the grid.
      */
     protected void validateGrid() {
-        if (domainMinimum > domainMaximum) {
-            throw new IllegalStateException("Invalid domain bounds.");
-        }
+        var domainValueTransform = getDomainValueTransform();
 
-        if (domainMinimum == domainMaximum) {
-            domainMinimum -= 1.0;
-            domainMaximum += 1.0;
+        double domainMinimum;
+        double domainMaximum;
+        if (domainValueTransform != null) {
+            domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
+            domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();
+        } else {
+            domainMinimum = 0.0;
+            domainMaximum = 0.0;
         }
 
         var rangeMinimum = rangeBounds.minimum();
         var rangeMaximum = rangeBounds.maximum();
 
         if (rangeMinimum.equals(rangeMaximum)) {
-            rangeBounds = new Bounds<>(rangeMinimum - 1.0, rangeMaximum + 1.0);
+            rangeMinimum -= 1.0;
+            rangeMaximum += 1.0;
 
-            // TODO
-            rangeMinimum = rangeBounds.minimum();
-            rangeMaximum = rangeBounds.maximum();
+            rangeBounds = new Bounds<>(rangeMinimum, rangeMaximum);
         }
 
         zeroLine = null;
@@ -894,6 +893,26 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
+     * Returns the domain value transform.
+     *
+     * @return
+     * The domain value transform.
+     */
+    protected Function<K, Number> getDomainValueTransform() {
+        return null;
+    }
+
+    /**
+     * Returns the domain key transform.
+     *
+     * @return
+     * The domain key transform.
+     */
+    protected Function<Number, K> getDomainKeyTransform() {
+        return null;
+    }
+
+    /**
      * Indicates that the chart is transposed.
      *
      * @return
@@ -903,12 +922,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         return false;
     }
 
-    /**
-     * Returns the column count.
-     *
-     * @return
-     * The column count.
-     */
+    @Deprecated
     protected int getColumnCount() {
         return 0;
     }

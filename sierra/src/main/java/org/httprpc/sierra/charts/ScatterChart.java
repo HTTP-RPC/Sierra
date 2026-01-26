@@ -167,6 +167,9 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
 
         validateGrid();
 
+        var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
+        var domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();
+
         for (var dataSet : getDataSets()) {
             var dataSetValueMarkerShapes = new LinkedList<Shape>();
 
