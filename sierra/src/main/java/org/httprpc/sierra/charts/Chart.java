@@ -183,13 +183,13 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     protected double zeroY = 0.0;
 
-    protected Line2D.Double zeroLine = null;
+    protected List<TextPane> leftAxisTextPanes = listOf();
+    protected List<TextPane> bottomAxisTextPanes = listOf();
 
     protected List<Line2D.Double> horizontalGridLines = listOf();
     protected List<Line2D.Double> verticalGridLines = listOf();
 
-    protected List<TextPane> leftAxisTextPanes = listOf();
-    protected List<TextPane> bottomAxisTextPanes = listOf();
+    protected Line2D.Double zeroLine = null;
 
     protected static final int SPACING = 4;
 
@@ -833,13 +833,13 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             rangeBounds = new Bounds<>(rangeMinimum, rangeMaximum);
         }
 
-        zeroLine = null;
+        leftAxisTextPanes.clear();
+        bottomAxisTextPanes.clear();
 
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
-        leftAxisTextPanes.clear();
-        bottomAxisTextPanes.clear();
+        zeroLine = null;
 
         populateDomainLabels();
         populateRangeLabels();
@@ -888,10 +888,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
-        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
-            zeroLine = new Line2D.Double(chartX, zeroY, chartX + chartWidth, zeroY);
-        }
-
         var gridY = horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
@@ -910,8 +906,12 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             gridX += columnWidth;
         }
 
-        validateDomainLabels();
-        validateRangeLabels();
+        if (rangeMaximum > 0.0 && rangeMinimum < 0.0) {
+            zeroLine = new Line2D.Double(chartX, zeroY, chartX + chartWidth, zeroY);
+        }
+
+        validateVerticalAxisLabels();
+        validateHorizontalAxisLabels();
     }
 
     /**
@@ -999,7 +999,49 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
     }
 
-    private void validateDomainLabels() {
+    private void populateRangeLabels() {
+        var rangeMinimum = rangeBounds.minimum();
+        var rangeMaximum = rangeBounds.maximum();
+
+        var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            var label = rangeLabelTransform.apply(rangeMinimum + rangeStep * i);
+
+            var textPane = new TextPane(label);
+
+            textPane.setFont(rangeLabelFont);
+            textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
+
+            leftAxisTextPanes.add(textPane);
+        }
+    }
+
+    private void validateVerticalAxisLabels() {
+        var rangeLabelY = chartY + chartHeight;
+
+        for (var i = 0; i < rangeLabelCount; i++) {
+            var textPane = leftAxisTextPanes.get(i);
+
+            var size = textPane.getPreferredSize();
+
+            int y;
+            if (i == 0) {
+                y = (int)rangeLabelY - size.height;
+            } else if (i < rangeLabelCount - 1) {
+                y = (int)rangeLabelY - size.height / 2;
+            } else {
+                y = (int)rangeLabelY;
+            }
+
+            textPane.setBounds(0, y, margins.left - SPACING, size.height);
+            textPane.doLayout();
+
+            rangeLabelY -= rowHeight;
+        }
+    }
+
+    private void validateHorizontalAxisLabels() {
         var keys = getKeys();
 
         if (keys != null) {
@@ -1072,48 +1114,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
                 domainLabelX += columnWidth;
             }
-        }
-    }
-
-    private void populateRangeLabels() {
-        var rangeMinimum = rangeBounds.minimum();
-        var rangeMaximum = rangeBounds.maximum();
-
-        var rangeStep = Math.abs(rangeMaximum - rangeMinimum) / (rangeLabelCount - 1);
-
-        for (var i = 0; i < rangeLabelCount; i++) {
-            var label = rangeLabelTransform.apply(rangeMinimum + rangeStep * i);
-
-            var textPane = new TextPane(label);
-
-            textPane.setFont(rangeLabelFont);
-            textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
-
-            leftAxisTextPanes.add(textPane);
-        }
-    }
-
-    private void validateRangeLabels() {
-        var rangeLabelY = chartY + chartHeight;
-
-        for (var i = 0; i < rangeLabelCount; i++) {
-            var textPane = leftAxisTextPanes.get(i);
-
-            var size = textPane.getPreferredSize();
-
-            int y;
-            if (i == 0) {
-                y = (int)rangeLabelY - size.height;
-            } else if (i < rangeLabelCount - 1) {
-                y = (int)rangeLabelY - size.height / 2;
-            } else {
-                y = (int)rangeLabelY;
-            }
-
-            textPane.setBounds(0, y, margins.left - SPACING, size.height);
-            textPane.doLayout();
-
-            rangeLabelY -= rowHeight;
         }
     }
 
