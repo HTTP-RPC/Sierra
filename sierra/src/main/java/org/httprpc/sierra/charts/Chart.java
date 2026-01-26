@@ -175,12 +175,13 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected double chartWidth = 0.0;
     protected double chartHeight = 0.0;
 
-    protected double domainScale = Double.NaN;
-    protected double rangeScale = Double.NaN;
+    protected double domainScale = 0.0;
+    protected double rangeScale = 0.0;
 
     protected double columnWidth = 0.0;
     protected double rowHeight = 0.0;
 
+    protected double zeroX = 0.0;
     protected double zeroY = 0.0;
 
     protected List<TextPane> leftAxisTextPanes = listOf();
