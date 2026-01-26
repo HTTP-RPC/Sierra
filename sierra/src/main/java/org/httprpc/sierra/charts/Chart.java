@@ -166,9 +166,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private int width = 0;
     private int height = 0;
 
-    private double horizontalGridLineWidth = 0.0;
-    private double verticalGridLineWidth = 0.0;
-
     protected double chartX = 0.0;
     protected double chartY = 0.0;
 
@@ -901,8 +898,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             margins = new Insets(0, left + SPACING, bottom + SPACING, 0);
         }
 
-        horizontalGridLineWidth = getHorizontalGridLineStroke().getLineWidth();
-        verticalGridLineWidth = getVerticalGridLineStroke().getLineWidth();
+        var horizontalGridLineWidth = (double)getHorizontalGridLineStroke().getLineWidth();
+        var verticalGridLineWidth = (double)getVerticalGridLineStroke().getLineWidth();
 
         chartX = margins.left + verticalGridLineWidth / 2;
         chartY = margins.top + horizontalGridLineWidth / 2;
@@ -1057,6 +1054,9 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private void validateHorizontalAxisLabels() {
         var keys = getKeys();
 
+        var domainLabelX = chartX;
+        var domainLabelY = chartY + chartHeight + SPACING + getHorizontalGridLineStroke().getLineWidth();
+
         if (keys != null) {
             var keyCount = keys.size();
 
@@ -1074,8 +1074,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
             var showDomainLabels = maximumWidth < columnWidth * 0.85;
 
-            var domainLabelX = chartX;
-            var domainLabelY = chartY + chartHeight + SPACING + horizontalGridLineWidth;
 
             for (var i = 0; i < keyCount; i++) {
                 var textPane = bottomAxisTextPanes.get(i);
@@ -1102,9 +1100,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             }
         } else {
             var domainLabelCount = getDomainLabelCount();
-
-            var domainLabelX = chartX;
-            var domainLabelY = chartY + chartHeight + SPACING + horizontalGridLineWidth;
 
             for (var i = 0; i < domainLabelCount; i++) {
                 var textPane = bottomAxisTextPanes.get(i);
