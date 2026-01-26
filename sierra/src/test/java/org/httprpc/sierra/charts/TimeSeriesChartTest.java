@@ -314,8 +314,8 @@ public class TimeSeriesChartTest extends ChartTest {
             new Chart.Marker<>(4.0, 40.0, null, null)
         ));
 
-        chart.setDomainBounds(-1.0, 5.0);
-        chart.setRangeBounds(-10.0, 50.0);
+        chart.setDomainBounds(new Chart.Bounds<>(-1.0, 5.0));
+        chart.setRangeBounds(new Chart.Bounds<>(-10.0, 50.0));
 
         compare("time-series-chart-custom-axis-bounds.svg", chart);
     }

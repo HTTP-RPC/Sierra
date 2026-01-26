@@ -697,21 +697,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         this.rangeMarkers = rangeMarkers;
     }
 
-    @Deprecated
-    public K getDomainMinimum() {
-        return null;
-    }
-
-    @Deprecated
-    public K getDomainMaximum() {
-        return null;
-    }
-
-    @Deprecated
-    public void setDomainBounds(K domainMinimum, K domainMaximum) {
-        throw new UnsupportedOperationException();
-    }
-
     /**
      * Returns the domain bounds.
      *
@@ -731,23 +716,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     public void setDomainBounds(Bounds<K> domainBounds) {
         // TODO
-        throw new UnsupportedOperationException();
-    }
-
-    @Deprecated
-    public Number getRangeMinimum() {
-        return rangeMinimum;
-    }
-
-    @Deprecated
-    public Number getRangeMaximum() {
-        return rangeMaximum;
-    }
-
-    @Deprecated
-    public void setRangeBounds(Number rangeMinimum, Number rangeMaximum) {
-        this.rangeMinimum = coalesce(map(rangeMinimum, Number::doubleValue), () -> Double.NaN);
-        this.rangeMaximum = coalesce(map(rangeMaximum, Number::doubleValue), () -> Double.NaN);
     }
 
     /**
@@ -758,7 +726,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     public Bounds<Double> getRangeBounds() {
         // TODO
-        return null;
+        return new Bounds<>(rangeMinimum, rangeMaximum);
     }
 
     /**
@@ -769,7 +737,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     public void setRangeBounds(Bounds<Double> rangeBounds) {
         // TODO
-        throw new UnsupportedOperationException();
     }
 
     /**

@@ -71,19 +71,16 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
     }
 
     @Deprecated
-    @Override
     public K getDomainMinimum() {
         return domainKeyTransform.apply(domainMinimum);
     }
 
     @Deprecated
-    @Override
     public K getDomainMaximum() {
         return domainKeyTransform.apply(domainMaximum);
     }
 
     @Deprecated
-    @Override
     public void setDomainBounds(K domainMinimum, K domainMaximum) {
         if (domainMinimum != null) {
             this.domainMinimum = domainValueTransform.apply(domainMinimum).doubleValue();
