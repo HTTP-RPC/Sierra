@@ -796,20 +796,29 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     protected void validateGrid() {
         var domainValueTransform = getDomainValueTransform();
 
-        double domainMinimum;
-        double domainMaximum;
+        var domainMinimum = 0.0;
+        var domainMaximum = 0.0;
+
         if (domainValueTransform != null) {
-            domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
-            domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();
-        } else {
-            domainMinimum = 0.0;
-            domainMaximum = 0.0;
+            if (domainBounds != null) {
+                domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
+                domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();
+            }
+
+            if (domainMinimum == domainMaximum) {
+                domainMinimum -= 1.0;
+                domainMaximum += 1.0;
+
+                var domainKeyTransform = getDomainKeyTransform();
+
+                domainBounds = new Bounds<>(domainKeyTransform.apply(domainMinimum), domainKeyTransform.apply(domainMaximum));
+            }
         }
 
-        var rangeMinimum = rangeBounds.minimum();
-        var rangeMaximum = rangeBounds.maximum();
+        var rangeMinimum = (double)rangeBounds.minimum();
+        var rangeMaximum = (double)rangeBounds.maximum();
 
-        if (rangeMinimum.equals(rangeMaximum)) {
+        if (rangeMinimum == rangeMaximum) {
             rangeMinimum -= 1.0;
             rangeMaximum += 1.0;
 
