@@ -60,7 +60,10 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
         var rangeScale = getRangeScale();
 
-        var zeroY = getOrigin().getY();
+        var origin = getOrigin();
+
+        var zeroX = origin.getX();
+        var zeroY = origin.getY();
 
         for (var rangeMarker : getRangeMarkers()) {
             var value = map(rangeMarker.value(), Number::doubleValue);
@@ -72,7 +75,7 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
             var text = coalesce(rangeMarker.label(), () -> rangeLabelTransform.apply(value));
 
             if (isTransposed()) {
-                var lineX = gridX + value * rangeScale;
+                var lineX = zeroX + value * rangeScale;
 
                 var label = new JLabel(text, rangeMarker.icon(), SwingConstants.CENTER);
 
