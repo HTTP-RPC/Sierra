@@ -250,44 +250,48 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             for (var key : keys) {
                 var value = coalesce(map(dataPoints.get(key), Number::doubleValue), () -> 0.0);
 
-                var barHeight = Math.abs(value) * rangeScale;
-
-                Rectangle2D.Double barRectangle;
-                if (stacked) {
-                    var barX = gridX + columnWidth * j + barSpacing;
-
-                    double barY;
-                    if (value > 0.0) {
-                        var totalHeight = coalesce(positiveTotals.get(key), () -> 0.0) + barHeight;
-
-                        barY = zeroY - totalHeight;
-
-                        positiveTotals.put(key, totalHeight);
-                    } else {
-                        var totalHeight = coalesce(negativeTotals.get(key), () -> 0.0);
-
-                        barY = zeroY + totalHeight;
-
-                        negativeTotals.put(key, totalHeight + barHeight);
-                    }
-
-                    barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
+                if (isTransposed()) {
+                    // TODO
                 } else {
-                    var barX = gridX + columnWidth * j + barSpacing * (i + 1) + barWidth * i;
+                    var barHeight = Math.abs(value) * rangeScale;
 
-                    double barY;
-                    if (value > 0.0) {
-                        barY = zeroY - barHeight;
+                    Rectangle2D.Double barRectangle;
+                    if (stacked) {
+                        var barX = gridX + columnWidth * j + barSpacing;
+
+                        double barY;
+                        if (value > 0.0) {
+                            var totalHeight = coalesce(positiveTotals.get(key), () -> 0.0) + barHeight;
+
+                            barY = zeroY - totalHeight;
+
+                            positiveTotals.put(key, totalHeight);
+                        } else {
+                            var totalHeight = coalesce(negativeTotals.get(key), () -> 0.0);
+
+                            barY = zeroY + totalHeight;
+
+                            negativeTotals.put(key, totalHeight + barHeight);
+                        }
+
+                        barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
                     } else {
-                        barY = zeroY;
+                        var barX = gridX + columnWidth * j + barSpacing * (i + 1) + barWidth * i;
+
+                        double barY;
+                        if (value > 0.0) {
+                            barY = zeroY - barHeight;
+                        } else {
+                            barY = zeroY;
+                        }
+
+                        barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
                     }
 
-                    barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
+                    dataSetBarRectangles.add(barRectangle);
+
+                    j++;
                 }
-
-                dataSetBarRectangles.add(barRectangle);
-
-                j++;
             }
 
             barRectangles.add(dataSetBarRectangles);
