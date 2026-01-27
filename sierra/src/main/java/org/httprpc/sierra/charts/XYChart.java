@@ -153,7 +153,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
                 throw new UnsupportedOperationException("Marker key is not defined.");
             }
 
-            var domainValue = map(key, domainValueTransform).doubleValue() - domainMinimum;
+            var domainValue = map(key, domainValueTransform).doubleValue();
 
             var lineX = zeroX + domainValue * domainScale;
 
