@@ -144,8 +144,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         var zeroX = origin.getX();
         var zeroY = origin.getY();
 
-        var domainMinimum = domainValueTransform.apply(getDomainBounds().minimum()).doubleValue();
-
         for (var domainMarker : getDomainMarkers()) {
             var key = domainMarker.key();
 
@@ -227,9 +225,9 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             var key = rangeMarker.key();
 
             if (key != null) {
-                var domainValue = domainValueTransform.apply(key).doubleValue() - domainMinimum;
+                var domainValue = domainValueTransform.apply(key).doubleValue();
 
-                var valueX = gridX + domainValue * domainScale;
+                var valueX = zeroX + domainValue * domainScale;
 
                 var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
 
