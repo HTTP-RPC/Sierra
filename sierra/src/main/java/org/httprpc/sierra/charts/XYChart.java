@@ -33,8 +33,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
     Function<K, Number> domainValueTransform;
     Function<Number, K> domainKeyTransform;
 
-    private Line2D.Double zeroLine = null;
-
     private List<JLabel> domainMarkerLabels = listOf();
     private List<Line2D.Double> domainMarkerLines = listOf();
     private List<Shape> domainMarkerShapes = listOf();
@@ -74,8 +72,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
     @Override
     protected void validateGrid() {
-        zeroLine = null;
-
         var dataSets = getDataSets();
 
         K domainMinimum = null;
@@ -116,10 +112,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         }
 
         super.validateGrid();
-
-        if (zeroY > gridY && zeroY < gridY + gridHeight) {
-            zeroLine = new Line2D.Double(gridX, zeroY, gridX + gridWidth, zeroY);
-        }
     }
 
     /**
@@ -244,12 +236,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
     @Override
     protected void drawGrid(Graphics2D graphics) {
-        if (zeroLine != null) {
-            graphics.setColor(colorWithAlpha(getHorizontalGridLineColor(), 0x80));
-            graphics.setStroke(getHorizontalGridLineStroke());
-
-            graphics.draw(zeroLine);
-        }
+        drawZeroLine(graphics, colorWithAlpha(getHorizontalGridLineColor(), 0x80), getHorizontalGridLineStroke());
 
         super.drawGrid(graphics);
     }

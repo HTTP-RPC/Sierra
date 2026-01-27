@@ -186,6 +186,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private List<Line2D.Double> horizontalGridLines = listOf();
     private List<Line2D.Double> verticalGridLines = listOf();
 
+    private Line2D.Double zeroLine = null;
+
     static final int SPACING = 4;
 
     static final RenderingHints renderingHints = new RenderingHints(mapOf(
@@ -840,6 +842,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         horizontalGridLines.clear();
         verticalGridLines.clear();
 
+        zeroLine = null;
+
         populateDomainLabels();
         populateRangeLabels();
 
@@ -889,22 +893,26 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
-        var gridY = horizontalGridLineWidth / 2;
+        var gridLineY = horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
-            horizontalGridLines.add(new Line2D.Double(gridX, gridY, gridX + gridWidth, gridY));
+            horizontalGridLines.add(new Line2D.Double(gridX, gridLineY, gridX + gridWidth, gridLineY));
 
-            gridY += rowHeight;
+            gridLineY += rowHeight;
         }
 
         var verticalGridLineCount = n + 1;
 
-        var gridX = this.gridX;
+        var gridLineX = gridX;
 
         for (var i = 0; i < verticalGridLineCount; i++) {
-            verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, gridHeight));
+            verticalGridLines.add(new Line2D.Double(gridLineX, verticalGridLineWidth / 2, gridLineX, gridHeight));
 
-            gridX += columnWidth;
+            gridLineX += columnWidth;
+        }
+
+        if (zeroY > gridY && zeroY < gridY + gridHeight) {
+            zeroLine = new Line2D.Double(gridX, zeroY, gridX + gridWidth, zeroY);
         }
 
         validateVerticalAxisLabels();
@@ -1132,6 +1140,27 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var height = (int)Math.floor(horizontalGridLines.getLast().getY1()) - y;
 
         graphics.setClip(x, y, width, height);
+    }
+
+    /**
+     * Draws the zero line.
+     *
+     * @param graphics
+     * The graphics context in which the zero line will be drawn.
+     *
+     * @param color
+     * The line color.
+     *
+     * @param stroke
+     * The line stroke.
+     */
+    protected void drawZeroLine(Graphics2D graphics, Color color, BasicStroke stroke) {
+        if (zeroLine != null) {
+            graphics.setColor(color);
+            graphics.setStroke(stroke);
+
+            graphics.draw(zeroLine);
+        }
     }
 
     /**
