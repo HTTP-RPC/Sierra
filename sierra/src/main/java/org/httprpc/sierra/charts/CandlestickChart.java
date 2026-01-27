@@ -188,7 +188,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
                     var low = value.low();
                     var close = value.close();
 
-                    var lineX = chartX + columnWidth * j + bodySpacing * (i + 1) + bodyWidth * i + bodyWidth / 2;
+                    var lineX = gridX + columnWidth * j + bodySpacing * (i + 1) + bodyWidth * i + bodyWidth / 2;
 
                     double top;
                     double bottom;

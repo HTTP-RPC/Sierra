@@ -166,11 +166,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     int width = 0;
     int height = 0;
 
-    double chartX = 0.0;
-    double chartY = 0.0;
-
-    double chartWidth = 0.0;
-    double chartHeight = 0.0;
+    double gridX = 0.0;
+    double gridY = 0.0;
+    double gridWidth = 0.0;
+    double gridHeight = 0.0;
 
     double domainScale = 0.0;
     double rangeScale = 0.0;
@@ -799,8 +798,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * Validates the grid.
      */
     protected void validateGrid() {
-        var keys = getKeys();
-
         var domainValueTransform = getDomainValueTransform();
 
         var domainMinimum = 0.0;
@@ -869,14 +866,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var horizontalGridLineWidth = (double)getHorizontalGridLineStroke().getLineWidth();
         var verticalGridLineWidth = (double)getVerticalGridLineStroke().getLineWidth();
 
-        chartX = margins.left + verticalGridLineWidth / 2;
-        chartY = margins.top + horizontalGridLineWidth / 2;
+        gridX = margins.left + verticalGridLineWidth / 2;
+        gridY = margins.top + horizontalGridLineWidth / 2;
 
-        chartWidth = Math.max(width - (margins.left + margins.right + verticalGridLineWidth), 0.0);
-        chartHeight = Math.max(height - (margins.top + margins.bottom + horizontalGridLineWidth), 0.0);
+        gridWidth = Math.max(width - (margins.left + margins.right + verticalGridLineWidth), 0.0);
+        gridHeight = Math.max(height - (margins.top + margins.bottom + horizontalGridLineWidth), 0.0);
 
-        domainScale = chartWidth / (domainMaximum - domainMinimum);
-        rangeScale = chartHeight / (rangeMaximum - rangeMinimum);
+        domainScale = gridWidth / (domainMaximum - domainMinimum);
+        rangeScale = gridHeight / (rangeMaximum - rangeMinimum);
+
+        var keys = getKeys();
 
         int n;
         if (keys != null) {
@@ -885,25 +884,25 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             n = getDomainLabelCount() - 1;
         }
 
-        columnWidth = chartWidth / n;
-        rowHeight = chartHeight / (rangeLabelCount - 1);
+        columnWidth = gridWidth / n;
+        rowHeight = gridHeight / (rangeLabelCount - 1);
 
         zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
         var gridY = horizontalGridLineWidth / 2;
 
         for (var i = 0; i < rangeLabelCount; i++) {
-            horizontalGridLines.add(new Line2D.Double(chartX, gridY, chartX + chartWidth, gridY));
+            horizontalGridLines.add(new Line2D.Double(gridX, gridY, gridX + gridWidth, gridY));
 
             gridY += rowHeight;
         }
 
         var verticalGridLineCount = n + 1;
 
-        var gridX = chartX;
+        var gridX = this.gridX;
 
         for (var i = 0; i < verticalGridLineCount; i++) {
-            verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, chartHeight));
+            verticalGridLines.add(new Line2D.Double(gridX, verticalGridLineWidth / 2, gridX, gridHeight));
 
             gridX += columnWidth;
         }
@@ -984,7 +983,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     private void validateVerticalAxisLabels() {
-        var rangeLabelY = chartY + chartHeight;
+        var rangeLabelY = gridY + gridHeight;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             var textPane = leftAxisTextPanes.get(i);
@@ -1010,8 +1009,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private void validateHorizontalAxisLabels() {
         var keys = getKeys();
 
-        var domainLabelX = chartX;
-        var domainLabelY = chartY + chartHeight + SPACING + getHorizontalGridLineStroke().getLineWidth();
+        var domainLabelX = gridX;
+        var domainLabelY = gridY + gridHeight + SPACING + getHorizontalGridLineStroke().getLineWidth();
 
         if (keys != null) {
             var keyCount = keys.size();

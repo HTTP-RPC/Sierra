@@ -251,7 +251,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                 Rectangle2D.Double barRectangle;
                 if (stacked) {
-                    var barX = chartX + columnWidth * j + barSpacing;
+                    var barX = gridX + columnWidth * j + barSpacing;
 
                     double barY;
                     if (value > 0.0) {
@@ -270,7 +270,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                     barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
                 } else {
-                    var barX = chartX + columnWidth * j + barSpacing * (i + 1) + barWidth * i;
+                    var barX = gridX + columnWidth * j + barSpacing * (i + 1) + barWidth * i;
 
                     double barY;
                     if (value > 0.0) {
@@ -292,8 +292,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             i++;
         }
 
-        if (zeroY > chartY && zeroY < chartY + chartHeight) {
-            zeroLine = new Line2D.Double(chartX, zeroY, chartX + chartWidth, zeroY);
+        if (zeroY > gridY && zeroY < gridY + gridHeight) {
+            zeroLine = new Line2D.Double(gridX, zeroY, gridX + gridWidth, zeroY);
         }
 
         validateMarkers();

@@ -117,8 +117,8 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
         super.validateGrid();
 
-        if (zeroY > chartY && zeroY < chartY + chartHeight) {
-            zeroLine = new Line2D.Double(chartX, zeroY, chartX + chartWidth, zeroY);
+        if (zeroY > gridY && zeroY < gridY + gridHeight) {
+            zeroLine = new Line2D.Double(gridX, zeroY, gridX + gridWidth, zeroY);
         }
     }
 
@@ -151,7 +151,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
             var domainValue = map(key, domainValueTransform).doubleValue() - domainMinimum;
 
-            var lineX = chartX + domainValue * domainScale;
+            var lineX = gridX + domainValue * domainScale;
 
             var text = coalesce(domainMarker.label(), () -> domainLabelTransform.apply(key));
 
@@ -168,7 +168,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             var size = label.getPreferredSize();
 
             var labelX = (int)Math.round(lineX - (double)size.width / 2);
-            var labelY = chartY + chartHeight - (size.height + SPACING);
+            var labelY = gridY + gridHeight - (size.height + SPACING);
 
             label.setBounds(labelX, (int)labelY, size.width, size.height);
 
@@ -216,7 +216,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
             var size = label.getPreferredSize();
 
-            label.setBounds((int)chartX + SPACING, (int)lineY - size.height / 2, size.width, size.height);
+            label.setBounds((int)gridX + SPACING, (int)lineY - size.height / 2, size.width, size.height);
 
             rangeMarkerLabels.add(label);
 
@@ -225,12 +225,12 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             if (key != null) {
                 var domainValue = domainValueTransform.apply(key).doubleValue() - domainMinimum;
 
-                var valueX = chartX + domainValue * domainScale;
+                var valueX = gridX + domainValue * domainScale;
 
                 var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
 
                 if (valueX > label.getX() + label.getWidth() + diameter) {
-                    var line = new Line2D.Double(chartX + label.getWidth() + SPACING * 2, lineY, valueX, lineY);
+                    var line = new Line2D.Double(gridX + label.getWidth() + SPACING * 2, lineY, valueX, lineY);
 
                     rangeMarkerLines.add(line);
 
