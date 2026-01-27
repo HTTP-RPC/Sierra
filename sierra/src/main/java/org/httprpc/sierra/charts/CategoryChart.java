@@ -55,6 +55,8 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
         var rangeScale = getRangeScale();
 
+        var zeroY = getOrigin().getY();
+
         for (var rangeMarker : getRangeMarkers()) {
             var value = map(rangeMarker.value(), Number::doubleValue);
 

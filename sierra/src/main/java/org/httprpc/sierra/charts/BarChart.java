@@ -236,6 +236,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var rangeScale = getRangeScale();
 
+        var zeroY = getOrigin().getY();
+
         for (var dataSet : dataSets) {
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
 

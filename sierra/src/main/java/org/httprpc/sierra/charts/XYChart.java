@@ -135,6 +135,8 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         var domainScale = getDomainScale();
         var rangeScale = getRangeScale();
 
+        var zeroY = getOrigin().getY();
+
         var domainMinimum = domainValueTransform.apply(getDomainBounds().minimum()).doubleValue();
 
         for (var domainMarker : getDomainMarkers()) {

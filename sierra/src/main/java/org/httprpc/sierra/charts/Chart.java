@@ -177,8 +177,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private double domainScale = 0.0;
     private double rangeScale = 0.0;
 
-    double zeroX = 0.0;
-    double zeroY = 0.0;
+    private double zeroX = 0.0;
+    private double zeroY = 0.0;
 
     private double columnWidth = 0.0;
     private double rowHeight = 0.0;
