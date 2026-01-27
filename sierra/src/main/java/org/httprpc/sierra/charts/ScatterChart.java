@@ -195,7 +195,7 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
             var totalXSquared = 0.0;
 
             for (var entry : dataPoints.entrySet()) {
-                var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
+                var domainValue = domainValueTransform.apply(entry.getKey()).doubleValue();
 
                 var rangeValue = map(entry.getValue(), Number::doubleValue);
 

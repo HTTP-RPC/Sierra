@@ -152,7 +152,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
             var i = 0;
 
             for (var entry : dataSet.getDataPoints().entrySet()) {
-                var domainValue = map(entry.getKey(), domainValueTransform).doubleValue();
+                var domainValue = domainValueTransform.apply(entry.getKey()).doubleValue();
 
                 var rangeValue = map(entry.getValue(), Number::doubleValue);
 
