@@ -894,7 +894,9 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             gridLineX += columnWidth;
         }
 
-        if (zeroY > gridY && zeroY < gridY + gridHeight) {
+        if (isTransposed()) {
+            // TODO
+        } else {
             zeroLine = new Line2D.Double(gridX, zeroY, gridX + gridWidth, zeroY);
         }
 
@@ -1178,12 +1180,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     void drawZeroLine(Graphics2D graphics, Color color, BasicStroke stroke) {
-        if (zeroLine != null) {
-            graphics.setColor(color);
-            graphics.setStroke(stroke);
-
-            graphics.draw(zeroLine);
+        if (!gridBounds.intersectsLine(zeroLine)) {
+            return;
         }
+
+        graphics.setColor(color);
+        graphics.setStroke(stroke);
+
+        graphics.draw(zeroLine);
     }
 
     static Color colorWithAlpha(Color color, int alpha) {
