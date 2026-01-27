@@ -861,11 +861,13 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         var keys = getKeys();
 
-        int n;
+        var rowCount = rangeLabelCount - 1;
+
+        int columnCount;
         if (keys == null) {
-            n = getDomainLabelCount() - 1;
+            columnCount = getDomainLabelCount() - 1;
         } else {
-            n = keys.isEmpty() ? 1 : keys.size();
+            columnCount = keys.isEmpty() ? 1 : keys.size();
         }
 
         var zeroX = gridX - domainMinimum * domainScale;
@@ -873,15 +875,12 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         origin = new Point2D.Double(zeroX, zeroY);
 
-        columnWidth = gridWidth / n;
-        rowHeight = gridHeight / (rangeLabelCount - 1);
-
-        var horizontalGridLineCount = rangeLabelCount;
-        var verticalGridLineCount = n + 1;
+        columnWidth = gridWidth / columnCount;
+        rowHeight = gridHeight / rowCount;
 
         var gridLineY = gridY;
 
-        for (var i = 0; i < horizontalGridLineCount; i++) {
+        for (var i = -1; i < rowCount; i++) {
             horizontalGridLines.add(new Line2D.Double(gridX, gridLineY, gridX + gridWidth, gridLineY));
 
             gridLineY += rowHeight;
@@ -889,7 +888,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         var gridLineX = gridX;
 
-        for (var i = 0; i < verticalGridLineCount; i++) {
+        for (var i = -1; i < columnCount; i++) {
             verticalGridLines.add(new Line2D.Double(gridLineX, gridY, gridLineX, gridY + gridHeight));
 
             gridLineX += columnWidth;
