@@ -878,10 +878,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var keys = getKeys();
 
         int n;
-        if (keys != null) {
-            n = keys.isEmpty() ? 1 : keys.size();
-        } else {
+        if (keys == null) {
             n = getDomainLabelCount() - 1;
+        } else {
+            n = keys.isEmpty() ? 1 : keys.size();
         }
 
         var zeroX = gridX - domainMinimum * domainScale;
@@ -960,23 +960,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         var keys = getKeys();
 
-        if (keys != null) {
-            if (keys.isEmpty()) {
-                var textPane = new TextPane("");
-
-                textPane.setFont(domainLabelFont);
-
-                bottomAxisTextPanes.add(textPane);
-            } else {
-                for (var key : keys) {
-                    var textPane = new TextPane(domainLabelTransform.apply(key));
-
-                    textPane.setFont(domainLabelFont);
-
-                    bottomAxisTextPanes.add(textPane);
-                }
-            }
-        } else {
+        if (keys == null) {
             var domainValueTransform = getDomainValueTransform();
             var domainKeyTransform = getDomainKeyTransform();
 
@@ -990,6 +974,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             for (var i = 0; i < domainLabelCount; i++) {
                 var key = domainKeyTransform.apply(domainMinimum + domainStep * i);
 
+                var textPane = new TextPane(domainLabelTransform.apply(key));
+
+                textPane.setFont(domainLabelFont);
+
+                bottomAxisTextPanes.add(textPane);
+            }
+        } else {
+            for (var key : keys) {
                 var textPane = new TextPane(domainLabelTransform.apply(key));
 
                 textPane.setFont(domainLabelFont);
@@ -1042,12 +1034,36 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     private void validateHorizontalAxisLabels() {
-        var keys = getKeys();
-
         var domainLabelX = gridBounds.getX();
         var domainLabelY = gridBounds.getY() + gridBounds.getHeight() + SPACING + getHorizontalGridLineStroke().getLineWidth();
 
-        if (keys != null) {
+        var keys = getKeys();
+
+        if (keys == null) {
+            var domainLabelCount = getDomainLabelCount();
+
+            for (var i = 0; i < domainLabelCount; i++) {
+                var textPane = bottomAxisTextPanes.get(i);
+
+                textPane.setSize(textPane.getPreferredSize());
+
+                var size = textPane.getSize();
+
+                int x;
+                if (i == 0) {
+                    x = (int)domainLabelX;
+                } else if (i < domainLabelCount - 1) {
+                    x = (int)domainLabelX - size.width / 2;
+                } else {
+                    x = (int)domainLabelX - size.width;
+                }
+
+                textPane.setLocation(x, (int)domainLabelY);
+                textPane.doLayout();
+
+                domainLabelX += columnWidth;
+            }
+        } else {
             var keyCount = keys.size();
 
             var maximumWidth = 0.0;
@@ -1063,7 +1079,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             }
 
             var showDomainLabels = maximumWidth < columnWidth * 0.85;
-
 
             for (var i = 0; i < keyCount; i++) {
                 var textPane = bottomAxisTextPanes.get(i);
@@ -1081,30 +1096,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                     textPane.setText(null);
                 } else {
                     x = (int)(domainLabelX + columnWidth) - size.width;
-                }
-
-                textPane.setLocation(x, (int)domainLabelY);
-                textPane.doLayout();
-
-                domainLabelX += columnWidth;
-            }
-        } else {
-            var domainLabelCount = getDomainLabelCount();
-
-            for (var i = 0; i < domainLabelCount; i++) {
-                var textPane = bottomAxisTextPanes.get(i);
-
-                textPane.setSize(textPane.getPreferredSize());
-
-                var size = textPane.getSize();
-
-                int x;
-                if (i == 0) {
-                    x = (int)domainLabelX;
-                } else if (i < domainLabelCount - 1) {
-                    x = (int)domainLabelX - size.width / 2;
-                } else {
-                    x = (int)domainLabelX - size.width;
                 }
 
                 textPane.setLocation(x, (int)domainLabelY);
