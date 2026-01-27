@@ -166,19 +166,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private Insets margins = null;
 
-    private int width = 0;
-    private int height = 0;
+    private Dimension size = new Dimension();
 
-    private double gridX = 0.0;
-    private double gridY = 0.0;
-    private double gridWidth = 0.0;
-    private double gridHeight = 0.0;
+    private Rectangle2D.Double gridBounds = null;
 
     private double domainScale = 0.0;
     private double rangeScale = 0.0;
 
-    private double zeroX = 0.0;
-    private double zeroY = 0.0;
+    private Point2D.Double origin = null;
 
     private double columnWidth = 0.0;
     private double rowHeight = 0.0;
@@ -782,12 +777,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         graphics.setRenderingHints(renderingHints);
 
-        var valid = (width == this.width && height == this.height);
-
-        this.width = width;
-        this.height = height;
+        var valid = (width == size.width && height == size.height);
 
         if (!valid) {
+            size = new Dimension(width, height);
+
             validate();
         }
 
@@ -873,11 +867,13 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var horizontalGridLineWidth = (double)getHorizontalGridLineStroke().getLineWidth();
         var verticalGridLineWidth = (double)getVerticalGridLineStroke().getLineWidth();
 
-        gridX = margins.left + verticalGridLineWidth / 2;
-        gridY = margins.top + horizontalGridLineWidth / 2;
+        var gridX = margins.left + verticalGridLineWidth / 2;
+        var gridY = margins.top + horizontalGridLineWidth / 2;
 
-        gridWidth = Math.max(width - (margins.left + margins.right + verticalGridLineWidth), 0.0);
-        gridHeight = Math.max(height - (margins.top + margins.bottom + horizontalGridLineWidth), 0.0);
+        var gridWidth = Math.max(size.width - (margins.left + margins.right + verticalGridLineWidth), 0.0);
+        var gridHeight = Math.max(size.height - (margins.top + margins.bottom + horizontalGridLineWidth), 0.0);
+
+        gridBounds = new Rectangle2D.Double(gridX, gridY, gridWidth, gridHeight);
 
         domainScale = gridWidth / (domainMaximum - domainMinimum);
         rangeScale = gridHeight / (rangeMaximum - rangeMinimum);
@@ -891,8 +887,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             n = getDomainLabelCount() - 1;
         }
 
-        zeroX = gridX - domainMinimum * domainScale;
-        zeroY = gridY + rangeMaximum * rangeScale;
+        var zeroX = gridX - domainMinimum * domainScale;
+        var zeroY = gridY + rangeMaximum * rangeScale;
+
+        origin = new Point2D.Double(zeroX, zeroY);
 
         columnWidth = gridWidth / n;
         rowHeight = gridHeight / (rangeLabelCount - 1);
@@ -932,11 +930,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     Dimension getSize() {
-        return new Dimension(width, height);
+        return size;
     }
 
     Rectangle2D.Double getGridBounds() {
-        return new Rectangle2D.Double(gridX, gridY, gridWidth, gridHeight);
+        return gridBounds;
     }
 
     double getDomainScale() {
@@ -948,7 +946,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     Point2D.Double getOrigin() {
-        return new Point2D.Double(zeroX, zeroY);
+        return origin;
     }
 
     double getColumnWidth() {
@@ -1023,7 +1021,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     private void validateVerticalAxisLabels() {
-        var rangeLabelY = gridY + gridHeight;
+        var rangeLabelY = gridBounds.getY() + gridBounds.getHeight();
 
         for (var i = 0; i < rangeLabelCount; i++) {
             var textPane = leftAxisTextPanes.get(i);
@@ -1049,8 +1047,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private void validateHorizontalAxisLabels() {
         var keys = getKeys();
 
-        var domainLabelX = gridX;
-        var domainLabelY = gridY + gridHeight + SPACING + getHorizontalGridLineStroke().getLineWidth();
+        var domainLabelX = gridBounds.getX();
+        var domainLabelY = gridBounds.getY() + gridBounds.getHeight() + SPACING + getHorizontalGridLineStroke().getLineWidth();
 
         if (keys != null) {
             var keyCount = keys.size();
