@@ -18,6 +18,7 @@ import org.httprpc.sierra.Orientation;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
+import java.awt.Insets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -340,5 +341,31 @@ public class BarChartTest extends ChartTest {
         chart.setDataSets(listOf(dataSet));
 
         compare("bar-chart-domain-label-visibility.svg", chart);
+    }
+
+    @Test
+    public void testCustomMargins() throws Exception {
+        var chart = new BarChart<Integer, Integer>();
+
+        var dataSet = new DataSet<Integer, Integer>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(1, 5),
+            entry(2, 10),
+            entry(3, 15),
+            entry(4, 20),
+            entry(5, 25)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, 20.0, null, null)));
+
+        chart.validate();
+
+        var margins = chart.getMargins();
+
+        chart.setMargins(new Insets(20, margins.left * 4, margins.bottom * 4, 20));
+
+        compare("bar-chart-custom-margins.svg", chart);
     }
 }

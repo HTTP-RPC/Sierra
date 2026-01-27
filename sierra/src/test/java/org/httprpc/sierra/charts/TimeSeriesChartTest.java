@@ -294,7 +294,7 @@ public class TimeSeriesChartTest extends ChartTest {
     }
 
     @Test
-    public void testCustomAxisBounds() throws Exception {
+    public void testCustomBounds() throws Exception {
         var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet = new DataSet<Double, Double>("Values", Color.RED);
@@ -317,11 +317,11 @@ public class TimeSeriesChartTest extends ChartTest {
         chart.setDomainBounds(new Chart.Bounds<>(-1.0, 5.0));
         chart.setRangeBounds(new Chart.Bounds<>(-10.0, 50.0));
 
-        compare("time-series-chart-custom-axis-bounds.svg", chart);
+        compare("time-series-chart-custom-bounds.svg", chart);
     }
 
     @Test
-    public void testCustomAxisMargins() throws Exception {
+    public void testCustomMargins() throws Exception {
         var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
         var dataSet = new DataSet<Double, Double>("Values", Color.RED);
@@ -340,8 +340,8 @@ public class TimeSeriesChartTest extends ChartTest {
 
         var margins = chart.getMargins();
 
-        chart.setMargins(new Insets(margins.top, margins.left * 4, margins.bottom * 4, margins.right));
+        chart.setMargins(new Insets(20, margins.left * 4, margins.bottom * 4, 20));
 
-        compare("time-series-chart-custom-axis-margins.svg", chart);
+        compare("time-series-chart-custom-margins.svg", chart);
     }
 }

@@ -892,7 +892,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         columnWidth = gridWidth / n;
         rowHeight = gridHeight / (rangeLabelCount - 1);
 
-        var gridLineY = horizontalGridLineWidth / 2;
+        var gridLineY = gridY;
 
         for (var i = 0; i < rangeLabelCount; i++) {
             horizontalGridLines.add(new Line2D.Double(gridX, gridLineY, gridX + gridWidth, gridLineY));
@@ -905,7 +905,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var gridLineX = gridX;
 
         for (var i = 0; i < verticalGridLineCount; i++) {
-            verticalGridLines.add(new Line2D.Double(gridLineX, verticalGridLineWidth / 2, gridLineX, gridHeight));
+            verticalGridLines.add(new Line2D.Double(gridLineX, gridY, gridLineX, gridY + gridHeight));
 
             gridLineX += columnWidth;
         }
