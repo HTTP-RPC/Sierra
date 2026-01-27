@@ -17,6 +17,7 @@ package org.httprpc.sierra.charts;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
+import java.awt.Insets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -165,5 +166,30 @@ public class CandlestickChartTest extends ChartTest {
         chart.setDataSets(listOf(dataSet));
 
         compare("candlestick-chart-transparency.svg", chart);
+    }
+
+    @Test
+    public void testCustomMargins() throws Exception {
+        var chart = new CandlestickChart<LocalDate>();
+
+        var dataSet = new DataSet<LocalDate, OHLC>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(LocalDate.of(2025, 12, 17), new OHLC(10, 30, 0, 20))
+        ));
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+
+        chart.setDomainLabelTransform(dateFormatter::format);
+
+        chart.setDataSets(listOf(dataSet));
+
+        chart.validate();
+
+        var margins = chart.getMargins();
+
+        chart.setMargins(new Insets(20, margins.left * 4, margins.bottom * 4, 20));
+
+        compare("candlestick-chart-custom-margins.svg", chart);
     }
 }

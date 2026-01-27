@@ -18,6 +18,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
+import java.awt.Insets;
 
 import static org.httprpc.kilo.util.Collections.*;
 
@@ -225,5 +226,30 @@ public class ScatterChartTest extends ChartTest {
         chart.setDataSets(listOf(dataSet1, dataSet2));
 
         compare("scatter-chart-trend-lines.svg", chart);
+    }
+
+    @Test
+    public void testCustomMargins() throws Exception {
+        var chart = new ScatterChart<Double, Double>(key -> key, Number::doubleValue);
+
+        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0.0, 0.0),
+            entry(1.0, 10.0),
+            entry(2.0, 20.0),
+            entry(3.0, 30.0),
+            entry(4.0, 40.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        chart.validate();
+
+        var margins = chart.getMargins();
+
+        chart.setMargins(new Insets(20, margins.left * 4, margins.bottom * 4, 20));
+
+        compare("scatter-chart-custom-margins.svg", chart);
     }
 }
