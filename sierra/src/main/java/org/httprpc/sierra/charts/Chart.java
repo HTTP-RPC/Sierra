@@ -174,11 +174,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     double domainScale = 0.0;
     double rangeScale = 0.0;
 
-    double columnWidth = 0.0;
-    double rowHeight = 0.0;
-
     double zeroX = 0.0;
     double zeroY = 0.0;
+
+    double columnWidth = 0.0;
+    double rowHeight = 0.0;
 
     private List<TextPane> leftAxisTextPanes = listOf();
     private List<TextPane> bottomAxisTextPanes = listOf();
@@ -888,10 +888,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             n = getDomainLabelCount() - 1;
         }
 
+        zeroX = gridX - domainMinimum * domainScale;
+        zeroY = gridY + rangeMaximum * rangeScale;
+
         columnWidth = gridWidth / n;
         rowHeight = gridHeight / (rangeLabelCount - 1);
-
-        zeroY = rangeMaximum * rangeScale + horizontalGridLineWidth / 2;
 
         var gridLineY = horizontalGridLineWidth / 2;
 
