@@ -838,27 +838,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         zeroLine = null;
 
-        populateDomainLabels();
-        populateRangeLabels();
+        populateDomainTextPanes();
+        populateRangeTextPanes();
 
         if (margins == null) {
-            var left = 0;
-
-            for (var textPane : leftAxisTextPanes) {
-                var preferredSize = textPane.getPreferredSize();
-
-                left = Math.max(left, preferredSize.width);
-            }
-
-            var bottom = 0;
-
-            for (var textPane : bottomAxisTextPanes) {
-                var preferredSize = textPane.getPreferredSize();
-
-                bottom = Math.max(bottom, preferredSize.height);
-            }
-
-            margins = new Insets(0, left + SPACING, bottom + SPACING, 0);
+            margins = getPreferredMargins();
         }
 
         var horizontalGridLineWidth = (double)getHorizontalGridLineStroke().getLineWidth();
@@ -918,6 +902,26 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         validateHorizontalAxisLabels();
     }
 
+    private Insets getPreferredMargins() {
+        var left = 0;
+
+        for (var textPane : leftAxisTextPanes) {
+            var preferredSize = textPane.getPreferredSize();
+
+            left = Math.max(left, preferredSize.width);
+        }
+
+        var bottom = 0;
+
+        for (var textPane : bottomAxisTextPanes) {
+            var preferredSize = textPane.getPreferredSize();
+
+            bottom = Math.max(bottom, preferredSize.height);
+        }
+
+        return new Insets(0, left + SPACING, bottom + SPACING, 0);
+    }
+
     SortedSet<K> getKeys() {
         return null;
     }
@@ -954,7 +958,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         return rowHeight;
     }
 
-    private void populateDomainLabels() {
+    private void populateDomainTextPanes() {
+        List<TextPane> domainTextPanes;
+        if (isTransposed()) {
+            domainTextPanes = leftAxisTextPanes;
+        } else {
+            domainTextPanes = bottomAxisTextPanes;
+        }
+
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
 
@@ -978,7 +989,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
                 textPane.setFont(domainLabelFont);
 
-                bottomAxisTextPanes.add(textPane);
+                domainTextPanes.add(textPane);
             }
         } else {
             for (var key : keys) {
@@ -986,12 +997,19 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
                 textPane.setFont(domainLabelFont);
 
-                bottomAxisTextPanes.add(textPane);
+                domainTextPanes.add(textPane);
             }
         }
     }
 
-    private void populateRangeLabels() {
+    private void populateRangeTextPanes() {
+        List<TextPane> rangeTextPanes;
+        if (isTransposed()) {
+            rangeTextPanes = bottomAxisTextPanes;
+        } else {
+            rangeTextPanes = leftAxisTextPanes;
+        }
+
         var rangeMinimum = rangeBounds.minimum();
         var rangeMaximum = rangeBounds.maximum();
 
@@ -1005,7 +1023,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             textPane.setFont(rangeLabelFont);
             textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
 
-            leftAxisTextPanes.add(textPane);
+            rangeTextPanes.add(textPane);
         }
     }
 
@@ -1127,15 +1145,25 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             }
         }
 
+        List<TextPane> domainTextPanes;
+        List<TextPane> rangeTextPanes;
+        if (isTransposed()) {
+            domainTextPanes = leftAxisTextPanes;
+            rangeTextPanes = bottomAxisTextPanes;
+        } else {
+            domainTextPanes = bottomAxisTextPanes;
+            rangeTextPanes = leftAxisTextPanes;
+        }
+
         graphics.setColor(getDomainLabelColor());
 
-        for (var textPane : bottomAxisTextPanes) {
+        for (var textPane : domainTextPanes) {
             paintComponent(graphics, textPane);
         }
 
         graphics.setColor(getRangeLabelColor());
 
-        for (var textPane : leftAxisTextPanes) {
+        for (var textPane : rangeTextPanes) {
             paintComponent(graphics, textPane);
         }
 
