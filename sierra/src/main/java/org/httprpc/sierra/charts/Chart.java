@@ -1034,39 +1034,42 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     private void validateVerticalAxisLabels() {
-        var rangeLabelY = gridBounds.getY() + gridBounds.getHeight();
+        var n = leftAxisTextPanes.size();
 
-        for (var i = 0; i < rangeLabelCount; i++) {
+        var baseY = gridBounds.getY() + gridBounds.getHeight();
+
+        for (var i = 0; i < n; i++) {
             var textPane = leftAxisTextPanes.get(i);
 
             var size = textPane.getPreferredSize();
 
             int y;
             if (i == 0) {
-                y = (int)rangeLabelY - size.height;
-            } else if (i < rangeLabelCount - 1) {
-                y = (int)rangeLabelY - size.height / 2;
+                y = (int)baseY - size.height;
+            } else if (i < n - 1) {
+                y = (int)baseY - size.height / 2;
             } else {
-                y = (int)rangeLabelY;
+                y = (int)baseY;
             }
 
             textPane.setBounds(0, y, margins.left - SPACING, size.height);
             textPane.doLayout();
 
-            rangeLabelY -= rowHeight;
+            baseY -= rowHeight;
         }
     }
 
     private void validateHorizontalAxisLabels() {
-        var domainLabelX = gridBounds.getX();
-        var domainLabelY = gridBounds.getY() + gridBounds.getHeight() + SPACING + getHorizontalGridLineStroke().getLineWidth();
+        var n = bottomAxisTextPanes.size();
+
+        var y = gridBounds.getY() + gridBounds.getHeight() + SPACING + getHorizontalGridLineStroke().getLineWidth();
+
+        var baseX = gridBounds.getX();
 
         var keys = getKeys();
 
         if (keys == null) {
-            var domainLabelCount = getDomainLabelCount();
-
-            for (var i = 0; i < domainLabelCount; i++) {
+            for (var i = 0; i < n; i++) {
                 var textPane = bottomAxisTextPanes.get(i);
 
                 textPane.setSize(textPane.getPreferredSize());
@@ -1075,24 +1078,22 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
                 int x;
                 if (i == 0) {
-                    x = (int)domainLabelX;
-                } else if (i < domainLabelCount - 1) {
-                    x = (int)domainLabelX - size.width / 2;
+                    x = (int)baseX;
+                } else if (i < n - 1) {
+                    x = (int)baseX - size.width / 2;
                 } else {
-                    x = (int)domainLabelX - size.width;
+                    x = (int)baseX - size.width;
                 }
 
-                textPane.setLocation(x, (int)domainLabelY);
+                textPane.setLocation(x, (int)y);
                 textPane.doLayout();
 
-                domainLabelX += columnWidth;
+                baseX += columnWidth;
             }
         } else {
-            var keyCount = keys.size();
-
             var maximumWidth = 0.0;
 
-            for (var i = 0; i < keyCount; i++) {
+            for (var i = 0; i < n; i++) {
                 var textPane = bottomAxisTextPanes.get(i);
 
                 textPane.setSize(textPane.getPreferredSize());
@@ -1102,30 +1103,30 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 maximumWidth = Math.max(maximumWidth, size.width);
             }
 
-            var showDomainLabels = maximumWidth < columnWidth * 0.85;
+            var showLabels = maximumWidth < columnWidth * 0.85;
 
-            for (var i = 0; i < keyCount; i++) {
+            for (var i = 0; i < n; i++) {
                 var textPane = bottomAxisTextPanes.get(i);
 
                 var size = textPane.getSize();
 
                 int x;
-                if (showDomainLabels) {
-                    x = (int)(domainLabelX + columnWidth / 2) - size.width / 2;
+                if (showLabels) {
+                    x = (int)(baseX + columnWidth / 2) - size.width / 2;
                 } else if (i == 0) {
-                    x = (int)domainLabelX;
-                } else if (i < keyCount - 1) {
-                    x = (int)(domainLabelX + columnWidth / 2) - size.width / 2;
+                    x = (int)baseX;
+                } else if (i < n - 1) {
+                    x = (int)(baseX + columnWidth / 2) - size.width / 2;
 
                     textPane.setText(null);
                 } else {
-                    x = (int)(domainLabelX + columnWidth) - size.width;
+                    x = (int)(baseX + columnWidth) - size.width;
                 }
 
-                textPane.setLocation(x, (int)domainLabelY);
+                textPane.setLocation(x, (int)y);
                 textPane.doLayout();
 
-                domainLabelX += columnWidth;
+                baseX += columnWidth;
             }
         }
     }
