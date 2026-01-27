@@ -41,10 +41,7 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
         return keys;
     }
 
-    /**
-     * Validates the chart markers.
-     */
-    protected void validateMarkers() {
+    void validateMarkers() {
         rangeMarkerLabels.clear();
         rangeMarkerLines.clear();
 
@@ -95,10 +92,7 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
         }
     }
 
-    /**
-     * Draws the chart markers.
-     */
-    protected void drawMarkers(Graphics2D graphics) {
+    void drawMarkers(Graphics2D graphics) {
         graphics.setColor(getMarkerColor());
         graphics.setStroke(getMarkerStroke());
 

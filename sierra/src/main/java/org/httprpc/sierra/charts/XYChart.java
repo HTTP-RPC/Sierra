@@ -71,7 +71,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
     }
 
     @Override
-    protected void validateGrid() {
+    void validateGrid() {
         var dataSets = getDataSets();
 
         K domainMinimum = null;
@@ -114,10 +114,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         super.validateGrid();
     }
 
-    /**
-     * Validates the chart markers.
-     */
-    protected void validateMarkers() {
+    void validateMarkers() {
         domainMarkerLabels.clear();
         domainMarkerLines.clear();
         domainMarkerShapes.clear();
@@ -247,16 +244,13 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
     }
 
     @Override
-    protected void drawGrid(Graphics2D graphics) {
+    void drawGrid(Graphics2D graphics) {
         drawZeroLine(graphics, colorWithAlpha(getHorizontalGridLineColor(), 0x80), getHorizontalGridLineStroke());
 
         super.drawGrid(graphics);
     }
 
-    /**
-     * Draws the chart markers.
-     */
-    protected void drawMarkers(Graphics2D graphics) {
+    void drawMarkers(Graphics2D graphics) {
         graphics.setColor(getMarkerColor());
         graphics.setStroke(getMarkerStroke());
 

@@ -304,7 +304,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     }
 
     @Override
-    protected void draw(Graphics2D graphics) {
+    void draw(Graphics2D graphics) {
         drawGrid(graphics);
 
         if (barRectangles.isEmpty()) {

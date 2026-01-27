@@ -793,10 +793,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     public abstract void validate();
 
-    /**
-     * Validates the grid.
-     */
-    protected void validateGrid() {
+    void validateGrid() {
         var domainValueTransform = getDomainValueTransform();
 
         var domainMinimum = 0.0;
@@ -1118,21 +1115,9 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
     }
 
-    /**
-     * Draws the chart.
-     *
-     * @param graphics
-     * The graphics context in which the chart will be drawn.
-     */
-    protected abstract void draw(Graphics2D graphics);
+    abstract void draw(Graphics2D graphics);
 
-    /**
-     * Draws the grid.
-     *
-     * @param graphics
-     * The graphics context in which the grid will be drawn.
-     */
-    protected void drawGrid(Graphics2D graphics) {
+    void drawGrid(Graphics2D graphics) {
         if (getShowHorizontalGridLines()) {
             graphics.setColor(getHorizontalGridLineColor());
             graphics.setStroke(getHorizontalGridLineStroke());
@@ -1172,19 +1157,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         graphics.setClip(x, y, width, height);
     }
 
-    /**
-     * Draws the zero line.
-     *
-     * @param graphics
-     * The graphics context in which the zero line will be drawn.
-     *
-     * @param color
-     * The line color.
-     *
-     * @param stroke
-     * The line stroke.
-     */
-    protected void drawZeroLine(Graphics2D graphics, Color color, BasicStroke stroke) {
+    void drawZeroLine(Graphics2D graphics, Color color, BasicStroke stroke) {
         if (zeroLine != null) {
             graphics.setColor(color);
             graphics.setStroke(stroke);
@@ -1193,32 +1166,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
     }
 
-    /**
-     * Applies an alpha component to a color.
-     *
-     * @param color
-     * The color.
-     *
-     * @param alpha
-     * The alpha component.
-     *
-     * @return
-     * The color with the alpha component applied.
-     */
-    protected static Color colorWithAlpha(Color color, int alpha) {
+    static Color colorWithAlpha(Color color, int alpha) {
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
     }
 
-    /**
-     * Paints a component.
-     *
-     * @param graphics
-     * The graphics context in which the component will be painted.
-     *
-     * @param component
-     * The component to paint.
-     */
-    protected static void paintComponent(Graphics2D graphics, JComponent component) {
+    static void paintComponent(Graphics2D graphics, JComponent component) {
         graphics = (Graphics2D)graphics.create();
 
         graphics.translate(component.getX(), component.getY());

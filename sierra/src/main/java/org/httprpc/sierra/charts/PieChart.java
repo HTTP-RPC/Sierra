@@ -243,7 +243,7 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
     }
 
     @Override
-    protected void draw(Graphics2D graphics) {
+    void draw(Graphics2D graphics) {
         var i = 0;
 
         for (var dataSet : getDataSets()) {

@@ -245,7 +245,7 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
     }
 
     @Override
-    protected void draw(Graphics2D graphics) {
+    void draw(Graphics2D graphics) {
         drawGrid(graphics);
 
         if (valueMarkerShapes.isEmpty()) {
