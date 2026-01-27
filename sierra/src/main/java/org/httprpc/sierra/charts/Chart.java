@@ -180,8 +180,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     double zeroX = 0.0;
     double zeroY = 0.0;
 
-    double columnWidth = 0.0;
-    double rowHeight = 0.0;
+    private double columnWidth = 0.0;
+    private double rowHeight = 0.0;
 
     private List<TextPane> leftAxisTextPanes = listOf();
     private List<TextPane> bottomAxisTextPanes = listOf();

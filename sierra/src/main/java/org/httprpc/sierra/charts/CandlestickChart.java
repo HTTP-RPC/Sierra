@@ -164,6 +164,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
 
         var n = dataSets.size();
 
+        var columnWidth = getColumnWidth();
+
         var bodyWidth = columnWidth * 0.25 / Math.sqrt(n);
         var bodySpacing = (columnWidth - (bodyWidth * n)) / (n + 1);
 

@@ -224,6 +224,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var n = stacked ? 1 : dataSets.size();
 
+        var columnWidth = getColumnWidth();
+
         var barWidth = (columnWidth / n) * 0.75;
         var barSpacing = (columnWidth - (barWidth * n)) / (n + 1);
 
