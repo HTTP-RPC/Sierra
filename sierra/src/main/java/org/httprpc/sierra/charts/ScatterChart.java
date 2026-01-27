@@ -169,7 +169,9 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
 
         var domainBounds = getDomainBounds();
 
-        var gridX = getGridBounds().getX();
+        var gridBounds = getGridBounds();
+
+        var gridX = gridBounds.getX();
 
         var domainScale = getDomainScale();
         var rangeScale = getRangeScale();
@@ -177,7 +179,6 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
         var zeroY = getOrigin().getY();
 
         var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
-        var domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();
 
         for (var dataSet : getDataSets()) {
             var dataSetValueMarkerShapes = new LinkedList<Shape>();
@@ -220,19 +221,18 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
             valueMarkerShapes.add(dataSetValueMarkerShapes);
 
             if (showTrendLines) {
+                var domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();
+
                 var m = (totalXY - totalX * totalY) / (totalXSquared - Math.pow(totalX, 2));
 
                 Line2D.Double trendLine;
                 if (!Double.isNaN(m)) {
                     var b = (totalY - m * totalX) / n;
 
-                    var lineX1 = gridX;
-                    var lineY1 = zeroY - (m * domainMinimum + b) * rangeScale;
+                    var y1 = zeroY - (m * domainMinimum + b) * rangeScale;
+                    var y2 = zeroY - (m * domainMaximum + b) * rangeScale;
 
-                    var lineX2 = gridX + (domainMaximum - domainMinimum) * domainScale;
-                    var lineY2 = zeroY - (m * domainMaximum + b) * rangeScale;
-
-                    trendLine = new Line2D.Double(lineX1, lineY1, lineX2, lineY2);
+                    trendLine = new Line2D.Double(gridX, y1, gridX + gridBounds.getWidth(), y2);
                 } else {
                     trendLine = new Line2D.Double();
                 }
