@@ -858,13 +858,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         var keys = getKeys();
 
-        int columnCount;
-        int rowCount;
         double zeroX;
         double zeroY;
+        int columnCount;
+        int rowCount;
         if (isTransposed()) {
             domainScale = gridHeight / (domainMaximum - domainMinimum);
             rangeScale = gridWidth / (rangeMaximum - rangeMinimum);
+
+            zeroX = gridX - rangeMinimum * rangeScale;
+            zeroY = gridY + domainMaximum * domainScale;
 
             columnCount = rangeLabelCount - 1;
 
@@ -873,12 +876,12 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             } else {
                 rowCount = Math.max(keys.size(), 1);
             }
-
-            zeroX = gridX - rangeMinimum * rangeScale;
-            zeroY = gridY + domainMaximum * domainScale;
         } else {
             domainScale = gridWidth / (domainMaximum - domainMinimum);
             rangeScale = gridHeight / (rangeMaximum - rangeMinimum);
+
+            zeroX = gridX - domainMinimum * domainScale;
+            zeroY = gridY + rangeMaximum * rangeScale;
 
             if (keys == null) {
                 columnCount = domainLabelCount - 1;
@@ -887,9 +890,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             }
 
             rowCount = rangeLabelCount - 1;
-
-            zeroX = gridX - domainMinimum * domainScale;
-            zeroY = gridY + rangeMaximum * rangeScale;
         }
 
         origin = new Point2D.Double(zeroX, zeroY);
