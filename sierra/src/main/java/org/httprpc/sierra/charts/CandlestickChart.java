@@ -162,6 +162,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
             return;
         }
 
+        var gridX = getGridBounds().getX();
+
         var rangeScale = getRangeScale();
 
         var zeroY = getOrigin().getY();

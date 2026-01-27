@@ -225,6 +225,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         positiveTotals.clear();
         negativeTotals.clear();
 
+        var gridX = getGridBounds().getX();
+
         var rangeScale = getRangeScale();
 
         var zeroY = getOrigin().getY();

@@ -169,6 +169,8 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
 
         var domainBounds = getDomainBounds();
 
+        var gridX = getGridBounds().getX();
+
         var domainScale = getDomainScale();
         var rangeScale = getRangeScale();
 

@@ -53,6 +53,11 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
         var markerColor = getMarkerColor();
         var markerFont = getMarkerFont();
 
+        var gridBounds = getGridBounds();
+
+        var gridX = gridBounds.getX();
+        var gridWidth = gridBounds.getWidth();
+
         var rangeScale = getRangeScale();
 
         var zeroY = getOrigin().getY();

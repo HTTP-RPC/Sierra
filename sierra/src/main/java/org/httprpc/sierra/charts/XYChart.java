@@ -132,6 +132,13 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         var markerColor = getMarkerColor();
         var markerFont = getMarkerFont();
 
+        var gridBounds = getGridBounds();
+
+        var gridX = gridBounds.getX();
+        var gridY = gridBounds.getY();
+
+        var gridHeight = gridBounds.getHeight();
+
         var domainScale = getDomainScale();
         var rangeScale = getRangeScale();
 

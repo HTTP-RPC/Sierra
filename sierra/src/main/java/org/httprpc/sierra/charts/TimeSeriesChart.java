@@ -136,6 +136,8 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         validateGrid();
 
+        var gridX = getGridBounds().getX();
+
         var domainScale = getDomainScale();
         var rangeScale = getRangeScale();
 
