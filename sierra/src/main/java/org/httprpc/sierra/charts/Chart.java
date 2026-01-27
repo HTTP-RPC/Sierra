@@ -1044,12 +1044,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             var size = textPane.getPreferredSize();
 
             int y;
-            if (i == 0) {
-                y = (int)baseY - size.height;
-            } else if (i < n - 1) {
-                y = (int)baseY - size.height / 2;
+            if (isTransposed()) {
+                y = (int)(baseY - rowHeight + (rowHeight - size.height) / 2);
             } else {
-                y = (int)baseY;
+                if (i == 0) {
+                    y = (int)baseY - size.height;
+                } else if (i < n - 1) {
+                    y = (int)baseY - size.height / 2;
+                } else {
+                    y = (int)baseY;
+                }
             }
 
             textPane.setBounds(0, y, margins.left - SPACING, size.height);
@@ -1068,7 +1072,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         var keys = getKeys();
 
-        if (keys == null) {
+        if (keys == null || isTransposed()) {
             for (var i = 0; i < n; i++) {
                 var textPane = bottomAxisTextPanes.get(i);
 
