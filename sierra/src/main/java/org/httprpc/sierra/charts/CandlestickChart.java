@@ -171,6 +171,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
 
         var i = 0;
 
+        var rangeScale = getRangeScale();
+
         for (var dataSet : dataSets) {
             var dataSetBodyRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
 

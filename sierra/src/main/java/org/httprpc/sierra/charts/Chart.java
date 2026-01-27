@@ -174,8 +174,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     double gridWidth = 0.0;
     double gridHeight = 0.0;
 
-    double domainScale = 0.0;
-    double rangeScale = 0.0;
+    private double domainScale = 0.0;
+    private double rangeScale = 0.0;
 
     double zeroX = 0.0;
     double zeroY = 0.0;

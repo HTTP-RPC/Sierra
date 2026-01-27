@@ -132,6 +132,9 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         var markerColor = getMarkerColor();
         var markerFont = getMarkerFont();
 
+        var domainScale = getDomainScale();
+        var rangeScale = getRangeScale();
+
         var domainMinimum = domainValueTransform.apply(getDomainBounds().minimum()).doubleValue();
 
         for (var domainMarker : getDomainMarkers()) {
