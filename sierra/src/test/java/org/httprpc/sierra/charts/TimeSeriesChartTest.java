@@ -314,6 +314,11 @@ public class TimeSeriesChartTest extends ChartTest {
             new Chart.Marker<>(4.0, 40.0, null, null)
         ));
 
+        chart.setRangeMarkers(listOf(
+            new Chart.Marker<>(0.0, 0.0, null, null),
+            new Chart.Marker<>(4.0, 40.0, null, null)
+        ));
+
         chart.setDomainBounds(new Chart.Bounds<>(-1.0, 5.0));
         chart.setRangeBounds(new Chart.Bounds<>(-10.0, 50.0));
 
