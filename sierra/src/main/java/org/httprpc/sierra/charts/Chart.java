@@ -865,7 +865,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         int columnCount;
         if (keys == null) {
-            columnCount = getDomainLabelCount() - 1;
+            columnCount = domainLabelCount - 1;
         } else {
             columnCount = keys.isEmpty() ? 1 : keys.size();
         }
