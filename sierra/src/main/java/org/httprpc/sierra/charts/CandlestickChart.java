@@ -162,6 +162,10 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
             return;
         }
 
+        var rangeScale = getRangeScale();
+
+        var zeroY = getOrigin().getY();
+
         var n = dataSets.size();
 
         var columnWidth = getColumnWidth();
@@ -170,10 +174,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
         var bodySpacing = (columnWidth - (bodyWidth * n)) / (n + 1);
 
         var i = 0;
-
-        var rangeScale = getRangeScale();
-
-        var zeroY = getOrigin().getY();
 
         for (var dataSet : dataSets) {
             var dataSetBodyRectangles = new ArrayList<Rectangle2D.Double>(keyCount);

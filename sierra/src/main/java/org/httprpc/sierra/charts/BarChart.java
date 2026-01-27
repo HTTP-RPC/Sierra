@@ -222,6 +222,13 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
             return;
         }
 
+        positiveTotals.clear();
+        negativeTotals.clear();
+
+        var rangeScale = getRangeScale();
+
+        var zeroY = getOrigin().getY();
+
         var n = stacked ? 1 : dataSets.size();
 
         var columnWidth = getColumnWidth();
@@ -230,13 +237,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var barSpacing = (columnWidth - (barWidth * n)) / (n + 1);
 
         var i = 0;
-
-        positiveTotals.clear();
-        negativeTotals.clear();
-
-        var rangeScale = getRangeScale();
-
-        var zeroY = getOrigin().getY();
 
         for (var dataSet : dataSets) {
             var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
