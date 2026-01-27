@@ -856,22 +856,41 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         gridBounds = new Rectangle2D.Double(gridX, gridY, gridWidth, gridHeight);
 
-        domainScale = gridWidth / (domainMaximum - domainMinimum);
-        rangeScale = gridHeight / (rangeMaximum - rangeMinimum);
-
         var keys = getKeys();
 
-        var rowCount = rangeLabelCount - 1;
-
         int columnCount;
-        if (keys == null) {
-            columnCount = domainLabelCount - 1;
-        } else {
-            columnCount = keys.isEmpty() ? 1 : keys.size();
-        }
+        int rowCount;
+        double zeroX;
+        double zeroY;
+        if (isTransposed()) {
+            domainScale = gridHeight / (domainMaximum - domainMinimum);
+            rangeScale = gridWidth / (rangeMaximum - rangeMinimum);
 
-        var zeroX = gridX - domainMinimum * domainScale;
-        var zeroY = gridY + rangeMaximum * rangeScale;
+            columnCount = rangeLabelCount - 1;
+
+            if (keys == null) {
+                rowCount = domainLabelCount - 1;
+            } else {
+                rowCount = Math.max(keys.size(), 1);
+            }
+
+            zeroX = gridX - rangeMinimum * rangeScale;
+            zeroY = gridY + domainMaximum * domainScale;
+        } else {
+            domainScale = gridWidth / (domainMaximum - domainMinimum);
+            rangeScale = gridHeight / (rangeMaximum - rangeMinimum);
+
+            if (keys == null) {
+                columnCount = domainLabelCount - 1;
+            } else {
+                columnCount = Math.max(keys.size(), 1);
+            }
+
+            rowCount = rangeLabelCount - 1;
+
+            zeroX = gridX - domainMinimum * domainScale;
+            zeroY = gridY + rangeMaximum * rangeScale;
+        }
 
         origin = new Point2D.Double(zeroX, zeroY);
 

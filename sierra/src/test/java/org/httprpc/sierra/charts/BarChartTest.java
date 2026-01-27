@@ -87,6 +87,26 @@ public class BarChartTest extends ChartTest {
     }
 
     @Test
+    public void testNegativeValuesHorizontal() throws Exception {
+        var chart = new BarChart<Integer, Integer>(Orientation.HORIZONTAL, false);
+
+        var dataSet = new DataSet<Integer, Integer>("Negative Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(1, -5),
+            entry(2, -10),
+            entry(3, -15),
+            entry(4, -20),
+            entry(5, -25)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, null, null)));
+
+        compare("bar-chart-negative-values-horizontal.svg", chart);
+    }
+
+    @Test
     public void testMixedValues() throws Exception {
         var chart = new BarChart<Integer, Integer>();
 
