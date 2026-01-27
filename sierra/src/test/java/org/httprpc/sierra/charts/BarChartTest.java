@@ -15,7 +15,6 @@
 package org.httprpc.sierra.charts;
 
 import org.httprpc.sierra.Orientation;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
@@ -48,7 +47,6 @@ public class BarChartTest extends ChartTest {
     }
 
     @Test
-    @Disabled
     public void testPositiveValuesHorizontal() throws Exception {
         var chart = new BarChart<Integer, Integer>(Orientation.HORIZONTAL, false);
 

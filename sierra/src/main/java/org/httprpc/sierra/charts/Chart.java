@@ -895,7 +895,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         if (isTransposed()) {
-            // TODO
+            zeroLine = new Line2D.Double(zeroX, gridY, zeroX, gridY + gridHeight);
         } else {
             zeroLine = new Line2D.Double(gridX, zeroY, gridX + gridWidth, zeroY);
         }
