@@ -959,12 +959,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     private void populateDomainTextPanes() {
-        List<TextPane> domainTextPanes;
-        if (isTransposed()) {
-            domainTextPanes = leftAxisTextPanes;
-        } else {
-            domainTextPanes = bottomAxisTextPanes;
-        }
+        var domainTextPanes = getDomainTextPanes();
 
         var domainLabelTransform = getDomainLabelTransform();
         var domainLabelFont = getDomainLabelFont();
@@ -1002,13 +997,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
     }
 
-    private void populateRangeTextPanes() {
-        List<TextPane> rangeTextPanes;
+    private List<TextPane> getDomainTextPanes() {
         if (isTransposed()) {
-            rangeTextPanes = bottomAxisTextPanes;
+            return leftAxisTextPanes;
         } else {
-            rangeTextPanes = leftAxisTextPanes;
+            return bottomAxisTextPanes;
         }
+    }
+
+    private void populateRangeTextPanes() {
+        var rangeTextPanes = getRangeTextPanes();
 
         var rangeMinimum = rangeBounds.minimum();
         var rangeMaximum = rangeBounds.maximum();
@@ -1024,6 +1022,14 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
 
             rangeTextPanes.add(textPane);
+        }
+    }
+
+    private List<TextPane> getRangeTextPanes() {
+        if (isTransposed()) {
+            return bottomAxisTextPanes;
+        } else {
+            return leftAxisTextPanes;
         }
     }
 
@@ -1145,25 +1151,15 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             }
         }
 
-        List<TextPane> domainTextPanes;
-        List<TextPane> rangeTextPanes;
-        if (isTransposed()) {
-            domainTextPanes = leftAxisTextPanes;
-            rangeTextPanes = bottomAxisTextPanes;
-        } else {
-            domainTextPanes = bottomAxisTextPanes;
-            rangeTextPanes = leftAxisTextPanes;
-        }
-
         graphics.setColor(getDomainLabelColor());
 
-        for (var textPane : domainTextPanes) {
+        for (var textPane : getDomainTextPanes()) {
             paintComponent(graphics, textPane);
         }
 
         graphics.setColor(getRangeLabelColor());
 
-        for (var textPane : rangeTextPanes) {
+        for (var textPane : getRangeTextPanes()) {
             paintComponent(graphics, textPane);
         }
 
