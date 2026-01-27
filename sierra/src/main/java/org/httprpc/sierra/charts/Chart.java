@@ -22,11 +22,14 @@ import javax.swing.JComponent;
 import javax.swing.UIManager;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.SortedSet;
@@ -163,8 +166,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private Insets margins = null;
 
-    int width = 0;
-    int height = 0;
+    private int width = 0;
+    private int height = 0;
 
     double gridX = 0.0;
     double gridY = 0.0;
@@ -926,6 +929,34 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     boolean isTransposed() {
         return false;
+    }
+
+    Dimension getSize() {
+        return new Dimension(width, height);
+    }
+
+    Rectangle2D.Double getGridBounds() {
+        return new Rectangle2D.Double(gridX, gridY, gridWidth, gridHeight);
+    }
+
+    double getDomainScale() {
+        return domainScale;
+    }
+
+    double getRangeScale() {
+        return rangeScale;
+    }
+
+    Point2D.Double getOrigin() {
+        return new Point2D.Double(zeroX, zeroY);
+    }
+
+    double getColumnWidth() {
+        return columnWidth;
+    }
+
+    double getRowHeight() {
+        return rowHeight;
     }
 
     private void populateDomainLabels() {
