@@ -225,34 +225,84 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         positiveTotals.clear();
         negativeTotals.clear();
 
-        var gridX = getGridBounds().getX();
+        var gridBounds = getGridBounds();
+
+        var gridX = gridBounds.getX();
+        var gridY = gridBounds.getY();
 
         var rangeScale = getRangeScale();
 
-        var zeroY = getOrigin().getY();
+        var origin = getOrigin();
+
+        var zeroX = origin.getX();
+        var zeroY = origin.getY();
 
         var n = stacked ? 1 : dataSets.size();
 
-        var columnWidth = getColumnWidth();
+        if (isTransposed()) {
+            var rowHeight = getRowHeight();
 
-        var barWidth = (columnWidth / n) * 0.75;
-        var barSpacing = (columnWidth - (barWidth * n)) / (n + 1);
+            var barHeight = (rowHeight / n) * 0.75;
+            var barSpacing = (rowHeight - (barHeight * n)) / (n + 1);
 
-        var i = 0;
+            var i = 0;
 
-        for (var dataSet : dataSets) {
-            var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
+            for (var dataSet : dataSets) {
+                var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
 
-            var dataPoints = dataSet.getDataPoints();
+                var dataPoints = dataSet.getDataPoints();
 
-            var j = 0;
+                var j = 0;
 
-            for (var key : keys) {
-                var value = coalesce(map(dataPoints.get(key), Number::doubleValue), () -> 0.0);
+                for (var key : keys) {
+                    var value = coalesce(map(dataPoints.get(key), Number::doubleValue), () -> 0.0);
 
-                if (isTransposed()) {
-                    // TODO
-                } else {
+                    var barWidth = Math.abs(value) * rangeScale;
+
+                    Rectangle2D.Double barRectangle;
+                    if (stacked) {
+                        // TODO
+                        barRectangle = new Rectangle2D.Double();
+                    } else {
+                        var barY = gridY + rowHeight * j + barSpacing * (i + 1) + barHeight * i;
+
+                        double barX;
+                        if (value < 0.0) {
+                            barX = zeroX - barWidth;
+                        } else {
+                            barX = zeroX;
+                        }
+
+                        barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
+                    }
+
+                    dataSetBarRectangles.add(barRectangle);
+
+                    j++;
+                }
+
+                barRectangles.add(dataSetBarRectangles);
+
+                i++;
+            }
+        } else {
+            var columnWidth = getColumnWidth();
+
+            var barWidth = (columnWidth / n) * 0.75;
+            var barSpacing = (columnWidth - (barWidth * n)) / (n + 1);
+
+            var i = 0;
+
+            for (var dataSet : dataSets) {
+                var dataSetBarRectangles = new ArrayList<Rectangle2D.Double>(keyCount);
+
+                var dataPoints = dataSet.getDataPoints();
+
+                var j = 0;
+
+                for (var key : keys) {
+                    var value = coalesce(map(dataPoints.get(key), Number::doubleValue), () -> 0.0);
+
                     var barHeight = Math.abs(value) * rangeScale;
 
                     Rectangle2D.Double barRectangle;
@@ -292,11 +342,11 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                     j++;
                 }
+
+                barRectangles.add(dataSetBarRectangles);
+
+                i++;
             }
-
-            barRectangles.add(dataSetBarRectangles);
-
-            i++;
         }
 
         validateMarkers();

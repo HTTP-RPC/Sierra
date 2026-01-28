@@ -1007,7 +1007,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 domainTextPanes.add(textPane);
             }
         } else {
-            for (var key : keys) {
+            for (var key : isTransposed() ? keys.reversed() : keys) {
                 var textPane = new TextPane(domainLabelTransform.apply(key));
 
                 textPane.setFont(domainLabelFont);
