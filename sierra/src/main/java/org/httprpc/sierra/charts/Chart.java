@@ -250,10 +250,12 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             throw new IllegalArgumentException();
         }
 
+        if (width != this.width || height != this.height) {
+            valid = false;
+        }
+
         this.width = width;
         this.height = height;
-
-        valid = false;
     }
 
     /**
