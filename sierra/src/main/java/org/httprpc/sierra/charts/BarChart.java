@@ -261,8 +261,24 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                     Rectangle2D.Double barRectangle;
                     if (stacked) {
-                        // TODO
-                        barRectangle = new Rectangle2D.Double();
+                        var barY = gridY + rowHeight * j + barSpacing;
+
+                        double barX;
+                        if (value < 0.0) {
+                            var totalWidth = coalesce(negativeTotals.get(key), () -> 0.0) + barWidth;
+
+                            barX = zeroX - totalWidth;
+
+                            negativeTotals.put(key, totalWidth);
+                        } else {
+                            var totalWidth = coalesce(positiveTotals.get(key), () -> 0.0);
+
+                            barX = zeroX + totalWidth;
+
+                            positiveTotals.put(key, totalWidth + barWidth);
+                        }
+
+                        barRectangle = new Rectangle2D.Double(barX, barY, barWidth, barHeight);
                     } else {
                         var barY = gridY + rowHeight * j + barSpacing * (i + 1) + barHeight * i;
 
