@@ -1097,7 +1097,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             var textPane = new TextPane(label);
 
             textPane.setFont(rangeLabelFont);
-            textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
 
             rangeTextPanes.add(textPane);
         }
@@ -1133,6 +1132,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                     y = (int)baseY;
                 }
             }
+
+            textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
 
             textPane.setBounds(0, y, margins.left - SPACING, size.height);
             textPane.doLayout();
