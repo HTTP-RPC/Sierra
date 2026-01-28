@@ -123,13 +123,20 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
     public void setChart(C chart) {
         this.chart = chart;
 
-        repaint();
+        revalidate();
     }
 
     @Override
-    public void setBounds(int x, int y, int width, int height) {
-        super.setBounds(x, y, width, height);
+    public void doLayout() {
+        if (chart == null) {
+            return;
+        }
 
-        chart.setSize(width, height);
+        var insets = getInsets();
+
+        var chartWidth = Math.max(getWidth() - (insets.left + insets.right), 0);
+        var chartHeight = Math.max(getHeight() - (insets.top - insets.bottom), 0);
+
+        chart.setSize(chartWidth, chartHeight);
     }
 }
