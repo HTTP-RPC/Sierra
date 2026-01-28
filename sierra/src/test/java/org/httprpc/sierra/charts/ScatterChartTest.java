@@ -229,6 +229,38 @@ public class ScatterChartTest extends ChartTest {
     }
 
     @Test
+    public void testCustomBounds() throws Exception {
+        var chart = new ScatterChart<Double, Double>(key -> key, Number::doubleValue);
+
+        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0.0, 0.0),
+            entry(1.0, 10.0),
+            entry(2.0, 20.0),
+            entry(3.0, 30.0),
+            entry(4.0, 40.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        chart.setDomainMarkers(listOf(
+            new Chart.Marker<>(0.0, 0.0, null, null),
+            new Chart.Marker<>(4.0, 40.0, null, null)
+        ));
+
+        chart.setRangeMarkers(listOf(
+            new Chart.Marker<>(0.0, 0.0, null, null),
+            new Chart.Marker<>(4.0, 40.0, null, null)
+        ));
+
+        chart.setDomainBounds(new Chart.Bounds<>(-1.0, 5.0));
+        chart.setRangeBounds(new Chart.Bounds<>(-10.0, 50.0));
+
+        compare("scatter-chart-custom-bounds.svg", chart);
+    }
+
+    @Test
     public void testCustomMargins() throws Exception {
         var chart = new ScatterChart<Double, Double>(key -> key, Number::doubleValue);
 
