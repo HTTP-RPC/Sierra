@@ -95,7 +95,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 ```
 
 <img src="README/charts/bar.png" width="630">
-<img src="README/charts/bar-horizontal.png" width="630">
 
 Data point keys represent chart categories. Individual bars represent the the value associated with a given key in the corresponding data set:
 
@@ -139,6 +138,10 @@ barChart.setRangeLabelTransform(rangeLabelFormat::format);
 Bars may optionally be stacked: 
 
 <img src="README/charts/stacked-bar.png" width="630">
+
+They can also be horizontal:
+
+<img src="README/charts/bar-horizontal.png" width="630">
 <img src="README/charts/stacked-bar-horizontal.png" width="630">
 
 ## Time Series Charts
