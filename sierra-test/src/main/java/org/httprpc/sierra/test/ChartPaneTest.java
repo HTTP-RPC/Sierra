@@ -37,7 +37,7 @@ public class ChartPaneTest extends JFrame implements Runnable {
     public void run() {
         var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
-        var dataSet = new DataSet<Double, Double>("Positive Values", Color.RED);
+        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
             entry(0.0, 0.0),
