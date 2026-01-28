@@ -202,11 +202,13 @@ public record OHLC(
 Charts can also be used in a headless environment. For example, the following code uses [Apache Batik](https://xmlgraphics.apache.org/batik/) to create an SVG representation of a chart:
 
 ```java
+var domImplementation = GenericDOMImplementation.getDOMImplementation();
+
 var document = domImplementation.createDocument("http://www.w3.org/2000/svg", "svg", null);
 
 var svgGraphics = new SVGGraphics2D(document);
 
-chart.draw(svgGraphics, WIDTH, HEIGHT);
+chart.draw(svgGraphics);
 
 var writer = new StringWriter();
 

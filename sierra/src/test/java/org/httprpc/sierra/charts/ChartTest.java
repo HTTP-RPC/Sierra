@@ -45,6 +45,8 @@ public abstract class ChartTest {
     }
 
     public void compare(String name, Chart<?, ?> chart) throws Exception {
+        chart.setSize(WIDTH, HEIGHT);
+
         var documentBuilder = ElementAdapter.newDocumentBuilder();
 
         Document expected;
@@ -83,7 +85,7 @@ public abstract class ChartTest {
 
         var svgGraphics = new SVGGraphics2D(document);
 
-        chart.draw(svgGraphics, WIDTH, HEIGHT);
+        chart.draw(svgGraphics);
 
         var writer = new StringWriter();
 

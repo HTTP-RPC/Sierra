@@ -42,7 +42,16 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            return new Dimension(320, 240);
+            if (chart == null) {
+                return new Dimension(0, 0);
+            }
+
+            var insets = getInsets();
+
+            var preferredWidth = chart.getWidth() + (insets.left + insets.right);
+            var preferredHeight = chart.getHeight() + (insets.top + insets.bottom);
+
+            return new Dimension(preferredWidth, preferredHeight);
         }
 
         @Override
@@ -62,14 +71,11 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
 
             var insets = getInsets();
 
-            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
-            var height = Math.max(getHeight() - (insets.top + insets.bottom), 0);
-
             graphics = (Graphics2D)graphics.create();
 
             graphics.translate(insets.left, insets.top);
 
-            chart.draw(graphics, width, height);
+            chart.draw(graphics);
 
             graphics.dispose();
         }
@@ -118,5 +124,12 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
         this.chart = chart;
 
         repaint();
+    }
+
+    @Override
+    public void setBounds(int x, int y, int width, int height) {
+        super.setBounds(x, y, width, height);
+
+        chart.setSize(width, height);
     }
 }

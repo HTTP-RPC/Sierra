@@ -234,7 +234,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
     }
 
     @Override
-    void draw(Graphics2D graphics) {
+    void drawChart(Graphics2D graphics) {
         drawGrid(graphics);
 
         if (bodyRectangles.isEmpty()) {

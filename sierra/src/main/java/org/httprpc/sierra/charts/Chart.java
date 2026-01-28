@@ -22,7 +22,6 @@ import javax.swing.JComponent;
 import javax.swing.UIManager;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -106,6 +105,9 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
     }
 
+    private int width = 320;
+    private int height = 240;
+
     private int domainLabelCount = 5;
 
     private Function<K, String> domainLabelTransform = Object::toString;
@@ -166,7 +168,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private Insets margins = null;
 
-    private Dimension size = new Dimension();
+    private boolean valid = false;
 
     private Rectangle2D.Double gridBounds = null;
 
@@ -214,12 +216,44 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         });
     }
 
-    Function<K, Number> getDomainValueTransform() {
-        return null;
+    /**
+     * Returns the chart width.
+     *
+     * @return
+     * The chart width.
+     */
+    public int getWidth() {
+        return width;
     }
 
-    Function<Number, K> getDomainKeyTransform() {
-        return null;
+    /**
+     * Returns the chart height.
+     *
+     * @return
+     * The chart height.
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * Sets the chart's size.
+     *
+     * @param width
+     * The chart width.
+     *
+     * @param height
+     * The chart height.
+     */
+    public void setSize(int width, int height) {
+        if (width < 0 || height < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.width = width;
+        this.height = height;
+
+        valid = false;
     }
 
     /**
@@ -244,6 +278,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.domainLabelCount = domainLabelCount;
+
+        valid = false;
     }
 
     /**
@@ -268,6 +304,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.domainLabelTransform = domainLabelTransform;
+
+        valid = false;
     }
 
     /**
@@ -316,6 +354,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.domainLabelFont = domainLabelFont;
+
+        valid = false;
     }
 
     /**
@@ -340,6 +380,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.rangeLabelCount = rangeLabelCount;
+
+        valid = false;
     }
 
     /**
@@ -364,6 +406,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.rangeLabelTransform = rangeLabelTransform;
+
+        valid = false;
     }
 
     /**
@@ -412,6 +456,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.rangeLabelFont = rangeLabelFont;
+
+        valid = false;
     }
 
     /**
@@ -484,6 +530,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.markerFont = markerFont;
+
+        valid = false;
     }
 
     /**
@@ -554,6 +602,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.horizontalGridLineStroke = horizontalGridLineStroke;
+
+        valid = false;
     }
 
     /**
@@ -624,6 +674,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.verticalGridLineStroke = verticalGridLineStroke;
+
+        valid = false;
     }
 
     /**
@@ -648,6 +700,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.dataSets = dataSets;
+
+        valid = false;
     }
 
     /**
@@ -672,6 +726,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.domainMarkers = domainMarkers;
+
+        valid = false;
     }
 
     /**
@@ -696,6 +752,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         this.rangeMarkers = rangeMarkers;
+
+        valid = false;
     }
 
     /**
@@ -716,6 +774,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     public void setDomainBounds(Bounds<K> domainBounds) {
         this.domainBounds = domainBounds;
+
+        valid = false;
     }
 
     /**
@@ -736,6 +796,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     public void setRangeBounds(Bounds<Double> rangeBounds) {
         this.rangeBounds = rangeBounds;
+
+        valid = false;
     }
 
     /**
@@ -756,6 +818,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     public void setMargins(Insets margins) {
         this.margins = margins;
+
+        valid = false;
     }
 
     /**
@@ -763,29 +827,17 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      *
      * @param graphics
      * The graphics context in which the chart will be drawn.
-     *
-     * @param width
-     * The chart width.
-     *
-     * @param height
-     * The chart height.
      */
-    public void draw(Graphics2D graphics, int width, int height) {
-        if (width < 0 || height < 0) {
-            throw new IllegalArgumentException();
-        }
-
+    public void draw(Graphics2D graphics) {
         graphics.setRenderingHints(renderingHints);
 
-        var valid = (width == size.width && height == size.height);
-
         if (!valid) {
-            size = new Dimension(width, height);
-
             validate();
+
+            valid = true;
         }
 
-        draw(graphics);
+        drawChart(graphics);
     }
 
     /**
@@ -851,8 +903,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var gridX = margins.left + verticalGridLineWidth / 2;
         var gridY = margins.top + horizontalGridLineWidth / 2;
 
-        var gridWidth = Math.max(size.width - (margins.left + margins.right + verticalGridLineWidth), 0.0);
-        var gridHeight = Math.max(size.height - (margins.top + margins.bottom + horizontalGridLineWidth), 0.0);
+        var gridWidth = Math.max(width - (margins.left + margins.right + verticalGridLineWidth), 0.0);
+        var gridHeight = Math.max(height - (margins.top + margins.bottom + horizontalGridLineWidth), 0.0);
 
         gridBounds = new Rectangle2D.Double(gridX, gridY, gridWidth, gridHeight);
 
@@ -946,12 +998,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         return null;
     }
 
-    boolean isTransposed() {
-        return false;
+    Function<K, Number> getDomainValueTransform() {
+        return null;
     }
 
-    Dimension getSize() {
-        return size;
+    Function<Number, K> getDomainKeyTransform() {
+        return null;
+    }
+
+    boolean isTransposed() {
+        return false;
     }
 
     Rectangle2D.Double getGridBounds() {
@@ -1155,7 +1211,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
     }
 
-    abstract void draw(Graphics2D graphics);
+    abstract void drawChart(Graphics2D graphics);
 
     void drawGrid(Graphics2D graphics) {
         if (getShowHorizontalGridLines()) {

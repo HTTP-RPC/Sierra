@@ -186,7 +186,7 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
     }
 
     @Override
-    void draw(Graphics2D graphics) {
+    void drawChart(Graphics2D graphics) {
         drawGrid(graphics);
 
         if (paths.isEmpty()) {
