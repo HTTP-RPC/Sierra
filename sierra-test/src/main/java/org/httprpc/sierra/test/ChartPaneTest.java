@@ -51,6 +51,8 @@ public class ChartPaneTest extends JFrame implements Runnable {
 
         var chartPane = new ChartPane<>(chart);
 
+        chartPane.setBackground(Color.WHITE);
+        chartPane.setOpaque(true);
         chartPane.setBorder(new EmptyBorder(16, 16, 16, 16));
 
         setContentPane(chartPane);

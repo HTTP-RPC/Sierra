@@ -135,7 +135,7 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
         var insets = getInsets();
 
         var chartWidth = Math.max(getWidth() - (insets.left + insets.right), 0);
-        var chartHeight = Math.max(getHeight() - (insets.top - insets.bottom), 0);
+        var chartHeight = Math.max(getHeight() - (insets.top + insets.bottom), 0);
 
         chart.setSize(chartWidth, chartHeight);
     }
