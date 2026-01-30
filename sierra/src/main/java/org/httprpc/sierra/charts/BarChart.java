@@ -178,6 +178,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         var positiveTotals = new TreeMap<K, Double>();
         var negativeTotals = new TreeMap<K, Double>();
 
+        var rangeBounds = getRangeBounds();
+
         var rangeMinimum = 0.0;
         var rangeMaximum = 0.0;
 
@@ -187,30 +189,32 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
                 keys.add(key);
 
-                var value = coalesce(map(entry.getValue(), Number::doubleValue), () -> 0.0);
+                if (rangeBounds == null) {
+                    var value = coalesce(map(entry.getValue(), Number::doubleValue), () -> 0.0);
 
-                if (stacked) {
-                    var totals = (value > 0.0) ? positiveTotals : negativeTotals;
+                    if (stacked) {
+                        var totals = (value > 0.0) ? positiveTotals : negativeTotals;
 
-                    totals.put(key, coalesce(totals.get(key), () -> 0.0) + value);
-                } else {
-                    rangeMinimum = Math.min(rangeMinimum, value);
-                    rangeMaximum = Math.max(rangeMaximum, value);
+                        totals.put(key, coalesce(totals.get(key), () -> 0.0) + value);
+                    } else {
+                        rangeMinimum = Math.min(rangeMinimum, value);
+                        rangeMaximum = Math.max(rangeMaximum, value);
+                    }
                 }
             }
         }
 
-        if (stacked) {
-            for (var value : positiveTotals.values()) {
-                rangeMaximum = Math.max(rangeMaximum, value);
+        if (rangeBounds == null) {
+            if (stacked) {
+                for (var value : positiveTotals.values()) {
+                    rangeMaximum = Math.max(rangeMaximum, value);
+                }
+
+                for (var value : negativeTotals.values()) {
+                    rangeMinimum = Math.min(rangeMinimum, value);
+                }
             }
 
-            for (var value : negativeTotals.values()) {
-                rangeMinimum = Math.min(rangeMinimum, value);
-            }
-        }
-
-        if (getRangeBounds() == null) {
             setRangeBounds(new Bounds<>(rangeMinimum, rangeMaximum));
         }
 

@@ -136,6 +136,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
 
         var dataSets = getDataSets();
 
+        var rangeBounds = getRangeBounds();
+
         var rangeMinimum = Double.POSITIVE_INFINITY;
         var rangeMaximum = Double.NEGATIVE_INFINITY;
 
@@ -143,14 +145,16 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
             for (var entry : dataSet.getDataPoints().entrySet()) {
                 keys.add(entry.getKey());
 
-                var value = entry.getValue();
+                if (rangeBounds == null) {
+                    var value = entry.getValue();
 
-                rangeMinimum = Math.min(rangeMinimum, value.low());
-                rangeMaximum = Math.max(rangeMaximum, value.high());
+                    rangeMinimum = Math.min(rangeMinimum, value.low());
+                    rangeMaximum = Math.max(rangeMaximum, value.high());
+                }
             }
         }
 
-        if (getRangeBounds() == null && rangeMinimum <= rangeMaximum) {
+        if (rangeBounds == null && rangeMinimum <= rangeMaximum) {
             setRangeBounds(new Bounds<>(rangeMinimum, rangeMaximum));
         }
 

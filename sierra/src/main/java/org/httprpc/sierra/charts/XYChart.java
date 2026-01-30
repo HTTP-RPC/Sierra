@@ -74,8 +74,12 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
     void validateGrid() {
         var dataSets = getDataSets();
 
+        var domainBounds = getDomainBounds();
+
         K domainMinimum = null;
         K domainMaximum = null;
+
+        var rangeBounds = getRangeBounds();
 
         var rangeMinimum = Double.POSITIVE_INFINITY;
         var rangeMaximum = Double.NEGATIVE_INFINITY;
@@ -84,30 +88,34 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             var dataPoints = dataSet.getDataPoints();
 
             for (var entry : dataPoints.entrySet()) {
-                var key = entry.getKey();
+                if (domainBounds == null) {
+                    var key = entry.getKey();
 
-                if (domainMinimum == null || key.compareTo(domainMinimum) < 0) {
-                    domainMinimum = key;
+                    if (domainMinimum == null || key.compareTo(domainMinimum) < 0) {
+                        domainMinimum = key;
+                    }
+
+                    if (domainMaximum == null || key.compareTo(domainMaximum) > 0) {
+                        domainMaximum = key;
+                    }
                 }
 
-                if (domainMaximum == null || key.compareTo(domainMaximum) > 0) {
-                    domainMaximum = key;
-                }
+                if (rangeBounds == null) {
+                    var rangeValue = map(entry.getValue(), Number::doubleValue);
 
-                var rangeValue = map(entry.getValue(), Number::doubleValue);
-
-                if (rangeValue != null) {
-                    rangeMinimum = Math.min(rangeMinimum, rangeValue);
-                    rangeMaximum = Math.max(rangeMaximum, rangeValue);
+                    if (rangeValue != null) {
+                        rangeMinimum = Math.min(rangeMinimum, rangeValue);
+                        rangeMaximum = Math.max(rangeMaximum, rangeValue);
+                    }
                 }
             }
         }
 
-        if (getDomainBounds() == null && domainMinimum != null && domainMaximum != null) {
+        if (domainBounds == null && domainMinimum != null && domainMaximum != null) {
             setDomainBounds(new Bounds<>(domainMinimum, domainMaximum));
         }
 
-        if (getRangeBounds() == null && rangeMinimum <= rangeMaximum) {
+        if (rangeBounds == null && rangeMinimum <= rangeMaximum) {
             setRangeBounds(new Bounds<>(rangeMinimum, rangeMaximum));
         }
 
