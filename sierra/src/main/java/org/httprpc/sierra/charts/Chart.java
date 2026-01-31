@@ -1281,4 +1281,19 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         graphics.dispose();
     }
+
+    static Bounds<Double> adjustBounds(double minimum, double maximum) {
+        var r = maximum - minimum;
+
+        if (r > 0.0) {
+            var m = (int)Math.log10(r);
+
+            var n = Math.pow(10, m - Math.signum(m));
+
+            minimum = Math.floor(minimum / n) * n;
+            maximum = Math.ceil(maximum / n) * n;
+        }
+
+        return new Bounds<>(minimum, maximum);
+    }
 }

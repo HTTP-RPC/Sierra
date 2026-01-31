@@ -116,7 +116,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         }
 
         if (rangeBounds == null && rangeMinimum <= rangeMaximum) {
-            setRangeBounds(new Bounds<>(rangeMinimum, rangeMaximum));
+            setRangeBounds(adjustBounds(rangeMinimum, rangeMaximum));
         }
 
         super.validateGrid();

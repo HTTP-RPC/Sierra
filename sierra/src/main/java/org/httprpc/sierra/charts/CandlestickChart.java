@@ -155,7 +155,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
         }
 
         if (rangeBounds == null && rangeMinimum <= rangeMaximum) {
-            setRangeBounds(new Bounds<>(rangeMinimum, rangeMaximum));
+            setRangeBounds(adjustBounds(rangeMinimum, rangeMaximum));
         }
 
         validateGrid();

@@ -156,15 +156,6 @@ public class ChartsTest extends JFrame implements Runnable {
 
         barChart.setDataSets(dataSets);
 
-        barChart.validate();
-
-        var rangeBounds = barChart.getRangeBounds();
-
-        var rangeMinimum = rangeBounds.minimum();
-        var rangeMaximum = rangeBounds.maximum();
-
-        barChart.setRangeBounds(new Chart.Bounds<>(rangeMinimum, rangeMaximum + rangeMaximum * 0.04));
-
         return barChart;
     }
 
@@ -265,17 +256,6 @@ public class ChartsTest extends JFrame implements Runnable {
             1.0f, new float[] {2.0f}, 0.0f));
 
         timeSeriesChart.setDataSets(dataSets);
-
-        timeSeriesChart.validate();
-
-        var rangeBounds = timeSeriesChart.getRangeBounds();
-
-        var rangeMinimum = rangeBounds.minimum();
-        var rangeMaximum = rangeBounds.maximum();
-
-        var rangeMargin = Math.abs(rangeMaximum - rangeMinimum) * 0.02;
-
-        timeSeriesChart.setRangeBounds(new Chart.Bounds<>(rangeMinimum - rangeMargin, rangeMaximum + rangeMargin));
 
         if (showValueMarkers) {
             var key = (int)(Math.random() * (n - 1));
