@@ -229,6 +229,23 @@ public class ScatterChartTest extends ChartTest {
     }
 
     @Test
+    public void testAdjustedBounds() throws Exception {
+        var chart = new ScatterChart<Double, Double>(key -> key, Number::doubleValue);
+
+        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0.0, -155.0),
+            entry(1.0, 0.0),
+            entry(2.0, 155.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("scatter-chart-adjusted-bounds.svg", chart);
+    }
+
+    @Test
     public void testCustomBounds() throws Exception {
         var chart = new ScatterChart<Double, Double>(key -> key, Number::doubleValue);
 

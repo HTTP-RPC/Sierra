@@ -294,6 +294,23 @@ public class TimeSeriesChartTest extends ChartTest {
     }
 
     @Test
+    public void testAdjustedBounds() throws Exception {
+        var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
+
+        var dataSet = new DataSet<Double, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(0.0, -0.15),
+            entry(1.0, 0.0),
+            entry(2.0, 0.15)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("time-series-chart-adjusted-bounds.svg", chart);
+    }
+
+    @Test
     public void testCustomBounds() throws Exception {
         var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
