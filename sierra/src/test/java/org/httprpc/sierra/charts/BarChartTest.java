@@ -598,6 +598,33 @@ public class BarChartTest extends ChartTest {
     }
 
     @Test
+    public void testRangeMarkersHorizontal() throws Exception {
+        var chart = new BarChart<Integer, Double>(Orientation.HORIZONTAL, false);
+
+        var dataSet = new DataSet<Integer, Double>("Data Set", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(1, 10.0),
+            entry(2, 20.0),
+            entry(3, 30.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+
+        icon = icon.derive(18, 18);
+
+        chart.setRangeMarkers(listOf(
+            new Chart.Marker<>(null, 0.1, "Left", icon),
+            new Chart.Marker<>(null, 15.0, "Center", icon),
+            new Chart.Marker<>(null, 29.9, "Right", icon)
+        ));
+
+        compare("bar-chart-range-markers-horizontal.svg", chart);
+    }
+
+    @Test
     public void testCustomMargins() throws Exception {
         var chart = new BarChart<Integer, Integer>();
 
