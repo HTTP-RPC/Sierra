@@ -89,24 +89,24 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
                 var size = label.getPreferredSize();
 
-                var x = (int)Math.round(lineX - (double)size.width / 2);
-                var y = gridY + gridHeight - (size.height + SPACING);
+                var labelX = (int)Math.round(lineX - (double)size.width / 2);
+                var labelY = gridY + gridHeight - (size.height + SPACING);
 
-                label.setBounds(x, (int)y, size.width, size.height);
+                label.setBounds(labelX, (int)labelY, size.width, size.height);
 
                 rangeMarkerLabels.add(label);
 
                 var left = (int)gridX + SPACING;
 
-                if (x < left) {
-                    label.setLocation(left, (int)y);
+                if (labelX < left) {
+                    label.setLocation(left, (int)labelY);
                 } else {
                     var right = (int)(gridX + gridWidth) - SPACING;
 
-                    if (x + size.width > right) {
-                        label.setLocation(right - size.width, (int)y);
+                    if (labelX + size.width > right) {
+                        label.setLocation(right - size.width, (int)labelY);
                     } else {
-                        var lineY1 = y - SPACING;
+                        var lineY1 = labelY - SPACING;
                         var lineY2 = gridY + SPACING;
 
                         if (lineY2 < lineY1) {
@@ -126,22 +126,22 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
                 var size = label.getPreferredSize();
 
-                var x = (int)gridX + SPACING;
-                var y = (int)lineY - size.height / 2;
+                var labelX = (int)gridX + SPACING;
+                var labelY = (int)lineY - size.height / 2;
 
-                label.setBounds(x, y, size.width, size.height);
+                label.setBounds(labelX, labelY, size.width, size.height);
 
                 rangeMarkerLabels.add(label);
 
                 var top = (int)gridY + SPACING;
 
-                if (y < top) {
-                    label.setLocation(x, top);
+                if (labelY < top) {
+                    label.setLocation(labelX, top);
                 } else {
                     var bottom = (int)(gridY + gridHeight) - SPACING;
 
-                    if (y + size.height > bottom) {
-                        label.setLocation(x, bottom - size.height);
+                    if (labelY + size.height > bottom) {
+                        label.setLocation(labelX, bottom - size.height);
                     } else {
                         var lineX1 = gridX + label.getWidth() + SPACING * 2;
                         var lineX2 = gridX + gridWidth - SPACING;
