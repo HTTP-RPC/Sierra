@@ -185,35 +185,23 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
             domainMarkerLabels.add(label);
 
-            var left = (int)gridX + SPACING;
+            var value = domainMarker.value();
 
-            if (x < left) {
-                label.setLocation(left, (int)y);
-            } else {
-                var right = (int)(gridX + gridWidth) - SPACING;
+            if (value != null) {
+                var rangeValue = value.doubleValue();
 
-                if (x + size.width > right) {
-                    label.setLocation(right - size.width, (int)y);
-                } else {
-                    var value = domainMarker.value();
+                var valueY = zeroY - rangeValue * rangeScale;
 
-                    if (value != null) {
-                        var rangeValue = value.doubleValue();
+                var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
 
-                        var valueY = zeroY - rangeValue * rangeScale;
+                if (valueY < label.getY() - diameter) {
+                    var line = new Line2D.Double(lineX, y - SPACING, lineX, valueY);
 
-                        var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
+                    domainMarkerLines.add(line);
 
-                        if (valueY < label.getY() - diameter) {
-                            var line = new Line2D.Double(lineX, y - SPACING, lineX, valueY);
+                    var shape = new Ellipse2D.Double(lineX - diameter / 2, valueY - diameter / 2, diameter, diameter);
 
-                            domainMarkerLines.add(line);
-
-                            var shape = new Ellipse2D.Double(lineX - diameter / 2, valueY - diameter / 2, diameter, diameter);
-
-                            domainMarkerShapes.add(shape);
-                        }
-                    }
+                    domainMarkerShapes.add(shape);
                 }
             }
         }
