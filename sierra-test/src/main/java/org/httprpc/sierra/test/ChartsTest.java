@@ -257,19 +257,7 @@ public class ChartsTest extends JFrame implements Runnable {
 
         timeSeriesChart.setDataSets(dataSets);
 
-        if (showValueMarkers) {
-            var key = (int)(Math.random() * (n - 1));
-
-            var value = dataSets.getFirst().getDataPoints().get(key);
-
-            timeSeriesChart.setDomainMarkers(listOf(
-                new Chart.Marker<>(key, value, null, null)
-            ));
-
-            timeSeriesChart.setRangeMarkers(listOf(
-                new Chart.Marker<>(key, value, null, null)
-            ));
-        } else {
+        if (!showValueMarkers) {
             var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
 
             icon = icon.derive(18, 18);
