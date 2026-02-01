@@ -124,6 +124,7 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
         this.chart = chart;
 
         revalidate();
+        repaint();
     }
 
     @Override

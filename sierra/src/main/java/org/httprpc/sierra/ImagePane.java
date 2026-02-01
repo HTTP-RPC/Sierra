@@ -189,6 +189,7 @@ public class ImagePane extends JComponent {
         this.image = image;
 
         revalidate();
+        repaint();
     }
 
     /**
@@ -215,6 +216,7 @@ public class ImagePane extends JComponent {
         this.scaleMode = scaleMode;
 
         revalidate();
+        repaint();
     }
 
     /**

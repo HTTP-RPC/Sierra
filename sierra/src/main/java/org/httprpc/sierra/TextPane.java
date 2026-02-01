@@ -220,6 +220,7 @@ public class TextPane extends JComponent {
         this.text = text;
 
         revalidate();
+        repaint();
     }
 
     /**
@@ -244,6 +245,7 @@ public class TextPane extends JComponent {
         this.wrapText = wrapText;
 
         revalidate();
+        repaint();
     }
 
     /**

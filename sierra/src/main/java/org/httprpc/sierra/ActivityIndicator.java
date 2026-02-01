@@ -173,6 +173,7 @@ public class ActivityIndicator extends JComponent {
         spokeShape = new RoundRectangle2D.Double(spokeWidth / 2, -spokeHeight / 2, spokeWidth, spokeHeight, spokeHeight, spokeHeight);
 
         revalidate();
+        repaint();
     }
 
     /**
