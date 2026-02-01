@@ -142,6 +142,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         var gridX = gridBounds.getX();
         var gridY = gridBounds.getY();
 
+        var gridWidth = gridBounds.getWidth();
         var gridHeight = gridBounds.getHeight();
 
         var domainScale = getDomainScale();
@@ -177,30 +178,42 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
             var size = label.getPreferredSize();
 
-            var labelX = (int)Math.round(lineX - (double)size.width / 2);
-            var labelY = gridY + gridHeight - (size.height + SPACING);
+            var x = (int)Math.round(lineX - (double)size.width / 2);
+            var y = gridY + gridHeight - (size.height + SPACING);
 
-            label.setBounds(labelX, (int)labelY, size.width, size.height);
+            label.setBounds(x, (int)y, size.width, size.height);
 
             domainMarkerLabels.add(label);
 
-            var value = domainMarker.value();
+            var left = (int)gridX + SPACING;
 
-            if (value != null) {
-                var rangeValue = value.doubleValue();
+            if (x < left) {
+                label.setLocation(left, (int)y);
+            } else {
+                var right = (int)(gridX + gridWidth) - SPACING;
 
-                var valueY = zeroY - rangeValue * rangeScale;
+                if (x + size.width > right) {
+                    label.setLocation(right - size.width, (int)y);
+                } else {
+                    var value = domainMarker.value();
 
-                var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
+                    if (value != null) {
+                        var rangeValue = value.doubleValue();
 
-                if (valueY < label.getY() - diameter) {
-                    var line = new Line2D.Double(lineX, labelY - SPACING, lineX, valueY);
+                        var valueY = zeroY - rangeValue * rangeScale;
 
-                    domainMarkerLines.add(line);
+                        var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
 
-                    var shape = new Ellipse2D.Double(lineX - diameter / 2, valueY - diameter / 2, diameter, diameter);
+                        if (valueY < label.getY() - diameter) {
+                            var line = new Line2D.Double(lineX, y - SPACING, lineX, valueY);
 
-                    domainMarkerShapes.add(shape);
+                            domainMarkerLines.add(line);
+
+                            var shape = new Ellipse2D.Double(lineX - diameter / 2, valueY - diameter / 2, diameter, diameter);
+
+                            domainMarkerShapes.add(shape);
+                        }
+                    }
                 }
             }
         }
@@ -220,9 +233,10 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
             var label = new JLabel(text, rangeMarker.icon(), SwingConstants.LEADING);
 
+            label.setIconTextGap(2);
+
             label.setForeground(markerColor);
             label.setFont(markerFont);
-            label.setIconTextGap(2);
 
             var size = label.getPreferredSize();
 

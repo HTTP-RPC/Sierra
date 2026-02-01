@@ -89,27 +89,40 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
                 var size = label.getPreferredSize();
 
-                var labelX = (int)Math.round(lineX - (double)size.width / 2);
-                var labelY = gridY + gridHeight - (size.height + SPACING);
+                var x = (int)Math.round(lineX - (double)size.width / 2);
+                var y = gridY + gridHeight - (size.height + SPACING);
 
-                label.setBounds(labelX, (int)labelY, size.width, size.height);
+                label.setBounds(x, (int)y, size.width, size.height);
 
                 rangeMarkerLabels.add(label);
 
-                var lineY1 = labelY - SPACING;
-                var lineY2 = gridY + SPACING;
+                var left = (int)gridX + SPACING;
 
-                if (lineY2 < lineY1) {
-                    rangeMarkerLines.add(new Line2D.Double(lineX, lineY1, lineX, lineY2));
+                if (x < left) {
+                    label.setLocation(left, (int)y);
+                } else {
+                    var right = (int)(gridX + gridWidth) - SPACING;
+
+                    if (x + size.width > right) {
+                        label.setLocation(right - size.width, (int)y);
+                    } else {
+                        var lineY1 = y - SPACING;
+                        var lineY2 = gridY + SPACING;
+
+                        if (lineY2 < lineY1) {
+                            rangeMarkerLines.add(new Line2D.Double(lineX, lineY1, lineX, lineY2));
+                        }
+                    }
                 }
             } else {
                 var lineY = zeroY - value * rangeScale;
 
                 var label = new JLabel(text, rangeMarker.icon(), SwingConstants.LEADING);
 
+                label.setIconTextGap(2);
+
                 label.setForeground(markerColor);
                 label.setFont(markerFont);
-                label.setIconTextGap(2);
 
                 var size = label.getPreferredSize();
 
