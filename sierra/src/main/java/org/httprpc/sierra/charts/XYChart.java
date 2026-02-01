@@ -226,27 +226,42 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
             var size = label.getPreferredSize();
 
-            label.setBounds((int)gridX + SPACING, (int)lineY - size.height / 2, size.width, size.height);
+            var x = (int)gridX + SPACING;
+            var y = (int)lineY - size.height / 2;
+
+            label.setBounds(x, y, size.width, size.height);
 
             rangeMarkerLabels.add(label);
 
-            var key = rangeMarker.key();
+            var top = (int)gridY + SPACING;
 
-            if (key != null) {
-                var domainValue = domainValueTransform.apply(key).doubleValue();
+            if (y < top) {
+                label.setLocation(x, top);
+            } else {
+                var bottom = (int)(gridY + gridHeight) - SPACING;
 
-                var valueX = zeroX + domainValue * domainScale;
+                if (y + size.height > bottom) {
+                    label.setLocation(x, bottom - size.height);
+                } else {
+                    var key = rangeMarker.key();
 
-                var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
+                    if (key != null) {
+                        var domainValue = domainValueTransform.apply(key).doubleValue();
 
-                if (valueX > label.getX() + label.getWidth() + diameter) {
-                    var line = new Line2D.Double(gridX + label.getWidth() + SPACING * 2, lineY, valueX, lineY);
+                        var valueX = zeroX + domainValue * domainScale;
 
-                    rangeMarkerLines.add(line);
+                        var diameter = getMarkerStroke().getLineWidth() * MARKER_SCALE;
 
-                    var shape = new Ellipse2D.Double(valueX - diameter / 2, lineY - diameter / 2, diameter, diameter);
+                        if (valueX > label.getX() + label.getWidth() + diameter) {
+                            var line = new Line2D.Double(gridX + label.getWidth() + SPACING * 2, lineY, valueX, lineY);
 
-                    rangeMarkerShapes.add(shape);
+                            rangeMarkerLines.add(line);
+
+                            var shape = new Ellipse2D.Double(valueX - diameter / 2, lineY - diameter / 2, diameter, diameter);
+
+                            rangeMarkerShapes.add(shape);
+                        }
+                    }
                 }
             }
         }

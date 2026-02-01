@@ -109,18 +109,34 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
                 label.setForeground(markerColor);
                 label.setFont(markerFont);
+                label.setIconTextGap(2);
 
                 var size = label.getPreferredSize();
 
-                label.setBounds((int)gridX + SPACING, (int)lineY - size.height / 2, size.width, size.height);
+                var x = (int)gridX + SPACING;
+                var y = (int)lineY - size.height / 2;
+
+                label.setBounds(x, y, size.width, size.height);
 
                 rangeMarkerLabels.add(label);
 
-                var lineX1 = gridX + label.getWidth() + SPACING * 2;
-                var lineX2 = gridX + gridWidth - SPACING;
+                var top = (int)gridY + SPACING;
 
-                if (lineX2 > lineX1) {
-                    rangeMarkerLines.add(new Line2D.Double(lineX1, lineY, lineX2, lineY));
+                if (y < top) {
+                    label.setLocation(x, top);
+                } else {
+                    var bottom = (int)(gridY + gridHeight) - SPACING;
+
+                    if (y + size.height > bottom) {
+                        label.setLocation(x, bottom - size.height);
+                    } else {
+                        var lineX1 = gridX + label.getWidth() + SPACING * 2;
+                        var lineX2 = gridX + gridWidth - SPACING;
+
+                        if (lineX2 > lineX1) {
+                            rangeMarkerLines.add(new Line2D.Double(lineX1, lineY, lineX2, lineY));
+                        }
+                    }
                 }
             }
         }
