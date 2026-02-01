@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
@@ -166,6 +167,35 @@ public class CandlestickChartTest extends ChartTest {
         chart.setDataSets(listOf(dataSet));
 
         compare("candlestick-chart-transparency.svg", chart);
+    }
+
+    @Test
+    public void testRangeMarkers() throws Exception {
+        var chart = new CandlestickChart<LocalDate>();
+
+        var dataSet = new DataSet<LocalDate, OHLC>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(LocalDate.of(2025, 12, 17), new OHLC(20, 30, 0, 10))
+        ));
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+
+        chart.setDomainLabelTransform(dateFormatter::format);
+
+        chart.setDataSets(listOf(dataSet));
+
+        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+
+        icon = icon.derive(18, 18);
+
+        chart.setRangeMarkers(listOf(
+            new Chart.Marker<>(null, 0.1, "Bottom", icon),
+            new Chart.Marker<>(null, 15.0, "Center", icon),
+            new Chart.Marker<>(null, 29.9, "Top", icon)
+        ));
+
+        compare("candlestick-chart-range-markers.svg", chart);
     }
 
     @Test

@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.sierra.Orientation;
 import org.junit.jupiter.api.Test;
 
@@ -567,6 +568,33 @@ public class BarChartTest extends ChartTest {
         chart.setDataSets(listOf(dataSet));
 
         compare("bar-chart-domain-label-visibility.svg", chart);
+    }
+
+    @Test
+    public void testRangeMarkers() throws Exception {
+        var chart = new BarChart<Integer, Double>();
+
+        var dataSet = new DataSet<Integer, Double>("Data Set", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(1, 10.0),
+            entry(2, 20.0),
+            entry(3, 30.0)
+        ));
+
+        chart.setDataSets(listOf(dataSet));
+
+        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+
+        icon = icon.derive(18, 18);
+
+        chart.setRangeMarkers(listOf(
+            new Chart.Marker<>(null, 0.1, "Bottom", icon),
+            new Chart.Marker<>(null, 15.0, "Center", icon),
+            new Chart.Marker<>(null, 29.9, "Top", icon)
+        ));
+
+        compare("bar-chart-range-markers.svg", chart);
     }
 
     @Test

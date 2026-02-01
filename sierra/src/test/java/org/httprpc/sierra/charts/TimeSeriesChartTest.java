@@ -166,8 +166,9 @@ public class TimeSeriesChartTest extends ChartTest {
         icon = icon.derive(18, 18);
 
         chart.setDomainMarkers(listOf(
-            new Chart.Marker<>(0.25, 2.5, null, icon),
-            new Chart.Marker<>(5.0, 50.0, null, icon)
+            new Chart.Marker<>(0.05, 45.0, "Left", icon),
+            new Chart.Marker<>(3.0, 2.5, "Center", icon),
+            new Chart.Marker<>(5.95, 45.0, "Right", icon)
         ));
 
         compare("time-series-chart-domain-markers.svg", chart);
@@ -196,8 +197,9 @@ public class TimeSeriesChartTest extends ChartTest {
         icon = icon.derive(18, 18);
 
         chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(0.25, 2.5, "Marker 1", icon),
-            new Chart.Marker<>(2.0, 20.0, "Marker 2", icon)
+            new Chart.Marker<>(4.5, 0.1, "Bottom", icon),
+            new Chart.Marker<>(0.1, 30.0, "Center", icon),
+            new Chart.Marker<>(4.5, 59.9, "Top", icon)
         ));
 
         compare("time-series-chart-range-markers.svg", chart);
