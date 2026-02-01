@@ -1288,7 +1288,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         if (r > 0.0) {
             var m = (int)Math.log10(r);
 
-            var n = Math.pow(10, m - Math.signum(m));
+            var n = Math.pow(10, m - 1);
 
             minimum = Math.floor(minimum / n) * n;
             maximum = Math.ceil(maximum / n) * n;
