@@ -89,6 +89,8 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
 
     private boolean doughnut;
 
+    private double start = 90.0;
+
     private Color outlineColor = Color.WHITE;
     private BasicStroke outlineStroke = defaultOutlineStroke;
 
@@ -128,6 +130,26 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
      */
     public boolean isDoughnut() {
         return doughnut;
+    }
+
+    /**
+     * Returns the starting angle.
+     *
+     * @return
+     * The starting angle. The default value is 90.0.
+     */
+    public double getStart() {
+        return start;
+    }
+
+    /**
+     * Sets the starting angle.
+     *
+     * @param start
+     * The starting angle, in degrees.
+     */
+    public void setStart(double start) {
+        this.start = start;
     }
 
     /**
@@ -220,7 +242,7 @@ public class PieChart<K extends Comparable<? super K>, V extends Number> extends
 
         var pieBounds = new Rectangle2D.Double((double)getWidth() / 2 - height / 2, outlineWidth / 2, height, height);
 
-        var start = 90.0;
+        var start = this.start;
 
         for (var i = 0; i < n; i++) {
             var extent = -360.0 * (dataSetValues.get(i) / total);

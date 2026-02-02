@@ -85,4 +85,62 @@ public class PieChartTest extends ChartTest {
 
         compare("pie-chart-no-values-doughnut.svg", chart);
     }
+
+    @Test
+    public void testStart() throws Exception {
+        var chart = new PieChart<Integer, Integer>();
+
+        chart.setStart(45.0);
+
+        var dataSet1 = new DataSet<Integer, Integer>("Data Set 1", Color.RED);
+
+        dataSet1.setDataPoints(sortedMapOf(
+            entry(1, 20)
+        ));
+
+        var dataSet2 = new DataSet<Integer, Integer>("Data Set 2", Color.GREEN);
+
+        dataSet2.setDataPoints(sortedMapOf(
+            entry(1, 50)
+        ));
+
+        var dataSet3 = new DataSet<Integer, Integer>("Data Set 3", Color.BLUE);
+
+        dataSet3.setDataPoints(sortedMapOf(
+            entry(1, 30)
+        ));
+
+        chart.setDataSets(listOf(dataSet1, dataSet2, dataSet3));
+
+        compare("pie-chart-start.svg", chart);
+    }
+
+    @Test
+    public void testStartDoughnut() throws Exception {
+        var chart = new PieChart<Integer, Integer>(true);
+
+        chart.setStart(45.0);
+
+        var dataSet1 = new DataSet<Integer, Integer>("Data Set 1", Color.RED);
+
+        dataSet1.setDataPoints(sortedMapOf(
+            entry(1, 20)
+        ));
+
+        var dataSet2 = new DataSet<Integer, Integer>("Data Set 2", Color.GREEN);
+
+        dataSet2.setDataPoints(sortedMapOf(
+            entry(1, 50)
+        ));
+
+        var dataSet3 = new DataSet<Integer, Integer>("Data Set 3", Color.BLUE);
+
+        dataSet3.setDataPoints(sortedMapOf(
+            entry(1, 30)
+        ));
+
+        chart.setDataSets(listOf(dataSet1, dataSet2, dataSet3));
+
+        compare("pie-chart-start-doughnut.svg", chart);
+    }
 }
