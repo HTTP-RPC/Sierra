@@ -5,7 +5,9 @@
 <tabbed-pane tabLayoutPolicy="scroll-tab-layout">
     <column-panel tabTitle="Pie Chart" opaque="true" background="TextArea.background" spacing="16" padding="16">
         <label font="h1.font" text="Sales by Region" horizontalAlignment="center"/>
+
         <chart-pane name="pieChartPane" weight="1"/>
+
         <row-panel>
             <spacer weight="1"/>
             <row-panel name="pieChartLegendPanel" spacing="16"/>
@@ -15,7 +17,9 @@
 
     <column-panel tabTitle="Bar Chart" opaque="true" background="TextArea.background" spacing="16" padding="16">
         <label font="h1.font" text="Sales by Region" horizontalAlignment="center"/>
+
         <chart-pane name="barChartPane" weight="1"/>
+
         <row-panel>
             <spacer weight="1"/>
             <row-panel name="barChartLegendPanel" spacing="16"/>
@@ -25,7 +29,9 @@
 
     <column-panel tabTitle="Time Series Chart" opaque="true" background="TextArea.background" spacing="16" padding="16">
         <label font="h1.font" text="Historical Trends" horizontalAlignment="center"/>
+
         <chart-pane name="timeSeriesChartPane" weight="1"/>
+
         <row-panel>
             <spacer weight="1"/>
             <row-panel name="timeSeriesChartLegendPanel" spacing="16"/>
@@ -35,7 +41,9 @@
 
     <column-panel tabTitle="Scatter Chart" opaque="true" background="TextArea.background" spacing="16" padding="16">
         <label font="h1.font" text="Sample Data" horizontalAlignment="center"/>
+
         <chart-pane name="scatterChartPane" weight="1"/>
+
         <row-panel>
             <spacer weight="1"/>
             <row-panel name="scatterChartLegendPanel" spacing="16"/>
@@ -45,7 +53,9 @@
 
     <column-panel tabTitle="Candlestick Chart" opaque="true" background="TextArea.background" spacing="16" padding="16">
         <label font="h1.font" text="Pricing History" horizontalAlignment="center"/>
+
         <chart-pane name="candlestickChartPane" weight="1"/>
+
         <row-panel>
             <spacer weight="1"/>
             <row-panel name="candlestickChartLegendPanel" spacing="16"/>

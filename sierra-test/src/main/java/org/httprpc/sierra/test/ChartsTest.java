@@ -161,46 +161,26 @@ public class ChartsTest extends JFrame implements Runnable {
 
     private List<DataSet<Month, Double>> createCategoryDataSets() {
         var northDataSet = new DataSet<Month, Double>("North", UILoader.getColor("light-coral"));
-
-        northDataSet.setDataPoints(sortedMapOf(
-            entry(Month.JANUARY, 30.0),
-            entry(Month.FEBRUARY, 5.0),
-            entry(Month.MARCH, 20.0)
-        ));
-
         var southDataSet = new DataSet<Month, Double>("South", UILoader.getColor("orange"));
-
-        southDataSet.setDataPoints(sortedMapOf(
-            entry(Month.JANUARY, 40.0),
-            entry(Month.FEBRUARY, 10.0),
-            entry(Month.MARCH, 75.0)
-        ));
-
         var eastDataSet = new DataSet<Month, Double>("East", UILoader.getColor("gold"));
-
-        eastDataSet.setDataPoints(sortedMapOf(
-            entry(Month.JANUARY, 60.0),
-            entry(Month.FEBRUARY, 5.0),
-            entry(Month.MARCH, 80.0)
-        ));
-
         var centralDataSet = new DataSet<Month, Double>("Central", UILoader.getColor("light-green"));
-
-        centralDataSet.setDataPoints(sortedMapOf(
-            entry(Month.JANUARY, 60.0),
-            entry(Month.FEBRUARY, 45.0),
-            entry(Month.MARCH, 90.0)
-        ));
-
         var westDataSet = new DataSet<Month, Double>("West", UILoader.getColor("light-blue"));
 
-        westDataSet.setDataPoints(sortedMapOf(
-            entry(Month.JANUARY, 85.0),
-            entry(Month.FEBRUARY, 35.0),
-            entry(Month.MARCH, 140.0)
-        ));
+        var months = sortedSetOf(Month.JANUARY, Month.FEBRUARY, Month.MARCH);
 
-        return listOf(northDataSet, southDataSet, eastDataSet, centralDataSet, westDataSet);
+        var dataSets = listOf(northDataSet, southDataSet, eastDataSet, centralDataSet, westDataSet);
+
+        for (var dataSet : dataSets) {
+            var dataPoints = new TreeMap<Month, Double>();
+
+            for (var month : months) {
+                dataPoints.put(month, Math.random() * 100.0);
+            }
+
+            dataSet.setDataPoints(dataPoints);
+        }
+
+        return dataSets;
     }
 
     private TimeSeriesChart<Integer, Double> createTimeSeriesChart() {
