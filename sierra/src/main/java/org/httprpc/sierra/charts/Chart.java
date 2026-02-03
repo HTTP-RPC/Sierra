@@ -1256,16 +1256,27 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
                 var size = label.getPreferredSize();
 
-                var labelX = (int)Math.round(lineX - (double)size.width / 2);
-                var labelY = gridY + gridHeight - (size.height + SPACING);
+                var labelX = (int)lineX - size.width / 2;
+                var labelY = (int)gridY + SPACING;
 
-                // TODO
+                var lineY1 = labelY;
+                var lineY2 = gridY + gridHeight - SPACING;
 
-                label.setBounds(labelX, (int)labelY, size.width, size.height);
+                if (labelX < gridX) {
+                    labelX = (int)lineX + SPACING;
+                } else if (labelX + size.width > gridX + gridWidth) {
+                    labelX = (int)lineX - (size.width + SPACING);
+                } else {
+                    lineY1 += size.height + SPACING;
+                }
+
+                label.setBounds(labelX, labelY, size.width, size.height);
 
                 rangeMarkerLabels.add(label);
 
-                // TODO
+                if (lineY2 > lineY1) {
+                    rangeMarkerLines.add(new Line2D.Double(lineX, lineY1, lineX, lineY2));
+                }
             } else {
                 var lineY = zeroY - key * rangeScale;
 
@@ -1281,15 +1292,15 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 var labelX = (int)gridX + SPACING;
                 var labelY = (int)lineY - size.height / 2;
 
-                var lineX1 = labelX + SPACING;
+                var lineX1 = labelX;
                 var lineX2 = gridX + gridWidth - SPACING;
 
                 if (labelY < gridY) {
-                    labelY = (int)lineY;
+                    labelY = (int)lineY + SPACING / 2;
                 } else if (labelY + size.height > gridY + gridHeight) {
-                    labelY = (int)lineY - size.height;
+                    labelY = (int)lineY - (size.height + SPACING / 2);
                 } else {
-                    lineX1 += size.width;
+                    lineX1 += size.width + SPACING;
                 }
 
                 label.setBounds(labelX, labelY, size.width, size.height);
