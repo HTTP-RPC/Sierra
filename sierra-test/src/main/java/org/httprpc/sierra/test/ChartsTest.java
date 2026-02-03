@@ -244,9 +244,9 @@ public class ChartsTest extends JFrame implements Runnable {
 
             icon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> timeSeriesChart.getMarkerColor()));
 
-            timeSeriesChart.setDomainMarkers(listOf(
-                new Chart.Marker<>((int)(Math.random() * n), null, "Marker 1", icon),
-                new Chart.Marker<>((int)(Math.random() * n), null, "Marker 2", icon)
+            timeSeriesChart.setDomainMarkers(sortedMapOf(
+                entry((int)(Math.random() * n), new Chart.Marker("Marker 1", icon)),
+                entry((int)(Math.random() * n), new Chart.Marker("Marker 2", icon))
             ));
         }
 

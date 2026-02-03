@@ -159,10 +159,9 @@ public class ScatterChartTest extends ChartTest {
 
         icon = icon.derive(18, 18);
 
-        chart.setDomainMarkers(listOf(
-            new Chart.Marker<>(0.05, 45.0, "Left", icon),
-            new Chart.Marker<>(3.0, 2.5, "Center", icon),
-            new Chart.Marker<>(5.95, 45.0, "Right", icon)
+        chart.setDomainMarkers(sortedMapOf(
+            entry(1.5, new Chart.Marker(null, icon)),
+            entry(4.5, new Chart.Marker(null, icon))
         ));
 
         compare("scatter-chart-domain-markers.svg", chart);
@@ -190,10 +189,10 @@ public class ScatterChartTest extends ChartTest {
 
         icon = icon.derive(18, 18);
 
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(4.5, 0.1, "Bottom", icon),
-            new Chart.Marker<>(0.1, 30.0, "Center", icon),
-            new Chart.Marker<>(4.5, 59.9, "Top", icon)
+        chart.setRangeMarkers(sortedMapOf(
+            entry(0.1, new Chart.Marker("Bottom", icon)),
+            entry(30.0, new Chart.Marker("Center", icon)),
+            entry(59.9, new Chart.Marker("Top", icon))
         ));
 
         compare("scatter-chart-range-markers.svg", chart);
@@ -262,16 +261,6 @@ public class ScatterChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-
-        chart.setDomainMarkers(listOf(
-            new Chart.Marker<>(0.0, 0.0, null, null),
-            new Chart.Marker<>(4.0, 40.0, null, null)
-        ));
-
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(0.0, 0.0, null, null),
-            new Chart.Marker<>(4.0, 40.0, null, null)
-        ));
 
         chart.setDomainBounds(new Chart.Bounds<>(-1.0, 5.0));
         chart.setRangeBounds(new Chart.Bounds<>(-10.0, 50.0));

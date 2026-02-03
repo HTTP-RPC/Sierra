@@ -189,10 +189,10 @@ public class CandlestickChartTest extends ChartTest {
 
         icon = icon.derive(18, 18);
 
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(null, 0.1, "Bottom", icon),
-            new Chart.Marker<>(null, 15.0, "Center", icon),
-            new Chart.Marker<>(null, 29.9, "Top", icon)
+        chart.setRangeMarkers(sortedMapOf(
+            entry(0.1, new Chart.Marker("Bottom", icon)),
+            entry(15.0, new Chart.Marker("Center", icon)),
+            entry(29.9, new Chart.Marker("Top", icon))
         ));
 
         compare("candlestick-chart-range-markers.svg", chart);

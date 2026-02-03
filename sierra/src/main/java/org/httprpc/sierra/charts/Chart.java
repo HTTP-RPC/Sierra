@@ -31,6 +31,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.function.Function;
 
@@ -50,20 +51,12 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     /**
      * Represents a chart marker.
      */
-    public record Marker<K>(
-        K key,
-        Number value,
+    public record Marker(
         String label,
         Icon icon
     ) {
         /**
          * Constructs a new marker instance.
-         *
-         * @param key
-         * The marker key.
-         *
-         * @param value
-         * The marker value.
          *
          * @param label
          * The marker label.
@@ -72,6 +65,9 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
          * The marker icon.
          */
         public Marker {
+            if (label == null && icon == null) {
+                throw new IllegalArgumentException();
+            }
         }
     }
 
@@ -138,8 +134,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
     private List<DataSet<K, V>> dataSets = listOf();
 
-    private List<Marker<K>> domainMarkers = listOf();
-    private List<Marker<K>> rangeMarkers = listOf();
+    private SortedMap<K, Marker> domainMarkers = sortedMapOf();
+    private SortedMap<Double, Marker> rangeMarkers = sortedMapOf();
 
     private static final Font defaultDomainLabelFont;
     private static final Font defaultRangeLabelFont;
@@ -712,7 +708,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * @return
      * The chart's domain markers.
      */
-    public List<Marker<K>> getDomainMarkers() {
+    public SortedMap<K, Marker> getDomainMarkers() {
         return domainMarkers;
     }
 
@@ -722,7 +718,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * @param domainMarkers
      * The chart's domain markers.
      */
-    public void setDomainMarkers(List<Marker<K>> domainMarkers) {
+    public void setDomainMarkers(SortedMap<K, Marker> domainMarkers) {
         if (domainMarkers == null) {
             throw new IllegalArgumentException();
         }
@@ -738,7 +734,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * @return
      * The chart's range markers.
      */
-    public List<Marker<K>> getRangeMarkers() {
+    public SortedMap<Double, Marker> getRangeMarkers() {
         return rangeMarkers;
     }
 
@@ -748,7 +744,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * @param rangeMarkers
      * The chart's range markers.
      */
-    public void setRangeMarkers(List<Marker<K>> rangeMarkers) {
+    public void setRangeMarkers(SortedMap<Double, Marker> rangeMarkers) {
         if (rangeMarkers == null) {
             throw new IllegalArgumentException();
         }

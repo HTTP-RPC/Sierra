@@ -42,7 +42,6 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, 20.0, null, null)));
 
         compare("bar-chart-positive-values.svg", chart);
     }
@@ -62,7 +61,6 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, 20.0, null, null)));
 
         compare("bar-chart-positive-values-horizontal.svg", chart);
     }
@@ -82,7 +80,6 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, null, null)));
 
         compare("bar-chart-negative-values.svg", chart);
     }
@@ -102,7 +99,6 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, null, null)));
 
         compare("bar-chart-negative-values-horizontal.svg", chart);
     }
@@ -122,7 +118,6 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, null, null)));
 
         compare("bar-chart-mixed-values.svg", chart);
     }
@@ -142,7 +137,6 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, -20.0, null, null)));
 
         compare("bar-chart-mixed-values-horizontal.svg", chart);
     }
@@ -308,11 +302,6 @@ public class BarChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet1, dataSet2, dataSet3));
 
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(null, 35, null, null),
-            new Chart.Marker<>(null, 55, null, null)
-        ));
-
         compare("bar-chart-positive-values-stacked.svg", chart);
     }
 
@@ -345,11 +334,6 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet1, dataSet2, dataSet3));
-
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(null, 35, null, null),
-            new Chart.Marker<>(null, 55, null, null)
-        ));
 
         compare("bar-chart-positive-values-horizontal-stacked.svg", chart);
     }
@@ -384,11 +368,6 @@ public class BarChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet1, dataSet2, dataSet3));
 
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(null, -35, null, null),
-            new Chart.Marker<>(null, -55, null, null)
-        ));
-
         compare("bar-chart-negative-values-stacked.svg", chart);
     }
 
@@ -421,11 +400,6 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet1, dataSet2, dataSet3));
-
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(null, -35, null, null),
-            new Chart.Marker<>(null, -55, null, null)
-        ));
 
         compare("bar-chart-negative-values-horizontal-stacked.svg", chart);
     }
@@ -460,11 +434,6 @@ public class BarChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet1, dataSet2, dataSet3));
 
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(null, -15, null, null),
-            new Chart.Marker<>(null, 40, null, null)
-        ));
-
         compare("bar-chart-mixed-values-stacked.svg", chart);
     }
 
@@ -497,11 +466,6 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet1, dataSet2, dataSet3));
-
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(null, -15, null, null),
-            new Chart.Marker<>(null, 40, null, null)
-        ));
 
         compare("bar-chart-mixed-values-horizontal-stacked.svg", chart);
     }
@@ -588,10 +552,10 @@ public class BarChartTest extends ChartTest {
 
         icon = icon.derive(18, 18);
 
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(null, 0.1, "Bottom", icon),
-            new Chart.Marker<>(null, 15.0, "Center", icon),
-            new Chart.Marker<>(null, 29.9, "Top", icon)
+        chart.setRangeMarkers(sortedMapOf(
+            entry(0.1, new Chart.Marker("Bottom", icon)),
+            entry(15.0, new Chart.Marker("Center", icon)),
+            entry(29.9, new Chart.Marker("Top", icon))
         ));
 
         compare("bar-chart-range-markers.svg", chart);
@@ -615,10 +579,10 @@ public class BarChartTest extends ChartTest {
 
         icon = icon.derive(18, 18);
 
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(null, 0.1, "Left", icon),
-            new Chart.Marker<>(null, 15.0, "Center", icon),
-            new Chart.Marker<>(null, 29.9, "Right", icon)
+        chart.setRangeMarkers(sortedMapOf(
+            entry(0.1, new Chart.Marker("Left", icon)),
+            entry(15.0, new Chart.Marker("Center", icon)),
+            entry(29.9, new Chart.Marker("Right", icon))
         ));
 
         compare("bar-chart-range-markers-horizontal.svg", chart);
@@ -639,7 +603,6 @@ public class BarChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-        chart.setRangeMarkers(listOf(new Chart.Marker<>(null, 20.0, null, null)));
 
         chart.validate();
 

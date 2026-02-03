@@ -165,10 +165,9 @@ public class TimeSeriesChartTest extends ChartTest {
 
         icon = icon.derive(18, 18);
 
-        chart.setDomainMarkers(listOf(
-            new Chart.Marker<>(0.05, 45.0, "Left", icon),
-            new Chart.Marker<>(3.0, 2.5, "Center", icon),
-            new Chart.Marker<>(5.95, 45.0, "Right", icon)
+        chart.setDomainMarkers(sortedMapOf(
+            entry(1.5, new Chart.Marker(null, icon)),
+            entry(4.5, new Chart.Marker(null, icon))
         ));
 
         compare("time-series-chart-domain-markers.svg", chart);
@@ -196,10 +195,10 @@ public class TimeSeriesChartTest extends ChartTest {
 
         icon = icon.derive(18, 18);
 
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(4.5, 0.1, "Bottom", icon),
-            new Chart.Marker<>(0.1, 30.0, "Center", icon),
-            new Chart.Marker<>(4.5, 59.9, "Top", icon)
+        chart.setRangeMarkers(sortedMapOf(
+            entry(0.1, new Chart.Marker("Bottom", icon)),
+            entry(30.0, new Chart.Marker("Center", icon)),
+            entry(59.9, new Chart.Marker("Top", icon))
         ));
 
         compare("time-series-chart-range-markers.svg", chart);
@@ -235,22 +234,6 @@ public class TimeSeriesChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet));
 
-        chart.setDomainMarkers(listOf(
-            new Chart.Marker<>(1.0, 10.0, null, null),
-            new Chart.Marker<>(1.5, 15.0, null, null),
-            new Chart.Marker<>(2.0, 20.0, null, null),
-            new Chart.Marker<>(3.0, 30.0, null, null),
-            new Chart.Marker<>(4.0, 40.0, null, null),
-            new Chart.Marker<>(4.5, 45.0, null, null),
-            new Chart.Marker<>(5.0, 50.0, null, null)
-        ));
-
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(2.0, 20.0, null, null),
-            new Chart.Marker<>(3.0, 30.0, null, null),
-            new Chart.Marker<>(4.0, 40.0, null, null)
-        ));
-
         compare("time-series-chart-value-markers.svg", chart);
     }
 
@@ -284,11 +267,6 @@ public class TimeSeriesChartTest extends ChartTest {
         var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
 
         chart.setDomainLabelTransform(dateFormatter::format);
-
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(LocalDate.of(2025, 12, 20), 25.0, null, null),
-            new Chart.Marker<>(LocalDate.of(2025, 12, 22), 35.0, null, null)
-        ));
 
         chart.setDataSets(listOf(dataSet));
 
@@ -327,16 +305,6 @@ public class TimeSeriesChartTest extends ChartTest {
         ));
 
         chart.setDataSets(listOf(dataSet));
-
-        chart.setDomainMarkers(listOf(
-            new Chart.Marker<>(0.0, 0.0, null, null),
-            new Chart.Marker<>(4.0, 40.0, null, null)
-        ));
-
-        chart.setRangeMarkers(listOf(
-            new Chart.Marker<>(0.0, 0.0, null, null),
-            new Chart.Marker<>(4.0, 40.0, null, null)
-        ));
 
         chart.setDomainBounds(new Chart.Bounds<>(-1.0, 5.0));
         chart.setRangeBounds(new Chart.Bounds<>(-10.0, 50.0));

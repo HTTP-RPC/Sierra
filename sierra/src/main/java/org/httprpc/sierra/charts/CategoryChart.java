@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.SortedSet;
 
 import static org.httprpc.kilo.util.Collections.*;
-import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Abstract base class for category charts.
@@ -45,8 +44,6 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
         rangeMarkerLabels.clear();
         rangeMarkerLines.clear();
 
-        var rangeLabelTransform = getRangeLabelTransform();
-
         var markerColor = getMarkerColor();
         var markerFont = getMarkerFont();
 
@@ -65,19 +62,14 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
         var zeroX = origin.getX();
         var zeroY = origin.getY();
 
-        for (var rangeMarker : getRangeMarkers()) {
-            var value = map(rangeMarker.value(), Number::doubleValue);
-
-            if (value == null) {
-                throw new UnsupportedOperationException("Marker value is not defined.");
-            }
-
-            var text = coalesce(rangeMarker.label(), () -> rangeLabelTransform.apply(value));
+        for (var entry : getRangeMarkers().entrySet()) {
+            var key = entry.getKey();
+            var marker = entry.getValue();
 
             if (isTransposed()) {
-                var lineX = zeroX + value * rangeScale;
+                var lineX = zeroX + key * rangeScale;
 
-                var label = new JLabel(text, rangeMarker.icon(), SwingConstants.CENTER);
+                var label = new JLabel(marker.label(), marker.icon(), SwingConstants.CENTER);
 
                 label.setHorizontalTextPosition(SwingConstants.CENTER);
                 label.setVerticalAlignment(SwingConstants.CENTER);
@@ -115,9 +107,9 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
                     }
                 }
             } else {
-                var lineY = zeroY - value * rangeScale;
+                var lineY = zeroY - key * rangeScale;
 
-                var label = new JLabel(text, rangeMarker.icon(), SwingConstants.LEADING);
+                var label = new JLabel(marker.label(), marker.icon(), SwingConstants.LEADING);
 
                 label.setIconTextGap(2);
 
