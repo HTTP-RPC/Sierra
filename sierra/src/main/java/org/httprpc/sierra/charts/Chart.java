@@ -1259,28 +1259,13 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 var labelX = (int)Math.round(lineX - (double)size.width / 2);
                 var labelY = gridY + gridHeight - (size.height + SPACING);
 
+                // TODO
+
                 label.setBounds(labelX, (int)labelY, size.width, size.height);
 
                 rangeMarkerLabels.add(label);
 
-                var left = (int)gridX + SPACING;
-
-                if (labelX < left) {
-                    label.setLocation(left, (int)labelY);
-                } else {
-                    var right = (int)(gridX + gridWidth) - SPACING;
-
-                    if (labelX + size.width > right) {
-                        label.setLocation(right - size.width, (int)labelY);
-                    } else {
-                        var lineY1 = labelY - SPACING;
-                        var lineY2 = gridY + SPACING;
-
-                        if (lineY2 < lineY1) {
-                            rangeMarkerLines.add(new Line2D.Double(lineX, lineY1, lineX, lineY2));
-                        }
-                    }
-                }
+                // TODO
             } else {
                 var lineY = zeroY - key * rangeScale;
 
@@ -1296,27 +1281,23 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 var labelX = (int)gridX + SPACING;
                 var labelY = (int)lineY - size.height / 2;
 
+                var lineX1 = labelX + SPACING;
+                var lineX2 = gridX + gridWidth - SPACING;
+
+                if (labelY < gridY) {
+                    labelY = (int)lineY;
+                } else if (labelY + size.height > gridY + gridHeight) {
+                    labelY = (int)lineY - size.height;
+                } else {
+                    lineX1 += size.width;
+                }
+
                 label.setBounds(labelX, labelY, size.width, size.height);
 
                 rangeMarkerLabels.add(label);
 
-                var top = (int)gridY + SPACING;
-
-                if (labelY < top) {
-                    label.setLocation(labelX, top);
-                } else {
-                    var bottom = (int)(gridY + gridHeight) - SPACING;
-
-                    if (labelY + size.height > bottom) {
-                        label.setLocation(labelX, bottom - size.height);
-                    } else {
-                        var lineX1 = gridX + label.getWidth() + SPACING * 2;
-                        var lineX2 = gridX + gridWidth - SPACING;
-
-                        if (lineX2 > lineX1) {
-                            rangeMarkerLines.add(new Line2D.Double(lineX1, lineY, lineX2, lineY));
-                        }
-                    }
+                if (lineX2 > lineX1) {
+                    rangeMarkerLines.add(new Line2D.Double(lineX1, lineY, lineX2, lineY));
                 }
             }
         }
@@ -1411,7 +1392,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         graphics = (Graphics2D)graphics.create();
 
         graphics.translate(component.getX(), component.getY());
-        graphics.clipRect(0, 0, component.getWidth(), component.getHeight());
 
         component.paint(graphics);
 
