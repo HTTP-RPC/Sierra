@@ -17,7 +17,6 @@ package org.httprpc.sierra.charts;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
 import java.util.List;
 import java.util.function.Function;
 
@@ -32,9 +31,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
     Function<Number, K> domainKeyTransform;
 
     private List<JLabel> domainMarkerLabels = listOf();
-
-    private List<JLabel> rangeMarkerLabels = listOf();
-    private List<Line2D.Double> rangeMarkerLines = listOf();
 
     XYChart(Function<K, Number> domainValueTransform, Function<Number, K> domainKeyTransform) {
         this.domainValueTransform = domainValueTransform;
@@ -115,30 +111,24 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         super.validateGrid();
     }
 
+    @Override
     void validateMarkers() {
-        domainMarkerLabels.clear();
+        super.validateMarkers();
 
-        rangeMarkerLabels.clear();
-        rangeMarkerLines.clear();
+        domainMarkerLabels.clear();
 
         var markerColor = getMarkerColor();
         var markerFont = getMarkerFont();
 
         var gridBounds = getGridBounds();
 
-        var gridX = gridBounds.getX();
         var gridY = gridBounds.getY();
 
-        var gridWidth = gridBounds.getWidth();
         var gridHeight = gridBounds.getHeight();
 
         var domainScale = getDomainScale();
-        var rangeScale = getRangeScale();
 
-        var origin = getOrigin();
-
-        var zeroX = origin.getX();
-        var zeroY = origin.getY();
+        var zeroX = getOrigin().getX();
 
         for (var entry : getDomainMarkers().entrySet()) {
             var key = entry.getKey();
@@ -167,48 +157,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
             domainMarkerLabels.add(label);
         }
-
-        for (var entry : getRangeMarkers().entrySet()) {
-            var key = entry.getKey();
-            var marker = entry.getValue();
-
-            var lineY = zeroY - key * rangeScale;
-
-            var label = new JLabel(marker.label(), marker.icon(), SwingConstants.LEADING);
-
-            label.setIconTextGap(2);
-
-            label.setForeground(markerColor);
-            label.setFont(markerFont);
-
-            var size = label.getPreferredSize();
-
-            var labelX = (int)gridX + SPACING;
-            var labelY = (int)lineY - size.height / 2;
-
-            label.setBounds(labelX, labelY, size.width, size.height);
-
-            rangeMarkerLabels.add(label);
-
-            var top = (int)gridY + SPACING;
-
-            if (labelY < top) {
-                label.setLocation(labelX, top);
-            } else {
-                var bottom = (int)(gridY + gridHeight) - SPACING;
-
-                if (labelY + size.height > bottom) {
-                    label.setLocation(labelX, bottom - size.height);
-                } else {
-                    var lineX1 = gridX + label.getWidth() + SPACING * 2;
-                    var lineX2 = gridX + gridWidth - SPACING;
-
-                    if (lineX2 > lineX1) {
-                        rangeMarkerLines.add(new Line2D.Double(lineX1, lineY, lineX2, lineY));
-                    }
-                }
-            }
-        }
     }
 
     @Override
@@ -218,20 +166,12 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         super.drawGrid(graphics);
     }
 
+    @Override
     void drawMarkers(Graphics2D graphics) {
-        graphics.setColor(getMarkerColor());
-        graphics.setStroke(getMarkerStroke());
+        super.drawMarkers(graphics);
 
         for (var domainMarkerLabel : domainMarkerLabels) {
             paintComponent(graphics, domainMarkerLabel);
-        }
-
-        for (var label : rangeMarkerLabels) {
-            paintComponent(graphics, label);
-        }
-
-        for (var rangeMarkerLine : rangeMarkerLines) {
-            graphics.draw(rangeMarkerLine);
         }
     }
 }
