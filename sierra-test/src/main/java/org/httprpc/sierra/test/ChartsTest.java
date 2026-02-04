@@ -18,7 +18,6 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.sierra.ChartPane;
-import org.httprpc.sierra.Orientation;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.RowPanel;
 import org.httprpc.sierra.UILoader;
@@ -134,7 +133,7 @@ public class ChartsTest extends JFrame implements Runnable {
         var horizontal = coalesce(map(System.getProperty("horizontal"), Boolean::valueOf), () -> false);
         var stacked = coalesce(map(System.getProperty("stacked"), Boolean::valueOf), () -> false);
 
-        var barChart = new BarChart<Month, Double>(horizontal ? Orientation.HORIZONTAL : Orientation.VERTICAL, stacked);
+        var barChart = new BarChart<Month, Double>(horizontal, stacked);
 
         barChart.setBarTransparency(0.75);
 
@@ -245,8 +244,8 @@ public class ChartsTest extends JFrame implements Runnable {
             icon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> timeSeriesChart.getMarkerColor()));
 
             timeSeriesChart.setDomainMarkers(sortedMapOf(
-                entry((int)(Math.random() * n), new Chart.Marker("Marker 1", icon)),
-                entry((int)(Math.random() * n), new Chart.Marker("Marker 2", icon))
+                entry(100, new Chart.Marker("Marker 1", icon)),
+                entry(200, new Chart.Marker("Marker 2", icon))
             ));
         }
 

@@ -15,7 +15,6 @@
 package org.httprpc.sierra.charts;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import org.httprpc.sierra.Orientation;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
@@ -48,7 +47,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testPositiveValuesHorizontal() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.HORIZONTAL, false);
+        var chart = new BarChart<Integer, Integer>(true, false);
 
         var dataSet = new DataSet<Integer, Integer>("Positive Values", Color.RED);
 
@@ -86,7 +85,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testNegativeValuesHorizontal() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.HORIZONTAL, false);
+        var chart = new BarChart<Integer, Integer>(true, false);
 
         var dataSet = new DataSet<Integer, Integer>("Negative Values", Color.RED);
 
@@ -124,7 +123,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testMixedValuesHorizontal() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.HORIZONTAL, false);
+        var chart = new BarChart<Integer, Integer>(true, false);
 
         var dataSet = new DataSet<Integer, Integer>("Mixed Values", Color.RED);
 
@@ -167,7 +166,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testMissingValueHorizontal() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.HORIZONTAL, false);
+        var chart = new BarChart<Integer, Integer>(true, false);
 
         var dataSet1 = new DataSet<Integer, Integer>("Data Set 1", Color.RED);
 
@@ -208,7 +207,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testZeroValuesHorizontal() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.HORIZONTAL, false);
+        var chart = new BarChart<Integer, Integer>(true, false);
 
         var dataSet = new DataSet<Integer, Integer>("Zero Values", Color.RED);
 
@@ -236,7 +235,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testNoValuesHorizontal() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.HORIZONTAL, false);
+        var chart = new BarChart<Integer, Integer>(true, false);
 
         var dataSet = new DataSet<Integer, Integer>("No Values", Color.RED);
 
@@ -274,7 +273,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testPositiveValuesStacked() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.VERTICAL, true);
+        var chart = new BarChart<Integer, Integer>(false, true);
 
         var dataSet1 = new DataSet<Integer, Integer>("Data Set 1", Color.RED);
 
@@ -307,7 +306,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testPositiveValuesHorizontalStacked() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.HORIZONTAL, true);
+        var chart = new BarChart<Integer, Integer>(true, true);
 
         var dataSet1 = new DataSet<Integer, Integer>("Data Set 1", Color.RED);
 
@@ -340,7 +339,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testNegativeValuesStacked() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.VERTICAL, true);
+        var chart = new BarChart<Integer, Integer>(false, true);
 
         var dataSet1 = new DataSet<Integer, Integer>("Data Set 1", Color.RED);
 
@@ -373,7 +372,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testNegativeValuesHorizontalStacked() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.HORIZONTAL, true);
+        var chart = new BarChart<Integer, Integer>(true, true);
 
         var dataSet1 = new DataSet<Integer, Integer>("Data Set 1", Color.RED);
 
@@ -406,7 +405,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testMixedValuesStacked() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.VERTICAL, true);
+        var chart = new BarChart<Integer, Integer>(false, true);
 
         var dataSet1 = new DataSet<Integer, Integer>("Data Set 1", Color.RED);
 
@@ -439,7 +438,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testMixedValuesHorizontalStacked() throws Exception {
-        var chart = new BarChart<Integer, Integer>(Orientation.HORIZONTAL, true);
+        var chart = new BarChart<Integer, Integer>(true, true);
 
         var dataSet1 = new DataSet<Integer, Integer>("Data Set 1", Color.RED);
 
@@ -563,7 +562,7 @@ public class BarChartTest extends ChartTest {
 
     @Test
     public void testRangeMarkersHorizontal() throws Exception {
-        var chart = new BarChart<Integer, Double>(Orientation.HORIZONTAL, false);
+        var chart = new BarChart<Integer, Double>(true, false);
 
         var dataSet = new DataSet<Integer, Double>("Data Set", Color.RED);
 

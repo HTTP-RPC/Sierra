@@ -14,8 +14,6 @@
 
 package org.httprpc.sierra.charts;
 
-import org.httprpc.sierra.Orientation;
-
 import javax.swing.Icon;
 import java.awt.BasicStroke;
 import java.awt.Component;
@@ -87,7 +85,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
     }
 
-    private Orientation orientation;
+    private boolean horizontal;
     private boolean stacked;
 
     private double barTransparency = 1.0;
@@ -105,35 +103,31 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
      * Constructs a new bar chart.
      */
     public BarChart() {
-        this(Orientation.VERTICAL, false);
+        this(false, false);
     }
 
     /**
      * Constructs a new bar chart.
      *
-     * @param orientation
-     * The chart's orientation.
+     * @param horizontal
+     * {@code true} for a horizontal bar chart; {@code false}, otherwise.
      *
      * @param stacked
      * {@code true} for a stacked bar chart; {@code false}, otherwise.
      */
-    public BarChart(Orientation orientation, boolean stacked) {
-        if (orientation == null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.orientation = orientation;
+    public BarChart(boolean horizontal, boolean stacked) {
+        this.horizontal = horizontal;
         this.stacked = stacked;
     }
 
     /**
-     * Returns the chart's orientation.
+     * Indicates that the chart is horizontal.
      *
      * @return
-     * The chart's orientation.
+     * {@code true} if the chart is stacked; {@code false}, otherwise.
      */
-    public Orientation getOrientation() {
-        return orientation;
+    public boolean isHorizontal() {
+        return horizontal;
     }
 
     /**
@@ -177,7 +171,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     @Override
     boolean isTransposed() {
-        return orientation == Orientation.HORIZONTAL;
+        return horizontal;
     }
 
     @Override
