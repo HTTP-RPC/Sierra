@@ -1246,24 +1246,23 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 var labelX = (int)lineX - size.width / 2;
                 var labelY = (int)gridY + SPACING;
 
-                var lineY1 = labelY;
-                var lineY2 = gridY + gridHeight - SPACING;
+                var lineY1 = gridY;
 
                 if (labelX < gridX) {
                     labelX = (int)lineX + SPACING;
                 } else if (labelX + size.width > gridX + gridWidth) {
                     labelX = (int)lineX - (size.width + SPACING);
                 } else {
-                    lineY1 += size.height + SPACING;
+                    lineY1 += size.height + SPACING * 2;
                 }
 
                 label.setBounds(labelX, labelY, size.width, size.height);
 
                 rangeMarkerLabels.add(label);
 
-                if (lineY2 > lineY1) {
-                    rangeMarkerLines.add(new Line2D.Double(lineX, lineY1, lineX, lineY2));
-                }
+                var lineY2 = Math.max(gridY + gridHeight, lineY1);
+
+                rangeMarkerLines.add(new Line2D.Double(lineX, lineY1, lineX, lineY2));
             } else {
                 var lineY = zeroY - rangeValue * rangeScale;
 
