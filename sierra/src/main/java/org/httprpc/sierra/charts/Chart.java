@@ -1228,74 +1228,46 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
             var marker = entry.getValue();
 
+            var label = new JLabel(marker.text(), marker.icon(), SwingConstants.CENTER);
+
+            label.setIconTextGap(2);
+
+            label.setForeground(markerColor);
+            label.setFont(markerFont);
+
+            var size = label.getPreferredSize();
+
+            Line2D.Double line;
             if (isTransposed()) {
                 var lineX = zeroX + rangeValue * rangeScale;
 
-                var label = new JLabel(marker.text(), marker.icon(), SwingConstants.CENTER);
-
-                label.setHorizontalTextPosition(SwingConstants.CENTER);
-                label.setVerticalAlignment(SwingConstants.CENTER);
-                label.setVerticalTextPosition(SwingConstants.BOTTOM);
-                label.setIconTextGap(2);
-
-                label.setForeground(markerColor);
-                label.setFont(markerFont);
-
-                var size = label.getPreferredSize();
-
-                var labelX = (int)lineX - size.width / 2;
-                var labelY = (int)gridY + SPACING;
-
-                var lineY1 = gridY;
-
-                if (labelX < gridX) {
+                int labelX;
+                if (lineX < gridX + gridWidth / 2) {
                     labelX = (int)lineX + SPACING;
-                } else if (labelX + size.width > gridX + gridWidth) {
-                    labelX = (int)lineX - (size.width + SPACING);
                 } else {
-                    lineY1 += size.height + SPACING * 2;
+                    labelX = (int)lineX - (size.width + SPACING);
                 }
 
-                label.setBounds(labelX, labelY, size.width, size.height);
+                label.setBounds(labelX, (int)gridY + SPACING, size.width, size.height);
 
-                rangeMarkerLabels.add(label);
-
-                var lineY2 = Math.max(gridY + gridHeight, lineY1);
-
-                rangeMarkerLines.add(new Line2D.Double(lineX, lineY1, lineX, lineY2));
+                line = new Line2D.Double(lineX, gridY + SPACING, lineX, gridY + gridHeight - SPACING);
             } else {
                 var lineY = zeroY - rangeValue * rangeScale;
 
-                var label = new JLabel(marker.text(), marker.icon(), SwingConstants.LEADING);
-
-                label.setIconTextGap(2);
-
-                label.setForeground(markerColor);
-                label.setFont(markerFont);
-
-                var size = label.getPreferredSize();
-
-                var labelX = (int)gridX + SPACING;
-                var labelY = (int)lineY - size.height / 2;
-
-                var lineX1 = gridX;
-
-                if (labelY < gridY) {
+                int labelY;
+                if (lineY < gridY + gridHeight / 2) {
                     labelY = (int)lineY + SPACING / 2;
-                } else if (labelY + size.height > gridY + gridHeight) {
-                    labelY = (int)lineY - (size.height + SPACING / 2);
                 } else {
-                    lineX1 += size.width + SPACING * 2;
+                    labelY = (int)lineY - (size.height + SPACING / 2);
                 }
 
-                label.setBounds(labelX, labelY, size.width, size.height);
+                label.setBounds((int)gridX + SPACING, labelY, size.width, size.height);
 
-                rangeMarkerLabels.add(label);
-
-                var lineX2 = Math.max(gridX + gridWidth, lineX1);
-
-                rangeMarkerLines.add(new Line2D.Double(lineX1, lineY, lineX2, lineY));
+                line = new Line2D.Double(gridX + SPACING, lineY, gridX + gridWidth - SPACING, lineY);
             }
+
+            rangeMarkerLabels.add(label);
+            rangeMarkerLines.add(line);
         }
     }
 

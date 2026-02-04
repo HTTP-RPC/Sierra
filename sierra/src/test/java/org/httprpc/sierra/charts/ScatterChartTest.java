@@ -192,7 +192,6 @@ public class ScatterChartTest extends ChartTest {
         chart.setRangeMarkers(sortedMapOf(
             entry(0.1, new Chart.Marker("Bottom", icon)),
             entry(20.0, new Chart.Marker("20", null)),
-            entry(30.0, new Chart.Marker("Center", icon)),
             entry(40.0, new Chart.Marker("40", null)),
             entry(59.9, new Chart.Marker("Top", icon))
         ));
