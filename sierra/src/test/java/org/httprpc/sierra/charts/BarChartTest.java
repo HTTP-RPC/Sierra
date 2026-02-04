@@ -553,7 +553,9 @@ public class BarChartTest extends ChartTest {
 
         chart.setRangeMarkers(sortedMapOf(
             entry(0.1, new Chart.Marker("Bottom", icon)),
+            entry(10.0, new Chart.Marker("10", null)),
             entry(15.0, new Chart.Marker("Center", icon)),
+            entry(20.0, new Chart.Marker("20", null)),
             entry(29.9, new Chart.Marker("Top", icon))
         ));
 

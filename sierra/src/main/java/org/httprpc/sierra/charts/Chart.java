@@ -1224,11 +1224,12 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var zeroY = origin.getY();
 
         for (var entry : getRangeMarkers().entrySet()) {
-            var key = entry.getKey();
+            var rangeValue = entry.getKey();
+
             var marker = entry.getValue();
 
             if (isTransposed()) {
-                var lineX = zeroX + key * rangeScale;
+                var lineX = zeroX + rangeValue * rangeScale;
 
                 var label = new JLabel(marker.text(), marker.icon(), SwingConstants.CENTER);
 
@@ -1264,7 +1265,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                     rangeMarkerLines.add(new Line2D.Double(lineX, lineY1, lineX, lineY2));
                 }
             } else {
-                var lineY = zeroY - key * rangeScale;
+                var lineY = zeroY - rangeValue * rangeScale;
 
                 var label = new JLabel(marker.text(), marker.icon(), SwingConstants.LEADING);
 
@@ -1278,24 +1279,23 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 var labelX = (int)gridX + SPACING;
                 var labelY = (int)lineY - size.height / 2;
 
-                var lineX1 = labelX;
-                var lineX2 = gridX + gridWidth - SPACING;
+                var lineX1 = gridX;
 
                 if (labelY < gridY) {
                     labelY = (int)lineY + SPACING / 2;
                 } else if (labelY + size.height > gridY + gridHeight) {
                     labelY = (int)lineY - (size.height + SPACING / 2);
                 } else {
-                    lineX1 += size.width + SPACING;
+                    lineX1 += size.width + SPACING * 2;
                 }
 
                 label.setBounds(labelX, labelY, size.width, size.height);
 
                 rangeMarkerLabels.add(label);
 
-                if (lineX2 > lineX1) {
-                    rangeMarkerLines.add(new Line2D.Double(lineX1, lineY, lineX2, lineY));
-                }
+                var lineX2 = Math.max(gridX + gridWidth, lineX1);
+
+                rangeMarkerLines.add(new Line2D.Double(lineX1, lineY, lineX2, lineY));
             }
         }
     }
