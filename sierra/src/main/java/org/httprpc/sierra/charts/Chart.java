@@ -848,6 +848,22 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     public abstract void validate();
 
+    SortedSet<K> getKeys() {
+        return null;
+    }
+
+    Function<K, Number> getDomainValueTransform() {
+        return null;
+    }
+
+    Function<Number, K> getDomainKeyTransform() {
+        return null;
+    }
+
+    boolean isTransposed() {
+        return false;
+    }
+
     void validateGrid() {
         var domainValueTransform = getDomainValueTransform();
 
@@ -995,22 +1011,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         return new Insets(0, left + SPACING, bottom + SPACING, 0);
-    }
-
-    SortedSet<K> getKeys() {
-        return null;
-    }
-
-    Function<K, Number> getDomainValueTransform() {
-        return null;
-    }
-
-    Function<Number, K> getDomainKeyTransform() {
-        return null;
-    }
-
-    boolean isTransposed() {
-        return false;
     }
 
     Rectangle2D.Double getGridBounds() {

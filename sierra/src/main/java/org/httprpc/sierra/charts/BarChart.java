@@ -24,6 +24,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
 import java.util.TreeMap;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -32,7 +33,7 @@ import static org.httprpc.kilo.util.Optionals.*;
 /**
  * Bar chart.
  */
-public class BarChart<K extends Comparable<? super K>, V extends Number> extends CategoryChart<K, V> {
+public class BarChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> {
     /**
      * Bar chart legend icon.
      */
@@ -90,6 +91,8 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     private boolean stacked;
 
     private double barTransparency = 1.0;
+
+    private SortedSet<K> keys = sortedSetOf();
 
     private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
@@ -165,6 +168,16 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
 
         this.barTransparency = barTransparency;
+    }
+
+    @Override
+    SortedSet<K> getKeys() {
+        return keys;
+    }
+
+    @Override
+    boolean isTransposed() {
+        return orientation == Orientation.HORIZONTAL;
     }
 
     @Override
@@ -370,11 +383,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
 
         validateMarkers();
-    }
-
-    @Override
-    boolean isTransposed() {
-        return orientation == Orientation.HORIZONTAL;
     }
 
     @Override

@@ -178,6 +178,8 @@ public class ScatterChart<K extends Comparable<? super K>, V extends Number> ext
 
         var zeroY = getOrigin().getY();
 
+        var domainValueTransform = getDomainValueTransform();
+
         var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
 
         for (var dataSet : getDataSets()) {

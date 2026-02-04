@@ -23,13 +23,14 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
 
 import static org.httprpc.kilo.util.Collections.*;
 
 /**
  * Candlestick chart.
  */
-public class CandlestickChart<K extends Comparable<? super K>> extends CategoryChart<K, OHLC> {
+public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, OHLC> {
     /**
      * Candlestick chart legend icon.
      */
@@ -89,6 +90,8 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
 
     private double bodyTransparency = 1.0;
 
+    private SortedSet<K> keys = sortedSetOf();
+
     private List<List<Rectangle2D.Double>> bodyRectangles = listOf();
 
     private List<List<Line2D.Double>> highWickLines = listOf();
@@ -123,6 +126,11 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
         }
 
         this.bodyTransparency = bodyTransparency;
+    }
+
+    @Override
+    SortedSet<K> getKeys() {
+        return keys;
     }
 
     @Override

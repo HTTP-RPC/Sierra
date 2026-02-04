@@ -143,6 +143,8 @@ public class TimeSeriesChart<K extends Comparable<? super K>, V extends Number> 
 
         var zeroY = getOrigin().getY();
 
+        var domainValueTransform = getDomainValueTransform();
+
         var domainMinimum = domainValueTransform.apply(getDomainBounds().minimum()).doubleValue();
 
         for (var dataSet : getDataSets()) {

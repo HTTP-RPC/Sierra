@@ -27,8 +27,8 @@ import static org.httprpc.kilo.util.Optionals.*;
  * Abstract base class for XY charts.
  */
 public abstract class XYChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> {
-    Function<K, Number> domainValueTransform;
-    Function<Number, K> domainKeyTransform;
+    private Function<K, Number> domainValueTransform;
+    private Function<Number, K> domainKeyTransform;
 
     private List<JLabel> domainMarkerLabels = listOf();
 
@@ -37,25 +37,13 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         this.domainKeyTransform = domainKeyTransform;
     }
 
-    /**
-     * Returns the domain value transform.
-     *
-     * @return
-     * The domain value transform.
-     */
     @Override
-    public Function<K, Number> getDomainValueTransform() {
+    Function<K, Number> getDomainValueTransform() {
         return domainValueTransform;
     }
 
-    /**
-     * Returns the domain key transform.
-     *
-     * @return
-     * The domain key transform.
-     */
     @Override
-    public Function<Number, K> getDomainKeyTransform() {
+    Function<Number, K> getDomainKeyTransform() {
         return domainKeyTransform;
     }
 
