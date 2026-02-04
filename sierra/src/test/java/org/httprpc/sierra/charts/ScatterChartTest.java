@@ -160,8 +160,8 @@ public class ScatterChartTest extends ChartTest {
         icon = icon.derive(18, 18);
 
         chart.setDomainMarkers(sortedMapOf(
-            entry(1.5, new Chart.Marker(null, icon)),
-            entry(4.5, new Chart.Marker(null, icon))
+            entry(1.5, new Chart.Marker("First", icon)),
+            entry(4.5, new Chart.Marker("Second", icon))
         ));
 
         compare("scatter-chart-domain-markers.svg", chart);

@@ -119,12 +119,9 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
         var zeroX = getOrigin().getX();
 
         for (var entry : getDomainMarkers().entrySet()) {
-            var key = entry.getKey();
+            var domainValue = domainValueTransform.apply(entry.getKey()).doubleValue();
+
             var marker = entry.getValue();
-
-            var domainValue = domainValueTransform.apply(key).doubleValue();
-
-            var lineX = zeroX + domainValue * domainScale;
 
             var label = new JLabel(marker.text(), marker.icon(), SwingConstants.CENTER);
 
@@ -138,10 +135,10 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
             var size = label.getPreferredSize();
 
-            var labelX = (int)Math.round(lineX - (double)size.width / 2);
-            var labelY = gridY + gridHeight - (size.height + SPACING);
+            var labelX = (int)(zeroX + domainValue * domainScale) - size.width / 2;
+            var labelY = (int)(gridY + gridHeight) - (size.height + SPACING);
 
-            label.setBounds(labelX, (int)labelY, size.width, size.height);
+            label.setBounds(labelX, labelY, size.width, size.height);
 
             domainMarkerLabels.add(label);
         }
