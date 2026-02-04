@@ -1040,9 +1040,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private void populateDomainTextPanes() {
         var domainTextPanes = getDomainTextPanes();
 
-        var domainLabelTransform = getDomainLabelTransform();
-        var domainLabelFont = getDomainLabelFont();
-
         var keys = getKeys();
 
         if (keys == null) {
@@ -1051,8 +1048,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
             var domainMinimum = domainValueTransform.apply(domainBounds.minimum()).doubleValue();
             var domainMaximum = domainValueTransform.apply(domainBounds.maximum()).doubleValue();
-
-            var domainLabelCount = getDomainLabelCount();
 
             var domainStep = (domainMaximum - domainMinimum) / (domainLabelCount - 1);
 
@@ -1219,20 +1214,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         rangeMarkerLabels.clear();
         rangeMarkerLines.clear();
 
-        var markerColor = getMarkerColor();
-        var markerFont = getMarkerFont();
-
-        var gridBounds = getGridBounds();
-
         var gridX = gridBounds.getX();
         var gridY = gridBounds.getY();
 
         var gridWidth = gridBounds.getWidth();
         var gridHeight = gridBounds.getHeight();
-
-        var rangeScale = getRangeScale();
-
-        var origin = getOrigin();
 
         var zeroX = origin.getX();
         var zeroY = origin.getY();
