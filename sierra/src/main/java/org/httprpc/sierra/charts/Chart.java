@@ -54,20 +54,20 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      * Represents a chart marker.
      */
     public record Marker(
-        String label,
+        String text,
         Icon icon
     ) {
         /**
          * Constructs a new marker instance.
          *
-         * @param label
-         * The marker label.
+         * @param text
+         * The marker text.
          *
          * @param icon
          * The marker icon.
          */
         public Marker {
-            if (label == null && icon == null) {
+            if (text == null && icon == null) {
                 throw new IllegalArgumentException();
             }
         }
@@ -1244,7 +1244,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             if (isTransposed()) {
                 var lineX = zeroX + key * rangeScale;
 
-                var label = new JLabel(marker.label(), marker.icon(), SwingConstants.CENTER);
+                var label = new JLabel(marker.text(), marker.icon(), SwingConstants.CENTER);
 
                 label.setHorizontalTextPosition(SwingConstants.CENTER);
                 label.setVerticalAlignment(SwingConstants.CENTER);
@@ -1280,7 +1280,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             } else {
                 var lineY = zeroY - key * rangeScale;
 
-                var label = new JLabel(marker.label(), marker.icon(), SwingConstants.LEADING);
+                var label = new JLabel(marker.text(), marker.icon(), SwingConstants.LEADING);
 
                 label.setIconTextGap(2);
 

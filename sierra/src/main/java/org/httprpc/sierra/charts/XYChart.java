@@ -126,7 +126,7 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
             var lineX = zeroX + domainValue * domainScale;
 
-            var label = new JLabel(marker.label(), marker.icon(), SwingConstants.CENTER);
+            var label = new JLabel(marker.text(), marker.icon(), SwingConstants.CENTER);
 
             label.setHorizontalTextPosition(SwingConstants.CENTER);
             label.setVerticalAlignment(SwingConstants.CENTER);
