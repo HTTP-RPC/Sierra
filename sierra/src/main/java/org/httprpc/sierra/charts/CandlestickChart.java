@@ -30,7 +30,7 @@ import static org.httprpc.kilo.util.Collections.*;
 /**
  * Candlestick chart.
  */
-public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, OHLC> {
+public class CandlestickChart<K extends Comparable<? super K>> extends CategoryChart<K, OHLC> {
     /**
      * Candlestick chart legend icon.
      */

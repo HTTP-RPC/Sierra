@@ -31,7 +31,7 @@ import static org.httprpc.kilo.util.Optionals.*;
 /**
  * Bar chart.
  */
-public class BarChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> {
+public class BarChart<K extends Comparable<? super K>, V extends Number> extends CategoryChart<K, V> {
     /**
      * Bar chart legend icon.
      */

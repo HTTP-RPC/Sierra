@@ -93,7 +93,7 @@ Pie charts can also be presented as a doughnut:
 The `BarChart` class displays a bar chart:
 
 ```java
-public class BarChart<K extends Comparable<? super K>, V extends Number> extends Chart<K, V> { ... }
+public class BarChart<K extends Comparable<? super K>, V extends Number> extends CategoryChart<K, V> { ... }
 ```
 
 <img src="README/charts/bar.png" width="630">
@@ -145,7 +145,7 @@ Linear trend lines may optionally be shown to help draw a correlation between th
 The `CandlestickChart` class displays a collection of OHLC (open, high, low, close) values:
 
 ```java
-public class CandlestickChart<K extends Comparable<? super K>> extends Chart<K, OHLC> { ... }
+public class CandlestickChart<K extends Comparable<? super K>> extends CategoryChart<K, OHLC> { ... }
 ```
 
 Candlestick charts are typically used to present historical pricing information. The box (or "body") represents the opening and closing values. A hollow body indicates a positive trend (a value where the closing price is higher than the opening price). A solid body represents a negative trend (a value where the closing price is lower than the opening price). The "wick" lines above and below the body represent the high and low values, respectively:

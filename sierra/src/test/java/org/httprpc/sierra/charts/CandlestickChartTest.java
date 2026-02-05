@@ -170,13 +170,43 @@ public class CandlestickChartTest extends ChartTest {
     }
 
     @Test
+    public void testDomainMarkers() throws Exception {
+        var chart = new CandlestickChart<LocalDate>();
+
+        var dataSet = new DataSet<LocalDate, OHLC>("Values", Color.RED);
+
+        dataSet.setDataPoints(sortedMapOf(
+            entry(LocalDate.of(2025, 12, 17), new OHLC(10, 30, 0, 20)),
+            entry(LocalDate.of(2025, 12, 18), new OHLC(20, 30, 0, 10))
+        ));
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+
+        chart.setDomainLabelTransform(dateFormatter::format);
+
+        chart.setDataSets(listOf(dataSet));
+
+        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+
+        icon = icon.derive(18, 18);
+
+        chart.setDomainMarkers(sortedMapOf(
+            entry(dataSet.getDataPoints().firstKey(), new Chart.Marker("First", icon)),
+            entry(dataSet.getDataPoints().lastKey(), new Chart.Marker("Last", icon))
+        ));
+
+        compare("candlestick-chart-domain-markers.svg", chart);
+    }
+
+    @Test
     public void testRangeMarkers() throws Exception {
         var chart = new CandlestickChart<LocalDate>();
 
         var dataSet = new DataSet<LocalDate, OHLC>("Values", Color.RED);
 
         dataSet.setDataPoints(sortedMapOf(
-            entry(LocalDate.of(2025, 12, 17), new OHLC(20, 30, 0, 10))
+            entry(LocalDate.of(2025, 12, 17), new OHLC(10, 30, 0, 20)),
+            entry(LocalDate.of(2025, 12, 18), new OHLC(20, 30, 0, 10))
         ));
 
         var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);

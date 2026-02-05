@@ -1267,6 +1267,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             }
 
             rangeMarkerLabels.add(label);
+
             rangeMarkerLines.add(line);
         }
     }
