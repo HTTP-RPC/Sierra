@@ -124,7 +124,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
      * Indicates that the chart is horizontal.
      *
      * @return
-     * {@code true} if the chart is stacked; {@code false}, otherwise.
+     * {@code true} if the chart is horizontal; {@code false}, otherwise.
      */
     public boolean isHorizontal() {
         return horizontal;
