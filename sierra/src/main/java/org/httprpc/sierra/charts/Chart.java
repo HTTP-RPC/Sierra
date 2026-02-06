@@ -916,8 +916,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             margins = getPreferredMargins();
         }
 
-        var horizontalGridLineWidth = (double)getHorizontalGridLineStroke().getLineWidth();
-        var verticalGridLineWidth = (double)getVerticalGridLineStroke().getLineWidth();
+        var horizontalGridLineWidth = (double)horizontalGridLineStroke.getLineWidth();
+        var verticalGridLineWidth = (double)verticalGridLineStroke.getLineWidth();
 
         var gridX = margins.left + verticalGridLineWidth / 2;
         var gridY = margins.top + horizontalGridLineWidth / 2;
@@ -1141,7 +1141,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     private void validateHorizontalAxisLabels() {
         var n = bottomAxisTextPanes.size();
 
-        var y = gridBounds.getY() + gridBounds.getHeight() + SPACING + getHorizontalGridLineStroke().getLineWidth();
+        var y = gridBounds.getY() + gridBounds.getHeight() + SPACING + horizontalGridLineStroke.getLineWidth();
 
         var baseX = gridBounds.getX();
 
@@ -1223,7 +1223,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var zeroX = origin.getX();
         var zeroY = origin.getY();
 
-        for (var entry : getRangeMarkers().entrySet()) {
+        for (var entry : rangeMarkers.entrySet()) {
             var rangeValue = entry.getKey();
 
             var marker = entry.getValue();
@@ -1275,31 +1275,31 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     abstract void drawChart(Graphics2D graphics);
 
     void drawGrid(Graphics2D graphics) {
-        if (getShowHorizontalGridLines()) {
-            graphics.setColor(getHorizontalGridLineColor());
-            graphics.setStroke(getHorizontalGridLineStroke());
+        if (showHorizontalGridLines) {
+            graphics.setColor(horizontalGridLineColor);
+            graphics.setStroke(horizontalGridLineStroke);
 
             for (var horizontalGridLine : horizontalGridLines) {
                 graphics.draw(horizontalGridLine);
             }
         }
 
-        if (getShowVerticalGridLines()) {
-            graphics.setColor(getVerticalGridLineColor());
-            graphics.setStroke(getVerticalGridLineStroke());
+        if (showVerticalGridLines) {
+            graphics.setColor(verticalGridLineColor);
+            graphics.setStroke(verticalGridLineStroke);
 
             for (var verticalGridLine : verticalGridLines) {
                 graphics.draw(verticalGridLine);
             }
         }
 
-        graphics.setColor(getDomainLabelColor());
+        graphics.setColor(domainLabelColor);
 
         for (var textPane : getDomainTextPanes()) {
             paintComponent(graphics, textPane);
         }
 
-        graphics.setColor(getRangeLabelColor());
+        graphics.setColor(rangeLabelColor);
 
         for (var textPane : getRangeTextPanes()) {
             paintComponent(graphics, textPane);
@@ -1326,8 +1326,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     void drawMarkers(Graphics2D graphics) {
-        graphics.setColor(getMarkerColor());
-        graphics.setStroke(getMarkerStroke());
+        graphics.setColor(markerColor);
+        graphics.setStroke(markerStroke);
 
         for (var label : rangeMarkerLabels) {
             paintComponent(graphics, label);
