@@ -161,7 +161,7 @@ public class TimePicker extends TemporalPicker {
 
     @Override
     protected void applyValue() {
-        setText(timeFormatter.format(TimePicker.this.time));
+        setText(timeFormatter.format(time));
     }
 
     /**

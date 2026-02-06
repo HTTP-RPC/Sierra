@@ -250,7 +250,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
         var n = stacked ? 1 : dataSets.size();
 
-        if (isTransposed()) {
+        if (horizontal) {
             var rowHeight = getRowHeight();
 
             var barHeight = (rowHeight / n) * 0.75;

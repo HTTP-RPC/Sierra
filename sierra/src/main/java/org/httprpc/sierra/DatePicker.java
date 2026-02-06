@@ -238,7 +238,7 @@ public class DatePicker extends TemporalPicker {
 
     @Override
     protected void applyValue() {
-        setText(dateFormatter.format(DatePicker.this.date));
+        setText(dateFormatter.format(date));
     }
 
     /**
