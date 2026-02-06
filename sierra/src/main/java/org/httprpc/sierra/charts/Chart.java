@@ -1232,7 +1232,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
             label.setIconTextGap(2);
 
-            label.setForeground(markerColor);
             label.setFont(markerFont);
 
             var size = label.getPreferredSize();
@@ -1326,15 +1325,17 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     void drawMarkers(Graphics2D graphics) {
-        graphics.setColor(markerColor);
-        graphics.setStroke(markerStroke);
-
         for (var label : rangeMarkerLabels) {
+            label.setForeground(markerColor);
+
             paintComponent(graphics, label);
         }
 
-        for (var rangeMarkerLine : rangeMarkerLines) {
-            graphics.draw(rangeMarkerLine);
+        graphics.setColor(markerColor);
+        graphics.setStroke(markerStroke);
+
+        for (var line : rangeMarkerLines) {
+            graphics.draw(line);
         }
     }
 

@@ -105,7 +105,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
         domainMarkerLabels.clear();
 
-        var markerColor = getMarkerColor();
         var markerFont = getMarkerFont();
 
         var gridBounds = getGridBounds();
@@ -130,7 +129,6 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
             label.setVerticalTextPosition(SwingConstants.BOTTOM);
             label.setIconTextGap(2);
 
-            label.setForeground(markerColor);
             label.setFont(markerFont);
 
             var size = label.getPreferredSize();
@@ -155,8 +153,12 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
     void drawMarkers(Graphics2D graphics) {
         super.drawMarkers(graphics);
 
-        for (var domainMarkerLabel : domainMarkerLabels) {
-            paintComponent(graphics, domainMarkerLabel);
+        var markerColor = getMarkerColor();
+
+        for (var label : domainMarkerLabels) {
+            label.setForeground(markerColor);
+
+            paintComponent(graphics, label);
         }
     }
 }
