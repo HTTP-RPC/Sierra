@@ -1310,7 +1310,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         var width = (int)Math.floor(verticalGridLines.getLast().getX1()) - x;
         var height = (int)Math.floor(horizontalGridLines.getLast().getY1()) - y;
 
-        graphics.setClip(x, y, width, height);
+        graphics.clipRect(x, y, width, height);
     }
 
     void drawZeroLine(Graphics2D graphics, Color color, BasicStroke stroke) {
