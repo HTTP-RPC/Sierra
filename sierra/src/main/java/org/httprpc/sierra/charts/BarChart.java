@@ -94,6 +94,11 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     private List<List<Rectangle2D.Double>> barRectangles = listOf();
 
+    private static final int DEFAULT_BAR_WIDTH = 24;
+    private static final int DEFAULT_BAR_HEIGHT = 18;
+
+    private static final double BAR_SIZE_RATIO = 0.75;
+
     private static final BasicStroke outlineStroke;
     static {
         outlineStroke = new BasicStroke(1.0f);
@@ -162,6 +167,34 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         }
 
         this.barTransparency = barTransparency;
+    }
+
+    @Override
+    public void sizeToFit() {
+        validate();
+
+        var m = keys.size();
+        var n = getDataSets().size();
+
+        var margins = getMargins();
+
+        if (horizontal) {
+            var rowHeight = DEFAULT_BAR_HEIGHT * n / BAR_SIZE_RATIO;
+
+            var preferredHeight = rowHeight * m
+                + margins.top + margins.bottom
+                + getHorizontalGridLineStroke().getLineWidth();
+
+            setSize(getWidth(), (int)Math.ceil(preferredHeight));
+        } else {
+            var columnWidth = DEFAULT_BAR_WIDTH * n / BAR_SIZE_RATIO;
+
+            var preferredWidth = columnWidth * m
+                + margins.left + margins.right
+                + getVerticalGridLineStroke().getLineWidth();
+
+            setSize((int)Math.ceil(preferredWidth), getHeight());
+        }
     }
 
     @Override
@@ -253,7 +286,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         if (horizontal) {
             var rowHeight = getRowHeight();
 
-            var barHeight = (rowHeight / n) * 0.75;
+            var barHeight = (rowHeight / n) * BAR_SIZE_RATIO;
             var barSpacing = (rowHeight - (barHeight * n)) / (n + 1);
 
             var i = 0;
@@ -315,7 +348,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
         } else {
             var columnWidth = getColumnWidth();
 
-            var barWidth = (columnWidth / n) * 0.75;
+            var barWidth = (columnWidth / n) * BAR_SIZE_RATIO;
             var barSpacing = (columnWidth - (barWidth * n)) / (n + 1);
 
             var i = 0;
