@@ -691,7 +691,7 @@ public class BarChartTest extends ChartTest {
         chart.setHeight(480);
         chart.sizeToFit();
 
-        compare("bar-chart-size-to-fit.svg", chart, false);
+        compare("bar-chart-size-to-fit.svg", chart, true);
     }
 
     @Test
@@ -719,6 +719,6 @@ public class BarChartTest extends ChartTest {
         chart.setWidth(640);
         chart.sizeToFit();
 
-        compare("bar-chart-size-to-fit-horizontal.svg", chart, false);
+        compare("bar-chart-size-to-fit-horizontal.svg", chart, true);
     }
 }

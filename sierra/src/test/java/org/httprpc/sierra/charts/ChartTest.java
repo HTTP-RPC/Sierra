@@ -45,11 +45,13 @@ public abstract class ChartTest {
     }
 
     public void compare(String name, Chart<?, ?> chart) throws Exception {
-        compare(name, chart, true);
+        compare(name, chart, false);
     }
 
-    public void compare(String name, Chart<?, ?> chart, boolean resize) throws Exception {
-        if (resize) {
+    public void compare(String name, Chart<?, ?> chart, boolean sizeToFit) throws Exception {
+        if (sizeToFit) {
+            chart.sizeToFit();
+        } else {
             chart.setSize(WIDTH, HEIGHT);
         }
 

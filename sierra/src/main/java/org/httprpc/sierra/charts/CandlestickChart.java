@@ -134,7 +134,9 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
 
     @Override
     public void sizeToFit() {
-        validate();
+        super.sizeToFit();
+
+        // TODO
 
         var m = keys.size();
         var n = getDataSets().size();

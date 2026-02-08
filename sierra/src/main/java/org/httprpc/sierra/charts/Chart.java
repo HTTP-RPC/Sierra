@@ -280,6 +280,15 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
+     * Sizes the chart to fit its contents.
+     */
+    public void sizeToFit() {
+        validate();
+
+        // TODO
+    }
+
+    /**
      * Returns the domain label count.
      *
      * @return

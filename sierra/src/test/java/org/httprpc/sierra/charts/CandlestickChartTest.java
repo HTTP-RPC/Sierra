@@ -281,6 +281,6 @@ public class CandlestickChartTest extends ChartTest {
         chart.setHeight(480);
         chart.sizeToFit();
 
-        compare("candlestick-chart-size-to-fit.svg", chart, false);
+        compare("candlestick-chart-size-to-fit.svg", chart, true);
     }
 }

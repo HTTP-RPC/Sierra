@@ -30,11 +30,6 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
     CategoryChart() {
     }
 
-    /**
-     * Sizes the chart to fit its contents.
-     */
-    public abstract void sizeToFit();
-
     @Override
     void validateMarkers() {
         super.validateMarkers();

@@ -171,7 +171,9 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
 
     @Override
     public void sizeToFit() {
-        validate();
+        super.sizeToFit();
+
+        // TODO
 
         var m = keys.size();
         var n = getDataSets().size();
