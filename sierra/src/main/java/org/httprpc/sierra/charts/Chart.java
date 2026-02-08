@@ -293,7 +293,13 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         columnWidth += SPACING * 4;
 
-        var preferredWidth = columnWidth * bottomAxisTextPanes.size()
+        var m = bottomAxisTextPanes.size();
+
+        if (getKeys() == null || isTransposed()) {
+            m += 2;
+        }
+
+        var preferredWidth = columnWidth * m
             + margins.left + margins.right
             + verticalGridLineStroke.getLineWidth();
 
