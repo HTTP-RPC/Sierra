@@ -291,7 +291,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             columnWidth = Math.max(columnWidth, label.getWidth());
         }
 
-        columnWidth += SPACING * 2;
+        columnWidth += SPACING * 4;
 
         var preferredWidth = columnWidth * bottomAxisTextPanes.size()
             + margins.left + margins.right
@@ -1223,7 +1223,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 maximumWidth = Math.max(maximumWidth, size.width);
             }
 
-            var showLabels = maximumWidth < columnWidth * 0.85;
+            var showLabels = maximumWidth < columnWidth - SPACING * 2;
 
             for (var i = 0; i < n; i++) {
                 var textPane = bottomAxisTextPanes.get(i);
