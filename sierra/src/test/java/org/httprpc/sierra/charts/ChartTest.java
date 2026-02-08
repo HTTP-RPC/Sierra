@@ -45,13 +45,7 @@ public abstract class ChartTest {
     }
 
     public void compare(String name, Chart<?, ?> chart) throws Exception {
-        compare(name, chart, true);
-    }
-
-    public void compare(String name, Chart<?, ?> chart, boolean resize) throws Exception {
-        if (resize) {
-            chart.setSize(WIDTH, HEIGHT);
-        }
+        chart.setSize(WIDTH, HEIGHT);
 
         var documentBuilder = ElementAdapter.newDocumentBuilder();
 

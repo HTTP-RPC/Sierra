@@ -97,8 +97,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
     private List<List<Line2D.Double>> highWickLines = listOf();
     private List<List<Line2D.Double>> lowWickLines = listOf();
 
-    private static final int DEFAULT_BODY_WIDTH = 12;
-
     private static final double BODY_WIDTH_RATIO = 0.25;
 
     private static final BasicStroke outlineStroke;
@@ -130,24 +128,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
         }
 
         this.bodyTransparency = bodyTransparency;
-    }
-
-    @Override
-    public void sizeToFit() {
-        validate();
-
-        var m = keys.size();
-        var n = getDataSets().size();
-
-        var margins = getMargins();
-
-        var columnWidth = DEFAULT_BODY_WIDTH * Math.sqrt(n) / BODY_WIDTH_RATIO;
-
-        var preferredWidth = columnWidth * m
-            + margins.left + margins.right
-            + getVerticalGridLineStroke().getLineWidth();
-
-        setSize((int)Math.ceil(preferredWidth), getHeight());
     }
 
     @Override

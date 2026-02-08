@@ -228,16 +228,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     }
 
     /**
-     * Sets the chart width.
-     *
-     * @param width
-     * The chart width.
-     */
-    public void setWidth(int width) {
-        setSize(width, height);
-    }
-
-    /**
      * Returns the chart height.
      *
      * @return
@@ -245,16 +235,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
      */
     public int getHeight() {
         return height;
-    }
-
-    /**
-     * Sets the chart height.
-     *
-     * @param height
-     * The chart height.
-     */
-    public void setHeight(int height) {
-        setSize(width, height);
     }
 
     /**

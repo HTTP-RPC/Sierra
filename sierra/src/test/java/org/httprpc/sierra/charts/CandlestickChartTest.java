@@ -18,7 +18,6 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
-import java.awt.Insets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -227,60 +226,5 @@ public class CandlestickChartTest extends ChartTest {
         ));
 
         compare("candlestick-chart-range-markers.svg", chart);
-    }
-
-    @Test
-    public void testCustomMargins() throws Exception {
-        var chart = new CandlestickChart<LocalDate>();
-
-        var dataSet = new DataSet<LocalDate, OHLC>("Values", Color.RED);
-
-        dataSet.setDataPoints(sortedMapOf(
-            entry(LocalDate.of(2025, 12, 17), new OHLC(10, 30, 0, 20))
-        ));
-
-        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
-
-        chart.setDomainLabelTransform(dateFormatter::format);
-
-        chart.setDataSets(listOf(dataSet));
-
-        chart.validate();
-
-        var margins = chart.getMargins();
-
-        chart.setMargins(new Insets(20, margins.left * 4, margins.bottom * 4, 20));
-
-        compare("candlestick-chart-custom-margins.svg", chart);
-    }
-
-    @Test
-    public void testSizeToFit() throws Exception {
-        var chart = new CandlestickChart<LocalDate>();
-
-        var dataSet1 = new DataSet<LocalDate, OHLC>("Data Set 1", Color.RED);
-
-        dataSet1.setDataPoints(sortedMapOf(
-            entry(LocalDate.of(2025, 12, 17), new OHLC(20, 30, 0, 10)),
-            entry(LocalDate.of(2025, 12, 18), new OHLC(10, 30, 0, 20))
-        ));
-
-        var dataSet2 = new DataSet<LocalDate, OHLC>("Data Set 2", Color.GREEN);
-
-        dataSet2.setDataPoints(sortedMapOf(
-            entry(LocalDate.of(2025, 12, 17), new OHLC(50, 70, 40, 60)),
-            entry(LocalDate.of(2025, 12, 18), new OHLC(60, 70, 40, 50))
-        ));
-
-        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
-
-        chart.setDomainLabelTransform(dateFormatter::format);
-
-        chart.setDataSets(listOf(dataSet1, dataSet2));
-
-        chart.setHeight(480);
-        chart.sizeToFit();
-
-        compare("candlestick-chart-size-to-fit.svg", chart, false);
     }
 }
