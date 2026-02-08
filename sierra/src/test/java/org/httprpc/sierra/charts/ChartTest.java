@@ -108,7 +108,10 @@ public abstract class ChartTest {
         var transformer = ElementAdapter.newTransformer();
 
         try (var outputStream = Files.newOutputStream(file)) {
-            transformer.transform(new DOMSource(getDocument(writer.toString())), new StreamResult(outputStream));
+            var width = chart.getWidth();
+            var height = chart.getHeight();
+
+            transformer.transform(new DOMSource(getDocument(writer.toString(), width, height)), new StreamResult(outputStream));
         } catch (TransformerException exception) {
             throw new IOException(exception);
         }
@@ -116,15 +119,15 @@ public abstract class ChartTest {
         return file;
     }
 
-    private Document getDocument(String content) throws Exception {
+    private Document getDocument(String content, int width, int height) throws Exception {
         var documentBuilder = ElementAdapter.newDocumentBuilder();
 
         var document = documentBuilder.parse(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
 
         var documentElement = document.getDocumentElement();
 
-        documentElement.setAttribute("width", String.valueOf(WIDTH));
-        documentElement.setAttribute("height", String.valueOf(HEIGHT));
+        documentElement.setAttribute("width", String.valueOf(width));
+        documentElement.setAttribute("height", String.valueOf(height));
 
         return document;
     }

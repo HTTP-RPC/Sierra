@@ -265,13 +265,13 @@ public class TimeSeriesChartTest extends ChartTest {
 
         chart.setDomainLabelCount((int)ChronoUnit.DAYS.between(first, last) + 1);
 
-        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
 
         chart.setDomainLabelTransform(dateFormatter::format);
 
         chart.setDataSets(listOf(dataSet));
 
-        compare("time-series-chart-local-dates.svg", chart);
+        compare("time-series-chart-local-dates.svg", chart, true);
     }
 
     @Test
@@ -336,5 +336,10 @@ public class TimeSeriesChartTest extends ChartTest {
         chart.setMargins(new Insets(20, margins.left * 4, margins.bottom * 4, 20));
 
         compare("time-series-chart-custom-margins.svg", chart);
+    }
+
+    @Test
+    public void testSizeToFit() {
+
     }
 }

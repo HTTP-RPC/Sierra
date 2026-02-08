@@ -279,7 +279,6 @@ public class CandlestickChartTest extends ChartTest {
         chart.setDataSets(listOf(dataSet1, dataSet2));
 
         chart.setHeight(480);
-        chart.sizeToFit();
 
         compare("candlestick-chart-size-to-fit.svg", chart, true);
     }
@@ -309,7 +308,6 @@ public class CandlestickChartTest extends ChartTest {
         chart.setDataSets(listOf(dataSet1, dataSet2));
 
         chart.setHeight(480);
-        chart.sizeToFit();
 
         compare("candlestick-chart-size-to-fit-labels.svg", chart, true);
     }
