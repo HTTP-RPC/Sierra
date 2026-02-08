@@ -252,4 +252,5 @@ public class CandlestickChartTest extends ChartTest {
         chart.setMargins(new Insets(20, margins.left * 4, margins.bottom * 4, 20));
 
         compare("candlestick-chart-custom-margins.svg", chart);
-    }}
+    }
+}
