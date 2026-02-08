@@ -292,7 +292,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         if (getKeys() == null || isTransposed()) {
-            columnWidth = columnWidth * 1.5;
+            columnWidth = columnWidth * 1.5 + SPACING * 2;
         } else {
             columnWidth += SPACING * 4;
         }
