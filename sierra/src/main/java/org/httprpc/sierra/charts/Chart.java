@@ -1337,15 +1337,15 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             }
         }
 
-        graphics.setColor(domainLabelColor);
-
         for (var textPane : getDomainTextPanes()) {
+            textPane.setForeground(domainLabelColor);
+
             paintComponent(graphics, textPane);
         }
 
-        graphics.setColor(rangeLabelColor);
-
         for (var textPane : getRangeTextPanes()) {
+            textPane.setForeground(rangeLabelColor);
+
             paintComponent(graphics, textPane);
         }
 
