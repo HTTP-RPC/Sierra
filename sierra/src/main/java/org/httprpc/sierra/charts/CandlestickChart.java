@@ -136,8 +136,6 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
     public void sizeToFit() {
         super.sizeToFit();
 
-        // TODO
-
         var m = keys.size();
         var n = getDataSets().size();
 
@@ -149,7 +147,7 @@ public class CandlestickChart<K extends Comparable<? super K>> extends CategoryC
             + margins.left + margins.right
             + getVerticalGridLineStroke().getLineWidth();
 
-        setSize((int)Math.ceil(preferredWidth), getHeight());
+        setSize(Math.max((int)Math.ceil(preferredWidth), getWidth()), getHeight());
     }
 
     @Override

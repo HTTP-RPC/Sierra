@@ -173,8 +173,6 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
     public void sizeToFit() {
         super.sizeToFit();
 
-        // TODO
-
         var m = keys.size();
         var n = getDataSets().size();
 
@@ -195,7 +193,7 @@ public class BarChart<K extends Comparable<? super K>, V extends Number> extends
                 + margins.left + margins.right
                 + getVerticalGridLineStroke().getLineWidth();
 
-            setSize((int)Math.ceil(preferredWidth), getHeight());
+            setSize(Math.max((int)Math.ceil(preferredWidth), getWidth()), getHeight());
         }
     }
 
