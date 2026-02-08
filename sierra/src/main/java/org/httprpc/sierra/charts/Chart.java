@@ -285,21 +285,19 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
     public void sizeToFit() {
         validate();
 
-        var columnWidth = 0;
+        var columnWidth = 0.0;
 
         for (var label : bottomAxisTextPanes) {
             columnWidth = Math.max(columnWidth, label.getWidth());
         }
 
-        columnWidth += SPACING * 4;
-
-        var m = bottomAxisTextPanes.size();
-
         if (getKeys() == null || isTransposed()) {
-            m += 2;
+            columnWidth = columnWidth * 1.5;
+        } else {
+            columnWidth += SPACING * 4;
         }
 
-        var preferredWidth = columnWidth * m
+        var preferredWidth = columnWidth * bottomAxisTextPanes.size()
             + margins.left + margins.right
             + verticalGridLineStroke.getLineWidth();
 
