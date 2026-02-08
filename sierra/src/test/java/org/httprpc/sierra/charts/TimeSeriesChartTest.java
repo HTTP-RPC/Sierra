@@ -337,9 +337,4 @@ public class TimeSeriesChartTest extends ChartTest {
 
         compare("time-series-chart-custom-margins.svg", chart);
     }
-
-    @Test
-    public void testSizeToFit() {
-
-    }
 }
