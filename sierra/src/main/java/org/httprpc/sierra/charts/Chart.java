@@ -1236,11 +1236,11 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
                 double x;
                 if (showLabels) {
-                    x = baseX + columnWidth / 2 - (double)size.width / 2;
+                    x = baseX + (columnWidth - size.width) / 2;
                 } else if (i == 0) {
                     x = baseX;
                 } else if (i < n - 1) {
-                    x = baseX + columnWidth / 2 - (double)size.width / 2;
+                    x = baseX + (columnWidth - size.width) / 2;
 
                     textPane.setText(null);
                 } else {
