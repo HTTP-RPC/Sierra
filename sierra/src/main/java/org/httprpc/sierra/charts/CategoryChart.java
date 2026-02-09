@@ -67,17 +67,17 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
 
                 var size = label.getPreferredSize();
 
-                int labelX;
-                int labelY;
+                double labelX;
+                double labelY;
                 if (isTransposed()) {
-                    labelX = (int)gridX + SPACING;
-                    labelY = (int)(gridY + rowHeight * j) + ((int)rowHeight - size.height) / 2;
+                    labelX = gridX + SPACING;
+                    labelY = gridY + rowHeight * j + (rowHeight - (double)size.height) / 2;
                 } else {
-                    labelX = (int)(gridX + columnWidth * j) + ((int)columnWidth - size.width) / 2;
-                    labelY = (int)(gridY + gridHeight) - (size.height + SPACING);
+                    labelX = gridX + columnWidth * j + (columnWidth - (double)size.width) / 2;
+                    labelY = gridY + gridHeight - (size.height + SPACING);
                 }
 
-                label.setBounds(labelX, labelY, size.width, size.height);
+                label.setBounds((int)Math.round(labelX), (int)Math.round(labelY), size.width, size.height);
 
                 domainMarkerLabels.add(label);
             }

@@ -1161,22 +1161,22 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
             var size = textPane.getPreferredSize();
 
-            int y;
+            double y;
             if (isTransposed()) {
-                y = (int)(baseY - rowHeight + (rowHeight - size.height) / 2);
+                y = baseY - rowHeight + (rowHeight - size.height) / 2;
             } else {
                 if (i == 0) {
-                    y = (int)baseY - size.height;
+                    y = baseY - size.height;
                 } else if (i < n - 1) {
-                    y = (int)baseY - size.height / 2;
+                    y = baseY - (double)size.height / 2;
                 } else {
-                    y = (int)baseY;
+                    y = baseY;
                 }
             }
 
             textPane.setHorizontalAlignment(HorizontalAlignment.TRAILING);
 
-            textPane.setBounds(0, y, margins.left - SPACING, size.height);
+            textPane.setBounds(0, (int)Math.round(y), margins.left - SPACING, size.height);
             textPane.doLayout();
 
             baseY -= rowHeight;
@@ -1200,16 +1200,16 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
                 var size = textPane.getSize();
 
-                int x;
+                double x;
                 if (i == 0) {
-                    x = (int)baseX;
+                    x = baseX;
                 } else if (i < n - 1) {
-                    x = (int)baseX - size.width / 2;
+                    x = baseX - (double)size.width / 2;
                 } else {
-                    x = (int)baseX - size.width;
+                    x = baseX - size.width;
                 }
 
-                textPane.setLocation(x, (int)y);
+                textPane.setLocation((int)Math.round(x), (int)Math.round(y));
                 textPane.doLayout();
 
                 baseX += columnWidth;
@@ -1234,20 +1234,20 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
                 var size = textPane.getSize();
 
-                int x;
+                double x;
                 if (showLabels) {
-                    x = (int)(baseX + columnWidth / 2) - size.width / 2;
+                    x = baseX + columnWidth / 2 - (double)size.width / 2;
                 } else if (i == 0) {
-                    x = (int)baseX;
+                    x = baseX;
                 } else if (i < n - 1) {
-                    x = (int)(baseX + columnWidth / 2) - size.width / 2;
+                    x = baseX + columnWidth / 2 - (double)size.width / 2;
 
                     textPane.setText(null);
                 } else {
-                    x = (int)(baseX + columnWidth) - size.width;
+                    x = baseX + columnWidth - size.width;
                 }
 
-                textPane.setLocation(x, (int)y);
+                textPane.setLocation((int)Math.round(x), (int)Math.round(y));
                 textPane.doLayout();
 
                 baseX += columnWidth;
@@ -1285,27 +1285,27 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             if (isTransposed()) {
                 var lineX = zeroX + rangeValue * rangeScale;
 
-                int labelX;
+                double labelX;
                 if (lineX < gridX + gridWidth / 2) {
-                    labelX = (int)lineX + SPACING;
+                    labelX = lineX + SPACING;
                 } else {
-                    labelX = (int)lineX - (size.width + SPACING);
+                    labelX = lineX - (size.width + SPACING);
                 }
 
-                label.setBounds(labelX, (int)gridY + SPACING, size.width, size.height);
+                label.setBounds((int)Math.round(labelX), (int)Math.round(gridY) + SPACING, size.width, size.height);
 
                 line = new Line2D.Double(lineX, gridY + SPACING, lineX, gridY + gridHeight - SPACING);
             } else {
                 var lineY = zeroY - rangeValue * rangeScale;
 
-                int labelY;
+                double labelY;
                 if (lineY < gridY + gridHeight / 2) {
-                    labelY = (int)lineY + SPACING / 2;
+                    labelY = lineY + (double)SPACING / 2;
                 } else {
-                    labelY = (int)lineY - (size.height + SPACING / 2);
+                    labelY = lineY - (size.height + (double)SPACING / 2);
                 }
 
-                label.setBounds((int)gridX + SPACING, labelY, size.width, size.height);
+                label.setBounds((int)Math.round(gridX) + SPACING, (int)Math.round(labelY), size.width, size.height);
 
                 line = new Line2D.Double(gridX + SPACING, lineY, gridX + gridWidth - SPACING, lineY);
             }

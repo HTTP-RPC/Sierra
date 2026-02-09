@@ -133,10 +133,10 @@ public abstract class XYChart<K extends Comparable<? super K>, V extends Number>
 
             var size = label.getPreferredSize();
 
-            var labelX = (int)(zeroX + domainValue * domainScale) - size.width / 2;
-            var labelY = (int)(gridY + gridHeight) - (size.height + SPACING);
+            var labelX = zeroX + domainValue * domainScale - (double)size.width / 2;
+            var labelY = gridY + gridHeight - (size.height + SPACING);
 
-            label.setBounds(labelX, labelY, size.width, size.height);
+            label.setBounds((int)Math.round(labelX), (int)Math.round(labelY), size.width, size.height);
 
             domainMarkerLabels.add(label);
         }
