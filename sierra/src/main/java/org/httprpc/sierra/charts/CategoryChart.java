@@ -71,9 +71,9 @@ public abstract class CategoryChart<K extends Comparable<? super K>, V> extends 
                 double labelY;
                 if (isTransposed()) {
                     labelX = gridX + SPACING;
-                    labelY = gridY + rowHeight * j + (rowHeight - (double)size.height) / 2;
+                    labelY = gridY + rowHeight * j + (rowHeight - size.height) / 2;
                 } else {
-                    labelX = gridX + columnWidth * j + (columnWidth - (double)size.width) / 2;
+                    labelX = gridX + columnWidth * j + (columnWidth - size.width) / 2;
                     labelY = gridY + gridHeight - (size.height + SPACING);
                 }
 
