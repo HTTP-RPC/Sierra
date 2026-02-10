@@ -1164,6 +1164,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
             double y;
             if (isTransposed()) {
                 y = baseY - rowHeight + (rowHeight - size.height) / 2;
+
+                textPane.setVisible(size.height < rowHeight);
             } else {
                 if (i == 0) {
                     y = baseY - size.height;
