@@ -1169,6 +1169,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                     y = baseY - size.height;
                 } else if (i < n - 1) {
                     y = baseY - (double)size.height / 2;
+
+                    textPane.setVisible(size.height < rowHeight - SPACING);
                 } else {
                     y = baseY;
                 }
@@ -1220,9 +1222,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 } else if (i < n - 1) {
                     x = baseX - (double)size.width / 2;
 
-                    if (!showLabels) {
-                        textPane.setText(null);
-                    }
+                    textPane.setVisible(showLabels);
                 } else {
                     x = baseX - size.width;
                 }
@@ -1248,7 +1248,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 } else if (i < n - 1) {
                     x = baseX + (columnWidth - size.width) / 2;
 
-                    textPane.setText(null);
+                    textPane.setVisible(showLabels);
                 } else {
                     x = baseX + columnWidth - size.width;
                 }
@@ -1344,15 +1344,19 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
         }
 
         for (var textPane : getDomainTextPanes()) {
-            textPane.setForeground(domainLabelColor);
+            if (textPane.isVisible()) {
+                textPane.setForeground(domainLabelColor);
 
-            paintComponent(graphics, textPane);
+                paintComponent(graphics, textPane);
+            }
         }
 
         for (var textPane : getRangeTextPanes()) {
-            textPane.setForeground(rangeLabelColor);
+            if (textPane.isVisible()) {
+                textPane.setForeground(rangeLabelColor);
 
-            paintComponent(graphics, textPane);
+                paintComponent(graphics, textPane);
+            }
         }
 
         var x = (int)Math.ceil(verticalGridLines.getFirst().getX1());
