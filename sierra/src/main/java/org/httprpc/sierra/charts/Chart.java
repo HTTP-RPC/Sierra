@@ -1192,7 +1192,21 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         var keys = getKeys();
 
+        var maximumWidth = 0.0;
+
+        for (var i = 0; i < n; i++) {
+            var textPane = bottomAxisTextPanes.get(i);
+
+            textPane.setSize(textPane.getPreferredSize());
+
+            var size = textPane.getSize();
+
+            maximumWidth = Math.max(maximumWidth, size.width);
+        }
+
         if (keys == null || isTransposed()) {
+            var showLabels = maximumWidth * 1.5 < columnWidth - SPACING;
+
             for (var i = 0; i < n; i++) {
                 var textPane = bottomAxisTextPanes.get(i);
 
@@ -1205,6 +1219,10 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                     x = baseX;
                 } else if (i < n - 1) {
                     x = baseX - (double)size.width / 2;
+
+                    if (!showLabels) {
+                        textPane.setText(null);
+                    }
                 } else {
                     x = baseX - size.width;
                 }
@@ -1215,18 +1233,6 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
                 baseX += columnWidth;
             }
         } else {
-            var maximumWidth = 0.0;
-
-            for (var i = 0; i < n; i++) {
-                var textPane = bottomAxisTextPanes.get(i);
-
-                textPane.setSize(textPane.getPreferredSize());
-
-                var size = textPane.getSize();
-
-                maximumWidth = Math.max(maximumWidth, size.width);
-            }
-
             var showLabels = maximumWidth < columnWidth - SPACING * 2;
 
             for (var i = 0; i < n; i++) {

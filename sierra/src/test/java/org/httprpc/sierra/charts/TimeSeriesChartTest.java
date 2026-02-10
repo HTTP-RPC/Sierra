@@ -144,6 +144,45 @@ public class TimeSeriesChartTest extends ChartTest {
     }
 
     @Test
+    public void testDomainLabelVisibility() throws Exception {
+        var dataPoints = sortedMapOf(
+            entry(LocalDate.of(2025, 12, 17), 0.0),
+            entry(LocalDate.of(2025, 12, 18), 5.0),
+            entry(LocalDate.of(2025, 12, 19), null),
+            entry(LocalDate.of(2025, 12, 20), 15.0),
+            entry(LocalDate.of(2025, 12, 21), 20.0),
+            entry(LocalDate.of(2025, 12, 22), 25.0),
+            entry(LocalDate.of(2025, 12, 23), 30.0),
+            entry(LocalDate.of(2025, 12, 24), 35.0),
+            entry(LocalDate.of(2025, 12, 25), null),
+            entry(LocalDate.of(2025, 12, 26), 45.0),
+            entry(LocalDate.of(2025, 12, 27), 50.0)
+        );
+
+        var first = dataPoints.firstKey();
+        var last = dataPoints.lastKey();
+
+        Function<LocalDate, Number> domainValueTransform = localDate -> ChronoUnit.DAYS.between(first, localDate);
+        Function<Number, LocalDate> domainKeyTransform = value -> first.plusDays(value.intValue());
+
+        var chart = new TimeSeriesChart<LocalDate, Double>(domainValueTransform, domainKeyTransform);
+
+        var dataSet = new DataSet<LocalDate, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(dataPoints);
+
+        chart.setDomainLabelCount((int)ChronoUnit.DAYS.between(first, last) + 1);
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
+
+        chart.setDomainLabelTransform(dateFormatter::format);
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("time-series-chart-domain-label-visibility.svg", chart);
+    }
+
+    @Test
     public void testDomainMarkers() throws Exception {
         var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
@@ -239,42 +278,6 @@ public class TimeSeriesChartTest extends ChartTest {
     }
 
     @Test
-    public void testLocalDates() throws Exception {
-        var dataPoints = sortedMapOf(
-            entry(LocalDate.of(2025, 12, 17), 10.0),
-            entry(LocalDate.of(2025, 12, 20), 25.0),
-            entry(LocalDate.of(2025, 12, 21), null),
-            entry(LocalDate.of(2025, 12, 22), 35.0),
-            entry(LocalDate.of(2025, 12, 23), null),
-            entry(LocalDate.of(2025, 12, 24), 45.0)
-        );
-
-        var first = dataPoints.firstKey();
-        var last = dataPoints.lastKey();
-
-        Function<LocalDate, Number> domainValueTransform = localDate -> ChronoUnit.DAYS.between(first, localDate);
-        Function<Number, LocalDate> domainKeyTransform = value -> first.plusDays(value.intValue());
-
-        var chart = new TimeSeriesChart<LocalDate, Double>(domainValueTransform, domainKeyTransform);
-
-        chart.setShowValueMarkers(true);
-
-        var dataSet = new DataSet<LocalDate, Double>("Values", Color.RED);
-
-        dataSet.setDataPoints(dataPoints);
-
-        chart.setDomainLabelCount((int)ChronoUnit.DAYS.between(first, last) + 1);
-
-        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
-
-        chart.setDomainLabelTransform(dateFormatter::format);
-
-        chart.setDataSets(listOf(dataSet));
-
-        compare("time-series-chart-local-dates.svg", chart, true);
-    }
-
-    @Test
     public void testAdjustedBounds() throws Exception {
         var chart = new TimeSeriesChart<Double, Double>(key -> key, Number::doubleValue);
 
@@ -336,5 +339,41 @@ public class TimeSeriesChartTest extends ChartTest {
         chart.setMargins(new Insets(20, margins.left * 4, margins.bottom * 4, 20));
 
         compare("time-series-chart-custom-margins.svg", chart);
+    }
+
+    @Test
+    public void testSizeToFit() throws Exception {
+        var dataPoints = sortedMapOf(
+            entry(LocalDate.of(2025, 12, 17), 10.0),
+            entry(LocalDate.of(2025, 12, 20), 25.0),
+            entry(LocalDate.of(2025, 12, 21), null),
+            entry(LocalDate.of(2025, 12, 22), 35.0),
+            entry(LocalDate.of(2025, 12, 23), null),
+            entry(LocalDate.of(2025, 12, 24), 45.0)
+        );
+
+        var first = dataPoints.firstKey();
+        var last = dataPoints.lastKey();
+
+        Function<LocalDate, Number> domainValueTransform = localDate -> ChronoUnit.DAYS.between(first, localDate);
+        Function<Number, LocalDate> domainKeyTransform = value -> first.plusDays(value.intValue());
+
+        var chart = new TimeSeriesChart<LocalDate, Double>(domainValueTransform, domainKeyTransform);
+
+        chart.setShowValueMarkers(true);
+
+        var dataSet = new DataSet<LocalDate, Double>("Values", Color.RED);
+
+        dataSet.setDataPoints(dataPoints);
+
+        chart.setDomainLabelCount((int)ChronoUnit.DAYS.between(first, last) + 1);
+
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
+
+        chart.setDomainLabelTransform(dateFormatter::format);
+
+        chart.setDataSets(listOf(dataSet));
+
+        compare("time-series-chart-size-to-fit.svg", chart, true);
     }
 }

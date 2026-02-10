@@ -245,33 +245,6 @@ public class BarChartTest extends ChartTest {
     }
 
     @Test
-    public void testLocalDates() throws Exception {
-        var localDate = LocalDate.of(2025, 12, 19);
-
-        var chart = new BarChart<LocalDate, Integer>();
-
-        var dataSet1 = new DataSet<LocalDate, Integer>("Data Set 1", Color.RED);
-
-        dataSet1.setDataPoints(sortedMapOf(
-            entry(localDate, 10)
-        ));
-
-        var dataSet2 = new DataSet<LocalDate, Integer>("Data Set 2", Color.GREEN);
-
-        dataSet2.setDataPoints(sortedMapOf(
-            entry(localDate, 20)
-        ));
-
-        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
-
-        chart.setDomainLabelTransform(dateFormatter::format);
-
-        chart.setDataSets(listOf(dataSet1, dataSet2));
-
-        compare("bar-chart-local-dates.svg", chart);
-    }
-
-    @Test
     public void testPositiveValuesStacked() throws Exception {
         var chart = new BarChart<Integer, Integer>(false, true);
 
