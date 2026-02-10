@@ -1205,9 +1205,7 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
             textPane.setSize(textPane.getPreferredSize());
 
-            var size = textPane.getSize();
-
-            maximumWidth = Math.max(maximumWidth, size.width);
+            maximumWidth = Math.max(maximumWidth, textPane.getWidth());
         }
 
         if (keys == null || isTransposed()) {
