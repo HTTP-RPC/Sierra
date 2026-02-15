@@ -1377,7 +1377,13 @@ public class UILoader {
         if (resourceBundle == null) {
             return value;
         } else {
-            return resourceBundle.getString(value.trim());
+            var key = value.trim();
+
+            if (key.isEmpty()) {
+                throw new IllegalArgumentException("Invalid resource key.");
+            }
+
+            return resourceBundle.getString(key);
         }
     }
 
