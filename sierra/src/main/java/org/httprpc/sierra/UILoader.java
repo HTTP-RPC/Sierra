@@ -1412,6 +1412,10 @@ public class UILoader {
     }
 
     private URL getURL(String name) {
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Invalid resource name.");
+        }
+
         if (owner != null) {
             return owner.getClass().getResource(name);
         } else {
