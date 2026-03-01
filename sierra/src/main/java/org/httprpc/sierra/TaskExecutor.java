@@ -63,7 +63,7 @@ public class TaskExecutor {
         }
 
         if (!SwingUtilities.isEventDispatchThread()) {
-            throw new IllegalStateException();
+            throw new WrongThreadException();
         }
 
         count++;
@@ -109,7 +109,7 @@ public class TaskExecutor {
         }
 
         if (!SwingUtilities.isEventDispatchThread()) {
-            throw new IllegalStateException();
+            throw new WrongThreadException();
         }
 
         listeners.add(listener);
