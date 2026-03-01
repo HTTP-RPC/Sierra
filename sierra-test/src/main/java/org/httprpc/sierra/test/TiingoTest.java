@@ -60,8 +60,8 @@ import java.util.TreeMap;
 import java.util.concurrent.Executors;
 
 import static org.httprpc.kilo.util.Collections.*;
+import static org.httprpc.kilo.util.Iterables.*;
 import static org.httprpc.kilo.util.Optionals.*;
-import static org.httprpc.kilo.util.stream.Streams.*;
 
 public class TiingoTest extends JFrame implements Runnable {
     private static class HistoricalPricingTableModel implements TableModel {
@@ -70,7 +70,7 @@ public class TiingoTest extends JFrame implements Runnable {
         List<String> columns = listOf("date", "open", "high", "low", "close", "volume");
 
         HistoricalPricingTableModel(List<AssetPricing> rows) {
-            this.rows = streamOf(rows).map(BeanAdapter::new).toList();
+            this.rows = listOf(mapAll(rows, BeanAdapter::new));
         }
 
         @Override
