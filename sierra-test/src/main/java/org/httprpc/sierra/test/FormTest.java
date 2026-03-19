@@ -17,6 +17,7 @@ package org.httprpc.sierra.test;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.ScrollingKeyboardFocusManager;
+import org.httprpc.sierra.SuggestionPicker;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFormattedTextField;
@@ -29,11 +30,14 @@ import java.awt.KeyboardFocusManager;
 import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
+import static org.httprpc.kilo.util.Collections.*;
+
 public class FormTest extends JFrame implements Runnable {
     private @Outlet JFormattedTextField formattedTextField1 = null;
     private @Outlet JFormattedTextField formattedTextField2 = null;
-    private @Outlet JFormattedTextField formattedTextField3 = null;
-    private @Outlet JFormattedTextField formattedTextField4 = null;
+
+    private @Outlet SuggestionPicker suggestionPicker1 = null;
+    private @Outlet SuggestionPicker suggestionPicker2 = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(FormTest.class.getName());
 
@@ -55,8 +59,9 @@ public class FormTest extends JFrame implements Runnable {
 
         formattedTextField1.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(numberFormat)));
         formattedTextField2.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(numberFormat)));
-        formattedTextField3.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(numberFormat)));
-        formattedTextField4.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(numberFormat)));
+
+        suggestionPicker1.setSuggestions(listOf("One", "Two", "Three"));
+        suggestionPicker2.setSuggestions(listOf("Four", "Five", "Six"));
 
         setSize(480, 360);
         setVisible(true);

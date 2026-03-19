@@ -215,7 +215,13 @@ public abstract class Picker extends JTextField {
 
         popup.show();
 
-        getTopLevelAncestor().addComponentListener(componentListener);
+        var parent = getParent();
+
+        while (parent != null) {
+            parent.addComponentListener(componentListener);
+
+            parent = parent.getParent();
+        }
     }
 
     /**
@@ -230,6 +236,12 @@ public abstract class Picker extends JTextField {
 
         popup = null;
 
-        getTopLevelAncestor().removeComponentListener(componentListener);
+        var parent = getParent();
+
+        while (parent != null) {
+            parent.removeComponentListener(componentListener);
+
+            parent = parent.getParent();
+        }
     }
 }
