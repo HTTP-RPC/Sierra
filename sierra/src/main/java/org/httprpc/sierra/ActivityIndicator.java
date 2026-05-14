@@ -25,8 +25,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Shows indeterminate progress.
@@ -109,7 +109,7 @@ public class ActivityIndicator extends JComponent {
 
     private static int angle = 0;
 
-    private static List<ActivityIndicator> activeInstances = new LinkedList<>();
+    private static Set<ActivityIndicator> activeInstances = new HashSet<>();
 
     private static final int SPOKE_COUNT = 8;
 
