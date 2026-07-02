@@ -1366,7 +1366,9 @@ public class UILoader {
             border = emptyBorder;
         }
 
-        component.setBorder(border);
+        if (border != null) {
+            component.setBorder(border);
+        }
 
         var parent = components.peek();
 
