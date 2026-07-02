@@ -56,6 +56,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -113,6 +114,21 @@ public class UILoader {
         GROUP("group", String.class),
 
         /**
+         * Title attribute.
+         */
+        TITLE("title", String.class),
+
+        /**
+         * Title color attribute.
+         */
+        TITLE_COLOR("titleColor", String.class),
+
+        /**
+         * Title font attribute.
+         */
+        TITLE_FONT("titleFont", String.class),
+
+        /**
          * Border attribute.
          */
         BORDER("border", String.class),
@@ -121,11 +137,6 @@ public class UILoader {
          * Padding attribute.
          */
         PADDING("padding", String.class),
-
-        /**
-         * Title attribute.
-         */
-        TITLE("title", String.class),
 
         /**
          * Weight attribute.
@@ -1148,10 +1159,12 @@ public class UILoader {
             splitPane.setRightComponent(null);
         }
 
+        String title = null;
+        Color titleColor = null;
+        Font titleFont = null;
+
         LineBorder lineBorder = null;
         EmptyBorder emptyBorder = null;
-
-        String title = null;
 
         Object constraints = null;
 
@@ -1186,12 +1199,16 @@ public class UILoader {
                 }
 
                 groups.computeIfAbsent(value, key -> new ButtonGroup()).add(button);
+            } else if (name.equals(Attribute.TITLE.getName())) {
+                title = getText(value);
+            } else if (name.equals(Attribute.TITLE_COLOR.getName())) {
+                titleColor = parseColor(value);
+            } else if (name.equals(Attribute.TITLE_FONT.getName())) {
+                titleFont = parseFont(value);
             } else if (name.equals(Attribute.BORDER.getName())) {
                 lineBorder = parseBorder(value);
             } else if (name.equals(Attribute.PADDING.getName())) {
                 emptyBorder = parsePadding(value);
-            } else if (name.equals(Attribute.TITLE.getName())) {
-                title = getText(value);
             } else if (name.equals(Attribute.WEIGHT.getName())) {
                 var weight = Double.parseDouble(value);
 
@@ -1335,13 +1352,21 @@ public class UILoader {
             }
         }
 
-        if (lineBorder != null || emptyBorder != null) {
-            component.setBorder(new CompoundBorder(lineBorder, emptyBorder));
+        Border border;
+        if (title != null) {
+            var titledBorder = (new TitledBorder(lineBorder, title));
+
+            titledBorder.setTitleColor(titleColor);
+            titledBorder.setTitleFont(titleFont);
+
+            border = new CompoundBorder(titledBorder, emptyBorder);
+        } else if (lineBorder != null) {
+            border = new CompoundBorder(lineBorder, emptyBorder);
+        } else {
+            border = emptyBorder;
         }
 
-        if (title != null) {
-            component.setBorder(new TitledBorder(title));
-        }
+        component.setBorder(border);
 
         var parent = components.peek();
 

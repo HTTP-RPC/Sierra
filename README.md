@@ -155,6 +155,19 @@ Custom dimensions can be specified either as _path; size_ or _path; width, heigh
 icon="icons/home_24dp.svg; 18"
 ```
 
+### Title Values
+The "title" attribute can be used to establish a titled border around a component:
+
+```xml
+<column-panel title="Options">
+    <radio-button text="One" group="options" selected="true"/>
+    <radio-button text="Two" group="options"/>
+    <radio-button text="Three" group="options"/>
+</column-panel>
+```
+
+<img src="README/title.png" width="352px"/>
+
 ### Border and Padding Values
 The "border" and "padding" attributes can be used to create a solid border and reserve space around a component, respectively. For example, this markup creates a label with a light gray border and four pixels of padding on each side:
 
@@ -173,19 +186,6 @@ Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _
 ```xml
 padding="8, 8, 8, 8"
 ```
-
-### Title Values
-As an alternative to "border" and "padding", the "title" attribute can be used to establish a titled border around a component:
-
-```xml
-<column-panel title="Options">
-    <radio-button text="One" group="options" selected="true"/>
-    <radio-button text="Two" group="options"/>
-    <radio-button text="Three" group="options"/>
-</column-panel>
-```
-
-<img src="README/title.png" width="352px"/>
 
 ### Weight and Size Values
 The "weight" attribute specifies the amount of excess space in a container that should be allocated to a component, relative to other weighted components in the container. When applied to a `Spacer` instance, it creates a "glue" component that automatically shrinks or stretches depending on the size of its container. However, weights are not limited to spacers and can be applied to any component type:
