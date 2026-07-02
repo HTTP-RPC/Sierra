@@ -168,6 +168,8 @@ The "title" attribute can be used to establish a titled border around a componen
 
 <img src="README/title.png" width="352px"/>
 
+The "tabColor" and "tabFont" attributes can be used to customize the title's appearance.
+
 ### Border and Padding Values
 The "border" and "padding" attributes can be used to create a solid border and reserve space around a component, respectively. For example, this markup creates a label with a light gray border and four pixels of padding on each side:
 
@@ -198,7 +200,7 @@ The "weight" attribute specifies the amount of excess space in a container that 
 </row-panel>
 ```
 
-<img src="README/border.png" width="592px"/>
+<img src="README/border-layout.png" width="592px"/>
 
 The "size" attribute specifies a fixed dimension for a component. It is typically used with `Spacer` instances to create "struts" between components, as an alternative to the "spacing" property provided by `RowPanel` and `ColumnPanel`:
 
@@ -217,7 +219,7 @@ The "size" attribute specifies a fixed dimension for a component. It is typicall
 </column-panel>
 ```
 
-<img src="README/box.png" width="559px"/>
+<img src="README/box-layout.png" width="352px"/>
 
 Size values for multiple dimensions can be specified in _width_, _height_ order:
 

@@ -19,35 +19,25 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import java.awt.Font;
-import java.util.ResourceBundle;
 
-public class BorderTest extends JFrame implements Runnable {
-    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(BorderTest.class.getName());
-
-    private BorderTest() {
-        super(resourceBundle.getString("title"));
+public class BoxLayoutTest extends JFrame implements Runnable {
+    private BoxLayoutTest() {
+        super("Box Layout Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "BorderTest.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "BoxLayoutTest.xml"));
 
-        System.out.printf("h1 = %s\n", UILoader.getFont("h1"));
-        System.out.printf("h2 = %s\n", UILoader.getFont("h2"));
-
-        setSize(480, 320);
+        pack();
         setVisible(true);
     }
 
     public static void main(String[] args) {
-        UILoader.define("h1", new Font("Arial", Font.BOLD, 24));
-        UILoader.define("h2", new Font("Arial", Font.PLAIN, 18));
-
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new BorderTest());
+        SwingUtilities.invokeLater(new BoxLayoutTest());
     }
 }
