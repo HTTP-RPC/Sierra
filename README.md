@@ -156,7 +156,7 @@ icon="icons/home_24dp.svg; 18"
 ```
 
 ### Title Values
-The "title" attribute can be used to establish a titled border around a component:
+The "title" attribute establishes a titled border around a component:
 
 ```xml
 <column-panel title="Options">
@@ -168,10 +168,12 @@ The "title" attribute can be used to establish a titled border around a componen
 
 <img src="README/title.png" width="352px"/>
 
-The "tabColor" and "tabFont" attributes can be used to customize the title's appearance.
+The "titleColor" and "titleFont" attributes can be used to customize the title's appearance.
 
 ### Border and Padding Values
-The "border" and "padding" attributes can be used to create a solid border and reserve space around a component, respectively. For example, this markup creates a label with a light gray border and four pixels of padding on each side:
+The "border" and "padding" attributes create a solid border and reserve space around a component, respectively. They can also be used to customize the appearance of a titled border.
+
+For example, this markup creates a label with a light gray border and four pixels of padding on each side:
 
 ```xml
 <label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
