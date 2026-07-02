@@ -1271,11 +1271,12 @@ public class UILoader {
         }
 
         String title = null;
+
         Color titleColor = null;
         Font titleFont = null;
 
-        var titleJustification = -1;
-        var titlePosition = -1;
+        var titleJustification = TitledBorder.DEFAULT_JUSTIFICATION;
+        var titlePosition = TitledBorder.DEFAULT_POSITION;
 
         LineBorder lineBorder = null;
         EmptyBorder emptyBorder = null;
@@ -1477,11 +1478,11 @@ public class UILoader {
             titledBorder.setTitleColor(titleColor);
             titledBorder.setTitleFont(titleFont);
 
-            if (titleJustification != -1) {
+            if (titleJustification != TitledBorder.DEFAULT_JUSTIFICATION) {
                 titledBorder.setTitleJustification(titleJustification);
             }
 
-            if (titlePosition != -1) {
+            if (titlePosition != TitledBorder.DEFAULT_POSITION) {
                 titledBorder.setTitlePosition(titlePosition);
             }
 
