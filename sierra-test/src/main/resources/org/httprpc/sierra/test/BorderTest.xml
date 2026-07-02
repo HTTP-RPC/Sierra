@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE stack-panel SYSTEM "sierra.dtd">
+
+<stack-panel padding="8" opaque="true">
+    <column-panel title="Title"
+        titleColor="green"
+        titleFont="h1.font"
+        border="red"
+        padding="16">
+        <label text="content" horizontalAlignment="center" border="silver" weight="1"/>
+    </column-panel>
+</stack-panel>
