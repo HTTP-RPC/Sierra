@@ -129,6 +129,16 @@ public class UILoader {
         TITLE_FONT("titleFont", String.class),
 
         /**
+         * Title justification attribute.
+         */
+        TITLE_JUSTIFICATION("titleJustification", TitleJustification.class),
+
+        /**
+         * Title position attribute.
+         */
+        TITLE_POSITION("titlePosition", TitlePosition.class),
+
+        /**
          * Border attribute.
          */
         BORDER("border", String.class),
@@ -267,6 +277,107 @@ public class UILoader {
 
         public Class<?> getType() {
             return type;
+        }
+    }
+
+    /**
+     * Title justification options.
+     */
+    public enum TitleJustification implements ConstantAdapter {
+        /**
+         * Left justification.
+         */
+        LEFT("left", TitledBorder.LEFT),
+
+        /**
+         * Right justification.
+         */
+        RIGHT("right", TitledBorder.RIGHT),
+
+        /**
+         * Center justification.
+         */
+        CENTER("center", TitledBorder.CENTER),
+
+        /**
+         * Leading justification.
+         */
+        LEADING("leading", TitledBorder.LEADING),
+
+        /**
+         * Trailing justification.
+         */
+        TRAILING("trailing", TitledBorder.TRAILING);
+
+        private final String key;
+        private final int value;
+
+        TitleJustification(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Title position options.
+     */
+    public enum TitlePosition implements ConstantAdapter {
+        /**
+         * Above-top position.
+         */
+        ABOVE_TOP("above-top", TitledBorder.ABOVE_TOP),
+
+        /**
+         * Top position.
+         */
+        TOP("top", TitledBorder.TOP),
+
+        /**
+         * Below-top position.
+         */
+        BELOW_TOP("below-top", TitledBorder.BELOW_TOP),
+
+        /**
+         * Above-bottom position.
+         */
+        ABOVE_BOTTOM("above-bottom", TitledBorder.ABOVE_BOTTOM),
+
+        /**
+         * Bottom position.
+         */
+        BOTTOM("bottom", TitledBorder.BOTTOM),
+
+        /**
+         * Below-bottom position.
+         */
+        BELOW_BOTTOM("below-bottom", TitledBorder.BELOW_BOTTOM);
+
+        private final String key;
+        private final int value;
+
+        TitlePosition(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public int getValue() {
+            return value;
         }
     }
 
@@ -1163,6 +1274,9 @@ public class UILoader {
         Color titleColor = null;
         Font titleFont = null;
 
+        var titleJustification = -1;
+        var titlePosition = -1;
+
         LineBorder lineBorder = null;
         EmptyBorder emptyBorder = null;
 
@@ -1205,6 +1319,10 @@ public class UILoader {
                 titleColor = parseColor(value);
             } else if (name.equals(Attribute.TITLE_FONT.getName())) {
                 titleFont = parseFont(value);
+            } else if (name.equals(Attribute.TITLE_JUSTIFICATION.getName())) {
+                titleJustification = getValue(value, TitleJustification.values());
+            } else if (name.equals(Attribute.TITLE_POSITION.getName())) {
+                titlePosition = getValue(value, TitlePosition.values());
             } else if (name.equals(Attribute.BORDER.getName())) {
                 lineBorder = parseBorder(value);
             } else if (name.equals(Attribute.PADDING.getName())) {
@@ -1358,6 +1476,14 @@ public class UILoader {
 
             titledBorder.setTitleColor(titleColor);
             titledBorder.setTitleFont(titleFont);
+
+            if (titleJustification != -1) {
+                titledBorder.setTitleJustification(titleJustification);
+            }
+
+            if (titlePosition != -1) {
+                titledBorder.setTitlePosition(titlePosition);
+            }
 
             border = new CompoundBorder(titledBorder, emptyBorder);
         } else if (lineBorder != null) {

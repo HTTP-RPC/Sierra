@@ -70,6 +70,10 @@ public class DTDEncoder extends Encoder<Void> {
         appendAttributeDeclaration(UILoader.Attribute.TITLE.getName(), CDATA, writer);
         appendAttributeDeclaration(UILoader.Attribute.TITLE_COLOR.getName(), CDATA, writer);
         appendAttributeDeclaration(UILoader.Attribute.TITLE_FONT.getName(), CDATA, writer);
+        appendAttributeDeclaration(UILoader.Attribute.TITLE_JUSTIFICATION.getName(),
+            getAttributeType(UILoader.TitleJustification.values()), writer);
+        appendAttributeDeclaration(UILoader.Attribute.TITLE_POSITION.getName(),
+            getAttributeType(UILoader.TitlePosition.values()), writer);
         appendAttributeDeclaration(UILoader.Attribute.BORDER.getName(), CDATA, writer);
         appendAttributeDeclaration(UILoader.Attribute.PADDING.getName(), CDATA, writer);
         appendAttributeDeclaration(UILoader.Attribute.WEIGHT.getName(), CDATA, writer);

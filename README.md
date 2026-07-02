@@ -168,7 +168,7 @@ The "title" attribute establishes a titled border around a component:
 
 <img src="README/title.png" width="352px"/>
 
-The "titleColor" and "titleFont" attributes can be used to customize the title's appearance.
+The "titleColor", "titleFont", "titleJustification", and "titlePosition" attributes can be used to customize the title's appearance.
 
 ### Border and Padding Values
 The "border" and "padding" attributes create a solid border and reserve space around a component, respectively. They can also be used to customize the appearance of a titled border.

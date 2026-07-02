@@ -6,6 +6,8 @@
     <column-panel title="Title"
         titleColor="green"
         titleFont="h1.font"
+        titleJustification="trailing"
+        titlePosition="bottom"
         border="red"
         padding="16">
         <label text="content" horizontalAlignment="center" border="silver" weight="1"/>
