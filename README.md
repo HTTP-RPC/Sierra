@@ -113,7 +113,7 @@ XML attributes generally represent component properties. For example, this marku
 Numeric and boolean values are specified via their string representations. Supported constants and enum values are specified in [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
 
 ### Color and Font Values
-Color and font values can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `RowPanel` and sets its "background" property to white:
+Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `RowPanel` and sets its "background" property to white:
 
 ```xml
 <row-panel spacing="8" padding="16" opaque="true" background="#ffffff">
@@ -128,7 +128,7 @@ Colors and fonts can also be specified by name. The name can refer to either a v
 Sierra supports the complete set of [extended web colors](https://en.wikipedia.org/wiki/Web_colors#Extended_colors) by default. Additional named colors and fonts can be added via the `define()` methods of the `UILoader` class.
 
 ### Image and Icon Values
-Image and icon values are specified via a path to an image document on the application's classpath. The path is relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:
+Image and icon properties are specified via a path relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:
 
 ```xml
 <image-pane image="world.png" scaleMode="fill-width"/>
