@@ -333,7 +333,7 @@ public class UILoader {
      */
     public enum TitlePosition implements ConstantAdapter {
         /**
-         * Above-top position.
+         * Above top position.
          */
         ABOVE_TOP("above-top", TitledBorder.ABOVE_TOP),
 
@@ -343,12 +343,12 @@ public class UILoader {
         TOP("top", TitledBorder.TOP),
 
         /**
-         * Below-top position.
+         * Below top position.
          */
         BELOW_TOP("below-top", TitledBorder.BELOW_TOP),
 
         /**
-         * Above-bottom position.
+         * Above bottom position.
          */
         ABOVE_BOTTOM("above-bottom", TitledBorder.ABOVE_BOTTOM),
 
@@ -358,7 +358,7 @@ public class UILoader {
         BOTTOM("bottom", TitledBorder.BOTTOM),
 
         /**
-         * Below-bottom position.
+         * Below bottom position.
          */
         BELOW_BOTTOM("below-bottom", TitledBorder.BELOW_BOTTOM);
 
