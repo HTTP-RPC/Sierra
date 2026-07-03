@@ -1278,8 +1278,8 @@ public class UILoader {
         var titleJustification = TitledBorder.DEFAULT_JUSTIFICATION;
         var titlePosition = TitledBorder.DEFAULT_POSITION;
 
-        LineBorder lineBorder = null;
-        EmptyBorder emptyBorder = null;
+        Border outerBorder = null;
+        Border innerBorder = null;
 
         Object constraints = null;
 
@@ -1325,9 +1325,9 @@ public class UILoader {
             } else if (name.equals(Attribute.TITLE_POSITION.getName())) {
                 titlePosition = getValue(value, TitlePosition.values());
             } else if (name.equals(Attribute.BORDER.getName())) {
-                lineBorder = parseBorder(value);
+                outerBorder = parseBorder(value);
             } else if (name.equals(Attribute.PADDING.getName())) {
-                emptyBorder = parsePadding(value);
+                innerBorder = parsePadding(value);
             } else if (name.equals(Attribute.WEIGHT.getName())) {
                 var weight = Double.parseDouble(value);
 
@@ -1473,7 +1473,7 @@ public class UILoader {
 
         Border border;
         if (title != null) {
-            var titledBorder = (new TitledBorder(lineBorder, title));
+            var titledBorder = new TitledBorder(outerBorder, title);
 
             titledBorder.setTitleColor(titleColor);
             titledBorder.setTitleFont(titleFont);
@@ -1486,11 +1486,11 @@ public class UILoader {
                 titledBorder.setTitlePosition(titlePosition);
             }
 
-            border = new CompoundBorder(titledBorder, emptyBorder);
-        } else if (lineBorder != null) {
-            border = new CompoundBorder(lineBorder, emptyBorder);
+            border = new CompoundBorder(titledBorder, innerBorder);
+        } else if (outerBorder != null) {
+            border = new CompoundBorder(outerBorder, innerBorder);
         } else {
-            border = emptyBorder;
+            border = innerBorder;
         }
 
         if (border != null) {
@@ -1795,7 +1795,7 @@ public class UILoader {
         fonts.put(name, font);
     }
 
-    private static LineBorder parseBorder(String value) {
+    private static Border parseBorder(String value) {
         var components = value.split(",");
 
         var color = parseColor(components[0].trim());
