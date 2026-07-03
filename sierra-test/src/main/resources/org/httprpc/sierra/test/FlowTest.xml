@@ -9,7 +9,7 @@
         font="Arial-BOLD-24"
         wrapText="true"
         horizontalAlignment="center" verticalAlignment="center"
-        border="#00ff00, 4"
+        border="#00ff00, 4, solid"
         padding="8, 8, 8, 8"
         weight="1"/>
 

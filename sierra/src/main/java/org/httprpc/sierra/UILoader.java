@@ -19,6 +19,7 @@ import org.httprpc.kilo.beans.BeanAdapter;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -1279,7 +1280,7 @@ public class UILoader {
         var titlePosition = TitledBorder.DEFAULT_POSITION;
 
         Border outerBorder = null;
-        Border innerBorder = null;
+        EmptyBorder innerBorder = null;
 
         Object constraints = null;
 
@@ -1807,6 +1808,13 @@ public class UILoader {
 
             if (components.length == 2) {
                 return new LineBorder(color, thickness);
+            } else if (components.length == 3) {
+                return switch (components[2].trim()) {
+                    case "solid" -> new LineBorder(color, thickness);
+                    case "dashed" -> BorderFactory.createDashedBorder(color, thickness, 4.0f, 4.0f, false);
+                    case "dotted" -> BorderFactory.createDashedBorder(color, thickness, 1.0f, 2.5f, false);
+                    default -> throw new IllegalArgumentException("Invalid border style.");
+                };
             } else {
                 throw new IllegalArgumentException("Invalid border.");
             }

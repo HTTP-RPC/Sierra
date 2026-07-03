@@ -8,7 +8,7 @@
         titleFont="h1.font"
         titleJustification="trailing"
         titlePosition="bottom"
-        border="red"
+        border="red, 1, dotted"
         padding="16">
         <label text="content" horizontalAlignment="center" border="silver" weight="1"/>
     </column-panel>

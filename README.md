@@ -171,7 +171,7 @@ The "title" attribute establishes a titled border around a component:
 The "titleColor", "titleFont", "titleJustification", and "titlePosition" attributes can be used to customize the title's appearance.
 
 ### Border and Padding Values
-The "border" and "padding" attributes create a solid border and reserve space around a component, respectively. They can also be used to customize the appearance of a titled border.
+The "border" and "padding" attributes create a line border and reserve space around a component, respectively. They can also be used to customize the appearance of a titled border.
 
 For example, this markup creates a label with a light gray border and four pixels of padding on each side:
 
@@ -179,10 +179,10 @@ For example, this markup creates a label with a light gray border and four pixel
 <label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
 ```
 
-Border thickness can be specified as shown below:
+Border thickness and style can be specified as shown below. Style options include "solid" (the default), "dashed", and "dotted":
 
 ```xml
-border="#00ff00, 4"
+border="#00ff00, 4, solid"
 ```
 
 Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _right_ order:
