@@ -10,6 +10,6 @@
         titlePosition="bottom"
         border="red, 1, dashed"
         padding="16">
-        <label text="content" horizontalAlignment="center" border="silver,1, dotted" weight="1"/>
+        <label text="content" horizontalAlignment="center" border="silver, 1, dotted" weight="1"/>
     </column-panel>
 </stack-panel>
