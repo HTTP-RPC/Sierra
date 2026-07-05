@@ -179,11 +179,13 @@ For example, this markup creates a label with a light gray border and four pixel
 <label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
 ```
 
-Border thickness and style can be specified as shown below. Style options include "solid" (the default), "dashed", and "dotted":
+Border thickness, style, and corner radius can be specified as shown below:
 
 ```xml
-border="#00ff00, 4, solid"
+border="#00ff00, 4, solid, 16"
 ```
+
+The default thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0.
 
 Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _right_ order:
 

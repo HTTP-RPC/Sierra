@@ -19,7 +19,6 @@ import org.httprpc.kilo.beans.BeanAdapter;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -68,12 +67,19 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -821,6 +827,52 @@ public class UILoader {
             }
 
             getSelectionModel().setSelectionMode(selectionMode.getValue());
+        }
+    }
+
+    private static class RoundedLineBorder implements Border {
+        Color color;
+        BasicStroke stroke;
+        int cornerRadius;
+
+        RoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius) {
+            this.color = color;
+            this.stroke = stroke;
+            this.cornerRadius = cornerRadius;
+        }
+
+        @Override
+        public void paintBorder(Component component, Graphics graphics, int x, int y, int width, int height) {
+            paintBorder(component, (Graphics2D) graphics, x, y, width, height);
+        }
+
+        private void paintBorder(Component component, Graphics2D graphics, int x, int y, int width, int height) {
+            graphics = (Graphics2D)graphics.create();
+
+            graphics.setPaint(color);
+            graphics.setStroke(stroke);
+
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            var thickness = stroke.getLineWidth();
+
+            graphics.draw(new RoundRectangle2D.Double(x + thickness / 2.0, y + thickness / 2.0,
+                width - thickness, height - thickness,
+                cornerRadius, cornerRadius));
+
+            graphics.dispose();
+        }
+
+        @Override
+        public Insets getBorderInsets(Component component) {
+            var thickness = (int)Math.ceil(stroke.getLineWidth());
+
+            return new Insets(thickness, thickness, thickness, thickness);
+        }
+
+        @Override
+        public boolean isBorderOpaque() {
+            return false;
         }
     }
 
@@ -1808,15 +1860,27 @@ public class UILoader {
 
             if (components.length == 2) {
                 return new LineBorder(color, thickness);
-            } else if (components.length == 3) {
-                return switch (components[2].trim()) {
-                    case "solid" -> new LineBorder(color, thickness);
-                    case "dashed" -> BorderFactory.createDashedBorder(color, thickness, 4.0f, 4.0f, false);
-                    case "dotted" -> BorderFactory.createDashedBorder(color, thickness, 1.0f, 2.5f, false);
+            } else {
+                var dashArray = switch(components[2].trim()) {
+                    case "solid" -> null;
+                    case "dashed" -> new float[] {thickness * 2.5f, thickness * 5.0f};
+                    case "dotted" -> new float[] {0.0f, thickness * 2.5f};
                     default -> throw new IllegalArgumentException("Invalid border style.");
                 };
-            } else {
-                throw new IllegalArgumentException("Invalid border.");
+
+                int cornerRadius;
+                if (components.length == 3) {
+                    cornerRadius = 0;
+                } else if (components.length == 4) {
+                    cornerRadius = Integer.parseInt(components[3].trim());
+                } else {
+                    throw new IllegalArgumentException("Invalid border.");
+                }
+
+                return new RoundedLineBorder(color, new BasicStroke(thickness,
+                    BasicStroke.CAP_ROUND,
+                    BasicStroke.JOIN_ROUND,
+                    0.0f, dashArray, 0.0f), cornerRadius);
             }
         }
     }
