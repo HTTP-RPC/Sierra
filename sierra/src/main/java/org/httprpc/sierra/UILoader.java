@@ -852,6 +852,7 @@ public class UILoader {
             graphics.setStroke(stroke);
 
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
             var thickness = stroke.getLineWidth();
 
