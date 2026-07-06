@@ -1331,8 +1331,8 @@ public class UILoader {
         var titleJustification = TitledBorder.DEFAULT_JUSTIFICATION;
         var titlePosition = TitledBorder.DEFAULT_POSITION;
 
-        Border outerBorder = null;
-        EmptyBorder innerBorder = null;
+        Border outsideBorder = null;
+        EmptyBorder insideBorder = null;
 
         Object constraints = null;
 
@@ -1378,9 +1378,9 @@ public class UILoader {
             } else if (name.equals(Attribute.TITLE_POSITION.getName())) {
                 titlePosition = getValue(value, TitlePosition.values());
             } else if (name.equals(Attribute.BORDER.getName())) {
-                outerBorder = parseBorder(value);
+                outsideBorder = parseBorder(value);
             } else if (name.equals(Attribute.PADDING.getName())) {
-                innerBorder = parsePadding(value);
+                insideBorder = parsePadding(value);
             } else if (name.equals(Attribute.WEIGHT.getName())) {
                 var weight = Double.parseDouble(value);
 
@@ -1526,7 +1526,7 @@ public class UILoader {
 
         Border border;
         if (title != null) {
-            var titledBorder = new TitledBorder(outerBorder, title);
+            var titledBorder = new TitledBorder(outsideBorder, title);
 
             titledBorder.setTitleColor(titleColor);
             titledBorder.setTitleFont(titleFont);
@@ -1539,11 +1539,11 @@ public class UILoader {
                 titledBorder.setTitlePosition(titlePosition);
             }
 
-            border = new CompoundBorder(titledBorder, innerBorder);
-        } else if (outerBorder != null) {
-            border = new CompoundBorder(outerBorder, innerBorder);
+            border = new CompoundBorder(titledBorder, insideBorder);
+        } else if (outsideBorder != null) {
+            border = new CompoundBorder(outsideBorder, insideBorder);
         } else {
-            border = innerBorder;
+            border = insideBorder;
         }
 
         if (border != null) {
