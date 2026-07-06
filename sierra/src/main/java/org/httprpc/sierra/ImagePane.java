@@ -126,8 +126,6 @@ public class ImagePane extends JComponent {
 
             graphics = (Graphics2D)graphics.create();
 
-            graphics.clipRect(insets.left, insets.top, width, height);
-
             graphics.translate(x + insets.left, y + insets.top);
             graphics.scale(scale, scale);
 

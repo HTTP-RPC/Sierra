@@ -33,7 +33,6 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
@@ -872,7 +871,7 @@ public class UILoader {
 
         @Override
         public boolean isBorderOpaque() {
-            return false;
+            return cornerRadius == 0;
         }
     }
 
@@ -1553,7 +1552,7 @@ public class UILoader {
         var parent = components.peek();
 
         if (parent != null) {
-            if (parent instanceof JPanel) {
+            if (parent instanceof LayoutPanel) {
                 parent.add(component, constraints);
             } else if (parent instanceof JScrollPane scrollPane) {
                 scrollPane.setViewportView(component);
