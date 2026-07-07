@@ -185,7 +185,7 @@ Border thickness, style, and corner radius can be specified as shown below:
 border="#00ff00, 4, solid, 16"
 ```
 
-The default thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0.
+The default thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0. Opaque layout panels will display a rounded background when a rounded border is applied.
 
 Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _right_ order:
 
