@@ -197,11 +197,17 @@ padding="8, 8, 8, 8"
 The "weight" attribute specifies the amount of excess space in a container that should be allocated to a component, relative to other weighted components in the container. When applied to a `Spacer` instance, it creates a "glue" component that automatically shrinks or stretches depending on the size of its container. However, weights are not limited to spacers and can be applied to any component type:
 
 ```xml
-<row-panel spacing="4" weight="1">
-    <label text="lineStart" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
-    <label text="center" font="h1" horizontalAlignment="center" border="silver" padding="4" weight="1"/>
-    <label text="lineEnd" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
-</row-panel>
+<column-panel spacing="4" padding="8" opaque="true">
+    <label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
+
+    <row-panel spacing="4" weight="1">
+        <label text="lineStart" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
+        <label text="center" font="h1" horizontalAlignment="center" border="silver" padding="4" weight="1"/>
+        <label text="lineEnd" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
+    </row-panel>
+
+    <label text="pageEnd" horizontalAlignment="center" border="silver" padding="4"/>
+</column-panel>
 ```
 
 <img src="README/border-layout.png" width="592px"/>
