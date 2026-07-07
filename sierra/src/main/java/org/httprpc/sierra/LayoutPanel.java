@@ -17,11 +17,17 @@ package org.httprpc.sierra;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
+import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.LayoutManager2;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,6 +123,42 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
         revalidate();
         repaint();
+    }
+
+    @Override
+    protected void paintComponent(Graphics graphics) {
+        paintComponent((Graphics2D)graphics);
+    }
+
+    private void paintComponent(Graphics2D graphics) {
+        if (isOpaque()
+            && getBorder() instanceof CompoundBorder compoundBorder
+            && compoundBorder.getOutsideBorder() instanceof UILoader.RoundedLineBorder roundedLineBorder) {
+            var width = getWidth();
+            var height = getHeight();
+
+            var thickness = roundedLineBorder.getStroke().getLineWidth();
+            var cornerRadius = roundedLineBorder.getCornerRadius();
+
+            graphics = (Graphics2D)graphics.create();
+
+            graphics.setPaint(getParent().getBackground());
+            graphics.setStroke(new BasicStroke(cornerRadius));
+
+            graphics.drawRect(0, 0, width, height);
+
+            graphics.setPaint(getBackground());
+
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            graphics.fill(new RoundRectangle2D.Double(thickness / 2.0, thickness / 2.0,
+                width - thickness, height - thickness,
+                cornerRadius, cornerRadius));
+
+            graphics.dispose();
+        } else {
+            super.paintComponent(graphics);
+        }
     }
 
     @Override

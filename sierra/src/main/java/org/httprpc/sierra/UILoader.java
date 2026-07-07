@@ -829,15 +829,64 @@ public class UILoader {
         }
     }
 
-    private static class RoundedLineBorder implements Border {
-        Color color;
-        BasicStroke stroke;
-        int cornerRadius;
+    /**
+     * Rounded line border.
+     */
+    public static class RoundedLineBorder implements Border {
+        private Color color;
+        private BasicStroke stroke;
+        private int cornerRadius;
 
-        RoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius) {
+        /**
+         * Constructs a new rounded line border.
+         *
+         * @param color
+         * The border color.
+         *
+         * @param stroke
+         * The border stroke.
+         *
+         * @param cornerRadius
+         * The corner radius.
+         */
+        public RoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius) {
+            if (color == null || stroke == null || cornerRadius < 0) {
+                throw new IllegalArgumentException();
+            }
+
             this.color = color;
             this.stroke = stroke;
             this.cornerRadius = cornerRadius;
+        }
+
+        /**
+         * Returns the border color.
+         *
+         * @return
+         * The border color.
+         */
+        public Color getColor() {
+            return color;
+        }
+
+        /**
+         * Returns the border stroke.
+         *
+         * @return
+         * The border stroke.
+         */
+        public BasicStroke getStroke() {
+            return stroke;
+        }
+
+        /**
+         * Returns the corner radius.
+         *
+         * @return
+         * The corner radius.
+         */
+        public int getCornerRadius() {
+            return cornerRadius;
         }
 
         @Override
