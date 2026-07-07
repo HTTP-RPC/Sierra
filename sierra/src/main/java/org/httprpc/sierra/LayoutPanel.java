@@ -143,7 +143,7 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
             graphics = (Graphics2D)graphics.create();
 
             graphics.setPaint(getParent().getBackground());
-            graphics.setStroke(new BasicStroke(cornerRadius));
+            graphics.setStroke(new BasicStroke((float)Math.ceil(cornerRadius * (Math.sqrt(2) - 1))));
 
             graphics.drawRect(0, 0, width, height);
 
