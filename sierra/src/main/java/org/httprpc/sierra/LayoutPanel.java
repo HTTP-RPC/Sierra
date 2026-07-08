@@ -203,12 +203,15 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
                 var scaleX = transform.getScaleX();
                 var scaleY = transform.getScaleY();
 
-                var clipImage = new BufferedImage((int)Math.round(width * scaleX), (int)Math.round(height * scaleY), BufferedImage.TYPE_INT_ARGB);
+                var clipWidth = (int)Math.round(clipBounds.width * scaleX);
+                var clipHeight = (int)Math.round(clipBounds.height * scaleY);
+
+                var clipImage = new BufferedImage(clipWidth, clipHeight, BufferedImage.TYPE_INT_ARGB);
 
                 var clipGraphics = clipImage.createGraphics();
 
                 clipGraphics.scale(scaleX, scaleY);
-                clipGraphics.clipRect(clipBounds.x, clipBounds.y, clipBounds.width, clipBounds.height);
+                clipGraphics.translate(-clipBounds.x, -clipBounds.y);
 
                 clipGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -230,7 +233,9 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
                 graphics = (Graphics2D)graphics.create();
 
+                graphics.translate(clipBounds.x, clipBounds.y);
                 graphics.scale(1.0 / scaleX, 1.0 / scaleY);
+
                 graphics.drawImage(clipImage, 0, 0, null);
 
                 graphics.dispose();
