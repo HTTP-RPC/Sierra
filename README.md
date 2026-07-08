@@ -185,9 +185,7 @@ Border thickness, style, and corner radius can be specified as shown below:
 border="silver, 4, solid, 32"
 ```
 
-The default thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0.
-
-When a rounded border is applied to a layout panel, the panel's content will be clipped such that it remains within the border:
+The default thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0. When a rounded border is applied to a layout panel, the panel's content will be clipped such that it remains within the border:
 
 ```xml
 <stack-panel border="green, 1, solid, 32">
