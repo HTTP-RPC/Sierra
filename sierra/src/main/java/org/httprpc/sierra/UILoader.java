@@ -897,11 +897,11 @@ public class UILoader {
         private void paintBorder(Component component, Graphics2D graphics, int x, int y, int width, int height) {
             graphics = (Graphics2D)graphics.create();
 
-            graphics.setPaint(color);
-            graphics.setStroke(stroke);
-
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
+            graphics.setColor(color);
+            graphics.setStroke(stroke);
 
             var thickness = stroke.getLineWidth();
 

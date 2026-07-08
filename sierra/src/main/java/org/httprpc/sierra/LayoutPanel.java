@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -147,22 +148,24 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         if (isOpaque()
             && getBorder() instanceof CompoundBorder compoundBorder
             && compoundBorder.getOutsideBorder() instanceof UILoader.RoundedLineBorder roundedLineBorder) {
+            graphics = (Graphics2D)graphics.create();
+
+            graphics.setColor(getOpaqueBackground(getParent()));
+
+            var cornerRadius = roundedLineBorder.getCornerRadius();
+
+            graphics.setStroke(new BasicStroke((float)Math.ceil(cornerRadius * (Math.sqrt(2) - 1))));
+
             var width = getWidth();
             var height = getHeight();
 
-            var thickness = roundedLineBorder.getStroke().getLineWidth();
-            var cornerRadius = roundedLineBorder.getCornerRadius();
-
-            graphics = (Graphics2D)graphics.create();
-
-            graphics.setPaint(getParent().getBackground());
-            graphics.setStroke(new BasicStroke((float)Math.ceil(cornerRadius * (Math.sqrt(2) - 1))));
-
             graphics.drawRect(0, 0, width, height);
 
-            graphics.setPaint(getBackground());
-
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            graphics.setColor(getBackground());
+
+            var thickness = roundedLineBorder.getStroke().getLineWidth();
 
             graphics.fill(new RoundRectangle2D.Double(thickness / 2.0, thickness / 2.0,
                 width - thickness, height - thickness,
@@ -182,15 +185,14 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     private void paintChildren(Graphics2D graphics) {
         if (getBorder() instanceof CompoundBorder compoundBorder
             && compoundBorder.getOutsideBorder() instanceof UILoader.RoundedLineBorder roundedLineBorder) {
-            var width = getWidth();
-            var height = getHeight();
-
-            var thickness = roundedLineBorder.getStroke().getLineWidth();
             var cornerRadius = roundedLineBorder.getCornerRadius();
 
             var clipBounds = graphics.getClipBounds();
 
             var clipEdge = (int)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
+
+            var width = getWidth();
+            var height = getHeight();
 
             if (clipBounds.x < clipEdge
                 || clipBounds.y < clipEdge
@@ -210,12 +212,16 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
                 clipGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                clipGraphics.setColor(getBackground());
+                clipGraphics.setColor(getOpaqueBackground(this));
+
+                var thickness = roundedLineBorder.getStroke().getLineWidth();
+
                 clipGraphics.fill(new RoundRectangle2D.Double(thickness / 2.0, thickness / 2.0,
                     width - thickness, height - thickness,
                     cornerRadius, cornerRadius));
 
                 clipGraphics.setRenderingHints(graphics.getRenderingHints());
+
                 clipGraphics.setComposite(AlphaComposite.SrcIn);
 
                 super.paintChildren(clipGraphics);
@@ -233,6 +239,16 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
             }
         } else {
             super.paintChildren(graphics);
+        }
+    }
+
+    private static Color getOpaqueBackground(Component component) {
+        if (component == null) {
+            return null;
+        } else if (component.isOpaque()) {
+            return component.getBackground();
+        } else {
+            return getOpaqueBackground(component.getParent());
         }
     }
 
