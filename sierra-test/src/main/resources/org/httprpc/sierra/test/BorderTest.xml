@@ -8,8 +8,8 @@
         titleFont="h1.font"
         titleJustification="trailing"
         titlePosition="bottom"
-        border="red, 1, dashed, 16"
+        border="#ff0000, 1, dashed, 16"
         padding="16">
-        <label text="content" horizontalAlignment="center" border="silver, 1, dotted, 16" weight="1"/>
+        <label text="content" horizontalAlignment="center" border="#0000ff, 1, dotted, 16" weight="1"/>
     </column-panel>
 </stack-panel>

@@ -182,15 +182,15 @@ For example, this markup creates a label with a light gray border and four pixel
 Border thickness, style, and corner radius can be specified as shown below:
 
 ```xml
-border="#00ff00, 4, solid, 16"
+border="silver, 4, solid, 32"
 ```
 
-The default thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0. Opaque layout panels will display a rounded background when a rounded border is applied.
+The default thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0. When a rounded border is applied to a layout panel, the panel's content will be clipped such that it remains within the border.
 
 Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _right_ order:
 
 ```xml
-padding="8, 8, 8, 8"
+padding="8, 16, 8, 16"
 ```
 
 ### Weight and Size Values

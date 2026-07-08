@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Container;
@@ -28,6 +29,7 @@ import java.awt.LayoutManager2;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,6 +128,17 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     }
 
     @Override
+    public void paint(Graphics graphics) {
+        graphics = getComponentGraphics(graphics).create();
+
+        paintComponent(graphics);
+        paintChildren(graphics);
+        paintBorder(graphics);
+
+        graphics.dispose();
+    }
+
+    @Override
     protected void paintComponent(Graphics graphics) {
         paintComponent((Graphics2D)graphics);
     }
@@ -158,6 +171,56 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
             graphics.dispose();
         } else {
             super.paintComponent(graphics);
+        }
+    }
+
+    @Override
+    protected void paintChildren(Graphics graphics) {
+        paintChildren((Graphics2D)graphics);
+    }
+
+    private void paintChildren(Graphics2D graphics) {
+        if (getBorder() instanceof CompoundBorder compoundBorder
+            && compoundBorder.getOutsideBorder() instanceof UILoader.RoundedLineBorder roundedLineBorder) {
+            var width = getWidth();
+            var height = getHeight();
+
+            var thickness = roundedLineBorder.getStroke().getLineWidth();
+            var cornerRadius = roundedLineBorder.getCornerRadius();
+
+            var transform = graphics.getTransform();
+
+            var scaleX = transform.getScaleX();
+            var scaleY = transform.getScaleY();
+
+            var bufferedImage = new BufferedImage((int)Math.round(width * scaleX), (int)Math.round(height * scaleY), BufferedImage.TYPE_INT_ARGB);
+
+            var bufferedImageGraphics = bufferedImage.createGraphics();
+
+            bufferedImageGraphics.scale(scaleX, scaleY);
+            bufferedImageGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            bufferedImageGraphics.setColor(getBackground());
+            bufferedImageGraphics.fill(new RoundRectangle2D.Double(thickness / 2.0, thickness / 2.0,
+                width - thickness, height - thickness,
+                cornerRadius, cornerRadius));
+
+            bufferedImageGraphics.setRenderingHints(graphics.getRenderingHints());
+            bufferedImageGraphics.setComposite(AlphaComposite.SrcIn);
+
+            super.paintChildren(bufferedImageGraphics);
+
+            bufferedImageGraphics.dispose();
+
+            graphics = (Graphics2D)graphics.create();
+
+            graphics.scale(1.0 / scaleX, 1.0 / scaleY);
+
+            graphics.drawImage(bufferedImage, 0, 0, null);
+
+            graphics.dispose();
+        } else {
+            super.paintChildren(graphics);
         }
     }
 

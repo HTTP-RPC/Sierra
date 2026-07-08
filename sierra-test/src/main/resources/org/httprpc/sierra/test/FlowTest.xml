@@ -2,17 +2,21 @@
 
 <!DOCTYPE row-panel SYSTEM "sierra.dtd">
 
-<row-panel spacing="8" padding="16" opaque="true" background="#ffffff">
-    <image-pane image="world.png" scaleMode="fill-height" border="#ff0000, 2, solid, 16"/>
+<row-panel spacing="8" padding="16" opaque="true">
+    <row-panel border="silver, 2, solid, 32">
+        <image-pane image="world.png" scaleMode="fill-height"/>
+    </row-panel>
 
-    <column-panel opaque="true" border="#00ff00, 4, solid, 16" weight="1">
+    <column-panel opaque="true" background="white" border="silver, 4, solid, 32" weight="1">
         <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             font="Arial-BOLD-24"
             wrapText="true"
             horizontalAlignment="center" verticalAlignment="center"
-            padding="8, 8, 8, 8"
+            padding="8, 16, 8, 16"
             weight="1"/>
     </column-panel>
 
-    <image-pane image="world.png" scaleMode="fill-height" border="#ff0000, 2, solid, 16"/>
+    <row-panel border="silver, 2, solid, 32">
+        <image-pane image="world.png" scaleMode="fill-height"/>
+    </row-panel>
 </row-panel>
