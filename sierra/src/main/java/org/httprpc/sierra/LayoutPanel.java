@@ -215,7 +215,7 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
                 clipGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                clipGraphics.setColor(roundedLineBorder.getColor());
+                clipGraphics.setColor(isOpaque() ? getBackground() : roundedLineBorder.getColor());
 
                 var thickness = roundedLineBorder.getStroke().getLineWidth();
 
