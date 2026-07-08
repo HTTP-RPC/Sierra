@@ -188,37 +188,49 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
             var thickness = roundedLineBorder.getStroke().getLineWidth();
             var cornerRadius = roundedLineBorder.getCornerRadius();
 
-            var transform = graphics.getTransform();
+            var clipBounds = graphics.getClipBounds();
 
-            var scaleX = transform.getScaleX();
-            var scaleY = transform.getScaleY();
+            var clipEdge = (int)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
 
-            var bufferedImage = new BufferedImage((int)Math.round(width * scaleX), (int)Math.round(height * scaleY), BufferedImage.TYPE_INT_ARGB);
+            if (clipBounds.x < clipEdge
+                || clipBounds.y < clipEdge
+                || clipBounds.x + clipBounds.width > width - clipEdge
+                || clipBounds.y + clipBounds.height > height - clipEdge) {
+                var transform = graphics.getTransform();
 
-            var bufferedImageGraphics = bufferedImage.createGraphics();
+                var scaleX = transform.getScaleX();
+                var scaleY = transform.getScaleY();
 
-            bufferedImageGraphics.scale(scaleX, scaleY);
-            bufferedImageGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                var clipImage = new BufferedImage((int)Math.round(width * scaleX), (int)Math.round(height * scaleY), BufferedImage.TYPE_INT_ARGB);
 
-            bufferedImageGraphics.setColor(getBackground());
-            bufferedImageGraphics.fill(new RoundRectangle2D.Double(thickness / 2.0, thickness / 2.0,
-                width - thickness, height - thickness,
-                cornerRadius, cornerRadius));
+                var clipGraphics = clipImage.createGraphics();
 
-            bufferedImageGraphics.setRenderingHints(graphics.getRenderingHints());
-            bufferedImageGraphics.setComposite(AlphaComposite.SrcIn);
+                clipGraphics.scale(scaleX, scaleY);
+                clipGraphics.clipRect(clipBounds.x, clipBounds.y, clipBounds.width, clipBounds.height);
 
-            super.paintChildren(bufferedImageGraphics);
+                clipGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            bufferedImageGraphics.dispose();
+                clipGraphics.setColor(getBackground());
+                clipGraphics.fill(new RoundRectangle2D.Double(thickness / 2.0, thickness / 2.0,
+                    width - thickness, height - thickness,
+                    cornerRadius, cornerRadius));
 
-            graphics = (Graphics2D)graphics.create();
+                clipGraphics.setRenderingHints(graphics.getRenderingHints());
+                clipGraphics.setComposite(AlphaComposite.SrcIn);
 
-            graphics.scale(1.0 / scaleX, 1.0 / scaleY);
+                super.paintChildren(clipGraphics);
 
-            graphics.drawImage(bufferedImage, 0, 0, null);
+                clipGraphics.dispose();
 
-            graphics.dispose();
+                graphics = (Graphics2D)graphics.create();
+
+                graphics.scale(1.0 / scaleX, 1.0 / scaleY);
+                graphics.drawImage(clipImage, 0, 0, null);
+
+                graphics.dispose();
+            } else {
+                super.paintChildren(graphics);
+            }
         } else {
             super.paintChildren(graphics);
         }
