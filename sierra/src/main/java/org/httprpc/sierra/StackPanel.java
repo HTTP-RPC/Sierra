@@ -25,7 +25,11 @@ public class StackPanel extends LayoutPanel {
     private class StackLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize(Container container) {
+            var size = getSize();
             var insets = getInsets();
+
+            var width = Math.max(size.width - (insets.left + insets.right), 0);
+            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
             var preferredWidth = 0;
             var preferredHeight = 0;
@@ -34,6 +38,8 @@ public class StackPanel extends LayoutPanel {
 
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
+
+                component.setSize(width, height);
 
                 var preferredSize = component.getPreferredSize();
 
