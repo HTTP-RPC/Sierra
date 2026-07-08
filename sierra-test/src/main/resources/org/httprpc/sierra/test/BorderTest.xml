@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!DOCTYPE stack-panel SYSTEM "sierra.dtd">
+<!DOCTYPE row-panel SYSTEM "sierra.dtd">
 
-<stack-panel padding="8" opaque="true">
+<row-panel spacing="16" padding="16" opaque="true">
+    <stack-panel border="green, 1, solid, 32">
+        <image-pane image="lighthouse.jpg" scaleMode="fill-height"/>
+    </stack-panel>
+
     <column-panel title="Title"
         titleColor="green"
         titleFont="h1.font"
         titleJustification="trailing"
         titlePosition="bottom"
         border="#ff0000, 1, dashed, 16"
-        padding="16">
+        padding="16"
+        weight="1">
         <label text="content" horizontalAlignment="center" border="#0000ff, 1, dotted, 16" weight="1"/>
     </column-panel>
-</stack-panel>
+</row-panel>
