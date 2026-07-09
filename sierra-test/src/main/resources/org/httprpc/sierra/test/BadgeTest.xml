@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE row-panel SYSTEM "sierra.dtd">
+
+<row-panel spacing="8" padding="16" opaque="true">
+    <badge text="25" foreground="white" background="crimson"/>
+
+    <badge text="Alert" foreground="crimson" background="pink"/>
+    <badge text="Warning" foreground="goldenrod" background="pale-goldenrod"/>
+    <badge text="Info" foreground="steel-blue" background="light-blue"/>
+    <badge text="OK" foreground="green" background="light-green"/>
+
+    <badge text="Default"/>
+</row-panel>

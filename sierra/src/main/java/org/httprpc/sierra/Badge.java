@@ -15,6 +15,7 @@
 package org.httprpc.sierra;
 
 import javax.swing.JComponent;
+import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -140,6 +141,9 @@ public class Badge extends JComponent {
      */
     public Badge(String text) {
         this.text = text;
+
+        setForeground(UIManager.getColor("Panel.background"));
+        setBackground(UIManager.getColor("Label.disabledForeground"));
 
         setUI(new BadgeUI());
     }

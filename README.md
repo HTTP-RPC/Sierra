@@ -490,6 +490,13 @@ The `ActivityIndicator` component shows indeterminate progress:
 
 See [ActivityIndicatorTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActivityIndicatorTest.java) for more information.
 
+### Badges
+The `Badge` component displays a small amount of status information:
+
+<img src="README/badge.png" width="332px"/>
+
+See [BadgeTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/BadgeTest.java) for more information.
+
 ### Charts
 The `ChartPane` component displays a [chart](charts-reference.md):
 
