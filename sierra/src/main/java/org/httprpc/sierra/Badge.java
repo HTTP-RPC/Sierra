@@ -86,17 +86,11 @@ public class Badge extends JComponent {
             var width = Math.max(size.width - (insets.left + insets.right), 0);
             var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
-            var transform = graphics.getTransform();
-
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             graphics.setColor(getBackground());
 
-            var arc = (double)height / 2;
-
-            graphics.fill(new RoundRectangle2D.Double(0, 0, width, height,
-                arc * transform.getScaleX(),
-                arc * transform.getScaleY()));
+            graphics.fill(new RoundRectangle2D.Double(0, 0, width, height, height, height));
 
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
