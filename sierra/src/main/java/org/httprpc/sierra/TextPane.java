@@ -76,9 +76,7 @@ public class TextPane extends JComponent {
                         lastWhitespaceIndex = i;
                     }
 
-                    var characterBounds = font.getStringBounds(text, i, i + 1, fontRenderContext);
-
-                    lineWidth += characterBounds.getWidth();
+                    lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
 
                     if (lineWidth > width && lastWhitespaceIndex != -1) {
                         textWidth = Math.max(lineWidth, textWidth);
@@ -95,7 +93,7 @@ public class TextPane extends JComponent {
 
                 textWidth = Math.max(lineWidth, textWidth);
             } else {
-                var stringBounds = font.getStringBounds(text, 0, text.length(), fontRenderContext);
+                var stringBounds = font.getStringBounds(text, fontRenderContext);
 
                 textWidth = stringBounds.getWidth();
                 textHeight = stringBounds.getHeight();
@@ -149,9 +147,9 @@ public class TextPane extends JComponent {
             for (var i = 0; i < n; i++) {
                 var glyphVector = glyphVectors.get(i);
 
-                var textBounds = glyphVector.getLogicalBounds();
+                var lineBounds = glyphVector.getLogicalBounds();
 
-                var lineWidth = textBounds.getWidth();
+                var lineWidth = lineBounds.getWidth();
 
                 var x = switch (horizontalAlignment.getLocalizedValue(TextPane.this)) {
                     case LEFT -> insets.left;
@@ -162,7 +160,7 @@ public class TextPane extends JComponent {
 
                 graphics.drawGlyphVector(glyphVector, (float)x, (float)y + ascent);
 
-                y += textBounds.getHeight();
+                y += lineBounds.getHeight();
             }
 
             graphics.dispose();
