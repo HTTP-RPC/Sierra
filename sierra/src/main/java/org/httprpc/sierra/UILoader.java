@@ -1144,6 +1144,7 @@ public class UILoader {
         bind("suggestion-picker", SuggestionPicker.class, SuggestionPicker::new);
         bind("menu-button", MenuButton.class, MenuButton::new);
         bind("activity-indicator", ActivityIndicator.class, ActivityIndicator::new);
+        bind("badge", Badge.class, Badge::new);
 
         bind("chart-pane", ChartPane.class, ChartPane::new);
     }

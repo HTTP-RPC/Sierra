@@ -49,6 +49,9 @@
 <!ENTITY % org.httprpc.sierra.ActivityIndicator "%javax.swing.JComponent; indicatorSize CDATA ">
 <!ELEMENT activity-indicator EMPTY>
 <!ATTLIST activity-indicator %org.httprpc.sierra.ActivityIndicator;>
+<!ENTITY % org.httprpc.sierra.Badge "%javax.swing.JComponent; text CDATA ">
+<!ELEMENT badge EMPTY>
+<!ATTLIST badge %org.httprpc.sierra.Badge;>
 <!ENTITY % org.httprpc.sierra.ChartPane "%javax.swing.JComponent; ">
 <!ELEMENT chart-pane EMPTY>
 <!ATTLIST chart-pane %org.httprpc.sierra.ChartPane;>

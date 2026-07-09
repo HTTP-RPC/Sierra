@@ -9,6 +9,6 @@
 
         <spacer size="20, 20" border="silver"/>
 
-        <label text="lmnop" font="medium" border="silver"/>
+        <badge text="lmnop" font="medium" foreground="steel-blue" background="light-blue"/>
     </row-panel>
 </column-panel>
