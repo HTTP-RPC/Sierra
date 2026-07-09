@@ -66,7 +66,7 @@ public class Badge extends JComponent {
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-            var ascent = font.getLineMetrics("", fontRenderContext).getAscent();
+            var ascent = font.getLineMetrics(text, fontRenderContext).getAscent();
 
             return insets.top + (int)Math.ceil(ascent);
         }
@@ -83,18 +83,24 @@ public class Badge extends JComponent {
             var width = Math.max(size.width - (insets.left + insets.right), 0);
             var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
+            var transform = graphics.getTransform();
+
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             graphics.setColor(getBackground());
 
-            graphics.fill(new RoundRectangle2D.Double(0, 0, width, height, height, height));
+            var arc = (double)height / 2;
+
+            graphics.fill(new RoundRectangle2D.Double(0, 0, width, height,
+                arc * transform.getScaleX(),
+                arc * transform.getScaleY()));
 
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
             var stringBounds = font.getStringBounds(text, fontRenderContext);
 
-            var ascent = font.getLineMetrics("", fontRenderContext).getAscent();
+            var ascent = font.getLineMetrics(text, fontRenderContext).getAscent();
 
             var textWidth = stringBounds.getWidth();
             var textHeight = stringBounds.getHeight();
