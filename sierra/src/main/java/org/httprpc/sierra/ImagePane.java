@@ -81,7 +81,7 @@ public class ImagePane extends JComponent {
             var preferredWidth = scale * imageWidth + (insets.left + insets.right);
             var preferredHeight = scale * imageHeight + (insets.top + insets.bottom);
 
-            return new Dimension((int)Math.round(preferredWidth), (int)Math.round(preferredHeight));
+            return new Dimension((int)Math.floor(preferredWidth), (int)Math.floor(preferredHeight));
         }
 
         @Override

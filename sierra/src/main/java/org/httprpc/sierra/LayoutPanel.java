@@ -138,65 +138,39 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     }
 
     @Override
-    protected void paintComponent(Graphics graphics) {
-        paintComponent((Graphics2D)graphics);
+    protected void paintBorder(Graphics graphics) {
+        drawMask((Graphics2D)graphics);
+
+        super.paintBorder(graphics);
     }
 
-    private void paintComponent(Graphics2D graphics) {
-        if (isOpaque()
-            && getBorder() instanceof CompoundBorder compoundBorder
-            && compoundBorder.getOutsideBorder() instanceof UILoader.RoundedLineBorder roundedLineBorder) {
-            graphics = (Graphics2D)graphics.create();
-
-            graphics.setColor(getOpaqueBackground(getParent()));
-
-            var cornerRadius = roundedLineBorder.getCornerRadius();
-
-            graphics.setStroke(new BasicStroke((float)Math.ceil(cornerRadius * (Math.sqrt(2) - 1))));
-
-            var width = getWidth();
-            var height = getHeight();
-
-            graphics.drawRect(0, 0, width, height);
-
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            graphics.setColor(getBackground());
-
-            var thickness = roundedLineBorder.getThickness();
-
-            graphics.fill(new RoundRectangle2D.Double(thickness / 2.0, thickness / 2.0,
-                width - thickness, height - thickness,
-                cornerRadius, cornerRadius));
-
-            graphics.dispose();
-        } else {
-            super.paintComponent(graphics);
-        }
-    }
-
-    @Override
-    protected void paintChildren(Graphics graphics) {
-        paintChildren((Graphics2D)graphics);
-    }
-
-    private void paintChildren(Graphics2D graphics) {
+    private void drawMask(Graphics2D graphics) {
         if (getBorder() instanceof CompoundBorder compoundBorder
             && compoundBorder.getOutsideBorder() instanceof UILoader.RoundedLineBorder roundedLineBorder) {
-            graphics = (Graphics2D)graphics.create();
+            var cornerRadius = (double)roundedLineBorder.getCornerRadius();
 
-            var width = getWidth();
-            var height = getHeight();
+            if (cornerRadius > 0) {
+                graphics = (Graphics2D)graphics.create();
 
-            var cornerRadius = roundedLineBorder.getCornerRadius();
+                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
-            graphics.clip(new RoundRectangle2D.Double(0, 0, width, height, cornerRadius, cornerRadius));
+                graphics.setColor(getOpaqueBackground(getParent()));
 
-            super.paintChildren(graphics);
+                var thickness = 2 * cornerRadius * (Math.sqrt(2) - 1);
 
-            graphics.dispose();
-        } else {
-            super.paintChildren(graphics);
+                graphics.setStroke(new BasicStroke((float)thickness,
+                    BasicStroke.CAP_ROUND,
+                    BasicStroke.JOIN_ROUND));
+
+                cornerRadius += thickness;
+
+                graphics.draw(new RoundRectangle2D.Double(-thickness / 2, -thickness / 2,
+                    getWidth() + thickness, getHeight() + thickness,
+                    cornerRadius, cornerRadius));
+
+                graphics.dispose();
+            }
         }
     }
 
