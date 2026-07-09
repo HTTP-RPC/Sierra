@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 
 /**
  * Displays an image.
@@ -128,6 +129,8 @@ public class ImagePane extends JComponent {
 
             graphics.translate(x + insets.left, y + insets.top);
             graphics.scale(scale, scale);
+
+            graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
             graphics.drawImage(image, 0, 0, null);
 

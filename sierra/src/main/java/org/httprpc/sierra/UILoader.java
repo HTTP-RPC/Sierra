@@ -930,6 +930,10 @@ public class UILoader {
         }
 
         private void paintBorder(Component component, Graphics2D graphics, int x, int y, int width, int height) {
+            if (thickness == 0) {
+                return;
+            }
+
             graphics = (Graphics2D)graphics.create();
 
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
