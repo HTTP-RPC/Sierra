@@ -833,8 +833,29 @@ public class UILoader {
      * Rounded line border.
      */
     public static class RoundedLineBorder implements Border {
+        /**
+         * Border style options.
+         */
+        public enum Style {
+            /**
+             * Solid.
+             */
+            SOLID,
+
+            /**
+             * Dashed.
+             */
+            DASHED,
+
+            /**
+             * Dotted.
+             */
+            DOTTED
+        }
+
         private Color color;
-        private BasicStroke stroke;
+        private int thickness;
+        private Style style;
         private int cornerRadius;
 
         /**
@@ -843,19 +864,23 @@ public class UILoader {
          * @param color
          * The border color.
          *
-         * @param stroke
-         * The border stroke.
+         * @param thickness
+         * The border thickness.
+         *
+         * @param style
+         * The border style.
          *
          * @param cornerRadius
          * The corner radius.
          */
-        public RoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius) {
-            if (color == null || stroke == null || cornerRadius < 0) {
+        public RoundedLineBorder(Color color, int thickness, Style style, int cornerRadius) {
+            if (color == null || thickness < 0 || style == null || cornerRadius < 0) {
                 throw new IllegalArgumentException();
             }
 
             this.color = color;
-            this.stroke = stroke;
+            this.thickness = thickness;
+            this.style = style;
             this.cornerRadius = cornerRadius;
         }
 
@@ -870,13 +895,23 @@ public class UILoader {
         }
 
         /**
-         * Returns the border stroke.
+         * Returns the border thickness.
          *
          * @return
-         * The border stroke.
+         * The border thickness.
          */
-        public BasicStroke getStroke() {
-            return stroke;
+        public int getThickness() {
+            return thickness;
+        }
+
+        /**
+         * Returns the border style.
+         *
+         * @return
+         * The border style.
+         */
+        public Style getStyle() {
+            return style;
         }
 
         /**
@@ -901,9 +936,17 @@ public class UILoader {
             graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
             graphics.setColor(color);
-            graphics.setStroke(stroke);
 
-            var thickness = stroke.getLineWidth();
+            var dashArray = switch(style) {
+                case SOLID -> null;
+                case DASHED -> new float[] {thickness * 2.5f, thickness * 5.0f};
+                case DOTTED -> new float[] {0.0f, thickness * 2.5f};
+            };
+
+            graphics.setStroke(new BasicStroke(thickness,
+                BasicStroke.CAP_ROUND,
+                BasicStroke.JOIN_ROUND,
+                0.0f, dashArray, 0.0f));
 
             graphics.draw(new RoundRectangle2D.Double(x + thickness / 2.0, y + thickness / 2.0,
                 width - thickness, height - thickness,
@@ -914,8 +957,6 @@ public class UILoader {
 
         @Override
         public Insets getBorderInsets(Component component) {
-            var thickness = (int)Math.ceil(stroke.getLineWidth());
-
             return new Insets(thickness, thickness, thickness, thickness);
         }
 
@@ -1910,10 +1951,10 @@ public class UILoader {
             if (components.length == 2) {
                 return new LineBorder(color, thickness);
             } else {
-                var dashArray = switch(components[2].trim()) {
-                    case "solid" -> null;
-                    case "dashed" -> new float[] {thickness * 2.5f, thickness * 5.0f};
-                    case "dotted" -> new float[] {0.0f, thickness * 2.5f};
+                var style = switch(components[2].trim()) {
+                    case "solid" -> RoundedLineBorder.Style.SOLID;
+                    case "dashed" -> RoundedLineBorder.Style.DASHED;
+                    case "dotted" -> RoundedLineBorder.Style.DOTTED;
                     default -> throw new IllegalArgumentException("Invalid border style.");
                 };
 
@@ -1926,10 +1967,7 @@ public class UILoader {
                     throw new IllegalArgumentException("Invalid border.");
                 }
 
-                return new RoundedLineBorder(color, new BasicStroke(thickness,
-                    BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND,
-                    0.0f, dashArray, 0.0f), cornerRadius);
+                return new RoundedLineBorder(color, thickness, style, cornerRadius);
             }
         }
     }

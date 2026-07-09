@@ -165,7 +165,7 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
             graphics.setColor(getBackground());
 
-            var thickness = roundedLineBorder.getStroke().getLineWidth();
+            var thickness = roundedLineBorder.getThickness();
 
             graphics.fill(new RoundRectangle2D.Double(thickness / 2.0, thickness / 2.0,
                 width - thickness, height - thickness,
@@ -217,7 +217,7 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
                 clipGraphics.setColor(getOpaqueBackground(this));
 
-                var thickness = roundedLineBorder.getStroke().getLineWidth();
+                var thickness = roundedLineBorder.getThickness();
 
                 clipGraphics.fill(new RoundRectangle2D.Double(thickness / 2.0, thickness / 2.0,
                     width - thickness, height - thickness,
