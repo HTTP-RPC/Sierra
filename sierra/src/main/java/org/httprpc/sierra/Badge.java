@@ -51,7 +51,7 @@ public class Badge extends JComponent {
             var stringBounds = font.getStringBounds(text, fontRenderContext);
 
             var textWidth = stringBounds.getWidth();
-            var textHeight = stringBounds.getHeight();
+            var textHeight = stringBounds.getHeight() * (1.0 + MARGIN * 2);
 
             var preferredWidth = textWidth + textHeight + (insets.left + insets.right);
             var preferredHeight = textHeight + (insets.top + insets.bottom);
@@ -66,9 +66,11 @@ public class Badge extends JComponent {
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-            var ascent = font.getLineMetrics(text, fontRenderContext).getAscent();
+            var lineMetrics = font.getLineMetrics(text, fontRenderContext);
 
-            return insets.top + (int)Math.ceil(ascent);
+            var ascent = lineMetrics.getAscent();
+
+            return (int)Math.ceil(insets.top + lineMetrics.getHeight() * MARGIN + ascent);
         }
 
         @Override
@@ -120,6 +122,8 @@ public class Badge extends JComponent {
     }
 
     private String text;
+
+    private static final double MARGIN = 0.1;
 
     /**
      * Constructs a new badge.
