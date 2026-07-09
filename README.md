@@ -193,7 +193,7 @@ The default thickness is 1. Style options include "solid" (the default), "dashed
 </stack-panel>
 ```
 
-<img src="README/border.png" width="227px"/>
+<img src="README/border.png" width="226px"/>
 
 Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _right_ order:
 
