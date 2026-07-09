@@ -86,6 +86,8 @@ public class Badge extends JComponent {
             var width = Math.max(size.width - (insets.left + insets.right), 0);
             var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
+            graphics = (Graphics2D)graphics.create();
+
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             graphics.setColor(getBackground());
@@ -105,7 +107,8 @@ public class Badge extends JComponent {
             var x = insets.left + (width - textWidth) / 2;
             var y = insets.top + (height - textHeight) / 2 + ascent;
 
-            graphics = (Graphics2D)graphics.create();
+            graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
+            graphics.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT);
 
             graphics.setColor(getForeground());
             graphics.setFont(font);
