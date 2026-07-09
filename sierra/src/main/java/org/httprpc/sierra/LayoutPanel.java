@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
-import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
@@ -30,7 +29,6 @@ import java.awt.LayoutManager2;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,63 +183,18 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     private void paintChildren(Graphics2D graphics) {
         if (getBorder() instanceof CompoundBorder compoundBorder
             && compoundBorder.getOutsideBorder() instanceof UILoader.RoundedLineBorder roundedLineBorder) {
-            var cornerRadius = roundedLineBorder.getCornerRadius();
-
-            var clipBounds = graphics.getClipBounds();
-
-            var clipEdge = (int)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
+            graphics = (Graphics2D)graphics.create();
 
             var width = getWidth();
             var height = getHeight();
 
-            if (clipBounds.x < clipEdge
-                || clipBounds.y < clipEdge
-                || clipBounds.x + clipBounds.width > width - clipEdge
-                || clipBounds.y + clipBounds.height > height - clipEdge) {
-                var transform = graphics.getTransform();
+            var cornerRadius = roundedLineBorder.getCornerRadius();
 
-                var scaleX = transform.getScaleX();
-                var scaleY = transform.getScaleY();
+            graphics.clip(new RoundRectangle2D.Double(0, 0, width, height, cornerRadius, cornerRadius));
 
-                var clipWidth = (int)Math.round(clipBounds.width * scaleX);
-                var clipHeight = (int)Math.round(clipBounds.height * scaleY);
+            super.paintChildren(graphics);
 
-                var clipImage = new BufferedImage(clipWidth, clipHeight, BufferedImage.TYPE_INT_ARGB);
-
-                var clipGraphics = clipImage.createGraphics();
-
-                clipGraphics.scale(scaleX, scaleY);
-                clipGraphics.translate(-clipBounds.x, -clipBounds.y);
-
-                clipGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                clipGraphics.setColor(getOpaqueBackground(this));
-
-                var thickness = roundedLineBorder.getThickness();
-
-                clipGraphics.fill(new RoundRectangle2D.Double(thickness / 2.0, thickness / 2.0,
-                    width - thickness, height - thickness,
-                    cornerRadius, cornerRadius));
-
-                clipGraphics.setRenderingHints(graphics.getRenderingHints());
-
-                clipGraphics.setComposite(AlphaComposite.SrcIn);
-
-                super.paintChildren(clipGraphics);
-
-                clipGraphics.dispose();
-
-                graphics = (Graphics2D)graphics.create();
-
-                graphics.translate(clipBounds.x, clipBounds.y);
-                graphics.scale(1.0 / scaleX, 1.0 / scaleY);
-
-                graphics.drawImage(clipImage, 0, 0, null);
-
-                graphics.dispose();
-            } else {
-                super.paintChildren(graphics);
-            }
+            graphics.dispose();
         } else {
             super.paintChildren(graphics);
         }
