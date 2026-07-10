@@ -932,16 +932,21 @@ public class UILoader {
         }
 
         private void paintBorder(Component component, Graphics2D graphics, int x, int y, int width, int height) {
+            graphics = (Graphics2D)graphics.create();
+
             if (((JComponent)component).getBorder() instanceof CompoundBorder compoundBorder
                 && compoundBorder.getOutsideBorder() == this
                 && cornerRadius > 0) {
+                var maskEdge = (int)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
+
                 var maskImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
                 var maskGraphics = maskImage.createGraphics();
 
                 maskGraphics.setColor(getOpaqueBackground(component.getParent()));
+                maskGraphics.setStroke(new BasicStroke(maskEdge));
 
-                maskGraphics.fillRect(0, 0, width, height);
+                maskGraphics.drawRect(0, 0, width, height);
 
                 maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
@@ -957,32 +962,28 @@ public class UILoader {
                 graphics.drawImage(maskImage, x, y, null);
             }
 
-            if (thickness == 0) {
-                return;
+            if (thickness > 0) {
+                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+                graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
+                graphics.setColor(color);
+
+                var dashArray = switch (style) {
+                    case SOLID -> null;
+                    case DASHED -> new float[]{thickness * 2.5f, thickness * 5.0f};
+                    case DOTTED -> new float[]{0.0f, thickness * 2.5f};
+                };
+
+                graphics.setStroke(new BasicStroke(thickness,
+                    BasicStroke.CAP_ROUND,
+                    BasicStroke.JOIN_ROUND,
+                    0.0f, dashArray, 0.0f));
+
+                graphics.draw(new RoundRectangle2D.Double(x + (double) thickness / 2, y + (double) thickness / 2,
+                    width - thickness, height - thickness,
+                    cornerRadius, cornerRadius));
             }
-
-            graphics = (Graphics2D)graphics.create();
-
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-            graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-
-            graphics.setColor(color);
-
-            var dashArray = switch(style) {
-                case SOLID -> null;
-                case DASHED -> new float[] {thickness * 2.5f, thickness * 5.0f};
-                case DOTTED -> new float[] {0.0f, thickness * 2.5f};
-            };
-
-            graphics.setStroke(new BasicStroke(thickness,
-                BasicStroke.CAP_ROUND,
-                BasicStroke.JOIN_ROUND,
-                0.0f, dashArray, 0.0f));
-
-            graphics.draw(new RoundRectangle2D.Double(x + (double)thickness / 2, y + (double)thickness / 2,
-                width - thickness, height - thickness,
-                cornerRadius, cornerRadius));
 
             graphics.dispose();
         }
