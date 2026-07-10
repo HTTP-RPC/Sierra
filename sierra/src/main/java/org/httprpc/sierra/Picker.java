@@ -217,6 +217,7 @@ public abstract class Picker extends JTextField {
         }
 
         popupWindow.setVisible(false);
+        popupWindow.dispose();
 
         popupWindow = null;
     }
