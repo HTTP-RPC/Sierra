@@ -29,9 +29,7 @@ import java.awt.event.FocusEvent;
 public class ScrollingKeyboardFocusManager extends DefaultKeyboardFocusManager {
     @Override
     public boolean dispatchEvent(AWTEvent event) {
-        var dispatched = super.dispatchEvent(event);
-
-        if (dispatched && event.getID() == FocusEvent.FOCUS_GAINED) {
+        if (event.getID() == FocusEvent.FOCUS_GAINED) {
             var cause = ((FocusEvent)event).getCause();
 
             if (cause == FocusEvent.Cause.TRAVERSAL_FORWARD || cause == FocusEvent.Cause.TRAVERSAL_BACKWARD) {
@@ -49,6 +47,6 @@ public class ScrollingKeyboardFocusManager extends DefaultKeyboardFocusManager {
             }
         }
 
-        return dispatched;
+        return super.dispatchEvent(event);
     }
 }
