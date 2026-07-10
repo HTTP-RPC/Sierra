@@ -81,12 +81,16 @@
 
     <row-panel alignToBaseline="true">
         <label text="field3" alignmentX="1.0"/>
-        <suggestion-picker name="suggestionPicker1" columns="12" alignmentX="0.0"/>
+        <suggestion-picker name="suggestionPicker1" columns="12" alignmentX="0.0"
+            popupHorizontalAlignment="trailing"
+            popupVerticalAlignment="center"/>
     </row-panel>
 
     <row-panel alignToBaseline="true">
         <label text="field4" alignmentX="1.0"/>
-        <suggestion-picker name="suggestionPicker2" columns="12" alignmentX="0.0"/>
+        <suggestion-picker name="suggestionPicker2" columns="12" alignmentX="0.0"
+            popupHorizontalAlignment="trailing"
+            popupVerticalAlignment="center"/>
     </row-panel>
 
     <separator/>
