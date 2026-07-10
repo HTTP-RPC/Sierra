@@ -932,7 +932,9 @@ public class UILoader {
         }
 
         private void paintBorder(Component component, Graphics2D graphics, int x, int y, int width, int height) {
-            if (cornerRadius > 0) {
+            if (((JComponent)component).getBorder() instanceof CompoundBorder compoundBorder
+                && compoundBorder.getOutsideBorder() == this
+                && cornerRadius > 0) {
                 var maskImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
                 var maskGraphics = maskImage.createGraphics();
