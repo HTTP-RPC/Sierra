@@ -831,14 +831,8 @@ public class UILoader {
         }
     }
 
-    /**
-     * Rounded line border.
-     */
-    public static class RoundedLineBorder implements Border {
-        /**
-         * Border style options.
-         */
-        public enum Style {
+    static class RoundedLineBorder implements Border {
+        enum Style {
             /**
              * Solid.
              */
@@ -855,75 +849,16 @@ public class UILoader {
             DOTTED
         }
 
-        private Color color;
-        private int thickness;
-        private Style style;
-        private int cornerRadius;
+        Color color;
+        int thickness;
+        Style style;
+        int cornerRadius;
 
-        /**
-         * Constructs a new rounded line border.
-         *
-         * @param color
-         * The border color.
-         *
-         * @param thickness
-         * The border thickness.
-         *
-         * @param style
-         * The border style.
-         *
-         * @param cornerRadius
-         * The corner radius.
-         */
-        public RoundedLineBorder(Color color, int thickness, Style style, int cornerRadius) {
-            if (color == null || thickness < 0 || style == null || cornerRadius < 0) {
-                throw new IllegalArgumentException();
-            }
-
+        RoundedLineBorder(Color color, int thickness, Style style, int cornerRadius) {
             this.color = color;
             this.thickness = thickness;
             this.style = style;
             this.cornerRadius = cornerRadius;
-        }
-
-        /**
-         * Returns the border color.
-         *
-         * @return
-         * The border color.
-         */
-        public Color getColor() {
-            return color;
-        }
-
-        /**
-         * Returns the border thickness.
-         *
-         * @return
-         * The border thickness.
-         */
-        public int getThickness() {
-            return thickness;
-        }
-
-        /**
-         * Returns the border style.
-         *
-         * @return
-         * The border style.
-         */
-        public Style getStyle() {
-            return style;
-        }
-
-        /**
-         * Returns the corner radius.
-         *
-         * @return
-         * The corner radius.
-         */
-        public int getCornerRadius() {
-            return cornerRadius;
         }
 
         @Override
