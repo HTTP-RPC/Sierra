@@ -24,7 +24,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.LayoutManager2;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
@@ -140,12 +139,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
     @Override
     protected void paintBorder(Graphics graphics) {
-        drawMask((Graphics2D)graphics);
-
-        super.paintBorder(graphics);
-    }
-
-    private void drawMask(Graphics2D graphics) {
         if (getBorder() instanceof CompoundBorder compoundBorder
             && compoundBorder.getOutsideBorder() instanceof UILoader.RoundedLineBorder roundedLineBorder) {
             var cornerRadius = (double)roundedLineBorder.getCornerRadius();
@@ -178,6 +171,8 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
                 graphics.drawImage(maskImage, 0, 0, null);
             }
         }
+
+        super.paintBorder(graphics);
     }
 
     private static Color getOpaqueBackground(Component component) {
