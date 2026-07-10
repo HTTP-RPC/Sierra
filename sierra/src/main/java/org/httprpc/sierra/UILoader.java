@@ -937,6 +937,7 @@ public class UILoader {
             graphics = (Graphics2D)graphics.create();
 
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
             graphics.setColor(color);
@@ -952,7 +953,7 @@ public class UILoader {
                 BasicStroke.JOIN_ROUND,
                 0.0f, dashArray, 0.0f));
 
-            graphics.draw(new RoundRectangle2D.Double(x + thickness / 2.0, y + thickness / 2.0,
+            graphics.draw(new RoundRectangle2D.Double(x + (double)thickness / 2, y + (double)thickness / 2,
                 width - thickness, height - thickness,
                 cornerRadius, cornerRadius));
 

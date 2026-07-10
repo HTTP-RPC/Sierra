@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
-import java.awt.BasicStroke;
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -29,6 +29,7 @@ import java.awt.LayoutManager2;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,26 +151,31 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
             var cornerRadius = (double)roundedLineBorder.getCornerRadius();
 
             if (cornerRadius > 0) {
-                graphics = (Graphics2D)graphics.create();
+                var width = getWidth();
+                var height = getHeight();
 
-                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+                var maskImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
-                graphics.setColor(getOpaqueBackground(getParent()));
+                var maskGraphics = maskImage.createGraphics();
 
-                var thickness = 2 * cornerRadius * (Math.sqrt(2) - 1);
+                maskGraphics.setColor(getOpaqueBackground(getParent()));
 
-                graphics.setStroke(new BasicStroke((float)thickness,
-                    BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND));
+                maskGraphics.fillRect(0, 0, width, height);
 
-                cornerRadius += thickness;
+                maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
-                graphics.draw(new RoundRectangle2D.Double(-thickness / 2, -thickness / 2,
-                    getWidth() + thickness, getHeight() + thickness,
+                maskGraphics.setComposite(AlphaComposite.Clear);
+
+                var thickness = (double)roundedLineBorder.getThickness();
+
+                maskGraphics.fill(new RoundRectangle2D.Double(thickness / 2, thickness / 2,
+                    width - thickness, height - thickness,
                     cornerRadius, cornerRadius));
 
-                graphics.dispose();
+                maskGraphics.dispose();
+
+                graphics.drawImage(maskImage, 0, 0, null);
             }
         }
     }

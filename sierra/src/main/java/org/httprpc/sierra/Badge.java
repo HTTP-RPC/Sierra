@@ -89,6 +89,7 @@ public class Badge extends JComponent {
             graphics = (Graphics2D)graphics.create();
 
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
             graphics.setColor(getBackground());
 
