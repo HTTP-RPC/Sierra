@@ -832,32 +832,13 @@ public class UILoader {
     }
 
     static class RoundedLineBorder implements Border {
-        enum Style {
-            /**
-             * Solid.
-             */
-            SOLID,
-
-            /**
-             * Dashed.
-             */
-            DASHED,
-
-            /**
-             * Dotted.
-             */
-            DOTTED
-        }
-
         Color color;
-        int thickness;
-        Style style;
+        BasicStroke stroke;
         int cornerRadius;
 
-        RoundedLineBorder(Color color, int thickness, Style style, int cornerRadius) {
+        RoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius) {
             this.color = color;
-            this.thickness = thickness;
-            this.style = style;
+            this.stroke = stroke;
             this.cornerRadius = cornerRadius;
         }
 
@@ -868,6 +849,8 @@ public class UILoader {
 
         private void paintBorder(Component component, Graphics2D graphics, int x, int y, int width, int height) {
             graphics = (Graphics2D)graphics.create();
+
+            var thickness = stroke.getLineWidth();
 
             if (((JComponent)component).getBorder() instanceof CompoundBorder compoundBorder
                 && compoundBorder.getOutsideBorder() == this
@@ -924,17 +907,7 @@ public class UILoader {
                 graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
                 graphics.setColor(color);
-
-                var dashArray = switch (style) {
-                    case SOLID -> null;
-                    case DASHED -> new float[]{thickness * 2.5f, thickness * 5.0f};
-                    case DOTTED -> new float[]{0.0f, thickness * 2.5f};
-                };
-
-                graphics.setStroke(new BasicStroke(thickness,
-                    BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND,
-                    0.0f, dashArray, 0.0f));
+                graphics.setStroke(stroke);
 
                 graphics.draw(new RoundRectangle2D.Double(x + (double)thickness / 2, y + (double)thickness / 2,
                     width - thickness, height - thickness,
@@ -956,6 +929,8 @@ public class UILoader {
 
         @Override
         public Insets getBorderInsets(Component component) {
+            var thickness = (int)Math.floor(stroke.getLineWidth());
+
             return new Insets(thickness, thickness, thickness, thickness);
         }
 
@@ -1951,10 +1926,10 @@ public class UILoader {
             if (components.length == 2) {
                 return new LineBorder(color, thickness);
             } else {
-                var style = switch(components[2].trim()) {
-                    case "solid" -> RoundedLineBorder.Style.SOLID;
-                    case "dashed" -> RoundedLineBorder.Style.DASHED;
-                    case "dotted" -> RoundedLineBorder.Style.DOTTED;
+                var dashArray = switch(components[2].trim()) {
+                    case "solid" -> null;
+                    case "dashed" -> new float[]{thickness * 2.5f, thickness * 5.0f};
+                    case "dotted" -> new float[]{0.0f, thickness * 2.5f};
                     default -> throw new IllegalArgumentException("Invalid border style.");
                 };
 
@@ -1967,7 +1942,10 @@ public class UILoader {
                     throw new IllegalArgumentException("Invalid border.");
                 }
 
-                return new RoundedLineBorder(color, thickness, style, cornerRadius);
+                return new RoundedLineBorder(color, new BasicStroke(thickness,
+                    BasicStroke.CAP_ROUND,
+                    BasicStroke.JOIN_ROUND,
+                    0.0f, dashArray, 0.0f), cornerRadius);
             }
         }
     }
