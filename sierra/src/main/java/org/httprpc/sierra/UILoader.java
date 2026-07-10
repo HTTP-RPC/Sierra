@@ -868,14 +868,15 @@ public class UILoader {
                     var scaleX = transform.getScaleX();
                     var scaleY = transform.getScaleY();
 
-                    var maskWidth = (int)Math.round(width * scaleX);
-                    var maskHeight = (int)Math.round(height * scaleY);
+                    var maskWidth = (int)Math.round(clipBounds.width * scaleX);
+                    var maskHeight = (int)Math.round(clipBounds.height * scaleY);
 
                     var maskImage = new BufferedImage(maskWidth, maskHeight, BufferedImage.TYPE_INT_ARGB);
 
                     var maskGraphics = maskImage.createGraphics();
 
                     maskGraphics.scale(scaleX, scaleY);
+                    maskGraphics.translate(-clipBounds.x, -clipBounds.y);
 
                     maskGraphics.setColor(getOpaqueBackground(component.getParent()));
                     maskGraphics.setStroke(new BasicStroke(maskEdge));
@@ -893,11 +894,13 @@ public class UILoader {
 
                     maskGraphics.dispose();
 
+                    graphics.translate(clipBounds.x, clipBounds.y);
                     graphics.scale(1 / scaleX, 1 / scaleY);
 
                     graphics.drawImage(maskImage, 0, 0, null);
 
                     graphics.scale(scaleX, scaleY);
+                    graphics.translate(-clipBounds.x, -clipBounds.y);
                 }
             }
 
