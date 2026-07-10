@@ -937,29 +937,50 @@ public class UILoader {
             if (((JComponent)component).getBorder() instanceof CompoundBorder compoundBorder
                 && compoundBorder.getOutsideBorder() == this
                 && cornerRadius > 0) {
+                var clipBounds = graphics.getClipBounds();
+
                 var maskEdge = (int)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
 
-                var maskImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+                if (clipBounds.x < maskEdge
+                    || clipBounds.y < maskEdge
+                    || clipBounds.x + clipBounds.width > width - maskEdge
+                    || clipBounds.y + clipBounds.height > height - maskEdge) {
+                    var transform = graphics.getTransform();
 
-                var maskGraphics = maskImage.createGraphics();
+                    var scaleX = transform.getScaleX();
+                    var scaleY = transform.getScaleY();
 
-                maskGraphics.setColor(getOpaqueBackground(component.getParent()));
-                maskGraphics.setStroke(new BasicStroke(maskEdge));
+                    var maskWidth = (int)Math.round(width * scaleX);
+                    var maskHeight = (int)Math.round(height * scaleY);
 
-                maskGraphics.drawRect(0, 0, width, height);
+                    var maskImage = new BufferedImage(maskWidth, maskHeight, BufferedImage.TYPE_INT_ARGB);
 
-                maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+                    var maskGraphics = maskImage.createGraphics();
 
-                maskGraphics.setComposite(AlphaComposite.Clear);
+                    maskGraphics.scale(scaleX, scaleY);
 
-                maskGraphics.fill(new RoundRectangle2D.Double((double)thickness / 2, (double)thickness / 2,
-                    width - thickness, height - thickness,
-                    cornerRadius, cornerRadius));
+                    maskGraphics.setColor(getOpaqueBackground(component.getParent()));
+                    maskGraphics.setStroke(new BasicStroke(maskEdge));
 
-                maskGraphics.dispose();
+                    maskGraphics.drawRect(0, 0, width, height);
 
-                graphics.drawImage(maskImage, x, y, null);
+                    maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+
+                    maskGraphics.setComposite(AlphaComposite.Clear);
+
+                    maskGraphics.fill(new RoundRectangle2D.Double((double)thickness / 2, (double)thickness / 2,
+                        width - thickness, height - thickness,
+                        cornerRadius, cornerRadius));
+
+                    maskGraphics.dispose();
+
+                    graphics.scale(1 / scaleX, 1 / scaleY);
+
+                    graphics.drawImage(maskImage, 0, 0, null);
+
+                    graphics.scale(scaleX, scaleY);
+                }
             }
 
             if (thickness > 0) {
@@ -980,7 +1001,7 @@ public class UILoader {
                     BasicStroke.JOIN_ROUND,
                     0.0f, dashArray, 0.0f));
 
-                graphics.draw(new RoundRectangle2D.Double(x + (double) thickness / 2, y + (double) thickness / 2,
+                graphics.draw(new RoundRectangle2D.Double(x + (double)thickness / 2, y + (double)thickness / 2,
                     width - thickness, height - thickness,
                     cornerRadius, cornerRadius));
             }
