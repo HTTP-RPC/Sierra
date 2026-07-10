@@ -831,7 +831,7 @@ public class UILoader {
         }
     }
 
-    static class RoundedLineBorder implements Border {
+    private static class RoundedLineBorder implements Border {
         Color color;
         BasicStroke stroke;
         int cornerRadius;
@@ -844,17 +844,17 @@ public class UILoader {
 
         @Override
         public void paintBorder(Component component, Graphics graphics, int x, int y, int width, int height) {
-            paintBorder(component, (Graphics2D) graphics, x, y, width, height);
+            paintBorder((JComponent)component, (Graphics2D) graphics, x, y, width, height);
         }
 
-        private void paintBorder(Component component, Graphics2D graphics, int x, int y, int width, int height) {
+        private void paintBorder(JComponent component, Graphics2D graphics, int x, int y, int width, int height) {
             graphics = (Graphics2D)graphics.create();
 
             var thickness = stroke.getLineWidth();
 
-            if (((JComponent)component).getBorder() instanceof CompoundBorder compoundBorder
-                && compoundBorder.getOutsideBorder() == this
-                && cornerRadius > 0) {
+            if (cornerRadius > 0
+                && component.getBorder() instanceof CompoundBorder compoundBorder
+                && compoundBorder.getOutsideBorder() == this) {
                 var clipBounds = graphics.getClipBounds();
 
                 var maskEdge = (int)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
