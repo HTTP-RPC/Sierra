@@ -66,6 +66,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
@@ -79,6 +80,7 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -930,6 +932,29 @@ public class UILoader {
         }
 
         private void paintBorder(Component component, Graphics2D graphics, int x, int y, int width, int height) {
+            if (cornerRadius > 0) {
+                var maskImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+                var maskGraphics = maskImage.createGraphics();
+
+                maskGraphics.setColor(getOpaqueBackground(component.getParent()));
+
+                maskGraphics.fillRect(0, 0, width, height);
+
+                maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
+                maskGraphics.setComposite(AlphaComposite.Clear);
+
+                maskGraphics.fill(new RoundRectangle2D.Double((double)thickness / 2, (double)thickness / 2,
+                    width - thickness, height - thickness,
+                    cornerRadius, cornerRadius));
+
+                maskGraphics.dispose();
+
+                graphics.drawImage(maskImage, x, y, null);
+            }
+
             if (thickness == 0) {
                 return;
             }
@@ -960,6 +985,16 @@ public class UILoader {
             graphics.dispose();
         }
 
+        private static Color getOpaqueBackground(Component component) {
+            if (component == null) {
+                return null;
+            } else if (component.isOpaque()) {
+                return component.getBackground();
+            } else {
+                return getOpaqueBackground(component.getParent());
+            }
+        }
+
         @Override
         public Insets getBorderInsets(Component component) {
             return new Insets(thickness, thickness, thickness, thickness);
@@ -967,7 +1002,7 @@ public class UILoader {
 
         @Override
         public boolean isBorderOpaque() {
-            return cornerRadius == 0;
+            return true;
         }
     }
 

@@ -3,9 +3,7 @@
 <!DOCTYPE row-panel SYSTEM "sierra.dtd">
 
 <row-panel spacing="16" padding="16" opaque="true" background="white">
-    <stack-panel border="green, 1, solid, 32">
-        <image-pane image="lighthouse.jpg" scaleMode="fill-height"/>
-    </stack-panel>
+    <image-pane image="lighthouse.jpg" scaleMode="fill-height" border="green, 1, solid, 32"/>
 
     <column-panel title="Title"
         titleColor="green"

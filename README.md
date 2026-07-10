@@ -182,18 +182,12 @@ For example, this markup creates a label with a light gray border and four pixel
 Border thickness, style, and corner radius can be specified as shown below:
 
 ```xml
-border="silver, 4, solid, 32"
-```
-
-The default thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0. When a rounded border is applied to a layout panel, the panel's content will be clipped such that it remains within the border:
-
-```xml
-<stack-panel border="green, 1, solid, 32">
-    <image-pane image="lighthouse.jpg" scaleMode="fill-height"/>
-</stack-panel>
+<image-pane image="lighthouse.jpg" scaleMode="fill-height" border="green, 1, solid, 32"/>
 ```
 
 <img src="README/border.png" width="225px"/>
+
+The default thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0.
 
 Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _right_ order:
 
