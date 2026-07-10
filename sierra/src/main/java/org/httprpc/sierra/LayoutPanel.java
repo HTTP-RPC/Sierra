@@ -17,19 +17,12 @@ package org.httprpc.sierra;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
-import javax.swing.border.CompoundBorder;
-import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.LayoutManager2;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,58 +129,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         paintBorder(graphics);
 
         graphics.dispose();
-    }
-
-    @Override
-    protected void paintBorder(Graphics graphics) {
-        drawMask((Graphics2D)graphics);
-
-        super.paintBorder(graphics);
-    }
-
-    private void drawMask(Graphics2D graphics) {
-        if (getBorder() instanceof CompoundBorder compoundBorder
-            && compoundBorder.getOutsideBorder() instanceof UILoader.RoundedLineBorder roundedLineBorder) {
-            var cornerRadius = (double)roundedLineBorder.getCornerRadius();
-
-            if (cornerRadius > 0) {
-                var width = getWidth();
-                var height = getHeight();
-
-                var maskImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
-                var maskGraphics = maskImage.createGraphics();
-
-                maskGraphics.setColor(getOpaqueBackground(getParent()));
-
-                maskGraphics.fillRect(0, 0, width, height);
-
-                maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-
-                maskGraphics.setComposite(AlphaComposite.Clear);
-
-                var thickness = (double)roundedLineBorder.getThickness();
-
-                maskGraphics.fill(new RoundRectangle2D.Double(thickness / 2, thickness / 2,
-                    width - thickness, height - thickness,
-                    cornerRadius, cornerRadius));
-
-                maskGraphics.dispose();
-
-                graphics.drawImage(maskImage, 0, 0, null);
-            }
-        }
-    }
-
-    private static Color getOpaqueBackground(Component component) {
-        if (component == null) {
-            return null;
-        } else if (component.isOpaque()) {
-            return component.getBackground();
-        } else {
-            return getOpaqueBackground(component.getParent());
-        }
     }
 
     @Override
