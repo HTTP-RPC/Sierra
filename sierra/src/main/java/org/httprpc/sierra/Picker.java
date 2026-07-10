@@ -16,13 +16,10 @@ package org.httprpc.sierra;
 
 import javax.swing.JComponent;
 import javax.swing.JTextField;
-import javax.swing.Popup;
-import javax.swing.PopupFactory;
+import javax.swing.JWindow;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.Window;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
@@ -32,32 +29,27 @@ import java.util.List;
  * Abstract base class for picker components.
  */
 public abstract class Picker extends JTextField {
+    private static class PopupWindow extends JWindow {
+        PopupWindow(Window owner, JComponent content) {
+            super(owner);
+
+            setContentPane(content);
+
+            setType(Type.POPUP);
+            setAlwaysOnTop(true);
+
+            setFocusableWindowState(false);
+
+            pack();
+        }
+    }
+
     private HorizontalAlignment popupHorizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
 
     private List<ChangeListener> changeListeners = new LinkedList<>();
 
-    private Popup popup = null;
-
-    private ComponentListener componentListener = new ComponentAdapter() {
-        @Override
-        public void componentResized(ComponentEvent event) {
-            hidePopup();
-        }
-
-        @Override
-        public void componentMoved(ComponentEvent event) {
-            hidePopup();
-        }
-
-        @Override
-        public void componentHidden(ComponentEvent event) {
-            hidePopup();
-        }
-    };
-
-    Picker() {
-    }
+    private PopupWindow popupWindow = null;
 
     /**
      * Returns the popup's horizontal alignment.
@@ -185,16 +177,16 @@ public abstract class Picker extends JTextField {
      * Shows the popup.
      */
     protected void showPopup() {
-        if (popup != null || !isPopupEnabled()) {
+        if (popupWindow != null || !isPopupEnabled()) {
             return;
         }
 
-        var popupComponent = getPopupComponent();
+        popupWindow = new PopupWindow((Window)getTopLevelAncestor(), getPopupComponent());
 
-        popupComponent.applyComponentOrientation(getComponentOrientation());
+        popupWindow.applyComponentOrientation(getComponentOrientation());
 
         var size = getSize();
-        var popupSize = popupComponent.getPreferredSize();
+        var popupSize = popupWindow.getPreferredSize();
 
         var x = switch (popupHorizontalAlignment.getLocalizedValue(Picker.this)) {
             case LEFT -> 0;
@@ -211,37 +203,21 @@ public abstract class Picker extends JTextField {
 
         var location = getLocationOnScreen();
 
-        popup = PopupFactory.getSharedInstance().getPopup(this, popupComponent, location.x + x, location.y + y);
+        popupWindow.setLocation(location.x + x, location.y + y);
 
-        popup.show();
-
-        var parent = getParent();
-
-        while (parent != null) {
-            parent.addComponentListener(componentListener);
-
-            parent = parent.getParent();
-        }
+        popupWindow.setVisible(true);
     }
 
     /**
      * Hides the popup.
      */
     protected void hidePopup() {
-        if (popup == null) {
+        if (popupWindow == null) {
             return;
         }
 
-        popup.hide();
+        popupWindow.setVisible(false);
 
-        popup = null;
-
-        var parent = getParent();
-
-        while (parent != null) {
-            parent.removeComponentListener(componentListener);
-
-            parent = parent.getParent();
-        }
+        popupWindow = null;
     }
 }
