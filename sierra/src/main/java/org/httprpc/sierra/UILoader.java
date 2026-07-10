@@ -844,7 +844,7 @@ public class UILoader {
 
         @Override
         public void paintBorder(Component component, Graphics graphics, int x, int y, int width, int height) {
-            paintBorder((JComponent)component, (Graphics2D) graphics, x, y, width, height);
+            paintBorder((JComponent)component, (Graphics2D)graphics, x, y, width, height);
         }
 
         private void paintBorder(JComponent component, Graphics2D graphics, int x, int y, int width, int height) {
