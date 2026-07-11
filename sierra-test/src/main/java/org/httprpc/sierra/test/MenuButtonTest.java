@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 public class MenuButtonTest extends JFrame implements Runnable {
     private @Outlet MenuButton menuButton = null;
 
-    private @Outlet JMenuItem menuItem1= null;
+    private @Outlet JMenuItem menuItem1 = null;
     private @Outlet JMenuItem menuItem2 = null;
     private @Outlet JMenuItem menuItem3 = null;
 
