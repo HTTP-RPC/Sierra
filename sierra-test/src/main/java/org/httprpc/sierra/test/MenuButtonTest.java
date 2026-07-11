@@ -21,12 +21,21 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import java.util.ResourceBundle;
 
 public class MenuButtonTest extends JFrame implements Runnable {
     private @Outlet MenuButton menuButton = null;
+
+    private @Outlet JMenuItem menuItem1= null;
+    private @Outlet JMenuItem menuItem2 = null;
+    private @Outlet JMenuItem menuItem3 = null;
+
     private @Outlet JCheckBox focusableCheckBox = null;
+
+    private @Outlet JLabel selectionLabel = null;
 
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(MenuButtonTest.class.getName());
 
@@ -40,11 +49,19 @@ public class MenuButtonTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "MenuButtonTest.xml", resourceBundle));
 
+        menuItem1.addActionListener(event -> showSelection(menuItem1));
+        menuItem2.addActionListener(event -> showSelection(menuItem2));
+        menuItem3.addActionListener(event -> showSelection(menuItem3));
+
         focusableCheckBox.addActionListener(event -> toggleFocusable());
         focusableCheckBox.setSelected(true);
 
         setSize(320, 160);
         setVisible(true);
+    }
+
+    private void showSelection(JMenuItem menuItem) {
+        selectionLabel.setText(String.format(resourceBundle.getString("selectionFormat"), menuItem.getText()));
     }
 
     private void toggleFocusable() {

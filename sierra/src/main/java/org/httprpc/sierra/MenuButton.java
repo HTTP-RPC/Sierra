@@ -18,10 +18,13 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
+import javax.swing.RootPaneContainer;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import java.awt.Component;
-import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Displays a popup menu when pressed.
@@ -72,16 +75,35 @@ public class MenuButton extends JButton {
         var popupMenu = new JPopupMenu();
 
         popupMenu.addPopupMenuListener(new PopupMenuListener() {
+            MouseListener mouseListener = new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent event) {
+                    // No-op
+                }
+            };
+
+            Component getGlassPane() {
+                return ((RootPaneContainer)getTopLevelAncestor()).getRootPane().getGlassPane();
+            }
+
             @Override
             public void popupMenuWillBecomeVisible(PopupMenuEvent event) {
-                // No-op
+                var glassPane = getGlassPane();
+
+                glassPane.addMouseListener(mouseListener);
+
+                glassPane.setVisible(true);
             }
 
             @Override
             public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
-                if (!getModel().isRollover()) {
-                    setSelected(false);
-                }
+                var glassPane = getGlassPane();
+
+                glassPane.removeMouseListener(mouseListener);
+
+                glassPane.setVisible(false);
+
+                setSelected(false);
             }
 
             @Override
@@ -184,14 +206,5 @@ public class MenuButton extends JButton {
         }
 
         getComponentPopupMenu().remove(component);
-    }
-
-    @Override
-    protected void processFocusEvent(FocusEvent event) {
-        super.processFocusEvent(event);
-
-        if (event.getID() == FocusEvent.FOCUS_LOST && !event.isTemporary()) {
-            setSelected(false);
-        }
     }
 }
