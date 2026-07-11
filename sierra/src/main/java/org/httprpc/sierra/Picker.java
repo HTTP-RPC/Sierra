@@ -64,6 +64,8 @@ public abstract class Picker extends JTextField {
 
             setContentPane(content);
 
+            setBackground(content.getBackground());
+
             setType(Type.POPUP);
             setAlwaysOnTop(true);
 

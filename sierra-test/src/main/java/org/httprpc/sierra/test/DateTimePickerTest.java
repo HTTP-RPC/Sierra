@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra.test;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.DatePicker;
 import org.httprpc.sierra.Outlet;
@@ -34,6 +35,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import static org.httprpc.kilo.util.Optionals.*;
 
 public class DateTimePickerTest extends JFrame implements Runnable {
     private @Outlet DatePicker datePicker = null;
@@ -112,7 +115,13 @@ public class DateTimePickerTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        FlatLightLaf.setup();
+        var dark = coalesce(map(System.getProperty("dark"), Boolean::valueOf), () -> false);
+
+        if (dark) {
+            FlatDarkLaf.setup();
+        } else {
+            FlatLightLaf.setup();
+        }
 
         SwingUtilities.invokeLater(new DateTimePickerTest());
     }
