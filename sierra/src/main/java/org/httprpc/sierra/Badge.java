@@ -23,6 +23,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 
+import static org.httprpc.kilo.util.Optionals.*;
+
 /**
  * Displays a small amount of status information.
  */
@@ -40,16 +42,12 @@ public class Badge extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            if (text == null) {
-                return new Dimension(0, 0);
-            }
-
             var insets = getInsets();
 
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-            var stringBounds = font.getStringBounds(text, fontRenderContext);
+            var stringBounds = font.getStringBounds(coalesce(text, () -> ""), fontRenderContext);
 
             var textWidth = stringBounds.getWidth();
             var textHeight = stringBounds.getHeight() * (1.0 + MARGIN * 2);
@@ -67,7 +65,7 @@ public class Badge extends JComponent {
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-            var lineMetrics = font.getLineMetrics(text, fontRenderContext);
+            var lineMetrics = font.getLineMetrics(coalesce(text, () -> ""), fontRenderContext);
 
             var ascent = lineMetrics.getAscent();
 
@@ -95,23 +93,25 @@ public class Badge extends JComponent {
 
             graphics.fill(new RoundRectangle2D.Double(0, 0, width, height, height, height));
 
-            var font = getFont();
-            var fontRenderContext = getFontMetrics(font).getFontRenderContext();
+            if (text != null) {
+                var font = getFont();
+                var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-            var stringBounds = font.getStringBounds(text, fontRenderContext);
+                var stringBounds = font.getStringBounds(text, fontRenderContext);
 
-            var ascent = font.getLineMetrics(text, fontRenderContext).getAscent();
+                var ascent = font.getLineMetrics(text, fontRenderContext).getAscent();
 
-            var textWidth = stringBounds.getWidth();
-            var textHeight = stringBounds.getHeight();
+                var textWidth = stringBounds.getWidth();
+                var textHeight = stringBounds.getHeight();
 
-            var x = insets.left + (width - textWidth) / 2;
-            var y = insets.top + (height - textHeight) / 2 + ascent;
+                var x = insets.left + (width - textWidth) / 2;
+                var y = insets.top + (height - textHeight) / 2 + ascent;
 
-            graphics.setColor(getForeground());
-            graphics.setFont(font);
+                graphics.setColor(getForeground());
+                graphics.setFont(font);
 
-            graphics.drawString(text, (float)x, (float)y);
+                graphics.drawString(text, (float)x, (float)y);
+            }
 
             graphics.dispose();
         }
