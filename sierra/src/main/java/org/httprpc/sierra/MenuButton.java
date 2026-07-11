@@ -14,10 +14,10 @@
 
 package org.httprpc.sierra;
 
-import javax.swing.DefaultButtonModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
+import javax.swing.JToggleButton;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import java.awt.Component;
@@ -29,8 +29,6 @@ import java.awt.event.FocusEvent;
 public class MenuButton extends JButton {
     private HorizontalAlignment popupHorizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment popupVerticalAlignment = VerticalAlignment.BOTTOM;
-
-    private boolean ignorePress = false;
 
     /**
      * Constructs a new menu button.
@@ -76,33 +74,30 @@ public class MenuButton extends JButton {
         popupMenu.addPopupMenuListener(new PopupMenuListener() {
             @Override
             public void popupMenuWillBecomeVisible(PopupMenuEvent event) {
-                repaint();
+                // No-op
             }
 
             @Override
             public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
-                repaint();
+                if (!getModel().isRollover()) {
+                    setSelected(false);
+                }
             }
 
             @Override
             public void popupMenuCanceled(PopupMenuEvent event) {
-                ignorePress = true;
+                // No-op
             }
         });
 
         setComponentPopupMenu(popupMenu);
 
-        setModel(new DefaultButtonModel() {
+        setModel(new JToggleButton.ToggleButtonModel() {
             @Override
-            public boolean isSelected() {
-                return popupMenu.isVisible();
-            }
+            public void setSelected(boolean selected) {
+                super.setSelected(selected);
 
-            @Override
-            public void setPressed(boolean pressed) {
-                super.setPressed(pressed);
-
-                if (pressed && !ignorePress) {
+                if (selected) {
                     var size = getSize();
                     var popupMenuSize = popupMenu.getPreferredSize();
 
@@ -121,15 +116,6 @@ public class MenuButton extends JButton {
 
                     popupMenu.show(MenuButton.this, x, y);
                 }
-
-                ignorePress = false;
-            }
-
-            @Override
-            public void setRollover(boolean rollover) {
-                super.setRollover(rollover);
-
-                ignorePress = false;
             }
         });
     }
@@ -182,15 +168,6 @@ public class MenuButton extends JButton {
         this.popupVerticalAlignment = popupVerticalAlignment;
     }
 
-    /**
-     * Adds a component to the menu button.
-     *
-     * @param component
-     * The component to add.
-     *
-     * @return
-     * The component that was added.
-     */
     @Override
     public Component add(Component component) {
         if (component == null) {
@@ -200,12 +177,6 @@ public class MenuButton extends JButton {
         return getComponentPopupMenu().add(component);
     }
 
-    /**
-     * Removes a component from the menu button.
-     *
-     * @param component
-     * The component to remove.
-     */
     @Override
     public void remove(Component component) {
         if (component == null) {
@@ -219,6 +190,8 @@ public class MenuButton extends JButton {
     protected void processFocusEvent(FocusEvent event) {
         super.processFocusEvent(event);
 
-        ignorePress = (event.getID() == FocusEvent.FOCUS_LOST && event.isTemporary());
+        if (event.getID() == FocusEvent.FOCUS_LOST && !event.isTemporary()) {
+            setSelected(false);
+        }
     }
 }

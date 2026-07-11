@@ -43,7 +43,7 @@ public class MenuButtonTest extends JFrame implements Runnable {
         focusableCheckBox.addActionListener(event -> toggleFocusable());
         focusableCheckBox.setSelected(true);
 
-        setSize(480, 360);
+        setSize(320, 160);
         setVisible(true);
     }
 
