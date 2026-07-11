@@ -23,6 +23,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.time.DayOfWeek;
@@ -100,7 +101,7 @@ public class DatePicker extends TemporalPicker {
 
             add(createDateButtonPanel());
 
-            setBorder(new EmptyBorder(4, 4, 4, 4));
+            setBorder(new CompoundBorder(UIManager.getBorder("ScrollPane.border"), new EmptyBorder(4, 4, 4, 4)));
 
             updateMonth();
         }

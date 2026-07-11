@@ -117,8 +117,6 @@ public class SuggestionPicker extends Picker {
 
         var scrollPane = new JScrollPane(list);
 
-        scrollPane.setBorder(null);
-
         list.setSelectedValue(getText(), true);
 
         list.addListSelectionListener(event -> {

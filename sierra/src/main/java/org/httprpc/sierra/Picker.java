@@ -69,6 +69,8 @@ public abstract class Picker extends JTextField {
 
             setFocusableWindowState(false);
 
+            getRootPane().putClientProperty("Window.shadow", false);
+
             pack();
         }
 

@@ -340,8 +340,6 @@ public class TimePicker extends TemporalPicker {
 
         var scrollPane = new JScrollPane(list);
 
-        scrollPane.setBorder(null);
-
         if (minuteInterval > 1 && time.getMinute() % minuteInterval == 0) {
             list.setSelectedValue(time, true);
         }
