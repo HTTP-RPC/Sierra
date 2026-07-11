@@ -127,6 +127,12 @@ Colors and fonts can also be specified by name. The name can refer to either a v
 
 Sierra supports the complete set of [extended web colors](https://en.wikipedia.org/wiki/Web_colors#Extended_colors) by default. Additional named colors and fonts can be added via the `define()` methods of the `UILoader` class.
 
+Opacity can be specified as a value between 0 and 1:
+
+```
+red; 0.5
+```
+
 ### Image and Icon Values
 Image and icon properties are specified via a path relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:
 

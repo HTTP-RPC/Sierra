@@ -1990,11 +1990,25 @@ public class UILoader {
     }
 
     private static Color parseColor(String value) {
-        return coalesce(colors.get(value), () -> coalesce(UIManager.getColor(value), () -> Color.decode(value)));
+        var components = value.split(";");
+
+        var name = components[0].trim();
+
+        var color = coalesce(colors.get(name), () -> coalesce(UIManager.getColor(name), () -> Color.decode(name)));
+
+        if (components.length == 1) {
+            return color;
+        } else {
+            var alpha = (int)(Float.parseFloat(components[1].trim()) * 255);
+
+            return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+        }
     }
 
     private static Font parseFont(String value) {
-        return coalesce(fonts.get(value), () -> coalesce(UIManager.getFont(value), () -> Font.decode(value)));
+        var name = value.trim();
+
+        return coalesce(fonts.get(name), () -> coalesce(UIManager.getFont(name), () -> Font.decode(name)));
     }
 
     private static int getValue(String key, ConstantAdapter[] values) {

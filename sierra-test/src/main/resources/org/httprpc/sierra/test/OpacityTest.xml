@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE row-panel SYSTEM "sierra.dtd">
+
+<row-panel spacing="8" padding="8" opaque="true">
+    <label text="1.0" horizontalAlignment="center" opaque="true" background="red; 1.0" weight="1"/>
+    <label text="0.75" horizontalAlignment="center" opaque="true" background="red; 0.75" weight="1"/>
+    <label text="0.5" horizontalAlignment="center" opaque="true" background="red; 0.5" weight="1"/>
+    <label text="0.25" horizontalAlignment="center" opaque="true" background="red; 0.25" weight="1"/>
+    <label text="0.0" horizontalAlignment="center" opaque="true" background="red; 0.0" weight="1"/>
+</row-panel>
