@@ -17,6 +17,8 @@ package org.httprpc.sierra;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -88,6 +90,7 @@ public class Badge extends JComponent {
 
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
             graphics.setColor(getBackground());
 
@@ -113,13 +116,26 @@ public class Badge extends JComponent {
                 graphics.drawString(text, (float)x, (float)y);
             }
 
+            if (outline != null) {
+                graphics.setColor(outline);
+                graphics.setStroke(new BasicStroke(OUTLINE_THICKNESS));
+
+                graphics.draw(new RoundRectangle2D.Float(OUTLINE_THICKNESS / 2, OUTLINE_THICKNESS / 2,
+                    width - OUTLINE_THICKNESS, height - OUTLINE_THICKNESS,
+                    height, height));
+            }
+
             graphics.dispose();
         }
     }
 
     private String text;
 
-    private static final double MARGIN = 0.1;
+    private Color outline = null;
+
+    private static final double MARGIN = 0.2;
+
+    private static final float OUTLINE_THICKNESS = 1;
 
     /**
      * Constructs a new badge.
@@ -164,5 +180,25 @@ public class Badge extends JComponent {
 
         revalidate();
         repaint();
+    }
+
+    /**
+     * Returns the outline color.
+     *
+     * @return
+     * The outline color, or {@code null} if no outline color has been set.
+     */
+    public Color getOutline() {
+        return outline;
+    }
+
+    /**
+     * Sets the outline color.
+     *
+     * @param outline
+     * The outline color, or {@code null} for no outline.
+     */
+    public void setOutline(Color outline) {
+        this.outline = outline;
     }
 }

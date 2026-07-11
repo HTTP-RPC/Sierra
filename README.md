@@ -487,7 +487,7 @@ See [ActivityIndicatorTest.java](sierra-test/src/main/java/org/httprpc/sierra/te
 ### Badges
 The `Badge` component displays a small amount of status information:
 
-<img src="README/badge.png" width="332px"/>
+<img src="README/badge.png" width="354px"/>
 
 See [BadgeTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/BadgeTest.java) for more information.
 

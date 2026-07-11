@@ -7,8 +7,8 @@
 
     <badge text="Alert" foreground="crimson" background="pink"/>
     <badge text="Warning" foreground="goldenrod" background="pale-goldenrod"/>
-    <badge text="Info" foreground="steel-blue" background="light-blue"/>
-    <badge text="OK" foreground="green" background="light-green"/>
+    <badge text="Info" foreground="steel-blue" background="light-blue" outline="steel-blue"/>
+    <badge text="OK" foreground="green" background="light-green" outline="green"/>
 
     <badge text="Default"/>
 </row-panel>
