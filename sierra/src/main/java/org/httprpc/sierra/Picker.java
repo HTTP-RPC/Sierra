@@ -17,11 +17,19 @@ package org.httprpc.sierra;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.JWindow;
+import javax.swing.RootPaneContainer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.Window;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,7 +37,28 @@ import java.util.List;
  * Abstract base class for picker components.
  */
 public abstract class Picker extends JTextField {
-    private static class PopupWindow extends JWindow {
+    private class PopupWindow extends JWindow {
+        ComponentListener componentListener = new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent event) {
+                hidePopup();
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent event) {
+                hidePopup();
+            }
+        };
+
+        MouseListener mouseListener = new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent event) {
+                hidePopup();
+            }
+        };
+
+        MouseWheelListener mouseWheelListener = event -> hidePopup();
+
         PopupWindow(Window owner, JComponent content) {
             super(owner);
 
@@ -41,6 +70,32 @@ public abstract class Picker extends JTextField {
             setFocusableWindowState(false);
 
             pack();
+        }
+
+        @Override
+        public void setVisible(boolean visible) {
+            var owner = getOwner();
+
+            var glassPane = ((RootPaneContainer)owner).getRootPane().getGlassPane();
+
+            if (visible) {
+                owner.addComponentListener(componentListener);
+
+                glassPane.addMouseListener(mouseListener);
+                glassPane.addMouseWheelListener(mouseWheelListener);
+
+                glassPane.setVisible(true);
+
+            } else {
+                owner.removeComponentListener(componentListener);
+
+                glassPane.removeMouseListener(mouseListener);
+                glassPane.removeMouseWheelListener(mouseWheelListener);
+
+                glassPane.setVisible(false);
+            }
+
+            super.setVisible(visible);
         }
     }
 
