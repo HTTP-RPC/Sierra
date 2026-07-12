@@ -45,7 +45,6 @@ public class ImagePaneTest extends JFrame implements Runnable {
 
         imagePane.setBackground(Color.WHITE);
         imagePane.setOpaque(true);
-        imagePane.setScaleMode(ImagePane.ScaleMode.FILL_HEIGHT);
         imagePane.setBorder(new LineBorder(Color.LIGHT_GRAY, 16));
 
         setContentPane(imagePane);
