@@ -31,7 +31,7 @@ public class OpacityTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "OpacityTest.xml"));
 
-        setSize(320, 120);
+        setSize(640, 240);
         setVisible(true);
     }
 

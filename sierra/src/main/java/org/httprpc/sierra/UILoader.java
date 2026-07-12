@@ -949,7 +949,7 @@ public class UILoader {
 
         @Override
         public boolean isBorderOpaque() {
-            return true;
+            return cornerRadius == 0;
         }
     }
 
