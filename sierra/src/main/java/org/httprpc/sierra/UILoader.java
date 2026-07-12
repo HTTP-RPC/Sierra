@@ -852,12 +852,14 @@ public class UILoader {
 
             var thickness = stroke.getLineWidth();
 
-            if (cornerRadius > 0
+            var arc = cornerRadius - thickness;
+
+            if (arc > 0
                 && component.getBorder() instanceof CompoundBorder compoundBorder
                 && compoundBorder.getOutsideBorder() == this) {
                 var clipBounds = graphics.getClipBounds();
 
-                var maskEdge = (int)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
+                var maskEdge = (int)Math.ceil(arc * (Math.sqrt(2) - 1));
 
                 if (clipBounds.x < maskEdge
                     || clipBounds.y < maskEdge
@@ -890,7 +892,7 @@ public class UILoader {
 
                     maskGraphics.fill(new RoundRectangle2D.Double((double)thickness / 2, (double)thickness / 2,
                         width - thickness, height - thickness,
-                        cornerRadius, cornerRadius));
+                        arc, arc));
 
                     maskGraphics.dispose();
 
@@ -914,7 +916,7 @@ public class UILoader {
 
                 graphics.draw(new RoundRectangle2D.Double(x + (double)thickness / 2, y + (double)thickness / 2,
                     width - thickness, height - thickness,
-                    cornerRadius, cornerRadius));
+                    arc, arc));
             }
 
             graphics.dispose();
