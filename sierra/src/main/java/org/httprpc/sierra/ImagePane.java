@@ -46,6 +46,26 @@ public class ImagePane extends JComponent {
         FILL_HEIGHT
     }
 
+    /**
+     * Interpolation options.
+     */
+    public enum InterpolationMode {
+        /**
+         * Nearest neighbor.
+         */
+        NEAREST_NEIGHBOR,
+
+        /**
+         * Bilinear.
+         */
+        BILINEAR,
+
+        /**
+         * Bicubic.
+         */
+        BICUBIC
+    }
+
     private class ImagePaneUI extends ComponentUI {
         @Override
         public Dimension getMinimumSize(JComponent component) {
@@ -130,7 +150,11 @@ public class ImagePane extends JComponent {
             graphics.translate(x + insets.left, y + insets.top);
             graphics.scale(scale, scale);
 
-            graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, switch (interpolationMode) {
+                case NEAREST_NEIGHBOR -> RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+                case BILINEAR -> RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+                case BICUBIC -> RenderingHints.VALUE_INTERPOLATION_BICUBIC;
+            });
 
             graphics.drawImage(image, 0, 0, null);
 
@@ -149,6 +173,7 @@ public class ImagePane extends JComponent {
     private Image image;
 
     private ScaleMode scaleMode = ScaleMode.NONE;
+    private InterpolationMode interpolationMode = InterpolationMode.BILINEAR;
 
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
     private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
@@ -220,6 +245,31 @@ public class ImagePane extends JComponent {
 
         revalidate();
         repaint();
+    }
+
+    /**
+     * Returns the interpolation mode. The default value is
+     * {@link InterpolationMode#BILINEAR}.
+     *
+     * @return
+     * The interpolation mode.
+     */
+    public InterpolationMode getInterpolationMode() {
+        return interpolationMode;
+    }
+
+    /**
+     * Sets the interpolation mode.
+     *
+     * @param interpolationMode
+     * The interpolation mode.
+     */
+    public void setInterpolationMode(InterpolationMode interpolationMode) {
+        if (interpolationMode == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.interpolationMode = interpolationMode;
     }
 
     /**
