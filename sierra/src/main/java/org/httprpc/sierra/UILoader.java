@@ -79,6 +79,7 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -852,57 +853,64 @@ public class UILoader {
 
             var thickness = stroke.getLineWidth();
 
-            var arc = cornerRadius - thickness;
+            var arc = cornerRadius * 2 - thickness;
 
             if (arc > 0
                 && component.getBorder() instanceof CompoundBorder compoundBorder
                 && compoundBorder.getOutsideBorder() == this) {
-                var clipBounds = graphics.getClipBounds();
+                var borderInsets = compoundBorder.getBorderInsets(component);
 
-                var maskEdge = (int)Math.ceil(arc * (Math.sqrt(2) - 1));
+                var maskEdge = (float)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
 
-                if (clipBounds.x < maskEdge
-                    || clipBounds.y < maskEdge
-                    || clipBounds.x + clipBounds.width > width - maskEdge
-                    || clipBounds.y + clipBounds.height > height - maskEdge) {
-                    var transform = graphics.getTransform();
+                if (borderInsets.top < maskEdge
+                    || borderInsets.left < maskEdge
+                    || borderInsets.bottom < maskEdge
+                    || borderInsets.right < maskEdge) {
+                    var clipBounds = graphics.getClipBounds();
 
-                    var scaleX = transform.getScaleX();
-                    var scaleY = transform.getScaleY();
+                    if (clipBounds.x < maskEdge
+                        || clipBounds.y < maskEdge
+                        || clipBounds.x + clipBounds.width > width - maskEdge
+                        || clipBounds.y + clipBounds.height > height - maskEdge) {
+                        var transform = graphics.getTransform();
 
-                    var maskWidth = (int)Math.round(clipBounds.width * scaleX);
-                    var maskHeight = (int)Math.round(clipBounds.height * scaleY);
+                        var scaleX = transform.getScaleX();
+                        var scaleY = transform.getScaleY();
 
-                    var maskImage = new BufferedImage(maskWidth, maskHeight, BufferedImage.TYPE_INT_ARGB);
+                        var maskWidth = (int)Math.round(clipBounds.width * scaleX);
+                        var maskHeight = (int)Math.round(clipBounds.height * scaleY);
 
-                    var maskGraphics = maskImage.createGraphics();
+                        var maskImage = new BufferedImage(maskWidth, maskHeight, BufferedImage.TYPE_INT_ARGB);
 
-                    maskGraphics.scale(scaleX, scaleY);
-                    maskGraphics.translate(-clipBounds.x, -clipBounds.y);
+                        var maskGraphics = maskImage.createGraphics();
 
-                    maskGraphics.setColor(getOpaqueBackground(component.getParent()));
-                    maskGraphics.setStroke(new BasicStroke(maskEdge));
+                        maskGraphics.scale(scaleX, scaleY);
+                        maskGraphics.translate(-clipBounds.x, -clipBounds.y);
 
-                    maskGraphics.drawRect(0, 0, width, height);
+                        maskGraphics.setColor(getOpaqueBackground(component.getParent()));
+                        maskGraphics.setStroke(new BasicStroke(maskEdge));
 
-                    maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+                        maskGraphics.draw(new Rectangle2D.Double(maskEdge / 2, maskEdge / 2, width - maskEdge, height - maskEdge));
 
-                    maskGraphics.setComposite(AlphaComposite.Clear);
+                        maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                        maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 
-                    maskGraphics.fill(new RoundRectangle2D.Double((double)thickness / 2, (double)thickness / 2,
-                        width - thickness, height - thickness,
-                        arc, arc));
+                        maskGraphics.setComposite(AlphaComposite.Clear);
 
-                    maskGraphics.dispose();
+                        maskGraphics.fill(new RoundRectangle2D.Double((double)thickness / 2, (double)thickness / 2,
+                            width - thickness, height - thickness,
+                            arc, arc));
 
-                    graphics.translate(clipBounds.x, clipBounds.y);
-                    graphics.scale(1 / scaleX, 1 / scaleY);
+                        maskGraphics.dispose();
 
-                    graphics.drawImage(maskImage, 0, 0, null);
+                        graphics.translate(clipBounds.x, clipBounds.y);
+                        graphics.scale(1 / scaleX, 1 / scaleY);
 
-                    graphics.scale(scaleX, scaleY);
-                    graphics.translate(-clipBounds.x, -clipBounds.y);
+                        graphics.drawImage(maskImage, 0, 0, null);
+
+                        graphics.scale(scaleX, scaleY);
+                        graphics.translate(-clipBounds.x, -clipBounds.y);
+                    }
                 }
             }
 

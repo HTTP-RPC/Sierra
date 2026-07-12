@@ -3,11 +3,11 @@
 <!DOCTYPE row-panel SYSTEM "sierra.dtd">
 
 <row-panel spacing="8" padding="16" opaque="true">
-    <stack-panel border="silver, 2, solid, 32">
+    <stack-panel border="silver, 2, solid, 16">
         <image-pane image="world.png" scaleMode="fill-height"/>
     </stack-panel>
 
-    <stack-panel border="silver, 4, solid, 32" opaque="true" background="white" weight="1">
+    <stack-panel border="silver, 4, solid, 16" opaque="true" background="white" weight="1">
         <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             font="Arial-BOLD-24"
             wrapText="true"
@@ -15,7 +15,7 @@
             padding="8, 16, 8, 16"/>
     </stack-panel>
 
-    <stack-panel border="silver, 2, solid, 32">
+    <stack-panel border="silver, 2, solid, 16">
         <image-pane image="world.png" scaleMode="fill-height"/>
     </stack-panel>
 </row-panel>

@@ -188,10 +188,10 @@ For example, this markup creates a label with a light gray border and four pixel
 Border thickness, style, and corner radius can be specified as shown below:
 
 ```xml
-<image-pane image="lighthouse.jpg" scaleMode="fill-height" border="green, 1, solid, 32"/>
+<image-pane image="lighthouse.jpg" scaleMode="fill-height" border="green, 2, solid, 16"/>
 ```
 
-<img src="README/border.png" width="225px"/>
+<img src="README/border.png" width="226px"/>
 
 The default thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0.
 
