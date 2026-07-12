@@ -75,7 +75,7 @@ public class ImagePane extends JComponent {
             if (width > 0 && height > 0) {
                 scale = getScale(width, height, imageWidth, imageHeight);
             } else {
-                scale = 1.0;
+                scale = 0.0;
             }
 
             var preferredWidth = scale * imageWidth + (insets.left + insets.right);
