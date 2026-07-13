@@ -196,7 +196,9 @@ Border thickness, style, and corner radius can be specified as shown below. A co
 
 <img src="README/border.png" width="226px"/>
 
-The default thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0.
+A similar effect can be achieved with other components via the FlatLaf "arc" [style](#flatlaf-client-properties).
+
+The default border thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0.
 
 Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _right_ order:
 
