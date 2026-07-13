@@ -179,56 +179,63 @@ public class ImagePane extends JComponent {
         }
 
         private void drawMask(Graphics2D graphics) {
+            var insets = getInsets();
+
             var maskEdge = (float)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
 
-            var clipBounds = graphics.getClipBounds();
+            if (insets.top < maskEdge
+                || insets.left < maskEdge
+                || insets.bottom < maskEdge
+                || insets.right < maskEdge) {
+                var clipBounds = graphics.getClipBounds();
 
-            var width = getWidth();
-            var height = getHeight();
+                var width = getWidth();
+                var height = getHeight();
 
-            if (clipBounds.x < maskEdge
-                || clipBounds.y < maskEdge
-                || clipBounds.x + clipBounds.width > width - maskEdge
-                || clipBounds.y + clipBounds.height > height - maskEdge) {
-                var transform = graphics.getTransform();
+                if (clipBounds.x < maskEdge
+                    || clipBounds.y < maskEdge
+                    || clipBounds.x + clipBounds.width > width - maskEdge
+                    || clipBounds.y + clipBounds.height > height - maskEdge) {
+                    var transform = graphics.getTransform();
 
-                var scaleX = transform.getScaleX();
-                var scaleY = transform.getScaleY();
+                    var scaleX = transform.getScaleX();
+                    var scaleY = transform.getScaleY();
 
-                var maskWidth = (int)Math.round(clipBounds.width * scaleX);
-                var maskHeight = (int)Math.round(clipBounds.height * scaleY);
+                    var maskWidth = (int)Math.round(clipBounds.width * scaleX);
+                    var maskHeight = (int)Math.round(clipBounds.height * scaleY);
 
-                var maskImage = new BufferedImage(maskWidth, maskHeight, BufferedImage.TYPE_INT_ARGB);
+                    var maskImage = new BufferedImage(maskWidth, maskHeight, BufferedImage.TYPE_INT_ARGB);
 
-                var maskGraphics = maskImage.createGraphics();
+                    var maskGraphics = maskImage.createGraphics();
 
-                maskGraphics.scale(scaleX, scaleY);
-                maskGraphics.translate(-clipBounds.x, -clipBounds.y);
+                    maskGraphics.scale(scaleX, scaleY);
+                    maskGraphics.translate(-clipBounds.x, -clipBounds.y);
 
-                maskGraphics.setColor(getOpaqueBackground(getParent()));
-                maskGraphics.setStroke(new BasicStroke(maskEdge));
+                    maskGraphics.setColor(getOpaqueBackground(getParent()));
+                    maskGraphics.setStroke(new BasicStroke(maskEdge));
 
-                maskGraphics.draw(new Rectangle2D.Double(maskEdge / 2, maskEdge / 2, width - maskEdge, height - maskEdge));
+                    maskGraphics.draw(new Rectangle2D.Double(maskEdge / 2, maskEdge / 2, width - maskEdge, height - maskEdge));
 
-                maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+                    maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 
-                maskGraphics.setComposite(AlphaComposite.Clear);
+                    maskGraphics.setComposite(AlphaComposite.Clear);
 
-                var arc = cornerRadius * 2;
+                    var arc = cornerRadius * 2;
 
-                maskGraphics.fill(new RoundRectangle2D.Double(0, 0, width, height, arc, arc));
+                    maskGraphics.fill(new RoundRectangle2D.Double(0, 0, width, height, arc, arc));
 
-                maskGraphics.dispose();
+                    maskGraphics.dispose();
 
-                graphics = (Graphics2D)graphics.create();
+                    graphics = (Graphics2D)graphics.create();
 
-                graphics.translate(clipBounds.x, clipBounds.y);
-                graphics.scale(1 / scaleX, 1 / scaleY);
+                    graphics.translate(clipBounds.x, clipBounds.y);
+                    graphics.scale(1 / scaleX, 1 / scaleY);
 
-                graphics.drawImage(maskImage, 0, 0, null);
+                    graphics.drawImage(maskImage, 0, 0, null);
 
-                graphics.dispose();
+                    graphics.dispose();
+                }
             }
         }
 
