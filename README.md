@@ -74,7 +74,7 @@ Sierra is distributed via Maven Central at [org.httprpc:sierra](https://central.
 
 A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required.
 
-## Elements
+# Elements
 XML elements represent component instances. Most Swing and all Sierra components are supported by default. Support for additional elements can be added via the `bind()` method of the `UILoader` class.
 
 Elements can be nested to create a component hierarchy. For example:
@@ -97,7 +97,7 @@ Elements can be nested to create a component hierarchy. For example:
 
 <img src="README/task-executor.png" width="432px"/>
 
-## Attributes
+# Attributes
 XML attributes generally represent component properties. For example, this markup creates an instance of `TextPane` and sets its "text" property to "Hello, World!":
 
 ```xml
@@ -106,7 +106,7 @@ XML attributes generally represent component properties. For example, this marku
 
 Numeric and boolean values are specified via their string representations. Supported constants and enum values are specified in [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
 
-### Color and Font Values
+## Color and Font Values
 Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `RowPanel` and sets its "background" property to white:
 
 ```xml
@@ -127,7 +127,7 @@ Opacity can be specified as a value between 0 and 1:
 red; 0.5
 ```
 
-### Image and Icon Values
+## Image and Icon Values
 Image and icon properties are specified via a path relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:
 
 ```xml
@@ -155,7 +155,7 @@ Custom dimensions can be specified either as _path; size_ or _path; width, heigh
 icon="icons/home_24dp.svg; 18"
 ```
 
-### Title Values
+## Title Values
 The "title" attribute establishes a titled border around a component:
 
 ```xml
@@ -170,7 +170,7 @@ The "title" attribute establishes a titled border around a component:
 
 The "titleColor", "titleFont", "titleJustification", and "titlePosition" attributes can be used to customize the title's appearance.
 
-### Border and Padding Values
+## Border and Padding Values
 The "border" and "padding" attributes create a line border and reserve space around a component, respectively. They can also be used to customize the appearance of a titled border.
 
 For example, this markup creates a label with a light gray border and four pixels of padding on each side:
@@ -200,7 +200,7 @@ Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _
 padding="8, 16, 8, 16"
 ```
 
-### Weight and Size Values
+## Weight and Size Values
 The "weight" attribute specifies the amount of excess space in a container that should be allocated to a component, relative to other weighted components in the container. When applied to a `Spacer` instance, it creates a "glue" component that automatically shrinks or stretches depending on the size of its container. However, weights are not limited to spacers and can be applied to any component type:
 
 ```xml
@@ -244,7 +244,7 @@ Size values for multiple dimensions can be specified in _width_, _height_ order:
 size="20, 20"
 ```
 
-### FlatLaf Client Properties
+## FlatLaf Client Properties
 FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "style" and "styleClass" attributes, respectively. For example, this markup applies the "h4" style class to a `JLabel` instance used by a list cell renderer:
 
 ```xml
@@ -290,7 +290,7 @@ Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-p
 
 <img src="README/text-fields.png" width="318px"/>
 
-### Button Groups
+## Button Groups
 The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:
 
 ```xml
@@ -300,7 +300,7 @@ The "group" attribute associates a button with a button group. For example, the 
 
 <img src="README/orientation.png" width="454px"/>
 
-### Tabbed Panes
+## Tabbed Panes
 When used in conjunction with `JTabbedPane`, the "tabTitle" and "tabIcon" attributes can be used to specify a component's tab title and icon, respectively:
 
 ```xml
@@ -314,7 +314,7 @@ When used in conjunction with `JTabbedPane`, the "tabTitle" and "tabIcon" attrib
 
 <img src="README/root-pane.png" width="592px"/>
 
-### Element Names
+## Element Names
 The "name" attribute associates an identifier with a component. In addition to setting the component's "name" property, `UILoader` automatically injects the component itself into a field with the same name defined by the document's owner (called an "outlet").
 
 For example, the following markup declares outlets named "greetingButton" and "greetingLabel": 
@@ -354,7 +354,7 @@ public class ActionTest extends JFrame implements Runnable {
 
 <img src="README/action.png" width="352px"/>
 
-### Resource Bundles
+## Resource Bundles
 An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, values of text properties are considered resource keys and are used to look up the associated strings in the bundle. For example:
 
 ```xml
@@ -390,7 +390,7 @@ streetAddress = Street Address
 
 <img src="README/form.png" width="592px"/>
 
-## Cell Alignment
+# Cell Alignment
 When grid alignment is enabled in a `ColumnPanel`, the sub-components of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each sub-column is the maximum preferred width of the "cells" in that column (i.e. the components having the same index in each row).
 
 Cell contents are aligned based on the component's _x_ and _y_ alignment values (returned by `getAlignmentX()` and `getAlignmentY()`, respectively). For most components, the default is 0.5, indicating that the component should fill the entire cell along both axes. Values between 0.0 and 0.5 will align the component to the cell's leading or top edge, and values between 0.5 and 1.0 will align the component to the cell's trailing or bottom edge. In both cases, a proportional amount of the excess space will be allocated to the component. A value of 0 or 1 will result in no excess space being given to the component (i.e. it will be aligned to the appropriate edge and will be given its preferred size along that axis).
@@ -450,17 +450,17 @@ This markup demonstrates y-alignment:
 
 Row spacing and cell weights are ignored when grid alignment is enabled.
 
-## Utility Components
+# Utility Components
 In addition to the features outlined above, Sierra also includes some common user interface elements not provided by Swing.
 
-### Validated Input
+## Validated Input
 The `NumberField` and `ValidatedTextField` components can be used to validate user input. `NumberField` accepts only numeric content, and `ValidatedTextField` accepts only content that matches a provided regular expression. Similiar to `JFormattedTextField`, the `getValue()` method of these classes can be used to obtain the validated data:
 
 <img src="README/validated-input.png" width="325px"/>
 
 `NumberField` is localized. See [ValidatedInputTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ValidatedInputTest.java) for more information.
 
-### Date and Time Selection
+## Date and Time Selection
 The `DatePicker` and `TimePicker` components allow a user to select a local date and time, respectively:
 
 <img src="README/date-time-picker-1.png" width="460px"/>
@@ -468,35 +468,35 @@ The `DatePicker` and `TimePicker` components allow a user to select a local date
 
 These classes are localized. See [DateTimePickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/DateTimePickerTest.java) for more information.
 
-### Suggestion Pickers
+## Suggestion Pickers
 The `SuggestionPicker` component allows a user to choose from a list of predefined values: 
 
 <img src="README/suggestion-picker.png" width="300px"/>
 
 See [SuggestionPickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/SuggestionPickerTest.java) for more information.
 
-### Menu Buttons
+## Menu Buttons
 The `MenuButton` component displays a popup menu when pressed:
 
 <img src="README/menu-button.png" width="210px"/>
 
 See [MenuButtonTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/MenuButtonTest.java) for more information.
 
-### Activity Indicators
+## Activity Indicators
 The `ActivityIndicator` component shows indeterminate progress:
 
 <img src="README/activity-indicator.png" width="157px"/>
 
 See [ActivityIndicatorTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActivityIndicatorTest.java) for more information.
 
-### Badges
+## Badges
 The `Badge` component displays a small amount of status information:
 
 <img src="README/badge.png" width="354px"/>
 
 See [BadgeTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/BadgeTest.java) for more information.
 
-### Charts
+## Charts
 The `ChartPane` component displays a [chart](charts-reference.md):
 
 <img src="README/charts.png" width="630px"/>
@@ -508,7 +508,7 @@ Charts automatically adapt to the current theme:
 
 See [ChartsTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ChartsTest.java) for more information.
 
-## Focus Management
+# Focus Management
 The `ScrollingKeyboardFocusManager` class ensures that components are automatically scrolled into view when focused (something that Swing oddly does not do by default). It can be installed at application startup as follows:
 
 ```java
@@ -517,7 +517,7 @@ KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusMa
 
 See [FormTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java) for more information.
 
-## Task Execution
+# Task Execution
 The `TaskExecutor` class performs a task in the background and and invokes a callback on the UI thread when the task is complete:
 
 ```java
