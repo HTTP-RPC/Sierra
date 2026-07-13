@@ -80,11 +80,18 @@ public class Badge extends JComponent {
         }
 
         private void paint(Graphics2D graphics) {
-            var size = getSize();
+            var width = getWidth();
+            var height = getHeight();
+
+            var preferredSize = getPreferredSize(null);
+
             var insets = getInsets();
 
-            var width = Math.max(size.width - (insets.left + insets.right), 0);
-            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
+            var contentWidth = preferredSize.getWidth() - (insets.left + insets.right);
+            var contentHeight = preferredSize.getHeight() - (insets.top + insets.bottom);
+
+            var x = (width - contentWidth) / 2;
+            var y = (height - contentHeight) / 2;
 
             graphics = (Graphics2D)graphics.create();
 
@@ -94,7 +101,7 @@ public class Badge extends JComponent {
 
             graphics.setColor(getBackground());
 
-            graphics.fill(new RoundRectangle2D.Double(0, 0, width, height, height, height));
+            graphics.fill(new RoundRectangle2D.Double(x, y, contentWidth, contentHeight, contentHeight, contentHeight));
 
             if (text != null) {
                 var font = getFont();
@@ -107,22 +114,19 @@ public class Badge extends JComponent {
                 var textWidth = stringBounds.getWidth();
                 var textHeight = stringBounds.getHeight();
 
-                var x = insets.left + (width - textWidth) / 2;
-                var y = insets.top + (height - textHeight) / 2 + ascent;
-
                 graphics.setColor(getForeground());
                 graphics.setFont(font);
 
-                graphics.drawString(text, (float)x, (float)y);
+                graphics.drawString(text, (float)(width - textWidth) / 2, (float)(height - textHeight) / 2 + ascent);
             }
 
             if (outline != null) {
                 graphics.setColor(outline);
                 graphics.setStroke(new BasicStroke(OUTLINE_THICKNESS));
 
-                graphics.draw(new RoundRectangle2D.Float(OUTLINE_THICKNESS / 2, OUTLINE_THICKNESS / 2,
-                    width - OUTLINE_THICKNESS, height - OUTLINE_THICKNESS,
-                    height, height));
+                graphics.draw(new RoundRectangle2D.Double(x + OUTLINE_THICKNESS / 2, y + OUTLINE_THICKNESS / 2,
+                    contentWidth - OUTLINE_THICKNESS, contentHeight - OUTLINE_THICKNESS,
+                    contentHeight, contentHeight));
             }
 
             graphics.dispose();

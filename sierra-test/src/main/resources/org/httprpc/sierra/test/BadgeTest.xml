@@ -2,7 +2,7 @@
 
 <!DOCTYPE row-panel SYSTEM "sierra.dtd">
 
-<row-panel spacing="8" padding="16" opaque="true" alignToBaseline="true">
+<row-panel spacing="8" padding="16" opaque="true">
     <badge text="25" foreground="white" background="crimson"/>
 
     <badge text="Alert" foreground="crimson" background="pink"/>
