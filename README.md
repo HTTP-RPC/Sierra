@@ -354,7 +354,7 @@ public class ActionTest extends JFrame implements Runnable {
 
 <img src="README/action.png" width="352px"/>
 
-## Resource Bundles
+# Resource Bundles
 An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, values of text properties are considered resource keys and are used to look up the associated strings in the bundle. For example:
 
 ```xml
