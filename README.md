@@ -7,16 +7,6 @@ Sierra is an open-source framework for simplifying development of Java Swing app
 
 ![](sierra.png)
 
-This guide introduces the Sierra framework and provides an overview of its key features.
-
-# Getting Sierra
-Sierra is distributed via Maven Central at [org.httprpc:sierra](https://central.sonatype.com/artifact/org.httprpc/sierra/versions). Java 21 or later is required. [FlatLaf](https://www.formdev.com/flatlaf/) is recommended.
-
-A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required. 
-
-A custom DTD can be generated using the [DTD encoder](sierra-tools/dtd-encoder) tool. An interactive [previewer](sierra-tools/previewer) tool is also available. Both can be downloaded [here](https://github.com/HTTP-RPC/Sierra/releases).
-
-# Sierra Classes
 Sierra provides the `UILoader` class, which can be used in conjunction with the following types to declaratively establish a hierarchy of user interface elements:
 
 * `RowPanel` - arranges sub-components in a horizontal line, optionally aligning to baseline
@@ -79,6 +69,10 @@ columnPanel.add(textPane);
 ```
 
 The complete source code for this example can be found [here](sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
+
+Sierra is distributed via Maven Central at [org.httprpc:sierra](https://central.sonatype.com/artifact/org.httprpc/sierra/versions). Java 21 or later is required. [FlatLaf](https://www.formdev.com/flatlaf/) is recommended.
+
+A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required.
 
 ## Elements
 XML elements represent component instances. Most Swing and all Sierra components are supported by default. Support for additional elements can be added via the `bind()` method of the `UILoader` class.
@@ -566,3 +560,6 @@ An API token is required and must be specified as a system property at applicati
 ```
 -Dtoken=<Tiingo API Token>
 ```
+
+# Sierra Tools
+A custom DTD can be generated using the [DTD encoder](sierra-tools/dtd-encoder) tool. An interactive [previewer](sierra-tools/previewer) tool is also available. Both can be downloaded [here](https://github.com/HTTP-RPC/Sierra/releases).
