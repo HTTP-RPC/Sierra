@@ -180,6 +180,8 @@ public class ImagePane extends JComponent {
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
     private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
 
+    private int cornerRadius = 0;
+
     /**
      * Constructs a new image pane.
      */
@@ -326,5 +328,29 @@ public class ImagePane extends JComponent {
         this.verticalAlignment = verticalAlignment;
 
         repaint();
+    }
+
+    /**
+     * Returns the corner radius.
+     *
+     * @return
+     * The corner radius.
+     */
+    public int getCornerRadius() {
+        return cornerRadius;
+    }
+
+    /**
+     * Sets the corner radius.
+     *
+     * @param cornerRadius
+     * The corner radius.
+     */
+    public void setCornerRadius(int cornerRadius) {
+        if (cornerRadius < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.cornerRadius = cornerRadius;
     }
 }

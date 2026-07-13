@@ -55,7 +55,7 @@
 <!ENTITY % org.httprpc.sierra.ChartPane "%javax.swing.JComponent; ">
 <!ELEMENT chart-pane EMPTY>
 <!ATTLIST chart-pane %org.httprpc.sierra.ChartPane;>
-<!ENTITY % org.httprpc.sierra.ImagePane "%javax.swing.JComponent; horizontalAlignment (left|right|center|leading|trailing) image CDATA interpolationMode (nearest-neighbor|bilinear|bicubic) scaleMode (none|fill-width|fill-height) verticalAlignment (top|bottom|center) ">
+<!ENTITY % org.httprpc.sierra.ImagePane "%javax.swing.JComponent; cornerRadius CDATA horizontalAlignment (left|right|center|leading|trailing) image CDATA interpolationMode (nearest-neighbor|bilinear|bicubic) scaleMode (none|fill-width|fill-height) verticalAlignment (top|bottom|center) ">
 <!ELEMENT image-pane EMPTY>
 <!ATTLIST image-pane %org.httprpc.sierra.ImagePane;>
 <!ENTITY % org.httprpc.sierra.Spacer "%javax.swing.JComponent; ">

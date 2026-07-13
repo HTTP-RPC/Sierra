@@ -188,7 +188,7 @@ For example, this markup creates a label with a light gray border and four pixel
 Border thickness, style, and corner radius can be specified as shown below:
 
 ```xml
-<image-pane image="lighthouse.jpg" scaleMode="fill-height" border="green, 2, solid, 16"/>
+<image-pane image="lighthouse.jpg" scaleMode="fill-height" cornerRadius="16" border="green, 2, solid, 16"/>
 ```
 
 <img src="README/border.png" width="226px"/>

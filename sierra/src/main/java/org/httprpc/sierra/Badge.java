@@ -156,6 +156,8 @@ public class Badge extends JComponent {
         setForeground(UIManager.getColor("Panel.background"));
         setBackground(UIManager.getColor("Label.disabledForeground"));
 
+        setFont(UIManager.getFont("Label.font"));
+
         setUI(new BadgeUI());
     }
 

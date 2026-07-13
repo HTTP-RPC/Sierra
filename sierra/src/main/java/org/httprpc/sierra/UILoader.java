@@ -66,7 +66,6 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
@@ -79,9 +78,7 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -832,12 +829,31 @@ public class UILoader {
         }
     }
 
-    private static class RoundedLineBorder implements Border {
-        Color color;
-        BasicStroke stroke;
-        int cornerRadius;
+    /**
+     * Rounded line border.
+     */
+    public static class RoundedLineBorder implements Border {
+        private Color color;
+        private BasicStroke stroke;
+        private int cornerRadius;
 
-        RoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius) {
+        /**
+         * Constructs a new rounded line border.
+         *
+         * @param color
+         * The border color.
+         *
+         * @param stroke
+         * The border stroke.
+         *
+         * @param cornerRadius
+         * The corner radius.
+         */
+        public RoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius) {
+            if (color == null || stroke == null || cornerRadius < 0) {
+                throw new IllegalArgumentException();
+            }
+
             this.color = color;
             this.stroke = stroke;
             this.cornerRadius = cornerRadius;
@@ -855,94 +871,23 @@ public class UILoader {
 
             var arc = cornerRadius * 2 - thickness;
 
-            if (arc > 0
-                && component.getBorder() instanceof CompoundBorder compoundBorder
-                && compoundBorder.getOutsideBorder() == this) {
-                var borderInsets = compoundBorder.getBorderInsets(component);
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
-                var maskEdge = (float)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
+            graphics.setColor(color);
+            graphics.setStroke(stroke);
 
-                if (borderInsets.top < maskEdge
-                    || borderInsets.left < maskEdge
-                    || borderInsets.bottom < maskEdge
-                    || borderInsets.right < maskEdge) {
-                    var clipBounds = graphics.getClipBounds();
-
-                    if (clipBounds.x < maskEdge
-                        || clipBounds.y < maskEdge
-                        || clipBounds.x + clipBounds.width > width - maskEdge
-                        || clipBounds.y + clipBounds.height > height - maskEdge) {
-                        var transform = graphics.getTransform();
-
-                        var scaleX = transform.getScaleX();
-                        var scaleY = transform.getScaleY();
-
-                        var maskWidth = (int)Math.round(clipBounds.width * scaleX);
-                        var maskHeight = (int)Math.round(clipBounds.height * scaleY);
-
-                        var maskImage = new BufferedImage(maskWidth, maskHeight, BufferedImage.TYPE_INT_ARGB);
-
-                        var maskGraphics = maskImage.createGraphics();
-
-                        maskGraphics.scale(scaleX, scaleY);
-                        maskGraphics.translate(-clipBounds.x, -clipBounds.y);
-
-                        maskGraphics.setColor(getOpaqueBackground(component.getParent()));
-                        maskGraphics.setStroke(new BasicStroke(maskEdge));
-
-                        maskGraphics.draw(new Rectangle2D.Double(maskEdge / 2, maskEdge / 2, width - maskEdge, height - maskEdge));
-
-                        maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                        maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-
-                        maskGraphics.setComposite(AlphaComposite.Clear);
-
-                        maskGraphics.fill(new RoundRectangle2D.Double((double)thickness / 2, (double)thickness / 2,
-                            width - thickness, height - thickness,
-                            arc, arc));
-
-                        maskGraphics.dispose();
-
-                        graphics.translate(clipBounds.x, clipBounds.y);
-                        graphics.scale(1 / scaleX, 1 / scaleY);
-
-                        graphics.drawImage(maskImage, 0, 0, null);
-
-                        graphics.scale(scaleX, scaleY);
-                        graphics.translate(-clipBounds.x, -clipBounds.y);
-                    }
-                }
-            }
-
-            if (thickness > 0) {
-                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-                graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-
-                graphics.setColor(color);
-                graphics.setStroke(stroke);
-
-                graphics.draw(new RoundRectangle2D.Double(x + (double)thickness / 2, y + (double)thickness / 2,
-                    width - thickness, height - thickness,
-                    arc, arc));
-            }
+            graphics.draw(new RoundRectangle2D.Double(x + (double)thickness / 2, y + (double)thickness / 2,
+                width - thickness, height - thickness,
+                arc, arc));
 
             graphics.dispose();
         }
 
-        private static Color getOpaqueBackground(Component component) {
-            if (component == null) {
-                return null;
-            } else if (component.isOpaque()) {
-                return component.getBackground();
-            } else {
-                return getOpaqueBackground(component.getParent());
-            }
-        }
-
         @Override
         public Insets getBorderInsets(Component component) {
-            var thickness = Math.round(stroke.getLineWidth());
+            var thickness = (int)Math.floor(stroke.getLineWidth());
 
             return new Insets(thickness, thickness, thickness, thickness);
         }
