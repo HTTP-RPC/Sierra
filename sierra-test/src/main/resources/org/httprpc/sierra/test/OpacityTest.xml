@@ -5,27 +5,27 @@
 <row-panel spacing="8" padding="8" opaque="true">
     <label text="1.0" horizontalAlignment="center"
         border="dark-red; 0.4, 8, solid, 16"
-        opaque="true" background="red; 1.0"
+        background="red; 1.0"
         style="arc: 32"
         weight="1"/>
     <label text="0.75" horizontalAlignment="center"
         border="dark-red; 0.4, 4, solid, 16"
-        opaque="true" background="red; 0.75"
+        background="red; 0.75"
         style="arc: 32"
         weight="1"/>
     <label text="0.5" horizontalAlignment="center"
         border="dark-red; 0.4, 2, solid, 16"
-        opaque="true" background="red; 0.5"
+        background="red; 0.5"
         style="arc: 32"
         weight="1"/>
     <label text="0.25" horizontalAlignment="center"
         border="dark-red; 0.4, 1, solid, 16"
-        opaque="true" background="red; 0.25"
+        background="red; 0.25"
         style="arc: 32"
         weight="1"/>
     <label text="0.0" horizontalAlignment="center"
         border="dark-red; 0.4, 0, solid, 16"
-        opaque="true" background="red; 0.0"
+        background="red; 0.0"
         style="arc: 32"
         weight="1"/>
 </row-panel>
