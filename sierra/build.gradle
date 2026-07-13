@@ -15,6 +15,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
 }
 
 java {
@@ -44,6 +45,15 @@ tasks.named('test', Test) {
 }
 
 publishing {
+    repositories {
+        maven {
+            credentials {
+                username = project.properties['centralPortalUsername'] ?: ''
+                password = project.properties['centralPortalPassword'] ?: ''
+            }
+        }
+    }
+
     publications {
         maven(MavenPublication) {
             artifactId = project.name
@@ -73,4 +83,8 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    sign publishing.publications
 }
