@@ -868,7 +868,7 @@ public class UILoader {
 
         @Override
         public Insets getBorderInsets(Component component) {
-            var thickness = (int)Math.floor(stroke.getLineWidth());
+            var thickness = Math.round(stroke.getLineWidth());
 
             return new Insets(thickness, thickness, thickness, thickness);
         }
