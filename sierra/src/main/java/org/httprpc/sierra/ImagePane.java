@@ -181,7 +181,7 @@ public class ImagePane extends JComponent {
         private void drawMask(Graphics2D graphics) {
             var insets = getInsets();
 
-            var maskEdge = (float)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
+            var maskEdge = (float)Math.ceil(cornerRadius * (Math.sqrt(2) - 1) / Math.sqrt(2));
 
             if (insets.top < maskEdge
                 || insets.left < maskEdge
