@@ -16,11 +16,18 @@ package org.httprpc.sierra;
 
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  * Displays an image.
@@ -121,6 +128,14 @@ public class ImagePane extends JComponent {
                 return;
             }
 
+            drawImage(graphics);
+
+            if (cornerRadius > 0) {
+                drawMask(graphics);
+            }
+        }
+
+        private void drawImage(Graphics2D graphics) {
             var insets = getInsets();
 
             var width = Math.max(getWidth() - (insets.left + insets.right), 0);
@@ -163,12 +178,76 @@ public class ImagePane extends JComponent {
             graphics.dispose();
         }
 
+        private void drawMask(Graphics2D graphics) {
+            var maskEdge = (float)Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
+
+            var clipBounds = graphics.getClipBounds();
+
+            var width = getWidth();
+            var height = getHeight();
+
+            if (clipBounds.x < maskEdge
+                || clipBounds.y < maskEdge
+                || clipBounds.x + clipBounds.width > width - maskEdge
+                || clipBounds.y + clipBounds.height > height - maskEdge) {
+                var transform = graphics.getTransform();
+
+                var scaleX = transform.getScaleX();
+                var scaleY = transform.getScaleY();
+
+                var maskWidth = (int)Math.round(clipBounds.width * scaleX);
+                var maskHeight = (int)Math.round(clipBounds.height * scaleY);
+
+                var maskImage = new BufferedImage(maskWidth, maskHeight, BufferedImage.TYPE_INT_ARGB);
+
+                var maskGraphics = maskImage.createGraphics();
+
+                maskGraphics.scale(scaleX, scaleY);
+                maskGraphics.translate(-clipBounds.x, -clipBounds.y);
+
+                maskGraphics.setColor(getOpaqueBackground(getParent()));
+                maskGraphics.setStroke(new BasicStroke(maskEdge));
+
+                maskGraphics.draw(new Rectangle2D.Double(maskEdge / 2, maskEdge / 2, width - maskEdge, height - maskEdge));
+
+                maskGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                maskGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+
+                maskGraphics.setComposite(AlphaComposite.Clear);
+
+                var arc = cornerRadius * 2;
+
+                maskGraphics.fill(new RoundRectangle2D.Double(0, 0, width, height, arc, arc));
+
+                maskGraphics.dispose();
+
+                graphics = (Graphics2D)graphics.create();
+
+                graphics.translate(clipBounds.x, clipBounds.y);
+                graphics.scale(1 / scaleX, 1 / scaleY);
+
+                graphics.drawImage(maskImage, 0, 0, null);
+
+                graphics.dispose();
+            }
+        }
+
         private double getScale(int width, int height, int imageWidth, int imageHeight) {
             return switch (scaleMode) {
                 case NONE -> 1.0;
                 case FILL_WIDTH -> imageWidth > 0 ? (double)width / imageWidth : 1.0;
                 case FILL_HEIGHT -> imageHeight > 0 ? (double)height / imageHeight : 1.0;
             };
+        }
+
+        private static Color getOpaqueBackground(Component component) {
+            if (component == null) {
+                return null;
+            } else if (component.isOpaque()) {
+                return component.getBackground();
+            } else {
+                return getOpaqueBackground(component.getParent());
+            }
         }
     }
 
