@@ -859,6 +859,36 @@ public class UILoader {
             this.cornerRadius = cornerRadius;
         }
 
+        /**
+         * Returns the border color.
+         *
+         * @return
+         * The border color.
+         */
+        public Color getColor() {
+            return color;
+        }
+
+        /**
+         * Returns the border stroke.
+         *
+         * @return
+         * The border stroke.
+         */
+        public BasicStroke getStroke() {
+            return stroke;
+        }
+
+        /**
+         * Returns the corner radius.
+         *
+         * @return
+         * The corner radius.
+         */
+        public int getCornerRadius() {
+            return cornerRadius;
+        }
+
         @Override
         public void paintBorder(Component component, Graphics graphics, int x, int y, int width, int height) {
             paintBorder((JComponent)component, (Graphics2D)graphics, x, y, width, height);
