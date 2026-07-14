@@ -104,6 +104,48 @@ XML attributes generally represent component properties. For example, this marku
 
 Numeric and boolean values are specified via their string representations. Supported constants and enum values are specified in [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
 
+## Element Names
+The "name" attribute associates an identifier with a component. In addition to setting the "name" property, `UILoader` automatically injects the component itself into an "outlet" defined by the document's owner, the value passed as the first argument to the `load()` method. 
+
+For example, this markup declares outlets named "greetingButton" and "greetingLabel":
+
+```xml
+<button name="greetingButton" text="prompt"/>
+<label name="greetingLabel" horizontalAlignment="center"/>
+```
+
+When the call to `load()` returns, the named fields will be populated with the instances declared in the markup. Though not required, use of the `Outlet` annotation is recommended:
+
+```java
+public class ActionTest extends JFrame implements Runnable {
+    private @Outlet JButton greetingButton = null;
+    private @Outlet JLabel greetingLabel = null;
+
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ActionTest.class.getName());
+
+    ...
+
+    @Override
+    public void run() {
+        setContentPane(UILoader.load(this, "ActionTest.xml", resourceBundle));
+
+        greetingButton.addActionListener(event -> sayHello());
+
+        ...
+    }
+
+    private void sayHello() {
+        greetingLabel.setText(resourceBundle.getString("greeting"));
+    }
+
+    ...
+}
+```
+
+<img src="README/action.png" width="352px"/>
+
+Resource bundles can be used to localize deserialized markup and are discussed in more detail [later](#resource-bundles).
+
 ## Color and Font Values
 Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `RowPanel` and sets its "background" property to white:
 
@@ -126,7 +168,7 @@ red; 0.5
 ```
 
 ## Image and Icon Values
-Image and icon properties are specified via a path relative to the document's "owner", the value passed as the first argument to `UILoader#load()`. For example:
+Image and icon properties are specified via a path relative to the document's owner:
 
 ```xml
 <image-pane image="world.png" scaleMode="fill-width"/>
@@ -311,46 +353,6 @@ When used in conjunction with `JTabbedPane`, the "tabTitle" and "tabIcon" attrib
 ```
 
 <img src="README/root-pane.png" width="592px"/>
-
-## Element Names
-The "name" attribute associates an identifier with a component. In addition to setting the component's "name" property, `UILoader` automatically injects the component itself into a field with the same name defined by the document's owner (called an "outlet").
-
-For example, the following markup declares outlets named "greetingButton" and "greetingLabel": 
-
-```xml
-<button name="greetingButton" text="prompt"/>
-<label name="greetingLabel" horizontalAlignment="center"/>
-```
-
-When the `load()` method returns, the corresponding fields in the owner will be populated with the instances declared in the markup. Though not required, use of the `Outlet` annotation is recommended:
-
-```java
-public class ActionTest extends JFrame implements Runnable {
-    private @Outlet JButton greetingButton = null;
-    private @Outlet JLabel greetingLabel = null;
-
-    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ActionTest.class.getName());
-
-    ...
-
-    @Override
-    public void run() {
-        setContentPane(UILoader.load(this, "ActionTest.xml", resourceBundle));
-
-        greetingButton.addActionListener(event -> sayHello());
-
-        ...
-    }
-
-    private void sayHello() {
-        greetingLabel.setText(resourceBundle.getString("greeting"));
-    }
-
-    ...
-}
-```
-
-<img src="README/action.png" width="352px"/>
 
 # Resource Bundles
 An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, values of text properties are considered resource keys and are used to look up the associated strings in the bundle. For example:
