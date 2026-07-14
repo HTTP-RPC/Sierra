@@ -22,10 +22,10 @@ import java.util.List;
 import static org.httprpc.kilo.util.Iterables.*;
 
 /**
- * Arranges sub-components in a vertical line. The panel's preferred width is
- * the maximum preferred width of its sub-components plus horizontal insets.
- * Preferred height is the total preferred height of all unweighted
- * sub-components plus vertical insets.
+ * Arranges components in a vertical line. The panel's preferred width is the
+ * maximum preferred width of all components plus horizontal insets. Preferred
+ * height is the total preferred height of all unweighted components plus
+ * vertical insets.
  */
 public class ColumnPanel extends BoxPanel {
     private class ColumnLayoutManager extends AbstractLayoutManager {

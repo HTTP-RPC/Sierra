@@ -32,21 +32,20 @@ public abstract class BoxPanel extends LayoutPanel {
     }
 
     /**
-     * Returns the amount of space between successive sub-components. The
-     * default value is 0.
+     * Returns the amount of space between components. The default value is 0.
      *
      * @return
-     * The sub-component spacing.
+     * The component spacing.
      */
     public int getSpacing() {
         return spacing;
     }
 
     /**
-     * Sets the amount of space between successive sub-components.
+     * Sets the amount of space between components.
      *
      * @param spacing
-     * The sub-component spacing.
+     * The component spacing.
      */
     public void setSpacing(int spacing) {
         if (spacing < 0) {
