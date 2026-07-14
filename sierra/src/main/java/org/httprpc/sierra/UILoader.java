@@ -852,16 +852,28 @@ public class UILoader {
             graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
-            var maskThickness = Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
+            if (component.getBorder() instanceof CompoundBorder compoundBorder
+                && compoundBorder.getOutsideBorder() == this) {
+                var borderInsets = compoundBorder.getBorderInsets(component);
 
-            graphics.setColor(getOpaqueBackground(component.getParent()));
-            graphics.setStroke(new BasicStroke((float)maskThickness));
+                var maskThickness = Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
 
-            var maskArc = cornerRadius * 2 + maskThickness;
+                var maskEdge = maskThickness / Math.sqrt(2);
 
-            graphics.draw(new RoundRectangle2D.Double(-maskThickness / 2, -maskThickness / 2,
-                width + maskThickness, height + maskThickness,
-                maskArc, maskArc));
+                if (borderInsets.top < maskEdge
+                    || borderInsets.left < maskEdge
+                    || borderInsets.bottom < maskEdge
+                    || borderInsets.right < maskEdge) {
+                    graphics.setColor(getOpaqueBackground(component.getParent()));
+                    graphics.setStroke(new BasicStroke((float)maskThickness));
+
+                    var maskArc = cornerRadius * 2 + maskThickness;
+
+                    graphics.draw(new RoundRectangle2D.Double(-maskThickness / 2, -maskThickness / 2,
+                        width + maskThickness, height + maskThickness,
+                        maskArc, maskArc));
+                }
+            }
 
             graphics.setColor(color);
             graphics.setStroke(stroke);
@@ -886,7 +898,7 @@ public class UILoader {
 
         @Override
         public boolean isBorderOpaque() {
-            return cornerRadius == 0;
+            return false;
         }
 
         private static Color getOpaqueBackground(Component component) {
