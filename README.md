@@ -168,7 +168,7 @@ red; 0.5
 ```
 
 ## Image and Icon Values
-Image and icon properties are specified via a path relative to the document's owner:
+Image and icon properties are specified via a path relative to the document's owner. For example:
 
 ```xml
 <image-pane image="world.png" scaleMode="fill-width"/>
@@ -230,7 +230,7 @@ Border thickness, style, and corner radius can be specified as shown below. A co
 
 <img src="README/border.png" width="226px"/>
 
-A similar effect can be achieved with other components via the FlatLaf "arc" [style](#flatlaf-client-properties).
+A similar effect can be achieved with other components via the FlatLaf "arc" [style](#flatlaf-styles).
 
 The default border thickness is 1. Border style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0.
 
@@ -284,52 +284,6 @@ Size values for multiple dimensions can be specified in _width_, _height_ order:
 size="20, 20"
 ```
 
-## FlatLaf Client Properties
-FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "style" and "styleClass" attributes, respectively. For example, this markup applies the "h4" style class to a `JLabel` instance used by a list cell renderer:
-
-```xml
-<row-panel spacing="4" padding="4" opaque="true">
-    <image-pane name="imagePane" size="30, 30" scaleMode="fill-width"/>
-
-    <column-panel>
-        <label name="nameLabel" styleClass="h4"/>
-        <label name="descriptionLabel"/>
-    </column-panel>
-</row-panel>
-```
-
-<img src="README/cell-renderer.png" width="532px"/>
-
-FlatLaf text styles are also accessible via the "font" property:
-
-```xml
-<text-pane text="Heading 1" font="h1.font" wrapText="true"/>
-```
-
-<img src="README/block-layout.png" width="472px"/>
-
-Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-properties/#JTextField) are also supported. For example: 
-
-```xml
-<column-panel spacing="4" padding="8" opaque="true">
-    <text-field columns="16"
-        placeholderText="firstName"
-        showClearButton="true"/>
-    
-    <text-field columns="16"
-        placeholderText="lastName"
-        showClearButton="true"/>
-
-    <spacer size="8"/>
-
-    <text-field columns="16"
-        leadingIcon="icons/search_24dp.svg; 18"
-        trailingIcon="icons/people_24dp.svg; 18"/>
-</column-panel>
-```
-
-<img src="README/text-fields.png" width="318px"/>
-
 ## Button Groups
 The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:
 
@@ -353,6 +307,52 @@ When used in conjunction with `JTabbedPane`, the "tabTitle" and "tabIcon" attrib
 ```
 
 <img src="README/root-pane.png" width="592px"/>
+
+## FlatLaf Styles
+FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "style" and "styleClass" attributes, respectively. For example, this markup applies the "h4" style class to a `JLabel` instance used by a list cell renderer:
+
+```xml
+<row-panel spacing="4" padding="4" opaque="true">
+    <image-pane name="imagePane" size="30, 30" scaleMode="fill-width"/>
+
+    <column-panel>
+        <label name="nameLabel" styleClass="h4"/>
+        <label name="descriptionLabel"/>
+    </column-panel>
+</row-panel>
+```
+
+<img src="README/cell-renderer.png" width="532px"/>
+
+FlatLaf text styles are also accessible via the "font" property:
+
+```xml
+<text-pane text="Heading 1" font="h1.font" wrapText="true"/>
+```
+
+<img src="README/block-layout.png" width="472px"/>
+
+Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-properties/#JTextField) are also supported. For example:
+
+```xml
+<column-panel spacing="4" padding="8" opaque="true">
+    <text-field columns="16"
+        placeholderText="firstName"
+        showClearButton="true"/>
+    
+    <text-field columns="16"
+        placeholderText="lastName"
+        showClearButton="true"/>
+
+    <spacer size="8"/>
+
+    <text-field columns="16"
+        leadingIcon="icons/search_24dp.svg; 18"
+        trailingIcon="icons/people_24dp.svg; 18"/>
+</column-panel>
+```
+
+<img src="README/text-fields.png" width="318px"/>
 
 # Resource Bundles
 An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, values of text properties are considered resource keys and are used to look up the associated strings in the bundle. For example:
