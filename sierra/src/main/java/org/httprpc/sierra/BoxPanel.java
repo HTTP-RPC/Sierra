@@ -32,7 +32,8 @@ public abstract class BoxPanel extends LayoutPanel {
     }
 
     /**
-     * Returns the amount of space between components. The default value is 0.
+     * Returns the amount of space between successive components. The default
+     * value is 0.
      *
      * @return
      * The component spacing.
@@ -42,7 +43,7 @@ public abstract class BoxPanel extends LayoutPanel {
     }
 
     /**
-     * Sets the amount of space between components.
+     * Sets the amount of space between successive components.
      *
      * @param spacing
      * The component spacing.
