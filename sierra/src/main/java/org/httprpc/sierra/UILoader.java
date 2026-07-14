@@ -866,11 +866,11 @@ public class UILoader {
             graphics.setColor(color);
             graphics.setStroke(stroke);
 
-            var borderThickness = stroke.getLineWidth();
+            var borderThickness = (double)stroke.getLineWidth();
 
             var borderArc = cornerRadius * 2 - borderThickness;
 
-            graphics.draw(new RoundRectangle2D.Double(x + (double)borderThickness / 2, y + (double)borderThickness / 2,
+            graphics.draw(new RoundRectangle2D.Double(x + borderThickness / 2, y + borderThickness / 2,
                 width - borderThickness, height - borderThickness,
                 borderArc, borderArc));
 
