@@ -107,7 +107,7 @@ XML attributes generally represent component properties. For example, this marku
 Numeric and boolean values are specified via their string representations. Supported constants and enum values are specified in [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
 
 ## Element Names
-The "name" attribute associates an identifier with a component. In addition to setting the "name" property, `UILoader` assigns the component itself to an "outlet" defined by the document's owner, the value passed as the first argument to the `load()` method. 
+The "name" attribute associates an identifier with a component. In addition to setting the "name" property, `UILoader` injects the component itself into an "outlet" defined by the document's owner, the value passed as the first argument to the `load()` method.
 
 For example, this markup declares outlets named "greetingButton" and "greetingLabel":
 
