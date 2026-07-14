@@ -98,7 +98,7 @@ Elements can be nested to create a component hierarchy. For example:
 <img src="README/task-executor.png" width="432px"/>
 
 # Attributes
-XML attributes generally represent component properties. For example, this markup creates an instance of `TextPane` and sets its "text" property to "Hello, World!":
+XML attributes generally represent component properties. For example, this markup sets the "text" and "horizontalAlignment" properties of a `TextPane` instance:
 
 ```xml
 <text-pane text="Hello, World!" horizontalAlignment="center"/>
