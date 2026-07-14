@@ -3,10 +3,7 @@
 <!DOCTYPE row-panel SYSTEM "sierra.dtd">
 
 <row-panel spacing="16" padding="16" opaque="true" background="white">
-    <image-pane image="lighthouse.jpg"
-        scaleMode="fill-height"
-        cornerRadius="16"
-        border="green, 2, solid, 16"/>
+    <image-pane image="lighthouse.jpg" scaleMode="fill-height" border="green, 4, solid, 16"/>
 
     <column-panel title="Title"
         titleColor="green"

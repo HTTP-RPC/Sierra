@@ -848,20 +848,31 @@ public class UILoader {
         private void paintBorder(JComponent component, Graphics2D graphics, int x, int y, int width, int height) {
             graphics = (Graphics2D)graphics.create();
 
-            var thickness = stroke.getLineWidth();
-
-            var arc = cornerRadius * 2 - thickness;
-
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
+            var maskThickness = Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
+
+            graphics.setColor(getOpaqueBackground(component.getParent()));
+            graphics.setStroke(new BasicStroke((float)maskThickness));
+
+            var maskArc = cornerRadius * 2 + maskThickness;
+
+            graphics.draw(new RoundRectangle2D.Double(-maskThickness / 2, -maskThickness / 2,
+                width + maskThickness, height + maskThickness,
+                maskArc, maskArc));
+
             graphics.setColor(color);
             graphics.setStroke(stroke);
 
-            graphics.draw(new RoundRectangle2D.Double(x + (double)thickness / 2, y + (double)thickness / 2,
-                width - thickness, height - thickness,
-                arc, arc));
+            var borderThickness = stroke.getLineWidth();
+
+            var borderArc = cornerRadius * 2 - borderThickness;
+
+            graphics.draw(new RoundRectangle2D.Double(x + (double)borderThickness / 2, y + (double)borderThickness / 2,
+                width - borderThickness, height - borderThickness,
+                borderArc, borderArc));
 
             graphics.dispose();
         }
@@ -876,6 +887,16 @@ public class UILoader {
         @Override
         public boolean isBorderOpaque() {
             return cornerRadius == 0;
+        }
+
+        private static Color getOpaqueBackground(Component component) {
+            if (component == null) {
+                return null;
+            } else if (component.isOpaque()) {
+                return component.getBackground();
+            } else {
+                return getOpaqueBackground(component.getParent());
+            }
         }
     }
 

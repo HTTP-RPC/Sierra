@@ -219,18 +219,13 @@ For example, this markup creates a label with a light gray border and four pixel
 <label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
 ```
 
-Border thickness, style, and corner radius can be specified as shown below. A corner radius is also applied to the image pane so its content remains within the border:
+Border thickness, style, and corner radius can be specified as shown below:
 
 ```xml
-<image-pane image="lighthouse.jpg"
-    scaleMode="fill-height"
-    cornerRadius="16"
-    border="green, 2, solid, 16"/>
+<image-pane image="lighthouse.jpg" scaleMode="fill-height" border="green, 2, solid, 16"/>
 ```
 
 <img src="README/border.png" width="226px"/>
-
-A similar effect can be achieved with other components via the FlatLaf "arc" [style](#flatlaf-styles).
 
 The default border thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0.
 

@@ -40,7 +40,7 @@ public class TextPaneTest extends JFrame implements Runnable {
         textPane.setWrapText(true);
         textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
         textPane.setVerticalAlignment(VerticalAlignment.CENTER);
-        textPane.setBorder(new LineBorder(new Color(0xc0, 0xc0, 0xc0, 0x80), 16));
+        textPane.setBorder(new LineBorder(Color.LIGHT_GRAY, 16));
 
         setContentPane(textPane);
 
