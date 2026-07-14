@@ -146,7 +146,7 @@ public class ActionTest extends JFrame implements Runnable {
 
 <img src="README/action.png" width="352px"/>
 
-Resource bundles can be used to localize deserialized markup and are discussed in more detail [later](#resource-bundles).
+Resource bundles are used to localize deserialized markup and are discussed in more detail [later](#resource-bundles).
 
 ## Color and Font Values
 Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `RowPanel` and sets its "background" property to white:
