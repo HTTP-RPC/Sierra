@@ -68,6 +68,8 @@ textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
 columnPanel.add(textPane);
 ```
 
+The complete source code for this example can be found [here](sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
+
 Sierra is distributed via Maven Central at [org.httprpc:sierra](https://central.sonatype.com/artifact/org.httprpc/sierra/versions). Java 21 or later is required. [FlatLaf](https://www.formdev.com/flatlaf/) is recommended.
 
 A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required.
