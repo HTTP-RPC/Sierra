@@ -16,7 +16,7 @@ Sierra provides the `UILoader` class, which can be used in conjunction with the 
 
 These classes offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice.
 
-Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`. Several common [utility components](#utility-components) are included as well.
+Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`. Some common [utility components](#utility-components) are included as well.
 
 For example, the following markup declares a column panel containing a graphic and a simple greeting:
 
@@ -355,7 +355,7 @@ Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-p
 An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, values of text properties are considered resource keys and are used to look up the associated strings in the bundle. For example:
 
 ```xml
-<column-panel spacing="4" padding="8" alignToGrid="true" scrollableTracksViewportWidth="true">
+<column-panel spacing="4" padding="8" alignToGrid="true" scrollableTracksViewportWidth="true" opaque="true">
     <row-panel alignToBaseline="true">
         <label text="firstName" alignmentX="1.0"/>
         <text-field columns="12" alignmentX="0.0"/>
