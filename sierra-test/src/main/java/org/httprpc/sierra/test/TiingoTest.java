@@ -27,7 +27,6 @@ import org.httprpc.sierra.charts.CandlestickChart;
 import org.httprpc.sierra.charts.Chart;
 import org.httprpc.sierra.charts.DataSet;
 import org.httprpc.sierra.charts.OHLC;
-import org.pushingpixels.radiance.theming.api.skin.RadianceBusinessLookAndFeel;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -148,8 +147,6 @@ public class TiingoTest extends JFrame implements Runnable {
         }
     }
 
-    private boolean radiance;
-
     private @Outlet JTextField tickerTextField = null;
     private @Outlet JSpinner countSpinner = null;
 
@@ -188,24 +185,14 @@ public class TiingoTest extends JFrame implements Runnable {
 
     private static final URI baseURI = URI.create("https://api.tiingo.com/");
 
-    private TiingoTest(boolean radiance) {
+    private TiingoTest() {
         super(resourceBundle.getString("title"));
-
-        this.radiance = radiance;
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        if (radiance) {
-            try {
-                UIManager.setLookAndFeel(RadianceBusinessLookAndFeel.class.getName());
-            } catch (Exception exception) {
-                throw new RuntimeException(exception);
-            }
-        }
-
         setContentPane(UILoader.load(this, "TiingoTest.xml", resourceBundle));
 
         countSpinner.setModel(new SpinnerNumberModel(30, 10, 150, 10));
@@ -352,18 +339,14 @@ public class TiingoTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        var radiance = coalesce(map(System.getProperty("radiance"), Boolean::valueOf), () -> false);
+        var dark = coalesce(map(System.getProperty("dark"), Boolean::valueOf), () -> false);
 
-        if (!radiance) {
-            var dark = coalesce(map(System.getProperty("dark"), Boolean::valueOf), () -> false);
-
-            if (dark) {
-                FlatDarkLaf.setup();
-            } else {
-                FlatLightLaf.setup();
-            }
+        if (dark) {
+            FlatDarkLaf.setup();
+        } else {
+            FlatLightLaf.setup();
         }
 
-        SwingUtilities.invokeLater(new TiingoTest(radiance));
+        SwingUtilities.invokeLater(new TiingoTest());
     }
 }

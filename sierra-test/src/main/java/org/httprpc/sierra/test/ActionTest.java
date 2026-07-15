@@ -17,12 +17,16 @@ package org.httprpc.sierra.test;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
+import org.pushingpixels.radiance.theming.api.skin.RadianceBusinessLookAndFeel;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import java.util.ResourceBundle;
+
+import static org.httprpc.kilo.util.Optionals.*;
 
 public class ActionTest extends JFrame implements Runnable {
     private @Outlet JButton greetingButton = null;
@@ -54,8 +58,24 @@ public class ActionTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        FlatLightLaf.setup();
+        var radiance = coalesce(map(System.getProperty("radiance"), Boolean::valueOf), () -> false);
 
-        SwingUtilities.invokeLater(new ActionTest());
+        if (!radiance) {
+            FlatLightLaf.setup();
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            if (radiance) {
+                try {
+                    UIManager.setLookAndFeel(RadianceBusinessLookAndFeel.class.getName());
+                } catch (Exception exception) {
+                    throw new RuntimeException(exception);
+                }
+            }
+
+            var actionTest = new ActionTest();
+
+            actionTest.run();
+        });
     }
 }

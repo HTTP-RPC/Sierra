@@ -66,13 +66,9 @@
                 <table name="historicalPricingTable" rowSelectionMode="single-selection"/>
             </scroll-pane>
 
-            <scroll-pane tabTitle="chart">
-                <stack-panel padding="8" opaque="true" background="TextArea.background"
-                    scrollableTracksViewportWidth="true"
-                    scrollableTracksViewportHeight="true">
-                    <chart-pane name="historicalPricingChartPane" opaque="true"/>
-                </stack-panel>
-            </scroll-pane>
+            <chart-pane name="historicalPricingChartPane" tabTitle="chart" padding="8"
+                opaque="true" background="TextArea.background"
+                border="Component.borderColor"/>
         </tabbed-pane>
     </row-panel>
 </column-panel>
