@@ -852,45 +852,61 @@ public class UILoader {
             graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
-            var maskThickness = Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
+            if (component.getBorder() instanceof CompoundBorder compoundBorder
+                && compoundBorder.getOutsideBorder() == this) {
+                var maskColor = getOpaqueBackground(component.getParent());
 
-            graphics.setColor(getOpaqueBackground(component.getParent()));
-            graphics.setStroke(new BasicStroke((float)maskThickness));
+                if (maskColor != null) {
+                    var insets = component.isOpaque() ? new Insets(0, 0, 0, 0) : compoundBorder.getBorderInsets(component);
 
-            var maskArc = cornerRadius * 2 + maskThickness;
+                    var maskThickness = Math.ceil(cornerRadius * (Math.sqrt(2) - 1));
 
-            graphics.draw(new RoundRectangle2D.Double(-maskThickness / 2, -maskThickness / 2,
-                width + maskThickness, height + maskThickness,
-                maskArc, maskArc));
+                    var maskEdge = maskThickness / Math.sqrt(2);
+
+                    if (insets.top < maskEdge
+                        || insets.left < maskEdge
+                        || insets.bottom < maskEdge
+                        || insets.right < maskEdge) {
+                        graphics.setColor(maskColor);
+                        graphics.setStroke(new BasicStroke((float)maskThickness));
+
+                        var maskArc = cornerRadius * 2 + maskThickness;
+
+                        graphics.draw(new RoundRectangle2D.Double(-maskThickness / 2, -maskThickness / 2,
+                            width + maskThickness, height + maskThickness,
+                            maskArc, maskArc));
+                    }
+                }
+            }
 
             graphics.setColor(color);
             graphics.setStroke(stroke);
 
-            var borderThickness = (double)stroke.getLineWidth();
+            var thickness = (double)stroke.getLineWidth();
 
-            var borderArc = cornerRadius * 2 - borderThickness;
+            var arc = cornerRadius * 2 - thickness;
 
-            graphics.draw(new RoundRectangle2D.Double(x + borderThickness / 2, y + borderThickness / 2,
-                width - borderThickness, height - borderThickness,
-                borderArc, borderArc));
+            graphics.draw(new RoundRectangle2D.Double(x + thickness / 2, y + thickness / 2,
+                width - thickness, height - thickness,
+                arc, arc));
 
             graphics.dispose();
         }
 
         @Override
         public Insets getBorderInsets(Component component) {
-            var thickness = Math.round(stroke.getLineWidth());
+            var thickness = (int)Math.floor(stroke.getLineWidth());
 
             return new Insets(thickness, thickness, thickness, thickness);
         }
 
         @Override
         public boolean isBorderOpaque() {
-            return true;
+            return cornerRadius == 0;
         }
 
         private static Color getOpaqueBackground(Component component) {
-            if (component == null) {
+            if (component == null || component instanceof StackPanel) {
                 return null;
             } else if (component.isOpaque()) {
                 return component.getBackground();
