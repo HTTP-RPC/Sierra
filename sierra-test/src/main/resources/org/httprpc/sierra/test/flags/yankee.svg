@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+<clipPath id="c"><path d="m18,18h144v144H18"/></clipPath>
+<path fill="#FC0" d="m18,18h144v144H18"/>
+<path stroke="#F00" stroke-dasharray="18.8" stroke-width="250" clip-path="url(#c)" d="m4,4 160,160"/>
+<path fill="none" stroke="#000" stroke-width="3.75" stroke-linejoin="round" d="M18,18H162V162H18z"/>
+</svg>

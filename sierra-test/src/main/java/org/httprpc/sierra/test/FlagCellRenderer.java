@@ -14,7 +14,6 @@
 
 package org.httprpc.sierra.test;
 
-import org.httprpc.sierra.ImagePane;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 
@@ -28,7 +27,7 @@ import java.awt.Component;
 public class FlagCellRenderer implements ListCellRenderer<Flag> {
     private JComponent component;
 
-    private @Outlet ImagePane imagePane = null;
+    private @Outlet JLabel iconLabel = null;
     private @Outlet JLabel nameLabel = null;
     private @Outlet JLabel descriptionLabel = null;
 
@@ -38,7 +37,7 @@ public class FlagCellRenderer implements ListCellRenderer<Flag> {
 
     @Override
     public Component getListCellRendererComponent(JList<? extends Flag> list, Flag value, int index, boolean selected, boolean cellHasFocus) {
-        imagePane.setImage(value.getImage());
+        iconLabel.setIcon(value.getIcon());
         nameLabel.setText(value.getName());
         descriptionLabel.setText(value.getDescription());
 

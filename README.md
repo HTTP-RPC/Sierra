@@ -310,9 +310,9 @@ FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) val
 
 ```xml
 <row-panel spacing="4" padding="4" opaque="true">
-    <image-pane name="imagePane" size="30, 30" scaleMode="fill-width"/>
+    <label name="iconLabel" size="30" verticalAlignment="center"/>
 
-    <column-panel>
+    <column-panel weight="1">
         <label name="nameLabel" styleClass="h4"/>
         <label name="descriptionLabel"/>
     </column-panel>

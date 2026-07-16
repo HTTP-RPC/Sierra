@@ -14,28 +14,26 @@
 
 package org.httprpc.sierra.test;
 
-import javax.imageio.ImageIO;
-import java.awt.Image;
-import java.io.IOException;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
+import javax.swing.Icon;
 
 public class Flag {
-    private Image image;
+    private Icon icon;
     private String name;
     private String description;
 
-    public Flag(String imageName, String name, String description) {
-        try {
-            image = ImageIO.read(CellRendererTest.class.getResource(String.format("flags/%s", imageName)));
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+    public Flag(String iconName, String name, String description) {
+        var icon = new FlatSVGIcon(getClass().getResource(String.format("flags/%s", iconName)));
+
+        this.icon = icon.derive(30, 30);
 
         this.name = name;
         this.description = description;
     }
 
-    public Image getImage() {
-        return image;
+    public Icon getIcon() {
+        return icon;
     }
 
     public String getName() {
