@@ -77,6 +77,8 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     private boolean scrollableTracksViewportWidth = false;
     private boolean scrollableTracksViewportHeight = false;
 
+    private boolean measuring = false;
+
     LayoutPanel() {
         super(null, false);
 
@@ -118,6 +120,24 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
         revalidate();
         repaint();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        measuring = true;
+
+        try {
+            return super.getPreferredSize();
+        } finally {
+            measuring = false;
+        }
+    }
+
+    @Override
+    public void invalidate() {
+        if (!measuring) {
+            super.invalidate();
+        }
     }
 
     @Override

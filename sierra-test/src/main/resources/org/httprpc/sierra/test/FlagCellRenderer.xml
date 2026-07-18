@@ -5,7 +5,7 @@
 <row-panel spacing="4" padding="4" opaque="true">
     <label name="iconLabel" size="30" verticalAlignment="center"/>
 
-    <column-panel>
+    <column-panel weight="1">
         <label name="nameLabel" styleClass="h4"/>
         <label name="descriptionLabel"/>
     </column-panel>
