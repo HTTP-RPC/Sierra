@@ -24,29 +24,13 @@ import java.awt.Dimension;
 public class FormPanel extends LayoutPanel {
     private class FormLayoutManager extends AbstractLayoutManager {
         @Override
-        public void addLayoutComponent(Component component, Object constraints) {
-            // TODO
-        }
-
-        @Override
-        public void removeLayoutComponent(Component component) {
-            // TODO
-        }
-
-        @Override
         public Dimension preferredLayoutSize(Container container) {
             var insets = getInsets();
 
             var preferredWidth = 0;
             var preferredHeight = 0;
 
-            var n = getComponentCount();
-
-            for (var i = 0; i < n; i++) {
-                // TODO
-            }
-
-            validate();
+            // TODO
 
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
         }
@@ -55,11 +39,7 @@ public class FormPanel extends LayoutPanel {
         public void layoutContainer(Container container) {
             var insets = getInsets();
 
-            var n = getComponentCount();
-
-            for (var i = 0; i < n; i++) {
-                // TODO
-            }
+            // TODO
         }
     }
 
@@ -71,6 +51,15 @@ public class FormPanel extends LayoutPanel {
      */
     public FormPanel() {
         setLayout(new FormLayoutManager());
+    }
+
+    @Override
+    protected void addImpl(Component component, Object constraints, int index) {
+        if (constraints != null && !(constraints instanceof String)) {
+            throw new IllegalArgumentException("Invalid constraints.");
+        }
+
+        super.addImpl(component, constraints, index);
     }
 
     /**
@@ -119,5 +108,11 @@ public class FormPanel extends LayoutPanel {
         }
 
         this.verticalSpacing = verticalSpacing;
+    }
+
+    @Override
+    public int getBaseline(int width, int height) {
+        // TODO
+        return -1;
     }
 }
