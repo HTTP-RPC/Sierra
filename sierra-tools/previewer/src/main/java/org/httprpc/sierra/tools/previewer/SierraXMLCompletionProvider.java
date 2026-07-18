@@ -63,6 +63,7 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
             entry(JComponent.class, mapOf(
                     entry(NAME.getName(), NAME.getType().getSimpleName()),
                     entry(GROUP.getName(), GROUP.getType().getSimpleName()),
+                    entry(LABEL.getName(), LABEL.getType().getSimpleName()),
                     entry(TITLE.getName(), TITLE.getType().getSimpleName()),
                     entry(TITLE_COLOR.getName(), TITLE_COLOR.getType().getSimpleName()),
                     entry(TITLE_FONT.getName(), TITLE_FONT.getType().getSimpleName()),

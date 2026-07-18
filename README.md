@@ -9,8 +9,9 @@ Sierra is an open-source framework for simplifying development of Java Swing app
 
 Sierra provides the `UILoader` class, which can be used in conjunction with the following types to declaratively establish a hierarchy of user interface elements:
 
-* `RowPanel` - arranges components in a horizontal line, optionally aligning to baseline
-* `ColumnPanel` - arranges components in a vertical line, optionally aligning nested elements to a grid
+* `ColumnPanel` - arranges components in a vertical line
+* `RowPanel` - arranges components in a horizontal line
+* `FormPanel` - arranges components in a labeled grid
 * `StackPanel` - sizes components to fill the available space
 * `Spacer` - provides fixed or flexible space between other components
 
@@ -352,27 +353,16 @@ Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-p
 <img src="README/text-fields.png" width="318px"/>
 
 # Resource Bundles
-An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, values of text properties are considered resource keys and are used to look up the associated strings in the bundle. For example:
+An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, attributes representing string values are considered resource keys and are used to look up the associated values in the bundle. For example:
 
 ```xml
-<column-panel spacing="4" padding="8" alignToGrid="true" scrollableTracksViewportWidth="true" opaque="true">
-    <row-panel alignToBaseline="true">
-        <label text="firstName" alignmentX="1.0"/>
-        <text-field columns="12" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="lastName" alignmentX="1.0"/>
-        <text-field columns="12" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="streetAddress" alignmentX="1.0"/>
-        <text-field columns="24" alignmentX="0.0"/>
-    </row-panel>
+<form-panel padding="8" opaque="true">
+    <text-field label="firstName" columns="12"/>
+    <text-field label="lastName" columns="12"/>
+    <text-field label="streetAddress" columns="24"/>
     
     ...
-</column-panel>
+</form-panel>
 ```
 
 ```properties
@@ -386,66 +376,6 @@ streetAddress = Street Address
 ```
 
 <img src="README/form.png" width="592px"/>
-
-# Cell Alignment
-When grid alignment is enabled in a `ColumnPanel`, the components of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each column is the maximum preferred width of the "cells" in that column (i.e. the components having the same index in each row).
-
-Cell contents are aligned based on the component's _x_ and _y_ alignment values (returned by `getAlignmentX()` and `getAlignmentY()`, respectively). For most components, the default is 0.5, indicating that the component should fill the entire cell along both axes. Values between 0.0 and 0.5 will align the component to the cell's leading or top edge, and values between 0.5 and 1.0 will align the component to the cell's trailing or bottom edge. In both cases, a proportional amount of the excess space will be allocated to the component. A value of 0 or 1 will result in no excess space being given to the component (i.e. it will be aligned to the appropriate edge and will be given its preferred size along that axis).
-
-For example, the following markup demonstrates x-alignment:
-
-```xml
-<column-panel spacing="4" padding="8" alignToGrid="true" opaque="true">
-    <row-panel>
-        <text-pane text="0.0" alignmentX="0.0" border="silver"/>
-        <text-pane text="0.25" horizontalAlignment="center" alignmentX="0.25" border="silver"/>
-        <text-pane text="0.5" horizontalAlignment="center" alignmentX="0.5" border="silver"/>
-        <text-pane text="0.75" horizontalAlignment="center" alignmentX="0.75" border="silver"/>
-        <text-pane text="1.0" alignmentX="1.0" border="silver"/>
-    </row-panel>
-
-    <row-panel>
-        <spacer size="120, 40" border="silver"/>
-        <spacer size="120, 40" border="silver"/>
-        <spacer size="120, 40" border="silver"/>
-        <spacer size="120, 40" border="silver"/>
-        <spacer size="120, 40" border="silver"/>
-    </row-panel>
-</column-panel>
-```
-
-<img src="README/alignment-x.png" width="744px"/>
-
-This markup demonstrates y-alignment:
-
-```xml
-<column-panel spacing="4" padding="8" alignToGrid="true" opaque="true">
-    <row-panel>
-        <text-pane text="0.0" alignmentY="0.0" border="silver"/>
-        <spacer size="160, 80" border="silver"/>
-    </row-panel>
-    <row-panel>
-        <text-pane text="0.25" verticalAlignment="center" alignmentY="0.25" border="silver"/>
-        <spacer size="160, 80" border="silver"/>
-    </row-panel>
-    <row-panel>
-        <text-pane text="0.5" verticalAlignment="center" alignmentY="0.5" border="silver"/>
-        <spacer size="160, 80" border="silver"/>
-    </row-panel>
-    <row-panel>
-        <text-pane text="0.75" verticalAlignment="center" alignmentY="0.75" border="silver"/>
-        <spacer size="160, 80" border="silver"/>
-    </row-panel>
-    <row-panel>
-        <text-pane text="1.0" alignmentY="1.0" border="silver"/>
-        <spacer size="160, 80" border="silver"/>
-    </row-panel>
-</column-panel>
-```
-
-<img src="README/alignment-y.png" width="319px"/>
-
-Row spacing and cell weights are ignored when grid alignment is enabled.
 
 # Utility Components
 In addition to the features outlined above, Sierra also includes some common user interface elements not provided by Swing.

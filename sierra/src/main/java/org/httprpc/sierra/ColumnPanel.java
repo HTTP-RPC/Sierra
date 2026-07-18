@@ -22,10 +22,7 @@ import java.util.List;
 import static org.httprpc.kilo.util.Iterables.*;
 
 /**
- * Arranges components in a vertical line. The panel's preferred width is the
- * maximum preferred width of all components plus horizontal insets. Preferred
- * height is the total preferred height of all unweighted components plus
- * vertical insets.
+ * Arranges components in a vertical line.
  */
 public class ColumnPanel extends BoxPanel {
     private class ColumnLayoutManager extends AbstractLayoutManager {
@@ -182,7 +179,10 @@ public class ColumnPanel extends BoxPanel {
      * @return
      * {@code true} if nested elements will be aligned to grid; {@code false},
      * otherwise.
+     *
+     * @deprecated Use {@link FormPanel} instead.
      */
+    @Deprecated
     public boolean getAlignToGrid() {
         return alignToGrid;
     }
@@ -192,7 +192,10 @@ public class ColumnPanel extends BoxPanel {
      *
      * @param alignToGrid
      * {@code true} to enable grid alignment; {@code false} to disable it.
+     *
+     * @deprecated Use {@link FormPanel} instead.
      */
+    @Deprecated
     public void setAlignToGrid(boolean alignToGrid) {
         this.alignToGrid = alignToGrid;
 

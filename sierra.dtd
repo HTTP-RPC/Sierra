@@ -1,4 +1,4 @@
-<!ENTITY % org.httprpc.sierra.UILoader "name CDATA group CDATA title CDATA titleColor CDATA titleFont CDATA titleJustification (left|right|center|leading|trailing) titlePosition (above-top|top|below-top|above-bottom|bottom|below-bottom) border CDATA padding CDATA weight CDATA size CDATA tabTitle CDATA tabIcon CDATA style CDATA styleClass CDATA ">
+<!ENTITY % org.httprpc.sierra.UILoader "name CDATA group CDATA label CDATA title CDATA titleColor CDATA titleFont CDATA titleJustification (left|right|center|leading|trailing) titlePosition (above-top|top|below-top|above-bottom|bottom|below-bottom) border CDATA padding CDATA weight CDATA size CDATA tabTitle CDATA tabIcon CDATA style CDATA styleClass CDATA ">
 <!ENTITY % java.awt.Component "%org.httprpc.sierra.UILoader; background CDATA enabled (true|false) focusTraversalKeysEnabled (true|false) focusable (true|false) font CDATA foreground CDATA ignoreRepaint (true|false) name CDATA visible (true|false) ">
 <!ENTITY % java.awt.Container "%java.awt.Component; focusCycleRoot (true|false) focusTraversalPolicyProvider (true|false) font CDATA ">
 <!ENTITY % javax.swing.JComponent "%java.awt.Container; alignmentX CDATA alignmentY CDATA autoscrolls (true|false) background CDATA debugGraphicsOptions CDATA doubleBuffered (true|false) enabled (true|false) font CDATA foreground CDATA inheritsPopupMenu (true|false) opaque (true|false) requestFocusEnabled (true|false) toolTipText CDATA verifyInputWhenFocusTarget (true|false) visible (true|false) ">
@@ -85,6 +85,9 @@
 <!ENTITY % javax.swing.JToolBar.Separator "%javax.swing.JSeparator; ">
 <!ELEMENT tool-bar-separator EMPTY>
 <!ATTLIST tool-bar-separator %javax.swing.JToolBar.Separator;>
+<!ENTITY % org.httprpc.sierra.FormPanel "%javax.swing.JPanel; horizontalSpacing CDATA verticalSpacing CDATA ">
+<!ELEMENT form-panel (ANY)>
+<!ATTLIST form-panel %org.httprpc.sierra.FormPanel;>
 <!ENTITY % org.httprpc.sierra.LayoutPanel "%javax.swing.JPanel; scrollableTracksViewportHeight (true|false) scrollableTracksViewportWidth (true|false) ">
 <!ENTITY % org.httprpc.sierra.UILoader.JxTable "%javax.swing.JTable; columnSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) rowSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) ">
 <!ELEMENT table EMPTY>

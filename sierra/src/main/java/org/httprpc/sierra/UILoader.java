@@ -120,6 +120,11 @@ public class UILoader {
         GROUP("group", String.class),
 
         /**
+         * Label attribute.
+         */
+        LABEL("label", String.class),
+
+        /**
          * Title attribute.
          */
         TITLE("title", String.class),
@@ -1079,6 +1084,7 @@ public class UILoader {
 
         bind("row-panel", RowPanel.class, RowPanel::new);
         bind("column-panel", ColumnPanel.class, ColumnPanel::new);
+        bind("form-panel", FormPanel.class, FormPanel::new);
         bind("stack-panel", StackPanel.class, StackPanel::new);
         bind("spacer", Spacer.class, Spacer::new);
         bind("text-pane", TextPane.class, TextPane::new);
@@ -1408,6 +1414,8 @@ public class UILoader {
                 }
 
                 groups.computeIfAbsent(value, key -> new ButtonGroup()).add(button);
+            } else if (name.equals(Attribute.LABEL.getName())) {
+                constraints = getText(value);
             } else if (name.equals(Attribute.TITLE.getName())) {
                 title = getText(value);
             } else if (name.equals(Attribute.TITLE_COLOR.getName())) {

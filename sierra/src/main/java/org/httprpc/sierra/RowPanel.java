@@ -19,11 +19,7 @@ import java.awt.Dimension;
 import java.util.List;
 
 /**
- * Arranges components in a horizontal line. The panel's preferred width is the
- * total preferred width of its unweighted components plus horizontal insets.
- * By default, preferred height is the maximum preferred height of all
- * components plus vertical insets. When aligning to baseline, preferred height
- * is the maximum ascent/descent of all components plus vertical insets.
+ * Arranges components in a horizontal line.
  */
 public class RowPanel extends BoxPanel {
     private class RowLayoutManager extends AbstractLayoutManager {

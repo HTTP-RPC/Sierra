@@ -63,7 +63,7 @@ public class FormTest extends JFrame implements Runnable {
         suggestionPicker1.setSuggestions(listOf("One", "Two", "Three"));
         suggestionPicker2.setSuggestions(listOf("Four", "Five", "Six"));
 
-        setSize(480, 360);
+        pack();
         setVisible(true);
     }
 
