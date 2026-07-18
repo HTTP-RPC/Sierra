@@ -77,6 +77,8 @@ public class ColumnPanel extends BoxPanel {
 
             preferredHeight += spacing * (n - 1);
 
+            validate();
+
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
         }
 

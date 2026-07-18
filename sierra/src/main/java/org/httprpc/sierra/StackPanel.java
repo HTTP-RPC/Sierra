@@ -47,6 +47,8 @@ public class StackPanel extends LayoutPanel {
                 preferredHeight = Math.max(preferredHeight, preferredSize.height);
             }
 
+            validate();
+
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
         }
 

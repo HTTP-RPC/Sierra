@@ -123,6 +123,8 @@ public class RowPanel extends BoxPanel {
                 preferredHeight = Math.max(maximumAscent + maximumDescent, preferredHeight);
             }
 
+            validate();
+
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
         }
 
