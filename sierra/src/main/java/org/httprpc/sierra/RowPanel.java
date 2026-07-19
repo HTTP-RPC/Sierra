@@ -33,15 +33,13 @@ public class RowPanel extends BoxPanel {
             var n = getComponentCount();
 
             for (var i = 0; i < n; i++) {
-                if (!Double.isNaN(getWeight(i))) {
-                    continue;
-                }
-
                 var component = getComponent(i);
 
                 var preferredSize = component.getPreferredSize();
 
-                contentWidth += preferredSize.width;
+                if (Double.isNaN(getWeight(i))) {
+                    contentWidth += preferredSize.width;
+                }
 
                 if (alignToBaseline) {
                     var baseline = component.getBaseline(component.getWidth(), component.getHeight());

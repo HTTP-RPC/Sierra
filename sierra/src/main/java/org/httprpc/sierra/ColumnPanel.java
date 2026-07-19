@@ -30,16 +30,15 @@ public class ColumnPanel extends BoxPanel {
             var n = getComponentCount();
 
             for (var i = 0; i < n; i++) {
-                if (!Double.isNaN(getWeight(i))) {
-                    continue;
-                }
-
                 var component = getComponent(i);
 
                 var preferredSize = component.getPreferredSize();
 
                 contentWidth = Math.max(contentWidth, preferredSize.width);
-                contentHeight += preferredSize.height;
+
+                if (Double.isNaN(getWeight(i))) {
+                    contentHeight += preferredSize.height;
+                }
             }
 
             var insets = getInsets();
