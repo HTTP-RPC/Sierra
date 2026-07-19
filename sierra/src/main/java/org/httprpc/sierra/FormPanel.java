@@ -70,8 +70,6 @@ public class FormPanel extends LayoutPanel {
         public void layoutContainer(Container container) {
             var insets = getInsets();
 
-            var width = getWidth();
-
             var maximumLabelWidth = 0;
             var maximumFieldWidth = 0;
 
@@ -200,11 +198,5 @@ public class FormPanel extends LayoutPanel {
         }
 
         this.verticalSpacing = verticalSpacing;
-    }
-
-    @Override
-    public int getBaseline(int width, int height) {
-        // TODO
-        return -1;
     }
 }
