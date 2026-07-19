@@ -57,6 +57,8 @@ public class FormPanel extends LayoutPanel {
                 }
             }
 
+            preferredHeight += verticalSpacing * (n - 1);
+
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
         }
 
@@ -64,7 +66,57 @@ public class FormPanel extends LayoutPanel {
         public void layoutContainer(Container container) {
             var insets = getInsets();
 
-            // TODO
+            var n = labels.size();
+
+            var maximumLabelWidth = 0;
+            var maximumFieldWidth = 0;
+
+            for (var i = 0; i < n; i++) {
+                var label = labels.get(i);
+                var field = fields.get(i);
+
+                label.setSize(label.getPreferredSize());
+                field.setSize(field.getPreferredSize());
+
+                maximumLabelWidth = Math.max(maximumLabelWidth, label.getWidth());
+                maximumFieldWidth = Math.max(maximumFieldWidth, field.getWidth());
+            }
+
+            var y = insets.top;
+
+            for (var i = 0; i < n; i++) {
+                var label = labels.get(i);
+                var field = fields.get(i);
+
+                var labelSize = label.getSize();
+                var fieldSize = field.getSize();
+
+                var labelBaseline = label.getBaseline(labelSize.width, labelSize.height);
+                var fieldBaseline = field.getBaseline(fieldSize.width, fieldSize.height);
+
+                int labelOffset;
+                int fieldOffset;
+                int rowHeight;
+                if (fieldBaseline >= 0) {
+                    var maximumAscent = Math.max(labelBaseline, fieldBaseline);
+                    var maximumDescent = Math.max(labelSize.height - labelBaseline, fieldSize.height - fieldBaseline);
+
+                    labelOffset = maximumAscent - labelBaseline;
+                    fieldOffset = maximumAscent - fieldBaseline;
+
+                    rowHeight = maximumAscent + maximumDescent;
+                } else {
+                    labelOffset = 0;
+                    fieldOffset = 0;
+
+                    rowHeight = Math.max(labelSize.height, fieldSize.height);
+                }
+
+                label.setLocation(insets.left + maximumLabelWidth - labelSize.width, y + labelOffset);
+                field.setLocation(insets.left + maximumLabelWidth + horizontalSpacing, y + fieldOffset);
+
+                y+= rowHeight + verticalSpacing;
+            }
         }
     }
 
