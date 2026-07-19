@@ -16,10 +16,7 @@ package org.httprpc.sierra;
 
 import java.awt.Container;
 import java.awt.Dimension;
-import java.util.LinkedList;
 import java.util.List;
-
-import static org.httprpc.kilo.util.Iterables.*;
 
 /**
  * Arranges components in a vertical line.
@@ -28,68 +25,41 @@ public class ColumnPanel extends BoxPanel {
     private class ColumnLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize(Container container) {
-            columnWidths.clear();
-
-            var size = getSize();
-            var insets = getInsets();
-
-            var width = Math.max(size.width - (insets.left + insets.right), 0);
-
-            var preferredWidth = 0;
-            var preferredHeight = 0;
+            var contentWidth = 0;
+            var contentHeight = 0;
 
             var n = getComponentCount();
 
             for (var i = 0; i < n; i++) {
+                if (!Double.isNaN(getWeight(i))) {
+                    continue;
+                }
+
                 var component = getComponent(i);
 
-                component.setSize(width, Integer.MAX_VALUE);
+                var preferredSize = component.getPreferredSize();
 
-                if (alignToGrid && component instanceof RowPanel) {
-                    component.doLayout();
-                } else {
-                    var preferredSize = component.getPreferredSize();
-
-                    preferredWidth = Math.max(preferredWidth, preferredSize.width);
-
-                    if (Double.isNaN(getWeight(i))) {
-                        preferredHeight += preferredSize.height;
-                    }
-                }
+                contentWidth = Math.max(contentWidth, preferredSize.width);
+                contentHeight += preferredSize.height;
             }
 
-            var spacing = getSpacing();
+            var insets = getInsets();
 
-            if (alignToGrid) {
-                preferredWidth = sumOf(columnWidths, Integer::intValue) + (columnWidths.size() - 1) * spacing;
+            var preferredWidth = contentWidth + insets.left + insets.right;
+            var preferredHeight = contentHeight + getSpacing() * (n - 1) + insets.top + insets.bottom;
 
-                for (var i = 0; i < n; i++) {
-                    var component = getComponent(i);
-
-                    if (Double.isNaN(getWeight(i)) && component instanceof RowPanel) {
-                        preferredHeight += component.getPreferredSize().height;
-                    }
-                }
-            }
-
-            preferredHeight += spacing * (n - 1);
-
-            validate();
-
-            return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
+            return new Dimension(preferredWidth, preferredHeight);
         }
 
         @Override
         public void layoutContainer(Container container) {
-            columnWidths.clear();
-
             var size = getSize();
             var insets = getInsets();
 
             var width = Math.max(size.width - (insets.left + insets.right), 0);
 
-            var totalWeight = 0.0;
             var excessHeight = Math.max(size.height - (insets.top + insets.bottom), 0);
+            var totalWeight = 0.0;
 
             var n = getComponentCount();
 
@@ -100,36 +70,17 @@ public class ColumnPanel extends BoxPanel {
 
                 if (Double.isNaN(weight)) {
                     component.setSize(width, Integer.MAX_VALUE);
+                    component.setSize(width, component.getPreferredSize().height);
 
-                    if (alignToGrid && component instanceof RowPanel) {
-                        component.doLayout();
-                    } else {
-                        component.setSize(width, component.getPreferredSize().height);
-
-                        excessHeight -= component.getHeight();
-                    }
+                    excessHeight -= component.getHeight();
                 } else {
                     totalWeight += weight;
-                }
-            }
-
-            if (alignToGrid) {
-                for (var i = 0; i < n; i++) {
-                    var component = getComponent(i);
-
-                    if (Double.isNaN(getWeight(i)) && component instanceof RowPanel) {
-                        component.setSize(component.getWidth(), component.getPreferredSize().height);
-
-                        excessHeight -= component.getHeight();
-                    }
                 }
             }
 
             var spacing = getSpacing();
 
             excessHeight = Math.max(excessHeight - spacing * (n - 1), 0);
-
-            var remainingHeight = excessHeight;
 
             var y = insets.top;
 
@@ -146,9 +97,9 @@ public class ColumnPanel extends BoxPanel {
 
                         component.setSize(width, height);
 
-                        remainingHeight -= height;
+                        excessHeight = Math.max(excessHeight - height, 0);
                     } else {
-                        component.setSize(width, remainingHeight);
+                        component.setSize(width, excessHeight);
                     }
                 }
 
@@ -157,10 +108,6 @@ public class ColumnPanel extends BoxPanel {
         }
     }
 
-    private List<Integer> columnWidths = new LinkedList<>();
-
-    private boolean alignToGrid = false;
-
     /**
      * Constructs a new column panel.
      */
@@ -168,37 +115,13 @@ public class ColumnPanel extends BoxPanel {
         setLayout(new ColumnLayoutManager());
     }
 
+    // TODO Remove
     List<Integer> getColumnWidths() {
-        return columnWidths;
+        return null;
     }
 
-    /**
-     * Indicates that nested elements will be vertically aligned in a grid. The
-     * default value is {@code false}.
-     *
-     * @return
-     * {@code true} if nested elements will be aligned to grid; {@code false},
-     * otherwise.
-     *
-     * @deprecated Use {@link FormPanel} instead.
-     */
-    @Deprecated
-    public boolean getAlignToGrid() {
-        return alignToGrid;
-    }
-
-    /**
-     * Toggles grid alignment.
-     *
-     * @param alignToGrid
-     * {@code true} to enable grid alignment; {@code false} to disable it.
-     *
-     * @deprecated Use {@link FormPanel} instead.
-     */
-    @Deprecated
-    public void setAlignToGrid(boolean alignToGrid) {
-        this.alignToGrid = alignToGrid;
-
-        revalidate();
+    // TODO Remove
+    boolean getAlignToGrid() {
+        return false;
     }
 }
