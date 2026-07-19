@@ -135,15 +135,7 @@ public class RowPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (!Double.isNaN(weight)) {
-                    if (i < n - 1) {
-                        var width = (int)Math.round(excessWidth * (weight / totalWeight));
-
-                        component.setSize(width, height);
-
-                        excessWidth -= width;
-                    } else {
-                        component.setSize(excessWidth, height);
-                    }
+                    component.setSize((int)Math.round(excessWidth * (weight / totalWeight)), height);
                 }
 
                 // TODO Baselines
