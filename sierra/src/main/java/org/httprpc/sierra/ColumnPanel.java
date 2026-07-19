@@ -16,7 +16,6 @@ package org.httprpc.sierra;
 
 import java.awt.Container;
 import java.awt.Dimension;
-import java.util.List;
 
 /**
  * Arranges components in a vertical line.
@@ -87,8 +86,6 @@ public class ColumnPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                component.setLocation(insets.left, y);
-
                 var weight = getWeight(i);
 
                 if (!Double.isNaN(weight)) {
@@ -103,6 +100,8 @@ public class ColumnPanel extends BoxPanel {
                     }
                 }
 
+                component.setLocation(insets.left, y);
+
                 y += component.getHeight() + spacing;
             }
         }
@@ -113,15 +112,5 @@ public class ColumnPanel extends BoxPanel {
      */
     public ColumnPanel() {
         setLayout(new ColumnLayoutManager());
-    }
-
-    // TODO Remove
-    List<Integer> getColumnWidths() {
-        return null;
-    }
-
-    // TODO Remove
-    boolean getAlignToGrid() {
-        return false;
     }
 }
