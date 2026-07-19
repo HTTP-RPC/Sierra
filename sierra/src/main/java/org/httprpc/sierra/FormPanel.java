@@ -30,8 +30,10 @@ public class FormPanel extends LayoutPanel {
         public Dimension preferredLayoutSize(Container container) {
             var insets = getInsets();
 
-            var preferredWidth = 0;
-            var preferredHeight = 0;
+            var maximumLabelWidth = 0;
+            var maximumFieldWidth = 0;
+
+            var totalRowHeight = 0;
 
             var n = labels.size();
 
@@ -42,7 +44,8 @@ public class FormPanel extends LayoutPanel {
                 var labelSize = label.getPreferredSize();
                 var fieldSize = field.getPreferredSize();
 
-                preferredWidth = Math.max(preferredWidth, labelSize.width + fieldSize.width + horizontalSpacing);
+                maximumLabelWidth = Math.max(maximumLabelWidth, labelSize.width);
+                maximumFieldWidth = Math.max(maximumFieldWidth, fieldSize.width);
 
                 var labelBaseline = label.getBaseline(labelSize.width, labelSize.height);
                 var fieldBaseline = field.getBaseline(fieldSize.width, fieldSize.height);
@@ -51,25 +54,26 @@ public class FormPanel extends LayoutPanel {
                     var maximumAscent = Math.max(labelBaseline, fieldBaseline);
                     var maximumDescent = Math.max(labelSize.height - labelBaseline, fieldSize.height - fieldBaseline);
 
-                    preferredHeight += maximumAscent + maximumDescent;
+                    totalRowHeight += maximumAscent + maximumDescent;
                 } else {
-                    preferredHeight += Math.max(labelSize.height, fieldSize.height);
+                    totalRowHeight += Math.max(labelSize.height, fieldSize.height);
                 }
             }
 
-            preferredHeight += verticalSpacing * (n - 1);
+            var preferredWidth = maximumLabelWidth + maximumFieldWidth + horizontalSpacing + insets.left + insets.right;
+            var preferredHeight = totalRowHeight + verticalSpacing * (n - 1) + insets.top + insets.bottom;
 
-            return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
+            return new Dimension(preferredWidth, preferredHeight);
         }
 
         @Override
         public void layoutContainer(Container container) {
             var insets = getInsets();
 
-            var n = labels.size();
-
             var maximumLabelWidth = 0;
             var maximumFieldWidth = 0;
+
+            var n = labels.size();
 
             for (var i = 0; i < n; i++) {
                 var label = labels.get(i);
@@ -115,7 +119,7 @@ public class FormPanel extends LayoutPanel {
                 label.setLocation(insets.left + maximumLabelWidth - labelSize.width, y + labelOffset);
                 field.setLocation(insets.left + maximumLabelWidth + horizontalSpacing, y + fieldOffset);
 
-                y+= rowHeight + verticalSpacing;
+                y += rowHeight + verticalSpacing;
             }
         }
     }
