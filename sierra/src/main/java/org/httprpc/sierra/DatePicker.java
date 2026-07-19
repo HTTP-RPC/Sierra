@@ -109,8 +109,6 @@ public class DatePicker extends TemporalPicker {
         private ColumnPanel createDateButtonPanel() {
             var daysColumnPanel = new ColumnPanel();
 
-            daysColumnPanel.setAlignToGrid(true);
-
             var dayOfWeekRow = new RowPanel();
 
             dayOfWeekRow.setSpacing(2);
@@ -123,7 +121,6 @@ public class DatePicker extends TemporalPicker {
                 var label = new JLabel(dayOfWeek.getDisplayName(TextStyle.SHORT, locale));
 
                 label.setHorizontalAlignment(SwingConstants.CENTER);
-                label.setAlignmentX(0.5f);
                 label.putClientProperty("FlatLaf.styleClass", "small");
 
                 dayOfWeekRow.add(label);
