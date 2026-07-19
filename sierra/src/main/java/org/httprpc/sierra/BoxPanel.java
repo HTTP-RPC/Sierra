@@ -76,6 +76,7 @@ public abstract class BoxPanel extends LayoutPanel {
         this.spacing = spacing;
 
         revalidate();
+        repaint();
     }
 
     @Override

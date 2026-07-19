@@ -330,6 +330,7 @@ public class RowPanel extends BoxPanel {
         this.alignToBaseline = alignToBaseline;
 
         revalidate();
+        repaint();
     }
 
     @Override
