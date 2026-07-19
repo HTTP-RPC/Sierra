@@ -136,8 +136,18 @@ public class RowPanel extends BoxPanel {
                     component.setSize((int)Math.round(excessWidth * (weight / totalWeight)), height);
                 }
 
-                // TODO Baselines
-                var y = insets.top;
+                int y;
+                if (alignToBaseline) {
+                    var baseline = baselines[i];
+
+                    if (baseline >= 0) {
+                        y = insets.top + (maximumBaseline - baseline);
+                    } else {
+                        y = (height - component.getHeight()) / 2;
+                    }
+                } else {
+                    y = insets.top;
+                }
 
                 if (leftToRight) {
                     component.setLocation(x, y);
