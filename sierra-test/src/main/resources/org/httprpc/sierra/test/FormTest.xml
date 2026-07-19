@@ -1,105 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+<!DOCTYPE form-panel SYSTEM "sierra.dtd">
 
-<column-panel spacing="4" padding="8" alignToGrid="true" scrollableTracksViewportWidth="true" opaque="true">
-    <row-panel alignToBaseline="true">
-        <label text="firstName" alignmentX="1.0"/>
-        <text-field columns="12" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="lastName" alignmentX="1.0"/>
-        <text-field columns="12" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="streetAddress" alignmentX="1.0"/>
-        <text-field columns="24" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="city" alignmentX="1.0"/>
-        <text-field columns="16" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="state" alignmentX="1.0"/>
-        <text-field columns="12" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="postalCode" alignmentX="1.0"/>
-        <text-field columns="8" alignmentX="0.0"/>
-    </row-panel>
+<form-panel padding="8" opaque="true">
+    <text-field label="firstName" columns="12"/>
+    <text-field label="lastName" columns="12"/>
+    <text-field label="streetAddress" columns="24"/>
+    <text-field label="city" columns="16"/>
+    <text-field label="state" columns="12"/>
+    <text-field label="postalCode" columns="8"/>
 
     <separator/>
 
-    <row-panel alignToBaseline="true">
-        <label text="username" alignmentX="1.0"/>
-        <text-field columns="8" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="password" alignmentX="1.0"/>
-        <password-field columns="8" alignmentX="0.0"/>
-    </row-panel>
+    <text-field label="username" columns="8"/>
+    <password-field label="password" columns="8"/>
 
     <separator/>
 
-    <row-panel alignToBaseline="true">
-        <label text="emailAddress" alignmentX="1.0"/>
-        <text-field columns="16" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="homePhone" alignmentX="1.0"/>
-        <text-field columns="12" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="mobilePhone" alignmentX="1.0"/>
-        <text-field columns="12" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="fax" alignmentX="1.0"/>
-        <text-field columns="12" alignmentX="0.0"/>
-    </row-panel>
+    <text-field label="emailAddress" columns="16"/>
+    <text-field label="homePhone" columns="12"/>
+    <text-field label="mobilePhone" columns="12"/>
+    <text-field label="fax" columns="12"/>
 
     <separator/>
 
-    <row-panel alignToBaseline="true">
-        <label text="field1" alignmentX="1.0"/>
-        <formatted-text-field name="formattedTextField1" columns="12" focusLostBehavior="commit" alignmentX="0.0"/>
-    </row-panel>
+    <formatted-text-field name="formattedTextField1" label="field1" columns="12" focusLostBehavior="commit"/>
+    <formatted-text-field name="formattedTextField2" label="field2" columns="12" focusLostBehavior="commit-or-revert"/>
 
-    <row-panel alignToBaseline="true">
-        <label text="field2" alignmentX="1.0"/>
-        <formatted-text-field name="formattedTextField2" columns="12" focusLostBehavior="commit-or-revert" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="field3" alignmentX="1.0"/>
-        <suggestion-picker name="suggestionPicker1" columns="12" alignmentX="0.0"
-            popupHorizontalAlignment="trailing"
-            popupVerticalAlignment="center"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="field4" alignmentX="1.0"/>
-        <suggestion-picker name="suggestionPicker2" columns="12" alignmentX="0.0"
-            popupHorizontalAlignment="trailing"
-            popupVerticalAlignment="center"/>
-    </row-panel>
+    <suggestion-picker name="suggestionPicker1" label="field3" columns="12"
+        popupHorizontalAlignment="trailing"
+        popupVerticalAlignment="center"/>
+    <suggestion-picker name="suggestionPicker2" label="field4" columns="12"
+        popupHorizontalAlignment="trailing"
+        popupVerticalAlignment="center"/>
 
     <separator/>
 
-    <row-panel>
-        <label text="notes" alignmentX="1.0" alignmentY="0.0"/>
-
-        <scroll-pane>
-            <text-area rows="4" columns="20" tabSize="2"/>
-        </scroll-pane>
-    </row-panel>
-</column-panel>
+    <scroll-pane label="notes">
+        <text-area rows="4" columns="20" tabSize="2"/>
+    </scroll-pane>
+</form-panel>
