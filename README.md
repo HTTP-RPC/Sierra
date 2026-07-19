@@ -107,6 +107,8 @@ XML attributes generally represent component properties. For example, this marku
 
 Numeric and boolean values are specified via their string representations. Supported constants and enum values are specified in [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
 
+An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, attributes representing string values are considered resource keys and are used to look up the associated values in the bundle.
+
 ## Element Names
 The "name" attribute associates an identifier with a component. In addition to setting the "name" property, `UILoader` injects the component itself into an "outlet" defined by the document's owner, the value passed as the first argument to the `load()` method.
 
@@ -146,8 +148,6 @@ public class ActionTest extends JFrame implements Runnable {
 ```
 
 <img src="README/action.png" width="352px"/>
-
-Resource bundles are used to localize deserialized markup and are discussed in more detail [later](#resource-bundles).
 
 ## Color and Font Values
 Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `RowPanel` and sets its "background" property to white:
@@ -282,6 +282,21 @@ Size values for multiple dimensions can be specified in _width_, _height_ order:
 size="20, 20"
 ```
 
+## Label Values
+The "label" attribute associates a description with a form field. For example:
+
+```xml
+<form-panel padding="8" opaque="true">
+    <text-field label="firstName" columns="12"/>
+    <text-field label="lastName" columns="12"/>
+    <text-field label="streetAddress" columns="24"/>
+
+    ...
+</form-panel>
+```
+
+<img src="README/form.png" width="592px"/>
+
 ## Button Groups
 The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:
 
@@ -351,31 +366,6 @@ Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-p
 ```
 
 <img src="README/text-fields.png" width="318px"/>
-
-# Resource Bundles
-An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, attributes representing string values are considered resource keys and are used to look up the associated values in the bundle. For example:
-
-```xml
-<form-panel padding="8" opaque="true">
-    <text-field label="firstName" columns="12"/>
-    <text-field label="lastName" columns="12"/>
-    <text-field label="streetAddress" columns="24"/>
-    
-    ...
-</form-panel>
-```
-
-```properties
-title = Form Test
-
-firstName = First Name
-lastName = Last Name
-streetAddress = Street Address
-
-...
-```
-
-<img src="README/form.png" width="592px"/>
 
 # Utility Components
 In addition to the features outlined above, Sierra also includes some common user interface elements not provided by Swing.
