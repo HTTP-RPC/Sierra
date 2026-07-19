@@ -85,9 +85,6 @@
 <!ENTITY % javax.swing.JToolBar.Separator "%javax.swing.JSeparator; ">
 <!ELEMENT tool-bar-separator EMPTY>
 <!ATTLIST tool-bar-separator %javax.swing.JToolBar.Separator;>
-<!ENTITY % org.httprpc.sierra.FormPanel "%javax.swing.JPanel; horizontalSpacing CDATA verticalSpacing CDATA ">
-<!ELEMENT form-panel (ANY)>
-<!ATTLIST form-panel %org.httprpc.sierra.FormPanel;>
 <!ENTITY % org.httprpc.sierra.LayoutPanel "%javax.swing.JPanel; scrollableTracksViewportHeight (true|false) scrollableTracksViewportWidth (true|false) ">
 <!ENTITY % org.httprpc.sierra.UILoader.JxTable "%javax.swing.JTable; columnSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) rowSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) ">
 <!ELEMENT table EMPTY>
@@ -117,6 +114,9 @@
 <!ELEMENT radio-button-menu-item EMPTY>
 <!ATTLIST radio-button-menu-item %javax.swing.JRadioButtonMenuItem;>
 <!ENTITY % org.httprpc.sierra.BoxPanel "%org.httprpc.sierra.LayoutPanel; spacing CDATA ">
+<!ENTITY % org.httprpc.sierra.FormPanel "%org.httprpc.sierra.LayoutPanel; horizontalSpacing CDATA verticalSpacing CDATA ">
+<!ELEMENT form-panel (ANY)>
+<!ATTLIST form-panel %org.httprpc.sierra.FormPanel;>
 <!ENTITY % org.httprpc.sierra.MenuButton "%javax.swing.JButton; popupHorizontalAlignment (left|right|center|leading|trailing) popupVerticalAlignment (top|bottom|center) ">
 <!ELEMENT menu-button (ANY)>
 <!ATTLIST menu-button %org.httprpc.sierra.MenuButton;>
@@ -130,7 +130,7 @@
 <!ENTITY % org.httprpc.sierra.ValidatedTextField "%javax.swing.JTextField; pattern CDATA value CDATA ">
 <!ELEMENT validated-text-field EMPTY>
 <!ATTLIST validated-text-field %org.httprpc.sierra.ValidatedTextField;>
-<!ENTITY % org.httprpc.sierra.ColumnPanel "%org.httprpc.sierra.BoxPanel; alignToGrid (true|false) ">
+<!ENTITY % org.httprpc.sierra.ColumnPanel "%org.httprpc.sierra.BoxPanel; ">
 <!ELEMENT column-panel (ANY)>
 <!ATTLIST column-panel %org.httprpc.sierra.ColumnPanel;>
 <!ENTITY % org.httprpc.sierra.RowPanel "%org.httprpc.sierra.BoxPanel; alignToBaseline (true|false) ">
