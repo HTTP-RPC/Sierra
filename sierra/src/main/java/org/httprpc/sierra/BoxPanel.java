@@ -15,6 +15,8 @@
 package org.httprpc.sierra;
 
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.httprpc.kilo.util.Optionals.*;
 
@@ -22,13 +24,31 @@ import static org.httprpc.kilo.util.Optionals.*;
  * Abstract base class for box panels.
  */
 public abstract class BoxPanel extends LayoutPanel {
+    private List<Double> weights = new ArrayList<>();
+
     private int spacing = 0;
 
-    BoxPanel() {
+    @Override
+    protected void addImpl(Component component, Object constraints, int index) {
+        super.addImpl(component, constraints, index);
+
+        var weight = coalesce(map((Number)constraints, Number::doubleValue), () -> Double.NaN);
+
+        weights.add(index == -1 ? weights.size() : index, weight);
     }
 
-    double getWeight(int index) {
-        return coalesce(map((Number)getConstraints(index), Number::doubleValue), () -> Double.NaN);
+    /**
+     * Returns the weight value associated with a component.
+     *
+     * @param index
+     * The component index.
+     *
+     * @return
+     * The component's weight, or {@link Double#NaN} if the component does not
+     * have a weight.
+     */
+    protected double getWeight(int index) {
+        return weights.get(index);
     }
 
     /**
@@ -56,15 +76,6 @@ public abstract class BoxPanel extends LayoutPanel {
         this.spacing = spacing;
 
         revalidate();
-    }
-
-    @Override
-    protected void addImpl(Component component, Object constraints, int index) {
-        if (constraints != null && !(constraints instanceof Number)) {
-            throw new IllegalArgumentException("Invalid constraints.");
-        }
-
-        super.addImpl(component, constraints, index);
     }
 
     @Override

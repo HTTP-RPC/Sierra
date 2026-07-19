@@ -30,8 +30,8 @@ public class StackPanel extends LayoutPanel {
             var width = Math.max(size.width - (insets.left + insets.right), 0);
             var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
-            var preferredWidth = 0;
-            var preferredHeight = 0;
+            var contentWidth = 0;
+            var contentHeight = 0;
 
             var n = getComponentCount();
 
@@ -42,13 +42,13 @@ public class StackPanel extends LayoutPanel {
 
                 var preferredSize = component.getPreferredSize();
 
-                preferredWidth = Math.max(preferredWidth, preferredSize.width);
-                preferredHeight = Math.max(preferredHeight, preferredSize.height);
+                contentWidth = Math.max(contentWidth, preferredSize.width);
+                contentHeight = Math.max(contentHeight, preferredSize.height);
             }
 
             validate();
 
-            return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
+            return new Dimension(contentWidth + insets.left + insets.right, contentHeight + insets.top + insets.bottom);
         }
 
         @Override
