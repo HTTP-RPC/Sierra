@@ -352,7 +352,7 @@ Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-p
 <img src="README/text-fields.png" width="318px"/>
 
 # Resource Bundles
-An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, values of text properties are considered resource keys and are used to look up the associated strings in the bundle. For example:
+An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, attributes representing string values are considered resource keys and are used to look up the associated values in the bundle. For example:
 
 ```xml
 <form-panel padding="8" opaque="true">
