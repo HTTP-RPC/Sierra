@@ -37,6 +37,20 @@ public abstract class BoxPanel extends LayoutPanel {
         weights.add(index == -1 ? weights.size() : index, weight);
     }
 
+    @Override
+    public void remove(int index) {
+        super.remove(index);
+
+        weights.remove(index);
+    }
+
+    @Override
+    public void removeAll() {
+        super.removeAll();
+
+        weights.clear();
+    }
+
     /**
      * Returns the weight value associated with a component.
      *
