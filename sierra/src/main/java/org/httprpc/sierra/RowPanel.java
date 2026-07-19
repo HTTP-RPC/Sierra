@@ -42,7 +42,7 @@ public class RowPanel extends BoxPanel {
                 }
 
                 if (alignToBaseline) {
-                    var baseline = component.getBaseline(component.getWidth(), component.getHeight());
+                    var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
 
                     if (baseline >= 0) {
                         maximumAscent = Math.max(maximumAscent, baseline);
