@@ -46,7 +46,7 @@ public class RowPanel extends BoxPanel {
 
                     if (baseline >= 0) {
                         maximumAscent = Math.max(maximumAscent, baseline);
-                        maximumDescent = Math.max(maximumDescent, component.getHeight() - baseline);
+                        maximumDescent = Math.max(maximumDescent, preferredSize.height - baseline);
                     }
                 } else {
                     contentHeight = Math.max(contentHeight, preferredSize.height);
