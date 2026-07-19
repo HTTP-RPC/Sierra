@@ -375,7 +375,7 @@ streetAddress = Street Address
 ...
 ```
 
-<img src="README/form.png" width="592px"/>
+<img src="README/form.png" width="497px"/>
 
 # Utility Components
 In addition to the features outlined above, Sierra also includes some common user interface elements not provided by Swing.
