@@ -28,7 +28,10 @@ import java.awt.Rectangle;
  * Abstract base class for layout panels.
  */
 public abstract class LayoutPanel extends JPanel implements Scrollable {
-    abstract static class AbstractLayoutManager implements LayoutManager2 {
+    /**
+     * Abstract base class for layout managers.
+     */
+    protected abstract static class AbstractLayoutManager implements LayoutManager2 {
         @Override
         public void addLayoutComponent(String name, Component component) {
             // No-op
