@@ -355,24 +355,13 @@ Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-p
 An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, values of text properties are considered resource keys and are used to look up the associated strings in the bundle. For example:
 
 ```xml
-<column-panel spacing="4" padding="8" alignToGrid="true" scrollableTracksViewportWidth="true" opaque="true">
-    <row-panel alignToBaseline="true">
-        <label text="firstName" alignmentX="1.0"/>
-        <text-field columns="12" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="lastName" alignmentX="1.0"/>
-        <text-field columns="12" alignmentX="0.0"/>
-    </row-panel>
-
-    <row-panel alignToBaseline="true">
-        <label text="streetAddress" alignmentX="1.0"/>
-        <text-field columns="24" alignmentX="0.0"/>
-    </row-panel>
+<form-panel padding="8" opaque="true">
+    <text-field label="firstName" columns="12"/>
+    <text-field label="lastName" columns="12"/>
+    <text-field label="streetAddress" columns="24"/>
     
     ...
-</column-panel>
+</form-panel>
 ```
 
 ```properties
