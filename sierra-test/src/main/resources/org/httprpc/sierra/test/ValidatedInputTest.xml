@@ -3,32 +3,17 @@
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
 <column-panel padding="8" opaque="true">
-    <column-panel spacing="4" alignToGrid="true">
-        <row-panel alignToBaseline="true">
-            <label text="number1" alignmentX="1.0"/>
-            <number-field name="numberField1" columns="8" alignmentX="0.0"/>
-        </row-panel>
-        <row-panel alignToBaseline="true">
-            <label text="number2" alignmentX="1.0"/>
-            <number-field name="numberField2" columns="8" alignmentX="0.0"/>
-        </row-panel>
+    <form-panel>
+        <number-field name="numberField1" label="number1" columns="8"/>
+        <number-field name="numberField2" label="number2" columns="8"/>
 
-        <row-panel alignToBaseline="true">
-            <label text="validatedText1" alignmentX="1.0"/>
-            <validated-text-field name="validatedTextField1" columns="8" alignmentX="0.0"/>
-        </row-panel>
-        <row-panel alignToBaseline="true">
-            <label text="validatedText2" alignmentX="1.0"/>
-            <validated-text-field name="validatedTextField2" columns="8" pattern="validatedText2Pattern" alignmentX="0.0"/>
-        </row-panel>
+        <validated-text-field name="validatedTextField1" label="validatedText1" columns="8"/>
+        <validated-text-field name="validatedTextField2" label="validatedText2" columns="8" pattern="validatedText2Pattern"/>
 
         <separator/>
 
-        <row-panel>
-            <spacer/>
-            <button name="submitButton" text="submit"/>
-        </row-panel>
-    </column-panel>
+        <button name="submitButton" text="submit"/>
+    </form-panel>
 
     <spacer weight="1"/>
 

@@ -3,27 +3,16 @@
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
 <column-panel padding="8" opaque="true">
-    <column-panel spacing="4" alignToGrid="true">
-        <row-panel alignToBaseline="true">
-            <label text="Quantity" alignmentX="1.0"/>
-            <spinner name="countSpinner" alignmentX="0.0"/>
-        </row-panel>
+    <form-panel>
+        <spinner name="countSpinner" label="Quantity"/>
 
-        <row-panel alignToBaseline="true">
-            <label text="Size" alignmentX="1.0"/>
-            <suggestion-picker name="sizeSuggestionPicker" columns="10" alignmentX="0.0"/>
-        </row-panel>
-        <row-panel alignToBaseline="true">
-            <label text="Color" alignmentX="1.0"/>
-            <suggestion-picker name="colorSuggestionPicker" columns="10" maximumRowCount="4" alignmentX="0.0"/>
-        </row-panel>
+        <suggestion-picker name="sizeSuggestionPicker" label="Size" columns="10"/>
+        <suggestion-picker name="colorSuggestionPicker" label="Color" columns="10" maximumRowCount="4"/>
+
         <separator/>
 
-        <row-panel>
-            <spacer/>
-            <button name="submitButton" text="Submit"/>
-        </row-panel>
-    </column-panel>
+        <button name="submitButton" text="Submit"/>
+    </form-panel>
 
     <spacer weight="1"/>
 
