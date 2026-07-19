@@ -373,22 +373,22 @@ In addition to the features outlined above, Sierra also includes some common use
 ## Validated Input
 The `NumberField` and `ValidatedTextField` components can be used to validate user input. `NumberField` accepts only numeric content, and `ValidatedTextField` accepts only content that matches a provided regular expression. Similiar to `JFormattedTextField`, the `getValue()` method of these classes can be used to obtain the validated data:
 
-<img src="README/validated-input.png" width="325px"/>
+<img src="README/validated-input.png" width="286px"/>
 
 `NumberField` is localized. See [ValidatedInputTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ValidatedInputTest.java) for more information.
 
 ## Date and Time Selection
 The `DatePicker` and `TimePicker` components allow a user to select a local date and time, respectively:
 
-<img src="README/date-time-picker-1.png" width="460px"/>
-<img src="README/date-time-picker-2.png" width="460px"/>
+<img src="README/date-time-picker-1.png" width="340px"/>
+<img src="README/date-time-picker-2.png" width="340px"/>
 
 These classes are localized. See [DateTimePickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/DateTimePickerTest.java) for more information.
 
 ## Suggestion Pickers
 The `SuggestionPicker` component allows a user to choose from a list of predefined values: 
 
-<img src="README/suggestion-picker.png" width="300px"/>
+<img src="README/suggestion-picker.png" width="328px"/>
 
 See [SuggestionPickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/SuggestionPickerTest.java) for more information.
 
