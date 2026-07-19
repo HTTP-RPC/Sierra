@@ -14,9 +14,12 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.JLabel;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Arranges components in a labled grid.
@@ -30,7 +33,29 @@ public class FormPanel extends LayoutPanel {
             var preferredWidth = 0;
             var preferredHeight = 0;
 
-            // TODO
+            var n = labels.size();
+
+            for (var i = 0; i < n; i++) {
+                var label = labels.get(i);
+                var field = fields.get(i);
+
+                var labelSize = label.getPreferredSize();
+                var fieldSize = field.getPreferredSize();
+
+                preferredWidth = Math.max(preferredWidth, labelSize.width + fieldSize.width + horizontalSpacing);
+
+                var labelBaseline = label.getBaseline(labelSize.width, labelSize.height);
+                var fieldBaseline = field.getBaseline(fieldSize.width, fieldSize.height);
+
+                if (fieldBaseline >= 0) {
+                    var maximumAscent = Math.max(labelBaseline, fieldBaseline);
+                    var maximumDescent = Math.max(labelSize.height - labelBaseline, fieldSize.height - fieldBaseline);
+
+                    preferredHeight += maximumAscent + maximumDescent;
+                } else {
+                    preferredHeight += Math.max(labelSize.height, fieldSize.height);
+                }
+            }
 
             return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
         }
@@ -43,6 +68,9 @@ public class FormPanel extends LayoutPanel {
         }
     }
 
+    private List<JLabel> labels = new ArrayList<>();
+    private List<Component> fields = new ArrayList<>();
+
     private int horizontalSpacing = 4;
     private int verticalSpacing = 4;
 
@@ -54,12 +82,14 @@ public class FormPanel extends LayoutPanel {
     }
 
     @Override
-    protected void addImpl(Component component, Object constraints, int index) {
-        if (constraints != null && !(constraints instanceof String)) {
-            throw new IllegalArgumentException("Invalid constraints.");
-        }
+    public void add(Component component, Object constraints) {
+        var label = new JLabel((String)constraints);
 
-        super.addImpl(component, constraints, index);
+        addImpl(label, null, -1);
+        addImpl(component, constraints, -1);
+
+        labels.add(label);
+        fields.add(component);
     }
 
     /**
