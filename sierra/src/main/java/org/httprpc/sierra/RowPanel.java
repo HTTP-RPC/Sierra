@@ -143,7 +143,7 @@ public class RowPanel extends BoxPanel {
                     if (baseline >= 0) {
                         y = insets.top + (maximumBaseline - baseline);
                     } else {
-                        y = (height - component.getHeight()) / 2;
+                        y = insets.top + (height - component.getHeight()) / 2;
                     }
                 } else {
                     y = insets.top;
