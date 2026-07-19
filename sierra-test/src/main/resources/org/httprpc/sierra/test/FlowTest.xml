@@ -5,14 +5,13 @@
 <row-panel spacing="8" padding="16" opaque="true">
     <image-pane image="world.png" scaleMode="fill-height" border="silver, 2, solid, 16"/>
 
-    <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        font="Arial-BOLD-24"
-        wrapText="true"
-        horizontalAlignment="center" verticalAlignment="center"
-        border="silver, 4, solid, 16"
-        padding="8, 16, 8, 16"
-        opaque="true" background="white"
-        weight="1"/>
+    <stack-panel border="silver, 4, solid, 16" opaque="true" background="white" weight="1">
+        <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            font="Arial-BOLD-24"
+            wrapText="true"
+            horizontalAlignment="center" verticalAlignment="center"
+            padding="8, 16, 8, 16"/>
+    </stack-panel>
 
     <image-pane image="world.png" scaleMode="fill-height" border="silver, 2, solid, 16"/>
 </row-panel>
