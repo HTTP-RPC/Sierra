@@ -6,7 +6,7 @@
     <text-field label="Field 1" columns="8"/>
     <text-field label="Field 2" columns="8"/>
 
-    <separator/>
+    <spacer size="4"/>
 
     <row-panel spacing="8" alignToBaseline="true">
         <button name="submitButton" text="Submit"/>

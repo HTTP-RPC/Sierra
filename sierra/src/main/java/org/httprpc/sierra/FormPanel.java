@@ -70,6 +70,8 @@ public class FormPanel extends LayoutPanel {
         public void layoutContainer(Container container) {
             var insets = getInsets();
 
+            var width = getWidth();
+
             var maximumLabelWidth = 0;
             var maximumFieldWidth = 0;
 
@@ -94,6 +96,10 @@ public class FormPanel extends LayoutPanel {
 
                 var labelSize = label.getSize();
                 var fieldSize = field.getSize();
+
+                if (fieldSize.width == 0) {
+                    field.setSize(maximumFieldWidth, fieldSize.height);
+                }
 
                 var labelBaseline = label.getBaseline(labelSize.width, labelSize.height);
                 var fieldBaseline = field.getBaseline(fieldSize.width, fieldSize.height);

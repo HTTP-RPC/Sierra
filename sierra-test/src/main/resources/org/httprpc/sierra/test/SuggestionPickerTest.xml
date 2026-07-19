@@ -9,7 +9,7 @@
         <suggestion-picker name="sizeSuggestionPicker" label="Size" columns="10"/>
         <suggestion-picker name="colorSuggestionPicker" label="Color" columns="10" maximumRowCount="4"/>
 
-        <separator/>
+        <spacer size="4"/>
 
         <button name="submitButton" text="Submit"/>
     </form-panel>

@@ -8,10 +8,9 @@
         <time-picker name="timePicker" label="time" columns="8"/>
 
         <combo-box name="minuteIntervalComboBox" label="minuteInterval"/>
-
         <check-box name="strictCheckBox" text="strict"/>
 
-        <separator/>
+        <spacer size="4"/>
 
         <button name="submitButton" text="submit"/>
     </form-panel>
