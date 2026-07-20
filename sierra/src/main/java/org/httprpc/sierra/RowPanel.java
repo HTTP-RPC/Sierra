@@ -196,9 +196,4 @@ public class RowPanel extends BoxPanel {
         revalidate();
         repaint();
     }
-
-    @Override
-    public int getBaseline(int width, int height) {
-        return alignToBaseline ? super.getBaseline(width, height) : -1;
-    }
 }
