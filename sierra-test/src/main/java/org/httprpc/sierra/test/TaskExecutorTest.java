@@ -24,15 +24,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 
 public class TaskExecutorTest extends JFrame implements Runnable {
     private @Outlet JButton button = null;
     private @Outlet JLabel label = null;
     private @Outlet ActivityIndicator activityIndicator = null;
-
-    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(TaskExecutorTest.class.getName());
 
     private static final TaskExecutor taskExecutor = new TaskExecutor(Executors.newCachedThreadPool(runnable -> {
         var thread = new Thread(runnable);
@@ -43,14 +40,14 @@ public class TaskExecutorTest extends JFrame implements Runnable {
     }));
 
     private TaskExecutorTest() {
-        super(resourceBundle.getString("title"));
+        super("Task Executor Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "TaskExecutorTest.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "TaskExecutorTest.xml"));
 
         button.addActionListener(event -> executeTask());
 
@@ -61,7 +58,7 @@ public class TaskExecutorTest extends JFrame implements Runnable {
     private void executeTask() {
         button.setEnabled(false);
 
-        label.setText(resourceBundle.getString("executingTask"));
+        label.setText("Executing task...");
 
         activityIndicator.start();
 
@@ -79,9 +76,9 @@ public class TaskExecutorTest extends JFrame implements Runnable {
             button.setEnabled(true);
 
             if (exception == null) {
-                label.setText(String.format(resourceBundle.getString("taskCompleteFormat"), result));
+                label.setText(String.format("Task %.1f%% complete", result));
             } else {
-                label.setText(resourceBundle.getString("taskFailed"));
+                label.setText("Task failed");
             }
 
             activityIndicator.stop();

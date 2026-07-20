@@ -18,38 +18,32 @@ import java.awt.Container;
 import java.awt.Dimension;
 
 /**
- * Sizes components to fill the available space. The panel's preferred size is
- * the maximum preferred width/height of all components, plus insets.
+ * Sizes components to fill the available space.
  */
 public class StackPanel extends LayoutPanel {
     private class StackLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize(Container container) {
-            var size = getSize();
-            var insets = getInsets();
-
-            var width = Math.max(size.width - (insets.left + insets.right), 0);
-            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
-
-            var preferredWidth = 0;
-            var preferredHeight = 0;
+            var contentWidth = 0;
+            var contentHeight = 0;
 
             var n = getComponentCount();
 
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                component.setSize(width, height);
-
                 var preferredSize = component.getPreferredSize();
 
-                preferredWidth = Math.max(preferredWidth, preferredSize.width);
-                preferredHeight = Math.max(preferredHeight, preferredSize.height);
+                contentWidth = Math.max(contentWidth, preferredSize.width);
+                contentHeight = Math.max(contentHeight, preferredSize.height);
             }
 
-            validate();
+            var insets = getInsets();
 
-            return new Dimension(preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
+            var preferredWidth = contentWidth + insets.left + insets.right;
+            var preferredHeight = contentHeight + insets.top + insets.bottom;
+
+            return new Dimension(preferredWidth, preferredHeight);
         }
 
         @Override

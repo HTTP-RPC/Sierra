@@ -2,13 +2,5 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration" detection-enabled="false" />
-  <component name="PrintToLogpointModuleInspectionState">
-    <option name="disabledModuleNames">
-      <set>
-        <option value="Sierra.sierra-test.main" />
-        <option value="Sierra.sierra.main" />
-      </set>
-    </option>
-  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK" />
 </project>

@@ -85,30 +85,18 @@ public class ImagePane extends JComponent {
 
             var insets = getInsets();
 
+            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+            var height = Math.max(getHeight() - (insets.top + insets.bottom), 0);
+
             var imageWidth = image.getWidth(null);
             var imageHeight = image.getHeight(null);
 
-            if (scaleMode == ScaleMode.NONE) {
-                var preferredWidth = imageWidth + (insets.left + insets.right);
-                var preferredHeight = imageHeight + (insets.top + insets.bottom);
+            var scale = getScale(width, height, imageWidth, imageHeight);
 
-                return new Dimension(preferredWidth, preferredHeight);
-            } else {
-                var width = Math.max(getWidth() - (insets.left + insets.right), 0);
-                var height = Math.max(getHeight() - (insets.top + insets.bottom), 0);
+            var preferredWidth = scale * imageWidth + (insets.left + insets.right);
+            var preferredHeight = scale * imageHeight + (insets.top + insets.bottom);
 
-                var scale = getScale(width, height, imageWidth, imageHeight);
-
-                var preferredWidth = scale * imageWidth + (insets.left + insets.right);
-                var preferredHeight = scale * imageHeight + (insets.top + insets.bottom);
-
-                return new Dimension((int)Math.floor(preferredWidth), (int)Math.floor(preferredHeight));
-            }
-        }
-
-        @Override
-        public int getBaseline(JComponent component, int width, int height) {
-            return -1;
+            return new Dimension((int)Math.floor(preferredWidth), (int)Math.floor(preferredHeight));
         }
 
         @Override
@@ -166,8 +154,8 @@ public class ImagePane extends JComponent {
         private double getScale(int width, int height, int imageWidth, int imageHeight) {
             return switch (scaleMode) {
                 case NONE -> 1.0;
-                case FILL_WIDTH -> imageWidth > 0 ? (double)width / imageWidth : 1.0;
-                case FILL_HEIGHT -> imageHeight > 0 ? (double)height / imageHeight : 1.0;
+                case FILL_WIDTH -> width > 0 && imageWidth > 0 ? (double)width / imageWidth : 1.0;
+                case FILL_HEIGHT -> height > 0 && imageHeight > 0 ? (double)height / imageHeight : 1.0;
             };
         }
     }

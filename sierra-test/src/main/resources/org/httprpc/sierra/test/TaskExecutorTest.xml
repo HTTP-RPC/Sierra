@@ -4,12 +4,12 @@
 
 <column-panel spacing="8" padding="8" opaque="true">
     <column-panel>
-        <check-box text="checkBox1"/>
-        <check-box text="checkBox2"/>
+        <check-box text="Check box 1"/>
+        <check-box text="Check box 2"/>
     </column-panel>
 
     <row-panel spacing="8">
-        <button name="button" text="executeTask"/>
+        <button name="button" text="Execute Task"/>
         <label name="label" foreground="gray"/>
         <spacer weight="1"/>
         <activity-indicator name="activityIndicator" indicatorSize="18"/>

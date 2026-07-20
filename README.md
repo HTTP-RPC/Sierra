@@ -9,8 +9,9 @@ Sierra is an open-source framework for simplifying development of Java Swing app
 
 Sierra provides the `UILoader` class, which can be used in conjunction with the following types to declaratively establish a hierarchy of user interface elements:
 
-* `RowPanel` - arranges components in a horizontal line, optionally aligning to baseline
-* `ColumnPanel` - arranges components in a vertical line, optionally aligning nested elements to a grid
+* `ColumnPanel` - arranges components in a vertical line
+* `RowPanel` - arranges components in a horizontal line
+* `FormPanel` - arranges components in a labeled grid
 * `StackPanel` - sizes components to fill the available space
 * `Spacer` - provides fixed or flexible space between other components
 
@@ -82,12 +83,12 @@ Elements can be nested to create a component hierarchy. For example:
 ```xml
 <column-panel spacing="8" padding="8" opaque="true">
     <column-panel>
-        <check-box text="checkBox1"/>
-        <check-box text="checkBox2"/>
+        <check-box text="Check box 1"/>
+        <check-box text="Check box 2"/>
     </column-panel>
 
     <row-panel spacing="8">
-        <button name="button" text="executeTask"/>
+        <button name="button" text="Execute Task"/>
         <label name="label" foreground="gray"/>
         <spacer weight="1"/>
         <activity-indicator name="activityIndicator" indicatorSize="18"/>
@@ -105,6 +106,8 @@ XML attributes generally represent component properties. For example, this marku
 ```
 
 Numeric and boolean values are specified via their string representations. Supported constants and enum values are specified in [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
+
+An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, attributes representing string values are considered resource keys and are used to look up the associated values in the bundle.
 
 ## Element Names
 The "name" attribute associates an identifier with a component. In addition to setting the "name" property, `UILoader` injects the component itself into an "outlet" defined by the document's owner, the value passed as the first argument to the `load()` method.
@@ -145,8 +148,6 @@ public class ActionTest extends JFrame implements Runnable {
 ```
 
 <img src="README/action.png" width="352px"/>
-
-Resource bundles are used to localize deserialized markup and are discussed in more detail [later](#resource-bundles).
 
 ## Color and Font Values
 Color and font properties can be specified using the formats supported by `Color#decode()` and `Font#decode()`, respectively. For example, this markup creates an instance of `RowPanel` and sets its "background" property to white:
@@ -281,6 +282,21 @@ Size values for multiple dimensions can be specified in _width_, _height_ order:
 size="20, 20"
 ```
 
+## Label Values
+The "label" attribute associates a description with a form field. For example:
+
+```xml
+<form-panel padding="8" opaque="true">
+    <text-field label="firstName" columns="12"/>
+    <text-field label="lastName" columns="12"/>
+    <text-field label="streetAddress" columns="24"/>
+
+    ...
+</form-panel>
+```
+
+<img src="README/form.png" width="592px"/>
+
 ## Button Groups
 The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:
 
@@ -351,113 +367,28 @@ Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-p
 
 <img src="README/text-fields.png" width="318px"/>
 
-# Resource Bundles
-An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, attributes representing string values are considered resource keys and are used to look up the associated values in the bundle. For example:
-
-```xml
-<form-panel padding="8" opaque="true">
-    <text-field label="firstName" columns="12"/>
-    <text-field label="lastName" columns="12"/>
-    <text-field label="streetAddress" columns="24"/>
-    
-    ...
-</form-panel>
-```
-
-```properties
-title = Form Test
-
-firstName = First Name
-lastName = Last Name
-streetAddress = Street Address
-
-...
-```
-
-<img src="README/form.png" width="592px"/>
-
-# Cell Alignment
-When grid alignment is enabled in a `ColumnPanel`, the components of every `RowPanel` in the column are vertically aligned in a grid, as in a spreadsheet or HTML table. The width of each column is the maximum preferred width of the "cells" in that column (i.e. the components having the same index in each row).
-
-Cell contents are aligned based on the component's _x_ and _y_ alignment values (returned by `getAlignmentX()` and `getAlignmentY()`, respectively). For most components, the default is 0.5, indicating that the component should fill the entire cell along both axes. Values between 0.0 and 0.5 will align the component to the cell's leading or top edge, and values between 0.5 and 1.0 will align the component to the cell's trailing or bottom edge. In both cases, a proportional amount of the excess space will be allocated to the component. A value of 0 or 1 will result in no excess space being given to the component (i.e. it will be aligned to the appropriate edge and will be given its preferred size along that axis).
-
-For example, the following markup demonstrates x-alignment:
-
-```xml
-<column-panel spacing="4" padding="8" alignToGrid="true" opaque="true">
-    <row-panel>
-        <text-pane text="0.0" alignmentX="0.0" border="silver"/>
-        <text-pane text="0.25" horizontalAlignment="center" alignmentX="0.25" border="silver"/>
-        <text-pane text="0.5" horizontalAlignment="center" alignmentX="0.5" border="silver"/>
-        <text-pane text="0.75" horizontalAlignment="center" alignmentX="0.75" border="silver"/>
-        <text-pane text="1.0" alignmentX="1.0" border="silver"/>
-    </row-panel>
-
-    <row-panel>
-        <spacer size="120, 40" border="silver"/>
-        <spacer size="120, 40" border="silver"/>
-        <spacer size="120, 40" border="silver"/>
-        <spacer size="120, 40" border="silver"/>
-        <spacer size="120, 40" border="silver"/>
-    </row-panel>
-</column-panel>
-```
-
-<img src="README/alignment-x.png" width="744px"/>
-
-This markup demonstrates y-alignment:
-
-```xml
-<column-panel spacing="4" padding="8" alignToGrid="true" opaque="true">
-    <row-panel>
-        <text-pane text="0.0" alignmentY="0.0" border="silver"/>
-        <spacer size="160, 80" border="silver"/>
-    </row-panel>
-    <row-panel>
-        <text-pane text="0.25" verticalAlignment="center" alignmentY="0.25" border="silver"/>
-        <spacer size="160, 80" border="silver"/>
-    </row-panel>
-    <row-panel>
-        <text-pane text="0.5" verticalAlignment="center" alignmentY="0.5" border="silver"/>
-        <spacer size="160, 80" border="silver"/>
-    </row-panel>
-    <row-panel>
-        <text-pane text="0.75" verticalAlignment="center" alignmentY="0.75" border="silver"/>
-        <spacer size="160, 80" border="silver"/>
-    </row-panel>
-    <row-panel>
-        <text-pane text="1.0" alignmentY="1.0" border="silver"/>
-        <spacer size="160, 80" border="silver"/>
-    </row-panel>
-</column-panel>
-```
-
-<img src="README/alignment-y.png" width="319px"/>
-
-Row spacing and cell weights are ignored when grid alignment is enabled.
-
 # Utility Components
 In addition to the features outlined above, Sierra also includes some common user interface elements not provided by Swing.
 
 ## Validated Input
 The `NumberField` and `ValidatedTextField` components can be used to validate user input. `NumberField` accepts only numeric content, and `ValidatedTextField` accepts only content that matches a provided regular expression. Similiar to `JFormattedTextField`, the `getValue()` method of these classes can be used to obtain the validated data:
 
-<img src="README/validated-input.png" width="325px"/>
+<img src="README/validated-input.png" width="286px"/>
 
 `NumberField` is localized. See [ValidatedInputTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ValidatedInputTest.java) for more information.
 
 ## Date and Time Selection
 The `DatePicker` and `TimePicker` components allow a user to select a local date and time, respectively:
 
-<img src="README/date-time-picker-1.png" width="460px"/>
-<img src="README/date-time-picker-2.png" width="460px"/>
+<img src="README/date-time-picker-1.png" width="340px"/>
+<img src="README/date-time-picker-2.png" width="340px"/>
 
 These classes are localized. See [DateTimePickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/DateTimePickerTest.java) for more information.
 
 ## Suggestion Pickers
 The `SuggestionPicker` component allows a user to choose from a list of predefined values: 
 
-<img src="README/suggestion-picker.png" width="300px"/>
+<img src="README/suggestion-picker.png" width="328px"/>
 
 See [SuggestionPickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/SuggestionPickerTest.java) for more information.
 

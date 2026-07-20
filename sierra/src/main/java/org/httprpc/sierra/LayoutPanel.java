@@ -23,14 +23,15 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.LayoutManager2;
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Abstract base class for layout panels.
  */
 public abstract class LayoutPanel extends JPanel implements Scrollable {
-    abstract static class AbstractLayoutManager implements LayoutManager2 {
+    /**
+     * Abstract base class for layout managers.
+     */
+    protected abstract static class AbstractLayoutManager implements LayoutManager2 {
         @Override
         public void addLayoutComponent(String name, Component component) {
             // No-op
@@ -72,29 +73,21 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         }
     }
 
-    private List<Object> constraints = new ArrayList<>();
-
     private boolean scrollableTracksViewportWidth = false;
     private boolean scrollableTracksViewportHeight = false;
 
-    LayoutPanel() {
+    /**
+     * Constructs a new layout panel.
+     */
+    public LayoutPanel() {
         super(null, false);
 
         setOpaque(false);
-
-        setAlignmentX(0.5f);
-        setAlignmentY(0.5f);
-    }
-
-    Object getConstraints(int index) {
-        return constraints.get(index);
     }
 
     @Override
     protected void addImpl(Component component, Object constraints, int index) {
         super.addImpl(component, constraints, index);
-
-        this.constraints.add((index == -1) ? this.constraints.size() : index, constraints);
 
         revalidate();
         repaint();
@@ -104,8 +97,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     public void remove(int index) {
         super.remove(index);
 
-        constraints.remove(index);
-
         revalidate();
         repaint();
     }
@@ -113,8 +104,6 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     @Override
     public void removeAll() {
         super.removeAll();
-
-        constraints.clear();
 
         revalidate();
         repaint();

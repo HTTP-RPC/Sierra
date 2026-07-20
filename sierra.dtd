@@ -130,7 +130,7 @@
 <!ENTITY % org.httprpc.sierra.ValidatedTextField "%javax.swing.JTextField; pattern CDATA value CDATA ">
 <!ELEMENT validated-text-field EMPTY>
 <!ATTLIST validated-text-field %org.httprpc.sierra.ValidatedTextField;>
-<!ENTITY % org.httprpc.sierra.ColumnPanel "%org.httprpc.sierra.BoxPanel; alignToGrid (true|false) ">
+<!ENTITY % org.httprpc.sierra.ColumnPanel "%org.httprpc.sierra.BoxPanel; ">
 <!ELEMENT column-panel (ANY)>
 <!ATTLIST column-panel %org.httprpc.sierra.ColumnPanel;>
 <!ENTITY % org.httprpc.sierra.RowPanel "%org.httprpc.sierra.BoxPanel; alignToBaseline (true|false) ">

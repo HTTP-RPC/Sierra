@@ -55,11 +55,6 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
         }
 
         @Override
-        public int getBaseline(JComponent component, int width, int height) {
-            return -1;
-        }
-
-        @Override
         public void paint(Graphics graphics, JComponent component) {
             paint((Graphics2D)graphics);
         }

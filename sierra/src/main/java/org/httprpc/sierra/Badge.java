@@ -51,11 +51,11 @@ public class Badge extends JComponent {
 
             var stringBounds = font.getStringBounds(coalesce(text, () -> ""), fontRenderContext);
 
-            var textWidth = stringBounds.getWidth();
-            var textHeight = stringBounds.getHeight() * (1.0 + MARGIN * 2);
+            var contentWidth = stringBounds.getWidth();
+            var contentHeight = stringBounds.getHeight() * (1.0 + MARGIN * 2);
 
-            var preferredWidth = textWidth + textHeight + (insets.left + insets.right);
-            var preferredHeight = textHeight + (insets.top + insets.bottom);
+            var preferredWidth = contentWidth + contentHeight + (insets.left + insets.right);
+            var preferredHeight = contentHeight + (insets.top + insets.bottom);
 
             return new Dimension((int)Math.ceil(preferredWidth), (int)Math.ceil(preferredHeight));
         }
