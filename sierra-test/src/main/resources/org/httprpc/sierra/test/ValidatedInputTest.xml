@@ -10,7 +10,7 @@
         <validated-text-field name="validatedTextField1" label="validatedText1" columns="8"/>
         <validated-text-field name="validatedTextField2" label="validatedText2" columns="8" pattern="validatedText2Pattern"/>
 
-        <separator/>
+        <spacer size="4"/>
 
         <button name="submitButton" text="submit"/>
     </form-panel>
