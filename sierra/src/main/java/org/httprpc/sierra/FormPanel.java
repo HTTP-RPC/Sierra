@@ -146,7 +146,7 @@ public class FormPanel extends LayoutPanel {
         var label = new JLabel((String)constraints);
 
         addImpl(label, null, -1);
-        addImpl(component, constraints, -1);
+        addImpl(component, null, -1);
 
         labels.add(label);
         fields.add(component);
