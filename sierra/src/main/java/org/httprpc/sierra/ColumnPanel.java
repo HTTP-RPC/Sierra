@@ -182,7 +182,11 @@ public class ColumnPanel extends BoxPanel {
      * @return
      * {@code true} if nested elements will be aligned to grid; {@code false},
      * otherwise.
+     *
+     * @deprecated
+     * Use {@link FormPanel} instead.
      */
+    @Deprecated
     public boolean getAlignToGrid() {
         return alignToGrid;
     }
@@ -192,7 +196,11 @@ public class ColumnPanel extends BoxPanel {
      *
      * @param alignToGrid
      * {@code true} to enable grid alignment; {@code false} to disable it.
+     *
+     * @deprecated
+     * Use {@link FormPanel} instead.
      */
+    @Deprecated
     public void setAlignToGrid(boolean alignToGrid) {
         this.alignToGrid = alignToGrid;
 
