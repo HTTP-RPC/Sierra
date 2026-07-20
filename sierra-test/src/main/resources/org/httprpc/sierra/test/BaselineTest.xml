@@ -9,4 +9,15 @@
     <spacer size="20, 20" border="silver"/>
 
     <badge text="lmnop" font="medium"/>
+
+    <column-panel spacing="4" border="silver, 1, dotted" padding="8">
+        <label text="abcdefg" font="medium" border="silver"/>
+        <label text="hijk" font="small" border="silver"/>
+    </column-panel>
+
+    <row-panel alignToBaseline="true" spacing="4" border="silver, 1, dotted" padding="8">
+        <label text="abcd" font="large" border="silver"/>
+        <label text="efg" font="medium" border="silver"/>
+        <label text="hijk" font="small" border="silver"/>
+    </row-panel>
 </row-panel>
