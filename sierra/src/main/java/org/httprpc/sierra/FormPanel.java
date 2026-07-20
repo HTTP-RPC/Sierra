@@ -153,22 +153,11 @@ public class FormPanel extends LayoutPanel {
     }
 
     @Override
-    protected void addImpl(Component component, Object constraints, int index) {
-        if (index != -1) {
-            throw new UnsupportedOperationException();
-        }
-
-        super.addImpl(component, constraints, index);
-    }
-
-    @Override
-    public void remove(int index) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void removeAll() {
-        throw new UnsupportedOperationException();
+        super.removeAll();
+
+        labels.clear();
+        fields.clear();
     }
 
     /**
