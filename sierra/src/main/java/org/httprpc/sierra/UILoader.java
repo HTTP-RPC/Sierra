@@ -1979,7 +1979,7 @@ public class UILoader {
 
         var name = components[0].trim();
 
-        var color = coalesce(colors.get(name), () -> coalesce(UIManager.getColor(name), () -> Color.decode(name)));
+        var color = coalesce(UIManager.getColor(name), () -> coalesce(colors.get(name), () -> Color.decode(name)));
 
         if (components.length == 1) {
             return color;
@@ -1993,7 +1993,7 @@ public class UILoader {
     private static Font parseFont(String value) {
         var name = value.trim();
 
-        return coalesce(fonts.get(name), () -> coalesce(UIManager.getFont(name), () -> Font.decode(name)));
+        return coalesce(UIManager.getFont(name), () -> coalesce(fonts.get(name), () -> Font.decode(name)));
     }
 
     private static int getValue(String key, ConstantAdapter[] values) {
