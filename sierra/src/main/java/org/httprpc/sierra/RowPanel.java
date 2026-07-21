@@ -92,25 +92,32 @@ public class RowPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (Double.isNaN(weight)) {
-                    component.setSize(Integer.MAX_VALUE, height);
-
                     if (alignToBaseline) {
                         component.setSize(component.getPreferredSize());
-
-                        var baseline = component.getBaseline(component.getWidth(), component.getHeight());
-
-                        baselines[i] = baseline;
-
-                        if (baseline >= 0) {
-                            maximumBaseline = Math.max(maximumBaseline, baseline);
-                        }
                     } else {
+                        component.setSize(Integer.MAX_VALUE, height);
                         component.setSize(component.getPreferredSize().width, height);
                     }
 
                     excessWidth -= component.getWidth();
                 } else {
+                    if (alignToBaseline) {
+                        component.setSize(0, component.getPreferredSize().height);
+                    } else {
+                        component.setSize(0, height);
+                    }
+
                     totalWeight += weight;
+                }
+
+                if (alignToBaseline) {
+                    var baseline = component.getBaseline(component.getWidth(), component.getHeight());
+
+                    baselines[i] = baseline;
+
+                    if (baseline >= 0) {
+                        maximumBaseline = Math.max(maximumBaseline, baseline);
+                    }
                 }
             }
 
@@ -133,7 +140,7 @@ public class RowPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (!Double.isNaN(weight)) {
-                    component.setSize((int)Math.round(excessWidth * (weight / totalWeight)), height);
+                    component.setSize((int)Math.round(excessWidth * (weight / totalWeight)), component.getHeight());
                 }
 
                 int y;

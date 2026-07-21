@@ -72,6 +72,8 @@ public class ColumnPanel extends BoxPanel {
 
                     excessHeight -= component.getHeight();
                 } else {
+                    component.setSize(width, 0);
+
                     totalWeight += weight;
                 }
             }
@@ -88,7 +90,7 @@ public class ColumnPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (!Double.isNaN(weight)) {
-                    component.setSize(width, (int)Math.round(excessHeight * (weight / totalWeight)));
+                    component.setSize(component.getWidth(), (int)Math.round(excessHeight * (weight / totalWeight)));
                 }
 
                 component.setLocation(insets.left, y);
