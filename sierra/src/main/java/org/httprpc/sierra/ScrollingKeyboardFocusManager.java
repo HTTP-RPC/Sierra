@@ -32,7 +32,9 @@ public class ScrollingKeyboardFocusManager extends DefaultKeyboardFocusManager {
         if (event.getID() == FocusEvent.FOCUS_GAINED) {
             var cause = ((FocusEvent)event).getCause();
 
-            if (cause == FocusEvent.Cause.TRAVERSAL_FORWARD || cause == FocusEvent.Cause.TRAVERSAL_BACKWARD) {
+            if (cause == FocusEvent.Cause.TRAVERSAL_FORWARD
+                || cause == FocusEvent.Cause.TRAVERSAL_BACKWARD
+                || cause == FocusEvent.Cause.UNKNOWN) {
                 var component = (Component)event.getSource();
 
                 var parent = component.getParent();

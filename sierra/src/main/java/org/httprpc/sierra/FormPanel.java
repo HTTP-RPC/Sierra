@@ -143,7 +143,51 @@ public class FormPanel extends LayoutPanel {
 
     @Override
     public void add(Component component, Object constraints) {
-        var label = new JLabel((String)constraints);
+        var text = (String)constraints;
+
+        JLabel label;
+        if (text == null) {
+            label = new JLabel();
+        } else {
+            var textBuilder = new StringBuilder();
+
+            var displayedMnemonic = 0;
+            var displayedMnemonicIndex = -1;
+
+            var n = text.length();
+
+            var i = 0;
+
+            while (i < n) {
+                var character = text.charAt(i++);
+
+                if (character == '&') {
+                    if (i == n) {
+                        break;
+                    }
+
+                    character = text.charAt(i);
+
+                    if (character != '&' && displayedMnemonic == 0) {
+                        displayedMnemonic = character;
+                        displayedMnemonicIndex = i - 1;
+                    }
+
+                    i++;
+                }
+
+                textBuilder.append(character);
+            }
+
+            label = new JLabel(textBuilder.toString());
+
+            if (displayedMnemonic > 0) {
+                label.setDisplayedMnemonic(displayedMnemonic);
+                label.setDisplayedMnemonicIndex(displayedMnemonicIndex);
+
+                label.setLabelFor(component);
+            }
+        }
 
         addImpl(label, null, -1);
         addImpl(component, null, -1);

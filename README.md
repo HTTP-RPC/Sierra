@@ -297,6 +297,20 @@ The "label" attribute associates a description with a form field. For example:
 
 <img src="README/form.png" width="592px"/>
 
+Label mnemonics can be specified in markup as follows:
+
+```xml
+<text-field label="Field &amp;amp;1" columns="8"/>
+```
+
+or like this in a resource bundle:
+
+```properties
+field1 = Field &1
+```
+
+To include a literal ampersand character in a label, two consecutive ampersands can be used; e.g. "&amp;amp;&amp;amp;" or "&&".
+
 ## Button Groups
 The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:
 

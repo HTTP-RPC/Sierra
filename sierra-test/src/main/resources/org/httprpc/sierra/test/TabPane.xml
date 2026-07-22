@@ -3,8 +3,8 @@
 <!DOCTYPE form-panel SYSTEM "sierra.dtd">
 
 <form-panel padding="8" opaque="true">
-    <text-field label="Field 1" columns="8"/>
-    <text-field label="Field 2" columns="8"/>
+    <text-field label="Field &amp;1" columns="8"/>
+    <text-field label="Field &amp;2" columns="8"/>
 
     <spacer size="4"/>
 
