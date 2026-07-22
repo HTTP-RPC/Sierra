@@ -151,7 +151,7 @@ public class FormPanel extends LayoutPanel {
         } else {
             var textBuilder = new StringBuilder();
 
-            var displayedMnemonic = 0;
+            var displayedMnemonic = (char)0;
             var displayedMnemonicIndex = -1;
 
             var n = text.length();
@@ -169,7 +169,7 @@ public class FormPanel extends LayoutPanel {
                     character = text.charAt(i);
 
                     if (character != '&' && displayedMnemonic == 0) {
-                        displayedMnemonic = Character.toUpperCase(character);
+                        displayedMnemonic = character;
                         displayedMnemonicIndex = i - 1;
                     }
 
