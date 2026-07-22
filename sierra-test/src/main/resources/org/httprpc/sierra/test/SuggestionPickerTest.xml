@@ -6,8 +6,8 @@
     <form-panel>
         <spinner name="countSpinner" label="Quantity"/>
 
-        <suggestion-picker name="sizeSuggestionPicker" label="Size" columns="10"/>
-        <suggestion-picker name="colorSuggestionPicker" label="Color" columns="10" maximumRowCount="4"/>
+        <suggestion-picker name="sizeSuggestionPicker" label="&amp;Size" columns="10"/>
+        <suggestion-picker name="colorSuggestionPicker" label="&amp;Color" columns="10" maximumRowCount="4"/>
 
         <spacer size="4"/>
 

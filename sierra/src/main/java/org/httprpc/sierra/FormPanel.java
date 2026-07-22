@@ -169,7 +169,7 @@ public class FormPanel extends LayoutPanel {
                     character = text.charAt(i);
 
                     if (character != '&' && displayedMnemonic == 0) {
-                        displayedMnemonic = character;
+                        displayedMnemonic = Character.toUpperCase(character);
                         displayedMnemonicIndex = i - 1;
                     }
 
