@@ -300,7 +300,7 @@ The "label" attribute associates a description with a form field. For example:
 Label mnemonics can be specified in markup as follows:
 
 ```xml
-<text-field label="Field &amp;amp;1" columns="8"/>
+<text-field label="Field &amp;1" columns="8"/>
 ```
 
 or like this in a resource bundle:
