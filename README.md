@@ -107,7 +107,7 @@ XML attributes generally represent component properties. For example, this marku
 
 Numeric and boolean values are specified via their string representations. Supported constants and enum values are specified in [kebab case](https://en.wikipedia.org/wiki/Letter_case#Kebab_case).
 
-An optional resource bundle may be provided as the third argument to the `load()` method of `UILoader`. When specified, attributes representing string values are considered resource keys and are used to look up the associated values in the bundle.
+When a resource bundle is provided to the `load()` method of `UILoader`, attributes representing string values are considered resource keys and are used to look up the associated values in the bundle.
 
 ## Element Names
 The "name" attribute associates an identifier with a component. In addition to setting the "name" property, `UILoader` injects the component itself into an "outlet" defined by the document's owner, the value passed as the first argument to the `load()` method.
