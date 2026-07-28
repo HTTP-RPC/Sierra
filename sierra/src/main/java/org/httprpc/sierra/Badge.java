@@ -23,7 +23,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.geom.RoundRectangle2D;
+import java.util.Map;
 
 import static org.httprpc.kilo.util.Optionals.*;
 
@@ -108,10 +110,16 @@ public class Badge extends JComponent {
             graphics.fill(new RoundRectangle2D.Double(0, y, width, arc, arc, arc));
 
             if (!text.isEmpty()) {
-                var ascent = font.getLineMetrics(text, fontRenderContext).getAscent();
+                var toolkit = Toolkit.getDefaultToolkit();
+
+                if (toolkit.getDesktopProperty("awt.font.desktophints") instanceof Map<?, ?> desktopHints) {
+                    graphics.addRenderingHints(desktopHints);
+                }
 
                 graphics.setColor(getForeground());
                 graphics.setFont(font);
+
+                var ascent = font.getLineMetrics(text, fontRenderContext).getAscent();
 
                 graphics.drawString(text, (float)(width - textWidth) / 2, (float)(height - textHeight) / 2 + ascent);
             }

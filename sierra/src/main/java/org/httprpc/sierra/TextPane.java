@@ -21,11 +21,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Displays a string of text.
@@ -133,6 +135,12 @@ public class TextPane extends JComponent {
             };
 
             graphics = (Graphics2D)graphics.create();
+
+            var toolkit = Toolkit.getDefaultToolkit();
+
+            if (toolkit.getDesktopProperty("awt.font.desktophints") instanceof Map<?, ?> desktopHints) {
+                graphics.addRenderingHints(desktopHints);
+            }
 
             graphics.setColor(getForeground());
             graphics.setFont(font);
