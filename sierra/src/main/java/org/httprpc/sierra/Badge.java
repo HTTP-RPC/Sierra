@@ -44,18 +44,20 @@ public class Badge extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            var insets = getInsets();
-
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
             var stringBounds = font.getStringBounds(coalesce(text, () -> ""), fontRenderContext);
 
-            var contentWidth = stringBounds.getWidth();
-            var contentHeight = stringBounds.getHeight() * (1.0 + MARGIN * 2);
+            var textWidth = stringBounds.getWidth();
+            var textHeight = stringBounds.getHeight();
 
-            var preferredWidth = contentWidth + contentHeight + (insets.left + insets.right);
-            var preferredHeight = contentHeight + (insets.top + insets.bottom);
+            var arc = textHeight * (1.0 + MARGIN * 2);
+
+            var insets = getInsets();
+
+            var preferredWidth = textWidth + arc + (insets.left + insets.right);
+            var preferredHeight = arc + (insets.top + insets.bottom);
 
             return new Dimension((int)Math.ceil(preferredWidth), (int)Math.ceil(preferredHeight));
         }
@@ -69,9 +71,7 @@ public class Badge extends JComponent {
 
             var lineMetrics = font.getLineMetrics(coalesce(text, () -> ""), fontRenderContext);
 
-            var ascent = lineMetrics.getAscent();
-
-            return (int)Math.ceil(insets.top + lineMetrics.getHeight() * MARGIN + ascent);
+            return (int)Math.ceil(insets.top + lineMetrics.getHeight() * MARGIN + lineMetrics.getAscent());
         }
 
         @Override
@@ -83,15 +83,19 @@ public class Badge extends JComponent {
             var width = getWidth();
             var height = getHeight();
 
-            var preferredSize = getPreferredSize(null);
+            var font = getFont();
+            var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-            var insets = getInsets();
+            var text = coalesce(Badge.this.text, () -> "");
 
-            var contentWidth = preferredSize.getWidth() - (insets.left + insets.right);
-            var contentHeight = preferredSize.getHeight() - (insets.top + insets.bottom);
+            var stringBounds = font.getStringBounds(text, fontRenderContext);
 
-            var x = (width - contentWidth) / 2;
-            var y = (height - contentHeight) / 2;
+            var textWidth = stringBounds.getWidth();
+            var textHeight = stringBounds.getHeight();
+
+            var arc = textHeight * (1.0 + MARGIN * 2);
+
+            var y = (height - arc) / 2;
 
             graphics = (Graphics2D)graphics.create();
 
@@ -101,18 +105,10 @@ public class Badge extends JComponent {
 
             graphics.setColor(getBackground());
 
-            graphics.fill(new RoundRectangle2D.Double(x, y, contentWidth, contentHeight, contentHeight, contentHeight));
+            graphics.fill(new RoundRectangle2D.Double(0, y, width, arc, arc, arc));
 
-            if (text != null) {
-                var font = getFont();
-                var fontRenderContext = getFontMetrics(font).getFontRenderContext();
-
-                var stringBounds = font.getStringBounds(text, fontRenderContext);
-
+            if (!text.isEmpty()) {
                 var ascent = font.getLineMetrics(text, fontRenderContext).getAscent();
-
-                var textWidth = stringBounds.getWidth();
-                var textHeight = stringBounds.getHeight();
 
                 graphics.setColor(getForeground());
                 graphics.setFont(font);
@@ -124,9 +120,9 @@ public class Badge extends JComponent {
                 graphics.setColor(outline);
                 graphics.setStroke(new BasicStroke(OUTLINE_THICKNESS));
 
-                graphics.draw(new RoundRectangle2D.Double(x + OUTLINE_THICKNESS / 2, y + OUTLINE_THICKNESS / 2,
-                    contentWidth - OUTLINE_THICKNESS, contentHeight - OUTLINE_THICKNESS,
-                    contentHeight, contentHeight));
+                graphics.draw(new RoundRectangle2D.Double(OUTLINE_THICKNESS / 2, y + OUTLINE_THICKNESS / 2,
+                    width - OUTLINE_THICKNESS, arc - OUTLINE_THICKNESS,
+                    arc, arc));
             }
 
             graphics.dispose();
