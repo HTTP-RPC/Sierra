@@ -71,7 +71,7 @@ public class Badge extends JComponent {
 
             var lineMetrics = font.getLineMetrics(coalesce(text, () -> ""), fontRenderContext);
 
-            return (int)Math.ceil(insets.top + lineMetrics.getHeight() * MARGIN + lineMetrics.getAscent());
+            return (int)Math.ceil(insets.top + (height - lineMetrics.getHeight()) / 2 + lineMetrics.getAscent());
         }
 
         @Override
