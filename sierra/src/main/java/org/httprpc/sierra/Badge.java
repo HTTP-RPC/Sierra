@@ -65,18 +65,6 @@ public class Badge extends JComponent {
         }
 
         @Override
-        public int getBaseline(JComponent component, int width, int height) {
-            var insets = getInsets();
-
-            var font = getFont();
-            var fontRenderContext = getFontMetrics(font).getFontRenderContext();
-
-            var lineMetrics = font.getLineMetrics(coalesce(text, () -> ""), fontRenderContext);
-
-            return (int)Math.ceil(insets.top + (height - lineMetrics.getHeight()) / 2 + lineMetrics.getAscent());
-        }
-
-        @Override
         public void paint(Graphics graphics, JComponent component) {
             paint((Graphics2D)graphics);
         }
