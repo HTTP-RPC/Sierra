@@ -55,7 +55,7 @@ public class TextPane extends JComponent {
 
             double textWidth;
             double textHeight;
-            if (wrapText && width > 0) {
+            if (width > 0) {
                 var lineHeight = font.getLineMetrics("", fontRenderContext).getHeight();
 
                 textWidth = 0.0;
@@ -168,8 +168,6 @@ public class TextPane extends JComponent {
 
     private String text;
 
-    private boolean wrapText = false;
-
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
 
@@ -214,31 +212,6 @@ public class TextPane extends JComponent {
      */
     public void setText(String text) {
         this.text = text;
-
-        revalidate();
-        repaint();
-    }
-
-    /**
-     * Indicates that line wrapping is enabled. The default value is
-     * {@code false}.
-     *
-     * @return
-     * {@code true} if the text will wrap when needed; {@code false},
-     * otherwise.
-     */
-    public boolean getWrapText() {
-        return wrapText;
-    }
-
-    /**
-     * Toggles line wrapping.
-     *
-     * @param wrapText
-     * {@code true} to enable line wrapping; {@code false} to disable it.
-     */
-    public void setWrapText(boolean wrapText) {
-        this.wrapText = wrapText;
 
         revalidate();
         repaint();
@@ -313,38 +286,34 @@ public class TextPane extends JComponent {
         var font = getFont();
         var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-        if (wrapText) {
-            var n = text.length();
+        var n = text.length();
 
-            var i = 0;
-            var start = 0;
-            var lastWhitespaceIndex = -1;
-            var lineWidth = 0.0;
+        var i = 0;
+        var start = 0;
+        var lastWhitespaceIndex = -1;
+        var lineWidth = 0.0;
 
-            while (i < n) {
-                var c = text.charAt(i);
+        while (i < n) {
+            var c = text.charAt(i);
 
-                if (Character.isWhitespace(c)) {
-                    lastWhitespaceIndex = i;
-                }
-
-                lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
-
-                if (lineWidth > width && lastWhitespaceIndex != -1) {
-                    glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, start, lastWhitespaceIndex, start)));
-
-                    i = lastWhitespaceIndex;
-                    start = i + 1;
-                    lineWidth = 0.0;
-                    lastWhitespaceIndex = -1;
-                }
-
-                i++;
+            if (Character.isWhitespace(c)) {
+                lastWhitespaceIndex = i;
             }
 
-            glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, start, i, start)));
-        } else {
-            glyphVectors.add(font.createGlyphVector(fontRenderContext, text));
+            lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
+
+            if (lineWidth > width && lastWhitespaceIndex != -1) {
+                glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, start, lastWhitespaceIndex, start)));
+
+                i = lastWhitespaceIndex;
+                start = i + 1;
+                lineWidth = 0.0;
+                lastWhitespaceIndex = -1;
+            }
+
+            i++;
         }
+
+        glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, start, i, start)));
     }
 }

@@ -5,8 +5,8 @@
 <scroll-pane padding="0">
     <column-panel spacing="8" padding="8" scrollableTracksViewportWidth="true" opaque="true" background="white">
         <column-panel spacing="4">
-            <text-pane text="Heading 1" font="h1.font" wrapText="true"/>
-            <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true"/>
+            <text-pane text="Heading 1" font="h1.font"/>
+            <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
 
             <row-panel>
                 <form-panel>
@@ -21,8 +21,8 @@
         </column-panel>
 
         <column-panel spacing="4">
-            <text-pane text="Heading 2a" font="h2.font" wrapText="true"/>
-            <text-pane text="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." wrapText="true"/>
+            <text-pane text="Heading 2a" font="h2.font"/>
+            <text-pane text="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
 
             <row-panel>
                 <spacer weight="1"/>
@@ -32,21 +32,21 @@
         </column-panel>
 
         <column-panel spacing="4">
-            <text-pane text="Heading 2b" font="h2.font" wrapText="true"/>
-            <text-pane text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." wrapText="true"/>
+            <text-pane text="Heading 2b" font="h2.font"/>
+            <text-pane text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."/>
 
             <column-panel padding="0, 8, 0, 0">
                 <row-panel spacing="4">
                     <text-pane text="•"/>
-                    <text-pane text="Excepteur sint occaecat cupidatat non proident" wrapText="true" weight="1"/>
+                    <text-pane text="Excepteur sint occaecat cupidatat non proident" weight="1"/>
                 </row-panel>
                 <row-panel spacing="4">
                     <text-pane text="•"/>
-                    <text-pane text="Sunt in culpa qui officia deserunt" wrapText="true" weight="1"/>
+                    <text-pane text="Sunt in culpa qui officia deserunt" weight="1"/>
                 </row-panel>
                 <row-panel spacing="4">
                     <text-pane text="•"/>
-                    <text-pane text="Mollit anim id est laborum" wrapText="true" weight="1"/>
+                    <text-pane text="Mollit anim id est laborum" weight="1"/>
                 </row-panel>
             </column-panel>
         </column-panel>
