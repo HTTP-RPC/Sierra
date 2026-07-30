@@ -89,6 +89,10 @@ public class RowPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
+                if (alignToBaseline) {
+                    component.setSize(0, 0);
+                }
+
                 var weight = getWeight(i);
 
                 if (Double.isNaN(weight)) {
