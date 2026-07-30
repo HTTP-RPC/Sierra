@@ -223,7 +223,11 @@ public class TextPane extends JComponent {
      * @return
      * {@code true} if the text will wrap when needed; {@code false},
      * otherwise.
+     *
+     * @deprecated
+     * This method will be removed in a future release.
      */
+    @Deprecated
     public boolean getWrapText() {
         return wrapText;
     }
@@ -233,7 +237,11 @@ public class TextPane extends JComponent {
      *
      * @param wrapText
      * {@code true} to enable line wrapping; {@code false} to disable it.
+     *
+     * @deprecated
+     * This method will be removed in a future release.
      */
+    @Deprecated
     public void setWrapText(boolean wrapText) {
         this.wrapText = wrapText;
 
