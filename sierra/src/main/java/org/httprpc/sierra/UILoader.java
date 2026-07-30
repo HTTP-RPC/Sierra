@@ -1431,13 +1431,7 @@ public class UILoader {
             } else if (name.equals(Attribute.PADDING.getName())) {
                 insideBorder = parsePadding(value);
             } else if (name.equals(Attribute.WEIGHT.getName())) {
-                var weight = Double.parseDouble(value);
-
-                if (weight <= 0.0) {
-                    throw new IllegalArgumentException("Invalid weight.");
-                }
-
-                constraints = weight;
+                constraints = Double.parseDouble(value);
             } else if (name.equals(Attribute.SIZE.getName())) {
                 component.setPreferredSize(parseSize(value));
             } else if (name.equals(Attribute.TAB_TITLE.getName())) {
