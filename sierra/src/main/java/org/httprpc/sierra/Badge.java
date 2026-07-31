@@ -87,7 +87,7 @@ public class Badge extends JComponent {
 
             var arc = textHeight * (1.0 + MARGIN * 2);
 
-            var y = insets.top + (height - arc) / 2;
+            var y = (height - arc) / 2 + insets.top;
 
             graphics = (Graphics2D)graphics.create();
 
@@ -109,8 +109,8 @@ public class Badge extends JComponent {
                 graphics.setColor(getForeground());
                 graphics.setFont(font);
 
-                var textX = insets.left + (width - textWidth) / 2;
-                var textY = insets.top + (height - textHeight) / 2;
+                var textX = (width - textWidth) / 2 + insets.left;
+                var textY = (height - textHeight) / 2 + insets.top;
 
                 var ascent = font.getLineMetrics(text, fontRenderContext).getAscent();
 

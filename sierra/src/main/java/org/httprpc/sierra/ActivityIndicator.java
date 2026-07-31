@@ -47,7 +47,10 @@ public class ActivityIndicator extends JComponent {
         public Dimension getPreferredSize(JComponent component) {
             var insets = getInsets();
 
-            return new Dimension(indicatorSize + insets.left + insets.right, indicatorSize + insets.top + insets.bottom);
+            var preferredWidth = indicatorSize + (insets.left + insets.right);
+            var preferredHeight = indicatorSize + (insets.top + insets.bottom);
+
+            return new Dimension(preferredWidth, preferredHeight);
         }
 
         @Override
