@@ -97,7 +97,7 @@ public class ActivityIndicator extends JComponent {
 
     private int indicatorSize;
 
-    private Shape spokeShape;
+    private Shape spokeShape = null;
 
     private boolean active = false;
 
@@ -131,7 +131,9 @@ public class ActivityIndicator extends JComponent {
      * The indicator size.
      */
     public ActivityIndicator(int indicatorSize) {
-        setIndicatorSize(indicatorSize);
+        this.indicatorSize = indicatorSize;
+
+        updateSpokeShape();
 
         setUI(new ActivityIndicatorUI());
 
@@ -155,19 +157,23 @@ public class ActivityIndicator extends JComponent {
      * The indicator size.
      */
     public void setIndicatorSize(int indicatorSize) {
-        if (indicatorSize < 12) {
-            throw new IllegalArgumentException();
-        }
-
         this.indicatorSize = indicatorSize;
+
+        updateSpokeShape();
+
+        revalidate();
+        repaint();
+    }
+
+    private void updateSpokeShape() {
+        if (indicatorSize < 12) {
+            throw new IllegalStateException();
+        }
 
         var spokeWidth = indicatorSize / 3.0;
         var spokeHeight = indicatorSize / 8.0;
 
         spokeShape = new RoundRectangle2D.Double(spokeWidth / 2, -spokeHeight / 2, spokeWidth, spokeHeight, spokeHeight, spokeHeight);
-
-        revalidate();
-        repaint();
     }
 
     /**
