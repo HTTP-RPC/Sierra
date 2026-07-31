@@ -260,6 +260,8 @@ public class ImagePane extends JComponent {
         }
 
         this.interpolationMode = interpolationMode;
+
+        repaint();
     }
 
     /**

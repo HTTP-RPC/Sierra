@@ -98,7 +98,6 @@ public class PreviewFrame extends JFrame {
 
             var messageTextPane = new TextPane(exception.getMessage());
 
-            messageTextPane.setWrapText(true);
             messageTextPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
             messageTextPane.setVerticalAlignment(VerticalAlignment.CENTER);
 

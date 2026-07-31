@@ -34,6 +34,10 @@ public abstract class BoxPanel extends LayoutPanel {
 
         var weight = coalesce(map((Number)constraints, Number::doubleValue), () -> Double.NaN);
 
+        if (weight < 0.0) {
+            throw new IllegalArgumentException();
+        }
+
         weights.add(index == -1 ? weights.size() : index, weight);
     }
 
