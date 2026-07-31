@@ -46,6 +46,8 @@ public class Badge extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
+            var insets = getInsets();
+
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
@@ -55,8 +57,6 @@ public class Badge extends JComponent {
             var textHeight = stringBounds.getHeight();
 
             var arc = textHeight * (1.0 + MARGIN * 2);
-
-            var insets = getInsets();
 
             var preferredWidth = textWidth + arc + (insets.left + insets.right);
             var preferredHeight = arc + (insets.top + insets.bottom);
