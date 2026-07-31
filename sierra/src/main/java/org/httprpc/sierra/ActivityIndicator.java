@@ -60,11 +60,10 @@ public class ActivityIndicator extends JComponent {
                 return;
             }
 
-            var size = getSize();
             var insets = getInsets();
 
-            var width = Math.max(size.width - (insets.left + insets.right), 0);
-            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
+            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+            var height = Math.max(getHeight() - (insets.top + insets.bottom), 0);
 
             graphics = (Graphics2D)graphics.create();
 
