@@ -70,8 +70,10 @@ public class Badge extends JComponent {
         }
 
         private void paint(Graphics2D graphics) {
-            var width = getWidth();
-            var height = getHeight();
+            var insets = getInsets();
+
+            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+            var height = Math.max(getHeight() - (insets.top + insets.bottom), 0);
 
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
@@ -85,7 +87,7 @@ public class Badge extends JComponent {
 
             var arc = textHeight * (1.0 + MARGIN * 2);
 
-            var y = (height - arc) / 2;
+            var y = insets.top + (height - arc) / 2;
 
             graphics = (Graphics2D)graphics.create();
 
@@ -95,7 +97,7 @@ public class Badge extends JComponent {
 
             graphics.setColor(getBackground());
 
-            graphics.fill(new RoundRectangle2D.Double(0, y, width, arc, arc, arc));
+            graphics.fill(new RoundRectangle2D.Double(insets.left, y, width, arc, arc, arc));
 
             if (!text.isEmpty()) {
                 var toolkit = Toolkit.getDefaultToolkit();
@@ -107,16 +109,19 @@ public class Badge extends JComponent {
                 graphics.setColor(getForeground());
                 graphics.setFont(font);
 
+                var textX = insets.left + (width - textWidth) / 2;
+                var textY = insets.top + (height - textHeight) / 2;
+
                 var ascent = font.getLineMetrics(text, fontRenderContext).getAscent();
 
-                graphics.drawString(text, (float)(width - textWidth) / 2, (float)(height - textHeight) / 2 + ascent);
+                graphics.drawString(text, (float)textX, (float)textY + ascent);
             }
 
             if (outline != null) {
                 graphics.setColor(outline);
                 graphics.setStroke(new BasicStroke(OUTLINE_THICKNESS));
 
-                graphics.draw(new RoundRectangle2D.Double(OUTLINE_THICKNESS / 2, y + OUTLINE_THICKNESS / 2,
+                graphics.draw(new RoundRectangle2D.Double(insets.left + OUTLINE_THICKNESS / 2, y + OUTLINE_THICKNESS / 2,
                     width - OUTLINE_THICKNESS, arc - OUTLINE_THICKNESS,
                     arc, arc));
             }
