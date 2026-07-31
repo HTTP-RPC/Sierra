@@ -354,7 +354,7 @@ FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) val
 FlatLaf text styles are also accessible via the "font" property:
 
 ```xml
-<text-pane text="Heading 1" font="h1.font" wrapText="true"/>
+<text-pane text="Heading 1" font="h1.font"/>
 ```
 
 <img src="README/block-layout.png" width="472px"/>

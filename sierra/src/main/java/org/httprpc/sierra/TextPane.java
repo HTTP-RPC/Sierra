@@ -218,6 +218,26 @@ public class TextPane extends JComponent {
     }
 
     /**
+     * @deprecated
+     * This method will be removed in a future release.
+     */
+    @Deprecated
+    public boolean getWrapText() {
+        return true;
+    }
+
+    /**
+     * @deprecated
+     * This method will be removed in a future release.
+     */
+    @Deprecated
+    public void setWrapText(boolean wrapText) {
+        if (!wrapText) {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    /**
      * Returns the horizontal alignment. The default value is
      * {@link HorizontalAlignment#LEADING}.
      *
