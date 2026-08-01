@@ -42,14 +42,17 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
+            Dimension chartSize;
             if (chart == null) {
-                return new Dimension(0, 0);
+                chartSize = new Dimension(0, 0);
+            } else {
+                chartSize = new Dimension(chart.getWidth(), chart.getHeight());
             }
 
             var insets = getInsets();
 
-            var preferredWidth = chart.getWidth() + (insets.left + insets.right);
-            var preferredHeight = chart.getHeight() + (insets.top + insets.bottom);
+            var preferredWidth = chartSize.width + (insets.left + insets.right);
+            var preferredHeight = chartSize.height + (insets.top + insets.bottom);
 
             return new Dimension(preferredWidth, preferredHeight);
         }

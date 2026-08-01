@@ -79,8 +79,11 @@ public class ImagePane extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
+            Dimension imageSize;
             if (image == null) {
-                return new Dimension(0, 0);
+                imageSize = new Dimension(0, 0);
+            } else {
+                imageSize = new Dimension(image.getWidth(null), image.getHeight(null));
             }
 
             var insets = getInsets();
@@ -88,13 +91,10 @@ public class ImagePane extends JComponent {
             var width = Math.max(getWidth() - (insets.left + insets.right), 0);
             var height = Math.max(getHeight() - (insets.top + insets.bottom), 0);
 
-            var imageWidth = image.getWidth(null);
-            var imageHeight = image.getHeight(null);
+            var scale = getScale(width, height, imageSize.width, imageSize.height);
 
-            var scale = getScale(width, height, imageWidth, imageHeight);
-
-            var preferredWidth = scale * imageWidth + (insets.left + insets.right);
-            var preferredHeight = scale * imageHeight + (insets.top + insets.bottom);
+            var preferredWidth = scale * imageSize.width + (insets.left + insets.right);
+            var preferredHeight = scale * imageSize.height + (insets.top + insets.bottom);
 
             return new Dimension((int)Math.floor(preferredWidth), (int)Math.floor(preferredHeight));
         }
