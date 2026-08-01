@@ -23,7 +23,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 import java.util.HashSet;
 import java.util.Set;
@@ -83,6 +82,11 @@ public class ActivityIndicator extends JComponent {
 
             var foreground = getForeground();
 
+            var spokeWidth = indicatorSize / 3.0;
+            var spokeHeight = indicatorSize / 8.0;
+
+            var spokeShape = new RoundRectangle2D.Double(spokeWidth / 2, -spokeHeight / 2, spokeWidth, spokeHeight, spokeHeight, spokeHeight);
+
             for (var i = 0; i < SPOKE_COUNT; i++) {
                 var alpha = (int)Math.round((i * (1.0 / SPOKE_COUNT)) * 255);
 
@@ -99,8 +103,6 @@ public class ActivityIndicator extends JComponent {
     }
 
     private int indicatorSize;
-
-    private Shape spokeShape = null;
 
     private boolean active = false;
 
@@ -136,8 +138,6 @@ public class ActivityIndicator extends JComponent {
     public ActivityIndicator(int indicatorSize) {
         this.indicatorSize = indicatorSize;
 
-        updateSpokeShape();
-
         setUI(new ActivityIndicatorUI());
 
         setForeground(UIManager.getColor("Label.disabledForeground"));
@@ -160,23 +160,14 @@ public class ActivityIndicator extends JComponent {
      * The indicator size.
      */
     public void setIndicatorSize(int indicatorSize) {
-        this.indicatorSize = indicatorSize;
+        if (indicatorSize < 12) {
+            throw new IllegalArgumentException();
+        }
 
-        updateSpokeShape();
+        this.indicatorSize = indicatorSize;
 
         revalidate();
         repaint();
-    }
-
-    private void updateSpokeShape() {
-        if (indicatorSize < 12) {
-            throw new IllegalStateException();
-        }
-
-        var spokeWidth = indicatorSize / 3.0;
-        var spokeHeight = indicatorSize / 8.0;
-
-        spokeShape = new RoundRectangle2D.Double(spokeWidth / 2, -spokeHeight / 2, spokeWidth, spokeHeight, spokeHeight, spokeHeight);
     }
 
     /**
