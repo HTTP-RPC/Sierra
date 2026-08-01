@@ -104,7 +104,7 @@ public class ImagePane extends JComponent {
             paint((Graphics2D)graphics);
         }
 
-        private void paint(Graphics2D graphics) {
+        void paint(Graphics2D graphics) {
             if (image == null) {
                 return;
             }
@@ -151,7 +151,7 @@ public class ImagePane extends JComponent {
             graphics.dispose();
         }
 
-        private double getScale(int width, int height, int imageWidth, int imageHeight) {
+        double getScale(int width, int height, int imageWidth, int imageHeight) {
             return switch (scaleMode) {
                 case NONE -> 1.0;
                 case FILL_WIDTH -> width > 0 && imageWidth > 0 ? (double)width / imageWidth : 1.0;
@@ -172,7 +172,7 @@ public class ImagePane extends JComponent {
      * Constructs a new image pane.
      */
     public ImagePane() {
-        this(null);
+        setUI(new ImagePaneUI());
     }
 
     /**
@@ -182,9 +182,9 @@ public class ImagePane extends JComponent {
      * The image to display, or {@code null} for no image.
      */
     public ImagePane(Image image) {
-        this.image = image;
+        this();
 
-        setUI(new ImagePaneUI());
+        setImage(image);
     }
 
     /**
