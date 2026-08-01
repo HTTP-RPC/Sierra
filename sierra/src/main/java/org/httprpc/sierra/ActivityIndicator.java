@@ -136,7 +136,7 @@ public class ActivityIndicator extends JComponent {
      * The indicator size.
      */
     public ActivityIndicator(int indicatorSize) {
-        this.indicatorSize = indicatorSize;
+        setIndicatorSize(indicatorSize);
 
         setUI(new ActivityIndicatorUI());
 
