@@ -59,7 +59,7 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
             paint((Graphics2D)graphics);
         }
 
-        private void paint(Graphics2D graphics) {
+        void paint(Graphics2D graphics) {
             if (chart == null) {
                 return;
             }
@@ -82,7 +82,9 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
      * Constructs a new chart pane.
      */
     public ChartPane() {
-        this(null);
+        setUI(new ChartPaneUI());
+
+        setDoubleBuffered(true);
     }
 
     /**
@@ -92,11 +94,9 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
      * The chart to display, or {@code null} for no chart.
      */
     public ChartPane(C chart) {
-        this.chart = chart;
+        this();
 
-        setUI(new ChartPaneUI());
-
-        setDoubleBuffered(true);
+        setChart(chart);
     }
 
     /**
