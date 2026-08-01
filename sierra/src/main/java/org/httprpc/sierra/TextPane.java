@@ -164,7 +164,7 @@ public class TextPane extends JComponent {
 
     private String text;
 
-    private boolean wrapText = false;
+    private boolean wrapText = true;
 
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
@@ -218,12 +218,16 @@ public class TextPane extends JComponent {
 
     /**
      * Indicates that line wrapping is enabled. The default value is
-     * {@code false}.
+     * {@code true}.
      *
      * @return
      * {@code true} if the text will wrap when needed; {@code false},
      * otherwise.
+     *
+     * @deprecated
+     * This property is deprecated and will be removed in a future release.
      */
+    @Deprecated
     public boolean getWrapText() {
         return wrapText;
     }
@@ -233,7 +237,11 @@ public class TextPane extends JComponent {
      *
      * @param wrapText
      * {@code true} to enable line wrapping; {@code false} to disable it.
+     *
+     * @deprecated
+     * This property is deprecated and will be removed in a future release.
      */
+    @Deprecated
     public void setWrapText(boolean wrapText) {
         this.wrapText = wrapText;
 
