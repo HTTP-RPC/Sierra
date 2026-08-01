@@ -46,7 +46,7 @@
 <!ATTLIST tool-bar %javax.swing.JToolBar;>
 <!ENTITY % javax.swing.JTree "%javax.swing.JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) expandsSelectedPaths (true|false) invokesStopCellEditing (true|false) largeModel (true|false) rootVisible (true|false) rowHeight CDATA scrollsOnExpand (true|false) showsRootHandles (true|false) toggleClickCount CDATA visibleRowCount CDATA ">
 <!ENTITY % javax.swing.text.JTextComponent "%javax.swing.JComponent; caretColor CDATA caretPosition CDATA disabledTextColor CDATA dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) focusAccelerator CDATA selectedTextColor CDATA selectionColor CDATA selectionEnd CDATA selectionStart CDATA text CDATA ">
-<!ENTITY % org.httprpc.sierra.ActivityIndicator "%javax.swing.JComponent; indicatorSize CDATA ">
+<!ENTITY % org.httprpc.sierra.ActivityIndicator "%javax.swing.JComponent; indicatorSize CDATA indicatorStyle (small|medium|large) ">
 <!ELEMENT activity-indicator EMPTY>
 <!ATTLIST activity-indicator %org.httprpc.sierra.ActivityIndicator;>
 <!ENTITY % org.httprpc.sierra.Badge "%javax.swing.JComponent; outline CDATA text CDATA ">

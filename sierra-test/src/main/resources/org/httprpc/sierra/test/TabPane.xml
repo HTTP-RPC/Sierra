@@ -10,6 +10,6 @@
 
     <row-panel spacing="8" alignToBaseline="true">
         <button name="submitButton" text="Submit"/>
-        <activity-indicator name="activityIndicator" indicatorSize="18"/>
+        <activity-indicator name="activityIndicator"/>
     </row-panel>
 </form-panel>

@@ -7,9 +7,9 @@
 
     <row-panel spacing="16">
         <spacer weight="1"/>
-        <activity-indicator name="activityIndicator1" indicatorSize="12"/>
-        <activity-indicator name="activityIndicator2"/>
-        <activity-indicator name="activityIndicator3" indicatorSize="48"/>
+        <activity-indicator name="activityIndicator1" indicatorStyle="small"/>
+        <activity-indicator name="activityIndicator2" indicatorStyle="medium"/>
+        <activity-indicator name="activityIndicator3" indicatorStyle="large"/>
         <spacer weight="1"/>
     </row-panel>
 

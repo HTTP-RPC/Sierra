@@ -91,7 +91,7 @@ Elements can be nested to create a component hierarchy. For example:
         <button name="button" text="Execute Task"/>
         <label name="label" foreground="gray"/>
         <spacer weight="1"/>
-        <activity-indicator name="activityIndicator" indicatorSize="18"/>
+        <activity-indicator name="activityIndicator"/>
     </row-panel>
 </column-panel>
 ```
@@ -416,7 +416,7 @@ See [MenuButtonTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/Menu
 ## Activity Indicators
 The `ActivityIndicator` component shows indeterminate progress:
 
-<img src="README/activity-indicator.png" width="157px"/>
+<img src="README/activity-indicator.png" width="110px"/>
 
 See [ActivityIndicatorTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActivityIndicatorTest.java) for more information.
 

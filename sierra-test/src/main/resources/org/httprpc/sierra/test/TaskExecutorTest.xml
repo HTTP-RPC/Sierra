@@ -12,6 +12,6 @@
         <button name="button" text="Execute Task"/>
         <label name="label" foreground="gray"/>
         <spacer weight="1"/>
-        <activity-indicator name="activityIndicator" indicatorSize="18"/>
+        <activity-indicator name="activityIndicator"/>
     </row-panel>
 </column-panel>

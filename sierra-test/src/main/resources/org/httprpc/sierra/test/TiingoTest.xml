@@ -14,7 +14,7 @@
             <spinner name="countSpinner"/>
         </row-panel>
 
-        <activity-indicator name="activityIndicator" indicatorSize="18"/>
+        <activity-indicator name="activityIndicator"/>
 
         <spacer weight="1"/>
 

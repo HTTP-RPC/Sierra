@@ -31,6 +31,26 @@ import java.util.Set;
  * Shows indeterminate progress.
  */
 public class ActivityIndicator extends JComponent {
+    /**
+     * Indicator style options.
+     */
+    public enum IndicatorStyle {
+        /**
+         * Small.
+         */
+        SMALL,
+
+        /**
+         * Medium.
+         */
+        MEDIUM,
+
+        /**
+         * Large.
+         */
+        LARGE
+    }
+
     private class ActivityIndicatorUI extends ComponentUI {
         @Override
         public Dimension getMinimumSize(JComponent component) {
@@ -46,6 +66,8 @@ public class ActivityIndicator extends JComponent {
         public Dimension getPreferredSize(JComponent component) {
             var insets = getInsets();
 
+            var indicatorSize = getIndicatorSize();
+
             var preferredWidth = indicatorSize + (insets.left + insets.right);
             var preferredHeight = indicatorSize + (insets.top + insets.bottom);
 
@@ -57,7 +79,7 @@ public class ActivityIndicator extends JComponent {
             paint((Graphics2D)graphics);
         }
 
-        private void paint(Graphics2D graphics) {
+        void paint(Graphics2D graphics) {
             if (!active) {
                 return;
             }
@@ -70,6 +92,8 @@ public class ActivityIndicator extends JComponent {
             graphics = (Graphics2D)graphics.create();
 
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            var indicatorSize = getIndicatorSize();
 
             var radius = indicatorSize / 2;
 
@@ -100,9 +124,19 @@ public class ActivityIndicator extends JComponent {
 
             graphics.dispose();
         }
+
+        int getIndicatorSize() {
+            return (indicatorSize > 0) ? indicatorSize : switch (indicatorStyle) {
+                case SMALL -> 12;
+                case MEDIUM -> 18;
+                case LARGE -> 24;
+            };
+        }
     }
 
-    private int indicatorSize;
+    private IndicatorStyle indicatorStyle = IndicatorStyle.MEDIUM;
+
+    private int indicatorSize = 0;
 
     private boolean active = false;
 
@@ -126,7 +160,21 @@ public class ActivityIndicator extends JComponent {
      * Constructs a new activity indicator.
      */
     public ActivityIndicator() {
-        this(24);
+        setUI(new ActivityIndicatorUI());
+
+        setForeground(UIManager.getColor("Label.disabledForeground"));
+    }
+
+    /**
+     * Constructs a new activity indicator.
+     *
+     * @param indicatorStyle
+     * The indicator style.
+     */
+    public ActivityIndicator(IndicatorStyle indicatorStyle) {
+        this();
+
+        setIndicatorStyle(indicatorStyle);
     }
 
     /**
@@ -134,13 +182,42 @@ public class ActivityIndicator extends JComponent {
      *
      * @param indicatorSize
      * The indicator size.
+     *
+     * @deprecated
+     * Use {@link ActivityIndicator(IndicatorStyle)} instead.
      */
+    @Deprecated
     public ActivityIndicator(int indicatorSize) {
+        this();
+
         setIndicatorSize(indicatorSize);
+    }
 
-        setUI(new ActivityIndicatorUI());
+    /**
+     * Returns the indicator style. The default value is {@link IndicatorStyle#MEDIUM}.
+     *
+     * @return
+     * The indicator style.
+     */
+    public IndicatorStyle getIndicatorStyle() {
+        return indicatorStyle;
+    }
 
-        setForeground(UIManager.getColor("Label.disabledForeground"));
+    /**
+     * Sets the indicator style.
+     *
+     * @param indicatorStyle
+     * The indicator style.
+     */
+    public void setIndicatorStyle(IndicatorStyle indicatorStyle) {
+        if (indicatorStyle == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.indicatorStyle = indicatorStyle;
+
+        revalidate();
+        repaint();
     }
 
     /**
@@ -148,7 +225,11 @@ public class ActivityIndicator extends JComponent {
      *
      * @return
      * The indicator size.
+     *
+     * @deprecated
+     * Use {@link #getIndicatorStyle()} instead.
      */
+    @Deprecated
     public int getIndicatorSize() {
         return indicatorSize;
     }
@@ -158,7 +239,11 @@ public class ActivityIndicator extends JComponent {
      *
      * @param indicatorSize
      * The indicator size.
+     *
+     * @deprecated
+     * Use {@link #setIndicatorStyle(IndicatorStyle)} instead.
      */
+    @Deprecated
     public void setIndicatorSize(int indicatorSize) {
         if (indicatorSize < 12) {
             throw new IllegalArgumentException();
