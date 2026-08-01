@@ -22,6 +22,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import static org.httprpc.kilo.util.Optionals.*;
+
 /**
  * Displays a chart.
  *
@@ -42,17 +44,13 @@ public class ChartPane<C extends Chart<?, ?>> extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            Dimension chartSize;
-            if (chart == null) {
-                chartSize = new Dimension(0, 0);
-            } else {
-                chartSize = new Dimension(chart.getWidth(), chart.getHeight());
-            }
-
             var insets = getInsets();
 
-            var preferredWidth = chartSize.width + (insets.left + insets.right);
-            var preferredHeight = chartSize.height + (insets.top + insets.bottom);
+            var chartWidth = coalesce(map(chart, Chart::getWidth), () -> 0);
+            var chartHeight = coalesce(map(chart, Chart::getHeight), () -> 0);
+
+            var preferredWidth = chartWidth + (insets.left + insets.right);
+            var preferredHeight = chartHeight + (insets.top + insets.bottom);
 
             return new Dimension(preferredWidth, preferredHeight);
         }

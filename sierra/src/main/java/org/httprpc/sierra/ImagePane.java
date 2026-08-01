@@ -21,6 +21,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.image.RenderedImage;
+
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Displays an image.
@@ -79,22 +82,18 @@ public class ImagePane extends JComponent {
 
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            Dimension imageSize;
-            if (image == null) {
-                imageSize = new Dimension(0, 0);
-            } else {
-                imageSize = new Dimension(image.getWidth(null), image.getHeight(null));
-            }
-
             var insets = getInsets();
 
             var width = Math.max(getWidth() - (insets.left + insets.right), 0);
             var height = Math.max(getHeight() - (insets.top + insets.bottom), 0);
 
-            var scale = getScale(width, height, imageSize.width, imageSize.height);
+            var imageWidth = coalesce(map((RenderedImage)image, RenderedImage::getWidth), () -> 0);
+            var imageHeight = coalesce(map((RenderedImage)image, RenderedImage::getHeight), () -> 0);
 
-            var preferredWidth = scale * imageSize.width + (insets.left + insets.right);
-            var preferredHeight = scale * imageSize.height + (insets.top + insets.bottom);
+            var scale = getScale(width, height, imageWidth, imageHeight);
+
+            var preferredWidth = scale * imageWidth + (insets.left + insets.right);
+            var preferredHeight = scale * imageHeight + (insets.top + insets.bottom);
 
             return new Dimension((int)Math.floor(preferredWidth), (int)Math.floor(preferredHeight));
         }
@@ -114,8 +113,8 @@ public class ImagePane extends JComponent {
             var width = Math.max(getWidth() - (insets.left + insets.right), 0);
             var height = Math.max(getHeight() - (insets.top + insets.bottom), 0);
 
-            var imageWidth = image.getWidth(null);
-            var imageHeight = image.getHeight(null);
+            var imageWidth = map((RenderedImage)image, RenderedImage::getWidth);
+            var imageHeight = map((RenderedImage)image, RenderedImage::getHeight);
 
             var scale = getScale(width, height, imageWidth, imageHeight);
 
@@ -204,6 +203,10 @@ public class ImagePane extends JComponent {
      * The image to display, or {@code null} for no image.
      */
     public void setImage(Image image) {
+        if (!(image instanceof RenderedImage)) {
+            throw new IllegalArgumentException();
+        }
+
         this.image = image;
 
         revalidate();
