@@ -69,7 +69,7 @@ public class Badge extends JComponent {
             paint((Graphics2D)graphics);
         }
 
-        private void paint(Graphics2D graphics) {
+        void paint(Graphics2D graphics) {
             var insets = getInsets();
 
             var width = Math.max(getWidth() - (insets.left + insets.right), 0);
@@ -142,7 +142,12 @@ public class Badge extends JComponent {
      * Constructs a new badge.
      */
     public Badge() {
-        this(null);
+        setForeground(UIManager.getColor("Panel.background"));
+        setBackground(UIManager.getColor("Label.disabledForeground"));
+
+        setFont(UIManager.getFont("Label.font"));
+
+        setUI(new BadgeUI());
     }
 
     /**
@@ -152,14 +157,9 @@ public class Badge extends JComponent {
      * The badge text, or {@code null} for no text.
      */
     public Badge(String text) {
-        this.text = text;
+        this();
 
-        setForeground(UIManager.getColor("Panel.background"));
-        setBackground(UIManager.getColor("Label.disabledForeground"));
-
-        setFont(UIManager.getFont("Label.font"));
-
-        setUI(new BadgeUI());
+        setText(text);
     }
 
     /**
