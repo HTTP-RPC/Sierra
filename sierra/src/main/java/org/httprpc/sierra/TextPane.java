@@ -110,7 +110,7 @@ public class TextPane extends JComponent {
             paint((Graphics2D)graphics);
         }
 
-        private void paint(Graphics2D graphics) {
+        void paint(Graphics2D graphics) {
             if (glyphVectors.isEmpty()) {
                 return;
             }
@@ -176,7 +176,9 @@ public class TextPane extends JComponent {
      * Constructs a new text pane.
      */
     public TextPane() {
-        this(null);
+        setFont(UIManager.getFont("Label.font"));
+
+        setUI(new TextPaneUI());
     }
 
     /**
@@ -186,11 +188,9 @@ public class TextPane extends JComponent {
      * The text to display, or {@code null} for no text.
      */
     public TextPane(String text) {
-        this.text = text;
+        this();
 
-        setFont(UIManager.getFont("Label.font"));
-
-        setUI(new TextPaneUI());
+        setText(text);
     }
 
     /**
