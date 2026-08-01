@@ -18,8 +18,10 @@ import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.text.StringCharacterIterator;
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class TextPane extends JComponent {
 
             double textWidth;
             double textHeight;
-            if (width > 0) {
+            if (wrapText && width > 0) {
                 var lineHeight = font.getLineMetrics("", fontRenderContext).getHeight();
 
                 textWidth = 0.0;
@@ -122,11 +124,7 @@ public class TextPane extends JComponent {
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-            var lineMetrics = font.getLineMetrics("", fontRenderContext);
-
-            var lineHeight = lineMetrics.getHeight();
-
-            var textHeight = glyphVectors.size() * lineHeight;
+            var ascent = font.getLineMetrics("", fontRenderContext).getAscent();
 
             var y = switch (verticalAlignment) {
                 case TOP -> insets.top;
@@ -139,8 +137,6 @@ public class TextPane extends JComponent {
             graphics.setColor(getForeground());
             graphics.setFont(font);
 
-            var ascent = lineMetrics.getAscent();
-
             var n = glyphVectors.size();
 
             for (var i = 0; i < n; i++) {
@@ -148,7 +144,7 @@ public class TextPane extends JComponent {
 
                 var lineBounds = glyphVector.getLogicalBounds();
 
-                var lineWidth = (float)lineBounds.getWidth();
+                var lineWidth = lineBounds.getWidth();
 
                 var x = switch (horizontalAlignment.getLocalizedValue(TextPane.this)) {
                     case LEFT -> insets.left;
@@ -157,9 +153,9 @@ public class TextPane extends JComponent {
                     default -> throw new UnsupportedOperationException();
                 };
 
-                graphics.drawGlyphVector(glyphVector, x, y + ascent);
+                graphics.drawGlyphVector(glyphVector, (float)x, (float)y + ascent);
 
-                y += lineHeight;
+                y += lineBounds.getHeight();
             }
 
             graphics.dispose();
@@ -168,10 +164,13 @@ public class TextPane extends JComponent {
 
     private String text;
 
+    private boolean wrapText = false;
+
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
 
     private List<GlyphVector> glyphVectors = new ArrayList<>();
+    private double textHeight = 0.0;
 
     /**
      * Constructs a new text pane.
@@ -212,6 +211,31 @@ public class TextPane extends JComponent {
      */
     public void setText(String text) {
         this.text = text;
+
+        revalidate();
+        repaint();
+    }
+
+    /**
+     * Indicates that line wrapping is enabled. The default value is
+     * {@code false}.
+     *
+     * @return
+     * {@code true} if the text will wrap when needed; {@code false},
+     * otherwise.
+     */
+    public boolean getWrapText() {
+        return wrapText;
+    }
+
+    /**
+     * Toggles line wrapping.
+     *
+     * @param wrapText
+     * {@code true} to enable line wrapping; {@code false} to disable it.
+     */
+    public void setWrapText(boolean wrapText) {
+        this.wrapText = wrapText;
 
         revalidate();
         repaint();
@@ -275,45 +299,57 @@ public class TextPane extends JComponent {
     public void doLayout() {
         glyphVectors.clear();
 
-        if (text == null) {
-            return;
-        }
+        textHeight = 0.0;
 
-        var insets = getInsets();
+        if (text != null && !text.isEmpty()) {
+            var insets = getInsets();
 
-        var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
 
-        var font = getFont();
-        var fontRenderContext = getFontMetrics(font).getFontRenderContext();
+            var font = getFont();
+            var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-        var n = text.length();
+            if (wrapText) {
+                var n = text.length();
 
-        var i = 0;
-        var start = 0;
-        var lastWhitespaceIndex = -1;
-        var lineWidth = 0.0;
+                var i = 0;
+                var start = 0;
+                var lineWidth = 0.0;
+                var lastWhitespaceIndex = -1;
 
-        while (i < n) {
-            var c = text.charAt(i);
+                while (i < n) {
+                    var c = text.charAt(i);
 
-            if (Character.isWhitespace(c)) {
-                lastWhitespaceIndex = i;
+                    if (Character.isWhitespace(c)) {
+                        lastWhitespaceIndex = i;
+                    }
+
+                    lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
+
+                    if (lineWidth > width && lastWhitespaceIndex != -1) {
+                        appendLine(font, fontRenderContext, start, lastWhitespaceIndex);
+
+                        i = lastWhitespaceIndex;
+                        start = i + 1;
+                        lineWidth = 0.0;
+                        lastWhitespaceIndex = -1;
+                    }
+
+                    i++;
+                }
+
+                appendLine(font, fontRenderContext, start, i);
+            } else {
+                appendLine(font, fontRenderContext, 0, text.length());
             }
-
-            lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
-
-            if (lineWidth > width && lastWhitespaceIndex != -1) {
-                glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, start, lastWhitespaceIndex, start)));
-
-                i = lastWhitespaceIndex;
-                start = i + 1;
-                lineWidth = 0.0;
-                lastWhitespaceIndex = -1;
-            }
-
-            i++;
         }
+    }
 
-        glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, start, i, start)));
+    private void appendLine(Font font, FontRenderContext fontRenderContext, int start, int end) {
+        var glyphVector = font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, start, end, start));
+
+        glyphVectors.add(glyphVector);
+
+        textHeight += glyphVector.getLogicalBounds().getHeight();
     }
 }
