@@ -34,59 +34,14 @@ public class TextPane extends JComponent {
     private class TextPaneUI extends ComponentUI {
         @Override
         public Dimension getPreferredSize(JComponent component) {
-            if (text == null) {
-                return new Dimension(0, 0);
-            }
+            doLayout();
 
             var insets = getInsets();
 
-            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+            var textWidth = 0.0;
 
-            var font = getFont();
-            var fontRenderContext = getFontMetrics(font).getFontRenderContext();
-
-            double textWidth;
-            double textHeight;
-            if (width > 0) {
-                var lineHeight = font.getLineMetrics("", fontRenderContext).getHeight();
-
-                textWidth = 0.0;
-                textHeight = lineHeight;
-
-                var lineWidth = 0.0;
-                var lastWhitespaceIndex = -1;
-
-                var n = text.length();
-                var i = 0;
-
-                while (i < n) {
-                    var c = text.charAt(i);
-
-                    if (Character.isWhitespace(c)) {
-                        lastWhitespaceIndex = i;
-                    }
-
-                    lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
-
-                    if (lineWidth > width && lastWhitespaceIndex != -1) {
-                        textWidth = Math.max(lineWidth, textWidth);
-                        textHeight += lineHeight;
-
-                        i = lastWhitespaceIndex;
-
-                        lineWidth = 0.0;
-                        lastWhitespaceIndex = -1;
-                    }
-
-                    i++;
-                }
-
-                textWidth = Math.max(lineWidth, textWidth);
-            } else {
-                var stringBounds = font.getStringBounds(text, fontRenderContext);
-
-                textWidth = stringBounds.getWidth();
-                textHeight = stringBounds.getHeight();
+            for (var glyphVector : glyphVectors) {
+                textWidth = Math.max(textWidth, glyphVector.getLogicalBounds().getWidth());
             }
 
             var preferredWidth = textWidth + (insets.left + insets.right);
@@ -274,6 +229,11 @@ public class TextPane extends JComponent {
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
             var n = text.length();
+
+            if (width == 0) {
+                appendLine(font, fontRenderContext, 0, n);
+                return;
+            }
 
             var i = 0;
             var start = 0;
