@@ -15,75 +15,42 @@
 package org.httprpc.sierra;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.UIManager;
-import javax.swing.plaf.ComponentUI;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicLabelUI;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
 import java.awt.geom.RoundRectangle2D;
-import java.util.Map;
-
-import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Displays a small amount of status information.
  */
-public class Badge extends JComponent {
-    private class BadgeUI extends ComponentUI {
-        @Override
-        public Dimension getMinimumSize(JComponent component) {
-            return new Dimension(0, 0);
-        }
-
-        @Override
-        public Dimension getMaximumSize(JComponent component) {
-            return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        }
-
-        @Override
-        public Dimension getPreferredSize(JComponent component) {
-            var insets = getInsets();
-
-            var font = getFont();
-            var fontRenderContext = getFontMetrics(font).getFontRenderContext();
-
-            var stringBounds = font.getStringBounds(coalesce(text, () -> ""), fontRenderContext);
-
-            var textWidth = stringBounds.getWidth();
-            var textHeight = stringBounds.getHeight();
-
-            var arc = textHeight * (1.0 + MARGIN * 2);
-
-            var preferredWidth = textWidth + arc + (insets.left + insets.right);
-            var preferredHeight = arc + (insets.top + insets.bottom);
-
-            return new Dimension((int)Math.ceil(preferredWidth), (int)Math.ceil(preferredHeight));
-        }
-
+public class Badge extends JLabel {
+    private class BadgeUI extends BasicLabelUI {
         @Override
         public void paint(Graphics graphics, JComponent component) {
-            paint((Graphics2D)graphics);
+            paintBackground((Graphics2D)graphics);
+
+            super.paint(graphics, component);
         }
 
-        void paint(Graphics2D graphics) {
+        void paintBackground(Graphics2D graphics) {
             var insets = getInsets();
 
-            var width = Math.max(getWidth() - (insets.left + insets.right), 0);
+            var width = getWidth();
+
             var height = Math.max(getHeight() - (insets.top + insets.bottom), 0);
 
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-            var text = coalesce(Badge.this.text, () -> "");
-
-            var stringBounds = font.getStringBounds(text, fontRenderContext);
-
-            var textWidth = stringBounds.getWidth();
-            var textHeight = stringBounds.getHeight();
+            var textHeight = font.getLineMetrics("", fontRenderContext).getHeight();
 
             var arc = textHeight * (1.0 + MARGIN * 2);
 
@@ -97,31 +64,13 @@ public class Badge extends JComponent {
 
             graphics.setColor(getBackground());
 
-            graphics.fill(new RoundRectangle2D.Double(insets.left, y, width, arc, arc, arc));
-
-            if (!text.isEmpty()) {
-                var toolkit = Toolkit.getDefaultToolkit();
-
-                if (toolkit.getDesktopProperty("awt.font.desktophints") instanceof Map<?, ?> desktopHints) {
-                    graphics.addRenderingHints(desktopHints);
-                }
-
-                graphics.setColor(getForeground());
-                graphics.setFont(font);
-
-                var textX = (width - textWidth) / 2 + insets.left;
-                var textY = (height - textHeight) / 2 + insets.top;
-
-                var ascent = font.getLineMetrics(text, fontRenderContext).getAscent();
-
-                graphics.drawString(text, (float)textX, (float)textY + ascent);
-            }
+            graphics.fill(new RoundRectangle2D.Double(0, y, width, arc, arc, arc));
 
             if (outline != null) {
                 graphics.setColor(outline);
                 graphics.setStroke(new BasicStroke(OUTLINE_THICKNESS));
 
-                graphics.draw(new RoundRectangle2D.Double(insets.left + OUTLINE_THICKNESS / 2, y + OUTLINE_THICKNESS / 2,
+                graphics.draw(new RoundRectangle2D.Double(OUTLINE_THICKNESS / 2, y + OUTLINE_THICKNESS / 2,
                     width - OUTLINE_THICKNESS, arc - OUTLINE_THICKNESS,
                     arc, arc));
             }
@@ -130,7 +79,30 @@ public class Badge extends JComponent {
         }
     }
 
-    private String text;
+    private class BadgeBorder implements Border {
+        @Override
+        public void paintBorder(Component component, Graphics graphics, int x, int y, int width, int height) {
+            // No-op
+        }
+
+        @Override
+        public Insets getBorderInsets(Component component) {
+            var font = getFont();
+            var fontRenderContext = getFontMetrics(font).getFontRenderContext();
+
+            var textHeight = font.getLineMetrics("", fontRenderContext).getHeight();
+
+            var vertical = (int)Math.ceil(textHeight * MARGIN);
+            var horizontal = vertical * 2;
+
+            return new Insets(vertical, horizontal, vertical, horizontal);
+        }
+
+        @Override
+        public boolean isBorderOpaque() {
+            return false;
+        }
+    }
 
     private Color outline = null;
 
@@ -143,11 +115,12 @@ public class Badge extends JComponent {
      */
     public Badge() {
         setUI(new BadgeUI());
+        setBorder(new BadgeBorder());
 
         setForeground(UIManager.getColor("Panel.background"));
         setBackground(UIManager.getColor("Label.disabledForeground"));
 
-        setFont(UIManager.getFont("Label.font"));
+        setHorizontalAlignment(CENTER);
     }
 
     /**
@@ -160,29 +133,6 @@ public class Badge extends JComponent {
         this();
 
         setText(text);
-    }
-
-    /**
-     * Returns the badge text.
-     *
-     * @return
-     * The badge text.
-     */
-    public String getText() {
-        return text;
-    }
-
-    /**
-     * Sets the badge text.
-     *
-     * @param text
-     * The badge text, or {@code null} for no text.
-     */
-    public void setText(String text) {
-        this.text = text;
-
-        revalidate();
-        repaint();
     }
 
     /**
