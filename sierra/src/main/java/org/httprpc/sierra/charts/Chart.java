@@ -285,8 +285,8 @@ public abstract class Chart<K extends Comparable<? super K>, V> {
 
         var columnWidth = 0.0;
 
-        for (var label : bottomAxisTextPanes) {
-            columnWidth = Math.max(columnWidth, label.getWidth());
+        for (var textPane : bottomAxisTextPanes) {
+            columnWidth = Math.max(columnWidth, textPane.getWidth());
         }
 
         if (getKeys() == null || isTransposed()) {
