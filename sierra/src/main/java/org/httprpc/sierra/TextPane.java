@@ -33,16 +33,6 @@ import java.util.List;
 public class TextPane extends JComponent {
     private class TextPaneUI extends ComponentUI {
         @Override
-        public Dimension getMinimumSize(JComponent component) {
-            return new Dimension(0, 0);
-        }
-
-        @Override
-        public Dimension getMaximumSize(JComponent component) {
-            return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        }
-
-        @Override
         public Dimension getPreferredSize(JComponent component) {
             if (text == null) {
                 return new Dimension(0, 0);
