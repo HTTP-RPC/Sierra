@@ -6,7 +6,7 @@
     <row-panel spacing="16" border="silver" padding="16" opaque="true" background="white" weight="1">
         <spacer weight="1"/>
         <activity-indicator name="activityIndicator1" indicatorStyle="small"/>
-        <activity-indicator name="activityIndicator2" indicatorStyle="medium"/>
+        <activity-indicator name="activityIndicator2"/>
         <activity-indicator name="activityIndicator3" indicatorStyle="large"/>
         <spacer weight="1"/>
     </row-panel>
