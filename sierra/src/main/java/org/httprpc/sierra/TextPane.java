@@ -57,7 +57,7 @@ public class TextPane extends JComponent {
 
             double textWidth;
             double textHeight;
-            if (wrapText && width > 0) {
+            if (width > 0) {
                 var lineHeight = font.getLineMetrics("", fontRenderContext).getHeight();
 
                 textWidth = 0.0;
@@ -164,12 +164,11 @@ public class TextPane extends JComponent {
 
     private String text;
 
-    private boolean wrapText = true;
-
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEADING;
     private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
 
     private List<GlyphVector> glyphVectors = new ArrayList<>();
+
     private double textHeight = 0.0;
 
     /**
@@ -211,39 +210,6 @@ public class TextPane extends JComponent {
      */
     public void setText(String text) {
         this.text = text;
-
-        revalidate();
-        repaint();
-    }
-
-    /**
-     * Indicates that line wrapping is enabled. The default value is
-     * {@code true}.
-     *
-     * @return
-     * {@code true} if the text will wrap when needed; {@code false},
-     * otherwise.
-     *
-     * @deprecated
-     * This property is deprecated and will be removed in a future release.
-     */
-    @Deprecated
-    public boolean getWrapText() {
-        return wrapText;
-    }
-
-    /**
-     * Toggles line wrapping.
-     *
-     * @param wrapText
-     * {@code true} to enable line wrapping; {@code false} to disable it.
-     *
-     * @deprecated
-     * This property is deprecated and will be removed in a future release.
-     */
-    @Deprecated
-    public void setWrapText(boolean wrapText) {
-        this.wrapText = wrapText;
 
         revalidate();
         repaint();
@@ -317,39 +283,35 @@ public class TextPane extends JComponent {
             var font = getFont();
             var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-            if (wrapText) {
-                var n = text.length();
+            var n = text.length();
 
-                var i = 0;
-                var start = 0;
-                var lineWidth = 0.0;
-                var lastWhitespaceIndex = -1;
+            var i = 0;
+            var start = 0;
+            var lineWidth = 0.0;
+            var lastWhitespaceIndex = -1;
 
-                while (i < n) {
-                    var c = text.charAt(i);
+            while (i < n) {
+                var c = text.charAt(i);
 
-                    if (Character.isWhitespace(c)) {
-                        lastWhitespaceIndex = i;
-                    }
-
-                    lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
-
-                    if (lineWidth > width && lastWhitespaceIndex != -1) {
-                        appendLine(font, fontRenderContext, start, lastWhitespaceIndex);
-
-                        i = lastWhitespaceIndex;
-                        start = i + 1;
-                        lineWidth = 0.0;
-                        lastWhitespaceIndex = -1;
-                    }
-
-                    i++;
+                if (Character.isWhitespace(c)) {
+                    lastWhitespaceIndex = i;
                 }
 
-                appendLine(font, fontRenderContext, start, i);
-            } else {
-                appendLine(font, fontRenderContext, 0, text.length());
+                lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
+
+                if (lineWidth > width && lastWhitespaceIndex != -1) {
+                    appendLine(font, fontRenderContext, start, lastWhitespaceIndex);
+
+                    i = lastWhitespaceIndex;
+                    start = i + 1;
+                    lineWidth = 0.0;
+                    lastWhitespaceIndex = -1;
+                }
+
+                i++;
             }
+
+            appendLine(font, fontRenderContext, start, i);
         }
     }
 

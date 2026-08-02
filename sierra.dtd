@@ -58,7 +58,7 @@
 <!ENTITY % org.httprpc.sierra.Spacer "%javax.swing.JComponent; ">
 <!ELEMENT spacer EMPTY>
 <!ATTLIST spacer %org.httprpc.sierra.Spacer;>
-<!ENTITY % org.httprpc.sierra.TextPane "%javax.swing.JComponent; horizontalAlignment (left|right|center|leading|trailing) text CDATA verticalAlignment (top|bottom|center) wrapText (true|false) ">
+<!ENTITY % org.httprpc.sierra.TextPane "%javax.swing.JComponent; horizontalAlignment (left|right|center|leading|trailing) text CDATA verticalAlignment (top|bottom|center) ">
 <!ELEMENT text-pane EMPTY>
 <!ATTLIST text-pane %org.httprpc.sierra.TextPane;>
 <!ENTITY % javax.swing.JButton "%javax.swing.AbstractButton; defaultCapable (true|false) ">
