@@ -142,12 +142,12 @@ public class Badge extends JComponent {
      * Constructs a new badge.
      */
     public Badge() {
+        setUI(new BadgeUI());
+
         setForeground(UIManager.getColor("Panel.background"));
         setBackground(UIManager.getColor("Label.disabledForeground"));
 
         setFont(UIManager.getFont("Label.font"));
-
-        setUI(new BadgeUI());
     }
 
     /**

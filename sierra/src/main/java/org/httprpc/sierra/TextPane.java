@@ -176,9 +176,9 @@ public class TextPane extends JComponent {
      * Constructs a new text pane.
      */
     public TextPane() {
-        setFont(UIManager.getFont("Label.font"));
-
         setUI(new TextPaneUI());
+
+        setFont(UIManager.getFont("Label.font"));
     }
 
     /**
