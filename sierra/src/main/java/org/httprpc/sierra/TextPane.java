@@ -18,10 +18,8 @@ import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.text.StringCharacterIterator;
 import java.util.ArrayList;
@@ -236,45 +234,44 @@ public class TextPane extends JComponent {
         var font = getFont();
         var fontRenderContext = getFontMetrics(font).getFontRenderContext();
 
-        var n = text.length();
-
         if (width == 0) {
-            appendLine(font, fontRenderContext, 0, n);
-            return;
-        }
+            glyphVectors.add(font.createGlyphVector(fontRenderContext, text));
+        } else {
+            var n = text.length();
 
-        var i = 0;
-        var start = 0;
-        var lineWidth = 0.0;
-        var lastWhitespaceIndex = -1;
+            var i = 0;
+            var j = 0;
 
-        while (i < n) {
-            var c = text.charAt(i);
+            var k = -1;
 
-            if (Character.isWhitespace(c)) {
-                lastWhitespaceIndex = i;
+            var lineWidth = 0.0;
+
+            while (i < n) {
+                var c = text.charAt(i);
+
+                if (Character.isWhitespace(c)) {
+                    k = i;
+                }
+
+                lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
+
+                if (lineWidth > width && k != -1) {
+                    glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, j, k, j)));
+
+                    k++;
+
+                    i = k;
+                    j = k;
+
+                    k = -1;
+
+                    lineWidth = 0.0;
+                } else {
+                    i++;
+                }
             }
 
-            lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
-
-            if (lineWidth > width && lastWhitespaceIndex != -1) {
-                appendLine(font, fontRenderContext, start, lastWhitespaceIndex);
-
-                i = lastWhitespaceIndex;
-                start = i + 1;
-                lineWidth = 0.0;
-                lastWhitespaceIndex = -1;
-            }
-
-            i++;
+            glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, j, i, j)));
         }
-
-        appendLine(font, fontRenderContext, start, i);
-    }
-
-    private void appendLine(Font font, FontRenderContext fontRenderContext, int start, int end) {
-        var glyphVector = font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, start, end, start));
-
-        glyphVectors.add(glyphVector);
     }
 }
