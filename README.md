@@ -416,14 +416,14 @@ See [MenuButtonTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/Menu
 ## Activity Indicators
 The `ActivityIndicator` component shows indeterminate progress:
 
-<img src="README/activity-indicator.png" width="110px"/>
+<img src="README/activity-indicator.png" width="102px"/>
 
 See [ActivityIndicatorTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/ActivityIndicatorTest.java) for more information.
 
 ## Badges
 The `Badge` component displays a small amount of status information:
 
-<img src="README/badge.png" width="354px"/>
+<img src="README/badge.png" width="324px"/>
 
 See [BadgeTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/BadgeTest.java) for more information.
 

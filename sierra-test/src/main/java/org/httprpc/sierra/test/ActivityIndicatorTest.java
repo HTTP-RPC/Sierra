@@ -45,7 +45,7 @@ public class ActivityIndicatorTest extends JFrame implements Runnable {
 
         toggleButton.addActionListener(event -> toggleActivityIndicators(toggleButton.isSelected()));
 
-        setSize(360, 240);
+        setSize(320, 240);
         setVisible(true);
     }
 

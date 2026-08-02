@@ -126,7 +126,7 @@ public class ActivityIndicator extends JComponent {
         }
 
         int getIndicatorSize() {
-            return (indicatorSize > 0) ? indicatorSize : switch (indicatorStyle) {
+            return switch (indicatorStyle) {
                 case SMALL -> 12;
                 case MEDIUM -> 18;
                 case LARGE -> 24;
@@ -135,8 +135,6 @@ public class ActivityIndicator extends JComponent {
     }
 
     private IndicatorStyle indicatorStyle = IndicatorStyle.MEDIUM;
-
-    private int indicatorSize = 0;
 
     private boolean active = false;
 
@@ -178,22 +176,6 @@ public class ActivityIndicator extends JComponent {
     }
 
     /**
-     * Constructs a new activity indicator.
-     *
-     * @param indicatorSize
-     * The indicator size.
-     *
-     * @deprecated
-     * Use {@link ActivityIndicator(IndicatorStyle)} instead.
-     */
-    @Deprecated
-    public ActivityIndicator(int indicatorSize) {
-        this();
-
-        setIndicatorSize(indicatorSize);
-    }
-
-    /**
      * Returns the indicator style. The default value is {@link IndicatorStyle#MEDIUM}.
      *
      * @return
@@ -215,41 +197,6 @@ public class ActivityIndicator extends JComponent {
         }
 
         this.indicatorStyle = indicatorStyle;
-
-        revalidate();
-        repaint();
-    }
-
-    /**
-     * Returns the indicator size.
-     *
-     * @return
-     * The indicator size.
-     *
-     * @deprecated
-     * Use {@link #getIndicatorStyle()} instead.
-     */
-    @Deprecated
-    public int getIndicatorSize() {
-        return indicatorSize;
-    }
-
-    /**
-     * Sets the indicator size.
-     *
-     * @param indicatorSize
-     * The indicator size.
-     *
-     * @deprecated
-     * Use {@link #setIndicatorStyle(IndicatorStyle)} instead.
-     */
-    @Deprecated
-    public void setIndicatorSize(int indicatorSize) {
-        if (indicatorSize < 12) {
-            throw new IllegalArgumentException();
-        }
-
-        this.indicatorSize = indicatorSize;
 
         revalidate();
         repaint();
