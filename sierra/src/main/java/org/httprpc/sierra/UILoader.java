@@ -850,7 +850,7 @@ public class UILoader {
             paintBorder((JComponent)component, (Graphics2D)graphics, x, y, width, height);
         }
 
-        private void paintBorder(JComponent component, Graphics2D graphics, int x, int y, int width, int height) {
+        void paintBorder(JComponent component, Graphics2D graphics, int x, int y, int width, int height) {
             graphics = (Graphics2D)graphics.create();
 
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -910,7 +910,7 @@ public class UILoader {
             return cornerRadius == 0;
         }
 
-        private static Color getOpaqueBackground(Component component) {
+        static Color getOpaqueBackground(Component component) {
             if (component == null || component instanceof StackPanel) {
                 return null;
             } else if (component.isOpaque()) {
