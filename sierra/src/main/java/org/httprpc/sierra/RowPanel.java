@@ -129,6 +129,8 @@ public class RowPanel extends BoxPanel {
 
             excessWidth = Math.max(excessWidth - spacing * (n - 1), 0);
 
+            var remainingWidth = excessWidth;
+
             var leftToRight = getComponentOrientation().isLeftToRight();
 
             int x;
@@ -144,7 +146,13 @@ public class RowPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (!Double.isNaN(weight)) {
-                    component.setSize((int)Math.round(excessWidth * (weight / totalWeight)), component.getHeight());
+                    if (i < n - 1) {
+                        component.setSize((int)Math.round(excessWidth * (weight / totalWeight)), component.getHeight());
+
+                        remainingWidth -= component.getWidth();
+                    } else {
+                        component.setSize(remainingWidth, component.getHeight());
+                    }
                 }
 
                 int y;
