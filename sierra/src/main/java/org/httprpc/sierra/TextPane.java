@@ -78,24 +78,20 @@ public class TextPane extends JComponent {
 
             var textHeight = glyphVectors.size() * lineHeight;
 
-            var ascent = lineMetrics.getAscent();
-
             var y = switch (verticalAlignment) {
                 case TOP -> insets.top;
                 case BOTTOM -> size.height - (textHeight + insets.bottom);
                 case CENTER -> insets.top + (height - textHeight) / 2;
             };
 
+            var ascent = lineMetrics.getAscent();
+
             graphics = (Graphics2D)graphics.create();
 
             graphics.setColor(getForeground());
             graphics.setFont(font);
 
-            var n = glyphVectors.size();
-
-            for (var i = 0; i < n; i++) {
-                var glyphVector = glyphVectors.get(i);
-
+            for (var glyphVector : glyphVectors) {
                 var lineWidth = glyphVector.getLogicalBounds().getWidth();
 
                 var x = switch (horizontalAlignment.getLocalizedValue(TextPane.this)) {
