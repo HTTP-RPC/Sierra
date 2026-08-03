@@ -232,44 +232,40 @@ public class TextPane extends JComponent {
 
         if (width == 0) {
             glyphVectors.add(font.createGlyphVector(fontRenderContext, text));
+        } else {
+            var n = text.length();
 
-            return;
-        }
+            var i = 0;
+            var j = 0;
 
-        var n = text.length();
+            var k = -1;
 
-        var i = 0;
-        var j = 0;
+            var lineWidth = 0.0;
 
-        var k = -1;
+            while (i < n) {
+                if (Character.isWhitespace(text.charAt(i))) {
+                    k = i;
+                }
 
-        var lineWidth = 0.0;
+                lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
 
-        while (i < n) {
-            var c = text.charAt(i);
+                if (lineWidth > width && k != -1) {
+                    glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, j, k, j)));
 
-            if (Character.isWhitespace(c)) {
-                k = i;
+                    k++;
+
+                    i = k;
+                    j = k;
+
+                    k = -1;
+
+                    lineWidth = 0.0;
+                } else {
+                    i++;
+                }
             }
 
-            lineWidth += font.getStringBounds(text, i, i + 1, fontRenderContext).getWidth();
-
-            if (lineWidth > width && k != -1) {
-                glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, j, k, j)));
-
-                k++;
-
-                i = k;
-                j = k;
-
-                k = -1;
-
-                lineWidth = 0.0;
-            } else {
-                i++;
-            }
+            glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, j, n, j)));
         }
-
-        glyphVectors.add(font.createGlyphVector(fontRenderContext, new StringCharacterIterator(text, j, i, j)));
     }
 }
