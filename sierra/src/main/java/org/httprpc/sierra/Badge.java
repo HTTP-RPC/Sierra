@@ -52,7 +52,7 @@ public class Badge extends JLabel {
 
             var textHeight = font.getLineMetrics("", fontRenderContext).getHeight();
 
-            var arc = textHeight * (1.0 + MARGIN * 2);
+            var arc = Math.min(textHeight * (1.0 + MARGIN * 2), width);
 
             var y = (height - arc) / 2 + insets.top;
 
