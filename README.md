@@ -162,13 +162,13 @@ Colors and fonts can also be specified by name. The name can refer to either a v
 
 <img src="README/color-chooser.png" width="1136px"/>
 
-Sierra supports the complete set of [extended web colors](https://en.wikipedia.org/wiki/Web_colors#Extended_colors) by default. Additional named colors and fonts can be added via the `define()` methods of the `UILoader` class.
-
 Opacity can be specified as a value between 0 and 1:
 
 ```
 red; 0.5
 ```
+
+Sierra supports the complete set of [extended web colors](https://en.wikipedia.org/wiki/Web_colors#Extended_colors) by default. Additional named colors and fonts can be added via the `define()` methods of the `UILoader` class.
 
 ## Image and Icon Values
 Image and icon properties are specified via a path relative to the document's owner. For example:
@@ -192,7 +192,7 @@ Icons automatically adapt to the current theme:
 
 <img src="README/button-group-dark.png" width="432px"/>
 
-Custom dimensions can be specified either as _path; size_ or _path; width, height_:
+Custom dimensions can be specified as either _path; size_ or _path; width, height_:
 
 ```xml
 icon="icons/home_24dp.svg; 18"
@@ -257,7 +257,7 @@ The "weight" attribute specifies the amount of excess space in a container that 
 
 <img src="README/border-layout.png" width="592px"/>
 
-The "size" attribute specifies a fixed dimension for a component. It is typically used with `Spacer` instances to create "struts" between components, as an alternative to the "spacing" property provided by `RowPanel` and `ColumnPanel`:
+The "size" attribute specifies a fixed dimension for a component. It is typically used with `Spacer` instances to create "struts" between components, as an alternative to the "spacing" property provided by `ColumnPanel` and `RowPanel`:
 
 ```xml
 <column-panel spacing="4" padding="8" opaque="true">
