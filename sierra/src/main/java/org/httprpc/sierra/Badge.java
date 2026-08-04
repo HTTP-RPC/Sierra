@@ -133,7 +133,7 @@ public class Badge extends JLabel {
      * The badge text, or {@code null} for no text.
      */
     public Badge(String text) {
-        this(text, null);
+        this();
     }
 
     /**
@@ -146,9 +146,8 @@ public class Badge extends JLabel {
      * The badge icon, or {@code null} for no icon.
      */
     public Badge(String text, Icon icon) {
-        this();
+        this(text);
 
-        setText(text);
         setIcon(icon);
     }
 
