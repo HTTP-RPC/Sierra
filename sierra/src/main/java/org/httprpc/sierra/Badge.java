@@ -134,6 +134,8 @@ public class Badge extends JLabel {
      */
     public Badge(String text) {
         this();
+
+        setText(text);
     }
 
     /**
