@@ -111,8 +111,6 @@ public class DatePicker extends TemporalPicker {
 
             var dayOfWeekRow = new RowPanel();
 
-            dayOfWeekRow.setSpacing(2);
-
             var locale = Locale.getDefault();
 
             var dayOfWeek = WeekFields.of(locale).getFirstDayOfWeek();
@@ -123,7 +121,7 @@ public class DatePicker extends TemporalPicker {
                 label.setHorizontalAlignment(SwingConstants.CENTER);
                 label.putClientProperty("FlatLaf.styleClass", "small");
 
-                dayOfWeekRow.add(label);
+                dayOfWeekRow.add(label, 1.0);
 
                 dayOfWeek = DayOfWeek.of(dayOfWeek.getValue() % 7 + 1);
             }
