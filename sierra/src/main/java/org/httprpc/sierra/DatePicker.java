@@ -106,7 +106,7 @@ public class DatePicker extends TemporalPicker {
             updateMonth();
         }
 
-        private ColumnPanel createDateButtonPanel() {
+        ColumnPanel createDateButtonPanel() {
             var daysColumnPanel = new ColumnPanel();
 
             var dayOfWeekRow = new RowPanel();
