@@ -14,6 +14,9 @@
 
 package org.httprpc.sierra;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
+import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
@@ -130,9 +133,32 @@ public class Badge extends JLabel {
      * The badge text, or {@code null} for no text.
      */
     public Badge(String text) {
+        this(text, null);
+    }
+
+    /**
+     * Constructs a new badge.
+     *
+     * @param text
+     * The badge text, or {@code null} for no text.
+     *
+     * @param icon
+     * The badge icon, or {@code null} for no icon.
+     */
+    public Badge(String text, Icon icon) {
         this();
 
         setText(text);
+        setIcon(icon);
+    }
+
+    @Override
+    public void setIcon(Icon icon) {
+        super.setIcon(icon);
+
+        if (icon instanceof FlatSVGIcon flatSVGIcon) {
+            flatSVGIcon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> getForeground()));
+        }
     }
 
     /**

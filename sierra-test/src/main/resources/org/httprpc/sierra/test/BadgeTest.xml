@@ -8,7 +8,11 @@
     <badge text="Alert" foreground="crimson" background="pink"/>
     <badge text="Warning" foreground="goldenrod" background="pale-goldenrod"/>
     <badge text="Info" foreground="steel-blue" background="light-blue" outline="steel-blue"/>
-    <badge text="OK" foreground="green" background="light-green" outline="green"/>
+
+    <badge text="OK"  icon="icons/check_24dp.svg; 16" iconTextGap="2"
+        foreground="green"
+        background="light-green"
+        outline="green"/>
 
     <badge text="Default"/>
 </row-panel>
