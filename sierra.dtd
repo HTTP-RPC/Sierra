@@ -82,7 +82,7 @@
 <!ENTITY % javax.swing.JToolBar.Separator "%javax.swing.JSeparator; ">
 <!ELEMENT tool-bar-separator EMPTY>
 <!ATTLIST tool-bar-separator %javax.swing.JToolBar.Separator;>
-<!ENTITY % org.httprpc.sierra.Badge "%javax.swing.JLabel; outline CDATA ">
+<!ENTITY % org.httprpc.sierra.Badge "%javax.swing.JLabel; icon CDATA outline CDATA ">
 <!ELEMENT badge EMPTY>
 <!ATTLIST badge %org.httprpc.sierra.Badge;>
 <!ENTITY % org.httprpc.sierra.LayoutPanel "%javax.swing.JPanel; scrollableTracksViewportHeight (true|false) scrollableTracksViewportWidth (true|false) ">
