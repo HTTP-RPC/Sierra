@@ -11,6 +11,7 @@ Sierra provides the `UILoader` class, which can be used in conjunction with the 
 
 * `ColumnPanel` - arranges components in a vertical line
 * `RowPanel` - arranges components in a horizontal line
+* `TablePanel` - arranges components in a two-dimensional grid
 * `FormPanel` - arranges components in a labeled grid
 * `StackPanel` - sizes components to fill the available space
 * `Spacer` - provides fixed or flexible space between other components
