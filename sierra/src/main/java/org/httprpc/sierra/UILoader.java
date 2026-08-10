@@ -1084,6 +1084,7 @@ public class UILoader {
 
         bind("row-panel", RowPanel.class, RowPanel::new);
         bind("column-panel", ColumnPanel.class, ColumnPanel::new);
+        bind("table-panel", TablePanel.class, TablePanel::new);
         bind("form-panel", FormPanel.class, FormPanel::new);
         bind("stack-panel", StackPanel.class, StackPanel::new);
         bind("spacer", Spacer.class, Spacer::new);
