@@ -120,14 +120,14 @@ public class UILoader {
         GROUP("group", String.class),
 
         /**
-         * Row span attribute.
-         */
-        ROW_SPAN("rowSpan", Integer.class),
-
-        /**
          * Column span attribute.
          */
         COLUMN_SPAN("columnSpan", Integer.class),
+
+        /**
+         * Row span attribute.
+         */
+        ROW_SPAN("rowSpan", Integer.class),
 
         /**
          * Label attribute.
@@ -1425,21 +1425,21 @@ public class UILoader {
                 }
 
                 groups.computeIfAbsent(value, key -> new ButtonGroup()).add(button);
-            } else if (name.equals(Attribute.ROW_SPAN.getName())) {
-                var rowSpan = Integer.parseInt(value);
-
-                if (constraints instanceof Dimension span) {
-                    span.width = rowSpan;
-                } else {
-                    constraints = new Dimension(rowSpan, 1);
-                }
             } else if (name.equals(Attribute.COLUMN_SPAN.getName())) {
                 var columnSpan = Integer.parseInt(value);
 
                 if (constraints instanceof Dimension span) {
-                    span.height = columnSpan;
+                    span.width = columnSpan;
                 } else {
-                    constraints = new Dimension(1, columnSpan);
+                    constraints = new Dimension(columnSpan, 1);
+                }
+            } else if (name.equals(Attribute.ROW_SPAN.getName())) {
+                var rowSpan = Integer.parseInt(value);
+
+                if (constraints instanceof Dimension span) {
+                    span.height = rowSpan;
+                } else {
+                    constraints = new Dimension(1, rowSpan);
                 }
             } else if (name.equals(Attribute.LABEL.getName())) {
                 constraints = getText(value);

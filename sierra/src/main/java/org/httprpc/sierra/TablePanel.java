@@ -34,7 +34,6 @@ public class TablePanel extends LayoutPanel {
         }
     }
 
-    private int rowCount = 1;
     private int columnCount = 1;
 
     /**
@@ -42,30 +41,6 @@ public class TablePanel extends LayoutPanel {
      */
     public TablePanel() {
         setLayout(new TableLayoutManager());
-    }
-
-    /**
-     * Returns the row count. The default value is 1.
-     *
-     * @return
-     * The row count.
-     */
-    public int getRowCount() {
-        return rowCount;
-    }
-
-    /**
-     * Sets the row count.
-     *
-     * @param rowCount
-     * The row count.
-     */
-    public void setRowCount(int rowCount) {
-        if (rowCount < 1) {
-            throw new IllegalArgumentException();
-        }
-
-        this.rowCount = rowCount;
     }
 
     /**

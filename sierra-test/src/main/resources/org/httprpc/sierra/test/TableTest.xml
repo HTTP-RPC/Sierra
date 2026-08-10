@@ -2,6 +2,9 @@
 
 <!DOCTYPE table-panel SYSTEM "sierra.dtd">
 
-<table-panel padding="8" opaque="true">
-    <!-- TODO -->
+<table-panel columnCount="3" padding="8" opaque="true">
+    <label text="1"/>
+    <label text="2" columnSpan="2"/>
+    <label text="3" rowSpan="2"/>
+    <label text="4" columnSpan="2" rowSpan="2"/>
 </table-panel>
