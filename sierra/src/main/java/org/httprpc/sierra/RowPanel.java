@@ -197,7 +197,7 @@ public class RowPanel extends BoxPanel {
      * is {@code false}.
      *
      * @return
-     * {@code true} to align to baseline; {@code false}, otherwise.
+     * {@code true} if baseline alignment is enabled; {@code false}, otherwise.
      */
     public boolean getAlignToBaseline() {
         return alignToBaseline;
