@@ -125,7 +125,7 @@
 <!ENTITY % org.httprpc.sierra.StackPanel "%org.httprpc.sierra.LayoutPanel; ">
 <!ELEMENT stack-panel (ANY)>
 <!ATTLIST stack-panel %org.httprpc.sierra.StackPanel;>
-<!ENTITY % org.httprpc.sierra.TablePanel "%org.httprpc.sierra.LayoutPanel; ">
+<!ENTITY % org.httprpc.sierra.TablePanel "%org.httprpc.sierra.LayoutPanel; columnCount CDATA rowCount CDATA ">
 <!ELEMENT table-panel (ANY)>
 <!ATTLIST table-panel %org.httprpc.sierra.TablePanel;>
 <!ENTITY % org.httprpc.sierra.ValidatedTextField "%javax.swing.JTextField; pattern CDATA value CDATA ">
