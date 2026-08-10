@@ -32,16 +32,16 @@ import java.util.ResourceBundle;
 
 import static org.httprpc.kilo.util.Collections.*;
 
-public class FormLayoutTest extends JFrame implements Runnable {
+public class FormTest extends JFrame implements Runnable {
     private @Outlet JFormattedTextField formattedTextField1 = null;
     private @Outlet JFormattedTextField formattedTextField2 = null;
 
     private @Outlet SuggestionPicker suggestionPicker1 = null;
     private @Outlet SuggestionPicker suggestionPicker2 = null;
 
-    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(FormLayoutTest.class.getName());
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(FormTest.class.getName());
 
-    private FormLayoutTest() {
+    private FormTest() {
         super(resourceBundle.getString("title"));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -49,7 +49,7 @@ public class FormLayoutTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var scrollPane = new JScrollPane(UILoader.load(this, "FormLayoutTest.xml", resourceBundle));
+        var scrollPane = new JScrollPane(UILoader.load(this, "FormTest.xml", resourceBundle));
 
         scrollPane.setBorder(null);
 
@@ -72,6 +72,6 @@ public class FormLayoutTest extends JFrame implements Runnable {
 
         KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
 
-        SwingUtilities.invokeLater(new FormLayoutTest());
+        SwingUtilities.invokeLater(new FormTest());
     }
 }

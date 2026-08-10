@@ -296,7 +296,7 @@ The "label" attribute associates a description with a form field. For example:
 </form-panel>
 ```
 
-<img src="README/form-layout.png" width="592px"/>
+<img src="README/form.png" width="592px"/>
 
 Label mnemonics can be specified in markup as follows:
 
@@ -447,7 +447,7 @@ The `ScrollingKeyboardFocusManager` class ensures that components are automatica
 KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
 ```
 
-See [FormLayoutTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/FormLayoutTest.java) for more information.
+See [FormTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java) for more information.
 
 # Task Execution
 The `TaskExecutor` class performs a task in the background and and invokes a callback on the UI thread when the task is complete:
