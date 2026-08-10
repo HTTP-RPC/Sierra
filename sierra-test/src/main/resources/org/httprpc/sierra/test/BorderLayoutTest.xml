@@ -3,13 +3,13 @@
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
 <column-panel spacing="4" padding="8" opaque="true">
-    <label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
+    <label text="Page Start" horizontalAlignment="center" border="silver" padding="4"/>
 
     <row-panel spacing="4" weight="1">
-        <label text="lineStart" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
-        <label text="center" font="h1" horizontalAlignment="center" border="silver" padding="4" weight="1"/>
-        <label text="lineEnd" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
+        <label text="Line Start" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
+        <label text="Center" font="h1" horizontalAlignment="center" border="silver" padding="4" weight="1"/>
+        <label text="Line End" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
     </row-panel>
 
-    <label text="pageEnd" horizontalAlignment="center" border="silver" padding="4"/>
+    <label text="Page End" horizontalAlignment="center" border="silver" padding="4"/>
 </column-panel>

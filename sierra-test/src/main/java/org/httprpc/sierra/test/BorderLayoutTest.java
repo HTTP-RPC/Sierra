@@ -20,20 +20,17 @@ import org.httprpc.sierra.UILoader;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.awt.Font;
-import java.util.ResourceBundle;
 
 public class BorderLayoutTest extends JFrame implements Runnable {
-    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(BorderLayoutTest.class.getName());
-
     private BorderLayoutTest() {
-        super(resourceBundle.getString("title"));
+        super("Border Layout Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "BorderLayoutTest.xml", resourceBundle));
+        setContentPane(UILoader.load(this, "BorderLayoutTest.xml"));
 
         System.out.printf("h1 = %s\n", UILoader.getFont("h1"));
         System.out.printf("h2 = %s\n", UILoader.getFont("h2"));

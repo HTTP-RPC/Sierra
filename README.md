@@ -244,15 +244,15 @@ The "weight" attribute specifies the amount of excess space in a container that 
 
 ```xml
 <column-panel spacing="4" padding="8" opaque="true">
-    <label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
+    <label text="Page Start" horizontalAlignment="center" border="silver" padding="4"/>
 
     <row-panel spacing="4" weight="1">
-        <label text="lineStart" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
-        <label text="center" font="h1" horizontalAlignment="center" border="silver" padding="4" weight="1"/>
-        <label text="lineEnd" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
+        <label text="Line Start" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
+        <label text="Center" font="h1" horizontalAlignment="center" border="silver" padding="4" weight="1"/>
+        <label text="Line End" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
     </row-panel>
 
-    <label text="pageEnd" horizontalAlignment="center" border="silver" padding="4"/>
+    <label text="Page End" horizontalAlignment="center" border="silver" padding="4"/>
 </column-panel>
 ```
 
@@ -296,7 +296,7 @@ The "label" attribute associates a description with a form field. For example:
 </form-panel>
 ```
 
-<img src="README/form.png" width="592px"/>
+<img src="README/form-layout.png" width="592px"/>
 
 Label mnemonics can be specified in markup as follows:
 
@@ -447,7 +447,7 @@ The `ScrollingKeyboardFocusManager` class ensures that components are automatica
 KeyboardFocusManager.setCurrentKeyboardFocusManager(new ScrollingKeyboardFocusManager());
 ```
 
-See [FormTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/FormTest.java) for more information.
+See [FormLayoutTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/FormLayoutTest.java) for more information.
 
 # Task Execution
 The `TaskExecutor` class performs a task in the background and and invokes a callback on the UI thread when the task is complete:
