@@ -2,9 +2,9 @@
 
 <!DOCTYPE table-panel SYSTEM "sierra.dtd">
 
-<table-panel columnCount="3" padding="8" opaque="true">
-    <label text="1"/>
-    <label text="2" columnSpan="2"/>
-    <label text="3" rowSpan="2"/>
-    <label text="4" columnSpan="2" rowSpan="2"/>
+<table-panel padding="8" opaque="true">
+    <label text="1" rowIndex="0" columnIndex="0"/>
+    <label text="2" rowIndex="0" columnIndex="1" columnSpan="2"/>
+    <label text="3" rowIndex="1" columnIndex="0" rowSpan="2"/>
+    <label text="4" rowIndex="1" columnIndex="1" rowSpan="2" columnSpan="2"/>
 </table-panel>

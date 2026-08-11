@@ -62,10 +62,6 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
     private final Map<Class<?>, Map<String, String>> sierraAttributeDefinitions = mapOf(
             entry(JComponent.class, mapOf(
                     entry(NAME.getName(), NAME.getType().getSimpleName()),
-                    entry(GROUP.getName(), GROUP.getType().getSimpleName()),
-                    entry(COLUMN_SPAN.getName(), COLUMN_SPAN.getType().getSimpleName()),
-                    entry(ROW_SPAN.getName(), ROW_SPAN.getType().getSimpleName()),
-                    entry(LABEL.getName(), LABEL.getType().getSimpleName()),
                     entry(TITLE.getName(), TITLE.getType().getSimpleName()),
                     entry(TITLE_COLOR.getName(), TITLE_COLOR.getType().getSimpleName()),
                     entry(TITLE_FONT.getName(), TITLE_FONT.getType().getSimpleName()),
@@ -75,6 +71,12 @@ public class SierraXMLCompletionProvider extends DefaultCompletionProvider {
                     entry(PADDING.getName(), PADDING.getType().getSimpleName()),
                     entry(WEIGHT.getName(), WEIGHT.getType().getSimpleName()),
                     entry(SIZE.getName(), SIZE.getType().getSimpleName()),
+                    entry(ROW_INDEX.getName(), ROW_INDEX.getType().getSimpleName()),
+                    entry(COLUMN_INDEX.getName(), COLUMN_INDEX.getType().getSimpleName()),
+                    entry(ROW_SPAN.getName(), ROW_SPAN.getType().getSimpleName()),
+                    entry(COLUMN_SPAN.getName(), COLUMN_SPAN.getType().getSimpleName()),
+                    entry(LABEL.getName(), LABEL.getType().getSimpleName()),
+                    entry(GROUP.getName(), GROUP.getType().getSimpleName()),
                     entry(TAB_ICON.getName(), TAB_ICON.getType().getSimpleName()),
                     entry(TAB_TITLE.getName(), TAB_TITLE.getType().getSimpleName()),
                     entry(HORIZONTAL_ALIGNMENT.getName(), HORIZONTAL_ALIGNMENT.getType().getSimpleName()),

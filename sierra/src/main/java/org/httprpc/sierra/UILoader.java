@@ -115,26 +115,6 @@ public class UILoader {
         NAME("name", String.class),
 
         /**
-         * Group attribute.
-         */
-        GROUP("group", String.class),
-
-        /**
-         * Column span attribute.
-         */
-        COLUMN_SPAN("columnSpan", Integer.class),
-
-        /**
-         * Row span attribute.
-         */
-        ROW_SPAN("rowSpan", Integer.class),
-
-        /**
-         * Label attribute.
-         */
-        LABEL("label", String.class),
-
-        /**
          * Title attribute.
          */
         TITLE("title", String.class),
@@ -178,6 +158,36 @@ public class UILoader {
          * Size attribute.
          */
         SIZE("size", String.class),
+
+        /**
+         * Row index attribute.
+         */
+        ROW_INDEX("rowIndex", Integer.class),
+
+        /**
+         * Column index attribute.
+         */
+        COLUMN_INDEX("columnIndex", Integer.class),
+
+        /**
+         * Row span attribute.
+         */
+        ROW_SPAN("rowSpan", Integer.class),
+
+        /**
+         * Column span attribute.
+         */
+        COLUMN_SPAN("columnSpan", Integer.class),
+
+        /**
+         * Label attribute.
+         */
+        LABEL("label", String.class),
+
+        /**
+         * Group attribute.
+         */
+        GROUP("group", String.class),
 
         /**
          * Tab title attribute.
@@ -1415,34 +1425,6 @@ public class UILoader {
                         throw new UnsupportedOperationException(exception);
                     }
                 });
-            } else if (name.equals(Attribute.GROUP.getName())) {
-                if (type == null) {
-                    continue;
-                }
-
-                if (!(component instanceof AbstractButton button)) {
-                    throw new UnsupportedOperationException("Component is not a button.");
-                }
-
-                groups.computeIfAbsent(value, key -> new ButtonGroup()).add(button);
-            } else if (name.equals(Attribute.COLUMN_SPAN.getName())) {
-                var columnSpan = Integer.parseInt(value);
-
-                if (constraints instanceof Dimension span) {
-                    span.width = columnSpan;
-                } else {
-                    constraints = new Dimension(columnSpan, 1);
-                }
-            } else if (name.equals(Attribute.ROW_SPAN.getName())) {
-                var rowSpan = Integer.parseInt(value);
-
-                if (constraints instanceof Dimension span) {
-                    span.height = rowSpan;
-                } else {
-                    constraints = new Dimension(1, rowSpan);
-                }
-            } else if (name.equals(Attribute.LABEL.getName())) {
-                constraints = getText(value);
             } else if (name.equals(Attribute.TITLE.getName())) {
                 title = getText(value);
             } else if (name.equals(Attribute.TITLE_COLOR.getName())) {
@@ -1461,6 +1443,34 @@ public class UILoader {
                 constraints = Double.parseDouble(value);
             } else if (name.equals(Attribute.SIZE.getName())) {
                 component.setPreferredSize(parseSize(value));
+            } else if (name.equals(Attribute.ROW_INDEX.getName())) {
+                constraints = coalesce(constraints, TablePanel.Constraints::new);
+
+                ((TablePanel.Constraints)constraints).setRowIndex(Integer.parseInt(value));
+            } else if (name.equals(Attribute.COLUMN_INDEX.getName())) {
+                constraints = coalesce(constraints, TablePanel.Constraints::new);
+
+                ((TablePanel.Constraints)constraints).setColumnIndex(Integer.parseInt(value));
+            } else if (name.equals(Attribute.ROW_SPAN.getName())) {
+                constraints = coalesce(constraints, TablePanel.Constraints::new);
+
+                ((TablePanel.Constraints)constraints).setRowSpan(Integer.parseInt(value));
+            } else if (name.equals(Attribute.COLUMN_SPAN.getName())) {
+                constraints = coalesce(constraints, TablePanel.Constraints::new);
+
+                ((TablePanel.Constraints)constraints).setColumnSpan(Integer.parseInt(value));
+            } else if (name.equals(Attribute.LABEL.getName())) {
+                constraints = getText(value);
+            } else if (name.equals(Attribute.GROUP.getName())) {
+                if (type == null) {
+                    continue;
+                }
+
+                if (!(component instanceof AbstractButton button)) {
+                    throw new UnsupportedOperationException("Component is not a button.");
+                }
+
+                groups.computeIfAbsent(value, key -> new ButtonGroup()).add(button);
             } else if (name.equals(Attribute.TAB_TITLE.getName())) {
                 tabTitle = getText(value);
             } else if (name.equals(Attribute.TAB_ICON.getName())) {
