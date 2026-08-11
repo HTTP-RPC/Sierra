@@ -20,7 +20,7 @@ import java.awt.Dimension;
 /**
  * Arranges components in a two-dimensional grid.
  */
-public class TablePanel extends LayoutPanel {
+public class TablePanel extends GridPanel {
     /**
      * Table panel constraints.
      */
@@ -130,12 +130,22 @@ public class TablePanel extends LayoutPanel {
     private class TableLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize(Container container) {
+            var insets = getInsets();
+
+            var horizontalSpacing = getHorizontalSpacing();
+            var verticalSpacing = getVerticalSpacing();
+
             // TODO
             return new Dimension(0, 0);
         }
 
         @Override
         public void layoutContainer(Container container) {
+            var insets = getInsets();
+
+            var horizontalSpacing = getHorizontalSpacing();
+            var verticalSpacing = getVerticalSpacing();
+
             // TODO
         }
     }

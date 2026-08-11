@@ -4,7 +4,7 @@
 
 <table-panel padding="8" opaque="true">
     <label text="1" rowIndex="0" columnIndex="0"/>
-    <label text="2" rowIndex="0" columnIndex="1" columnSpan="2"/>
+    <label text="2" rowIndex="0" columnIndex="1" columnSpan="2" styleClass="h1"/>
     <label text="3" rowIndex="1" columnIndex="0" rowSpan="2"/>
-    <label text="4" rowIndex="1" columnIndex="1" rowSpan="2" columnSpan="2"/>
+    <label text="4" rowIndex="1" columnIndex="1" rowSpan="2" columnSpan="2" styleClass="h1"/>
 </table-panel>
