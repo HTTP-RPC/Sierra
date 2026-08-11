@@ -60,10 +60,13 @@ public class TablePanel extends LayoutPanel {
      * The column count.
      */
     public void setColumnCount(int columnCount) {
-        if (columnCount < 1) {
+        if (columnCount < 0) {
             throw new IllegalArgumentException();
         }
 
         this.columnCount = columnCount;
+
+        revalidate();
+        repaint();
     }
 }
