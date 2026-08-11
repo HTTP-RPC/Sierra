@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 
@@ -21,112 +22,6 @@ import java.awt.Dimension;
  * Arranges components in a two-dimensional grid.
  */
 public class TablePanel extends GridPanel {
-    /**
-     * Table panel constraints.
-     */
-    public static class Constraints {
-        private int rowIndex = 0;
-        private int columnIndex = 0;
-        private int rowSpan = 1;
-        private int columnSpan = 1;
-
-        /**
-         * Returns the row index.
-         *
-         * @return
-         * The row index.
-         */
-        public int getRowIndex() {
-            return rowIndex;
-        }
-
-        /**
-         * Sets the row index.
-         *
-         * @param rowIndex
-         * The row index.
-         */
-        public void setRowIndex(int rowIndex) {
-            if (rowIndex < 0) {
-                throw new IllegalArgumentException();
-            }
-
-            this.rowIndex = rowIndex;
-        }
-
-        /**
-         * Returns the column index.
-         *
-         * @return
-         * The column index.
-         */
-        public int getColumnIndex() {
-            return columnIndex;
-        }
-
-        /**
-         * Sets the column index.
-         *
-         * @param columnIndex
-         * The column index.
-         */
-        public void setColumnIndex(int columnIndex) {
-            if (columnIndex < 0) {
-                throw new IllegalArgumentException();
-            }
-
-            this.columnIndex = columnIndex;
-        }
-
-        /**
-         * Returns the row span.
-         *
-         * @return
-         * The row span.
-         */
-        public int getRowSpan() {
-            return rowSpan;
-        }
-
-        /**
-         * Sets the row span.
-         *
-         * @param rowSpan
-         * The row span.
-         */
-        public void setRowSpan(int rowSpan) {
-            if (rowSpan < 1) {
-                throw new IllegalArgumentException();
-            }
-
-            this.rowSpan = rowSpan;
-        }
-
-        /**
-         * Returns the column span.
-         *
-         * @return
-         * The column span.
-         */
-        public int getColumnSpan() {
-            return columnSpan;
-        }
-
-        /**
-         * Sets the column span.
-         *
-         * @param columnSpan
-         * The column span.
-         */
-        public void setColumnSpan(int columnSpan) {
-            if (columnSpan < 1) {
-                throw new IllegalArgumentException();
-            }
-
-            this.columnSpan = columnSpan;
-        }
-    }
-
     private class TableLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize(Container container) {
@@ -150,10 +45,50 @@ public class TablePanel extends GridPanel {
         }
     }
 
+    private int columnCount = 1;
+
     /**
      * Constructs a new table panel.
      */
     public TablePanel() {
         setLayout(new TableLayoutManager());
+    }
+
+    @Override
+    protected void addImpl(Component component, Object constraints, int index) {
+        super.addImpl(component, constraints, index);
+
+        var columnSpan = (Integer)constraints;
+
+        if (columnSpan != null && columnSpan < 1) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
+     * Returns the column count.
+     *
+     * @return
+     * The column count.
+     */
+    public int getColumnCount() {
+        return columnCount;
+    }
+
+    /**
+     * Sets the column count.
+     *
+     * @param columnCount
+     * The column count.
+     */
+    public void setColumnCount(int columnCount) {
+        if (columnCount < 1) {
+            throw new IllegalArgumentException();
+        }
+
+        this.columnCount = columnCount;
+
+        revalidate();
+        repaint();
     }
 }

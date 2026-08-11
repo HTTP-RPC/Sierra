@@ -160,29 +160,14 @@ public class UILoader {
         SIZE("size", String.class),
 
         /**
-         * Row index attribute.
+         * Label attribute.
          */
-        ROW_INDEX("rowIndex", Integer.class),
-
-        /**
-         * Column index attribute.
-         */
-        COLUMN_INDEX("columnIndex", Integer.class),
-
-        /**
-         * Row span attribute.
-         */
-        ROW_SPAN("rowSpan", Integer.class),
+        LABEL("label", String.class),
 
         /**
          * Column span attribute.
          */
         COLUMN_SPAN("columnSpan", Integer.class),
-
-        /**
-         * Label attribute.
-         */
-        LABEL("label", String.class),
 
         /**
          * Group attribute.
@@ -1443,24 +1428,10 @@ public class UILoader {
                 constraints = Double.parseDouble(value);
             } else if (name.equals(Attribute.SIZE.getName())) {
                 component.setPreferredSize(parseSize(value));
-            } else if (name.equals(Attribute.ROW_INDEX.getName())) {
-                constraints = coalesce(constraints, TablePanel.Constraints::new);
-
-                ((TablePanel.Constraints)constraints).setRowIndex(Integer.parseInt(value));
-            } else if (name.equals(Attribute.COLUMN_INDEX.getName())) {
-                constraints = coalesce(constraints, TablePanel.Constraints::new);
-
-                ((TablePanel.Constraints)constraints).setColumnIndex(Integer.parseInt(value));
-            } else if (name.equals(Attribute.ROW_SPAN.getName())) {
-                constraints = coalesce(constraints, TablePanel.Constraints::new);
-
-                ((TablePanel.Constraints)constraints).setRowSpan(Integer.parseInt(value));
-            } else if (name.equals(Attribute.COLUMN_SPAN.getName())) {
-                constraints = coalesce(constraints, TablePanel.Constraints::new);
-
-                ((TablePanel.Constraints)constraints).setColumnSpan(Integer.parseInt(value));
             } else if (name.equals(Attribute.LABEL.getName())) {
                 constraints = getText(value);
+            } else if (name.equals(Attribute.COLUMN_SPAN.getName())) {
+                constraints = Integer.parseInt(value);
             } else if (name.equals(Attribute.GROUP.getName())) {
                 if (type == null) {
                     continue;
