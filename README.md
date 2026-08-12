@@ -12,7 +12,6 @@ Sierra provides the `UILoader` class, which can be used in conjunction with the 
 * `ColumnPanel` - arranges components in a vertical line
 * `RowPanel` - arranges components in a horizontal line
 * `FormPanel` - arranges components in a labeled grid
-* `TablePanel` - arranges components in a tabular grid
 * `StackPanel` - sizes components to fill the available space
 * `Spacer` - provides fixed or flexible space between other components
 
@@ -311,9 +310,6 @@ field1 = Field &1
 ```
 
 To include a literal ampersand character in a label, two consecutive ampersands can be used; e.g. "&amp;amp;&amp;amp;" or "&&".
-
-## Column Span Values
-TODO
 
 ## Button Groups
 The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:

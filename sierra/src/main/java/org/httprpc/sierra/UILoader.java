@@ -165,11 +165,6 @@ public class UILoader {
         LABEL("label", String.class),
 
         /**
-         * Column span attribute.
-         */
-        COLUMN_SPAN("columnSpan", Integer.class),
-
-        /**
          * Group attribute.
          */
         GROUP("group", String.class),
@@ -1089,7 +1084,6 @@ public class UILoader {
 
         bind("row-panel", RowPanel.class, RowPanel::new);
         bind("column-panel", ColumnPanel.class, ColumnPanel::new);
-        bind("table-panel", TablePanel.class, TablePanel::new);
         bind("form-panel", FormPanel.class, FormPanel::new);
         bind("stack-panel", StackPanel.class, StackPanel::new);
         bind("spacer", Spacer.class, Spacer::new);
@@ -1430,8 +1424,6 @@ public class UILoader {
                 component.setPreferredSize(parseSize(value));
             } else if (name.equals(Attribute.LABEL.getName())) {
                 constraints = getText(value);
-            } else if (name.equals(Attribute.COLUMN_SPAN.getName())) {
-                constraints = Integer.parseInt(value);
             } else if (name.equals(Attribute.GROUP.getName())) {
                 if (type == null) {
                     continue;
