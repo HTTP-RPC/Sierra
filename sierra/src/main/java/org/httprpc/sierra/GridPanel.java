@@ -22,7 +22,7 @@ public abstract class GridPanel extends LayoutPanel {
     private int verticalSpacing = 4;
 
     /**
-     * Returns the horizontal spacing.
+     * Returns the horizontal spacing. The default value is 4.
      *
      * @return
      * The horizontal spacing.
@@ -46,7 +46,7 @@ public abstract class GridPanel extends LayoutPanel {
     }
 
     /**
-     * Returns the vertical spacing.
+     * Returns the vertical spacing. The default value is 4.
      *
      * @return
      * The vertical spacing.
