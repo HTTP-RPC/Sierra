@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE table-panel SYSTEM "sierra.dtd">
+
+<table-panel columnCount="3" padding="8" opaque="true">
+    <label text="1" horizontalAlignment="center"/>
+    <label text="2" horizontalAlignment="center"/>
+    <label text="3" horizontalAlignment="center"/>
+
+    <label text="4" horizontalAlignment="center"/>
+    <label text="5" horizontalAlignment="center" columnSpan="2"/>
+
+    <label text="6" horizontalAlignment="center" columnSpan="3"/>
+</table-panel>

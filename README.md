@@ -313,7 +313,20 @@ field1 = Field &1
 To include a literal ampersand character in a label, two consecutive ampersands can be used; e.g. "&amp;amp;&amp;amp;" or "&&".
 
 ## Column Span Values
-TODO
+The "columnSpan" attribute specifies the number of columns a cell will occupy in a `TablePanel`. For example:
+
+```xml
+<table-panel columnCount="3" padding="8" opaque="true">
+    <label text="1" horizontalAlignment="center"/>
+    <label text="2" horizontalAlignment="center"/>
+    <label text="3" horizontalAlignment="center"/>
+
+    <label text="4" horizontalAlignment="center"/>
+    <label text="5" horizontalAlignment="center" columnSpan="2"/>
+
+    <label text="6" horizontalAlignment="center" columnSpan="3"/>
+</table-panel>
+```
 
 ## Button Groups
 The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:
