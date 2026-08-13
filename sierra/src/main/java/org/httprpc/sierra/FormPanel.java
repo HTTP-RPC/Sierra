@@ -24,11 +24,14 @@ import java.util.List;
 /**
  * Arranges components in a labled grid.
  */
-public class FormPanel extends LayoutPanel {
+public class FormPanel extends GridPanel {
     private class FormLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize(Container container) {
             var insets = getInsets();
+
+            var horizontalSpacing = getHorizontalSpacing();
+            var verticalSpacing = getVerticalSpacing();
 
             var maximumLabelWidth = 0;
             var maximumFieldWidth = 0;
@@ -69,6 +72,9 @@ public class FormPanel extends LayoutPanel {
         @Override
         public void layoutContainer(Container container) {
             var insets = getInsets();
+
+            var horizontalSpacing = getHorizontalSpacing();
+            var verticalSpacing = getVerticalSpacing();
 
             var maximumLabelWidth = 0;
             var maximumFieldWidth = 0;
@@ -130,9 +136,6 @@ public class FormPanel extends LayoutPanel {
 
     private List<JLabel> labels = new ArrayList<>();
     private List<Component> fields = new ArrayList<>();
-
-    private int horizontalSpacing = 4;
-    private int verticalSpacing = 4;
 
     /**
      * Constructs a new form panel.
@@ -212,53 +215,5 @@ public class FormPanel extends LayoutPanel {
 
         labels.clear();
         fields.clear();
-    }
-
-    /**
-     * Returns the horizontal spacing.
-     *
-     * @return
-     * The horizontal spacing.
-     */
-    public int getHorizontalSpacing() {
-        return horizontalSpacing;
-    }
-
-    /**
-     * Sets the horizontal spacing.
-     *
-     * @param horizontalSpacing
-     * The horizontal spacing.
-     */
-    public void setHorizontalSpacing(int horizontalSpacing) {
-        if (horizontalSpacing < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.horizontalSpacing = horizontalSpacing;
-    }
-
-    /**
-     * Returns the vertical spacing.
-     *
-     * @return
-     * The vertical spacing.
-     */
-    public int getVerticalSpacing() {
-        return verticalSpacing;
-    }
-
-    /**
-     * Sets the vertical spacing.
-     *
-     * @param verticalSpacing
-     * The vertical spacing.
-     */
-    public void setVerticalSpacing(int verticalSpacing) {
-        if (verticalSpacing < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.verticalSpacing = verticalSpacing;
     }
 }
