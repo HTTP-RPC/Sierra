@@ -17,6 +17,11 @@ package org.httprpc.sierra;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.httprpc.kilo.util.Iterables.*;
+import static org.httprpc.kilo.util.Optionals.*;
 
 /**
  * Arranges components in a tabular grid.
@@ -30,8 +35,53 @@ public class TablePanel extends GridPanel {
             var horizontalSpacing = getHorizontalSpacing();
             var verticalSpacing = getVerticalSpacing();
 
-            // TODO
-            return new Dimension(0, 0);
+            var columnWidths = new ArrayList<Integer>(columnCount);
+
+            var totalRowHeight = 0;
+
+            var n = getComponentCount();
+
+            var columnIndex = 0;
+
+            var maximumRowAscent = 0;
+            var maximumRowDescent = 0;
+
+            for (var i = 0; i < n; i++) {
+                var component = getComponent(i);
+
+                var preferredSize = component.getPreferredSize();
+
+                if (columnIndex == columnWidths.size()) {
+                    columnWidths.add(preferredSize.width);
+                } else {
+                    columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
+                }
+
+                var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
+
+                if (baseline >= 0) {
+                    maximumRowAscent = Math.max(maximumRowAscent, baseline);
+                    maximumRowDescent = Math.max(maximumRowDescent, preferredSize.height - baseline);
+                }
+
+                columnIndex += coalesce(columnSpans.get(i), () -> 1);
+
+                if (columnIndex > columnCount) {
+                    columnIndex = 0;
+
+                    totalRowHeight += maximumRowAscent + maximumRowDescent;
+
+                    maximumRowAscent = 0;
+                    maximumRowDescent = 0;
+                }
+            }
+
+            var totalColumnWidth = sumOf(columnWidths, Integer::intValue);
+
+            var preferredWidth = totalColumnWidth + horizontalSpacing * (n - 1) + insets.left + insets.right;
+            var preferredHeight = totalRowHeight + verticalSpacing * (n - 1) + insets.top + insets.bottom;
+
+            return new Dimension(preferredWidth, preferredHeight);
         }
 
         @Override
@@ -44,6 +94,8 @@ public class TablePanel extends GridPanel {
             // TODO
         }
     }
+
+    private List<Integer> columnSpans = new ArrayList<>();
 
     private int columnCount = 1;
 
@@ -63,6 +115,8 @@ public class TablePanel extends GridPanel {
         if (columnSpan != null && columnSpan < 1) {
             throw new IllegalArgumentException();
         }
+
+        columnSpans.add(index == -1 ? columnSpans.size() : index, columnSpan);
     }
 
     /**

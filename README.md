@@ -317,14 +317,14 @@ The "columnSpan" attribute specifies the number of columns a cell will occupy in
 
 ```xml
 <table-panel columnCount="3" padding="8" opaque="true">
-    <label text="1" horizontalAlignment="center"/>
-    <label text="2" horizontalAlignment="center"/>
-    <label text="3" horizontalAlignment="center"/>
+    <label text="One" horizontalAlignment="center" border="silver"/>
+    <label text="Two" horizontalAlignment="center" border="silver"/>
+    <label text="Three" horizontalAlignment="center" border="silver"/>
 
-    <label text="4" horizontalAlignment="center"/>
-    <label text="5" horizontalAlignment="center" columnSpan="2"/>
+    <label text="Four" horizontalAlignment="center" border="silver"/>
+    <label text="Five" horizontalAlignment="center" border="silver" columnSpan="2"/>
 
-    <label text="6" horizontalAlignment="center" columnSpan="3"/>
+    <label text="Six" horizontalAlignment="center" border="silver" columnSpan="3"/>
 </table-panel>
 ```
 
