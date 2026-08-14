@@ -317,23 +317,23 @@ The "columnSpan" attribute specifies the number of columns a cell will occupy in
 
 ```xml
 <table-panel columnCount="4" padding="8" opaque="true">
-    <label text="One" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
-    <label text="Two" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
-    <label text="Three" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
-    <label text="Four" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
+    <button text="One"/>
+    <button text="Two"/>
+    <button text="Three"/>
+    <button text="Four"/>
 
-    <label text="Five" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16" columnSpan="2"/>
-    <label text="Six" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
-    <label text="Seven" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
+    <button text="Five" columnSpan="2"/>
+    <button text="Six"/>
+    <button text="Seven"/>
 
-    <label text="Eight" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
-    <label text="Nine" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16" columnSpan="3"/>
+    <button text="Eight"/>
+    <button text="Nine" columnSpan="3"/>
 
-    <label text="Ten" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16" columnSpan="4"/>
+    <button text="Ten" columnSpan="4"/>
 </table-panel>
 ```
 
-<img src="README/table.png" width="399px"/>
+<img src="README/table.png" width="428px"/>
 
 ## Button Groups
 The "group" attribute associates a button with a button group. For example, the following markup creates two radio buttons belonging to the "orientation" group:

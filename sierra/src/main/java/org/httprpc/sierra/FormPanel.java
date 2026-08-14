@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Arranges components in a labled grid.
+ * Arranges components in a labeled grid. Row contents are aligned to baseline.
  */
 public class FormPanel extends GridPanel {
     private class FormLayoutManager extends AbstractLayoutManager {
