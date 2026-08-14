@@ -39,14 +39,14 @@ public class TablePanel extends GridPanel {
 
             var totalRowHeight = 0;
 
+            var rowCount = 0;
+
             var n = getComponentCount();
 
             var columnIndex = 0;
 
             var maximumRowAscent = 0;
             var maximumRowDescent = 0;
-
-            var rowCount = 0;
 
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
@@ -69,14 +69,14 @@ public class TablePanel extends GridPanel {
                 columnIndex += coalesce(columnSpans.get(i), () -> 1);
 
                 if (columnIndex >= columnCount) {
-                    columnIndex = 0;
-
                     totalRowHeight += maximumRowAscent + maximumRowDescent;
+
+                    rowCount++;
+
+                    columnIndex = 0;
 
                     maximumRowAscent = 0;
                     maximumRowDescent = 0;
-
-                    rowCount++;
                 }
             }
 
@@ -134,10 +134,10 @@ public class TablePanel extends GridPanel {
                 columnIndex += coalesce(columnSpans.get(i), () -> 1);
 
                 if (columnIndex >= columnCount) {
-                    columnIndex = 0;
-
                     rowHeights.add(maximumRowAscent + maximumRowDescent);
                     rowBaselines.add(maximumRowAscent);
+
+                    columnIndex = 0;
 
                     maximumRowAscent = 0;
                     maximumRowDescent = 0;
@@ -185,6 +185,7 @@ public class TablePanel extends GridPanel {
                     columnIndex = 0;
 
                     x = insets.left;
+
                     y += rowHeights.get(rowIndex) + verticalSpacing;
 
                     rowIndex++;
