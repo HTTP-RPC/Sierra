@@ -66,7 +66,7 @@ public class TablePanel extends GridPanel {
 
                 columnIndex += coalesce(columnSpans.get(i), () -> 1);
 
-                if (columnIndex > columnCount) {
+                if (columnIndex >= columnCount) {
                     columnIndex = 0;
 
                     totalRowHeight += maximumRowAscent + maximumRowDescent;
@@ -74,6 +74,10 @@ public class TablePanel extends GridPanel {
                     maximumRowAscent = 0;
                     maximumRowDescent = 0;
                 }
+            }
+
+            if (columnIndex < columnCount) {
+                totalRowHeight += maximumRowAscent + maximumRowDescent;
             }
 
             var totalColumnWidth = sumOf(columnWidths, Integer::intValue);
@@ -91,7 +95,95 @@ public class TablePanel extends GridPanel {
             var horizontalSpacing = getHorizontalSpacing();
             var verticalSpacing = getVerticalSpacing();
 
-            // TODO
+            var columnWidths = new ArrayList<Integer>(columnCount);
+
+            var rowHeights = new ArrayList<Integer>();
+            var rowBaselines = new ArrayList<Integer>();
+
+            var n = getComponentCount();
+
+            var columnIndex = 0;
+
+            var maximumRowAscent = 0;
+            var maximumRowDescent = 0;
+
+            for (var i = 0; i < n; i++) {
+                var component = getComponent(i);
+
+                var preferredSize = component.getPreferredSize();
+
+                if (columnIndex == columnWidths.size()) {
+                    columnWidths.add(preferredSize.width);
+                } else {
+                    columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
+                }
+
+                var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
+
+                if (baseline >= 0) {
+                    maximumRowAscent = Math.max(maximumRowAscent, baseline);
+                    maximumRowDescent = Math.max(maximumRowDescent, preferredSize.height - baseline);
+                }
+
+                columnIndex += coalesce(columnSpans.get(i), () -> 1);
+
+                if (columnIndex >= columnCount) {
+                    columnIndex = 0;
+
+                    rowHeights.add(maximumRowAscent + maximumRowDescent);
+                    rowBaselines.add(maximumRowAscent);
+
+                    maximumRowAscent = 0;
+                    maximumRowDescent = 0;
+                }
+            }
+
+            if (columnIndex < columnCount) {
+                rowHeights.add(maximumRowAscent + maximumRowDescent);
+                rowBaselines.add(maximumRowAscent);
+            }
+
+            columnIndex = 0;
+
+            var x = insets.left;
+            var y = insets.top;
+
+            var rowIndex = 0;
+
+            for (var i = 0; i < n; i++) {
+                var component = getComponent(i);
+
+                var columnSpan = coalesce(columnSpans.get(i), () -> 1);
+
+                var cellWidth = 0;
+
+                for (var j = 0; j < columnSpan; j++) {
+                    cellWidth += columnWidths.get(columnIndex);
+
+                    columnIndex++;
+                }
+
+                component.setSize(cellWidth + horizontalSpacing * (columnSpan - 1), component.getPreferredSize().height);
+
+                var baseline = component.getBaseline(component.getWidth(), component.getHeight());
+
+                if (baseline >= 0) {
+                    component.setLocation(x, y + (rowBaselines.get(rowIndex) - baseline));
+                } else {
+                    // TODO Center vertically
+                }
+
+                if (columnIndex < columnCount) {
+                    x += component.getWidth() + horizontalSpacing;
+                } else {
+                    columnIndex = 0;
+
+                    x = insets.left;
+                    y += rowHeights.get(rowIndex) + verticalSpacing;
+
+                    rowIndex++;
+                }
+            }
         }
     }
 

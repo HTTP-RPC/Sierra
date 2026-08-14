@@ -3,12 +3,12 @@
 <!DOCTYPE table-panel SYSTEM "sierra.dtd">
 
 <table-panel columnCount="3" padding="8" opaque="true">
-    <label text="One" horizontalAlignment="center" border="silver"/>
-    <label text="Two" horizontalAlignment="center" border="silver"/>
-    <label text="Three" horizontalAlignment="center" border="silver"/>
+    <label text="One" horizontalAlignment="center" styleClass="small" border="silver" padding="4"/>
+    <label text="Two" horizontalAlignment="center" styleClass="medium" border="silver" padding="4"/>
+    <label text="Three" horizontalAlignment="center" styleClass="large" border="silver" padding="4"/>
 
-    <label text="Four" horizontalAlignment="center" border="silver"/>
-    <label text="Five" horizontalAlignment="center" border="silver" columnSpan="2"/>
+    <label text="Four" horizontalAlignment="center" styleClass="small" border="silver" padding="4"/>
+    <label text="Five" horizontalAlignment="center" styleClass="medium" border="silver" padding="4" columnSpan="2"/>
 
-    <label text="Six" horizontalAlignment="center" border="silver" columnSpan="3"/>
+    <label text="Six" horizontalAlignment="center" styleClass="small" border="silver" padding="4" columnSpan="3"/>
 </table-panel>
