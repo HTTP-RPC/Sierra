@@ -176,7 +176,7 @@ public class TablePanel extends GridPanel {
                 if (baseline >= 0) {
                     component.setLocation(x, y + (rowBaselines.get(rowIndex) - baseline));
                 } else {
-                    // TODO Center vertically
+                    component.setLocation(x, y + (rowHeights.get(rowIndex) - component.getHeight()) / 2);
                 }
 
                 if (columnIndex < columnCount) {
