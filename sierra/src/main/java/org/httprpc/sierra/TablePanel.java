@@ -46,6 +46,8 @@ public class TablePanel extends GridPanel {
             var maximumRowAscent = 0;
             var maximumRowDescent = 0;
 
+            var rowCount = 0;
+
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
@@ -73,17 +75,21 @@ public class TablePanel extends GridPanel {
 
                     maximumRowAscent = 0;
                     maximumRowDescent = 0;
+
+                    rowCount++;
                 }
             }
 
             if (columnIndex < columnCount) {
                 totalRowHeight += maximumRowAscent + maximumRowDescent;
+
+                rowCount++;
             }
 
             var totalColumnWidth = sumOf(columnWidths, Integer::intValue);
 
-            var preferredWidth = totalColumnWidth + horizontalSpacing * (n - 1) + insets.left + insets.right;
-            var preferredHeight = totalRowHeight + verticalSpacing * (n - 1) + insets.top + insets.bottom;
+            var preferredWidth = totalColumnWidth + horizontalSpacing * (columnCount - 1) + insets.left + insets.right;
+            var preferredHeight = totalRowHeight + verticalSpacing * (rowCount - 1) + insets.top + insets.bottom;
 
             return new Dimension(preferredWidth, preferredHeight);
         }

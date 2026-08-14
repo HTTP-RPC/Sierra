@@ -2,13 +2,18 @@
 
 <!DOCTYPE table-panel SYSTEM "sierra.dtd">
 
-<table-panel columnCount="3" padding="8" opaque="true">
-    <label text="One" horizontalAlignment="center" styleClass="small" border="silver" padding="4"/>
-    <label text="Two" horizontalAlignment="center" styleClass="medium" border="silver" padding="4"/>
-    <label text="Three" horizontalAlignment="center" styleClass="large" border="silver" padding="4"/>
+<table-panel columnCount="4" padding="8" opaque="true">
+    <label text="One" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
+    <label text="Two" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
+    <label text="Three" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
+    <label text="Four" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
 
-    <label text="Four" horizontalAlignment="center" styleClass="small" border="silver" padding="4"/>
-    <label text="Five" horizontalAlignment="center" styleClass="medium" border="silver" padding="4" columnSpan="2"/>
+    <label text="Five" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16" columnSpan="2"/>
+    <label text="Six" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
+    <label text="Seven" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
 
-    <label text="Six" horizontalAlignment="center" styleClass="small" border="silver" padding="4" columnSpan="3"/>
+    <label text="Eight" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16"/>
+    <label text="Nine" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16" columnSpan="3"/>
+
+    <label text="Ten" horizontalAlignment="center" border="silver" padding="4, 16, 4, 16" columnSpan="4"/>
 </table-panel>
