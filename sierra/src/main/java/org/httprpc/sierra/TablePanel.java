@@ -159,7 +159,7 @@ public class TablePanel extends GridPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                var columnSpan = coalesce(columnSpans.get(i), () -> 1);
+                var columnSpan = Math.min(coalesce(columnSpans.get(i), () -> 1), columnCount - columnIndex);
 
                 var cellWidth = 0;
 
