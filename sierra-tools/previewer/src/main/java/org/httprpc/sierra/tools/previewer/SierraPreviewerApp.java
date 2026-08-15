@@ -18,6 +18,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import java.awt.GraphicsEnvironment;
 import java.nio.file.Path;
 
 public class SierraPreviewerApp {
@@ -39,7 +40,21 @@ public class SierraPreviewerApp {
             frame.setIconImage(icon);
 
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(1200, 800);
+
+            var minimumScreenWidth = Integer.MAX_VALUE;
+            var minimumScreenHeight = Integer.MAX_VALUE;
+
+            var screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+
+            for (var i = 0; i < screenDevices.length; i++) {
+                var bounds = screenDevices[i].getDefaultConfiguration().getBounds();
+
+                minimumScreenWidth = Math.min(minimumScreenWidth, bounds.width);
+                minimumScreenHeight = Math.min(minimumScreenHeight, bounds.height);
+            }
+
+            frame.setSize((int)Math.ceil(minimumScreenWidth * 0.75), (int)Math.ceil(minimumScreenHeight * 0.75));
+
             frame.setLocationRelativeTo(null); // Center on screen
             frame.setVisible(true);
         });

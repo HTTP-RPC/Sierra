@@ -41,6 +41,7 @@ public class PreviewFrame extends JFrame {
     private Path path;
 
     private static final String REFRESH_ACTION_KEY = "refresh";
+    private static final String PACK_ACTION_KEY = "pack";
     private static final String TOGGLE_DARK_MODE_ACTION_KEY = "toggle-dark-mode";
 
     public PreviewFrame(Path path) {
@@ -62,6 +63,14 @@ public class PreviewFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 refresh();
+            }
+        });
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_P, shortcutModifier, false), PACK_ACTION_KEY);
+        actionMap.put(PACK_ACTION_KEY, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                pack();
             }
         });
 
