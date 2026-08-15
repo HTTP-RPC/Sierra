@@ -38,26 +38,29 @@ public class TablePanel extends GridPanel {
             var columnWidths = new ArrayList<Integer>(columnCount);
 
             var totalRowHeight = 0;
-
             var rowCount = 0;
-
-            var n = getComponentCount();
 
             var columnIndex = 0;
 
+            while (columnIndex < columnCount) {
+                columnWidths.add(0);
+
+                columnIndex++;
+            }
+
+            columnIndex = 0;
+
             var maximumRowAscent = 0;
             var maximumRowDescent = 0;
+
+            var n = getComponentCount();
 
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
                 var preferredSize = component.getPreferredSize();
 
-                if (columnIndex == columnWidths.size()) {
-                    columnWidths.add(preferredSize.width);
-                } else {
-                    columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
-                }
+                columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
 
                 var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
 
@@ -70,7 +73,6 @@ public class TablePanel extends GridPanel {
 
                 if (columnIndex >= columnCount) {
                     totalRowHeight += maximumRowAscent + maximumRowDescent;
-
                     rowCount++;
 
                     columnIndex = 0;
@@ -82,7 +84,6 @@ public class TablePanel extends GridPanel {
 
             if (columnIndex < columnCount) {
                 totalRowHeight += maximumRowAscent + maximumRowDescent;
-
                 rowCount++;
             }
 
@@ -106,23 +107,27 @@ public class TablePanel extends GridPanel {
             var rowHeights = new ArrayList<Integer>();
             var rowBaselines = new ArrayList<Integer>();
 
-            var n = getComponentCount();
-
             var columnIndex = 0;
+
+            while (columnIndex < columnCount) {
+                columnWidths.add(0);
+
+                columnIndex++;
+            }
+
+            columnIndex = 0;
 
             var maximumRowAscent = 0;
             var maximumRowDescent = 0;
+
+            var n = getComponentCount();
 
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
                 var preferredSize = component.getPreferredSize();
 
-                if (columnIndex == columnWidths.size()) {
-                    columnWidths.add(preferredSize.width);
-                } else {
-                    columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
-                }
+                columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
 
                 var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
 
