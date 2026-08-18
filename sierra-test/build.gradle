@@ -23,7 +23,7 @@ dependencies {
     implementation 'org.pushing-pixels:radiance-theming:9.0.0'
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.compilerArgs = [
         '-parameters'
     ]
