@@ -195,8 +195,8 @@ Icons automatically adapt to the current theme:
 
 Custom dimensions can be specified as either _path; size_ or _path; width, height_:
 
-```xml
-icon="icons/home_24dp.svg; 18"
+```
+icon="icons/home_24dp.svg; 48"
 ```
 
 ## Title Values
@@ -235,11 +235,42 @@ The default border thickness is 1. Style options include "solid" (the default), 
 
 Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _right_ order:
 
-```xml
+```
 padding="8, 16, 8, 16"
 ```
 
-## Weight and Size Values
+## Size and Weight Values
+The "width" and "height" attributes specify a fixed dimension for a component. They are typically used with `Spacer` instances to create "struts" between components, as an alternative to the "spacing" property provided by `ColumnPanel` and `RowPanel`:
+
+```xml
+<column-panel spacing="4" padding="8" opaque="true">
+    <row-panel>
+        <button text="1a"/>
+        <spacer width="4"/>
+        <button text="1b"/>
+        <spacer width="4"/>
+        <button text="1c"/>
+        <spacer weight="1"/>
+    </row-panel>
+    
+    ...
+</column-panel>
+```
+
+<img src="README/box-layout.png" width="352px"/>
+
+The "size" attribute specifies values for both dimensions:
+
+```xml
+<spacer size="20, 20" border="silver"/>
+```
+
+The following shorthand can be used to apply the same value to both width and height:
+
+```
+size="120"
+```
+
 The "weight" attribute specifies the amount of excess space in a container that should be allocated to a component, relative to other weighted components in the container. When applied to a `Spacer` instance, it creates a "glue" component that automatically shrinks or stretches depending on the size of its container. However, weights are not limited to spacers and can be applied to any component type:
 
 ```xml
@@ -257,31 +288,6 @@ The "weight" attribute specifies the amount of excess space in a container that 
 ```
 
 <img src="README/border-layout.png" width="592px"/>
-
-The "size" attribute specifies a fixed dimension for a component. It is typically used with `Spacer` instances to create "struts" between components, as an alternative to the "spacing" property provided by `ColumnPanel` and `RowPanel`:
-
-```xml
-<column-panel spacing="4" padding="8" opaque="true">
-    <row-panel>
-        <button text="1a"/>
-        <spacer size="4"/>
-        <button text="1b"/>
-        <spacer size="4"/>
-        <button text="1c"/>
-        <spacer weight="1"/>
-    </row-panel>
-    
-    ...
-</column-panel>
-```
-
-<img src="README/box-layout.png" width="352px"/>
-
-Size values for multiple dimensions can be specified in _width_, _height_ order:
-
-```xml
-size="20, 20"
-```
 
 ## Label Values
 The "label" attribute associates a description with a form field. For example:
@@ -390,12 +396,12 @@ Several FlatLaf text field [properties](https://www.formdev.com/flatlaf/client-p
     <text-field columns="16"
         placeholderText="firstName"
         showClearButton="true"/>
-    
+
     <text-field columns="16"
         placeholderText="lastName"
         showClearButton="true"/>
 
-    <spacer size="8"/>
+    <spacer height="8"/>
 
     <text-field columns="16"
         leadingIcon="icons/search_24dp.svg; 18"

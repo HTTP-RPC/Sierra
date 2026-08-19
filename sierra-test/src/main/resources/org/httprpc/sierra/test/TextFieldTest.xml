@@ -11,7 +11,7 @@
         placeholderText="lastName"
         showClearButton="true"/>
 
-    <spacer size="8"/>
+    <spacer height="8"/>
 
     <text-field columns="16"
         leadingIcon="icons/search_24dp.svg; 18"

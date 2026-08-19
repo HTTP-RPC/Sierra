@@ -10,7 +10,7 @@
         <combo-box name="minuteIntervalComboBox" label="minuteInterval"/>
         <check-box name="strictCheckBox" text="strict"/>
 
-        <spacer size="4"/>
+        <spacer height="4"/>
 
         <button name="submitButton" text="submit"/>
     </form-panel>

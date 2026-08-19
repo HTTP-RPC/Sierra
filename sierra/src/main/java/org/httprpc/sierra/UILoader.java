@@ -150,14 +150,24 @@ public class UILoader {
         PADDING("padding", String.class),
 
         /**
-         * Weight attribute.
+         * Width attribute.
          */
-        WEIGHT("weight", Double.class),
+        WIDTH("width", String.class),
+
+        /**
+         * Height attribute.
+         */
+        HEIGHT("height", String.class),
 
         /**
          * Size attribute.
          */
         SIZE("size", String.class),
+
+        /**
+         * Weight attribute.
+         */
+        WEIGHT("weight", Double.class),
 
         /**
          * Label attribute.
@@ -1424,10 +1434,14 @@ public class UILoader {
                 outsideBorder = parseBorder(value);
             } else if (name.equals(Attribute.PADDING.getName())) {
                 insideBorder = parsePadding(value);
-            } else if (name.equals(Attribute.WEIGHT.getName())) {
-                constraints = Double.parseDouble(value);
+            } else if (name.equals(Attribute.WIDTH.getName())) {
+                component.setPreferredSize(new Dimension(Integer.parseInt(value), 0));
+            } else if (name.equals(Attribute.HEIGHT.getName())) {
+                component.setPreferredSize(new Dimension(0, Integer.parseInt(value)));
             } else if (name.equals(Attribute.SIZE.getName())) {
                 component.setPreferredSize(parseSize(value));
+            } else if (name.equals(Attribute.WEIGHT.getName())) {
+                constraints = Double.parseDouble(value);
             } else if (name.equals(Attribute.LABEL.getName())) {
                 constraints = getText(value);
             } else if (name.equals(Attribute.COLUMN_SPAN.getName())) {

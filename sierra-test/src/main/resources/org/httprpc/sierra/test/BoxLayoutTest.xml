@@ -5,26 +5,26 @@
 <column-panel spacing="4" padding="8" opaque="true">
     <row-panel>
         <button text="1a"/>
-        <spacer size="4"/>
+        <spacer width="4"/>
         <button text="1b"/>
-        <spacer size="4"/>
+        <spacer width="4"/>
         <button text="1c"/>
         <spacer weight="1"/>
     </row-panel>
     <row-panel>
         <spacer weight="1"/>
         <button text="2a"/>
-        <spacer size="4"/>
+        <spacer width="4"/>
         <button text="2b"/>
-        <spacer size="4"/>
+        <spacer width="4"/>
         <button text="2c"/>
     </row-panel>
     <row-panel>
         <spacer weight="1"/>
         <button text="3a"/>
-        <spacer size="4"/>
+        <spacer width="4"/>
         <button text="3b"/>
-        <spacer size="4"/>
+        <spacer width="4"/>
         <button text="3c"/>
         <spacer weight="1"/>
     </row-panel>

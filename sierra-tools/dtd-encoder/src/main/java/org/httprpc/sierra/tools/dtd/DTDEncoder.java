@@ -75,8 +75,10 @@ public class DTDEncoder extends Encoder<Void> {
             getAttributeType(UILoader.TitlePosition.values()), writer);
         appendAttributeDeclaration(UILoader.Attribute.BORDER.getName(), CDATA, writer);
         appendAttributeDeclaration(UILoader.Attribute.PADDING.getName(), CDATA, writer);
-        appendAttributeDeclaration(UILoader.Attribute.WEIGHT.getName(), CDATA, writer);
+        appendAttributeDeclaration(UILoader.Attribute.WIDTH.getName(), CDATA, writer);
+        appendAttributeDeclaration(UILoader.Attribute.HEIGHT.getName(), CDATA, writer);
         appendAttributeDeclaration(UILoader.Attribute.SIZE.getName(), CDATA, writer);
+        appendAttributeDeclaration(UILoader.Attribute.WEIGHT.getName(), CDATA, writer);
         appendAttributeDeclaration(UILoader.Attribute.LABEL.getName(), CDATA, writer);
         appendAttributeDeclaration(UILoader.Attribute.COLUMN_SPAN.getName(), CDATA, writer);
         appendAttributeDeclaration(UILoader.Attribute.GROUP.getName(), CDATA, writer);
