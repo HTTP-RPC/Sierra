@@ -36,7 +36,9 @@ public class FlagCellRenderer implements ListCellRenderer<Flag> {
     }
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends Flag> list, Flag value, int index, boolean selected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(JList<? extends Flag> list,
+        Flag value, int index,
+        boolean selected, boolean cellHasFocus) {
         iconLabel.setIcon(value.getIcon());
         nameLabel.setText(value.getName());
         descriptionLabel.setText(value.getDescription());
