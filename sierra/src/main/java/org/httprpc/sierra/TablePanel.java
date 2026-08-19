@@ -60,7 +60,11 @@ public class TablePanel extends GridPanel {
 
                 var preferredSize = component.getPreferredSize();
 
-                columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
+                var columnSpan = coalesce(columnSpans.get(i), () -> 1);
+
+                if (columnSpan == 1) {
+                    columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
+                }
 
                 var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
 
@@ -69,7 +73,7 @@ public class TablePanel extends GridPanel {
                     maximumRowDescent = Math.max(maximumRowDescent, preferredSize.height - baseline);
                 }
 
-                columnIndex += coalesce(columnSpans.get(i), () -> 1);
+                columnIndex += columnSpan;
 
                 if (columnIndex >= columnCount) {
                     totalRowHeight += maximumRowAscent + maximumRowDescent;
@@ -127,7 +131,11 @@ public class TablePanel extends GridPanel {
 
                 var preferredSize = component.getPreferredSize();
 
-                columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
+                var columnSpan = coalesce(columnSpans.get(i), () -> 1);
+
+                if (columnSpan == 1) {
+                    columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
+                }
 
                 var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
 
@@ -136,7 +144,7 @@ public class TablePanel extends GridPanel {
                     maximumRowDescent = Math.max(maximumRowDescent, preferredSize.height - baseline);
                 }
 
-                columnIndex += coalesce(columnSpans.get(i), () -> 1);
+                columnIndex += columnSpan;
 
                 if (columnIndex >= columnCount) {
                     rowHeights.add(maximumRowAscent + maximumRowDescent);

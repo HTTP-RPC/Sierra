@@ -106,10 +106,13 @@ public class DatePicker extends TemporalPicker {
             updateMonth();
         }
 
-        ColumnPanel createDateButtonPanel() {
-            var daysColumnPanel = new ColumnPanel();
+        TablePanel createDateButtonPanel() {
+            var dateButtonPanel = new TablePanel();
 
-            var dayOfWeekRow = new RowPanel();
+            dateButtonPanel.setColumnCount(7);
+
+            dateButtonPanel.setHorizontalSpacing(0);
+            dateButtonPanel.setVerticalSpacing(0);
 
             var locale = Locale.getDefault();
 
@@ -121,34 +124,28 @@ public class DatePicker extends TemporalPicker {
                 label.setHorizontalAlignment(SwingConstants.CENTER);
                 label.putClientProperty("FlatLaf.styleClass", "small");
 
-                dayOfWeekRow.add(label, 1.0);
+                dateButtonPanel.add(label);
 
                 dayOfWeek = DayOfWeek.of(dayOfWeek.getValue() % 7 + 1);
             }
 
-            daysColumnPanel.add(dayOfWeekRow);
-
-            daysColumnPanel.add(new JSeparator());
+            dateButtonPanel.add(new JSeparator(), (Object)7);
 
             dateButtons = new DateButton[6][];
 
             for (var i = 0; i < 6; i++) {
-                var row = new RowPanel();
-
                 dateButtons[i] = new DateButton[7];
 
                 for (var j = 0; j < 7; j++) {
                     var button = new DateButton();
 
-                    row.add(button);
+                    dateButtonPanel.add(button);
 
                     dateButtons[i][j] = button;
                 }
-
-                daysColumnPanel.add(row);
             }
 
-            return daysColumnPanel;
+            return dateButtonPanel;
         }
 
         void updateMonth() {
