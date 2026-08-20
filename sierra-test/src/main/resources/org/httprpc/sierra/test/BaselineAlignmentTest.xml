@@ -3,7 +3,7 @@
 <!DOCTYPE table-panel SYSTEM "sierra.dtd">
 
 <table-panel columnCount="2" alignToBaseline="true" padding="8" opaque="true">
-    <row-panel alignToBaseline="true" spacing="4">
+    <row-panel alignToBaseline="true" spacing="4" border="silver" padding="4">
         <label text="abcdefg" font="small" border="silver"/>
         <label text="hijk" font="large" border="silver"/>
 

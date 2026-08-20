@@ -62,7 +62,7 @@ public class TablePanel extends GridPanel {
 
                 var preferredSize = component.getPreferredSize();
 
-                var columnSpan = coalesce(columnSpans.get(i), () -> 1);
+                var columnSpan = getColumnSpan(i, columnIndex);
 
                 if (columnSpan == 1) {
                     columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
@@ -81,7 +81,7 @@ public class TablePanel extends GridPanel {
 
                 columnIndex += columnSpan;
 
-                if (columnIndex >= columnCount) {
+                if (columnIndex == columnCount) {
                     if (alignToBaseline) {
                         totalRowHeight += maximumRowAscent + maximumRowDescent;
                     } else {
@@ -151,7 +151,7 @@ public class TablePanel extends GridPanel {
 
                 var preferredSize = component.getPreferredSize();
 
-                var columnSpan = coalesce(columnSpans.get(i), () -> 1);
+                var columnSpan = getColumnSpan(i, columnIndex);
 
                 if (columnSpan == 1) {
                     columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
@@ -170,7 +170,7 @@ public class TablePanel extends GridPanel {
 
                 columnIndex += columnSpan;
 
-                if (columnIndex >= columnCount) {
+                if (columnIndex == columnCount) {
                     if (alignToBaseline) {
                         rowHeights.add(maximumRowAscent + maximumRowDescent);
                         rowBaselines.add(maximumRowAscent);
@@ -206,7 +206,7 @@ public class TablePanel extends GridPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                var columnSpan = Math.min(coalesce(columnSpans.get(i), () -> 1), columnCount - columnIndex);
+                var columnSpan = getColumnSpan(i, columnIndex);
 
                 var cellWidth = 0;
 
@@ -232,9 +232,7 @@ public class TablePanel extends GridPanel {
                     component.setLocation(x, y);
                 }
 
-                if (columnIndex < columnCount) {
-                    x += component.getWidth() + horizontalSpacing;
-                } else {
+                if (columnIndex == columnCount) {
                     columnIndex = 0;
 
                     x = insets.left;
@@ -242,8 +240,14 @@ public class TablePanel extends GridPanel {
                     y += rowHeights.get(rowIndex) + verticalSpacing;
 
                     rowIndex++;
+                } else {
+                    x += component.getWidth() + horizontalSpacing;
                 }
             }
+        }
+
+        private int getColumnSpan(int i, int columnIndex) {
+            return Math.min(coalesce(columnSpans.get(i), () -> 1), columnCount - columnIndex);
         }
     }
 
