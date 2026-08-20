@@ -75,7 +75,7 @@ public class DatePicker extends TemporalPicker {
         DateButton[][] dateButtons;
 
         CalendarPanel() {
-            setSpacing(6);
+            setSpacing(2);
 
             var zoneId = ZoneId.systemDefault();
 
@@ -99,20 +99,9 @@ public class DatePicker extends TemporalPicker {
 
             add(monthSpinner);
 
-            add(createDateButtonPanel());
+            add(new Spacer(2));
 
-            setBorder(new CompoundBorder(UIManager.getBorder("ScrollPane.border"), new EmptyBorder(4, 4, 4, 4)));
-
-            updateMonth();
-        }
-
-        TablePanel createDateButtonPanel() {
-            var dateButtonPanel = new TablePanel();
-
-            dateButtonPanel.setColumnCount(7);
-
-            dateButtonPanel.setHorizontalSpacing(0);
-            dateButtonPanel.setVerticalSpacing(0);
+            var dayOfWeekRow = new RowPanel();
 
             var locale = Locale.getDefault();
 
@@ -124,12 +113,21 @@ public class DatePicker extends TemporalPicker {
                 label.setHorizontalAlignment(SwingConstants.CENTER);
                 label.putClientProperty("FlatLaf.styleClass", "small");
 
-                dateButtonPanel.add(label);
+                dayOfWeekRow.add(label, 1.0);
 
                 dayOfWeek = DayOfWeek.of(dayOfWeek.getValue() % 7 + 1);
             }
 
-            dateButtonPanel.add(new JSeparator(), (Object)7);
+            add(dayOfWeekRow);
+
+            add(new JSeparator());
+
+            var dateButtonPanel = new TablePanel();
+
+            dateButtonPanel.setColumnCount(7);
+
+            dateButtonPanel.setHorizontalSpacing(0);
+            dateButtonPanel.setVerticalSpacing(0);
 
             dateButtons = new DateButton[6][];
 
@@ -145,7 +143,11 @@ public class DatePicker extends TemporalPicker {
                 }
             }
 
-            return dateButtonPanel;
+            add(dateButtonPanel);
+
+            setBorder(new CompoundBorder(UIManager.getBorder("ScrollPane.border"), new EmptyBorder(4, 4, 4, 4)));
+
+            updateMonth();
         }
 
         void updateMonth() {
