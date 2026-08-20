@@ -24,7 +24,7 @@ import static org.httprpc.kilo.util.Iterables.*;
 import static org.httprpc.kilo.util.Optionals.*;
 
 /**
- * Arranges components in a tabular grid. Row contents are aligned to baseline.
+ * Arranges components in a tabular grid.
  */
 public class TablePanel extends GridPanel {
     private class TableLayoutManager extends AbstractLayoutManager {
