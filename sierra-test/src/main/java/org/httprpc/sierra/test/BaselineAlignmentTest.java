@@ -32,9 +32,10 @@ public class BaselineAlignmentTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "BaselineAlignmentTest.xml"));
 
-        setMinimumSize(getPreferredSize());
-
+        pack();
         setVisible(true);
+
+        setMinimumSize(getPreferredSize());
     }
 
     public static void main(String[] args) {
