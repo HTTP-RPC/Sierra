@@ -50,6 +50,8 @@ public class TablePanel extends GridPanel {
 
             columnIndex = 0;
 
+            var rowHeight = 0;
+
             var maximumRowAscent = 0;
             var maximumRowDescent = 0;
 
@@ -66,20 +68,31 @@ public class TablePanel extends GridPanel {
                     columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
                 }
 
-                var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
+                if (alignToBaseline) {
+                    var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
 
-                if (baseline >= 0) {
-                    maximumRowAscent = Math.max(maximumRowAscent, baseline);
-                    maximumRowDescent = Math.max(maximumRowDescent, preferredSize.height - baseline);
+                    if (baseline >= 0) {
+                        maximumRowAscent = Math.max(maximumRowAscent, baseline);
+                        maximumRowDescent = Math.max(maximumRowDescent, preferredSize.height - baseline);
+                    }
+                } else {
+                    rowHeight = Math.max(rowHeight, preferredSize.height);
                 }
 
                 columnIndex += columnSpan;
 
                 if (columnIndex >= columnCount) {
-                    totalRowHeight += maximumRowAscent + maximumRowDescent;
+                    if (alignToBaseline) {
+                        totalRowHeight += maximumRowAscent + maximumRowDescent;
+                    } else {
+                        totalRowHeight += rowHeight;
+                    }
+
                     rowCount++;
 
                     columnIndex = 0;
+
+                    rowHeight = 0;
 
                     maximumRowAscent = 0;
                     maximumRowDescent = 0;
@@ -87,7 +100,12 @@ public class TablePanel extends GridPanel {
             }
 
             if (columnIndex < columnCount) {
-                totalRowHeight += maximumRowAscent + maximumRowDescent;
+                if (alignToBaseline) {
+                    totalRowHeight += maximumRowAscent + maximumRowDescent;
+                } else {
+                    totalRowHeight += rowHeight;
+                }
+
                 rowCount++;
             }
 
@@ -121,6 +139,8 @@ public class TablePanel extends GridPanel {
 
             columnIndex = 0;
 
+            var rowHeight = 0;
+
             var maximumRowAscent = 0;
             var maximumRowDescent = 0;
 
@@ -137,20 +157,30 @@ public class TablePanel extends GridPanel {
                     columnWidths.set(columnIndex, Math.max(columnWidths.get(columnIndex), preferredSize.width));
                 }
 
-                var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
+                if (alignToBaseline) {
+                    var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
 
-                if (baseline >= 0) {
-                    maximumRowAscent = Math.max(maximumRowAscent, baseline);
-                    maximumRowDescent = Math.max(maximumRowDescent, preferredSize.height - baseline);
+                    if (baseline >= 0) {
+                        maximumRowAscent = Math.max(maximumRowAscent, baseline);
+                        maximumRowDescent = Math.max(maximumRowDescent, preferredSize.height - baseline);
+                    }
+                } else {
+                    rowHeight = Math.max(rowHeight, preferredSize.height);
                 }
 
                 columnIndex += columnSpan;
 
                 if (columnIndex >= columnCount) {
-                    rowHeights.add(maximumRowAscent + maximumRowDescent);
-                    rowBaselines.add(maximumRowAscent);
+                    if (alignToBaseline) {
+                        rowHeights.add(maximumRowAscent + maximumRowDescent);
+                        rowBaselines.add(maximumRowAscent);
+                    } else {
+                        rowHeights.add(rowHeight);
+                    }
 
                     columnIndex = 0;
+
+                    rowHeight = 0;
 
                     maximumRowAscent = 0;
                     maximumRowDescent = 0;
@@ -158,8 +188,12 @@ public class TablePanel extends GridPanel {
             }
 
             if (columnIndex < columnCount) {
-                rowHeights.add(maximumRowAscent + maximumRowDescent);
-                rowBaselines.add(maximumRowAscent);
+                if (alignToBaseline) {
+                    rowHeights.add(maximumRowAscent + maximumRowDescent);
+                    rowBaselines.add(maximumRowAscent);
+                } else {
+                    rowHeights.add(rowHeight);
+                }
             }
 
             columnIndex = 0;
@@ -182,14 +216,20 @@ public class TablePanel extends GridPanel {
                     columnIndex++;
                 }
 
-                component.setSize(cellWidth + horizontalSpacing * (columnSpan - 1), component.getPreferredSize().height);
+                var cellHeight = alignToBaseline ? component.getPreferredSize().height : rowHeights.get(rowIndex);
 
-                var baseline = component.getBaseline(component.getWidth(), component.getHeight());
+                component.setSize(cellWidth + horizontalSpacing * (columnSpan - 1), cellHeight);
 
-                if (baseline >= 0) {
-                    component.setLocation(x, y + (rowBaselines.get(rowIndex) - baseline));
+                if (alignToBaseline) {
+                    var baseline = component.getBaseline(component.getWidth(), component.getHeight());
+
+                    if (baseline >= 0) {
+                        component.setLocation(x, y + (rowBaselines.get(rowIndex) - baseline));
+                    } else {
+                        component.setLocation(x, y + (rowHeights.get(rowIndex) - component.getHeight()) / 2);
+                    }
                 } else {
-                    component.setLocation(x, y + (rowHeights.get(rowIndex) - component.getHeight()) / 2);
+                    component.setLocation(x, y);
                 }
 
                 if (columnIndex < columnCount) {
@@ -210,6 +250,8 @@ public class TablePanel extends GridPanel {
     private List<Integer> columnSpans = new ArrayList<>();
 
     private int columnCount = 1;
+
+    private boolean alignToBaseline = false;
 
     /**
      * Constructs a new table panel.
@@ -253,6 +295,30 @@ public class TablePanel extends GridPanel {
         }
 
         this.columnCount = columnCount;
+
+        revalidate();
+        repaint();
+    }
+
+    /**
+     * Indicates that components will be aligned to baseline. The default value
+     * is {@code false}.
+     *
+     * @return
+     * {@code true} if baseline alignment is enabled; {@code false}, otherwise.
+     */
+    public boolean getAlignToBaseline() {
+        return alignToBaseline;
+    }
+
+    /**
+     * Toggles baseline alignment.
+     *
+     * @param alignToBaseline
+     * {@code true} to enable baseline alignment; {@code false} to disable it.
+     */
+    public void setAlignToBaseline(boolean alignToBaseline) {
+        this.alignToBaseline = alignToBaseline;
 
         revalidate();
         repaint();

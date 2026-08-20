@@ -75,7 +75,7 @@ public class DatePicker extends TemporalPicker {
         DateButton[][] dateButtons;
 
         CalendarPanel() {
-            setSpacing(2);
+            setSpacing(4);
 
             var zoneId = ZoneId.systemDefault();
 
@@ -99,9 +99,12 @@ public class DatePicker extends TemporalPicker {
 
             add(monthSpinner);
 
-            add(new Spacer(2));
+            var dateButtonPanel = new TablePanel();
 
-            var dayOfWeekRow = new RowPanel();
+            dateButtonPanel.setColumnCount(7);
+
+            dateButtonPanel.setHorizontalSpacing(0);
+            dateButtonPanel.setVerticalSpacing(0);
 
             var locale = Locale.getDefault();
 
@@ -113,21 +116,12 @@ public class DatePicker extends TemporalPicker {
                 label.setHorizontalAlignment(SwingConstants.CENTER);
                 label.putClientProperty("FlatLaf.styleClass", "small");
 
-                dayOfWeekRow.add(label, 1.0);
+                dateButtonPanel.add(label);
 
                 dayOfWeek = DayOfWeek.of(dayOfWeek.getValue() % 7 + 1);
             }
 
-            add(dayOfWeekRow);
-
-            add(new JSeparator());
-
-            var dateButtonPanel = new TablePanel();
-
-            dateButtonPanel.setColumnCount(7);
-
-            dateButtonPanel.setHorizontalSpacing(0);
-            dateButtonPanel.setVerticalSpacing(0);
+            dateButtonPanel.add(new JSeparator(), (Object)7);
 
             dateButtons = new DateButton[6][];
 
