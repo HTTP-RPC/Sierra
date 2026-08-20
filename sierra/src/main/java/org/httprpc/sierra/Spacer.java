@@ -25,6 +25,7 @@ public class Spacer extends JComponent {
      * Constructs a new spacer.
      */
     public Spacer() {
+        this(0);
     }
 
     /**

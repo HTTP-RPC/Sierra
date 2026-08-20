@@ -36,9 +36,7 @@ public class ColumnPanel extends BoxPanel {
 
                 contentWidth = Math.max(contentWidth, preferredSize.width);
 
-                if (Double.isNaN(getWeight(i))) {
-                    contentHeight += preferredSize.height;
-                }
+                contentHeight += preferredSize.height;
             }
 
             var insets = getInsets();

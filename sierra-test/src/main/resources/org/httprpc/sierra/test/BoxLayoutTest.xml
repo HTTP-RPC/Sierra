@@ -29,5 +29,4 @@
         <spacer weight="1"/>
     </row-panel>
     <button text="4" weight="1"/>
-    <button text="5"/>
 </column-panel>

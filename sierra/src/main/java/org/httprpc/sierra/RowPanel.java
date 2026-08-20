@@ -37,9 +37,7 @@ public class RowPanel extends BoxPanel {
 
                 var preferredSize = component.getPreferredSize();
 
-                if (Double.isNaN(getWeight(i))) {
-                    contentWidth += preferredSize.width;
-                }
+                contentWidth += preferredSize.width;
 
                 if (alignToBaseline) {
                     var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
