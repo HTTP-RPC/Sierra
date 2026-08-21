@@ -21,16 +21,16 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.awt.Font;
 
-public class BaselineAlignmentTest extends JFrame implements Runnable {
-    private BaselineAlignmentTest() {
-        super("Baseline Alignment Test");
+public class AlignmentTest extends JFrame implements Runnable {
+    private AlignmentTest() {
+        super("Alignment Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "BaselineAlignmentTest.xml"));
+        setContentPane(UILoader.load(this, "AlignmentTest.xml"));
 
         pack();
         setVisible(true);
@@ -45,6 +45,6 @@ public class BaselineAlignmentTest extends JFrame implements Runnable {
 
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new BaselineAlignmentTest());
+        SwingUtilities.invokeLater(new AlignmentTest());
     }
 }

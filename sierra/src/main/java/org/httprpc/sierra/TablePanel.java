@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.httprpc.kilo.util.Collections.*;
 import static org.httprpc.kilo.util.Iterables.*;
 import static org.httprpc.kilo.util.Optionals.*;
 
@@ -35,20 +36,12 @@ public class TablePanel extends GridPanel {
             var horizontalSpacing = getHorizontalSpacing();
             var verticalSpacing = getVerticalSpacing();
 
-            var columnWidths = new ArrayList<Integer>(columnCount);
+            var columnWidths = listOf(iterableOf(0, columnCount));
 
             var totalRowHeight = 0;
             var rowCount = 0;
 
             var columnIndex = 0;
-
-            while (columnIndex < columnCount) {
-                columnWidths.add(0);
-
-                columnIndex++;
-            }
-
-            columnIndex = 0;
 
             var rowHeight = 0;
 
@@ -109,6 +102,8 @@ public class TablePanel extends GridPanel {
                 rowCount++;
             }
 
+            adjustColumnWidths(columnWidths);
+
             var totalColumnWidth = sumOf(columnWidths, Integer::intValue);
 
             var preferredWidth = totalColumnWidth + horizontalSpacing * (columnCount - 1) + insets.left + insets.right;
@@ -124,20 +119,12 @@ public class TablePanel extends GridPanel {
             var horizontalSpacing = getHorizontalSpacing();
             var verticalSpacing = getVerticalSpacing();
 
-            var columnWidths = new ArrayList<Integer>(columnCount);
+            var columnWidths = listOf(iterableOf(0, columnCount));
 
             var rowHeights = new ArrayList<Integer>();
             var rowBaselines = new ArrayList<Integer>();
 
             var columnIndex = 0;
-
-            while (columnIndex < columnCount) {
-                columnWidths.add(0);
-
-                columnIndex++;
-            }
-
-            columnIndex = 0;
 
             var rowHeight = 0;
 
@@ -196,6 +183,8 @@ public class TablePanel extends GridPanel {
                 }
             }
 
+            adjustColumnWidths(columnWidths);
+
             columnIndex = 0;
 
             var x = insets.left;
@@ -248,6 +237,40 @@ public class TablePanel extends GridPanel {
 
         private int getColumnSpan(int i, int columnIndex) {
             return Math.min(coalesce(columnSpans.get(i), () -> 1), columnCount - columnIndex);
+        }
+
+        private void adjustColumnWidths(List<Integer> columnWidths) {
+            var columnIndex = 0;
+
+            var n = getComponentCount();
+
+            for (var i = 0; i < n; i++) {
+                var component = getComponent(i);
+
+                var preferredSize = component.getPreferredSize();
+
+                var columnSpan = getColumnSpan(i, columnIndex);
+
+                var cellWidth = 0;
+
+                for (var j = 0; j < columnSpan; j++) {
+                    cellWidth += columnWidths.get(columnIndex);
+
+                    columnIndex++;
+                }
+
+                cellWidth += getHorizontalSpacing() * (columnSpan - 1);
+
+                var delta = preferredSize.width - cellWidth;
+
+                if (delta > 0) {
+                    columnWidths.set(columnIndex - 1, columnWidths.get(columnIndex - 1) + delta);
+                }
+
+                if (columnIndex == columnCount) {
+                    columnIndex = 0;
+                }
+            }
         }
     }
 
