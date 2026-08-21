@@ -271,7 +271,7 @@ The following shorthand can be used to apply the same value to both width and he
 size="120"
 ```
 
-The "weight" attribute specifies the amount of excess space in a container that should be allocated to a component, relative to other weighted components in the container. When applied to a `Spacer` instance, it creates a "glue" component that automatically shrinks or stretches depending on the size of its container. However, weights are not limited to spacers and can be applied to any component type:
+The "weight" attribute specifies the amount of excess space in a column or row panel that should be allocated to a component, relative to other weighted components in the container. When applied to a `Spacer` instance, it creates an invisible "glue" component that automatically shrinks or stretches as needed. However, weights are not limited to spacers and can be applied to any component type:
 
 ```xml
 <column-panel spacing="4" padding="8" opaque="true">
