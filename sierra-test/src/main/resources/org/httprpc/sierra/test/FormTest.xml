@@ -10,19 +10,19 @@
     <text-field label="state" columns="12"/>
     <text-field label="postalCode" columns="8"/>
 
-    <separator/>
+    <spacer height="4"/>
 
     <text-field label="username" columns="8"/>
     <password-field label="password" columns="8"/>
 
-    <separator/>
+    <spacer height="4"/>
 
     <text-field label="emailAddress" columns="16"/>
     <text-field label="homePhone" columns="12"/>
     <text-field label="mobilePhone" columns="12"/>
     <text-field label="fax" columns="12"/>
 
-    <separator/>
+    <spacer height="4"/>
 
     <formatted-text-field name="formattedTextField1" label="field1" columns="12" focusLostBehavior="commit"/>
     <formatted-text-field name="formattedTextField2" label="field2" columns="12" focusLostBehavior="commit-or-revert"/>
@@ -34,7 +34,7 @@
         popupHorizontalAlignment="trailing"
         popupVerticalAlignment="center"/>
 
-    <separator/>
+    <spacer height="4"/>
 
     <scroll-pane label="notes">
         <text-area rows="4" columns="20" tabSize="2"/>

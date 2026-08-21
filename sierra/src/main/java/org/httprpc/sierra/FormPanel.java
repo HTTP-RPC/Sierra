@@ -101,10 +101,6 @@ public class FormPanel extends GridPanel {
                 var labelSize = label.getSize();
                 var fieldSize = field.getSize();
 
-                if (fieldSize.width == 0) {
-                    field.setSize(maximumFieldWidth, fieldSize.height);
-                }
-
                 var labelBaseline = label.getBaseline(labelSize.width, labelSize.height);
                 var fieldBaseline = field.getBaseline(fieldSize.width, fieldSize.height);
 
