@@ -25,9 +25,21 @@ public class ColumnPanel extends BoxPanel {
         @Override
         public Dimension preferredLayoutSize(Container container) {
             var contentWidth = 0;
-            var contentHeight = 0;
+
+            var fixedHeight = 0;
+            var variableHeight = 0;
+
+            var totalWeight = 0.0;
 
             var n = getComponentCount();
+
+            for (var i = 0; i < n; i++) {
+                var weight = getWeight(i);
+
+                if (!Double.isNaN(weight)) {
+                    totalWeight += weight;
+                }
+            }
 
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
@@ -36,13 +48,19 @@ public class ColumnPanel extends BoxPanel {
 
                 contentWidth = Math.max(contentWidth, preferredSize.width);
 
-                contentHeight += preferredSize.height;
+                var weight = getWeight(i);
+
+                if (Double.isNaN(weight)) {
+                    fixedHeight += preferredSize.height;
+                } else {
+                    variableHeight = Math.max(variableHeight, (int)Math.ceil(preferredSize.height * (totalWeight / weight)));
+                }
             }
 
             var insets = getInsets();
 
             var preferredWidth = contentWidth + insets.left + insets.right;
-            var preferredHeight = contentHeight + getSpacing() * (n - 1) + insets.top + insets.bottom;
+            var preferredHeight = fixedHeight + variableHeight + getSpacing() * (n - 1) + insets.top + insets.bottom;
 
             return new Dimension(preferredWidth, preferredHeight);
         }

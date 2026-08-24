@@ -24,7 +24,11 @@ public class RowPanel extends BoxPanel {
     private class RowLayoutManager extends AbstractLayoutManager {
         @Override
         public Dimension preferredLayoutSize(Container container) {
-            var contentWidth = 0;
+            var fixedWidth = 0;
+            var variableWidth = 0;
+
+            var totalWeight = 0.0;
+
             var contentHeight = 0;
 
             var maximumAscent = 0;
@@ -33,11 +37,25 @@ public class RowPanel extends BoxPanel {
             var n = getComponentCount();
 
             for (var i = 0; i < n; i++) {
+                var weight = getWeight(i);
+
+                if (!Double.isNaN(weight)) {
+                    totalWeight += weight;
+                }
+            }
+
+            for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
                 var preferredSize = component.getPreferredSize();
 
-                contentWidth += preferredSize.width;
+                var weight = getWeight(i);
+
+                if (Double.isNaN(weight)) {
+                    fixedWidth += preferredSize.width;
+                } else {
+                    variableWidth = Math.max(variableWidth, (int)Math.ceil(preferredSize.width * (totalWeight / weight)));
+                }
 
                 if (alignToBaseline) {
                     var baseline = component.getBaseline(preferredSize.width, preferredSize.height);
@@ -57,7 +75,7 @@ public class RowPanel extends BoxPanel {
 
             var insets = getInsets();
 
-            var preferredWidth = contentWidth + getSpacing() * (n - 1) + insets.left + insets.right;
+            var preferredWidth = fixedWidth + variableWidth + getSpacing() * (n - 1) + insets.left + insets.right;
             var preferredHeight = contentHeight + insets.top + insets.bottom;
 
             return new Dimension(preferredWidth, preferredHeight);

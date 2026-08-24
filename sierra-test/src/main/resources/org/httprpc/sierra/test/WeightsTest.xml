@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
+<column-panel spacing="4" padding="4" opaque="true">
+    <row-panel alignToBaseline="true" spacing="4">
+        <label text="abcd" horizontalAlignment="center" border="silver" weight="3"/>
+        <label text="efg" horizontalAlignment="center" border="silver" weight="2"/>
+
+        <label text="hijk lmnop" horizontalAlignment="center" styleClass="h1" border="silver" weight="1"/>
+    </row-panel>
+
+    <label text="abcd" horizontalAlignment="center" border="silver" weight="3"/>
+    <label text="efg" horizontalAlignment="center" border="silver" weight="2"/>
+
+    <label text="hijk lmnop" horizontalAlignment="center" styleClass="h1" border="silver" weight="1"/>
+</column-panel>

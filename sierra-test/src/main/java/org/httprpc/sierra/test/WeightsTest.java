@@ -19,32 +19,25 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import java.awt.Font;
 
-public class AlignmentTest extends JFrame implements Runnable {
-    private AlignmentTest() {
-        super("Alignment Test");
+public class WeightsTest extends JFrame implements Runnable {
+    private WeightsTest() {
+        super("Weights Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "AlignmentTest.xml"));
+        setContentPane(UILoader.load(this, "WeightsTest.xml"));
 
         setVisible(true);
         pack();
-
-        setMinimumSize(getSize());
     }
 
     public static void main(String[] args) {
-        UILoader.define("small", new Font("Arial", Font.PLAIN, 12));
-        UILoader.define("medium", new Font("Arial", Font.PLAIN, 24));
-        UILoader.define("large", new Font("Arial", Font.BOLD, 48));
-
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new AlignmentTest());
+        SwingUtilities.invokeLater(new WeightsTest());
     }
 }
