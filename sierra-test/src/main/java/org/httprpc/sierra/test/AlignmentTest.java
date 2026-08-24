@@ -32,8 +32,8 @@ public class AlignmentTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "AlignmentTest.xml"));
 
-        setVisible(true);
         pack();
+        setVisible(true);
 
         setMinimumSize(getSize());
     }
