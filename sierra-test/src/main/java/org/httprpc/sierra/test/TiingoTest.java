@@ -17,8 +17,8 @@ package org.httprpc.sierra.test;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.kilo.WebServiceProxy;
-import org.httprpc.kilo.beans.BeanAdapter;
 import org.httprpc.sierra.ActivityIndicator;
+import org.httprpc.sierra.BasicTableModel;
 import org.httprpc.sierra.ChartPane;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TaskExecutor;
@@ -40,9 +40,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableModel;
 import java.awt.BasicStroke;
 import java.net.URI;
 import java.text.NumberFormat;
@@ -59,65 +57,9 @@ import java.util.TreeMap;
 import java.util.concurrent.Executors;
 
 import static org.httprpc.kilo.util.Collections.*;
-import static org.httprpc.kilo.util.Iterables.*;
 import static org.httprpc.kilo.util.Optionals.*;
 
 public class TiingoTest extends JFrame implements Runnable {
-    private static class HistoricalPricingTableModel implements TableModel {
-        List<BeanAdapter> rows;
-
-        List<String> columns = listOf("date", "open", "high", "low", "close", "volume");
-
-        HistoricalPricingTableModel(List<AssetPricing> rows) {
-            this.rows = listOf(mapAll(rows, BeanAdapter::new));
-        }
-
-        @Override
-        public int getRowCount() {
-            return rows.size();
-        }
-
-        @Override
-        public int getColumnCount() {
-            return columns.size();
-        }
-
-        @Override
-        public String getColumnName(int columnIndex) {
-            return resourceBundle.getString(columns.get(columnIndex));
-        }
-
-        @Override
-        public Class<?> getColumnClass(int columnIndex) {
-            return Object.class;
-        }
-
-        @Override
-        public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return false;
-        }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            return rows.get(rowIndex).get(columns.get(columnIndex));
-        }
-
-        @Override
-        public void setValueAt(Object value, int rowIndex, int columnIndex) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void addTableModelListener(TableModelListener listener) {
-            // No-op
-        }
-
-        @Override
-        public void removeTableModelListener(TableModelListener listener) {
-            // No-op
-        }
-    }
-
     private static class DateCellRenderer extends DefaultTableCellRenderer {
         @Override
         public void setValue(Object value) {
@@ -285,7 +227,9 @@ public class TiingoTest extends JFrame implements Runnable {
     private void updateHistoricalPricing(List<AssetPricing> historicalPricing) {
         historicalPricing.sort(Comparator.comparing(AssetPricing::getDate).reversed());
 
-        historicalPricingTable.setModel(new HistoricalPricingTableModel(historicalPricing));
+        historicalPricingTable.setModel(new BasicTableModel<>(AssetPricing.class, historicalPricing,
+            listOf("date", "open", "high", "low", "close", "volume"),
+            resourceBundle));
 
         var columnModel = historicalPricingTable.getColumnModel();
 

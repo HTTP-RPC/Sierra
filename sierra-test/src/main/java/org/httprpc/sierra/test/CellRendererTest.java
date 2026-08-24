@@ -15,15 +15,14 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.BasicListModel;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ListDataListener;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
@@ -73,27 +72,7 @@ public class CellRendererTest extends JFrame implements Runnable {
 
         scrollPane.setBorder(null);
 
-        flagList.setModel(new ListModel<>() {
-            @Override
-            public int getSize() {
-                return flags.size();
-            }
-
-            @Override
-            public Flag getElementAt(int index) {
-                return flags.get(index);
-            }
-
-            @Override
-            public void addListDataListener(ListDataListener listener) {
-                // No-op
-            }
-
-            @Override
-            public void removeListDataListener(ListDataListener listener) {
-                // No-op
-            }
-        });
+        flagList.setModel(new BasicListModel<>(flags));
 
         flagList.setCellRenderer(new FlagCellRenderer());
 
