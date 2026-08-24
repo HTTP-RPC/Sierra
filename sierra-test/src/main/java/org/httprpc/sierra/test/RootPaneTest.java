@@ -16,17 +16,18 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.BasicListModel;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TaskExecutor;
 import org.httprpc.sierra.UILoader;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import java.util.concurrent.Executors;
 
+import static org.httprpc.kilo.util.Collections.*;
 import static org.httprpc.kilo.util.Optionals.*;
 
 public class RootPaneTest extends JFrame implements Runnable {
@@ -52,11 +53,7 @@ public class RootPaneTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "RootPaneTest.xml"));
 
-        list.setModel(new DefaultListModel<>() {{
-            addElement("One");
-            addElement("Two");
-            addElement("Three");
-        }});
+        list.setModel(new BasicListModel<>(listOf("One", "Two", "Three")));
 
         tabbedPane.add("Tab 2", new TabPane(taskExecutor));
         tabbedPane.add("Tab 3", new TabPane(taskExecutor));

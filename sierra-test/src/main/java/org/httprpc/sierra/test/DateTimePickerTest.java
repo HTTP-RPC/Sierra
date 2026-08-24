@@ -16,12 +16,12 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import org.httprpc.sierra.BasicComboBoxModel;
 import org.httprpc.sierra.DatePicker;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.TimePicker;
 import org.httprpc.sierra.UILoader;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -36,6 +36,7 @@ import java.time.format.FormatStyle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static org.httprpc.kilo.util.Collections.*;
 import static org.httprpc.kilo.util.Optionals.*;
 
 public class DateTimePickerTest extends JFrame implements Runnable {
@@ -88,7 +89,7 @@ public class DateTimePickerTest extends JFrame implements Runnable {
 
         timePicker.addChangeListener(event -> System.out.println(timePicker.getTime()));
 
-        minuteIntervalComboBox.setModel(new DefaultComboBoxModel<>(new Integer[] {1, 2, 3, 4, 5, 6, 10, 15, 20, 30}));
+        minuteIntervalComboBox.setModel(new BasicComboBoxModel<>(listOf(1, 2, 3, 4, 5, 6, 10, 15, 20, 30)));
         minuteIntervalComboBox.addActionListener(event -> timePicker.setMinuteInterval((Integer)minuteIntervalComboBox.getSelectedItem()));
 
         strictCheckBox.addActionListener(event -> timePicker.setStrict(strictCheckBox.isSelected()));

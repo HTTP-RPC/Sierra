@@ -25,7 +25,7 @@ import java.util.List;
  * The element type.
  */
 public class BasicListModel<E> implements ListModel<E> {
-    private List<E> elements;
+    private List<? extends E> elements;
 
     /**
      * Constructs a new basic list model.
@@ -33,7 +33,7 @@ public class BasicListModel<E> implements ListModel<E> {
      * @param elements
      * The list elements.
      */
-    public BasicListModel(List<E> elements) {
+    public BasicListModel(List<? extends E> elements) {
         if (elements == null) {
             throw new IllegalArgumentException();
         }
