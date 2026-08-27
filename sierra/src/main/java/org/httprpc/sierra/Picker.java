@@ -89,7 +89,6 @@ public abstract class Picker extends JTextField {
                 glassPane.addMouseWheelListener(mouseWheelListener);
 
                 glassPane.setVisible(true);
-
             } else {
                 owner.removeComponentListener(componentListener);
 
