@@ -193,7 +193,7 @@ public class ImagePane extends JComponent {
      * The image to display, or {@code null} for no image.
      */
     public void setImage(Image image) {
-        if (!(image instanceof RenderedImage)) {
+        if (image != null && !(image instanceof RenderedImage)) {
             throw new IllegalArgumentException();
         }
 
