@@ -207,4 +207,9 @@ public class MenuButton extends JButton {
 
         getComponentPopupMenu().remove(component);
     }
+
+    @Override
+    public void removeAll() {
+        getComponentPopupMenu().removeAll();
+    }
 }
