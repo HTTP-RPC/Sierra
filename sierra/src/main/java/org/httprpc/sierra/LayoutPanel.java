@@ -16,7 +16,6 @@ package org.httprpc.sierra;
 
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
-import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -76,6 +75,8 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
     private boolean scrollableTracksViewportWidth = false;
     private boolean scrollableTracksViewportHeight = false;
 
+    private static final int SCROLLABLE_UNIT_INCREMENT = 24;
+
     /**
      * Constructs a new layout panel.
      */
@@ -127,18 +128,12 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
 
     @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        return getScrollableBlockIncrement(visibleRect, orientation, direction) / 4;
+        return SCROLLABLE_UNIT_INCREMENT;
     }
 
     @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        var size = getSize();
-
-        return switch (orientation) {
-            case SwingConstants.VERTICAL -> size.height / 10;
-            case SwingConstants.HORIZONTAL -> size.width / 10;
-            default -> throw new UnsupportedOperationException();
-        };
+        return SCROLLABLE_UNIT_INCREMENT * 4;
     }
 
     @Override
