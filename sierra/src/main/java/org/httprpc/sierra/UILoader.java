@@ -1950,10 +1950,12 @@ public class UILoader {
     }
 
     private static Border parseBorder(String value) {
-        if (value.equals("none")) {
+        var border = value.trim();
+
+        if (border.equals("none")) {
             return new EmptyBorder(0, 0, 0, 0);
         } else {
-            var components = value.split(",");
+            var components = border.split(",");
 
             var color = parseColor(components[0].trim());
 

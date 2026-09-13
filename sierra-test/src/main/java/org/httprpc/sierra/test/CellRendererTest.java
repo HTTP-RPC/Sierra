@@ -70,8 +70,6 @@ public class CellRendererTest extends JFrame implements Runnable {
     public void run() {
         setContentPane(UILoader.load(this, "CellRendererTest.xml"));
 
-        scrollPane.setBorder(null);
-
         flagList.setModel(new BasicListModel<>(flags));
 
         flagList.setCellRenderer(new FlagCellRenderer());
