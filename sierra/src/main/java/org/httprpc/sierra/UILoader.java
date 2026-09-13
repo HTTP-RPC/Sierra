@@ -926,7 +926,7 @@ public class UILoader {
         }
 
         static Color getOpaqueBackground(Component component) {
-            if (component == null || component instanceof StackPanel) {
+            if (component == null) {
                 return null;
             } else if (component.isOpaque()) {
                 return component.getBackground();
