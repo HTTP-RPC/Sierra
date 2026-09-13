@@ -379,7 +379,7 @@ FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) val
 </row-panel>
 ```
 
-<img src="README/cell-renderer.png" width="532px"/>
+<img src="README/cell-renderer.png" width="572px"/>
 
 FlatLaf text styles are also accessible via the "font" property:
 

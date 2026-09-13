@@ -2,8 +2,11 @@
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel opaque="true">
-    <scroll-pane name="scrollPane" weight="1">
-        <list name="flagList" selectionMode="single-selection"/>
-    </scroll-pane>
+<column-panel padding="8" opaque="true">
+    <stack-panel border="Component.borderColor, 1, solid, 4" weight="1">
+        <scroll-pane name="scrollPane">
+            <list name="flagList" selectionMode="single-selection"/>
+        </scroll-pane>
+    </stack-panel>
 </column-panel>
+

@@ -52,6 +52,7 @@ import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+import javax.swing.RepaintManager;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -1292,6 +1293,41 @@ public class UILoader {
                 }
             }
         }
+    }
+
+    static {
+        RepaintManager.setCurrentManager(new RepaintManager() {
+            @Override
+            public void addDirtyRegion(JComponent component, int x, int y, int width, int height) {
+                if (component.getParent() instanceof JComponent parent) {
+                    if (component instanceof LayoutPanel) {
+                        var border = component.getBorder();
+
+                        if (border != null && !border.isBorderOpaque()) {
+                            var insets = border.getBorderInsets(component);
+
+                            var left = Math.max(x - insets.left, 0);
+                            var top = Math.max(y - insets.top, 0);
+
+                            var size = component.getSize();
+
+                            var right = Math.min(size.width - (x + width), 0);
+                            var bottom = Math.min(size.height - (y + height), 0);
+
+                            x = left;
+                            y = top;
+
+                            width = size.width - (left + right);
+                            height = size.height - (top + bottom);
+                        }
+                    }
+
+                    addDirtyRegion(parent, x + component.getX(), y + component.getY(), width, height);
+                } else {
+                    super.addDirtyRegion(component, x, y, width, height);
+                }
+            }
+        });
     }
 
     private UILoader(Object owner, String name, ResourceBundle resourceBundle) {

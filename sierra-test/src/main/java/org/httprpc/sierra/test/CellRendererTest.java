@@ -76,7 +76,7 @@ public class CellRendererTest extends JFrame implements Runnable {
 
         flagList.setCellRenderer(new FlagCellRenderer());
 
-        setSize(420, 560);
+        setSize(460, 620);
         setVisible(true);
     }
 
