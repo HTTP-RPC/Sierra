@@ -1,42 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!DOCTYPE form-panel SYSTEM "sierra.dtd">
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<form-panel padding="8" opaque="true">
-    <text-field label="firstName" columns="12"/>
-    <text-field label="lastName" columns="12"/>
-    <text-field label="streetAddress" columns="24"/>
-    <text-field label="city" columns="16"/>
-    <text-field label="state" columns="12"/>
-    <text-field label="postalCode" columns="8"/>
+<column-panel padding="8" opaque="true">
+    <stack-panel border="Component.borderColor, 1, solid, 4" weight="1">
+        <scroll-pane border="none">
+            <form-panel padding="8" opaque="true">
+                <text-field label="firstName" columns="12"/>
+                <text-field label="lastName" columns="12"/>
+                <text-field label="streetAddress" columns="24"/>
+                <text-field label="city" columns="16"/>
+                <text-field label="state" columns="12"/>
+                <text-field label="postalCode" columns="8"/>
 
-    <spacer height="4"/>
+                <spacer height="4"/>
 
-    <text-field label="username" columns="8"/>
-    <password-field label="password" columns="8"/>
+                <text-field label="username" columns="8"/>
+                <password-field label="password" columns="8"/>
 
-    <spacer height="4"/>
+                <spacer height="4"/>
 
-    <text-field label="emailAddress" columns="16"/>
-    <text-field label="homePhone" columns="12"/>
-    <text-field label="mobilePhone" columns="12"/>
-    <text-field label="fax" columns="12"/>
+                <text-field label="emailAddress" columns="16"/>
+                <text-field label="homePhone" columns="12"/>
+                <text-field label="mobilePhone" columns="12"/>
+                <text-field label="fax" columns="12"/>
 
-    <spacer height="4"/>
+                <spacer height="4"/>
 
-    <formatted-text-field name="formattedTextField1" label="field1" columns="12" focusLostBehavior="commit"/>
-    <formatted-text-field name="formattedTextField2" label="field2" columns="12" focusLostBehavior="commit-or-revert"/>
+                <formatted-text-field name="formattedTextField1" label="field1" columns="12" focusLostBehavior="commit"/>
+                <formatted-text-field name="formattedTextField2" label="field2" columns="12" focusLostBehavior="commit-or-revert"/>
 
-    <suggestion-picker name="suggestionPicker1" label="field3" columns="12"
-        popupHorizontalAlignment="trailing"
-        popupVerticalAlignment="center"/>
-    <suggestion-picker name="suggestionPicker2" label="field4" columns="12"
-        popupHorizontalAlignment="trailing"
-        popupVerticalAlignment="center"/>
+                <suggestion-picker name="suggestionPicker1" label="field3" columns="12"
+                    popupHorizontalAlignment="trailing"
+                    popupVerticalAlignment="center"/>
+                <suggestion-picker name="suggestionPicker2" label="field4" columns="12"
+                    popupHorizontalAlignment="trailing"
+                    popupVerticalAlignment="center"/>
 
-    <spacer height="4"/>
+                <spacer height="4"/>
 
-    <scroll-pane label="notes">
-        <text-area rows="4" columns="20" tabSize="2"/>
-    </scroll-pane>
-</form-panel>
+                <scroll-pane label="notes">
+                    <text-area rows="4" columns="20" tabSize="2"/>
+                </scroll-pane>
+            </form-panel>
+        </scroll-pane>
+    </stack-panel>
+</column-panel>

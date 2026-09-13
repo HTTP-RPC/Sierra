@@ -22,7 +22,6 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
@@ -49,11 +48,7 @@ public class FormTest extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        var scrollPane = new JScrollPane(UILoader.load(this, "FormTest.xml", resourceBundle));
-
-        scrollPane.setBorder(null);
-
-        setContentPane(scrollPane);
+        setContentPane(UILoader.load(this, "FormTest.xml", resourceBundle));
 
         var numberFormat = NumberFormat.getIntegerInstance();
 

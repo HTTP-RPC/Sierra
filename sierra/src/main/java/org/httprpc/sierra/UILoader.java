@@ -1950,42 +1950,46 @@ public class UILoader {
     }
 
     private static Border parseBorder(String value) {
-        var components = value.split(",");
-
-        var color = parseColor(components[0].trim());
-
-        if (components.length == 1) {
-            return new LineBorder(color);
+        if (value.equals("none")) {
+            return new EmptyBorder(0, 0, 0, 0);
         } else {
-            var thickness = Integer.parseInt(components[1].trim());
+            var components = value.split(",");
 
-            if (components.length == 2) {
-                return new LineBorder(color, thickness);
+            var color = parseColor(components[0].trim());
+
+            if (components.length == 1) {
+                return new LineBorder(color);
             } else {
-                var dashArray = switch(components[2].trim()) {
-                    case "solid" -> null;
-                    case "dashed" -> new float[]{thickness * 2.5f, thickness * 5.0f};
-                    case "dotted" -> new float[]{0.0f, thickness * 2.5f};
-                    default -> throw new IllegalArgumentException("Invalid border style.");
-                };
+                var thickness = Integer.parseInt(components[1].trim());
 
-                int cornerRadius;
-                if (components.length == 3) {
-                    cornerRadius = 0;
-                } else if (components.length == 4) {
-                    cornerRadius = Integer.parseInt(components[3].trim());
-
-                    if (cornerRadius < 0) {
-                        throw new IllegalArgumentException("Invalid corner radius.");
-                    }
+                if (components.length == 2) {
+                    return new LineBorder(color, thickness);
                 } else {
-                    throw new IllegalArgumentException("Invalid border.");
-                }
+                    var dashArray = switch(components[2].trim()) {
+                        case "solid" -> null;
+                        case "dashed" -> new float[]{thickness * 2.5f, thickness * 5.0f};
+                        case "dotted" -> new float[]{0.0f, thickness * 2.5f};
+                        default -> throw new IllegalArgumentException("Invalid border style.");
+                    };
 
-                return new RoundedLineBorder(color, new BasicStroke(thickness,
-                    BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND,
-                    0.0f, dashArray, 0.0f), cornerRadius);
+                    int cornerRadius;
+                    if (components.length == 3) {
+                        cornerRadius = 0;
+                    } else if (components.length == 4) {
+                        cornerRadius = Integer.parseInt(components[3].trim());
+
+                        if (cornerRadius < 0) {
+                            throw new IllegalArgumentException("Invalid corner radius.");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Invalid border.");
+                    }
+
+                    return new RoundedLineBorder(color, new BasicStroke(thickness,
+                        BasicStroke.CAP_ROUND,
+                        BasicStroke.JOIN_ROUND,
+                        0.0f, dashArray, 0.0f), cornerRadius);
+                }
             }
         }
     }

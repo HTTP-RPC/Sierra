@@ -233,6 +233,14 @@ Border thickness, style, and corner radius can be specified as shown below:
 
 The default border thickness is 1. Style options include "solid" (the default), "dashed", and "dotted". The default corner radius is 0.
 
+A value of "none" indicates that a component should not have a border:
+
+```xml
+<scroll-pane name="scrollPane" border="none">
+    ...
+</scroll-pane>
+```
+
 Padding values for multiple sides can be specified in _top_, _left_, _bottom_, _right_ order:
 
 ```
@@ -379,7 +387,7 @@ FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) val
 </row-panel>
 ```
 
-<img src="README/cell-renderer.png" width="572px"/>
+<img src="README/cell-renderer.png" width="532px"/>
 
 FlatLaf text styles are also accessible via the "font" property:
 
