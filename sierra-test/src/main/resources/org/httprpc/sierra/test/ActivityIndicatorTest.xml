@@ -3,7 +3,7 @@
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
 <column-panel spacing="8" padding="8" opaque="true">
-    <row-panel spacing="16" border="silver" padding="16" opaque="true" background="white" weight="1">
+    <row-panel spacing="16" border="#c0c0c0" padding="16" opaque="true" background="#ffffff" weight="1">
         <spacer weight="1"/>
         <activity-indicator name="activityIndicator1" indicatorStyle="small"/>
         <activity-indicator name="activityIndicator2"/>

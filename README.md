@@ -27,7 +27,7 @@ For example, the following markup declares a column panel containing a graphic a
 
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
-<column-panel padding="8" opaque="true" background="white">
+<column-panel padding="8" opaque="true" background="#ffffff">
     <image-pane image="world.png" scaleMode="fill-width"/>
     <text-pane text="Hello, World!" horizontalAlignment="center"/>
 </column-panel>
@@ -90,7 +90,7 @@ Elements can be nested to create a component hierarchy. For example:
 
     <row-panel spacing="8">
         <button name="button" text="Execute Task"/>
-        <label name="label" foreground="gray"/>
+        <label name="label" foreground="#808080"/>
         <spacer weight="1"/>
         <activity-indicator name="activityIndicator"/>
     </row-panel>
@@ -161,15 +161,16 @@ Color and font properties can be specified using the formats supported by `Color
 
 Colors and fonts can also be specified by name. The name can refer to either a value provided by Swing's UI defaults or a value defined by `UILoader`:
 
-<img src="README/color-chooser.png" width="1136px"/>
+```java
+UILoader.define("red", new Color(0xff0000));
+UILoader.define("dark-red", new Color(0x8b0000));
+```
 
 Opacity can be specified as a value between 0 and 1:
 
 ```
 red; 0.5
 ```
-
-Sierra supports the complete set of [extended web colors](https://en.wikipedia.org/wiki/Web_colors#Extended_colors) by default. Additional named colors and fonts can be added via the `define()` methods of the `UILoader` class.
 
 ## Image and Icon Values
 Image and icon properties are specified via a path relative to the document's owner. For example:
@@ -220,13 +221,13 @@ The "border" and "padding" attributes create a line border and reserve space aro
 For example, this markup creates a label with a light gray border and four pixels of padding on each side:
 
 ```xml
-<label text="pageStart" horizontalAlignment="center" border="silver" padding="4"/>
+<label text="pageStart" horizontalAlignment="center" border="light-gray" padding="4"/>
 ```
 
 Border thickness, style, and corner radius can be specified as shown below:
 
 ```xml
-<image-pane image="lighthouse.jpg" scaleMode="fill-height" border="green, 2, solid, 16"/>
+<image-pane image="lighthouse.jpg" scaleMode="fill-height" border="#008000, 2, solid, 16"/>
 ```
 
 <img src="README/border.png" width="226px"/>
@@ -270,7 +271,7 @@ The "width" and "height" attributes specify a fixed dimension for a component. T
 The "size" attribute specifies values for both dimensions:
 
 ```xml
-<spacer size="20, 20" border="silver"/>
+<spacer size="20, 20" border="#c0c0c0"/>
 ```
 
 The following shorthand can be used to apply the same value to both width and height:
@@ -283,15 +284,15 @@ The "weight" attribute specifies the amount of excess space in a column or row p
 
 ```xml
 <column-panel spacing="4" padding="8" opaque="true">
-    <label text="Page Start" horizontalAlignment="center" border="silver" padding="4"/>
+    <label text="Page Start" horizontalAlignment="center" border="light-gray" padding="4"/>
 
     <row-panel spacing="4" weight="1">
-        <label text="Line Start" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
-        <label text="Center" font="h1" horizontalAlignment="center" border="silver" padding="4" weight="1"/>
-        <label text="Line End" font="h2" horizontalAlignment="center" border="silver" padding="4"/>
+        <label text="Line Start" font="h2" horizontalAlignment="center" border="light-gray" padding="4"/>
+        <label text="Center" font="h1" horizontalAlignment="center" border="light-gray" padding="4" weight="1"/>
+        <label text="Line End" font="h2" horizontalAlignment="center" border="light-gray" padding="4"/>
     </row-panel>
 
-    <label text="Page End" horizontalAlignment="center" border="silver" padding="4"/>
+    <label text="Page End" horizontalAlignment="center" border="light-gray" padding="4"/>
 </column-panel>
 ```
 

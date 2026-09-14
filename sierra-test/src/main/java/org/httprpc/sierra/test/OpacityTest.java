@@ -19,6 +19,7 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import java.awt.Color;
 
 public class OpacityTest extends JFrame implements Runnable {
     private OpacityTest() {
@@ -36,6 +37,9 @@ public class OpacityTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        UILoader.define("red", new Color(0xff0000));
+        UILoader.define("dark-red", new Color(0x8b0000));
+
         FlatLightLaf.setup();
 
         SwingUtilities.invokeLater(new OpacityTest());

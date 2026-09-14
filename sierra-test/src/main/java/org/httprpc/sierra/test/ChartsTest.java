@@ -35,6 +35,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.Month;
@@ -372,6 +373,12 @@ public class ChartsTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        UILoader.define("light-coral", new Color(0xf08080));
+        UILoader.define("orange", new Color(0xffa500));
+        UILoader.define("gold", new Color(0xffd700));
+        UILoader.define("light-green", new Color(0x90ee90));
+        UILoader.define("light-blue", new Color(0xadd8e6));
+
         var dark = coalesce(map(System.getProperty("dark"), Boolean::valueOf), () -> false);
 
         if (dark) {

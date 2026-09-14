@@ -3,9 +3,6 @@
 <!ENTITY % java.awt.Container "%java.awt.Component; focusCycleRoot (true|false) focusTraversalPolicyProvider (true|false) font CDATA ">
 <!ENTITY % javax.swing.JComponent "%java.awt.Container; alignmentX CDATA alignmentY CDATA autoscrolls (true|false) background CDATA debugGraphicsOptions CDATA doubleBuffered (true|false) enabled (true|false) font CDATA foreground CDATA inheritsPopupMenu (true|false) opaque (true|false) requestFocusEnabled (true|false) toolTipText CDATA verifyInputWhenFocusTarget (true|false) visible (true|false) ">
 <!ENTITY % javax.swing.AbstractButton "%javax.swing.JComponent; actionCommand CDATA borderPainted (true|false) contentAreaFilled (true|false) disabledIcon CDATA disabledSelectedIcon CDATA displayedMnemonicIndex CDATA enabled (true|false) focusPainted (true|false) hideActionText (true|false) horizontalAlignment (left|right|center|leading|trailing) horizontalTextPosition (left|right|center|leading|trailing) icon CDATA iconTextGap CDATA label CDATA mnemonic CDATA multiClickThreshhold CDATA pressedIcon CDATA rolloverEnabled (true|false) rolloverIcon CDATA rolloverSelectedIcon CDATA selected (true|false) selectedIcon CDATA text CDATA verticalAlignment (top|bottom|center) verticalTextPosition (top|bottom|center) ">
-<!ENTITY % javax.swing.JColorChooser "%javax.swing.JComponent; color CDATA dragEnabled (true|false) ">
-<!ELEMENT color-chooser EMPTY>
-<!ATTLIST color-chooser %javax.swing.JColorChooser;>
 <!ENTITY % javax.swing.JComboBox "%javax.swing.JComponent; actionCommand CDATA editable (true|false) enabled (true|false) lightWeightPopupEnabled (true|false) maximumRowCount CDATA popupVisible (true|false) selectedIndex CDATA ">
 <!ELEMENT combo-box EMPTY>
 <!ATTLIST combo-box %javax.swing.JComboBox;>

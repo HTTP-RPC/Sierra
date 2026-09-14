@@ -19,6 +19,7 @@ import org.httprpc.sierra.UILoader;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import java.awt.Color;
 
 public class BadgeTest extends JFrame implements Runnable {
     private BadgeTest() {
@@ -36,6 +37,16 @@ public class BadgeTest extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        UILoader.define("white", new Color(0xffffff));
+        UILoader.define("crimson", new Color(0xdc143c));
+        UILoader.define("pink", new Color(0xffc0cb));
+        UILoader.define("goldenrod", new Color(0xdaa520));
+        UILoader.define("pale-goldenrod", new Color(0xeee8aa));
+        UILoader.define("steel-blue", new Color(0x4682b4));
+        UILoader.define("light-blue", new Color(0xadd8e6));
+        UILoader.define("green", new Color(0x008000));
+        UILoader.define("light-green", new Color(0x90ee90));
+
         FlatLightLaf.setup();
 
         SwingUtilities.invokeLater(new BadgeTest());

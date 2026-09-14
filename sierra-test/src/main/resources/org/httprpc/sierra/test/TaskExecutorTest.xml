@@ -10,7 +10,7 @@
 
     <row-panel spacing="8">
         <button name="button" text="Execute Task"/>
-        <label name="label" foreground="gray"/>
+        <label name="label" foreground="#808080"/>
         <spacer weight="1"/>
         <activity-indicator name="activityIndicator"/>
     </row-panel>

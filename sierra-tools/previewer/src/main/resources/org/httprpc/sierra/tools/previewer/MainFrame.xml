@@ -28,5 +28,5 @@
     </split-pane>
 
     <label name="filePathLabel" text="" padding="4, 6, 4, 6"/>
-    <label name="statusBar" text="Ready." padding="2, 5, 2, 5" border="silver, 1"/>
+    <label name="statusBar" text="Ready." padding="2, 5, 2, 5" border="#c0c0c0, 1"/>
 </column-panel>
