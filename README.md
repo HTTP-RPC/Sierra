@@ -221,7 +221,7 @@ The "border" and "padding" attributes create a line border and reserve space aro
 For example, this markup creates a label with a light gray border and four pixels of padding on each side:
 
 ```xml
-<label text="pageStart" horizontalAlignment="center" border="light-gray" padding="4"/>
+<label text="Page Start" horizontalAlignment="center" border="light-gray" padding="4"/>
 ```
 
 Border thickness, style, and corner radius can be specified as shown below:
@@ -302,7 +302,7 @@ The "weight" attribute specifies the amount of excess space in a column or row p
 The "label" attribute associates a description with a form field. For example:
 
 ```xml
-<form-panel padding="8" opaque="true">
+<form-panel padding="8">
     <text-field label="firstName" columns="12"/>
     <text-field label="lastName" columns="12"/>
     <text-field label="streetAddress" columns="24"/>

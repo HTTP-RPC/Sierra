@@ -5,7 +5,7 @@
 <column-panel padding="8" opaque="true">
     <stack-panel border="Component.borderColor, 1, solid, 4" weight="1">
         <scroll-pane border="none">
-            <form-panel padding="8" opaque="true">
+            <form-panel padding="8">
                 <text-field label="firstName" columns="12"/>
                 <text-field label="lastName" columns="12"/>
                 <text-field label="streetAddress" columns="24"/>
