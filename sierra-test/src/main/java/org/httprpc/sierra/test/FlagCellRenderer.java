@@ -15,7 +15,6 @@
 package org.httprpc.sierra.test;
 
 import org.httprpc.sierra.ColumnPanel;
-import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.RowPanel;
 
 import javax.swing.JLabel;
@@ -28,9 +27,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 public class FlagCellRenderer extends RowPanel implements ListCellRenderer<Flag> {
-    private @Outlet JLabel iconLabel = null;
-    private @Outlet JLabel nameLabel = null;
-    private @Outlet JLabel descriptionLabel = null;
+    private JLabel iconLabel;
+    private JLabel nameLabel;
+    private JLabel descriptionLabel;
 
     public FlagCellRenderer() {
         setOpaque(true);
