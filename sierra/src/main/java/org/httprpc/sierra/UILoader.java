@@ -1794,6 +1794,29 @@ public class UILoader {
         fonts.put(name, font);
     }
 
+    /**
+     * Creates a rounded line border.
+     *
+     * @param color
+     * The border color.
+     *
+     * @param stroke
+     * The border stroke.
+     *
+     * @param cornerRadius
+     * The corner radius.
+     *
+     * @return
+     * A rounded line border.
+     */
+    public static Border createRoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius) {
+        if (color == null || stroke == null || cornerRadius < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        return new RoundedLineBorder(color, stroke, cornerRadius);
+    }
+
     private static Border parseBorder(String value) {
         var border = value.trim();
 
