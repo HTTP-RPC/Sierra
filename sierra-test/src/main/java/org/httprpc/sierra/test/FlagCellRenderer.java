@@ -14,25 +14,47 @@
 
 package org.httprpc.sierra.test;
 
+import org.httprpc.sierra.ColumnPanel;
 import org.httprpc.sierra.Outlet;
-import org.httprpc.sierra.UILoader;
+import org.httprpc.sierra.RowPanel;
 
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 
-public class FlagCellRenderer implements ListCellRenderer<Flag> {
-    private JComponent component;
-
+public class FlagCellRenderer extends RowPanel implements ListCellRenderer<Flag> {
     private @Outlet JLabel iconLabel = null;
     private @Outlet JLabel nameLabel = null;
     private @Outlet JLabel descriptionLabel = null;
 
     public FlagCellRenderer() {
-        component = UILoader.load(this, "FlagCellRenderer.xml");
+        setOpaque(true);
+
+        setSpacing(4);
+
+        add(new JLabel(), label -> {
+            label.setPreferredSize(new Dimension(30, 30));
+            label.setVerticalAlignment(SwingConstants.CENTER);
+
+            iconLabel = label;
+        });
+
+        add(new ColumnPanel(), columnPanel -> {
+            columnPanel.add(new JLabel(), label -> {
+                label.putClientProperty("FlatLaf.styleClass", "h4");
+
+                nameLabel = label;
+            });
+
+            columnPanel.add(new JLabel(), label -> descriptionLabel = label);
+        }, 1.0);
+
+        setBorder(new EmptyBorder(4, 4, 4, 4));
     }
 
     @Override
@@ -53,11 +75,11 @@ public class FlagCellRenderer implements ListCellRenderer<Flag> {
             foreground = list.getForeground();
         }
 
-        component.setBackground(background);
+        setBackground(background);
 
         nameLabel.setForeground(foreground);
         descriptionLabel.setForeground(foreground);
 
-        return component;
+        return this;
     }
 }

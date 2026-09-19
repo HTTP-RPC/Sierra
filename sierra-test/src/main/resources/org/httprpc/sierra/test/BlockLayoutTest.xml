@@ -5,7 +5,7 @@
 <scroll-pane padding="0">
     <column-panel spacing="8" padding="8" scrollableTracksViewportWidth="true" opaque="true" background="#ffffff">
         <column-panel spacing="4">
-            <text-pane text="Heading 1" font="h1.font"/>
+            <label text="Heading 1" styleClass="h1"/>
             <text-pane text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
 
             <row-panel>
@@ -21,7 +21,7 @@
         </column-panel>
 
         <column-panel spacing="4">
-            <text-pane text="Heading 2a" font="h2.font"/>
+            <label text="Heading 2a" styleClass="h2"/>
             <text-pane text="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
 
             <row-panel>
@@ -32,7 +32,7 @@
         </column-panel>
 
         <column-panel spacing="4">
-            <text-pane text="Heading 2b" font="h2.font"/>
+            <label text="Heading 2b" styleClass="h2"/>
             <text-pane text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."/>
 
             <column-panel padding="0, 8, 0, 0">

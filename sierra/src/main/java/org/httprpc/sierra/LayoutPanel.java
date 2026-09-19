@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import java.awt.Component;
@@ -22,6 +23,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.LayoutManager2;
 import java.awt.Rectangle;
+import java.util.function.Consumer;
 
 /**
  * Abstract base class for layout panels.
@@ -84,6 +86,47 @@ public abstract class LayoutPanel extends JPanel implements Scrollable {
         super(null, false);
 
         setOpaque(false);
+    }
+
+    /**
+     * Adds a component to the layout panel.
+     *
+     * @param <T>
+     * The component type.
+     *
+     * @param component
+     * The component to add.
+     *
+     * @param builder
+     * The builder to apply to the component.
+     */
+    public <T extends JComponent> void add(T component, Consumer<? super T> builder) {
+        add(component, builder, null);
+    }
+
+    /**
+     * Adds a component to the layout panel.
+     *
+     * @param <T>
+     * The component type.
+     *
+     * @param component
+     * The component to add.
+     *
+     * @param builder
+     * The builder to apply to the component.
+     *
+     * @param constraints
+     * The layout constraints.
+     */
+    public <T extends JComponent> void add(T component, Consumer<? super T> builder, Object constraints) {
+        if (component == null || builder == null) {
+            throw new IllegalArgumentException();
+        }
+
+        builder.accept(component);
+
+        add(component, constraints);
     }
 
     @Override

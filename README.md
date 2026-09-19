@@ -375,25 +375,10 @@ When used in conjunction with `JTabbedPane`, the "tabTitle" and "tabIcon" attrib
 <img src="README/root-pane.png" width="592px"/>
 
 ## FlatLaf Styles
-FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "style" and "styleClass" attributes, respectively. For example, this markup applies the "h4" style class to a `JLabel` instance used by a list cell renderer:
+FlatLaf style and [style class](https://www.formdev.com/flatlaf/typography/) values can be specified via the "style" and "styleClass" attributes, respectively. For example:
 
 ```xml
-<row-panel spacing="4" padding="4" opaque="true">
-    <label name="iconLabel" size="30" verticalAlignment="center"/>
-
-    <column-panel weight="1">
-        <label name="nameLabel" styleClass="h4"/>
-        <label name="descriptionLabel"/>
-    </column-panel>
-</row-panel>
-```
-
-<img src="README/cell-renderer.png" width="532px"/>
-
-FlatLaf text styles are also accessible via the "font" property:
-
-```xml
-<text-pane text="Heading 1" font="h1.font"/>
+<label text="Heading 1" styleClass="h1"/>
 ```
 
 <img src="README/block-layout.png" width="472px"/>
