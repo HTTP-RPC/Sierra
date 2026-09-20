@@ -51,23 +51,22 @@ columnPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
 columnPanel.setOpaque(true);
 columnPanel.setBackground(Color.WHITE);
 
-var imagePane = new ImagePane();
+columnPanel.add(new ImagePane(), imagePane -> {
+    try (var inputStream = getClass().getResourceAsStream("world.png")) {
+        imagePane.setImage(ImageIO.read(inputStream));
+    } catch (IOException exception) {
+        throw new RuntimeException(exception);
+    }
 
-try (var inputStream = getClass().getResourceAsStream("world.png")) {
-    imagePane.setImage(ImageIO.read(inputStream));
-} catch (IOException exception) {
-    throw new RuntimeException(exception);
-}
+    imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH);
+});
 
-imagePane.setScaleMode(ImagePane.ScaleMode.FILL_WIDTH);
+columnPanel.add(new TextPane(), textPane -> {
+    textPane.setText("Hello, World!");
+    textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
+});
 
-columnPanel.add(imagePane);
-
-var textPane = new TextPane("Hello, World!");
-
-textPane.setHorizontalAlignment(HorizontalAlignment.CENTER);
-
-columnPanel.add(textPane);
+setContentPane(columnPanel);
 ```
 
 The complete source code for this example can be found [here](sierra-test/src/main/java/org/httprpc/sierra/test/GreetingTest.java).
