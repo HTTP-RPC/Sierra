@@ -3,14 +3,17 @@
 <!DOCTYPE column-panel SYSTEM "sierra.dtd">
 
 <column-panel spacing="8" padding="8" opaque="true">
-    <row-panel spacing="8">
+    <row-panel spacing="8" alignToBaseline="true">
         <menu-button name="menuButton" text="showMenu">
             <menu-item name="menuItem1" text="item1"/>
             <menu-item name="menuItem2" text="item2"/>
             <menu-item name="menuItem3" text="item3"/>
         </menu-button>
 
-        <check-box name="focusableCheckBox" text="focusable"/>
+        <column-panel>
+            <check-box name="focusableCheckBox" text="focusable"/>
+            <check-box name="menuEnabledCheckBox" text="menuEnabled"/>
+        </column-panel>
     </row-panel>
 
     <label name="selectionLabel"/>

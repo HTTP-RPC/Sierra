@@ -117,7 +117,7 @@ public class MenuButton extends JButton {
         setModel(new JToggleButton.ToggleButtonModel() {
             @Override
             public void setSelected(boolean selected) {
-                if (selected && popupMenu.getComponentCount() > 0) {
+                if (selected && popupMenu.isEnabled() && popupMenu.getComponentCount() > 0) {
                     super.setSelected(true);
 
                     var size = getSize();

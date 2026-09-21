@@ -432,7 +432,7 @@ See [SuggestionPickerTest.java](sierra-test/src/main/java/org/httprpc/sierra/tes
 ## Menu Buttons
 The `MenuButton` component displays a popup menu when pressed:
 
-<img src="README/menu-button.png" width="210px"/>
+<img src="README/menu-button.png" width="256px"/>
 
 See [MenuButtonTest.java](sierra-test/src/main/java/org/httprpc/sierra/test/MenuButtonTest.java) for more information.
 

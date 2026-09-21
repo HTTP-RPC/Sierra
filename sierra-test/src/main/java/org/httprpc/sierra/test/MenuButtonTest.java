@@ -34,6 +34,7 @@ public class MenuButtonTest extends JFrame implements Runnable {
     private @Outlet JMenuItem menuItem3 = null;
 
     private @Outlet JCheckBox focusableCheckBox = null;
+    private @Outlet JCheckBox menuEnabledCheckBox = null;
 
     private @Outlet JLabel selectionLabel = null;
 
@@ -56,6 +57,9 @@ public class MenuButtonTest extends JFrame implements Runnable {
         focusableCheckBox.addActionListener(event -> toggleFocusable());
         focusableCheckBox.setSelected(true);
 
+        menuEnabledCheckBox.addActionListener(event -> toggleMenuEnabled());
+        menuEnabledCheckBox.setSelected(true);
+
         setSize(320, 160);
         setVisible(true);
     }
@@ -66,6 +70,10 @@ public class MenuButtonTest extends JFrame implements Runnable {
 
     private void toggleFocusable() {
         menuButton.setFocusable(focusableCheckBox.isSelected());
+    }
+
+    private void toggleMenuEnabled() {
+        menuButton.getComponentPopupMenu().setEnabled(menuEnabledCheckBox.isSelected());
     }
 
     public static void main(String[] args) {
