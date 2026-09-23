@@ -1810,11 +1810,36 @@ public class UILoader {
      * A rounded line border.
      */
     public static Border createRoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius) {
-        if (color == null || stroke == null || cornerRadius < 0) {
+        return createRoundedLineBorder(color, stroke, cornerRadius, new Insets(0, 0, 0, 0));
+    }
+
+    /**
+     * Creates a rounded line border.
+     *
+     * @param color
+     * The border color.
+     *
+     * @param stroke
+     * The border stroke.
+     *
+     * @param cornerRadius
+     * The corner radius.
+     *
+     * @param padding
+     * The padding insets.
+     *
+     * @return
+     * A rounded line border.
+     */
+    public static Border createRoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius, Insets padding) {
+        if (color == null || stroke == null || cornerRadius < 0 || padding == null) {
             throw new IllegalArgumentException();
         }
 
-        return new RoundedLineBorder(color, stroke, cornerRadius);
+        var outsideBorder = new RoundedLineBorder(color, stroke, cornerRadius);
+        var insideBorder = new EmptyBorder(padding.top, padding.left, padding.bottom, padding.right);
+
+        return new CompoundBorder(outsideBorder, insideBorder);
     }
 
     private static Border parseBorder(String value) {
