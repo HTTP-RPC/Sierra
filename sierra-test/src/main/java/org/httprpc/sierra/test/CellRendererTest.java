@@ -15,20 +15,115 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.sierra.BasicListModel;
+import org.httprpc.sierra.ColumnPanel;
 import org.httprpc.sierra.Outlet;
+import org.httprpc.sierra.RowPanel;
+import org.httprpc.sierra.Spacer;
 import org.httprpc.sierra.UILoader;
 
+import javax.swing.Icon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JScrollPane;
+import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.util.List;
 
 import static org.httprpc.kilo.util.Collections.*;
 
 public class CellRendererTest extends JFrame implements Runnable {
-    private @Outlet JScrollPane scrollPane = null;
+    private static class Flag {
+        Icon icon;
+        String name;
+        String description;
+
+        Flag(String iconName, String name, String description) {
+            var icon = new FlatSVGIcon(getClass().getResource(String.format("flags/%s", iconName)));
+
+            this.icon = icon.derive(ICON_SIZE, ICON_SIZE);
+
+            this.name = name;
+            this.description = description;
+        }
+    }
+
+    private static class FlagCellRenderer extends RowPanel implements ListCellRenderer<Flag> {
+        JLabel iconLabel;
+        JLabel nameLabel;
+        JLabel descriptionLabel;
+
+        FlagCellRenderer() {
+            setOpaque(true);
+
+            setSpacing(4);
+
+            add(new ColumnPanel(), columnPanel -> {
+                columnPanel.add(new JLabel(), label -> {
+                    label.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
+
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    label.setVerticalAlignment(SwingConstants.CENTER);
+
+                    label.setBorder(UILoader.createRoundedLineBorder(UIManager.getColor("List.selectionInactiveBackground"),
+                        new BasicStroke(1,
+                            BasicStroke.CAP_ROUND,
+                            BasicStroke.JOIN_ROUND), 4));
+
+                    iconLabel = label;
+                });
+
+                columnPanel.add(new Spacer(), 1.0);
+            });
+
+            add(new ColumnPanel(), columnPanel -> {
+                columnPanel.add(new JLabel(), label -> {
+                    label.putClientProperty("FlatLaf.styleClass", "h4");
+
+                    nameLabel = label;
+                });
+
+                columnPanel.add(new JLabel(), label -> descriptionLabel = label);
+            }, 1.0);
+
+            setBorder(new EmptyBorder(4, 4, 4, 4));
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList<? extends Flag> list,
+            Flag value, int index,
+            boolean selected, boolean cellHasFocus) {
+            iconLabel.setIcon(value.icon);
+            nameLabel.setText(value.name);
+            descriptionLabel.setText(value.description);
+
+            Color background;
+            Color foreground;
+            if (selected) {
+                background = list.getSelectionBackground();
+                foreground = list.getSelectionForeground();
+            } else {
+                background = list.getBackground();
+                foreground = list.getForeground();
+            }
+
+            setBackground(background);
+
+            nameLabel.setForeground(foreground);
+            descriptionLabel.setForeground(foreground);
+
+            return this;
+        }
+    }
+
     private @Outlet JList<Flag> flagList = null;
 
     private List<Flag> flags = listOf(
@@ -60,6 +155,8 @@ public class CellRendererTest extends JFrame implements Runnable {
         new Flag("zulu.svg", "Zulu", "I require a tug.")
     );
 
+    private static final int ICON_SIZE = 48;
+
     private CellRendererTest() {
         super("Cell Renderer Test");
 
@@ -74,7 +171,7 @@ public class CellRendererTest extends JFrame implements Runnable {
 
         flagList.setCellRenderer(new FlagCellRenderer());
 
-        setSize(420, 560);
+        setSize(480, 640);
         setVisible(true);
     }
 
