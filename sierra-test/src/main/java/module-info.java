@@ -12,14 +12,9 @@
  * limitations under the License.
  */
 
-module org.httprpc.sierra.test {
-    requires java.desktop;
-
-    requires org.httprpc.kilo.client;
+open module org.httprpc.sierra.test {
     requires org.httprpc.sierra;
 
     requires com.formdev.flatlaf;
     requires org.pushingpixels.radiance.theming;
-
-    opens org.httprpc.sierra.test to org.httprpc.sierra;
 }
