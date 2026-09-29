@@ -16,6 +16,8 @@ package org.httprpc.sierra;
 
 import com.github.weisj.jsvg.SVGDocument;
 import com.github.weisj.jsvg.parser.SVGLoader;
+import com.github.weisj.jsvg.renderer.NullPlatformSupport;
+import com.github.weisj.jsvg.renderer.output.Output;
 import org.httprpc.kilo.beans.BeanAdapter;
 
 import javax.imageio.ImageIO;
@@ -76,10 +78,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Paint;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -95,8 +104,10 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -854,6 +865,168 @@ public class UILoader {
      * SVG icon.
      */
     public static class SVGIcon implements Icon {
+        private class MappedOutput implements Output, Output.SafeState {
+            Graphics2D graphics;
+
+            MappedOutput(Graphics2D graphics) {
+                this.graphics = graphics;
+            }
+
+            @Override
+            public void fillShape(Shape shape) {
+                graphics.fill(shape);
+            }
+
+            @Override
+            public void drawShape(Shape shape) {
+                graphics.draw(shape);
+            }
+
+            @Override
+            public void drawImage(BufferedImage image) {
+                // No-op
+            }
+
+            @Override
+            public void drawImage(Image image, ImageObserver observer) {
+                // No-op
+            }
+
+            @Override
+            public void drawImage(Image image, AffineTransform transform, ImageObserver observer) {
+                // No-op
+            }
+
+            @Override
+            public void setPaint(Paint paint) {
+                if (paint instanceof Color color && colorMapper != null) {
+                    graphics.setColor(colorMapper.apply(color));
+                } else {
+                    graphics.setPaint(paint);
+                }
+            }
+
+            @Override
+            public void setPaint(Supplier<Paint> paintSupplier) {
+                setPaint(paintSupplier.get());
+            }
+
+            @Override
+            public void setStroke(Stroke stroke) {
+                graphics.setStroke(stroke);
+            }
+
+            @Override
+            public Stroke stroke() {
+                return graphics.getStroke();
+            }
+
+            @Override
+            public void applyClip(Shape shape) {
+                graphics.clip(shape);
+            }
+
+            @Override
+            public Optional<Float> contextFontSize() {
+                return Optional.ofNullable(graphics.getFont()).map(Font::getSize2D);
+            }
+
+            @Override
+            public Output createChild() {
+                return new MappedOutput((Graphics2D)graphics.create());
+            }
+
+            @Override
+            public void dispose() {
+                graphics.dispose();
+            }
+
+            @Override
+            public void debugPaint(Consumer<Graphics2D> painter) {
+                // No-op
+            }
+
+            @Override
+            public Rectangle2D clipBounds() {
+                return graphics.getClipBounds();
+            }
+
+            @Override
+            public RenderingHints renderingHints() {
+                return graphics.getRenderingHints();
+            }
+
+            @Override
+            public Object renderingHint(RenderingHints.Key key) {
+                return graphics.getRenderingHint(key);
+            }
+
+            @Override
+            public void setRenderingHint(RenderingHints.Key key, Object value) {
+                graphics.setRenderingHint(key, value);
+            }
+
+            @Override
+            public AffineTransform transform() {
+                return graphics.getTransform();
+            }
+
+            @Override
+            public void setTransform(AffineTransform transform) {
+                graphics.setTransform(transform);
+            }
+
+            @Override
+            public void applyTransform(AffineTransform transform) {
+                graphics.transform(transform);
+            }
+
+            @Override
+            public void rotate(double angle) {
+                graphics.rotate(angle);
+            }
+
+            @Override
+            public void scale(double sx, double sy) {
+                graphics.scale(sx, sy);
+            }
+
+            @Override
+            public void translate(double dx, double dy) {
+                graphics.translate(dx, dy);
+            }
+
+            @Override
+            public float currentOpacity() {
+                return 1;
+            }
+
+            @Override
+            public void applyOpacity(float opacity) {
+                // No-op
+            }
+
+            @Override
+            public SafeState safeState() {
+                return this;
+            }
+
+            @Override
+            public boolean supportsFilters() {
+                return true;
+            }
+
+            @Override
+            public boolean supportsColors() {
+                return true;
+            }
+
+            @Override
+            public void restore() {
+                // No-op
+            }
+        }
+
         private SVGDocument svgDocument;
 
         private int iconWidth;
@@ -900,7 +1073,7 @@ public class UILoader {
             graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
-            svgDocument.render(null, graphics);
+            svgDocument.renderWithPlatform(NullPlatformSupport.INSTANCE, new MappedOutput(graphics), null);
 
             graphics.dispose();
         }
