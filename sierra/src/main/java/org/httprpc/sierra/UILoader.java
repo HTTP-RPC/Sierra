@@ -884,19 +884,25 @@ public class UILoader {
 
         @Override
         public void paintIcon(Component component, Graphics graphics, int x, int y) {
-            var iconGraphics = (Graphics2D)graphics.create();
+            paintIcon((Graphics2D)graphics, x, y);
+        }
 
-            iconGraphics.translate(x, y);
+        private void paintIcon(Graphics2D graphics, int x, int y) {
+            graphics = (Graphics2D)graphics.create();
+
+            graphics.translate(x, y);
 
             var size = svgDocument.size();
 
-            iconGraphics.scale(iconWidth / size.getWidth(), iconHeight / size.getHeight());
+            graphics.scale(iconWidth / size.getWidth(), iconHeight / size.getHeight());
 
-            // TODO Apply color mapper
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
-            svgDocument.render(null, iconGraphics);
+            svgDocument.render(null, graphics);
 
-            iconGraphics.dispose();
+            graphics.dispose();
         }
 
         @Override
