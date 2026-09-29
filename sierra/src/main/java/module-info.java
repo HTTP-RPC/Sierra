@@ -14,7 +14,6 @@
 
 module org.httprpc.sierra {
     requires transitive java.desktop;
-    requires transitive java.xml;
 
     requires transitive org.httprpc.kilo.client;
 
