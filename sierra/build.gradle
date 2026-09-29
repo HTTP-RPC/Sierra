@@ -29,12 +29,10 @@ java {
 dependencies {
     api "org.httprpc:kilo-client:${kiloVersion}"
 
-    compileOnly "com.formdev:flatlaf:${flatLafVersion}"
-    compileOnly "com.formdev:flatlaf-extras:${flatLafVersion}"
+    implementation "com.github.weisj:jsvg:${jSVGVersion}"
 
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
     testImplementation "com.formdev:flatlaf:${flatLafVersion}"
-    testImplementation "com.formdev:flatlaf-extras:${flatLafVersion}"
     testImplementation 'org.apache.xmlgraphics:batik-all:1.19'
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

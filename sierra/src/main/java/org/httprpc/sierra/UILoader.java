@@ -14,7 +14,8 @@
 
 package org.httprpc.sierra;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.github.weisj.jsvg.SVGDocument;
+import com.github.weisj.jsvg.parser.SVGLoader;
 import org.httprpc.kilo.beans.BeanAdapter;
 
 import javax.imageio.ImageIO;
@@ -849,6 +850,104 @@ public class UILoader {
         }
     }
 
+    /**
+     * SVG icon.
+     */
+    public static class SVGIcon implements Icon {
+        private SVGDocument svgDocument;
+
+        private int iconWidth;
+        private int iconHeight;
+
+        private Function<Color, Color> colorMapper = null;
+
+        /**
+         * Constructs a new SVG icon.
+         *
+         * @param url
+         * The icon URL.
+         */
+        public SVGIcon(URL url) {
+            if (url == null) {
+                throw new IllegalArgumentException();
+            }
+
+            var svgLoader = new SVGLoader();
+
+            svgDocument = svgLoader.load(url);
+
+            var size = svgDocument.size();
+
+            iconWidth = (int)Math.round(size.getWidth());
+            iconHeight = (int)Math.round(size.getHeight());
+        }
+
+        @Override
+        public void paintIcon(Component component, Graphics graphics, int x, int y) {
+            var iconGraphics = (Graphics2D)graphics.create();
+
+            iconGraphics.translate(x, y);
+
+            var size = svgDocument.size();
+
+            iconGraphics.scale(iconWidth / size.getWidth(), iconHeight / size.getHeight());
+
+            // TODO Apply color mapper
+
+            svgDocument.render(null, iconGraphics);
+
+            iconGraphics.dispose();
+        }
+
+        @Override
+        public int getIconWidth() {
+            return iconWidth;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return iconHeight;
+        }
+
+        /**
+         * Sets the icon size.
+         *
+         * @param iconWidth
+         * The icon width.
+         *
+         * @param iconHeight
+         * The icon height.
+         */
+        public void setIconSize(int iconWidth, int iconHeight) {
+            if (iconWidth < 0 || iconHeight < 0) {
+                throw new IllegalArgumentException();
+            }
+
+            this.iconWidth = iconWidth;
+            this.iconHeight = iconHeight;
+        }
+
+        /**
+         * Returns the color mapper.
+         *
+         * @return
+         * The color mapper, or {@code null} if no color mapper is set.
+         */
+        public Function<Color, Color> getColorMapper() {
+            return colorMapper;
+        }
+
+        /**
+         * Sets the color mapper.
+         *
+         * @param colorMapper
+         * The color mapper, or {@code null} for no color mapper.
+         */
+        public void setColorMapper(Function<Color, Color> colorMapper) {
+            this.colorMapper = colorMapper;
+        }
+    }
+
     private static class RoundedLineBorder implements Border {
         Color color;
         BasicStroke stroke;
@@ -933,78 +1032,6 @@ public class UILoader {
             } else {
                 return getOpaqueBackground(component.getParent());
             }
-        }
-    }
-
-    private static class LabelColorMapper implements Function<Color, Color> {
-        @Override
-        public Color apply(Color color) {
-            return UIManager.getColor("Label.foreground");
-        }
-    }
-
-    private static class ButtonColorMapper implements Function<Color, Color> {
-        JButton button;
-
-        ButtonColorMapper(JButton button) {
-            this.button = button;
-        }
-
-        @Override
-        public Color apply(Color color) {
-            if (button.isSelected()) {
-                return UIManager.getColor("Button.selectedForeground");
-            } else {
-                return UIManager.getColor("Button.foreground");
-            }
-        }
-    }
-
-    private static class ToggleButtonColorMapper implements Function<Color, Color> {
-        JToggleButton toggleButton;
-
-        ToggleButtonColorMapper(JToggleButton toggleButton) {
-            this.toggleButton = toggleButton;
-        }
-
-        @Override
-        public Color apply(Color color) {
-            if (toggleButton.isSelected()) {
-                return UIManager.getColor("ToggleButton.selectedForeground");
-            } else {
-                return UIManager.getColor("ToggleButton.foreground");
-            }
-        }
-    }
-
-    private static class MenuItemColorMapper implements Function<Color, Color> {
-        JMenuItem menuItem;
-
-        MenuItemColorMapper(JMenuItem menuItem) {
-            this.menuItem = menuItem;
-        }
-
-        @Override
-        public Color apply(Color color) {
-            if (menuItem.isSelected() || menuItem.isArmed()) {
-                return UIManager.getColor("MenuItem.selectionForeground");
-            } else {
-                return UIManager.getColor("MenuItem.foreground");
-            }
-        }
-    }
-
-    private static class TextFieldColorMapper implements Function<Color, Color> {
-        @Override
-        public Color apply(Color color) {
-            return UIManager.getColor("TextField.placeholderForeground");
-        }
-    }
-
-    private static class TabbedPaneColorMapper implements Function<Color, Color> {
-        @Override
-        public Color apply(Color color) {
-            return UIManager.getColor("TabbedPane.foreground");
         }
     }
 
@@ -1342,8 +1369,8 @@ public class UILoader {
             } else if (name.equals(Attribute.TAB_ICON.getName())) {
                 tabIcon = getIcon(value);
 
-                if (tabIcon instanceof FlatSVGIcon flatSVGIcon) {
-                    flatSVGIcon.setColorFilter(new FlatSVGIcon.ColorFilter(new TabbedPaneColorMapper()));
+                if (tabIcon instanceof SVGIcon svgIcon) {
+                    svgIcon.setColorMapper(color -> UIManager.getColor("TabbedPane.foreground"));
                 }
             } else if (name.equals(Attribute.STYLE.getName()) || name.equals(Attribute.STYLE_CLASS.getName())) {
                 component.putClientProperty(String.format("FlatLaf.%s", name), value);
@@ -1354,8 +1381,8 @@ public class UILoader {
             } else if (name.equals(Attribute.LEADING_ICON.getName()) || name.equals(Attribute.TRAILING_ICON.getName())) {
                 var icon = getIcon(value);
 
-                if (icon instanceof FlatSVGIcon flatSVGIcon) {
-                    flatSVGIcon.setColorFilter(new FlatSVGIcon.ColorFilter(new TextFieldColorMapper()));
+                if (icon instanceof SVGIcon svgIcon) {
+                    svgIcon.setColorMapper(color -> UIManager.getColor("TextField.placeholderForeground"));
                 }
 
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), icon);
@@ -1418,23 +1445,39 @@ public class UILoader {
                 } else if (propertyType == Icon.class) {
                     var icon = getIcon(value);
 
-                    if (icon instanceof FlatSVGIcon flatSVGIcon) {
-                        Function<Color, Color> mapper;
+                    if (icon instanceof SVGIcon svgIcon) {
+                        Function<Color, Color> colorMapper;
                         if (component instanceof JLabel) {
-                            mapper = new LabelColorMapper();
+                            colorMapper = color -> UIManager.getColor("Label.foreground");
                         } else if (component instanceof JButton button) {
-                            mapper = new ButtonColorMapper(button);
+                            colorMapper = color -> {
+                                if (button.isSelected()) {
+                                    return UIManager.getColor("Button.selectedForeground");
+                                } else {
+                                    return UIManager.getColor("Button.foreground");
+                                }
+                            };
                         } else if (component instanceof JToggleButton toggleButton) {
-                            mapper = new ToggleButtonColorMapper(toggleButton);
+                            colorMapper = color -> {
+                                if (toggleButton.isSelected()) {
+                                    return UIManager.getColor("ToggleButton.selectedForeground");
+                                } else {
+                                    return UIManager.getColor("ToggleButton.foreground");
+                                }
+                            };
                         } else if (component instanceof JMenuItem menuItem) {
-                            mapper = new MenuItemColorMapper(menuItem);
+                            colorMapper = color -> {
+                                if (menuItem.isSelected() || menuItem.isArmed()) {
+                                    return UIManager.getColor("MenuItem.selectionForeground");
+                                } else {
+                                    return UIManager.getColor("MenuItem.foreground");
+                                }
+                            };
                         } else {
-                            mapper = null;
+                            colorMapper = null;
                         }
 
-                        if (mapper != null) {
-                            flatSVGIcon.setColorFilter(new FlatSVGIcon.ColorFilter(mapper));
-                        }
+                        svgIcon.setColorMapper(colorMapper);
                     }
 
                     argument = icon;
@@ -1543,12 +1586,12 @@ public class UILoader {
     private Icon getIcon(String value) {
         var components = value.split(";");
 
-        var icon = icons.computeIfAbsent(components[0].trim(), key -> new FlatSVGIcon(getURL(key)));
+        var icon = icons.computeIfAbsent(components[0].trim(), key -> new SVGIcon(getURL(key)));
 
         if (components.length > 1) {
             var size = parseSize(components[1]);
 
-            icon = ((FlatSVGIcon)icon).derive(size.width, size.height);
+            ((SVGIcon)icon).setIconSize(size.width, size.height);
         }
 
         return icon;
@@ -1807,7 +1850,7 @@ public class UILoader {
      * The corner radius.
      *
      * @return
-     * A rounded line border.
+     * The border instance.
      */
     public static Border createRoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius) {
         return createRoundedLineBorder(color, stroke, cornerRadius, new Insets(0, 0, 0, 0));
@@ -1829,7 +1872,7 @@ public class UILoader {
      * The padding insets.
      *
      * @return
-     * A rounded line border.
+     * The border instance.
      */
     public static Border createRoundedLineBorder(Color color, BasicStroke stroke, int cornerRadius, Insets padding) {
         if (color == null || stroke == null || cornerRadius < 0 || padding == null) {

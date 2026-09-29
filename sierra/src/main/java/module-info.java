@@ -12,27 +12,11 @@
  * limitations under the License.
  */
 
-subprojects {
-    group = 'org.httprpc'
-    version = '4.10'
+module org.httprpc.sierra {
+    requires java.desktop;
+    requires java.xml;
 
-    repositories {
-        mavenCentral()
-        mavenLocal()
-    }
-}
+    requires org.httprpc.kilo.client;
 
-configure(subprojects) {
-    tasks.withType(Jar).configureEach {
-        manifest {
-            attributes (
-                'Implementation-Title': project.name,
-                'Implementation-Version': project.version
-            )
-        }
-    }
-
-    tasks.withType(Javadoc).configureEach {
-        (options as StandardJavadocDocletOptions).addBooleanOption("Xdoclint:none", true)
-    }
+    requires com.github.weisj.jsvg;
 }

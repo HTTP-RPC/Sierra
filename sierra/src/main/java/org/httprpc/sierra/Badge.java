@@ -14,8 +14,6 @@
 
 package org.httprpc.sierra;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -157,8 +155,8 @@ public class Badge extends JLabel {
     public void setIcon(Icon icon) {
         super.setIcon(icon);
 
-        if (icon instanceof FlatSVGIcon flatSVGIcon) {
-            flatSVGIcon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> getForeground()));
+        if (icon instanceof UILoader.SVGIcon svgIcon) {
+            svgIcon.setColorMapper(color -> getForeground());
         }
     }
 
@@ -166,7 +164,7 @@ public class Badge extends JLabel {
      * Returns the outline color.
      *
      * @return
-     * The outline color, or {@code null} if no outline color has been set.
+     * The outline color, or {@code null} if no outline color is set.
      */
     public Color getOutline() {
         return outline;

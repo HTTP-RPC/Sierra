@@ -92,7 +92,7 @@ public class ValidatedTextField extends JTextField {
      * Returns the field's value.
      *
      * @return
-     * The field's value, or {@code null} if no value has been set.
+     * The field's value, or {@code null} if no value is set.
      */
     public String getValue() {
         return value;

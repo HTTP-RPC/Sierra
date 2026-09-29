@@ -178,7 +178,7 @@ Image and icon properties are specified via a path relative to the document's ow
 <image-pane image="world.png" scaleMode="fill-width"/>
 ```
 
-Icon support is currently limited to SVG documents and requires the [FlatLaf Extras](https://github.com/JFormDesigner/FlatLaf/tree/main/flatlaf-extras) library:
+Icon support is currently limited to SVG documents:
 
 ```xml
 <toggle-button name="alignLeftButton"

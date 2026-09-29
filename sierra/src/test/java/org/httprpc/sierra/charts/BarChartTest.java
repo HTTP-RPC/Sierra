@@ -14,7 +14,7 @@
 
 package org.httprpc.sierra.charts;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
+import org.httprpc.sierra.UILoader;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
@@ -520,9 +520,9 @@ public class BarChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet));
 
-        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+        var icon = new UILoader.SVGIcon(getClass().getResource("icons/flag_24dp.svg"));
 
-        icon = icon.derive(18, 18);
+        icon.setIconSize(18, 18);
 
         chart.setDomainMarkers(sortedMapOf(
             entry(dataSet.getDataPoints().firstKey(), new Chart.Marker("First", icon)),
@@ -546,9 +546,9 @@ public class BarChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet));
 
-        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+        var icon = new UILoader.SVGIcon(getClass().getResource("icons/flag_24dp.svg"));
 
-        icon = icon.derive(18, 18);
+        icon.setIconSize(18, 18);
 
         chart.setDomainMarkers(sortedMapOf(
             entry(dataSet.getDataPoints().firstKey(), new Chart.Marker("First", icon)),
@@ -572,9 +572,9 @@ public class BarChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet));
 
-        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+        var icon = new UILoader.SVGIcon(getClass().getResource("icons/flag_24dp.svg"));
 
-        icon = icon.derive(18, 18);
+        icon.setIconSize(18, 18);
 
         chart.setRangeMarkers(sortedMapOf(
             entry(0.1, new Chart.Marker("Bottom", icon)),
@@ -600,9 +600,9 @@ public class BarChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet));
 
-        var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+        var icon = new UILoader.SVGIcon(getClass().getResource("icons/flag_24dp.svg"));
 
-        icon = icon.derive(18, 18);
+        icon.setIconSize(18, 18);
 
         chart.setRangeMarkers(sortedMapOf(
             entry(0.1, new Chart.Marker("Left", icon)),

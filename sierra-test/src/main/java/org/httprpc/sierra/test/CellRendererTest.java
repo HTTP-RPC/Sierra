@@ -15,7 +15,6 @@
 package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.sierra.BasicListModel;
 import org.httprpc.sierra.ColumnPanel;
 import org.httprpc.sierra.Outlet;
@@ -23,7 +22,6 @@ import org.httprpc.sierra.RowPanel;
 import org.httprpc.sierra.Spacer;
 import org.httprpc.sierra.UILoader;
 
-import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -42,14 +40,14 @@ import static org.httprpc.kilo.util.Collections.*;
 
 public class CellRendererTest extends JFrame implements Runnable {
     private static class Flag {
-        Icon icon;
+        UILoader.SVGIcon icon;
         String name;
         String description;
 
         Flag(String iconName, String name, String description) {
-            var icon = new FlatSVGIcon(getClass().getResource(String.format("flags/%s", iconName)));
+            icon = new UILoader.SVGIcon(getClass().getResource(String.format("flags/%s", iconName)));
 
-            this.icon = icon.derive(ICON_SIZE, ICON_SIZE);
+            icon.setIconSize(ICON_SIZE, ICON_SIZE);
 
             this.name = name;
             this.description = description;

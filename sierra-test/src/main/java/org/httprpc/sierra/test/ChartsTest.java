@@ -16,7 +16,6 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.httprpc.sierra.ChartPane;
 import org.httprpc.sierra.Outlet;
 import org.httprpc.sierra.RowPanel;
@@ -238,11 +237,10 @@ public class ChartsTest extends JFrame implements Runnable {
         timeSeriesChart.setDataSets(dataSets);
 
         if (!showValueMarkers) {
-            var icon = new FlatSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+            var icon = new UILoader.SVGIcon(getClass().getResource("icons/flag_24dp.svg"));
 
-            icon = icon.derive(18, 18);
-
-            icon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> timeSeriesChart.getMarkerColor()));
+            icon.setIconSize(18, 18);
+            icon.setColorMapper(color -> timeSeriesChart.getMarkerColor());
 
             timeSeriesChart.setDomainMarkers(sortedMapOf(
                 entry(100, new Chart.Marker("Marker 1", icon)),
