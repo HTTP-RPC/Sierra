@@ -1272,9 +1272,33 @@ public class UILoader {
     private static final Map<String, Integer> keyCodes = new HashMap<>();
 
     static {
-        bind("label", JLabel.class, JLabel::new);
-        bind("button", JButton.class, JButton::new);
-        bind("toggle-button", JToggleButton.class, JToggleButton::new);
+        bind("label", JLabel.class, () -> new JLabel() {
+            @Override
+            public void setIcon(Icon icon) {
+                super.setIcon(icon);
+
+                setDisabledIcon(icon);
+            }
+        });
+
+        bind("button", JButton.class, () -> new JButton() {
+            @Override
+            public void setIcon(Icon icon) {
+                super.setIcon(icon);
+
+                setDisabledIcon(icon);
+            }
+        });
+
+        bind("toggle-button", JToggleButton.class, () -> new JToggleButton() {
+            @Override
+            public void setIcon(Icon icon) {
+                super.setIcon(icon);
+
+                setDisabledIcon(icon);
+            }
+        });
+
         bind("radio-button", JRadioButton.class, JRadioButton::new);
         bind("check-box", JCheckBox.class, JCheckBox::new);
         bind("text-field", JTextField.class, JTextField::new);
@@ -1292,9 +1316,19 @@ public class UILoader {
         bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
         bind("menu-bar", JMenuBar.class, JMenuBar::new);
         bind("menu", JMenu.class, JMenu::new);
-        bind("menu-item", JMenuItem.class, JMenuItem::new);
+
+        bind("menu-item", JMenuItem.class, () -> new JMenuItem() {
+            @Override
+            public void setIcon(Icon icon) {
+                super.setIcon(icon);
+
+                setDisabledIcon(icon);
+            }
+        });
+
         bind("check-box-menu-item", JCheckBoxMenuItem.class, JCheckBoxMenuItem::new);
         bind("radio-button-menu-item", JRadioButtonMenuItem.class, JRadioButtonMenuItem::new);
+
         bind("popup-menu-separator", JPopupMenu.Separator.class, JPopupMenu.Separator::new);
         bind("split-pane", JSplitPane.class, JSplitPane::new);
         bind("tabbed-pane", JTabbedPane.class, JTabbedPane::new);
@@ -1626,30 +1660,53 @@ public class UILoader {
 
                     if (icon instanceof SVGIcon svgIcon) {
                         Function<Color, Color> colorMapper;
-                        if (component instanceof JLabel) {
-                            colorMapper = color -> UIManager.getColor("Label.foreground");
+                        if (component instanceof JLabel label) {
+                            colorMapper = color -> {
+                                if (label.isEnabled()) {
+                                    return UIManager.getColor("Label.foreground");
+                                } else {
+                                    return UIManager.getColor("Label.disabledForeground");
+                                }
+                            };
                         } else if (component instanceof JButton button) {
                             colorMapper = color -> {
-                                if (button.isSelected()) {
-                                    return UIManager.getColor("Button.selectedForeground");
+                                if (button.isEnabled()) {
+                                    if (button.isSelected()) {
+                                        return UIManager.getColor("Button.selectedForeground");
+                                    } else {
+                                        return UIManager.getColor("Button.foreground");
+                                    }
                                 } else {
-                                    return UIManager.getColor("Button.foreground");
+                                    return UIManager.getColor("Button.disabledText");
                                 }
                             };
                         } else if (component instanceof JToggleButton toggleButton) {
                             colorMapper = color -> {
-                                if (toggleButton.isSelected()) {
-                                    return UIManager.getColor("ToggleButton.selectedForeground");
+                                if (toggleButton.isEnabled()) {
+                                    if (toggleButton.isSelected()) {
+                                        return UIManager.getColor("ToggleButton.selectedForeground");
+                                    } else {
+                                        return UIManager.getColor("ToggleButton.foreground");
+                                    }
                                 } else {
-                                    return UIManager.getColor("ToggleButton.foreground");
+                                    return UIManager.getColor("ToggleButton.disabledText");
                                 }
                             };
                         } else if (component instanceof JMenuItem menuItem) {
                             colorMapper = color -> {
-                                if (menuItem.isSelected() || menuItem.isArmed()) {
-                                    return UIManager.getColor("MenuItem.selectionForeground");
+                                if (menuItem.getParent() instanceof JPopupMenu popupMenu
+                                    && popupMenu.getInvoker() instanceof JMenu) {
+                                    return color;
+                                }
+
+                                if (menuItem.isEnabled()) {
+                                    if (menuItem.isArmed()) {
+                                        return UIManager.getColor("MenuItem.selectionForeground");
+                                    } else {
+                                        return UIManager.getColor("MenuItem.foreground");
+                                    }
                                 } else {
-                                    return UIManager.getColor("MenuItem.foreground");
+                                    return UIManager.getColor("MenuItem.disabledForeground");
                                 }
                             };
                         } else {
