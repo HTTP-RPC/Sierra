@@ -12,14 +12,14 @@
  * limitations under the License.
  */
 
-module org.httprpc.sierra {
-    requires transitive java.desktop;
-    requires transitive java.xml;
+module org.httprpc.sierra.test {
+    requires java.desktop;
 
-    requires transitive org.httprpc.kilo.client;
+    requires org.httprpc.kilo.client;
+    requires org.httprpc.sierra;
 
-    requires com.github.weisj.jsvg;
+    requires com.formdev.flatlaf;
+    requires org.pushingpixels.radiance.theming;
 
-    exports org.httprpc.sierra;
-    exports org.httprpc.sierra.charts;
+    opens org.httprpc.sierra.test to org.httprpc.sierra;
 }

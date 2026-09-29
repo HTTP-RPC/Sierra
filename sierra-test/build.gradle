@@ -18,8 +18,9 @@ plugins {
 
 dependencies {
     implementation project(':sierra')
+
     implementation "com.formdev:flatlaf:${flatLafVersion}"
-    implementation 'org.pushing-pixels:radiance-theming:9.0.0'
+    implementation "org.pushing-pixels:radiance-theming:${radianceVersion}"
 }
 
 tasks.withType(JavaCompile).configureEach {
