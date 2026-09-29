@@ -1694,11 +1694,6 @@ public class UILoader {
                             };
                         } else if (component instanceof JMenuItem menuItem) {
                             colorMapper = color -> {
-                                if (menuItem.getParent() instanceof JPopupMenu popupMenu
-                                    && popupMenu.getInvoker() instanceof JMenu) {
-                                    return color;
-                                }
-
                                 if (menuItem.isEnabled()) {
                                     if (menuItem.isArmed()) {
                                         return UIManager.getColor("MenuItem.selectionForeground");
