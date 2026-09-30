@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
+<column-panel opaque="true">
+    <menu-bar>
+        <menu text="Menu">
+            <menu-item name="oneMenuItem" text="One" icon="icons/home_24dp.svg; 18" accelerator="VK_1"/>
+            <menu-item name="twoMenuItem" text="Two" icon="icons/people_24dp.svg; 18" accelerator="VK_2"/>
+            <menu-item name="threeMenuItem" text="Three" icon="icons/search_24dp.svg; 18" accelerator="VK_3"/>
+            <popup-menu-separator/>
+            <check-box-menu-item text="Selection A" selected="true"/>
+            <check-box-menu-item text="Selection B"/>
+            <popup-menu-separator/>
+            <radio-button text="Option 1" group="options" selected="true"/>
+            <radio-button text="Option 2" group="options"/>
+            <radio-button text="Option 3" group="options"/>
+        </menu>
+    </menu-bar>
+
+    <tool-bar floatable="false">
+        <button icon="icons/home_24dp.svg; 18" toolTipText="Home"/>
+        <tool-bar-separator/>
+        <toggle-button text="One" group="numbers"/>
+        <toggle-button text="Two" group="numbers"/>
+        <toggle-button text="Three" group="numbers"/>
+    </tool-bar>
+
+    <spacer/>
+</column-panel>
