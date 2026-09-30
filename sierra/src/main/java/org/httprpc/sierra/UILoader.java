@@ -865,7 +865,7 @@ public class UILoader {
      * SVG icon.
      */
     public static class SVGIcon implements Icon {
-        private class OutputAdapter implements Output, Output.SafeState {
+        private class OutputAdapter implements Output {
             Output output;
 
             OutputAdapter(Output output) {
@@ -1008,7 +1008,7 @@ public class UILoader {
 
             @Override
             public SafeState safeState() {
-                return this;
+                return output.safeState();
             }
 
             @Override
@@ -1019,11 +1019,6 @@ public class UILoader {
             @Override
             public boolean supportsColors() {
                 return output.supportsFilters();
-            }
-
-            @Override
-            public void restore() {
-                // No-op
             }
         }
 
