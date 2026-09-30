@@ -1258,14 +1258,11 @@ public class UILoader {
 
     private static final Map<String, Integer> keyCodes = new HashMap<>();
 
-    // TODO Override getters instead of setters?
     static {
         bind("label", JLabel.class, () -> new JLabel() {
             @Override
-            public void setIcon(Icon icon) {
-                super.setIcon(icon);
-
-                setDisabledIcon(icon);
+            public Icon getDisabledIcon() {
+                return coalesce(super.getDisabledIcon(), this::getIcon);
             }
         });
 
@@ -1287,19 +1284,15 @@ public class UILoader {
 
         bind("menu", JMenu.class, () -> new JMenu() {
             @Override
-            public void setIcon(Icon icon) {
-                super.setIcon(icon);
-
-                setDisabledIcon(icon);
+            public Icon getDisabledIcon() {
+                return coalesce(super.getDisabledIcon(), this::getIcon);
             }
         });
 
         bind("menu-item", JMenuItem.class, () -> new JMenuItem() {
             @Override
-            public void setIcon(Icon icon) {
-                super.setIcon(icon);
-
-                setDisabledIcon(icon);
+            public Icon getDisabledIcon() {
+                return coalesce(super.getDisabledIcon(), this::getIcon);
             }
         });
 
