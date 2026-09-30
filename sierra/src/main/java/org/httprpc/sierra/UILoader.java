@@ -1266,8 +1266,40 @@ public class UILoader {
             }
         });
 
-        bind("button", JButton.class, JButton::new);
-        bind("toggle-button", JToggleButton.class, JToggleButton::new);
+        bind("button", JButton.class, () -> new JButton() {
+            @Override
+            public Icon getSelectedIcon() {
+                return coalesce(super.getSelectedIcon(), this::getIcon);
+            }
+
+            @Override
+            public Icon getDisabledIcon() {
+                return coalesce(super.getDisabledIcon(), this::getIcon);
+            }
+
+            @Override
+            public Icon getDisabledSelectedIcon() {
+                return coalesce(super.getDisabledSelectedIcon(), this::getSelectedIcon);
+            }
+        });
+
+        bind("toggle-button", JToggleButton.class, () -> new JToggleButton() {
+            @Override
+            public Icon getSelectedIcon() {
+                return coalesce(super.getSelectedIcon(), this::getIcon);
+            }
+
+            @Override
+            public Icon getDisabledIcon() {
+                return coalesce(super.getDisabledIcon(), this::getIcon);
+            }
+
+            @Override
+            public Icon getDisabledSelectedIcon() {
+                return coalesce(super.getDisabledSelectedIcon(), this::getSelectedIcon);
+            }
+        });
+
         bind("radio-button", JRadioButton.class, JRadioButton::new);
         bind("check-box", JCheckBox.class, JCheckBox::new);
         bind("text-field", JTextField.class, JTextField::new);
@@ -1637,9 +1669,17 @@ public class UILoader {
                     } else if (component instanceof JButton button) {
                         colorMapper = color -> {
                             if (button.isEnabled()) {
-                                return UIManager.getColor("Button.foreground");
+                                if (button.isSelected()) {
+                                    return UIManager.getColor("Button.selectedForeground");
+                                } else {
+                                    return UIManager.getColor("Button.foreground");
+                                }
                             } else {
-                                return UIManager.getColor("Button.disabledText");
+                                if (button.isSelected()) {
+                                    return UIManager.getColor("Button.disabledSelectedForeground");
+                                } else {
+                                    return UIManager.getColor("Button.disabledForeground");
+                                }
                             }
                         };
                     } else if (component instanceof JToggleButton toggleButton) {
@@ -1651,7 +1691,11 @@ public class UILoader {
                                     return UIManager.getColor("ToggleButton.foreground");
                                 }
                             } else {
-                                return UIManager.getColor("ToggleButton.disabledText");
+                                if (toggleButton.isSelected()) {
+                                    return UIManager.getColor("ToggleButton.disabledSelectedForeground");
+                                } else {
+                                    return UIManager.getColor("ToggleButton.disabledForeground");
+                                }
                             }
                         };
                     } else if (component instanceof JMenu menu) {
