@@ -45,7 +45,7 @@ public class CellRendererTest extends JFrame implements Runnable {
         String description;
 
         Flag(String iconName, String name, String description) {
-            icon = new UILoader.SVGIcon(getClass().getResource(String.format("flags/%s", iconName)));
+            icon = UILoader.createSVGIcon(getClass().getResource(String.format("flags/%s", iconName)));
 
             icon.setIconSize(ICON_SIZE, ICON_SIZE);
 

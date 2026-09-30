@@ -237,7 +237,7 @@ public class ChartsTest extends JFrame implements Runnable {
         timeSeriesChart.setDataSets(dataSets);
 
         if (!showValueMarkers) {
-            var icon = new UILoader.SVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+            var icon = UILoader.createSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
 
             icon.setIconSize(18, 18);
             icon.setColorMapper(color -> timeSeriesChart.getMarkerColor());

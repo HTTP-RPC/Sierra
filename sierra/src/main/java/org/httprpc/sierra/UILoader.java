@@ -1033,20 +1033,8 @@ public class UILoader {
 
         private Function<Color, Color> colorMapper = null;
 
-        /**
-         * Constructs a new SVG icon.
-         *
-         * @param url
-         * The icon URL.
-         */
-        public SVGIcon(URL url) {
-            if (url == null) {
-                throw new IllegalArgumentException();
-            }
-
-            var svgLoader = new SVGLoader();
-
-            svgDocument = svgLoader.load(url);
+        private SVGIcon(SVGDocument svgDocument) {
+            this.svgDocument = svgDocument;
 
             var size = svgDocument.size();
 
@@ -1255,7 +1243,7 @@ public class UILoader {
     private Map<String, Field> fields = new HashMap<>();
     private Map<String, ButtonGroup> groups = new HashMap<>();
 
-    private Map<String, Icon> icons = new HashMap<>();
+    private Map<String, SVGDocument> svgDocuments = new HashMap<>();
     private Map<String, Image> images = new HashMap<>();
 
     private Deque<JComponent> components = new LinkedList<>();
@@ -1270,6 +1258,7 @@ public class UILoader {
 
     private static final Map<String, Integer> keyCodes = new HashMap<>();
 
+    // TODO Override getters instead of setters?
     static {
         bind("label", JLabel.class, () -> new JLabel() {
             @Override
@@ -1510,7 +1499,7 @@ public class UILoader {
         Object constraints = null;
 
         String tabTitle = null;
-        Icon tabIcon = null;
+        SVGIcon tabIcon = null;
 
         var properties = map(type, BeanAdapter::getProperties);
 
@@ -1571,9 +1560,7 @@ public class UILoader {
             } else if (name.equals(Attribute.TAB_ICON.getName())) {
                 tabIcon = getIcon(value);
 
-                if (tabIcon instanceof SVGIcon svgIcon) {
-                    svgIcon.setColorMapper(color -> UIManager.getColor("TabbedPane.foreground"));
-                }
+                tabIcon.setColorMapper(color -> UIManager.getColor("TabbedPane.foreground"));
             } else if (name.equals(Attribute.STYLE.getName()) || name.equals(Attribute.STYLE_CLASS.getName())) {
                 component.putClientProperty(String.format("FlatLaf.%s", name), value);
             } else if (name.equals(Attribute.PLACEHOLDER_TEXT.getName())) {
@@ -1583,9 +1570,7 @@ public class UILoader {
             } else if (name.equals(Attribute.LEADING_ICON.getName()) || name.equals(Attribute.TRAILING_ICON.getName())) {
                 var icon = getIcon(value);
 
-                if (icon instanceof SVGIcon svgIcon) {
-                    svgIcon.setColorMapper(color -> UIManager.getColor("TextField.placeholderForeground"));
-                }
+                icon.setColorMapper(color -> UIManager.getColor("TextField.placeholderForeground"));
 
                 component.putClientProperty(String.format("%s.%s", JTextField.class.getSimpleName(), name), icon);
             } else {
@@ -1647,66 +1632,64 @@ public class UILoader {
                 } else if (propertyType == Icon.class) {
                     var icon = getIcon(value);
 
-                    if (icon instanceof SVGIcon svgIcon) {
-                        Function<Color, Color> colorMapper;
-                        if (component instanceof JLabel label) {
-                            colorMapper = color -> {
-                                if (label.isEnabled()) {
-                                    return UIManager.getColor("Label.foreground");
+                    Function<Color, Color> colorMapper;
+                    if (component instanceof JLabel label) {
+                        colorMapper = color -> {
+                            if (label.isEnabled()) {
+                                return UIManager.getColor("Label.foreground");
+                            } else {
+                                return UIManager.getColor("Label.disabledForeground");
+                            }
+                        };
+                    } else if (component instanceof JButton button) {
+                        colorMapper = color -> {
+                            if (button.isEnabled()) {
+                                return UIManager.getColor("Button.foreground");
+                            } else {
+                                return UIManager.getColor("Button.disabledText");
+                            }
+                        };
+                    } else if (component instanceof JToggleButton toggleButton) {
+                        colorMapper = color -> {
+                            if (toggleButton.isEnabled()) {
+                                if (toggleButton.isSelected()) {
+                                    return UIManager.getColor("ToggleButton.selectedForeground");
                                 } else {
-                                    return UIManager.getColor("Label.disabledForeground");
+                                    return UIManager.getColor("ToggleButton.foreground");
                                 }
-                            };
-                        } else if (component instanceof JButton button) {
-                            colorMapper = color -> {
-                                if (button.isEnabled()) {
-                                    return UIManager.getColor("Button.foreground");
+                            } else {
+                                return UIManager.getColor("ToggleButton.disabledText");
+                            }
+                        };
+                    } else if (component instanceof JMenu menu) {
+                        colorMapper = color -> {
+                            if (menu.isEnabled()) {
+                                if (menu.isArmed()) {
+                                    return UIManager.getColor("Menu.selectionForeground");
                                 } else {
-                                    return UIManager.getColor("Button.disabledText");
+                                    return UIManager.getColor("Menu.foreground");
                                 }
-                            };
-                        } else if (component instanceof JToggleButton toggleButton) {
-                            colorMapper = color -> {
-                                if (toggleButton.isEnabled()) {
-                                    if (toggleButton.isSelected()) {
-                                        return UIManager.getColor("ToggleButton.selectedForeground");
-                                    } else {
-                                        return UIManager.getColor("ToggleButton.foreground");
-                                    }
+                            } else {
+                                return UIManager.getColor("Menu.disabledForeground");
+                            }
+                        };
+                    } else if (component instanceof JMenuItem menuItem) {
+                        colorMapper = color -> {
+                            if (menuItem.isEnabled()) {
+                                if (menuItem.isArmed()) {
+                                    return UIManager.getColor("MenuItem.selectionForeground");
                                 } else {
-                                    return UIManager.getColor("ToggleButton.disabledText");
+                                    return UIManager.getColor("MenuItem.foreground");
                                 }
-                            };
-                        } else if (component instanceof JMenu menu) {
-                            colorMapper = color -> {
-                                if (menu.isEnabled()) {
-                                    if (menu.isArmed()) {
-                                        return UIManager.getColor("Menu.selectionForeground");
-                                    } else {
-                                        return UIManager.getColor("Menu.foreground");
-                                    }
-                                } else {
-                                    return UIManager.getColor("Menu.disabledForeground");
-                                }
-                            };
-                        } else if (component instanceof JMenuItem menuItem) {
-                            colorMapper = color -> {
-                                if (menuItem.isEnabled()) {
-                                    if (menuItem.isArmed()) {
-                                        return UIManager.getColor("MenuItem.selectionForeground");
-                                    } else {
-                                        return UIManager.getColor("MenuItem.foreground");
-                                    }
-                                } else {
-                                    return UIManager.getColor("MenuItem.disabledForeground");
-                                }
-                            };
-                        } else {
-                            colorMapper = null;
-                        }
-
-                        svgIcon.setColorMapper(colorMapper);
+                            } else {
+                                return UIManager.getColor("MenuItem.disabledForeground");
+                            }
+                        };
+                    } else {
+                        colorMapper = null;
                     }
+
+                    icon.setColorMapper(colorMapper);
 
                     argument = icon;
                 } else if (propertyType == Image.class) {
@@ -1810,15 +1793,19 @@ public class UILoader {
         }
     }
 
-    private Icon getIcon(String value) {
+    private SVGIcon getIcon(String value) {
         var components = value.split(";");
 
-        var icon = icons.computeIfAbsent(components[0].trim(), key -> new SVGIcon(getURL(key)));
+        var icon = new SVGIcon(svgDocuments.computeIfAbsent(components[0].trim(), key -> {
+            var svgLoader = new SVGLoader();
+
+            return svgLoader.load(getURL(key));
+        }));
 
         if (components.length > 1) {
             var size = parseSize(components[1]);
 
-            ((SVGIcon)icon).setIconSize(size.width, size.height);
+            icon.setIconSize(size.width, size.height);
         }
 
         return icon;
@@ -2062,6 +2049,21 @@ public class UILoader {
         }
 
         fonts.put(name, font);
+    }
+
+    /**
+     * Creates an SVG icon.
+     *
+     * @param url
+     * The icon URL.
+     *
+     * @return
+     * The icon instance.
+     */
+    public static SVGIcon createSVGIcon(URL url) {
+        var svgLoader = new SVGLoader();
+
+        return new SVGIcon(svgLoader.load(url));
     }
 
     /**

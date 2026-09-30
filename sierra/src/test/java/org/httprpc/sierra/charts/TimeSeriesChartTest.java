@@ -200,7 +200,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet));
 
-        var icon = new UILoader.SVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+        var icon = UILoader.createSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
 
         icon.setIconSize(18, 18);
 
@@ -230,7 +230,7 @@ public class TimeSeriesChartTest extends ChartTest {
 
         chart.setDataSets(listOf(dataSet));
 
-        var icon = new UILoader.SVGIcon(getClass().getResource("icons/flag_24dp.svg"));
+        var icon = UILoader.createSVGIcon(getClass().getResource("icons/flag_24dp.svg"));
 
         icon.setIconSize(18, 18);
 
