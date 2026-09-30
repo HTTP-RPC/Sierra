@@ -1287,6 +1287,9 @@ public class UILoader {
                 super.setIcon(icon);
 
                 setDisabledIcon(icon);
+
+                setSelectedIcon(icon);
+                setDisabledSelectedIcon(icon);
             }
         });
 
@@ -1296,6 +1299,9 @@ public class UILoader {
                 super.setIcon(icon);
 
                 setDisabledIcon(icon);
+
+                setSelectedIcon(icon);
+                setDisabledSelectedIcon(icon);
             }
         });
 
