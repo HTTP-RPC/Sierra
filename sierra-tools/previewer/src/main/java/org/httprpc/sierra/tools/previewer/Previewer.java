@@ -30,28 +30,28 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.nio.file.Path;
 
-public class PreviewFrame extends JFrame {
+public class Previewer extends JFrame implements Runnable {
     private Path path;
 
     private static final String REFRESH_ACTION_KEY = "refresh";
     private static final String PACK_ACTION_KEY = "pack";
     private static final String TOGGLE_DARK_MODE_ACTION_KEY = "toggle-dark-mode";
 
-    public PreviewFrame(Path path) {
-        if (path == null) {
-            throw new IllegalArgumentException();
-        }
+    private Previewer(Path path) {
+        this.path = path;
 
         setTitle(path.getFileName().toString());
 
-        this.path = path;
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         var inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         var actionMap = rootPane.getActionMap();
@@ -87,6 +87,26 @@ public class PreviewFrame extends JFrame {
                 refresh();
             }
         });
+    }
+
+    @Override
+    public void run() {
+        var minimumScreenWidth = Integer.MAX_VALUE;
+        var minimumScreenHeight = Integer.MAX_VALUE;
+
+        var screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+
+        for (var i = 0; i < screenDevices.length; i++) {
+            var bounds = screenDevices[i].getDefaultConfiguration().getBounds();
+
+            minimumScreenWidth = Math.min(minimumScreenWidth, bounds.width);
+            minimumScreenHeight = Math.min(minimumScreenHeight, bounds.height);
+        }
+
+        setSize((int)Math.ceil(minimumScreenWidth * 0.75), (int)Math.ceil(minimumScreenHeight * 0.75));
+
+        setLocationRelativeTo(null);
+        setVisible(true);
 
         refresh();
     }
@@ -120,5 +140,16 @@ public class PreviewFrame extends JFrame {
         setContentPane(component);
 
         revalidate();
+    }
+
+    public static void main(String[] args) {
+        if (args.length < 1) {
+            System.out.println("Path is required.");
+            return;
+        }
+
+        FlatLightLaf.setup();
+
+        SwingUtilities.invokeLater(new Previewer(Path.of(System.getProperty("user.dir")).resolve(args[0])));
     }
 }

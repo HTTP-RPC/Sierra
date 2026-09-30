@@ -18,21 +18,10 @@ plugins {
 
 dependencies {
     implementation project(':sierra')
+
     implementation "com.formdev:flatlaf:${flatLafVersion}"
-    implementation 'com.fifesoft:rsyntaxtextarea:4.0.1'
-    implementation 'com.fifesoft:autocomplete:3.3.3'
-    implementation 'com.fifesoft:rstaui:3.3.2'
-
-    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
-    testImplementation 'org.mockito:mockito-core:5.23.0'
-
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
-
-tasks.named('test', Test) {
-    useJUnitPlatform()
 }
 
 application {
-    mainClass = 'org.httprpc.sierra.tools.previewer.SierraPreviewerApp'
+    mainClass = 'org.httprpc.sierra.tools.previewer.Previewer'
 }
