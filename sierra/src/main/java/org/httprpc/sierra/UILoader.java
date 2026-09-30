@@ -1286,9 +1286,6 @@ public class UILoader {
                 super.setIcon(icon);
 
                 setDisabledIcon(icon);
-
-                setSelectedIcon(icon);
-                setDisabledSelectedIcon(icon);
             }
         });
 
@@ -1685,11 +1682,7 @@ public class UILoader {
                         } else if (component instanceof JButton button) {
                             colorMapper = color -> {
                                 if (button.isEnabled()) {
-                                    if (button.isSelected()) {
-                                        return UIManager.getColor("Button.selectedForeground");
-                                    } else {
-                                        return UIManager.getColor("Button.foreground");
-                                    }
+                                    return UIManager.getColor("Button.foreground");
                                 } else {
                                     return UIManager.getColor("Button.disabledText");
                                 }
