@@ -865,44 +865,44 @@ public class UILoader {
      * SVG icon.
      */
     public static class SVGIcon implements Icon {
-        private class MappedOutput implements Output, Output.SafeState {
-            Graphics2D graphics;
+        private class OutputAdapter implements Output, Output.SafeState {
+            Output output;
 
-            MappedOutput(Graphics2D graphics) {
-                this.graphics = graphics;
+            OutputAdapter(Output output) {
+                this.output = output;
             }
 
             @Override
             public void fillShape(Shape shape) {
-                graphics.fill(shape);
+                output.fillShape(shape);
             }
 
             @Override
             public void drawShape(Shape shape) {
-                graphics.draw(shape);
+                output.drawShape(shape);
             }
 
             @Override
             public void drawImage(BufferedImage image) {
-                // No-op
+                output.drawImage(image);
             }
 
             @Override
             public void drawImage(Image image, ImageObserver observer) {
-                // No-op
+                output.drawImage(image, observer);
             }
 
             @Override
             public void drawImage(Image image, AffineTransform transform, ImageObserver observer) {
-                // No-op
+                output.drawImage(image, transform, observer);
             }
 
             @Override
             public void setPaint(Paint paint) {
                 if (paint instanceof Color color && colorMapper != null) {
-                    graphics.setColor(colorMapper.apply(color));
+                    output.setPaint(colorMapper.apply(color));
                 } else {
-                    graphics.setPaint(paint);
+                    output.setPaint(paint);
                 }
             }
 
@@ -913,97 +913,97 @@ public class UILoader {
 
             @Override
             public void setStroke(Stroke stroke) {
-                graphics.setStroke(stroke);
+                output.setStroke(stroke);
             }
 
             @Override
             public Stroke stroke() {
-                return graphics.getStroke();
+                return output.stroke();
             }
 
             @Override
             public void applyClip(Shape shape) {
-                graphics.clip(shape);
+                output.applyClip(shape);
             }
 
             @Override
             public Optional<Float> contextFontSize() {
-                return Optional.ofNullable(graphics.getFont()).map(Font::getSize2D);
+                return output.contextFontSize();
             }
 
             @Override
             public Output createChild() {
-                return new MappedOutput((Graphics2D)graphics.create());
+                return new OutputAdapter(output.createChild());
             }
 
             @Override
             public void dispose() {
-                graphics.dispose();
+                output.dispose();
             }
 
             @Override
             public void debugPaint(Consumer<Graphics2D> painter) {
-                // No-op
+                output.debugPaint(painter);
             }
 
             @Override
             public Rectangle2D clipBounds() {
-                return graphics.getClipBounds();
+                return output.clipBounds();
             }
 
             @Override
             public RenderingHints renderingHints() {
-                return graphics.getRenderingHints();
+                return output.renderingHints();
             }
 
             @Override
             public Object renderingHint(RenderingHints.Key key) {
-                return graphics.getRenderingHint(key);
+                return output.renderingHint(key);
             }
 
             @Override
             public void setRenderingHint(RenderingHints.Key key, Object value) {
-                graphics.setRenderingHint(key, value);
+                output.setRenderingHint(key, value);
             }
 
             @Override
             public AffineTransform transform() {
-                return graphics.getTransform();
+                return output.transform();
             }
 
             @Override
             public void setTransform(AffineTransform transform) {
-                graphics.setTransform(transform);
+                output.setTransform(transform);
             }
 
             @Override
             public void applyTransform(AffineTransform transform) {
-                graphics.transform(transform);
+                output.applyTransform(transform);
             }
 
             @Override
             public void rotate(double angle) {
-                graphics.rotate(angle);
+                output.rotate(angle);
             }
 
             @Override
             public void scale(double sx, double sy) {
-                graphics.scale(sx, sy);
+                output.scale(sx, sy);
             }
 
             @Override
             public void translate(double dx, double dy) {
-                graphics.translate(dx, dy);
+                output.translate(dx, dy);
             }
 
             @Override
             public float currentOpacity() {
-                return 1;
+                return output.currentOpacity();
             }
 
             @Override
             public void applyOpacity(float opacity) {
-                // No-op
+                output.applyOpacity(opacity);
             }
 
             @Override
@@ -1013,12 +1013,12 @@ public class UILoader {
 
             @Override
             public boolean supportsFilters() {
-                return true;
+                return output.supportsFilters();
             }
 
             @Override
             public boolean supportsColors() {
-                return true;
+                return output.supportsFilters();
             }
 
             @Override
@@ -1061,7 +1061,9 @@ public class UILoader {
             graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
-            svgDocument.renderWithPlatform(NullPlatformSupport.INSTANCE, new MappedOutput(graphics), null);
+            svgDocument.renderWithPlatform(NullPlatformSupport.INSTANCE,
+                new OutputAdapter(Output.createForGraphics(graphics)),
+                null);
 
             graphics.dispose();
         }
