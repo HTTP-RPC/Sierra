@@ -1675,11 +1675,7 @@ public class UILoader {
                                     return UIManager.getColor("Button.foreground");
                                 }
                             } else {
-                                if (button.isSelected()) {
-                                    return UIManager.getColor("Button.disabledSelectedForeground");
-                                } else {
-                                    return UIManager.getColor("Button.disabledForeground");
-                                }
+                                return UIManager.getColor("Button.disabledText");
                             }
                         };
                     } else if (component instanceof JToggleButton toggleButton) {
@@ -1691,11 +1687,7 @@ public class UILoader {
                                     return UIManager.getColor("ToggleButton.foreground");
                                 }
                             } else {
-                                if (toggleButton.isSelected()) {
-                                    return UIManager.getColor("ToggleButton.disabledSelectedForeground");
-                                } else {
-                                    return UIManager.getColor("ToggleButton.disabledForeground");
-                                }
+                                return UIManager.getColor("ToggleButton.disabledText");
                             }
                         };
                     } else if (component instanceof JMenu menu) {
