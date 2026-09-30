@@ -1312,10 +1312,15 @@ public class UILoader {
         bind("scroll-pane", JScrollPane.class, JScrollPane::new);
         bind("list", JList.class, JList::new);
         bind("text-area", JTextArea.class, JTextArea::new);
-        bind("tool-bar", JToolBar.class, JToolBar::new);
-        bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
-        bind("menu-bar", JMenuBar.class, JMenuBar::new);
-        bind("menu", JMenu.class, JMenu::new);
+
+        bind("menu", JMenu.class, () -> new JMenu() {
+            @Override
+            public void setIcon(Icon icon) {
+                super.setIcon(icon);
+
+                setDisabledIcon(icon);
+            }
+        });
 
         bind("menu-item", JMenuItem.class, () -> new JMenuItem() {
             @Override
@@ -1330,6 +1335,10 @@ public class UILoader {
         bind("radio-button-menu-item", JRadioButtonMenuItem.class, JRadioButtonMenuItem::new);
 
         bind("popup-menu-separator", JPopupMenu.Separator.class, JPopupMenu.Separator::new);
+
+        bind("tool-bar", JToolBar.class, JToolBar::new);
+        bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
+
         bind("split-pane", JSplitPane.class, JSplitPane::new);
         bind("tabbed-pane", JTabbedPane.class, JTabbedPane::new);
 
