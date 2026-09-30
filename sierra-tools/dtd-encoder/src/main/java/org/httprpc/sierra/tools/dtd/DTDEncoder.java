@@ -25,7 +25,6 @@ import org.httprpc.sierra.VerticalAlignment;
 
 import javax.swing.Icon;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -258,7 +257,6 @@ public class DTDEncoder extends Encoder<Void> {
             || JSplitPane.class.isAssignableFrom(type)
             || JTabbedPane.class.isAssignableFrom(type)
             || JToolBar.class.isAssignableFrom(type)
-            || JMenuBar.class.isAssignableFrom(type)
             || JMenu.class.isAssignableFrom(type)
             || MenuButton.class.isAssignableFrom(type)) {
             writer.append("(ANY)");

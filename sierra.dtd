@@ -12,9 +12,6 @@
 <!ENTITY % javax.swing.JList "%javax.swing.JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) fixedCellHeight CDATA fixedCellWidth CDATA layoutOrientation (vertical|vertical-wrap|horizontal-wrap) selectedIndex CDATA selectionBackground CDATA selectionForeground CDATA selectionMode (single-selection|single-interval-selection|multiple-interval-selection) valueIsAdjusting (true|false) visibleRowCount CDATA ">
 <!ELEMENT list EMPTY>
 <!ATTLIST list %javax.swing.JList;>
-<!ENTITY % javax.swing.JMenuBar "%javax.swing.JComponent; borderPainted (true|false) ">
-<!ELEMENT menu-bar (ANY)>
-<!ATTLIST menu-bar %javax.swing.JMenuBar;>
 <!ENTITY % javax.swing.JPanel "%javax.swing.JComponent; ">
 <!ENTITY % javax.swing.JProgressBar "%javax.swing.JComponent; borderPainted (true|false) indeterminate (true|false) maximum CDATA minimum CDATA orientation (horizontal|vertical) string CDATA stringPainted (true|false) value CDATA ">
 <!ELEMENT progress-bar EMPTY>

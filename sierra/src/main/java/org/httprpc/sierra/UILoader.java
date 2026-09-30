@@ -33,7 +33,6 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPasswordField;
 import javax.swing.JPopupMenu;
@@ -1803,7 +1802,6 @@ public class UILoader {
             } else if (parent instanceof JTabbedPane tabbedPane) {
                 tabbedPane.addTab(tabTitle, tabIcon, component);
             } else if (parent instanceof JToolBar
-                || parent instanceof JMenuBar
                 || parent instanceof JMenu
                 || parent instanceof MenuButton) {
                 parent.add(component);
