@@ -2094,6 +2094,10 @@ public class UILoader {
      * The icon instance.
      */
     public static SVGIcon createSVGIcon(URL url) {
+        if (url == null) {
+            throw new IllegalArgumentException();
+        }
+
         var svgLoader = new SVGLoader();
 
         return new SVGIcon(svgLoader.load(url));
