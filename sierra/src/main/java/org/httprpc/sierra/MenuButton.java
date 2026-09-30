@@ -144,13 +144,6 @@ public class MenuButton extends JButton {
         });
     }
 
-    @Override
-    public void setIcon(Icon icon) {
-        super.setIcon(icon);
-
-        setDisabledIcon(icon);
-    }
-
     /**
      * Returns the popup's horizontal alignment.
      *

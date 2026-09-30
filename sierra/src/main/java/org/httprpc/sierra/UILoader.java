@@ -1280,27 +1280,8 @@ public class UILoader {
             }
         });
 
-        bind("button", JButton.class, () -> new JButton() {
-            @Override
-            public void setIcon(Icon icon) {
-                super.setIcon(icon);
-
-                setDisabledIcon(icon);
-            }
-        });
-
-        bind("toggle-button", JToggleButton.class, () -> new JToggleButton() {
-            @Override
-            public void setIcon(Icon icon) {
-                super.setIcon(icon);
-
-                setDisabledIcon(icon);
-
-                setSelectedIcon(icon);
-                setDisabledSelectedIcon(icon);
-            }
-        });
-
+        bind("button", JButton.class, JButton::new);
+        bind("toggle-button", JToggleButton.class, JToggleButton::new);
         bind("radio-button", JRadioButton.class, JRadioButton::new);
         bind("check-box", JCheckBox.class, JCheckBox::new);
         bind("text-field", JTextField.class, JTextField::new);
@@ -1335,12 +1316,9 @@ public class UILoader {
 
         bind("check-box-menu-item", JCheckBoxMenuItem.class, JCheckBoxMenuItem::new);
         bind("radio-button-menu-item", JRadioButtonMenuItem.class, JRadioButtonMenuItem::new);
-
         bind("popup-menu-separator", JPopupMenu.Separator.class, JPopupMenu.Separator::new);
-
         bind("tool-bar", JToolBar.class, JToolBar::new);
         bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
-
         bind("split-pane", JSplitPane.class, JSplitPane::new);
         bind("tabbed-pane", JTabbedPane.class, JTabbedPane::new);
 
@@ -1697,6 +1675,18 @@ public class UILoader {
                                     }
                                 } else {
                                     return UIManager.getColor("ToggleButton.disabledText");
+                                }
+                            };
+                        } else if (component instanceof JMenu menu) {
+                            colorMapper = color -> {
+                                if (menu.isEnabled()) {
+                                    if (menu.isArmed()) {
+                                        return UIManager.getColor("Menu.selectionForeground");
+                                    } else {
+                                        return UIManager.getColor("Menu.foreground");
+                                    }
+                                } else {
+                                    return UIManager.getColor("Menu.disabledForeground");
                                 }
                             };
                         } else if (component instanceof JMenuItem menuItem) {
