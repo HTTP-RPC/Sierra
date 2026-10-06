@@ -826,7 +826,11 @@ public class UILoader {
                         return i;
                     }
 
-                    i = (i + 1) % n;
+                    i++;
+
+                    if (i == n) {
+                        i = 0;
+                    }
                 } while (i != startIndex);
             }
 
@@ -871,7 +875,11 @@ public class UILoader {
                             return i;
                         }
 
-                        i = (i + 1) % n;
+                        i++;
+
+                        if (i == n) {
+                            i = 0;
+                        }
                     } while (i != startIndex);
                 }
 
