@@ -52,6 +52,11 @@ public class CellRendererTest extends JFrame implements Runnable {
             this.name = name;
             this.description = description;
         }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     private static class FlagCellRenderer extends RowPanel implements ListCellRenderer<Flag> {

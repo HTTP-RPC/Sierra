@@ -63,6 +63,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.Position;
 import javax.swing.tree.TreeSelectionModel;
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLInputFactory;
@@ -777,6 +778,133 @@ public class UILoader {
     }
 
     /**
+     * Internal extension of {@link JList}.
+     *
+     * @param <E>
+     * The element type.
+     */
+    public static class JxList<E> extends JList<E> {
+        private Function<? super E, String> labelMapper = Object::toString;
+
+        /**
+         * Returns the label mapper.
+         *
+         * @return
+         * The label mapper.
+         */
+        public Function<? super E, String> getLabelMapper() {
+            return labelMapper;
+        }
+
+        /**
+         * Sets the label mapper.
+         *
+         * @param labelMapper
+         * The label mapper.
+         */
+        public void setLabelMapper(Function<? super E, String> labelMapper) {
+            if (labelMapper == null) {
+                throw new IllegalArgumentException();
+            }
+
+            this.labelMapper = labelMapper;
+        }
+
+        @Override
+        public int getNextMatch(String prefix, int startIndex, Position.Bias bias) {
+            if (bias == Position.Bias.Forward) {
+                prefix = prefix.toLowerCase();
+
+                var model = getModel();
+
+                var n = model.getSize();
+
+                var i = startIndex;
+
+                do {
+                    if (labelMapper.apply(model.getElementAt(i)).toLowerCase().startsWith(prefix)) {
+                        return i;
+                    }
+
+                    i = (i + 1) % n;
+                } while (i != startIndex);
+            }
+
+            return -1;
+        }
+    }
+
+    /**
+     * Internal extension of {@link JComboBox}.
+     *
+     * @param <E>
+     * The element type.
+     */
+    public static class JxComboBox<E> extends JComboBox<E> {
+        private Function<? super E, String> labelMapper = Object::toString;
+
+        /**
+         * Constructs a new combo box.
+         */
+        @SuppressWarnings("unchecked")
+        public JxComboBox() {
+            setKeySelectionManager((key, model) -> {
+                if (key == ' ' && !isPopupVisible()) {
+                    setPopupVisible(true);
+                } else {
+                    key = Character.toLowerCase(key);
+
+                    var n = model.getSize();
+
+                    var startIndex = getSelectedIndex() + 1;
+
+                    if (startIndex == n) {
+                        startIndex = 0;
+                    }
+
+                    var i = startIndex;
+
+                    do {
+                        var label = labelMapper.apply((E)model.getElementAt(i));
+
+                        if (!label.isEmpty() && Character.toLowerCase(label.charAt(0)) == key) {
+                            return i;
+                        }
+
+                        i = (i + 1) % n;
+                    } while (i != startIndex);
+                }
+
+                return -1;
+            });
+        }
+
+        /**
+         * Returns the label mapper.
+         *
+         * @return
+         * The label mapper.
+         */
+        public Function<? super E, String> getLabelMapper() {
+            return labelMapper;
+        }
+
+        /**
+         * Sets the label mapper.
+         *
+         * @param labelMapper
+         * The label mapper.
+         */
+        public void setLabelMapper(Function<? super E, String> labelMapper) {
+            if (labelMapper == null) {
+                throw new IllegalArgumentException();
+            }
+
+            this.labelMapper = labelMapper;
+        }
+    }
+
+    /**
      * Internal extension of {@link JTable}.
      */
     public static class JxTable extends JTable {
@@ -1303,13 +1431,13 @@ public class UILoader {
         bind("text-field", JTextField.class, JTextField::new);
         bind("formatted-text-field", JFormattedTextField.class, JFormattedTextField::new);
         bind("password-field", JPasswordField.class, JPasswordField::new);
-        bind("combo-box", JComboBox.class, JComboBox::new);
+        bind("combo-box", JxComboBox.class, JxComboBox::new);
         bind("spinner", JSpinner.class, JSpinner::new);
         bind("slider", JSlider.class, JSlider::new);
         bind("progress-bar", JProgressBar.class, JProgressBar::new);
         bind("separator", JSeparator.class, JSeparator::new);
         bind("scroll-pane", JScrollPane.class, JScrollPane::new);
-        bind("list", JList.class, JList::new);
+        bind("list", JxList.class, JxList::new);
         bind("text-area", JTextArea.class, JTextArea::new);
 
         bind("menu-bar", JMenuBar.class, JMenuBar::new);
