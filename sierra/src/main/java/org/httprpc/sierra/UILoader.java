@@ -868,7 +868,9 @@ public class UILoader {
                 if (prefix.isEmpty() && key == ' ' && !isPopupVisible()) {
                     setPopupVisible(true);
                 } else {
-                    prefix += Character.toLowerCase(key);
+                    if (!(prefix.length() == 1 && prefix.charAt(0) == key)) {
+                        prefix += Character.toLowerCase(key);
+                    }
 
                     t0 = t1;
 
