@@ -4,14 +4,10 @@
 <!ENTITY % javax.swing.JComponent "%java.awt.Container; alignmentX CDATA alignmentY CDATA autoscrolls (true|false) background CDATA debugGraphicsOptions CDATA doubleBuffered (true|false) enabled (true|false) font CDATA foreground CDATA inheritsPopupMenu (true|false) opaque (true|false) requestFocusEnabled (true|false) toolTipText CDATA verifyInputWhenFocusTarget (true|false) visible (true|false) ">
 <!ENTITY % javax.swing.AbstractButton "%javax.swing.JComponent; actionCommand CDATA borderPainted (true|false) contentAreaFilled (true|false) disabledIcon CDATA disabledSelectedIcon CDATA displayedMnemonicIndex CDATA enabled (true|false) focusPainted (true|false) hideActionText (true|false) horizontalAlignment (left|right|center|leading|trailing) horizontalTextPosition (left|right|center|leading|trailing) icon CDATA iconTextGap CDATA label CDATA mnemonic CDATA multiClickThreshhold CDATA pressedIcon CDATA rolloverEnabled (true|false) rolloverIcon CDATA rolloverSelectedIcon CDATA selected (true|false) selectedIcon CDATA text CDATA verticalAlignment (top|bottom|center) verticalTextPosition (top|bottom|center) ">
 <!ENTITY % javax.swing.JComboBox "%javax.swing.JComponent; actionCommand CDATA editable (true|false) enabled (true|false) lightWeightPopupEnabled (true|false) maximumRowCount CDATA popupVisible (true|false) selectedIndex CDATA ">
-<!ELEMENT combo-box EMPTY>
-<!ATTLIST combo-box %javax.swing.JComboBox;>
 <!ENTITY % javax.swing.JLabel "%javax.swing.JComponent; disabledIcon CDATA displayedMnemonic CDATA displayedMnemonicIndex CDATA horizontalAlignment (left|right|center|leading|trailing) horizontalTextPosition (left|right|center|leading|trailing) icon CDATA iconTextGap CDATA text CDATA verticalAlignment (top|bottom|center) verticalTextPosition (top|bottom|center) ">
 <!ELEMENT label EMPTY>
 <!ATTLIST label %javax.swing.JLabel;>
 <!ENTITY % javax.swing.JList "%javax.swing.JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) fixedCellHeight CDATA fixedCellWidth CDATA layoutOrientation (vertical|vertical-wrap|horizontal-wrap) selectedIndex CDATA selectionBackground CDATA selectionForeground CDATA selectionMode (single-selection|single-interval-selection|multiple-interval-selection) valueIsAdjusting (true|false) visibleRowCount CDATA ">
-<!ELEMENT list EMPTY>
-<!ATTLIST list %javax.swing.JList;>
 <!ENTITY % javax.swing.JMenuBar "%javax.swing.JComponent; borderPainted (true|false) ">
 <!ELEMENT menu-bar (ANY)>
 <!ATTLIST menu-bar %javax.swing.JMenuBar;>
@@ -83,6 +79,12 @@
 <!ELEMENT badge EMPTY>
 <!ATTLIST badge %org.httprpc.sierra.Badge;>
 <!ENTITY % org.httprpc.sierra.LayoutPanel "%javax.swing.JPanel; scrollableTracksViewportHeight (true|false) scrollableTracksViewportWidth (true|false) ">
+<!ENTITY % org.httprpc.sierra.UILoader.JxComboBox "%javax.swing.JComboBox; ">
+<!ELEMENT combo-box EMPTY>
+<!ATTLIST combo-box %org.httprpc.sierra.UILoader.JxComboBox;>
+<!ENTITY % org.httprpc.sierra.UILoader.JxList "%javax.swing.JList; ">
+<!ELEMENT list EMPTY>
+<!ATTLIST list %org.httprpc.sierra.UILoader.JxList;>
 <!ENTITY % org.httprpc.sierra.UILoader.JxTable "%javax.swing.JTable; columnSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) rowSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) ">
 <!ELEMENT table EMPTY>
 <!ATTLIST table %org.httprpc.sierra.UILoader.JxTable;>
