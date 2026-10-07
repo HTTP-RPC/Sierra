@@ -18,6 +18,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.httprpc.kilo.WebServiceProxy;
 import org.httprpc.sierra.ActivityIndicator;
+import org.httprpc.sierra.BasicTableCellRenderer;
 import org.httprpc.sierra.BasicTableModel;
 import org.httprpc.sierra.ChartPane;
 import org.httprpc.sierra.Outlet;
@@ -40,7 +41,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.BasicStroke;
 import java.net.URI;
 import java.text.NumberFormat;
@@ -60,35 +60,6 @@ import static org.httprpc.kilo.util.Collections.*;
 import static org.httprpc.kilo.util.Optionals.*;
 
 public class TiingoTest extends JFrame implements Runnable {
-    private static class DateCellRenderer extends DefaultTableCellRenderer {
-        @Override
-        public void setValue(Object value) {
-            setText(map((Instant)value, dateFormatter::format));
-        }
-    }
-
-    private static class PriceCellRenderer extends DefaultTableCellRenderer {
-        PriceCellRenderer() {
-            setHorizontalAlignment(SwingConstants.TRAILING);
-        }
-
-        @Override
-        public void setValue(Object value) {
-            setText(map((Number)value, priceFormat::format));
-        }
-    }
-
-    private static class VolumeCellRenderer extends DefaultTableCellRenderer {
-        VolumeCellRenderer() {
-            setHorizontalAlignment(SwingConstants.TRAILING);
-        }
-
-        @Override
-        public void setValue(Object value) {
-            setText(map((Number)value, volumeFormat::format));
-        }
-    }
-
     private @Outlet JTextField tickerTextField = null;
     private @Outlet JSpinner countSpinner = null;
 
@@ -233,16 +204,22 @@ public class TiingoTest extends JFrame implements Runnable {
 
         var columnModel = historicalPricingTable.getColumnModel();
 
-        columnModel.getColumn(0).setCellRenderer(new DateCellRenderer());
+        columnModel.getColumn(0).setCellRenderer(new BasicTableCellRenderer<Instant>(dateFormatter::format));
 
-        var priceRenderer = new PriceCellRenderer();
+        var priceRenderer = new BasicTableCellRenderer<Number>(priceFormat::format);
+
+        priceRenderer.setHorizontalAlignment(SwingConstants.TRAILING);
 
         columnModel.getColumn(1).setCellRenderer(priceRenderer);
         columnModel.getColumn(2).setCellRenderer(priceRenderer);
         columnModel.getColumn(3).setCellRenderer(priceRenderer);
         columnModel.getColumn(4).setCellRenderer(priceRenderer);
 
-        columnModel.getColumn(5).setCellRenderer(new VolumeCellRenderer());
+        var volumeCellRenderer = new BasicTableCellRenderer<Number>(volumeFormat::format);
+
+        volumeCellRenderer.setHorizontalAlignment(SwingConstants.TRAILING);
+
+        columnModel.getColumn(5).setCellRenderer(volumeCellRenderer);
 
         var chart = new CandlestickChart<Instant>();
 

@@ -14,27 +14,27 @@
 
 package org.httprpc.sierra;
 
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
-import java.awt.Component;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.util.function.Function;
 
+import static org.httprpc.kilo.util.Optionals.*;
+
 /**
- * Basic list cell renderer.
+ * Basic table cell renderer.
  *
- * @param <E>
- * The element type.
+ * @param <V>
+ * The value type.
  */
-public class BasicListCellRenderer<E> extends DefaultListCellRenderer {
-    private Function<? super E, String> valueMapper;
+public class BasicTableCellRenderer<V> extends DefaultTableCellRenderer {
+    private Function<? super V, String> valueMapper;
 
     /**
-     * Constructs a new basic list cell renderer.
+     * Constructs a new basic table cell renderer.
      *
      * @param valueMapper
      * The value mapper.
      */
-    public BasicListCellRenderer(Function<? super E, String> valueMapper) {
+    public BasicTableCellRenderer(Function<? super V, String> valueMapper) {
         if (valueMapper == null) {
             throw new IllegalArgumentException();
         }
@@ -44,11 +44,7 @@ public class BasicListCellRenderer<E> extends DefaultListCellRenderer {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Component getListCellRendererComponent(JList<?> list,
-        Object value, int index,
-        boolean selected, boolean cellHasFocus) {
-        return super.getListCellRendererComponent(list,
-            (value == null) ? null : valueMapper.apply((E)value), index,
-            selected, cellHasFocus);
+    public void setValue(Object value) {
+        setText(map((V)value, valueMapper));
     }
 }
