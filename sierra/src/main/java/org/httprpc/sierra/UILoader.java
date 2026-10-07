@@ -884,6 +884,8 @@ public class UILoader {
 
                     do {
                         if (labelMapper.apply((E)model.getElementAt(i)).toLowerCase().startsWith(prefix)) {
+                            repaint();
+
                             return i;
                         }
 
