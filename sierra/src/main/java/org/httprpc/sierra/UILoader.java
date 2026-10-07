@@ -778,7 +778,7 @@ public class UILoader {
     }
 
     /**
-     * Internal extension of {@link JList}.
+     * Extension of {@link JList}.
      *
      * @param <E>
      * The element type.
@@ -839,7 +839,7 @@ public class UILoader {
     }
 
     /**
-     * Internal extension of {@link JComboBox}.
+     * Extension of {@link JComboBox}.
      *
      * @param <E>
      * The element type.
@@ -927,7 +927,7 @@ public class UILoader {
     }
 
     /**
-     * Internal extension of {@link JTable}.
+     * Extension of {@link JTable}.
      */
     public static class JxTable extends JTable {
         /**
@@ -982,7 +982,7 @@ public class UILoader {
     }
 
     /**
-     * Internal extension of {@link JTree}.
+     * Extension of {@link JTree}.
      */
     public static class JxTree extends JTree {
         /**
