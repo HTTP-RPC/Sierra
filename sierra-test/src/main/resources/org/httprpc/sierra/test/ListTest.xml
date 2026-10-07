@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
+<column-panel spacing="4" padding="8" opaque="true">
+    <row-panel spacing="4">
+        <scroll-pane>
+            <list name="list" width="80" visibleRowCount="5"/>
+        </scroll-pane>
+
+        <column-panel>
+            <combo-box name="comboBox"/>
+            <spacer weight="1"/>
+        </column-panel>
+    </row-panel>
+</column-panel>
