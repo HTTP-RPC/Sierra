@@ -847,16 +847,30 @@ public class UILoader {
     public static class JxComboBox<E> extends JComboBox<E> {
         private Function<? super E, String> labelMapper = Object::toString;
 
+        private long t0 = 0;
+
+        private String prefix = "";
+
+        private static final long TIME_FACTOR = coalesce((Long)UIManager.get("ComboBox.timeFactor"), () -> 1000L);
+
         /**
          * Constructs a new combo box.
          */
         @SuppressWarnings("unchecked")
         public JxComboBox() {
             setKeySelectionManager((key, model) -> {
-                if (key == ' ' && !isPopupVisible()) {
+                var t1 = System.currentTimeMillis();
+
+                if (t1 - t0 > TIME_FACTOR) {
+                    prefix = "";
+                }
+
+                if (prefix.isEmpty() && key == ' ' && !isPopupVisible()) {
                     setPopupVisible(true);
                 } else {
-                    key = Character.toLowerCase(key);
+                    prefix += Character.toLowerCase(key);
+
+                    t0 = t1;
 
                     var n = model.getSize();
 
@@ -869,9 +883,7 @@ public class UILoader {
                     var i = startIndex;
 
                     do {
-                        var label = labelMapper.apply((E)model.getElementAt(i));
-
-                        if (!label.isEmpty() && Character.toLowerCase(label.charAt(0)) == key) {
+                        if (labelMapper.apply((E)model.getElementAt(i)).toLowerCase().startsWith(prefix)) {
                             return i;
                         }
 

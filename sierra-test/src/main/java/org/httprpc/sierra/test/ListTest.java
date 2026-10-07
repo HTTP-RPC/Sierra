@@ -82,6 +82,8 @@ public class ListTest extends JFrame implements Runnable {
         comboBox.setRenderer(new BasicListCellRenderer<>(ListItem::getLabel));
         comboBox.setLabelMapper(ListItem::getLabel);
 
+        comboBox.addActionListener(event -> System.out.println(((ListItem)comboBox.getSelectedItem()).getValue()));
+
         pack();
         setVisible(true);
     }
