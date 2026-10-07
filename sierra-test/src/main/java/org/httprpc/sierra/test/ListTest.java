@@ -61,13 +61,21 @@ public class ListTest extends JFrame implements Runnable {
         var listItems = listOf(
             new ListItem(1, "One"),
             new ListItem(2, "Two"),
-            new ListItem(1, "Three")
+            new ListItem(3, "Three")
         );
 
         list.setModel(new BasicListModel<>(listItems));
 
         list.setCellRenderer(new BasicListCellRenderer<>(ListItem::getLabel));
         list.setLabelMapper(ListItem::getLabel);
+
+        list.addListSelectionListener(event -> {
+            if (event.getValueIsAdjusting()) {
+                return;
+            }
+
+            System.out.println(list.getSelectedValue().getValue());
+        });
 
         comboBox.setModel(new BasicComboBoxModel<>(listItems));
 
