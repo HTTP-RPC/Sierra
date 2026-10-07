@@ -39,12 +39,12 @@ import java.util.List;
 import static org.httprpc.kilo.util.Collections.*;
 
 public class CellRendererTest extends JFrame implements Runnable {
-    private static class Flag {
-        UILoader.SVGIcon icon;
-        String name;
-        String description;
+    public static class Flag {
+        private UILoader.SVGIcon icon;
+        private String name;
+        private String description;
 
-        Flag(String iconName, String name, String description) {
+        public Flag(String iconName, String name, String description) {
             icon = UILoader.createSVGIcon(getClass().getResource(String.format("flags/%s", iconName)));
 
             icon.setIconSize(ICON_SIZE, ICON_SIZE);
@@ -53,18 +53,30 @@ public class CellRendererTest extends JFrame implements Runnable {
             this.description = description;
         }
 
+        public UILoader.SVGIcon getIcon() {
+            return icon;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
         @Override
         public String toString() {
             return name;
         }
     }
 
-    private static class FlagCellRenderer extends RowPanel implements ListCellRenderer<Flag> {
-        JLabel iconLabel;
-        JLabel nameLabel;
-        JLabel descriptionLabel;
+    public static class FlagCellRenderer extends RowPanel implements ListCellRenderer<Flag> {
+        private JLabel iconLabel;
+        private JLabel nameLabel;
+        private JLabel descriptionLabel;
 
-        FlagCellRenderer() {
+        public FlagCellRenderer() {
             setOpaque(true);
 
             setSpacing(4);
@@ -104,9 +116,9 @@ public class CellRendererTest extends JFrame implements Runnable {
         public Component getListCellRendererComponent(JList<? extends Flag> list,
             Flag value, int index,
             boolean selected, boolean cellHasFocus) {
-            iconLabel.setIcon(value.icon);
-            nameLabel.setText(value.name);
-            descriptionLabel.setText(value.description);
+            iconLabel.setIcon(value.getIcon());
+            nameLabel.setText(value.getName());
+            descriptionLabel.setText(value.getDescription());
 
             Color background;
             Color foreground;
