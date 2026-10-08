@@ -76,7 +76,7 @@ Sierra is distributed via Maven Central at [org.httprpc:sierra](https://central.
 A [DTD](sierra.dtd) is provided to assist with editing. It is not used for validation and is not required.
 
 # Elements
-XML elements represent component instances. Most Swing and all Sierra components are supported by default. Support for additional elements can be added via the `bind()` method of the `UILoader` class. This method can also be used to customize instantiation of the standard component types.
+XML elements represent component instances. Most Swing and all Sierra components are supported by default. Support for additional elements can be added via the `bind()` method of the `UILoader` class.
 
 Elements can be nested to create a component hierarchy. For example:
 
