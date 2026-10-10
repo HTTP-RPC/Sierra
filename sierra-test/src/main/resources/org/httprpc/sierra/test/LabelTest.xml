@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE row-panel SYSTEM "sierra.dtd">
+
+<row-panel spacing="4" padding="8" opaque="true">
+    <label icon="icons/home_24dp.svg; 18"/>
+
+    <label text="Lorem ipsum dolor sit amet"/>
+    <separator orientation="vertical"/>
+    <label text="Consectetur adipiscing elit"/>
+    <separator orientation="vertical"/>
+    <label text="Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"/>
+
+    <label icon="icons/flag_24dp.svg; 18"/>
+</row-panel>

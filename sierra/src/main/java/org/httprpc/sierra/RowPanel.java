@@ -14,6 +14,7 @@
 
 package org.httprpc.sierra;
 
+import javax.swing.JLabel;
 import java.awt.Container;
 import java.awt.Dimension;
 
@@ -102,10 +103,16 @@ public class RowPanel extends BoxPanel {
                 baselines = null;
             }
 
+            var textLabelCount = 0;
             var maximumBaseline = 0;
 
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
+
+                if (component instanceof JLabel label
+                    && label.getIcon() == null) {
+                    textLabelCount++;
+                }
 
                 if (alignToBaseline) {
                     component.setSize(0, 0);
@@ -165,14 +172,20 @@ public class RowPanel extends BoxPanel {
 
                 var weight = getWeight(i);
 
-                if (!Double.isNaN(weight)) {
-                    if (i < n - 1) {
-                        component.setSize((int)Math.round(excessWidth * (weight / totalWeight)), component.getHeight());
+                if (Double.isNaN(weight)) {
+                    if (width < fixedWidth
+                        && component instanceof JLabel label
+                        && label.getIcon() == null) {
+                        var w = (int)Math.round((fixedWidth - width) * (1 / (double)textLabelCount));
 
-                        remainingWidth -= component.getWidth();
-                    } else {
-                        component.setSize(remainingWidth, component.getHeight());
+                        component.setSize(new Dimension(Math.max(component.getWidth() - w, 0), component.getHeight()));
                     }
+                } else if (i < n - 1) {
+                    component.setSize((int)Math.round(excessWidth * (weight / totalWeight)), component.getHeight());
+
+                    remainingWidth -= component.getWidth();
+                } else {
+                    component.setSize(remainingWidth, component.getHeight());
                 }
 
                 int y;
