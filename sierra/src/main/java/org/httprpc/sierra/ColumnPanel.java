@@ -71,7 +71,7 @@ public class ColumnPanel extends BoxPanel {
             var insets = getInsets();
 
             var width = Math.max(size.width - (insets.left + insets.right), 0);
-            var height = size.height - (insets.top + insets.bottom);
+            var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
             var fixedHeight = 0;
             var totalWeight = 0.0;
