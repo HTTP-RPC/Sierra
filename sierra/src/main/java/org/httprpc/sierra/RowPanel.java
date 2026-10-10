@@ -176,9 +176,9 @@ public class RowPanel extends BoxPanel {
                     if (width < fixedWidth
                         && component instanceof JLabel label
                         && label.getIcon() == null) {
-                        var w = (int)Math.round((fixedWidth - width) * (1 / (double)textLabelCount));
+                        var delta = (int)Math.round((fixedWidth - width) * (1 / (double)textLabelCount));
 
-                        component.setSize(new Dimension(Math.max(component.getWidth() - w, 0), component.getHeight()));
+                        component.setSize(new Dimension(Math.max(component.getWidth() - delta, 0), component.getHeight()));
                     }
                 } else if (i < n - 1) {
                     component.setSize((int)Math.round(excessWidth * (weight / totalWeight)), component.getHeight());
