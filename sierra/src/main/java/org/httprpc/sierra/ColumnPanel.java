@@ -71,8 +71,9 @@ public class ColumnPanel extends BoxPanel {
             var insets = getInsets();
 
             var width = Math.max(size.width - (insets.left + insets.right), 0);
+            var height = size.height - (insets.top + insets.bottom);
 
-            var excessHeight = Math.max(size.height - (insets.top + insets.bottom), 0);
+            var fixedHeight = 0;
             var totalWeight = 0.0;
 
             var n = getComponentCount();
@@ -86,7 +87,7 @@ public class ColumnPanel extends BoxPanel {
                     component.setSize(width, Integer.MAX_VALUE);
                     component.setSize(width, component.getPreferredSize().height);
 
-                    excessHeight -= component.getHeight();
+                    fixedHeight += component.getHeight();
                 } else {
                     component.setSize(width, 0);
 
@@ -96,7 +97,9 @@ public class ColumnPanel extends BoxPanel {
 
             var spacing = getSpacing();
 
-            excessHeight = Math.max(excessHeight - spacing * (n - 1), 0);
+            fixedHeight += spacing * (n - 1);
+
+            var excessHeight = Math.max(height - fixedHeight, 0);
 
             var remainingHeight = excessHeight;
 

@@ -86,7 +86,9 @@ public class RowPanel extends BoxPanel {
             var size = getSize();
             var insets = getInsets();
 
-            var excessWidth = Math.max(size.width - (insets.left + insets.right), 0);
+            var width = Math.max(size.width - (insets.left + insets.right), 0);
+
+            var fixedWidth = 0;
             var totalWeight = 0.0;
 
             var height = Math.max(size.height - (insets.top + insets.bottom), 0);
@@ -119,7 +121,7 @@ public class RowPanel extends BoxPanel {
                         component.setSize(component.getPreferredSize().width, height);
                     }
 
-                    excessWidth -= component.getWidth();
+                    fixedWidth += component.getWidth();
                 } else {
                     if (alignToBaseline) {
                         component.setSize(0, component.getPreferredSize().height);
@@ -143,7 +145,9 @@ public class RowPanel extends BoxPanel {
 
             var spacing = getSpacing();
 
-            excessWidth = Math.max(excessWidth - spacing * (n - 1), 0);
+            fixedWidth += spacing * (n - 1);
+
+            var excessWidth = Math.max(width - fixedWidth, 0);
 
             var remainingWidth = excessWidth;
 
