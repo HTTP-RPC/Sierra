@@ -1485,7 +1485,16 @@ public class UILoader {
         bind("popup-menu-separator", JPopupMenu.Separator.class, JPopupMenu.Separator::new);
         bind("tool-bar", JToolBar.class, JToolBar::new);
         bind("tool-bar-separator", JToolBar.Separator.class, JToolBar.Separator::new);
-        bind("split-pane", JSplitPane.class, JSplitPane::new);
+
+        bind("split-pane", JSplitPane.class, () -> {
+            var splitPane = new JSplitPane();
+
+            splitPane.setLeftComponent(null);
+            splitPane.setRightComponent(null);
+
+            return splitPane;
+        });
+
         bind("tabbed-pane", JTabbedPane.class, JTabbedPane::new);
 
         bind("table", JxTable.class, JxTable::new);
@@ -1639,12 +1648,14 @@ public class UILoader {
         var type = types.get(tag);
 
         JComponent component;
-        if (type == null) {
+        if (type != null) {
+            component = suppliers.get(tag).get();
+        } else {
             if (path == null) {
                 throw new UnsupportedOperationException(String.format("Invalid tag (%s).", tag));
             }
 
-            var label = new JLabel(UIManager.getIcon("OptionPane.warningIcon"), SwingConstants.CENTER);
+            var label = new JLabel(UIManager.getIcon("OptionPane.warningIcon"));
 
             label.setHorizontalTextPosition(SwingConstants.CENTER);
             label.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -1653,13 +1664,6 @@ public class UILoader {
             label.setText(tag);
 
             component = label;
-        } else {
-            component = suppliers.get(tag).get();
-        }
-
-        if (component instanceof JSplitPane splitPane) {
-            splitPane.setLeftComponent(null);
-            splitPane.setRightComponent(null);
         }
 
         String title = null;
