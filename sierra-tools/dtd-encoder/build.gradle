@@ -22,4 +22,8 @@ dependencies {
 
 application {
     mainClass = 'org.httprpc.sierra.tools.dtd.DTDEncoder'
+
+    applicationDefaultJvmArgs = [
+        '-Djava.awt.headless=true'
+    ]
 }
