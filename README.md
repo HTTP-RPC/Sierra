@@ -18,7 +18,7 @@ Sierra provides the `UILoader` class, which can be used in conjunction with the 
 
 These classes offer an alternative to the standard Java layout managers, which can often be limiting or difficult to use in practice.
 
-Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text or image content, respectively. `TextPane` supports wrapping without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`. Some common [utility components](#utility-components) are included as well.
+Sierra also includes the `TextPane` and `ImagePane` components, which provide an alternative to `JLabel` for displaying basic text and image content, respectively. `TextPane` supports wrapping without requiring HTML, and `ImagePane` supports scaling without requiring an intermediate `BufferedImage`. Some common [utility components](#utility-components) are included as well.
 
 For example, the following markup declares a column panel containing a graphic and a simple greeting:
 
@@ -297,7 +297,7 @@ The "weight" attribute specifies the amount of excess space in a column or row p
 
 <img src="README/border-layout.png" width="592px"/>
 
-The "alignmentX" and "alignmentY" properties are used to determine the size of an unweighted component when there is not enough space in a column or row panel. The value represents the extent to which the component will be resized, relative to other unweighted components in the container. A value of 0 (the default applied by `UILoader`) indicates that the component will not be resized.
+The "alignmentX" and "alignmentY" properties are used to determine the size of an unweighted component when there is not enough space in a row or column panel. The value represents the extent to which the component will be resized, relative to other unweighted components in the container. A value of 0 (the default applied by `UILoader`) indicates that the component will not be resized.
 
 ## Label Values
 The "label" attribute associates a description with a form field. For example:
