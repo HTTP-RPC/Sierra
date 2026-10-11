@@ -74,6 +74,8 @@ public class ColumnPanel extends BoxPanel {
             var height = Math.max(size.height - (insets.top + insets.bottom), 0);
 
             var fixedHeight = 0;
+            var totalAlignmentY = 0.0;
+
             var totalWeight = 0.0;
 
             var n = getComponentCount();
@@ -88,6 +90,8 @@ public class ColumnPanel extends BoxPanel {
                     component.setSize(width, component.getPreferredSize().height);
 
                     fixedHeight += component.getHeight();
+
+                    totalAlignmentY += component.getAlignmentY();
                 } else {
                     component.setSize(width, 0);
 
@@ -110,14 +114,18 @@ public class ColumnPanel extends BoxPanel {
 
                 var weight = getWeight(i);
 
-                if (!Double.isNaN(weight)) {
-                    if (i < n - 1) {
-                        component.setSize(component.getWidth(), (int)Math.round(excessHeight * (weight / totalWeight)));
+                if (Double.isNaN(weight)) {
+                    if (height < fixedHeight) {
+                        var delta = (int)Math.round((fixedHeight - height) * (component.getAlignmentY() / totalAlignmentY));
 
-                        remainingHeight -= component.getHeight();
-                    } else {
-                        component.setSize(component.getWidth(), remainingHeight);
+                        component.setSize(new Dimension(component.getWidth(), Math.max(component.getHeight() - delta, 0)));
                     }
+                } else if (i < n - 1) {
+                    component.setSize(component.getWidth(), (int)Math.round(excessHeight * (weight / totalWeight)));
+
+                    remainingHeight -= component.getHeight();
+                } else {
+                    component.setSize(component.getWidth(), remainingHeight);
                 }
 
                 component.setLocation(insets.left, y);

@@ -14,7 +14,6 @@
 
 package org.httprpc.sierra;
 
-import javax.swing.JLabel;
 import java.awt.Container;
 import java.awt.Dimension;
 
@@ -90,6 +89,8 @@ public class RowPanel extends BoxPanel {
             var width = Math.max(size.width - (insets.left + insets.right), 0);
 
             var fixedWidth = 0;
+            var totalAlignmentX = 0.0;
+
             var totalWeight = 0.0;
 
             var height = Math.max(size.height - (insets.top + insets.bottom), 0);
@@ -103,7 +104,6 @@ public class RowPanel extends BoxPanel {
                 baselines = null;
             }
 
-            var textLabelCount = 0;
             var maximumBaseline = 0;
 
             for (var i = 0; i < n; i++) {
@@ -116,11 +116,6 @@ public class RowPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (Double.isNaN(weight)) {
-                    if (component instanceof JLabel label
-                        && label.getIcon() == null) {
-                        textLabelCount++;
-                    }
-
                     if (alignToBaseline) {
                         component.setSize(component.getPreferredSize());
                     } else {
@@ -129,6 +124,8 @@ public class RowPanel extends BoxPanel {
                     }
 
                     fixedWidth += component.getWidth();
+
+                    totalAlignmentX += component.getAlignmentX();
                 } else {
                     if (alignToBaseline) {
                         component.setSize(0, component.getPreferredSize().height);
@@ -173,10 +170,8 @@ public class RowPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (Double.isNaN(weight)) {
-                    if (width < fixedWidth
-                        && component instanceof JLabel label
-                        && label.getIcon() == null) {
-                        var delta = (int)Math.round((fixedWidth - width) * (1 / (double)textLabelCount));
+                    if (width < fixedWidth) {
+                        var delta = (int)Math.round((fixedWidth - width) * (component.getAlignmentX() / totalAlignmentX));
 
                         component.setSize(new Dimension(Math.max(component.getWidth() - delta, 0), component.getHeight()));
                     }

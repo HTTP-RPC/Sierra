@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE column-panel SYSTEM "sierra.dtd">
+
+<column-panel spacing="4" padding="8" opaque="true">
+    <label icon="icons/home_24dp.svg; 18"/>
+
+    <text-pane text="Lorem ipsum dolor sit amet" alignmentY="0.5"/>
+    <separator/>
+    <text-pane text="Consectetur adipiscing elit" alignmentY="0.5"/>
+    <separator/>
+    <text-pane text="Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua" alignmentX="1"/>
+
+    <label icon="icons/flag_24dp.svg; 18"/>
+</column-panel>

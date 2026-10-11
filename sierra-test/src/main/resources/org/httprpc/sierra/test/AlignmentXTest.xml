@@ -5,11 +5,11 @@
 <row-panel spacing="4" padding="8" opaque="true">
     <label icon="icons/home_24dp.svg; 18"/>
 
-    <label text="Lorem ipsum dolor sit amet"/>
+    <label text="Lorem ipsum dolor sit amet" alignmentX="0.5"/>
     <separator orientation="vertical"/>
-    <label text="Consectetur adipiscing elit"/>
+    <label text="Consectetur adipiscing elit" alignmentX="0.5"/>
     <separator orientation="vertical"/>
-    <label text="Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"/>
+    <label text="Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua" alignmentX="1"/>
 
     <label icon="icons/flag_24dp.svg; 18"/>
 </row-panel>

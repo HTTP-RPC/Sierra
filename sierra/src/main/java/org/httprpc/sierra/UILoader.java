@@ -1666,6 +1666,9 @@ public class UILoader {
             component = label;
         }
 
+        component.setAlignmentX(0);
+        component.setAlignmentY(0);
+
         String title = null;
 
         Color titleColor = null;

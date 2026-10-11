@@ -20,16 +20,16 @@ import org.httprpc.sierra.UILoader;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-public class LabelTest extends JFrame implements Runnable {
-    private LabelTest() {
-        super("Label Test");
+public class AlignmentXTest extends JFrame implements Runnable {
+    private AlignmentXTest() {
+        super("Alignment X Test");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
     public void run() {
-        setContentPane(UILoader.load(this, "LabelTest.xml"));
+        setContentPane(UILoader.load(this, "AlignmentXTest.xml"));
 
         pack();
         setVisible(true);
@@ -38,6 +38,6 @@ public class LabelTest extends JFrame implements Runnable {
     public static void main(String[] args) {
         FlatLightLaf.setup();
 
-        SwingUtilities.invokeLater(new LabelTest());
+        SwingUtilities.invokeLater(new AlignmentXTest());
     }
 }
