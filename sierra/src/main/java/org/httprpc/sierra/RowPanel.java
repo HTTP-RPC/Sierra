@@ -109,11 +109,6 @@ public class RowPanel extends BoxPanel {
             for (var i = 0; i < n; i++) {
                 var component = getComponent(i);
 
-                if (component instanceof JLabel label
-                    && label.getIcon() == null) {
-                    textLabelCount++;
-                }
-
                 if (alignToBaseline) {
                     component.setSize(0, 0);
                 }
@@ -121,6 +116,11 @@ public class RowPanel extends BoxPanel {
                 var weight = getWeight(i);
 
                 if (Double.isNaN(weight)) {
+                    if (component instanceof JLabel label
+                        && label.getIcon() == null) {
+                        textLabelCount++;
+                    }
+
                     if (alignToBaseline) {
                         component.setSize(component.getPreferredSize());
                     } else {
