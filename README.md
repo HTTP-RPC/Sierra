@@ -297,7 +297,7 @@ The "weight" attribute specifies the amount of excess space in a column or row p
 
 <img src="README/border-layout.png" width="592px"/>
 
-The "alignmentX" and "alignmentY" properties are used to determine the size of an unweighted component when there is not enough space in a container. The value represents the extent to which the component will be resized, relative to other unweighted components. A value of 0 (the default applied by `UILoader`) indicates that the component will not be resized.
+The "alignmentX" and "alignmentY" properties are used to determine the size of an unweighted component when there is not enough space in a column or row panel. The value represents the extent to which the component will be resized, relative to other unweighted components in the container. A value of 0 (the default applied by `UILoader`) indicates that the component will not be resized.
 
 ## Label Values
 The "label" attribute associates a description with a form field. For example:
