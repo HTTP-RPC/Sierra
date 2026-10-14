@@ -16,7 +16,6 @@ package org.httprpc.sierra;
 
 import javax.swing.JComponent;
 import javax.swing.JViewport;
-import javax.swing.SwingUtilities;
 import java.awt.AWTEvent;
 import java.awt.Component;
 import java.awt.DefaultKeyboardFocusManager;
@@ -44,7 +43,7 @@ public class ScrollingKeyboardFocusManager extends DefaultKeyboardFocusManager {
                 }
 
                 if (parent instanceof JComponent) {
-                    ((JComponent)parent).scrollRectToVisible(SwingUtilities.convertRectangle(parent, component.getBounds(), parent));
+                    ((JComponent)parent).scrollRectToVisible(component.getBounds());
                 }
             }
         }
