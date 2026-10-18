@@ -94,6 +94,11 @@ public class DTDEncoder extends Encoder<Void> {
 
             for (var entry : BeanAdapter.getProperties(type).entrySet()) {
                 var property = entry.getValue();
+
+                if (property.getAccessor().getAnnotation(Deprecated.class) != null) {
+                    continue;
+                }
+
                 var mutator = property.getMutator();
 
                 if (mutator == null || mutator.getDeclaringClass() != type) {
