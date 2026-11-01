@@ -16,7 +16,7 @@ package org.httprpc.sierra.test;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import org.httprpc.kilo.WebServiceProxy;
+import org.httprpc.kilo.web.WebServiceProxy;
 import org.httprpc.sierra.ActivityIndicator;
 import org.httprpc.sierra.BasicTableCellRenderer;
 import org.httprpc.sierra.BasicTableModel;
