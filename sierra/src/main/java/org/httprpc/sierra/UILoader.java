@@ -2395,7 +2395,7 @@ public class UILoader {
 
         var name = components[0].trim();
 
-        var color = coalesce(UIManager.getColor(name), () -> coalesce(colors.get(name), () -> Color.decode(name)));
+        var color = name.startsWith("#") ? Color.decode(name) : coalesce(UIManager.getColor(name), () -> colors.get(name));
 
         if (components.length == 1) {
             return color;
