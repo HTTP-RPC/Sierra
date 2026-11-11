@@ -19,7 +19,7 @@ plugins {
 dependencies {
     implementation project(':sierra')
 
-    implementation "com.formdev:flatlaf:${flatLafVersion}"
+    implementation "com.formdev:flatlaf:${flatLafVersion}:no-natives"
 }
 
 application {
