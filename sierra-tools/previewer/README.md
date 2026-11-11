@@ -1,9 +1,9 @@
 # Sierra Previewer
-Provides a live, interactive preview of Sierra markup. Outlets and resource keys are ignored.
+Provides a live, interactive preview of Sierra markup. Outlets, resource keys, and custom colors/fonts are ignored. Custom bindings are not supported.
 
 ## Usage
 ```
-previewer markup-document
+previewer <markup-document>
 ```
 
 The single argument represents the path to the document to preview, relative to the current directory. The following actions are supported:
