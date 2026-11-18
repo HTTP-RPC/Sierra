@@ -23,5 +23,5 @@ dependencies {
 }
 
 application {
-    mainClass = 'org.httprpc.sierra.tools.previewer.Previewer'
+    mainClass = 'org.httprpc.sierra.tools.Previewer'
 }

@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.httprpc.sierra.tools.previewer;
+package org.httprpc.sierra.tools;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLaf;

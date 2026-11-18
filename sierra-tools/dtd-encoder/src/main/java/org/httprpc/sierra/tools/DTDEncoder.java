@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.httprpc.sierra.tools.dtd;
+package org.httprpc.sierra.tools;
 
 import org.httprpc.kilo.beans.BeanAdapter;
 import org.httprpc.kilo.io.Encoder;
