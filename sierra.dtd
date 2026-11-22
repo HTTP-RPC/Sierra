@@ -1,72 +1,72 @@
 <!ENTITY % org.httprpc.sierra.UILoader "name CDATA title CDATA titleColor CDATA titleFont CDATA titleJustification (left|right|center|leading|trailing) titlePosition (above-top|top|below-top|above-bottom|bottom|below-bottom) border CDATA padding CDATA width CDATA height CDATA size CDATA weight CDATA label CDATA columnSpan CDATA group CDATA tabTitle CDATA tabIcon CDATA style CDATA styleClass CDATA ">
-<!ENTITY % java.awt.Component "%org.httprpc.sierra.UILoader; background CDATA enabled (true|false) focusTraversalKeysEnabled (true|false) focusable (true|false) font CDATA foreground CDATA ignoreRepaint (true|false) name CDATA visible (true|false) ">
-<!ENTITY % java.awt.Container "%java.awt.Component; focusCycleRoot (true|false) focusTraversalPolicyProvider (true|false) font CDATA ">
-<!ENTITY % javax.swing.JComponent "%java.awt.Container; alignmentX CDATA alignmentY CDATA autoscrolls (true|false) background CDATA debugGraphicsOptions CDATA doubleBuffered (true|false) enabled (true|false) font CDATA foreground CDATA inheritsPopupMenu (true|false) opaque (true|false) requestFocusEnabled (true|false) toolTipText CDATA verifyInputWhenFocusTarget (true|false) visible (true|false) ">
-<!ENTITY % javax.swing.AbstractButton "%javax.swing.JComponent; actionCommand CDATA borderPainted (true|false) contentAreaFilled (true|false) disabledIcon CDATA disabledSelectedIcon CDATA displayedMnemonicIndex CDATA enabled (true|false) focusPainted (true|false) hideActionText (true|false) horizontalAlignment (left|right|center|leading|trailing) horizontalTextPosition (left|right|center|leading|trailing) icon CDATA iconTextGap CDATA mnemonic CDATA multiClickThreshhold CDATA pressedIcon CDATA rolloverEnabled (true|false) rolloverIcon CDATA rolloverSelectedIcon CDATA selected (true|false) selectedIcon CDATA text CDATA verticalAlignment (top|bottom|center) verticalTextPosition (top|bottom|center) ">
-<!ENTITY % javax.swing.JComboBox "%javax.swing.JComponent; actionCommand CDATA editable (true|false) enabled (true|false) lightWeightPopupEnabled (true|false) maximumRowCount CDATA popupVisible (true|false) selectedIndex CDATA ">
-<!ENTITY % javax.swing.JLabel "%javax.swing.JComponent; disabledIcon CDATA displayedMnemonic CDATA displayedMnemonicIndex CDATA horizontalAlignment (left|right|center|leading|trailing) horizontalTextPosition (left|right|center|leading|trailing) icon CDATA iconTextGap CDATA text CDATA verticalAlignment (top|bottom|center) verticalTextPosition (top|bottom|center) ">
+<!ENTITY % java.awt.Component "%org.httprpc.sierra.UILoader; font CDATA name CDATA visible (true|false) enabled (true|false) foreground CDATA background CDATA ignoreRepaint (true|false) focusable (true|false) focusTraversalKeysEnabled (true|false) ">
+<!ENTITY % java.awt.Container "%java.awt.Component; font CDATA focusCycleRoot (true|false) focusTraversalPolicyProvider (true|false) ">
+<!ENTITY % javax.swing.JComponent "%java.awt.Container; font CDATA visible (true|false) enabled (true|false) doubleBuffered (true|false) foreground CDATA background CDATA opaque (true|false) alignmentX CDATA alignmentY CDATA inheritsPopupMenu (true|false) requestFocusEnabled (true|false) verifyInputWhenFocusTarget (true|false) debugGraphicsOptions CDATA toolTipText CDATA autoscrolls (true|false) ">
+<!ENTITY % javax.swing.AbstractButton "%javax.swing.JComponent; enabled (true|false) hideActionText (true|false) text CDATA selected (true|false) icon CDATA pressedIcon CDATA selectedIcon CDATA rolloverIcon CDATA rolloverSelectedIcon CDATA disabledIcon CDATA disabledSelectedIcon CDATA verticalAlignment (top|bottom|center) horizontalAlignment (left|right|center|leading|trailing) verticalTextPosition (top|bottom|center) horizontalTextPosition (left|right|center|leading|trailing) iconTextGap CDATA actionCommand CDATA borderPainted (true|false) focusPainted (true|false) contentAreaFilled (true|false) rolloverEnabled (true|false) mnemonic CDATA displayedMnemonicIndex CDATA multiClickThreshhold CDATA ">
+<!ENTITY % javax.swing.JComboBox "%javax.swing.JComponent; enabled (true|false) lightWeightPopupEnabled (true|false) editable (true|false) maximumRowCount CDATA selectedIndex CDATA popupVisible (true|false) actionCommand CDATA ">
+<!ENTITY % javax.swing.JLabel "%javax.swing.JComponent; text CDATA icon CDATA disabledIcon CDATA displayedMnemonic CDATA displayedMnemonicIndex CDATA iconTextGap CDATA verticalAlignment (top|bottom|center) horizontalAlignment (left|right|center|leading|trailing) verticalTextPosition (top|bottom|center) horizontalTextPosition (left|right|center|leading|trailing) ">
 <!ELEMENT label EMPTY>
 <!ATTLIST label %javax.swing.JLabel;>
-<!ENTITY % javax.swing.JList "%javax.swing.JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) fixedCellHeight CDATA fixedCellWidth CDATA layoutOrientation (vertical|vertical-wrap|horizontal-wrap) selectedIndex CDATA selectionBackground CDATA selectionForeground CDATA selectionMode (single-selection|single-interval-selection|multiple-interval-selection) valueIsAdjusting (true|false) visibleRowCount CDATA ">
+<!ENTITY % javax.swing.JList "%javax.swing.JComponent; fixedCellWidth CDATA fixedCellHeight CDATA selectionForeground CDATA selectionBackground CDATA visibleRowCount CDATA layoutOrientation (vertical|vertical-wrap|horizontal-wrap) dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) selectionMode (single-selection|single-interval-selection|multiple-interval-selection) valueIsAdjusting (true|false) selectedIndex CDATA ">
 <!ENTITY % javax.swing.JMenuBar "%javax.swing.JComponent; borderPainted (true|false) ">
 <!ELEMENT menu-bar (ANY)>
 <!ATTLIST menu-bar %javax.swing.JMenuBar;>
 <!ENTITY % javax.swing.JPanel "%javax.swing.JComponent; ">
-<!ENTITY % javax.swing.JProgressBar "%javax.swing.JComponent; borderPainted (true|false) indeterminate (true|false) maximum CDATA minimum CDATA orientation (horizontal|vertical) string CDATA stringPainted (true|false) value CDATA ">
+<!ENTITY % javax.swing.JProgressBar "%javax.swing.JComponent; orientation (horizontal|vertical) stringPainted (true|false) string CDATA borderPainted (true|false) value CDATA minimum CDATA maximum CDATA indeterminate (true|false) ">
 <!ELEMENT progress-bar EMPTY>
 <!ATTLIST progress-bar %javax.swing.JProgressBar;>
-<!ENTITY % javax.swing.JScrollPane "%javax.swing.JComponent; horizontalScrollBarPolicy (as-needed|never|always) verticalScrollBarPolicy (as-needed|never|always) wheelScrollingEnabled (true|false) ">
+<!ENTITY % javax.swing.JScrollPane "%javax.swing.JComponent; verticalScrollBarPolicy (as-needed|never|always) horizontalScrollBarPolicy (as-needed|never|always) wheelScrollingEnabled (true|false) ">
 <!ELEMENT scroll-pane (ANY)>
 <!ATTLIST scroll-pane %javax.swing.JScrollPane;>
 <!ENTITY % javax.swing.JSeparator "%javax.swing.JComponent; orientation (horizontal|vertical) ">
 <!ELEMENT separator EMPTY>
 <!ATTLIST separator %javax.swing.JSeparator;>
-<!ENTITY % javax.swing.JSlider "%javax.swing.JComponent; extent CDATA font CDATA inverted (true|false) majorTickSpacing CDATA maximum CDATA minimum CDATA minorTickSpacing CDATA orientation (horizontal|vertical) paintLabels (true|false) paintTicks (true|false) paintTrack (true|false) snapToTicks (true|false) value CDATA valueIsAdjusting (true|false) ">
+<!ENTITY % javax.swing.JSlider "%javax.swing.JComponent; font CDATA value CDATA minimum CDATA maximum CDATA valueIsAdjusting (true|false) extent CDATA orientation (horizontal|vertical) inverted (true|false) majorTickSpacing CDATA minorTickSpacing CDATA snapToTicks (true|false) paintTicks (true|false) paintTrack (true|false) paintLabels (true|false) ">
 <!ELEMENT slider EMPTY>
 <!ATTLIST slider %javax.swing.JSlider;>
 <!ENTITY % javax.swing.JSpinner "%javax.swing.JComponent; ">
 <!ELEMENT spinner EMPTY>
 <!ATTLIST spinner %javax.swing.JSpinner;>
-<!ENTITY % javax.swing.JSplitPane "%javax.swing.JComponent; continuousLayout (true|false) dividerLocation CDATA dividerSize CDATA lastDividerLocation CDATA oneTouchExpandable (true|false) orientation (horizontal|vertical) resizeWeight CDATA ">
+<!ENTITY % javax.swing.JSplitPane "%javax.swing.JComponent; enabled (true|false) dividerSize CDATA oneTouchExpandable (true|false) lastDividerLocation CDATA orientation (horizontal|vertical) continuousLayout (true|false) resizeWeight CDATA dividerLocation CDATA ">
 <!ELEMENT split-pane (ANY)>
 <!ATTLIST split-pane %javax.swing.JSplitPane;>
-<!ENTITY % javax.swing.JTabbedPane "%javax.swing.JComponent; selectedIndex CDATA tabLayoutPolicy (wrap-tab-layout|scroll-tab-layout) tabPlacement (top|left|bottom|right) ">
+<!ENTITY % javax.swing.JTabbedPane "%javax.swing.JComponent; tabPlacement (top|left|bottom|right) tabLayoutPolicy (wrap-tab-layout|scroll-tab-layout) selectedIndex CDATA ">
 <!ELEMENT tabbed-pane (ANY)>
 <!ATTLIST tabbed-pane %javax.swing.JTabbedPane;>
-<!ENTITY % javax.swing.JTable "%javax.swing.JComponent; autoCreateColumnsFromModel (true|false) autoCreateRowSorter (true|false) autoResizeMode (off|next-column|subsequent-columns|last-column|all-columns) cellSelectionEnabled (true|false) columnSelectionAllowed (true|false) dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editingColumn CDATA editingRow CDATA fillsViewportHeight (true|false) gridColor CDATA rowHeight CDATA rowMargin CDATA rowSelectionAllowed (true|false) selectionBackground CDATA selectionForeground CDATA showHorizontalLines (true|false) showVerticalLines (true|false) surrendersFocusOnKeystroke (true|false) updateSelectionOnSort (true|false) ">
+<!ENTITY % javax.swing.JTable "%javax.swing.JComponent; rowHeight CDATA rowMargin CDATA gridColor CDATA showHorizontalLines (true|false) showVerticalLines (true|false) autoResizeMode (off|next-column|subsequent-columns|last-column|all-columns) autoCreateColumnsFromModel (true|false) dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) autoCreateRowSorter (true|false) updateSelectionOnSort (true|false) rowSelectionAllowed (true|false) columnSelectionAllowed (true|false) cellSelectionEnabled (true|false) selectionForeground CDATA selectionBackground CDATA surrendersFocusOnKeystroke (true|false) editingColumn CDATA editingRow CDATA fillsViewportHeight (true|false) ">
 <!ENTITY % javax.swing.JToolBar "%javax.swing.JComponent; borderPainted (true|false) floatable (true|false) orientation (horizontal|vertical) rollover (true|false) ">
 <!ELEMENT tool-bar (ANY)>
 <!ATTLIST tool-bar %javax.swing.JToolBar;>
-<!ENTITY % javax.swing.JTree "%javax.swing.JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) expandsSelectedPaths (true|false) invokesStopCellEditing (true|false) largeModel (true|false) rootVisible (true|false) rowHeight CDATA scrollsOnExpand (true|false) showsRootHandles (true|false) toggleClickCount CDATA visibleRowCount CDATA ">
-<!ENTITY % javax.swing.text.JTextComponent "%javax.swing.JComponent; caretColor CDATA caretPosition CDATA disabledTextColor CDATA dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) editable (true|false) focusAccelerator CDATA selectedTextColor CDATA selectionColor CDATA selectionEnd CDATA selectionStart CDATA text CDATA ">
+<!ENTITY % javax.swing.JTree "%javax.swing.JComponent; editable (true|false) rootVisible (true|false) showsRootHandles (true|false) rowHeight CDATA largeModel (true|false) invokesStopCellEditing (true|false) scrollsOnExpand (true|false) toggleClickCount CDATA expandsSelectedPaths (true|false) dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) visibleRowCount CDATA ">
+<!ENTITY % javax.swing.text.JTextComponent "%javax.swing.JComponent; dragEnabled (true|false) dropMode (use-selection|on|insert|insert-rows|insert-cols|on-or-insert|on-or-insert-rows|on-or-insert-cols) caretColor CDATA selectionColor CDATA selectedTextColor CDATA disabledTextColor CDATA text CDATA focusAccelerator CDATA caretPosition CDATA editable (true|false) selectionStart CDATA selectionEnd CDATA ">
 <!ENTITY % org.httprpc.sierra.ActivityIndicator "%javax.swing.JComponent; indicatorStyle (small|medium|large) ">
 <!ELEMENT activity-indicator EMPTY>
 <!ATTLIST activity-indicator %org.httprpc.sierra.ActivityIndicator;>
 <!ENTITY % org.httprpc.sierra.ChartPane "%javax.swing.JComponent; ">
 <!ELEMENT chart-pane EMPTY>
 <!ATTLIST chart-pane %org.httprpc.sierra.ChartPane;>
-<!ENTITY % org.httprpc.sierra.ImagePane "%javax.swing.JComponent; horizontalAlignment (left|right|center|leading|trailing) image CDATA interpolationMode (nearest-neighbor|bilinear|bicubic) scaleMode (none|fill-width|fill-height) verticalAlignment (top|bottom|center) ">
+<!ENTITY % org.httprpc.sierra.ImagePane "%javax.swing.JComponent; image CDATA scaleMode (none|fill-width|fill-height) interpolationMode (nearest-neighbor|bilinear|bicubic) horizontalAlignment (left|right|center|leading|trailing) verticalAlignment (top|bottom|center) ">
 <!ELEMENT image-pane EMPTY>
 <!ATTLIST image-pane %org.httprpc.sierra.ImagePane;>
 <!ENTITY % org.httprpc.sierra.Spacer "%javax.swing.JComponent; ">
 <!ELEMENT spacer EMPTY>
 <!ATTLIST spacer %org.httprpc.sierra.Spacer;>
-<!ENTITY % org.httprpc.sierra.TextPane "%javax.swing.JComponent; horizontalAlignment (left|right|center|leading|trailing) text CDATA verticalAlignment (top|bottom|center) ">
+<!ENTITY % org.httprpc.sierra.TextPane "%javax.swing.JComponent; text CDATA horizontalAlignment (left|right|center|leading|trailing) verticalAlignment (top|bottom|center) ">
 <!ELEMENT text-pane EMPTY>
 <!ATTLIST text-pane %org.httprpc.sierra.TextPane;>
 <!ENTITY % javax.swing.JButton "%javax.swing.AbstractButton; defaultCapable (true|false) ">
 <!ELEMENT button EMPTY>
 <!ATTLIST button %javax.swing.JButton;>
-<!ENTITY % javax.swing.JMenuItem "%javax.swing.AbstractButton; accelerator CDATA armed (true|false) enabled (true|false) ">
+<!ENTITY % javax.swing.JMenuItem "%javax.swing.AbstractButton; enabled (true|false) armed (true|false) accelerator CDATA ">
 <!ELEMENT menu-item EMPTY>
 <!ATTLIST menu-item %javax.swing.JMenuItem;>
 <!ENTITY % javax.swing.JPopupMenu.Separator "%javax.swing.JSeparator; ">
 <!ELEMENT popup-menu-separator EMPTY>
 <!ATTLIST popup-menu-separator %javax.swing.JPopupMenu.Separator;>
-<!ENTITY % javax.swing.JTextArea "%javax.swing.text.JTextComponent; columns CDATA font CDATA lineWrap (true|false) rows CDATA tabSize CDATA wrapStyleWord (true|false) ">
+<!ENTITY % javax.swing.JTextArea "%javax.swing.text.JTextComponent; font CDATA tabSize CDATA lineWrap (true|false) wrapStyleWord (true|false) rows CDATA columns CDATA ">
 <!ELEMENT text-area EMPTY>
 <!ATTLIST text-area %javax.swing.JTextArea;>
-<!ENTITY % javax.swing.JTextField "%javax.swing.text.JTextComponent; columns CDATA font CDATA horizontalAlignment (left|right|center|leading|trailing) scrollOffset CDATA placeholderText CDATA showClearButton (true|false) leadingIcon CDATA trailingIcon CDATA ">
+<!ENTITY % javax.swing.JTextField "%javax.swing.text.JTextComponent; font CDATA horizontalAlignment (left|right|center|leading|trailing) columns CDATA scrollOffset CDATA placeholderText CDATA showClearButton (true|false) leadingIcon CDATA trailingIcon CDATA ">
 <!ELEMENT text-field EMPTY>
 <!ATTLIST text-field %javax.swing.JTextField;>
 <!ENTITY % javax.swing.JToggleButton "%javax.swing.AbstractButton; ">
@@ -78,14 +78,14 @@
 <!ENTITY % org.httprpc.sierra.Badge "%javax.swing.JLabel; icon CDATA outline CDATA ">
 <!ELEMENT badge EMPTY>
 <!ATTLIST badge %org.httprpc.sierra.Badge;>
-<!ENTITY % org.httprpc.sierra.LayoutPanel "%javax.swing.JPanel; scrollableTracksViewportHeight (true|false) scrollableTracksViewportWidth (true|false) ">
+<!ENTITY % org.httprpc.sierra.LayoutPanel "%javax.swing.JPanel; scrollableTracksViewportWidth (true|false) scrollableTracksViewportHeight (true|false) ">
 <!ENTITY % org.httprpc.sierra.UILoader.JxComboBox "%javax.swing.JComboBox; ">
 <!ELEMENT combo-box EMPTY>
 <!ATTLIST combo-box %org.httprpc.sierra.UILoader.JxComboBox;>
 <!ENTITY % org.httprpc.sierra.UILoader.JxList "%javax.swing.JList; ">
 <!ELEMENT list EMPTY>
 <!ATTLIST list %org.httprpc.sierra.UILoader.JxList;>
-<!ENTITY % org.httprpc.sierra.UILoader.JxTable "%javax.swing.JTable; columnSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) rowSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) ">
+<!ENTITY % org.httprpc.sierra.UILoader.JxTable "%javax.swing.JTable; rowSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) columnSelectionMode (single-selection|single-interval-selection|multiple-interval-selection) ">
 <!ELEMENT table EMPTY>
 <!ATTLIST table %org.httprpc.sierra.UILoader.JxTable;>
 <!ENTITY % org.httprpc.sierra.UILoader.JxTree "%javax.swing.JTree; selectionMode (single-tree-selection|contiguous-tree-selection|discontiguous-tree-selection) ">
@@ -100,7 +100,7 @@
 <!ENTITY % javax.swing.JFormattedTextField "%javax.swing.JTextField; focusLostBehavior (commit|commit-or-revert|revert|persist) ">
 <!ELEMENT formatted-text-field EMPTY>
 <!ATTLIST formatted-text-field %javax.swing.JFormattedTextField;>
-<!ENTITY % javax.swing.JMenu "%javax.swing.JMenuItem; accelerator CDATA delay CDATA popupMenuVisible (true|false) selected (true|false) ">
+<!ENTITY % javax.swing.JMenu "%javax.swing.JMenuItem; selected (true|false) accelerator CDATA popupMenuVisible (true|false) delay CDATA ">
 <!ELEMENT menu (ANY)>
 <!ATTLIST menu %javax.swing.JMenu;>
 <!ENTITY % javax.swing.JPasswordField "%javax.swing.JTextField; echoChar CDATA ">
@@ -124,7 +124,7 @@
 <!ENTITY % org.httprpc.sierra.StackPanel "%org.httprpc.sierra.LayoutPanel; ">
 <!ELEMENT stack-panel (ANY)>
 <!ATTLIST stack-panel %org.httprpc.sierra.StackPanel;>
-<!ENTITY % org.httprpc.sierra.ValidatedTextField "%javax.swing.JTextField; pattern CDATA value CDATA ">
+<!ENTITY % org.httprpc.sierra.ValidatedTextField "%javax.swing.JTextField; value CDATA pattern CDATA ">
 <!ELEMENT validated-text-field EMPTY>
 <!ATTLIST validated-text-field %org.httprpc.sierra.ValidatedTextField;>
 <!ENTITY % org.httprpc.sierra.ColumnPanel "%org.httprpc.sierra.BoxPanel; ">
@@ -139,7 +139,7 @@
 <!ENTITY % org.httprpc.sierra.SuggestionPicker "%org.httprpc.sierra.Picker; maximumRowCount CDATA ">
 <!ELEMENT suggestion-picker EMPTY>
 <!ATTLIST suggestion-picker %org.httprpc.sierra.SuggestionPicker;>
-<!ENTITY % org.httprpc.sierra.TablePanel "%org.httprpc.sierra.GridPanel; alignToBaseline (true|false) columnCount CDATA ">
+<!ENTITY % org.httprpc.sierra.TablePanel "%org.httprpc.sierra.GridPanel; columnCount CDATA alignToBaseline (true|false) ">
 <!ELEMENT table-panel (ANY)>
 <!ATTLIST table-panel %org.httprpc.sierra.TablePanel;>
 <!ENTITY % org.httprpc.sierra.TemporalPicker "%org.httprpc.sierra.Picker; ">
